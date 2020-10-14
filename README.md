@@ -11,4 +11,3 @@ EDHM on Reddit:   https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_
 
 This UI requires Microsoft .NET Framework 4.5 or superior (If you have Windows 10 then u may already have it)<br>
 https://www.microsoft.com/en-us/download/details.aspx?id=30653
--------------------------------------------------------------------------------------------------------
