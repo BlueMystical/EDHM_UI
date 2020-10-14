@@ -1,0 +1,81 @@
+﻿{
+    "Presets": [
+      {
+        "name": "Default",
+        "w1": 0,
+        "w2": 1.0,
+        "w3": 0,
+        "w4": 1,
+        "w5": 1,
+        "w6": 0,
+        "w7": 5,
+        "w8": 1,
+        "w9": 1,
+        "w10": 1,
+        "w11": 0,
+        "w12": 0
+      },
+      {
+        "name": "BlueMystic_PVE",
+        "w1": 0,
+        "w2": 1.0,
+        "w3": 0,
+        "w4": 2,
+        "w5": 3,
+        "w6": 0,
+        "w7": 6,
+        "w8": 7,
+        "w9": 6,
+        "w10": 1,
+        "w11": 0,
+        "w12": 0
+      }
+    ],
+    "AmbientCabinLights": [
+      "1 = EDHM Blue",
+      "2 = Tie Fighter Red",
+      "3 = Feldgrau",
+      "4 = Federation Green",
+      "5 = Apple Green",
+      "6 = Islamic Green",
+      "7 = Steel blue",
+      "8 = Steel blue (flood)",
+      "9 = Pacific Blue",
+      "10 = Dark Violet",
+      "11 = Dark Purple",
+      "12 = Tyrian Purple",
+      "13 = Tyrian Purple (flood)",
+      "14 = Standard Elite orange",
+      "15 = Bi-colour Blue-Pink"
+    ],
+    "TargetingReticle": [
+      "1 = Blue / Red / Pink (good for combat)",
+      "2 = White / Grey (good for exploration)",
+      "3 = Purple / Blue / Green (good for combat)"
+    ],
+    "ShieldColour": [
+      "1 = Red gradient",
+      "2 = Green gradients",
+      "3 = Blue / Pink",
+      "4 = Yellow / Green",
+      "5 = Yellow / Red",
+      "6 = Light Pink / Dark Pink",
+      "7 = Blue Rims",
+      "8 = Green Rims",
+      "9 = Xiba variant",
+      "10 = Original Elite (blue)"
+    ],
+    "OwnShipHologram": [
+      "1 = Blue",
+      "2 = Green",
+      "3 = Red",
+      "4 = Yellow",
+      "5 = Purple",
+      "6 = Grey / White"
+    ],
+    "Distributor": [
+      "1 = White",
+      "2 = Green-Yellow-Red",
+      "3 = Blue-White-Red"
+    ]
+  }
