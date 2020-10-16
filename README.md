@@ -2,7 +2,7 @@
 User Interface for Elite Dangerous HUD Mod (EDHM)
 -------------------------------------------------------------------------------------------------------
 
-<a href="https://ibb.co/QMRHywV"><img src="https://i.ibb.co/tDt2Vr6/Screenshot-0009.jpg" alt="Screenshot-0009" border="0"></a>
+<a href="https://ibb.co/QMRHywV" target="_blank"><img src="https://i.ibb.co/tDt2Vr6/Screenshot-0009.jpg" alt="Screenshot-0009" border="0"></a>
 
 Download the latest Release here:  https://github.com/BlueMystical/EDHM_UI/releases<br>
 The Releases are compressed with 7-Zip https://www.7-zip.org/<br>
