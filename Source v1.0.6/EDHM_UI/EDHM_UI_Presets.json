@@ -1,0 +1,75 @@
+﻿{
+  "current_preset": "Test_Preset",
+  "Presets": [
+    {
+      "name": "Test_Preset",
+      "Shaders": [
+        {
+          "name": "Outer Lines Brightness",
+          "file": "ShaderFixes\\68e589baa119ed41-ps.txt",
+          "code": "  mul r0.w, r0.w, l(0.500000)",
+          "line": 146,
+          "kind": 0,
+          "value": 0.200000,
+          "max": 1.0,
+          "min": 0.0
+        },
+        {
+          "name": "Hull Opacity",
+          "file": "ShaderFixes\\68e589baa119ed41-ps.txt",
+          "code": "  mul r4.xyz, r4.xyzx, l(0.800000, 0.800000, 0.800000, 0)",
+          "line": 157,
+          "kind": 2,
+          "value": 0.80,
+          "max": 1.0,
+          "min": 0.0
+        },
+        {
+          "name": "Colour",
+          "file": "ShaderFixes\\68e589baa119ed41-ps.txt",
+          "code": "  mul r5.xyzw, r0.zyyy, l(0.078431, 0.709804, 0.168627, 1.000000)",
+          "line": 249,
+          "kind": 1,
+          "value": -15420117.0,
+          "max": 1.0,
+          "min": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Blue Mystic Explorer",
+      "Shaders": [
+        {
+          "name": "Brightness",
+          "file": "ShaderFixes\\68e589baa119ed41-ps.txt",
+          "code": "  mul r0.w, r0.w, l(0.500000)",
+          "line": 146,
+          "kind": 0,
+          "value": 0.7,
+          "max": 1.0,
+          "min": 0.0
+        },
+        {
+          "name": "Opacity",
+          "file": "ShaderFixes\\68e589baa119ed41-ps.txt",
+          "code": "  mul r0.w, r0.w, l(0.500000)",
+          "line": 146,
+          "kind": 2,
+          "value": 0.7,
+          "max": 1.0,
+          "min": 0.0
+        },
+        {
+          "name": "Color_BlueHolo",
+          "file": "ShaderFixes\\68e589baa119ed41-ps.txt",
+          "code": " mul r4.xyz, r4.xyzx, l(0.800000, 0.800000, 0.800000, 0.000000)",
+          "line": 249,
+          "kind": 1,
+          "value": -452972289.0,
+          "max": 1.2,
+          "min": 0.2
+        }
+      ]
+    }
+  ]
+}
