@@ -1,0 +1,54 @@
+EEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDDD      HHHHHHHHH     HHHHHHHHHMMMMMMMM               MMMMMMMM
+E::::::::::::::::::::ED::::::::::::DDD   H:::::::H     H:::::::HM:::::::M             M:::::::M
+E::::::::::::::::::::ED:::::::::::::::DD H:::::::H     H:::::::HM::::::::M           M::::::::M
+EE::::::EEEEEEEEE::::EDDD:::::DDDDD:::::DHH::::::H     H::::::HHM:::::::::M         M:::::::::M
+  E:::::E       EEEEEE  D:::::D    D:::::D H:::::H     H:::::H  M::::::::::M       M::::::::::M
+  E:::::E               D:::::D     D:::::DH:::::H     H:::::H  M:::::::::::M     M:::::::::::M
+  E::::::EEEEEEEEEE     D:::::D     D:::::DH::::::HHHHH::::::H  M:::::::M::::M   M::::M:::::::M
+  E:::::::::::::::E     D:::::D     D:::::DH:::::::::::::::::H  M::::::M M::::M M::::M M::::::M
+  E:::::::::::::::E     D:::::D     D:::::DH:::::::::::::::::H  M::::::M  M::::M::::M  M::::::M
+  E::::::EEEEEEEEEE     D:::::D     D:::::DH::::::HHHHH::::::H  M::::::M   M:::::::M   M::::::M
+  E:::::E               D:::::D     D:::::DH:::::H     H:::::H  M::::::M    M:::::M    M::::::M
+  E:::::E       EEEEEE  D:::::D    D:::::D H:::::H     H:::::H  M::::::M     MMMMM     M::::::M
+EE::::::EEEEEEEE:::::EDDD:::::DDDDD:::::DHH::::::H     H::::::HHM::::::M               M::::::M
+E::::::::::::::::::::ED:::::::::::::::DD H:::::::H     H:::::::HM::::::M               M::::::M
+E::::::::::::::::::::ED::::::::::::DDD   H:::::::H     H:::::::HM::::::M               M::::::M
+EEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDDD      HHHHHHHHH     HHHHHHHHHMMMMMMMM               MMMMMMMM
+                                                                                              
+
+Elite Dangerous HUD Mod (EDHM)
+
+** Dragonfyre Skyrim HUD **
+
+I've received quite a few requests for a rendition of reddit user's u/IDragonfyreI 'Skyrim' HUD
+
+You can see the original in his video
+https://www.reddit.com/r/EliteDangerous/comments/j8d3dl/i_am_so_glad_i_started_recording_in_time_to/
+
+To enable Dragonfyre's HUD colours, first backup all the files in your ShaderFixes folder (copy and paste the .txt files into a new directory)
+
+Then copy and paste all the files from the Dragonfyre Skyrim HUD folder into the ShaderFixes folder (overwrite the files).
+
+Dragonfyre appears to use cabin lighting 6 (Islamic Green) and 2 (Tie Fighter Red), so you may wish to set one of these as default in the d3dx.ini (set w4 = 6 or w4 = 2)
+
+If you want to restore the original ED HUD mod, then copy the shaders you backed up into the ShaderFixes folder (overwrite the files). 
+
+I haven't tested this addon HUD extensively as I put it together in a few hours, so please let me know if you find any bugs.
+
+Have fun :)
+
+psychicEgg
+
+
+PS. If you've changed your HUD XML in the past, please make sure you reset it back to the default values,
+otherwise the colours won't load correctly.
+
+This is the default colour matrix. If you've never altered the XML then you don't need to do anything.
+
+<GUIColour>
+		<Default>
+			<LocalisationName>Standard</LocalisationName>
+			<MatrixRed>	1, 0, 0 </MatrixRed>
+			<MatrixGreen>	0, 1, 0 </MatrixGreen>
+			<MatrixBlue>	0, 0, 1 </MatrixBlue>
+		</Default>
