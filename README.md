@@ -16,9 +16,8 @@ UI Autor:         BlueMystical<br>
 <br>
 EDHM on GitHub:   https://github.com/psychicEgg/EDHM<br>
 EDHM on edCodex:  http://edcodex.info/?m=tools&entry=494<br>
-EDHM on PasteBin  https://pastebin.com/Ct64yCC8<br>
 EDHM on Reddit:   https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_dangerous_hud_mod_edhm_custom_huds_without/
 <br><br><br>
 
-The Releases are compressed with 7-Zip https://www.7-zip.org/<br>
-This app requires Microsoft .NET Framework 4.52 or superior (If you have Windows 10 then you may already have it), if not then download it from here: https://www.microsoft.com/en-us/download/details.aspx?id=30653<br>
+The Releases are compressed with https://www.7-zip.org/<br>
+This app requires Microsoft .NET Framework 4.52 or superior. If you are on Windows 10 then you may already have it, otherwise get it from here: https://www.microsoft.com/en-us/download/details.aspx?id=30653<br>
