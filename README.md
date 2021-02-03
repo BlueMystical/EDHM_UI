@@ -15,7 +15,7 @@ Mod Autor:        psychicEgg<br>
 UI Autor:         BlueMystical<br>
 <br>
 EDHM on GitHub:   https://github.com/psychicEgg/EDHM<br>
-EDHM on edCodex:  http://edcodex.info/?m=tools&entry=494<br>
+EDHM on Discord:  https://discord.gg/ZaRt6bCXvj<br>
 EDHM on Reddit:   https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_dangerous_hud_mod_edhm_custom_huds_without/
 <br><br><br>
 
