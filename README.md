@@ -10,7 +10,7 @@ This is the User Interface for the Elite Dangerous Mod EDHM.<br>
   * The App allows the user to Change almost all of the Mod's options using a graphical interface so you dont have to mess directly with the files.<br>
   * This App comes packed with the latest Mod version available so it can be used by new users to intall both the Mod and its UI.<br>
   * App also comes packed with lots of pre-made Color Themes ready to use.<br>
-  * NEW:  Now fully compatible with both Horizons and Odyssey.
+  * NEW:  Now fully compatible with both Horizons and Odyssey.<br>
 -------------------------------------------------------------------------------------------------------<br>
 Mod Autor:        psychicEgg<br>
 UI Autor:         BlueMystical<br>
