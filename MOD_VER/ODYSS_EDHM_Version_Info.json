@@ -1,5 +1,5 @@
 {
-	"version": "2.0.5.0",
-	"download_url": "https://github.com/BlueMystical/EDHM_UI/releases/download/v2.0.5/EDHM_UI_Setup.msi",
-	"changelog": "Pre-Release v2.0.5"
+	"version": "2.0.5.2",
+	"download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/ODYSS_EDHM.zip",
+	"changelog": "-Update for EDHM Public Beta 5\r\n-Minor Fixes"
 }
