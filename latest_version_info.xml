@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>2.0.5.0</version>
-    <url>https://github.com/BlueMystical/EDHM_UI/releases/download/v2.0.5/EDHM_UI_Setup.msi</url>
+    <version>2.0.6.0</version>
+    <url>https://github.com/BlueMystical/EDHM_UI/releases/download/v2.0.6/EDHM_UI_Setup.msi</url>
     <changelog>https://github.com/BlueMystical/EDHM_UI/releases/latest</changelog>
     <mandatory>false</mandatory>
 </item>
