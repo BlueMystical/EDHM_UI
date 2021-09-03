@@ -1,5 +1,5 @@
 {
-	"version": "2.0.6.5",
+	"version": "2.0.6.6",
 	"download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/ODYSS_EDHM.zip",
-	"changelog": "Ingame Keybindings:\r\n- F1 = Toggle (On/Off) White Objects (Limpets, materials, etc) in Radar.\r\n- F2 = Cycle HUD Shadows Opacity.\r\n- F3 = Cycle Ambient Lights Brightness.\r\n- F11 = Refresh Color Changes."
+	"changelog": "Update for 2.0.6.3"
 }
