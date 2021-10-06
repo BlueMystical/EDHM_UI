@@ -6,5 +6,5 @@
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/download/v2.0.6.9/EDHM_UI_Setup.msi",
    "changelog": "Improved Auto-Update System Implemented.",
    "re_install": false,
-   "run_hotfix": false
+   "run_hotfix": true
 }
