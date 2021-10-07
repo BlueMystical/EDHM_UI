@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>2.0.6.8</version>
-    <url>https://github.com/BlueMystical/EDHM_UI/releases/download/v2.0.6.8/EDHM_UI_Setup.msi</url>
+    <version>2.0.6.9</version>
+    <url>https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi</url>
     <changelog>https://github.com/BlueMystical/EDHM_UI/releases</changelog>
-    <!--<changelog>* Fixed Preview not showing in Horizons version.\r\n* 1 new theme added (for Odyssey).</changelog> -->
     <mandatory>false</mandatory>
 </item>
