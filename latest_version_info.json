@@ -1,10 +1,10 @@
 {
-   "app_version": "2.0.6.9",
+   "app_version": "2.0.6.10",
    "ED_Horizons": "1.5.1.0",
    "ED_Odissey":  "2.0.6.8",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "Improved Auto-Update System Implemented.",
+   "changelog": "- Minor bugs fixed.",
    "re_install": false,
    "run_hotfix": true
 }
