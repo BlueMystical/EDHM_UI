@@ -1,10 +1,10 @@
 {
    "app_version": "2.0.6.10",
    "ED_Horizons": "1.5.1.0",
-   "ED_Odissey":  "2.0.6.9",
+   "ED_Odissey":  "2.0.6.10",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- New/Updated Themes for Odyssey:\r\n  Imperial_Plasma_-_Vinny, FX_Blue_and_Greys, FX_Red_and_Greys, Old_School_Greens_with_Pleasant_Blues_v2, Purple__Grey_CatT, Thetas_Pan_Candy\r\n- There is now 31 themes available for Odyssey. ",
+   "changelog": "- Update for EDHM Odyssey BETA 8.1",
    "re_install": false,
-   "run_hotfix": true
+   "run_hotfix": false
 }
