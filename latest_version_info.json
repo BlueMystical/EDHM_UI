@@ -4,7 +4,7 @@
    "ED_Odissey":  "2.0.6.10",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Minor fix for Horizons version.",
+   "changelog": "- 3 New themes for Horizons.",
    "re_install": false,
    "run_hotfix": false
 }
