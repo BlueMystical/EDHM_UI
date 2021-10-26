@@ -1,10 +1,10 @@
 {
-   "app_version": "2.0.6.12",
+   "app_version": "2.0.6.13",
    "ED_Horizons": "1.51.1.0",
    "ED_Odissey":  "2.0.6.10",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Updated and cleaned themes for Horizons.\r\n- Added Custom Color for Target Ship's Hologram.\r\n- Misssing Gravity Well and Orbit Lines fixed (hopefully).",
+   "changelog": "- HUD Element Search Functionality Implemented.\r\n- Added 1 new Theme for Horizons (Viper-1).",
    "re_install": false,
    "run_hotfix": false
 }
