@@ -4,7 +4,7 @@
    "ED_Odissey":  "2.8.2.0",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Uninstalling the UI now also removes all EDHM files.\r\n-Installer is now Compatible with Windows 7 and 8.",
+   "changelog": "- Uninstalling the UI now also removes all EDHM files.\r\n- Installer is now Compatible with Windows 7 and 8.",
    "re_install": true,
    "run_hotfix": true
 }
