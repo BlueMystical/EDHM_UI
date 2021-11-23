@@ -1,10 +1,10 @@
 {
    "app_version": "2.0.7.1",
    "ED_Horizons": "1.51.1.0",
-   "ED_Odissey":  "2.8.3.0",
+   "ED_Odissey":  "2.8.3.1",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- The Installer is now compatible with Windows 7 and 8.\r\n- The Installer now Removes ALL EDHM files when the UI is Uninstalled.\r\n- EDHM v8.3 for Odyssey is now live.\r\n- On Foot HUD is now available, thanks to @Mystler.\r\n- New/Updated Themes: Veritas, Vaporwave, RedGrayBlack, OrangeBloo, SebiLetPlay's Green, Cornflower_Blue, Cherenkov_Blue.",
-   "re_install": true,
-   "run_hotfix": false
+   "changelog": "- Purple Shield % fixed.\r\n- Onfoot HUD is now operative.\r\n- New theme: Veritas Shieldless.",
+   "re_install": false,
+   "run_hotfix": true
 }
