@@ -5,6 +5,6 @@
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
    "changelog": "- Minor Bug Fix.",
-   "re_install": true,
+   "re_install": false,
    "run_hotfix": true
 }
