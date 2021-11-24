@@ -1,10 +1,10 @@
 {
-   "app_version": "2.0.7.2",
+   "app_version": "2.0.7.3",
    "ED_Horizons": "1.51.1.0",
    "ED_Odissey":  "2.8.3.2",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Purple Shield % fixed.\r\n- Onfoot HUD is now operative.\r\n- New theme: Veritas Shieldless.",
-   "re_install": false,
+   "changelog": "- Autopatcher fixed.",
+   "re_install": true,
    "run_hotfix": true
 }
