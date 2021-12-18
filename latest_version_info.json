@@ -1,10 +1,10 @@
 {
-   "app_version": "2.0.8.3",
-   "ED_Horizons": "1.51.1.0",
+   "app_version": "2.0.8.4",
+   "ED_Horizons": "1.51.2.0",
    "ED_Odissey":  "2.9.0.0",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- EDHM post FDev Update 9.0 fix.\r\n- No more Orange Icons!",
+   "changelog": "- Improved Auto-Updater, is faster and retry if gets disconnected.\r\n- Updated EDHM 1.52 for Horizons.",
    "re_install": true,
    "run_hotfix": false
 }
