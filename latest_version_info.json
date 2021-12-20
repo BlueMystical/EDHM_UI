@@ -1,10 +1,10 @@
 {
    "app_version": "2.0.8.4",
    "ED_Horizons": "1.51.2.0",
-   "ED_Odissey":  "2.9.1.0",
+   "ED_Odissey":  "2.9.2.0",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Orange Icons Fix for both Odyssey and Horizons.",
+   "changelog": "- Update 9.1 for Odyssey.\r\n- Supercruise sidelines added.\r\n- Orbit Lines added.\r\n- Night vision added.",
    "re_install": true,
-   "run_hotfix": false
+   "run_hotfix": true
 }
