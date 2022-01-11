@@ -1,10 +1,10 @@
 {
-   "app_version": "2.0.8.6",
+   "app_version": "2.1.0.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.9.2.0",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Implemented patch 1.52.b for Horizons.",
+   "changelog": "- Lots of changes! ^_^, check the Discord.",
    "re_install": true,
    "run_hotfix": true
 }
