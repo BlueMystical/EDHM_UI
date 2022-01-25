@@ -1,0 +1,268 @@
+[
+   {
+      "ship_full_name":"Adder",
+      "short":"ADR",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Alliance Challenger",
+      "short":"CHL",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Alliance Chieftain",
+      "short":"CHF",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Alliance Crusader",
+      "short":"CRU",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Anaconda",
+      "short":"ANC",
+      "ed_short":"anaconda",
+      "size":"Large",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Asp Explorer",
+      "short":"ASP",
+      "ed_short":"asp",
+      "size":"Medium",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Asp Scout",
+      "short":"ASC",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat Explorer "
+   },
+   {
+      "ship_full_name":"Beluga Liner",
+      "short":"BLG",
+      "ed_short":null,
+      "size":"Large",
+      "role":"Passenger "
+   },
+   {
+      "ship_full_name":"Cobra Mk 3",
+      "short":"CBR3",
+      "ed_short":"cobramkiii",
+      "size":"Small",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Cobra Mk 4",
+      "short":"CBR4",
+      "ed_short":"cobramkiv",
+      "size":"Small",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Diamondback Explorer",
+      "short":"DBX",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Combat Explorer "
+   },
+   {
+      "ship_full_name":"Diamondback Scout",
+      "short":"DBS",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Combat Explorer "
+   },
+   {
+      "ship_full_name":"Dolphin",
+      "short":"DLP",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Passenger "
+   },
+   {
+      "ship_full_name":"Eagle Mk 2",
+      "short":"EGL",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Federal Assault Ship",
+      "short":"FAS",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Federal Corvette",
+      "short":"CRV",
+      "ed_short":"federation_corvette",
+      "size":"Large",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Federal Dropship",
+      "short":"FDS",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Federal Gunship",
+      "short":"FGS",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Fer-de-lance",
+      "short":"FDL",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Hauler",
+      "short":"HLR",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Freighter "
+   },
+   {
+      "ship_full_name":"Imperial Clipper",
+      "short":"iCL",
+      "ed_short":null,
+      "size":"Large",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Imperial Courier",
+      "short":"iCO",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Imperial Cutter",
+      "short":"iCT",
+      "ed_short":"cutter",
+      "size":"Large",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Imperial Eagle",
+      "short":"iEG",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Keelback",
+      "short":"KLB",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat Freighter"
+   },
+   {
+      "ship_full_name":"Krait Mk 3",
+      "short":"KRT",
+      "ed_short":"krait_mkii",
+      "size":"Medium",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Krait Phantom",
+      "short":"KPH",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Mamba",
+      "short":"MAM",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Orca",
+      "short":"ORC",
+      "ed_short":null,
+      "size":"Large",
+      "role":"Passenger "
+   },
+   {
+      "ship_full_name":"Python",
+      "short":"PYT",
+      "ed_short":"python",
+      "size":"Medium",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Sidewinder Mk 1",
+      "short":"SDW",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Multipurpose "
+   },
+   {
+      "ship_full_name":"Type 6 Transporter",
+      "short":"T6T",
+      "ed_short":null,
+      "size":"Medium",
+      "role":"Freighter "
+   },
+   {
+      "ship_full_name":"Type 7 Transporter",
+      "short":"T7T",
+      "ed_short":null,
+      "size":"Large",
+      "role":"Freighter "
+   },
+   {
+      "ship_full_name":"Type 9 Heavy",
+      "short":"T9T",
+      "ed_short":"type9_military",
+      "size":"Large",
+      "role":"Freighter "
+   },
+   {
+      "ship_full_name":"Type 10 Defender",
+      "short":"TXD",
+      "ed_short":null,
+      "size":"Large",
+      "role":"Combat Freighter"
+   },
+   {
+      "ship_full_name":"Viper Mk 3",
+      "short":"VP3",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Viper Mk 4",
+      "short":"VP4",
+      "ed_short":null,
+      "size":"Small",
+      "role":"Combat "
+   },
+   {
+      "ship_full_name":"Vulture",
+      "short":"VUL",
+      "ed_short":"vulture",
+      "size":"Small",
+      "role":"Combat "
+   }
+]

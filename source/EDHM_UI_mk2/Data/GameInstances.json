@@ -1,0 +1,44 @@
+[
+   {
+      "instance":"Steam",
+      "games":[
+         {
+            "key":"ED_Horizons",
+            "name":"ED Horizons",
+            "path":"F:\\Juegos\\SteamLibrary\\steamapps\\common\\Elite Dangerous\\Products\\elite-dangerous-64",
+            "instance":"Default",
+            "themes_folder":"EDHM-ini\\DemoProfiles",
+            "is_active":true
+         },
+         {
+            "key":"ED_Odissey",
+            "name":"ED Odyssey",
+            "path":"F:\\Juegos\\SteamLibrary\\steamapps\\common\\Elite Dangerous\\Products\\elite-dangerous-odyssey-64",
+            "instance":"Steeam",
+            "themes_folder":"EDHM-ini\\MyProfiles",
+            "is_active":false
+         }
+      ]
+   },
+   {
+      "instance":"Epic Games",
+      "games":[
+         {
+            "key":"ED_Horizons",
+            "name":"ED Horizons",
+            "path":"%PROGRAMFILES%\\Epic Games\\EliteDangerous\\Products\\elitedangerous-64\\",
+            "instance":"Epic Games",
+            "themes_folder":"EDHM-ini\\DemoProfiles",
+            "is_active":true
+         },
+         {
+            "key":"ED_Odissey",
+            "name":"ED Odyssey",
+            "path":"%PROGRAMFILES%\\Epic Games\\EliteDangerous\\Products\\elite-dangerous-odyssey-64\\",
+            "instance":"Epic Games",
+            "themes_folder":"EDHM-ini\\MyProfiles",
+            "is_active":false
+         }
+      ]
+   }
+]
