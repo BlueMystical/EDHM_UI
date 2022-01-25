@@ -1,0 +1,1512 @@
+[
+  {
+    "Type": "ONOFF",
+    "Name": "On",
+    "Index": 1
+  },
+  {
+    "Type": "ONOFF",
+    "Name": "Off",
+    "Index": 0
+  },
+
+  {
+    "Type": "Brightness",
+    "Name": "High",
+    "Index": 1.0
+  },
+  {
+    "Type": "Brightness",
+    "Name": "Medium",
+    "Index": 0.6
+  },
+  {
+    "Type": "Brightness",
+    "Name": "Low",
+    "Index": 0.3
+  },
+  {
+    "Type": "Brightness",
+    "Name": "Barely Visible",
+    "Index": 0.1
+  },
+
+  {
+    "Type": "HudDimmer",
+    "Name": "Bright",
+    "Index": 5
+  },
+  {
+    "Type": "HudDimmer",
+    "Name": "Bright",
+    "Index": 4
+  },
+  {
+    "Type": "HudDimmer",
+    "Name": "Medium",
+    "Index": 3
+  },
+  {
+    "Type": "HudDimmer",
+    "Name": "Bright",
+    "Index": 2
+  },
+  {
+    "Type": "HudDimmer",
+    "Name": "Low",
+    "Index": 1
+  },
+  {
+    "Type": "HudDimmer",
+    "Name": "Bright",
+    "Index": 0
+  },
+
+  {
+    "Type": "CabinLightingStyle",
+    "Name": "Full",
+    "Index": 0
+  },
+  {
+    "Type": "CabinLightingStyle",
+    "Name": "Restricted",
+    "Index": 1
+  },
+
+  {
+    "Type": "AmbientLights",
+    "Name": "EDHM Blue",
+    "Index": 1
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Tie Fighter Red",
+    "Index": 2
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Orange",
+    "Index": 3
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Feldgrau",
+    "Index": 4
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Apple Green",
+    "Index": 5
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Federation Green",
+    "Index": 6
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Aqua / Cyan",
+    "Index": 7
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Light blue",
+    "Index": 8
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Aisling Blue",
+    "Index": 9
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Yellow Submarine",
+    "Index": 10
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Dark Violet",
+    "Index": 11
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Electric  Purple",
+    "Index": 12
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Tyrian Purple",
+    "Index": 13
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Brown One",
+    "Index": 14
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Saud Kruger Brown",
+    "Index": 15
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Standard Elite Orange",
+    "Index": 16
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Bi-colour Blue-Pink",
+    "Index": 17
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Christmas Green",
+    "Index": 18
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "White",
+    "Index": 19
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Hot Pink",
+    "Index": 20
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Astro Blue",
+    "Index": 21
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Apple Green",
+    "Index": 22
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "Steel Bluee",
+    "Index": 23
+  },
+  {
+    "Type": "AmbientLights",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "HudOpacity",
+    "Name": "Dark Space Grey",
+    "Index": 1
+  },
+  {
+    "Type": "HudOpacity",
+    "Name": "XML (User Defined)",
+    "Index": 2
+  },
+  {
+    "Type": "HudOpacity",
+    "Name": "EDHM v1.4",
+    "Index": 3
+  },
+  {
+    "Type": "HudOpacity",
+    "Name": "Original Elite orange",
+    "Index": 4
+  },
+
+
+  {
+    "Type": "CommonGroup",
+    "Name": "White / Light Grey",
+    "Index": 1
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Light Green",
+    "Index": 3
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Brown One",
+    "Index": 5
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Saud Kruger Brown",
+    "Index": 6
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Light Red / Pink",
+    "Index": 7
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Rebel Red",
+    "Index": 8
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Grey-Blue",
+    "Index": 9
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Pale Blue",
+    "Index": 10
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Old Duck Blue",
+    "Index": 11
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Aisling Blue",
+    "Index": 12
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Federation Army Camo",
+    "Index": 13
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Christmas",
+    "Index": 14
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "Cornflower",
+    "Index": 15
+  },
+  {
+    "Type": "CommonGroup",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "TargetingReticle",
+    "Name": "Pink / Red / Purple / Green",
+    "Index": 1
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "Green / Blue / Purple / Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "Light blue / Dark Blue / Orange / Red",
+    "Index": 3
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "Ultraviolet",
+    "Index": 4
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "Light Blue",
+    "Index": 5
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "White / Light Grey",
+    "Index": 6
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "Cyan",
+    "Index": 7
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "Christmas",
+    "Index": 8
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "Adaptive by 'The Blaster' McQuinn",
+    "Index": 9
+  },
+  {
+    "Type": "TargetingReticle",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "ShieldColor",
+    "Name": "Red gradient",
+    "Index": 1
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Green gradient",
+    "Index": 2
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Blue / Pink",
+    "Index": 3
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Yellow / Green",
+    "Index": 4
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Yellow / Red",
+    "Index": 5
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Light Pink / Dark Pink",
+    "Index": 6
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Blue Rims",
+    "Index": 7
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Green Rims",
+    "Index": 8
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Xiba variant",
+    "Index": 9
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Purple",
+    "Index": 10
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Camo",
+    "Index": 11
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Christmas",
+    "Index": 12
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Kaos shield",
+    "Index": 13
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "White",
+    "Index": 14
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Aisling Blue",
+    "Index": 15
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Original Elite (blue)",
+    "Index": 16
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Invisible",
+    "Index": 17
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Riptide",
+    "Index": 18
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Pine Glade",
+    "Index": 19
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "Airlock Blue",
+    "Index": 20
+  },
+  {
+    "Type": "ShieldColor",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Tron Blue",
+    "Index": 1
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Blue",
+    "Index": 2
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Tron Green",
+    "Index": 3
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Tron Red",
+    "Index": 5
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Rebel Red",
+    "Index": 6
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Tron Yellow",
+    "Index": 7
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Yellow",
+    "Index": 8
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Tron Purple",
+    "Index": 9
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Purple",
+    "Index": 10
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Tron White",
+    "Index": 11
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Brown",
+    "Index": 12
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Camo Green",
+    "Index": 13
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Taupe",
+    "Index": 14
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "Tron Blue MkII",
+    "Index": 15
+  },
+  {
+    "Type": "OwnShipHolo",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "OwnShipHoloMode",
+    "Name": "Semi-Tron",
+    "Index": 1
+  },
+  {
+    "Type": "OwnShipHoloMode",
+    "Name": "Full-Tron",
+    "Index": 2
+  },
+  {
+    "Type": "OwnShipHoloMode",
+    "Name": "Traditional",
+    "Index": 3
+  },
+
+  {
+    "Type": "OwnShipHoloDim",
+    "Name": "Hight (Default)",
+    "Index": 1.0
+  },
+  {
+    "Type": "OwnShipHoloDim",
+    "Name": "Medium",
+    "Index": 0.6
+  },
+  {
+    "Type": "OwnShipHoloDim",
+    "Name": "Low",
+    "Index": 0.2
+  },
+
+
+  {
+    "Type": "PowerDistributor",
+    "Name": "White",
+    "Index": 1
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Light Green",
+    "Index": 3
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Brown One",
+    "Index": 5
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Saud Kruger Brown",
+    "Index": 6
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Light Red / Pink",
+    "Index": 7
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Rebel Red",
+    "Index": 8
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Grey-Blue",
+    "Index": 9
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Pale Blue",
+    "Index": 10
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Old Duck Blue",
+    "Index": 11
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Aisling Blue",
+    "Index": 12
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Federation Army Camo",
+    "Index": 13
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Purple",
+    "Index": 14
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Green-Yellow-Red",
+    "Index": 15
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Blue-White-Red",
+    "Index": 16
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Christmas",
+    "Index": 17
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Cornflower Blue",
+    "Index": 18
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "Elite Orange",
+    "Index": 19
+  },
+  {
+    "Type": "PowerDistributor",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "PanelLinesUP",
+    "Name": "EDHM Blue",
+    "Index": 1
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Light Green",
+    "Index": 3
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Brown One",
+    "Index": 5
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "SK Brown",
+    "Index": 6
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Light Red",
+    "Index": 7
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Rebel Red",
+    "Index": 8
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Grey-Blue",
+    "Index": 9
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Pale Blue",
+    "Index": 10
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Old Duck Blue",
+    "Index": 11
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Aisling Blue",
+    "Index": 12
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Federation Army Camo",
+    "Index": 13
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Bright Red",
+    "Index": 14
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Christmas",
+    "Index": 15
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "Cornflower Brown",
+    "Index": 16
+  },
+  {
+    "Type": "PanelLinesUP",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "EDHM Blue",
+    "Index": 1
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Light Green",
+    "Index": 3
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Brown One",
+    "Index": 5
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "SK Brown",
+    "Index": 6
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Light Red",
+    "Index": 7
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Rebel Red",
+    "Index": 8
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Grey-Blue",
+    "Index": 9
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Pale Blue",
+    "Index": 10
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Old Duck Blue",
+    "Index": 11
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Aisling Blue",
+    "Index": 12
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Federation Army Camo",
+    "Index": 13
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "Bright Red",
+    "Index": 14
+  },
+  {
+    "Type": "PanelLinesLOW",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "CHUDBrightness",
+    "Name": "Hight (Default)",
+    "Index": 1.0
+  },
+  {
+    "Type": "CHUDBrightness",
+    "Name": "Medium",
+    "Index": 0.6
+  },
+  {
+    "Type": "CHUDBrightness",
+    "Name": "Low",
+    "Index": 0.2
+  },
+
+  {
+    "Type": "CombatHUD",
+    "Name": "EDHM Purple",
+    "Index": 1
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Light Green",
+    "Index": 3
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Brown One",
+    "Index": 5
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "SK Brown",
+    "Index": 6
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Light Red",
+    "Index": 7
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Rebel Red",
+    "Index": 8
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Grey-blue",
+    "Index": 9
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Light Blue",
+    "Index": 10
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Old Duck Blue",
+    "Index": 11
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Aisling Blue",
+    "Index": 12
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Federation Army Camo",
+    "Index": 13
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Bright Green",
+    "Index": 14
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Bright Red",
+    "Index": 15
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Orange",
+    "Index": 16
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Synthwave Pink-Blue",
+    "Index": 17
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Synthwave Green-Yellow",
+    "Index": 18
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "Christmas ",
+    "Index": 19
+  },
+  {
+    "Type": "CombatHUD",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "CombatHudMode",
+    "Name": "Bird-of-prey",
+    "Index": 1
+  },
+  {
+    "Type": "CombatHudMode",
+    "Name": "Normal",
+    "Index": 2
+  },
+
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Mauve",
+    "Index": 1
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Green",
+    "Index": 3
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Brown",
+    "Index": 4
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Royal Blue",
+    "Index": 5
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Camo Yellow/Green",
+    "Index": 6
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "White",
+    "Index": 7
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Red",
+    "Index": 8
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Lime Green",
+    "Index": 9
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Cornflower Brown",
+    "Index": 10
+  },
+  {
+    "Type": "AnalysisHUD",
+    "Name": "Elite Blue (no mod)",
+    "Index": 11
+  },
+
+  {
+    "Type": "RadarColor",
+    "Name": "EDHM Blue",
+    "Index": 1
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Light Green",
+    "Index": 3
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Brown One",
+    "Index": 5
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "SK Brown",
+    "Index": 6
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Light Red",
+    "Index": 7
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Rebel Red",
+    "Index": 8
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Grey-blue",
+    "Index": 9
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Pale Blue",
+    "Index": 10
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Old Duck Blue",
+    "Index": 11
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Aisling Blue",
+    "Index": 12
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Federation Army Camo",
+    "Index": 13
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Christmas",
+    "Index": 14
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "White",
+    "Index": 15
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "Cornflower Blue/Brown",
+    "Index": 16
+  },
+  {
+    "Type": "RadarColor",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "InnerRadarBrightness",
+    "Name": "Hight (Default)",
+    "Index": 1.0
+  },
+  {
+    "Type": "InnerRadarBrightness",
+    "Name": "Medium",
+    "Index": 0.5
+  },
+  {
+    "Type": "InnerRadarBrightness",
+    "Name": "Low",
+    "Index": 0.1
+  },
+
+  {
+    "Type": "OuterRadarBrightness",
+    "Name": "Hight (Default)",
+    "Index": 1.0
+  },
+  {
+    "Type": "OuterRadarBrightness",
+    "Name": "Medium",
+    "Index": 0.5
+  },
+  {
+    "Type": "OuterRadarBrightness",
+    "Name": "Low",
+    "Index": 0.1
+  },
+
+  {
+    "Type": "SignatureBar",
+    "Name": "EDHM Blue-Pink",
+    "Index": 1
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "Light Blue",
+    "Index": 3
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "Purple",
+    "Index": 5
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "Purple-yellow",
+    "Index": 6
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "White-green",
+    "Index": 7
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "White-blue",
+    "Index": 8
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "Pink",
+    "Index": 9
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "White-mauve",
+    "Index": 10
+  },
+  {
+    "Type": "SignatureBar",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "EnvironmentObject",
+    "Name": "Green",
+    "Index": 1
+  },
+  {
+    "Type": "EnvironmentObject",
+    "Name": "Blue",
+    "Index": 2
+  },
+  {
+    "Type": "EnvironmentObject",
+    "Name": "Yellow",
+    "Index": 3
+  },
+  {
+    "Type": "EnvironmentObject",
+    "Name": "Red",
+    "Index": 4
+  },
+  {
+    "Type": "EnvironmentObject",
+    "Name": "Brown",
+    "Index": 5
+  },
+  {
+    "Type": "EnvironmentObject",
+    "Name": "White / Player Customised",
+    "Index": 6
+  },
+  {
+    "Type": "EnvironmentObject",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "TextColour",
+    "Name": "White",
+    "Index": 1
+  },
+  {
+    "Type": "TextColour",
+    "Name": "Cream",
+    "Index": 2
+  },
+  {
+    "Type": "TextColour",
+    "Name": "XML (User Defined)",
+    "Index": 3
+  },
+  {
+    "Type": "TextColour",
+    "Name": "Custom",
+    "Index": 4
+  },
+
+  {
+    "Type": "OwnCarrierHighlightColor",
+    "Name": "Green",
+    "Index": 1
+  },
+  {
+    "Type": "OwnCarrierHighlightColor",
+    "Name": "Blue",
+    "Index": 2
+  },
+  {
+    "Type": "OwnCarrierHighlightColor",
+    "Name": "Red",
+    "Index": 3
+  },
+  {
+    "Type": "OwnCarrierHighlightColor",
+    "Name": "Pink",
+    "Index": 4
+  },
+  {
+    "Type": "OwnCarrierHighlightColor",
+    "Name": "White",
+    "Index": 5
+  },
+
+  {
+    "Type": "NightVision",
+    "Name": "Light Blue",
+    "Index": 1
+  },
+  {
+    "Type": "NightVision",
+    "Name": "Yellow",
+    "Index": 2
+  },
+  {
+    "Type": "NightVision",
+    "Name": "Red",
+    "Index": 3
+  },
+  {
+    "Type": "NightVision",
+    "Name": "Green",
+    "Index": 4
+  },
+  {
+    "Type": "NightVision",
+    "Name": "Light Green",
+    "Index": 5
+  },
+  {
+    "Type": "NightVision",
+    "Name": "Light Purple",
+    "Index": 6
+  },
+  {
+    "Type": "NightVision",
+    "Name": "Pink",
+    "Index": 7
+  },
+  {
+    "Type": "NightVision",
+    "Name": "Original Elite Green",
+    "Index": 8
+  },
+
+  {
+    "Type": "OrbitLines",
+    "Name": "Light Blue",
+    "Index": 1
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Red",
+    "Index": 2
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Green",
+    "Index": 3
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Light Green",
+    "Index": 4
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Dark Purple",
+    "Index": 5
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Light Purple",
+    "Index": 6
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Pink",
+    "Index": 7
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Light grey, white",
+    "Index": 8
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "XML (User Defined)",
+    "Index": 9
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Black",
+    "Index": 10
+  },
+  {
+    "Type": "OrbitLines",
+    "Name": "Original Elite",
+    "Index": 11
+  },
+
+  {
+    "Type": "GravityWell",
+    "Name": "Light Blue",
+    "Index": 1
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Red",
+    "Index": 2
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Green",
+    "Index": 3
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Light Green",
+    "Index": 4
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Dark Purple",
+    "Index": 5
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Light Purple",
+    "Index": 6
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Pink",
+    "Index": 7
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Light grey, white",
+    "Index": 8
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "XML (User Defined)",
+    "Index": 9
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Black",
+    "Index": 10
+  },
+  {
+    "Type": "GravityWell",
+    "Name": "Original Elite",
+    "Index": 11
+  },
+
+  {
+    "Type": "PlanetaryLandingReticle",
+    "Name": "Green",
+    "Index": 1
+  },
+  {
+    "Type": "PlanetaryLandingReticle",
+    "Name": "Light Blue",
+    "Index": 2
+  },
+  {
+    "Type": "PlanetaryLandingReticle",
+    "Name": "Purple",
+    "Index": 3
+  },
+  {
+    "Type": "PlanetaryLandingReticle",
+    "Name": "XML (User Defined)",
+    "Index": 199
+  },
+
+  {
+    "Type": "SupercruiseSpeedLines",
+    "Name": "White",
+    "Index": 1
+  },
+  {
+    "Type": "SupercruiseSpeedLines",
+    "Name": "Blue",
+    "Index": 2
+  },
+  {
+    "Type": "SupercruiseSpeedLines",
+    "Name": "Green",
+    "Index": 3
+  },
+  {
+    "Type": "SupercruiseSpeedLines",
+    "Name": "Purple",
+    "Index": 4
+  },
+  {
+    "Type": "SupercruiseSpeedLines",
+    "Name": "Pink",
+    "Index": 5
+  },
+  {
+    "Type": "SupercruiseSpeedLines",
+    "Name": "Elite orange",
+    "Index": 6
+  },
+
+  {
+    "Type": "SupercruiseSnow",
+    "Name": "White",
+    "Index": 1
+  },
+  {
+    "Type": "SupercruiseSnow",
+    "Name": "Blue",
+    "Index": 2
+  },
+  {
+    "Type": "SupercruiseSnow",
+    "Name": "Green",
+    "Index": 3
+  },
+  {
+    "Type": "SupercruiseSnow",
+    "Name": "Purple",
+    "Index": 4
+  },
+  {
+    "Type": "SupercruiseSnow",
+    "Name": "Pink",
+    "Index": 5
+  },
+  {
+    "Type": "SupercruiseSnow",
+    "Name": "Elite white",
+    "Index": 6
+  }
+
+]

@@ -1,0 +1,26 @@
+[
+   {
+      "game":"ODYSSEY",
+      "file_path":"%GAME_PATH%\\EDHM-ini\\3rdPartyMods\\NightVision.bat",
+      "action":"DEL",
+      "destination":""
+   },
+   {
+      "game":"ODYSSEY",
+      "file_path":"%GAME_PATH%\\EDHM-ini\\3rdPartyMods\\NightVision.ini",
+      "action":"DEL",
+      "destination":""
+   },
+   {
+      "game":"ODYSSEY",
+      "file_path":"%GAME_PATH%\\EDHM-ini\\3rdPartyMods\\NightVision.json",
+      "action":"DEL",
+      "destination":""
+   },
+   {
+      "game":"ODYSSEY",
+      "file_path":"%GAME_PATH%\\EDHM-ini\\3rdPartyMods\\NightVision.png",
+      "action":"DEL",
+      "destination":""
+   }
+]

@@ -1,0 +1,2946 @@
+{
+  "language": "ru",
+  "game": "ED_Odissey",
+  "author": "Blue Mystic",
+  "ui_groups": [
+    {
+      "Name": "Panel_UP",
+      "Title": "Панель (верхняя)",
+      "Elements": [
+        {
+          "Category": "Панель чата",
+          "Title": "Линии панели чата",
+          "File": "Startup-Profile",
+          "Key": "x137",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим линий панели чата (верхняя левая сторона) \r\n Примечание. Цвета будут немного отличаться от линий панели информации, потому что исходные цвета Elite отличаются."
+        },
+        {
+          "Category": "Панель чата",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x232|y232|z232|w232",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет линий панели чата. (*Альфа)"
+        },
+        {
+          "Category": "Панель чата",
+          "Title": "Значки панели чата",
+          "File": "Startup-Profile",
+          "Key": "y137",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим значков панели чата."
+        },
+        {
+          "Category": "Панель чата",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x233|y233|z233|w233",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет значков панели чата. (*Альфа)"
+        },
+        {
+          "Category": "Информационная панель",
+          "Title": "Строки информационной панели",
+          "File": "Startup-Profile",
+          "Key": "w206",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для строк информационной панели (верхняя правая сторона)"
+        },
+        {
+          "Category": "Информационная панель",
+          "Title": "Линии информационной панели",
+          "File": "Advanced",
+          "Key": "x208|y208|z208|w208",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет линий информационной панели. (*Альфа)"
+        },
+        {
+          "Category": "Информационная панель",
+          "Title": "Название корабля",
+          "File": "Startup-Profile",
+          "Key": "z137",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Цвет текста для названия корабля."
+        },
+        {
+          "Category": "Информационная панель",
+          "Title": "Название корабля",
+          "File": "Advanced",
+          "Key": "x235|y235|z235",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для названия корабля."
+        },
+        {
+          "Category": "Информационная панель",
+          "Title": "Яркость названия корабля",
+          "File": "Advanced",
+          "Key": "w235",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость названия корабля"
+        },
+        {
+          "Category": "Информационная панель",
+          "Title": "Фоновое свечение названия корабля",
+          "File": "Advanced",
+          "Key": "w137",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Фоновое свечение названия корабля"
+        }
+      ]
+    },
+    {
+      "Name": "Reticle",
+      "Title": "Прицельная сетка",
+      "Elements": [
+        {
+          "Category": "Прицельная сетка",
+          "Title": "Прицельная сетка",
+          "File": "Startup-Profile",
+          "Key": "y141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим прицельной сетки"
+        },
+        {
+          "Category": "Прицельная сетка",
+          "Title": "Значок ранга",
+          "File": "Startup-Profile",
+          "Key": "w141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "RankIcon",
+          "Description": "Значок ранга, который появляется рядом с выбранным кораблем (только нейтральный / оранжевый)"
+        },
+        {
+          "Category": "Прицельная сетка - Компоненты",
+          "Title": "Большие треугольные полосы",
+          "File": "Advanced",
+          "Key": "x56|y56|z56|w56",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для больших треугольных полос (одна вертикальная вверху, две диагональные внизу). (*Альфа)"
+        },
+        {
+          "Category": "Прицельная сетка - Компоненты",
+          "Title": "Маленькие треугольные стержни",
+          "File": "Advanced",
+          "Key": "x57|y57|z57|w57",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для малых треугольных стержней. (*Альфа)"
+        },
+        {
+          "Category": "Прицельная сетка - Компоненты",
+          "Title": "Большой круг",
+          "File": "Advanced",
+          "Key": "x58|y58|z58|w58",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для большого круга. (*Альфа)"
+        },
+        {
+          "Category": "Прицельная сетка - Компоненты",
+          "Title": "Ведущий круг",
+          "File": "Advanced",
+          "Key": "x59|y59|z59|w59",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет ведущего круга. (*Альфа)"
+        },
+        {
+          "Category": "Прицельная сетка - Компоненты",
+          "Title": "Точки оружия",
+          "File": "Advanced",
+          "Key": "x60|y60|z60|w60",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет точек оружия. (*Альфа)"
+        },
+        {
+          "Category": "Прицельная сетка - Компоненты",
+          "Title": "Точка мыши",
+          "File": "Advanced",
+          "Key": "x61|y61|z61|w61",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет точки мыши. (*Альфа)"
+        },
+        {
+          "Category": "Прицельная сетка - Компоненты",
+          "Title": "Ракетный замок",
+          "File": "Advanced",
+          "Key": "x62|y62|z62|w62",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для Ракетного замка (также взлет из анимации планеты) * Альфа"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "z141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Окружающие и конечные цели (и ракетный замок) Режим"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Возможная цель корабля",
+          "File": "Advanced",
+          "Key": "x64|y64|z64|w64",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для возможной цели корабля (не выбран). (*Альфа)"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Возможная конечная цель",
+          "File": "Advanced",
+          "Key": "x65|y65|z65|w65",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для возможной конечной цели и относительной стрелки мыши. (*Альфа)"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Возможный целевой круг суперкруиза",
+          "File": "Advanced",
+          "Key": "x66|y66|z66|w66",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для возможного целевого круга суперкруиза. (*Альфа)"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Целевой круг назначения",
+          "File": "Advanced",
+          "Key": "x67|y67|z67|w67",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для целевого круга назначения. (*Альфа)"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Яркость текста",
+          "File": "Advanced",
+          "Key": "w68",
+          "Value": 0.4,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Целевая цель Яркость текста (текст справа от круга)"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Режим серого ромба",
+          "File": "Startup-Profile",
+          "Key": "x107",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для серого ромба (небиологическая потенциальная цель в окружающей среде)"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Цвет серого ромба",
+          "File": "Advanced",
+          "Key": "x171|y171|z171",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для серого ромба (небиологическая потенциальная цель в окружающей среде). (*Альфа)"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Rhombus Brightness",
+          "File": "Advanced",
+          "Key": "w171",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Grey Rhombus (non-biological potential target in the environment)."
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Увеличение серого ромба",
+          "File": "Advanced",
+          "Key": "y107",
+          "Value": 1.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Увеличение непрозрачности в SRV"
+        },
+        {
+          "Category": "Экологические цели и задачи",
+          "Title": "Текст для приземления на планете корабля (синий)",
+          "File": "Advanced",
+          "Key": "w107",
+          "Value": 0.4,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "По умолчанию в Elite синий текст \"Корабль защищен\" при приземлении не отображается. \r\n Здесь вы можете уменьшить яркость этого текста (рекомендуется с 0,4 до 0,6)"
+        }
+      ]
+    },
+    {
+      "Name": "Settings",
+      "Title": "Настройки HUD",
+      "Elements": [
+        {
+          "Category": "Основной текст",
+          "Title": "Текстовый режим",
+          "File": "Startup-Profile",
+          "Key": "w75",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Оранжевый цвет текста Замена (большая часть текста)."
+        },
+        {
+          "Category": "Основной текст",
+          "Title": "Цвет текста",
+          "File": "Advanced",
+          "Key": "x77|y77|z77|w77",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "Пользовательский цвет для глобального текста. *Альфа*"
+        },
+        {
+          "Category": "Основной текст",
+          "Title": "Режим выделенного текста",
+          "File": "Startup-Profile",
+          "Key": "z87",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "Режим выделенного текста на всех панелях."
+        },
+        {
+          "Category": "Основной текст",
+          "Title": "Цвет выделенного текста",
+          "File": "Advanced",
+          "Key": "x143|y143|z143|w143",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "Пользовательский цвет для выделенного текста на всех панелях. *Альфа*"
+        },
+        {
+          "Category": "Вторичные тексты",
+          "Title": "Текстовый режим",
+          "File": "Startup-Profile",
+          "Key": "y78",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Замена синего цвета текста (среди прочего, вокруг AHUD и текста миссии)."
+        },
+        {
+          "Category": "Дополнительные тексты",
+          "Title": "Цвет текста",
+          "File": "Advanced",
+          "Key": "x82|y82|z82|w82",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "Пользовательский цвет для дополнительных текстов. *Альфа*"
+        },
+        {
+          "Category": "Третичные тексты",
+          "Title": "Текстовый режим",
+          "File": "Startup-Profile",
+          "Key": "z78",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Замена цвета желтого текста (выделение OwnCarrier, текст прицельной сетки и др.)."
+        },
+        {
+          "Category": "Третичные тексты",
+          "Title": "Цвет текста",
+          "File": "Advanced",
+          "Key": "x80|y80|z80|w80",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "Пользовательский цвет для терциарных текстов. *Альфа*"
+        },
+        {
+          "Category": "Карта Галактики",
+          "Title": "Режим значков",
+          "File": "Startup-Profile",
+          "Key": "y84",
+          "Value": 199.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Цвет значка GalMap (кроме инженерных) и цвет линии перемещения."
+        },
+        {
+          "Category": "Карта Галактики",
+          "Title": "Цвет значка",
+          "File": "Advanced",
+          "Key": "x85|y85|z85|w85",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для цвета значка GalMap. *Альфа*"
+        },
+        {
+          "Category": "Карта Галактики",
+          "Title": "Режим инженерных значков",
+          "File": "Startup-Profile",
+          "Key": "z84",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим инженерных значков GalMap"
+        },
+        {
+          "Category": "Карта Галактики",
+          "Title": "Цвет инженерного значка",
+          "File": "Advanced",
+          "Key": "x86|y86|z86|w86",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для цвета инженерного значка GalMap. *Альфа*"
+        },
+        {
+          "Category": "Предупреждения - превышение скорости",
+          "Title": "Цветовой режим",
+          "File": "Startup-Profile",
+          "Key": "y104",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим предупреждения о превышении скорости (только линии)"
+        },
+        {
+          "Category": "Предупреждения - превышение скорости",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x172|y172|z172",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для предупреждения о превышении скорости (только линии)"
+        },
+        {
+          "Category": "Предупреждения - превышение скорости",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w172",
+          "Value": 1.1,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для предупреждения о превышении скорости (только линии)."
+        },
+        {
+          "Category": "Предупреждения - Flac с дистанционным запуском",
+          "Title": "Цветовой режим",
+          "File": "Startup-Profile",
+          "Key": "w174",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для Flac / Flechette Launcher с дистанционным управлением"
+        },
+        {
+          "Category": "Предупреждения - Flac Remote Release",
+          "Title": "Custom Color",
+          "File": "Advanced",
+          "Key": "x173|y173|z173",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Remote Release Flac / Flechette Launcher. \r\n Примечание: красный сигнал триггера не может быть изменен в настоящее время. \r\n Элементы управления яркостью недоступны, так как это вызывает сбой между Внешние и близкие элементы; Чтобы уменьшить яркость, просто уменьшите значения RGB на тот же процент"
+        },
+        {
+          "Category": "Предупреждения - Flac с дистанционным запуском",
+          "Title": "Цвет приближения к цели",
+          "File": "Advanced",
+          "Key": "x174|y174|z1743",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для Flac с дистанционным запуском / Flechette Launcher. \r\n Примечание: красный сигнал запуска не может быть изменен в настоящее время. \r\n Элементы управления яркостью недоступны, так как это вызывает сбой между элементы Outer и Proximity; Чтобы уменьшить яркость, просто уменьшите значения RGB на тот же процент"
+        }
+      ]
+    },
+    {
+      "Name": "Panel_Lower",
+      "Title": "Панель (нижняя)",
+      "Elements": [
+        {
+          "Category": "Нижняя панель",
+          "Title": "Линии панели (нижний)",
+          "File": "Startup-Profile",
+          "Key": "z104",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "значение для вашего любимого цвета линий нижней панели."
+        },
+        {
+          "Category": "Нижняя панель",
+          "Title": "Нижние линии панели",
+          "File": "Advanced",
+          "Key": "x204|y204|z204|w204",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "(* Alpha) ** (если ваш пользовательский цвет близок к оранжевому, добавьте немного синего (например, 0,1), чтобы избежать сбоев на панели таргетинга. Панель таргетинга использует технику замены цвета, которая ищет синий = 0)."
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "x140",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Скорость / Расстояние / Выравнивание в суперкруизе. Исключая нижние линии панели и цвет текста. \r\n Если выбранный вами цвет для элементов Supercruise Speed ​​/ Distance близок к оранжевому (высокий красный, средний зеленый), добавьте 0,1 синего, чтобы избежать сбоя"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Правильное выравнивание цели (блоки)",
+          "File": "Advanced",
+          "Key": "x51|y51|z51",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для блоков выравнивания цели (правильные), полоса и индикатор (синие секции в оригинальной Elite)."
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w51",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для выравнивания цели (правильно)"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Режим разделительных линий",
+          "File": "Startup-Profile",
+          "Key": "x78",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Разделительные линии на панели прицеливания в суперкруизе"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Цвет разделительных линий",
+          "File": "Advanced",
+          "Key": "x79|y79|z79",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет разделительных линий на панели прицеливания в Supercruise"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Яркость разделительных линий",
+          "File": "Advanced",
+          "Key": "w79",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость значков на панели навигации и панели таргетинга"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Неправильное выравнивание цели (блоки)",
+          "File": "Advanced",
+          "Key": "x52|y52|z52",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для выравнивания цели (неправильные / не выровненные) блоков и световой индикатор (оранжевые секции в оригинальной Elite)."
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w52",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для выравнивания цели (неверно)"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Неправильное выравнивание цели (полоса)",
+          "File": "Advanced",
+          "Key": "x53|y53|z53",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для выравнивания цели суперкруиза (неправильная) полоса, разделительные линии (между расстоянием / скоростью / выравниванием), значки. Их больше нельзя разделить .."
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w53",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для выравнивания цели суперкруизом (неверная) шкала"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Режим значков",
+          "File": "Startup-Profile",
+          "Key": "z75",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Значки на панели навигации и панели прицеливания"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Цвет значков",
+          "File": "Advanced",
+          "Key": "x53|y53|z53",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет значков на панели навигации и панели таргетинга"
+        },
+        {
+          "Category": "Панель прицеливания",
+          "Title": "Яркость значков",
+          "File": "Advanced",
+          "Key": "w53",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость значков на панели навигации и панели таргетинга"
+        },
+        {
+          "Category": "Средняя панель",
+          "Title": "Аватар средней панели",
+          "File": "Advanced",
+          "Key": "y157",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость / прозрачность аватара на средней панели (3)"
+        },
+        {
+          "Category": "Выделение панели",
+          "Title": "Режим выделения панели",
+          "File": "Startup-Profile",
+          "Key": "z68",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "(Примечание: это также окрашивает индикатор текущей скорости, полоску выравнивания суперкруиза (если не выровнена), активное топливо на топливной планке. К сожалению, его нельзя разделить, но вы можете выбрать цвет. Я рекомендую XML."
+        },
+        {
+          "Category": "Выделение панели",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x74|y74|z74",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для блоков выравнивания цели (правильного), полосы и светового индикатора (синие участки в оригинальной Elite)."
+        },
+        {
+          "Category": "Выделение панели",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w74",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость выделения панели."
+        },
+        {
+          "Category": "Боковые панели",
+          "Title": "Основные линии",
+          "File": "Startup-Profile",
+          "Key": "x75",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "(Примечание: это также окрашивает индикатор текущей скорости, полосу выравнивания суперкруиза (если она не выровнена), активное топливо на топливной панели. К сожалению, ее нельзя разделить, но вы можете выбрать цвет. I рекомендовать XML."
+        },
+        {
+          "Category": "Боковые панели",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x76|y76|z76",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для блоков выравнивания цели (правильного), полосы и светового индикатора (синие секции в оригинальной Elite)."
+        },
+        {
+          "Category": "Боковые панели",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w76",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость основных линий боковых панелей."
+        },
+        {
+          "Category": "Панель навигации",
+          "Title": "Режим панели навигации",
+          "File": "Startup-Profile",
+          "Key": "z97",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "NavPanel",
+          "Description": "Штифт / клин текущего местоположения (только штифт текущего местоположения может быть изменен на собственный цвет. Значок назначения связан с другими элементами / линиями на панели корабля)"
+        },
+        {
+          "Category": "Панель навигации",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x98|y98|z98|w98",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для цвета инженерных значков GalMap. *Альфа*"
+        },
+        {
+          "Category": "Панель миссий",
+          "Title": "Режим панели миссий",
+          "File": "Startup-Profile",
+          "Key": "z89",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "NavPanel",
+          "Description": "Влияет на цвет панелей миссий на панели навигации, плюс значок миссии на экране выбора миссии)"
+        },
+        {
+          "Category": "Панель миссий",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x91|y91|z91",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для панелей миссий на панели навигации, а также значок миссии на экране выбора миссии."
+        },
+        {
+          "Category": "Панель обслуживания",
+          "Title": "Эскиз корабля",
+          "File": "Startup-Profile",
+          "Key": "w78",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Эскиз корабля на панели расширенного обслуживания (станция / перевозчик)"
+        },
+        {
+          "Category": "Панель обслуживания",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x146|y146|z146|w146",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для эскиза корабля. *Альфа"
+        }
+      ]
+    },
+    {
+      "Name": "Lighting",
+      "Title": "Освещение кабины",
+      "Elements": [
+        {
+          "Category": "Кабина - Освещение кабины",
+          "Title": "Цветовой режим",
+          "File": "Startup-Profile",
+          "Key": "y68",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AmbientLights",
+          "Description": "Режим освещения кабины / кабины"
+        },
+        {
+          "Category": "Кабина - Освещение кабины",
+          "Title": "Стиль освещения",
+          "File": "Advanced",
+          "Key": "x68",
+          "Value": 2.0,
+          "ValueType": "Preset",
+          "Type": "CabinLightingStyle",
+          "Description": "0 = Ограниченное (близкое к стандарту Elite, освещение кабины не покрывает всю кабину) \r\n 1 = Полное (покрывает большую часть кабины по сравнению с 'Ограниченным', но исключает области белого света) \r\n 2 = Завершено (Охватывает \"Полные\" области, а также некоторые области белого света. Используйте режим XML (в Startup-Profile.ini), чтобы увидеть многоцветный свет на некоторых кораблях (оранжевые области и белые области по-разному отреагируют на ваш XML) \r\n 3 = Space Disco (заливной свет с загрязнением кожи, весь салон)."
+        },
+        {
+          "Category": "Кабина - Освещение кабины",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x69|y69|z69",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для кабины - Освещение кабины."
+        },
+        {
+          "Category": "Кабина - Освещение кабины",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w69",
+          "Value": 0.3,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость кабины - Освещение кабины."
+        },
+        {
+          "Category": "Окружающее освещение  - Двухцветный",
+          "Title": "Левый цвет",
+          "File": "Advanced",
+          "Key": "x70|y70|z70",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "(Экспериментальный) - Лучше всего использовать в режиме ПОЛНОГО освещения."
+        },
+        {
+          "Category": "Окружающее освещение  - Двухцветный",
+          "Title": "Правый цвет",
+          "File": "Advanced",
+          "Key": "x71|y71|z71",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "этот цвет добавляется к базовому цвету с правой стороны кабины .."
+        },
+        {
+          "Category": "Окружающее освещение  - Двухцветный",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w71",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для AmbientLights - Двухцветный."
+        },
+        {
+          "Category": "Панели корабля",
+          "Title": "Фон панели кораблей",
+          "File": "Startup-Profile",
+          "Key": "x89",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "ShipPanelOpacity",
+          "Description": "(установить уровень непрозрачности по умолчанию в Advanced.ini, работает во всех цветовых режимах)"
+        },
+        {
+          "Category": "Панели корабля",
+          "Title": "Фон панели корабля",
+          "File": "Advanced",
+          "Key": "x90|y90|z90",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет фона панели корабля и непрозрачность '. *Альфа*"
+        },
+        {
+          "Category": "Панели корабля",
+          "Title": "Непрозрачность фона панели",
+          "File": "Advanced",
+          "Key": "w90",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "Brightness",
+          "Description": "Непрозрачность (Альфа) для фона панелей корабля."
+        },
+        {
+          "Category": "Панели станций",
+          "Title": "Чертежи панно",
+          "File": "Startup-Profile",
+          "Key": "w89",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Рисунки и эскизы на панно"
+        },
+        {
+          "Category": "Панели станций",
+          "Title": "Чертежи панелей",
+          "File": "Advanced",
+          "Key": "x92|y92|z92|w92",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для чертежей панелей. *Альфа*"
+        }
+      ]
+    },
+    {
+      "Name": "SpecialFX",
+      "Title": "Спецэффекты",
+      "Elements": [
+        {
+          "Category": "Спецэффекты",
+          "Title": "Маршруты компании Super-Cruise",
+          "File": "Startup-Profile",
+          "Key": "w120",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "SC_SideLines",
+          "Description": "Цветовой режим для обочины в супер-круизе"
+        },
+        {
+          "Category": "Спецэффекты",
+          "Title": "SC_SideLines Цвет",
+          "File": "Advanced",
+          "Key": "x176|y176|z176",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Цвет боковых линий в Super-Cruiser."
+        },
+        {
+          "Category": "Спецэффекты",
+          "Title": "SC_SideLines Яркость",
+          "File": "Advanced",
+          "Key": "w176",
+          "Value": 0.3,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Глянец для боковых сторон в Super-Cruiser."
+        },
+        {
+          "Category": "Спецэффекты",
+          "Title": "Снежный суперкруиз",
+          "File": "Startup-Profile",
+          "Key": "y121",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Переключатель для удаления Supercruise Snow"
+        },
+        {
+          "Category": "Спецэффекты",
+          "Title": "Космическая пыль",
+          "File": "Startup-Profile",
+          "Key": "z121",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Switch for Space Dust (он же Снег в нормальном полете)"
+        },
+
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Орбитальные линии Mode",
+          "File": "Startup-Profile",
+          "Key": "y75",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Линии орбиты / гравитации / зоны отчуждения"
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Орбитальные линии Color",
+          "File": "Advanced",
+          "Key": "x39|y39|z39",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Орбитальные линии."
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Орбитальные линии Brightness",
+          "File": "Advanced",
+          "Key": "w39",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Орбитальные линии."
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Линии гравитационных колодцев Color",
+          "File": "Advanced",
+          "Key": "x40|y40|z40",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Линии гравитационных колодцев."
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Линии гравитационных колодцев Brightness",
+          "File": "Advanced",
+          "Key": "w40",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Линии гравитационных колодцев."
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Линии зоны отчуждения Color",
+          "File": "Advanced",
+          "Key": "x44|y44|z44",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Линии зоны отчуждения."
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Линии зоны отчуждения Brightness",
+          "File": "Advanced",
+          "Key": "w44",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Exclusion Zone Lines."
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Орбитальные круизные линии Color",
+          "File": "Advanced",
+          "Key": "x29|y29|z29",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Орбитальные круизные линии."
+        },
+        {
+          "Category": "Линии орбиты / гравитации / зоны отчуждения",
+          "Title": "Орбитальные круизные линии Brightness",
+          "File": "Advanced",
+          "Key": "w29",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Орбитальные круизные линии."
+        },
+
+        {
+          "Category": "Ночное видение",
+          "Title": "Ночное видение Mode",
+          "File": "Startup-Profile",
+          "Key": "y93",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "Mode for Ночное видение"
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "Ночное видение Color",
+          "File": "Advanced",
+          "Key": "x43|y43|z43",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Ночное видение."
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "Ночное видение Brightness",
+          "File": "Advanced",
+          "Key": "w43",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Ночное видение."
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "PWA Asteroid Glow Mode",
+          "File": "Startup-Profile",
+          "Key": "z93",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "Mode for Анализатор импульсных волн свечения астероидов"
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "PWA Asteroid Glow Color",
+          "File": "Advanced",
+          "Key": "x41|y41|z41",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for PWA Asteroid Glow."
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "PWA Asteroid Glow Brightness",
+          "File": "Advanced",
+          "Key": "w41",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for PWA Asteroid Glow."
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "PWA Wavefront Mode",
+          "File": "Startup-Profile",
+          "Key": "w93",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "Mode for Pulse Wave Analyser Wavefront"
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "PWA Wavefront Color",
+          "File": "Advanced",
+          "Key": "x42|y42|z42",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for PWA Wavefront."
+        },
+        {
+          "Category": "Ночное видение",
+          "Title": "PWA Wavefront Brightness",
+          "File": "Advanced",
+          "Key": "w42",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for PWA Wavefront."
+        }
+      ]
+    },
+    {
+      "Name": "CHUD_AHUD",
+      "Title": "Боевой и аналитический HUD",
+      "Elements": [
+        {
+          "Category": "Боевой HUD",
+          "Title": "боевой режим HUD",
+          "File": "Startup-Profile",
+          "Key": "x141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "** РЕЖИМ Combat HUD (CHUD) ** \r\n Для стандартного CHUD установите цвет 2 RGB (0,0,0) и интенсивность затухания = 0 \r\n Для одноцветного CHUD с хищной птицей установите цвет 2 RGB (0,0,0) и ваша предпочтительная интенсивность затухания (0,7 - хороший баланс) \r\n Для синтволнового (двухцветного) CHUD установите Color 2 RGB в соответствии с вашими предпочтениями и Fade Strenth = 1"
+        },
+        {
+          "Category": "Боевой HUD",
+          "Title": "Цвет 1",
+          "File": "Advanced",
+          "Key": "x55|y55|z55",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для Combat HUD - Цвет 1 (верхний цвет)."
+        },
+        {
+          "Category": "Боевой HUD",
+          "Title": "Color 1 - Brightness",
+          "File": "Advanced",
+          "Key": "w55",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Color 1 (Верхний цвет)."
+        },
+        {
+          "Category": "Боевой HUD",
+          "Title": "Цвет 2",
+          "File": "Advanced",
+          "Key": "x48|y48|z48",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для Combat HUD - Цвет 2 (нижний цвет)."
+        },
+        {
+          "Category": "Боевой HUD",
+          "Title": "Fade Strength",
+          "File": "Advanced",
+          "Key": "w48",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Fade Strength (или цветовой баланс Synthwave:> 1 = больше второго цвета, <1 = меньше второго цвета)."
+        },
+        {
+          "Category": "Боевой HUD",
+          "Title": "Цвет боеприпасов",
+          "File": "Advanced",
+          "Key": "x45|y45|z45",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для боевого HUD - Боеприпасы."
+        },
+        {
+          "Category": "Боевой HUD",
+          "Title": "Яркость боеприпасов",
+          "File": "Advanced",
+          "Key": "w45",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость боеприпасов."
+        },
+        {
+          "Category": "Анализ HUD",
+          "Title": "Режим анализа HUD",
+          "File": "Startup-Profile",
+          "Key": "w140",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим радара"
+        },
+        {
+          "Category": "Анализ HUD",
+          "Title": "Анализ HUD",
+          "File": "Advanced",
+          "Key": "x54|y54|z54|w54",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для Analysis HUD. (*Альфа)"
+        },
+        {
+          "Category": "Анализ HUD",
+          "Title": "Прицельная сетка",
+          "File": "Advanced",
+          "Key": "x63|y63|z63|w63",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для сетки прицела в режиме анализа в боевом режиме. (*Альфа)"
+        },
+        {
+          "Category": "Анализ HUD",
+          "Title": "Текстовый режим AHUD",
+          "File": "Startup-Profile",
+          "Key": "w87",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AHUDText",
+          "Description": "Режим текстов вокруг AHUD."
+        },
+        {
+          "Category": "Анализ HUD",
+          "Title": "Цвет текста AHUD",
+          "File": "Advanced",
+          "Key": "x144|y144|z144|w144",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для текстов вокруг AHUD. *Альфа*"
+        }
+      ]
+    },
+    {
+      "Name": "Foot_HUD",
+      "Title": "Пеший HUD",
+      "Elements": [
+        {
+          "Category": "Пеший HUD - Панель",
+          "Title": "Режим панели",
+          "File": "SuitHud",
+          "Key": "x30",
+          "Value": 199.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Примечание: XML (будет имитировать оранжевую основу, чтобы соответствовать HUD корабля)."
+        },
+        {
+          "Category": "Пеший HUD - Панель",
+          "Title": "Цвет панели",
+          "File": "SuitHud",
+          "Key": "x31|y31|z31",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет панели для ходьбы."
+        },
+        {
+          "Category": "Пеший HUD - Панель",
+          "Title": "Непрозрачность панели",
+          "File": "SuitHud",
+          "Key": "w31",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для пешей панели."
+        },
+        {
+          "Category": "Пеший HUD - Панель",
+          "Title": "Боковые панели корабля",
+          "File": "SuitHud",
+          "Key": "x93",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Возможность замены элементов CYAN на боковых панелях корабля. \r\n При включении этого параметра голубые значки ранга и части значков на панели навигации окрашиваются в ваш XML и голубой цвет. \r\n Он также изменит цвет голубых блоков на вкладке «Хранение панели корабля» на цвет XML вашей панели."
+        },
+        {
+          "Category": "Пеший HUD - Щит",
+          "Title": "Режим щита",
+          "File": "SuitHud",
+          "Key": "y30",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Цветовой режим для щитов"
+        },
+        {
+          "Category": "Пеший HUD - Щит",
+          "Title": "Внутреннее кольцо",
+          "File": "SuitHud",
+          "Key": "x32|y32|z32|w32",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для внутреннего кольца щита на ногах (* alpha)."
+        },
+        {
+          "Category": "Пеший HUD - Щит",
+          "Title": "Среднее кольцо",
+          "File": "SuitHud",
+          "Key": "x33|y33|z33|w33",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для среднего кольца щита для ходьбы (* альфа)."
+        },
+        {
+          "Category": "Пеший HUD - Щит",
+          "Title": "Внешнее кольцо",
+          "File": "SuitHud",
+          "Key": "x34|y34|z34|w34",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для внешнего кольца щита на ногах (* alpha)."
+        },
+        {
+          "Category": "Пеший HUD - Щит",
+          "Title": "Цвет опускания щита",
+          "File": "SuitHud",
+          "Key": "x35|y35|z35|w35",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет опускания щита на ногах (* альфа)."
+        },
+        {
+          "Category": "Пеший HUD - Щит",
+          "Title": "Восстановление щита",
+          "File": "SuitHud",
+          "Key": "x36|y36|z36|w36",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для анимации восстановления щита на ногах (* alpha)."
+        },
+        {
+          "Category": "Пеший HUD - Тексты",
+          "Title": "Режим текстов",
+          "File": "SuitHud",
+          "Key": "z30",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Примечание: XML (будет имитировать оранжевую основу, чтобы соответствовать HUD корабля)."
+        },
+        {
+          "Category": "Пеший HUD - Тексты",
+          "Title": "Цвет текстов",
+          "File": "SuitHud",
+          "Key": "x37|y37|z37|w37",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет текстов для ходьбы. (*Альфа)"
+        },
+        {
+          "Category": "Пеший HUD - Тексты",
+          "Title": "Выделенный режим",
+          "File": "SuitHud",
+          "Key": "w30",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Выделенный / инвертированный текст и цвет значков."
+        },
+        {
+          "Category": "Пеший HUD - Тексты",
+          "Title": "Цвет выделения",
+          "File": "SuitHud",
+          "Key": "x38|y38|z38|w38",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для выделенных текстов пешком. (*Альфа)"
+        }
+      ]
+    },
+    {
+      "Name": "ShieldsHolo",
+      "Title": "Щит и голографический корабль",
+      "Elements": [
+        {
+          "Category": "Щиты",
+          "Title": "Режим щита",
+          "File": "Startup-Profile",
+          "Key": "z105",
+          "Value": 101.0,
+          "ValueType": "Preset",
+          "Type": "ShieldColor",
+          "Description": "Примечание: Multi-Shield работает только при разрешении> = 2560x1440, может работать при разрешении 1920x1080. Применяется к себе и цели."
+        },
+        {
+          "Category": "Щиты",
+          "Title": "Процент щита% Цвет",
+          "File": "Advanced",
+          "Key": "x88|y88|z88",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для процента щита%"
+        },
+        {
+          "Category": "Щиты",
+          "Title": "Процент экрана - Яркость",
+          "File": "Advanced",
+          "Key": "w88",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость текста в процентах экрана"
+        },
+        {
+          "Category": "Мульти-щит",
+          "Title": "Внутреннее кольцо",
+          "File": "Advanced",
+          "Key": "x201|y201|z201|w201",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Цвет внутреннего кольца, только для Multi-Shield. (Альфа)"
+        },
+        {
+          "Category": "Мульти-щит",
+          "Title": "Среднее кольцо",
+          "File": "Advanced",
+          "Key": "x202|y202|z202|w202",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Цвет среднего кольца, только для Multi-Shield. (Альфа)"
+        },
+        {
+          "Category": "Мульти-щит",
+          "Title": "Внешнее кольцо",
+          "File": "Advanced",
+          "Key": "x203|y203|z203|w203",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Цвет внешнего кольца, только для Multi-Shield. (Альфа)"
+        },
+        {
+          "Category": "Одноцветный щит",
+          "Title": "Щиты опущены",
+          "File": "Advanced",
+          "Key": "x87",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShieldsDown",
+          "Description": "Одноцветный щит - Цвет опущенного щита."
+        },
+        {
+          "Category": "Одноцветный щит",
+          "Title": "Сверху щиты",
+          "File": "Advanced",
+          "Key": "x228|y228|z228",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Цвет поднятого щита (относительно цвета опускаемого щита)."
+        },
+        {
+          "Category": "Одноцветный щит",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w228",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Общая яркость экранов / Альфа (одиночный режим)"
+        },
+        {
+          "Category": "Одноцветный щит",
+          "Title": "Толщина кольца",
+          "File": "Advanced",
+          "Key": "y87",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "4X",
+          "Description": "Общая яркость экранов / альфа (одиночный режим)"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Верхние завитки - Режим",
+          "File": "Startup-Profile",
+          "Key": "z133",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Круговые завитки под голографическими картинками"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Верхние завитки - цвет",
+          "File": "Advanced",
+          "Key": "x226|y226|z226",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для круговых завитков под голографическими картинками"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Верхние завитки - Яркость",
+          "File": "Advanced",
+          "Key": "w226",
+          "Value": 1.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для верхних завитков"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Средние завитки - режим",
+          "File": "Startup-Profile",
+          "Key": "x135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Строка состояния под щитом"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Средние завитки - цвет",
+          "File": "Advanced",
+          "Key": "x215|y215|z215",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для статусных полос"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Средние завитки - яркость",
+          "File": "Advanced",
+          "Key": "w215",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость строки состояния"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Нижние завитки - Режим",
+          "File": "Startup-Profile",
+          "Key": "x134",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Тонкие полукруги внизу голограммы"
+        },
+        {
+          "Category": "Круговые завитки",
+          "Title": "Нижние завитки - Цвет",
+          "File": "Advanced",
+          "Key": "x205|y205|z205|w205",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для тонких полукругов внизу голограммы. *Альфа"
+        },
+        {
+          "Category": "Калибр корпуса",
+          "Title": "Цветовой режим",
+          "File": "Startup-Profile",
+          "Key": "y134",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Блоки для здоровья корпуса, включая цель"
+        },
+        {
+          "Category": "Калибр корпуса",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x212|y212|z212",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для блоков под щитом, включая цель."
+        },
+        {
+          "Category": "Калибр корпуса",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w212",
+          "Value": 1.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость блоков под щитом"
+        },
+        {
+          "Category": "Калибр корпуса",
+          "Title": "Hull Gauge - Затенение",
+          "File": "Advanced",
+          "Key": "w213",
+          "Value": 4.0,
+          "ValueType": "Brightness",
+          "Type": "4X_Min",
+          "Description": "Множитель затенения (Соответствует только режиму затенения)"
+        },
+        {
+          "Category": "Калибр корпуса",
+          "Title": "Корпус, затронутый едкой",
+          "File": "Startup-Profile",
+          "Key": "w170",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "CausticEffect",
+          "Description": "Блоки для здоровья корпуса, включая цель"
+        },
+        {
+          "Category": "Калибр корпуса",
+          "Title": "Цвет корпуса, затронутый едким веществом",
+          "File": "Advanced",
+          "Key": "x170|y170|z170",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет стержней корпуса, подвергшихся воздействию едкого вещества."
+        },
+        {
+          "Category": "Собственная голограмма",
+          "Title": "Голограмма - Режим",
+          "File": "Startup-Profile",
+          "Key": "y101",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Собственность Режим голограммы \r\n Также включает в себя посадочную голограмму, голограмму SRV, местность SRV на радаре"
+        },
+        {
+          "Category": "Собственная голограмма",
+          "Title": "Голограмма - Цвет",
+          "File": "Advanced",
+          "Key": "x248|y248|z248",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для собственной голограммы"
+        },
+        {
+          "Category": "Собственная голограмма",
+          "Title": "Голограмма - Яркость",
+          "File": "Advanced",
+          "Key": "x132",
+          "Value": 0.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость корпуса голограммы \r\n Для Ultra-tron установите низкую яркость корпуса (например, 0), а внешние линии расцветут высокими (например, 0,5)"
+        },
+        {
+          "Category": "Собственная голограмма",
+          "Title": "Голограмма - Блум",
+          "File": "Advanced",
+          "Key": "y132",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Холо-блум / свечение"
+        },
+        {
+          "Category": "Собственная голограмма",
+          "Title": "Цветение внешних линий",
+          "File": "Advanced",
+          "Key": "z132",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Цветение / свечение внешних линий (по умолчанию = 0) (это значение может быть отрицательным, например -0,5)"
+        },
+        {
+          "Category": "Собственная голограмма",
+          "Title": "Общая яркость",
+          "File": "Advanced",
+          "Key": "z101",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Общая яркость голограммы"
+        },
+        {
+          "Category": "Собственная голограмма",
+          "Title": "Мерцающие линии",
+          "File": "Advanced",
+          "Key": "z109",
+          "Value": 1.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Переключатель для OwnShip Hologram Shimmer"
+        },
+        {
+          "Category": "Голограмма корабля-мишени",
+          "Title": "Нейтральная цель",
+          "File": "Advanced",
+          "Key": "x72|y72|z72",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Цвет собственной голограммы"
+        },
+        {
+          "Category": "Голограмма корабля-мишени",
+          "Title": "Нейтральная цель - Яркость",
+          "File": "Advanced",
+          "Key": "x72",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость корпуса голограммы \r\n Для Ультратрона установите яркость корпуса на низком уровне (например, 0), а внешние линии - на высоком (например, 0,5)"
+        },
+        {
+          "Category": "Голограмма корабля-мишени",
+          "Title": "Общая яркость",
+          "File": "Advanced",
+          "Key": "y73",
+          "Value": 0.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость голограммы"
+        },
+        {
+          "Category": "Голограмма корабля-мишени",
+          "Title": "Яркость зеленой цели",
+          "File": "Advanced",
+          "Key": "z73",
+          "Value": 0.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость голограммы ярко-зеленой цели (некоторые зеленые голограммы имеют чрезмерную яркость)"
+        },
+        {
+          "Category": "Голограмма корабля-мишени",
+          "Title": "Мерцающие линии",
+          "File": "Advanced",
+          "Key": "x73",
+          "Value": 1.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Переключатель мерцания голограммы цели"
+        },
+        {
+          "Category": "Посадочная голограмма",
+          "Title": "ВЫКЛ посадочной площадки",
+          "File": "Advanced",
+          "Key": "x254|y254|z254",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для приземляющей голограммы"
+        },
+        {
+          "Category": "Посадочная голограмма",
+          "Title": "НА посадочной площадке",
+          "File": "Advanced",
+          "Key": "x249|y249|z249",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для НА посадочной площадке"
+        },
+        {
+          "Category": "Посадочная голограмма",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w254",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для приземляющейся голограммы"
+        },
+        {
+          "Category": "Планетарная прицельная марка",
+          "Title": "Цветовой режим",
+          "File": "Startup-Profile",
+          "Key": "z107",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Планетарная прицельная сетка - Уголки пеленга и снижения"
+        },
+        {
+          "Category": "Планетарная прицельная марка",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x209|y209|z209|w209",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для планетарной посадочной сетки."
+        },
+        {
+          "Category": "Планетарная прицельная марка",
+          "Title": "Посадочная линия и подстаканники",
+          "File": "Advanced",
+          "Key": "x255|y255|z255|w255",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для посадочной линии и подстаканника (оранжевый) * Альфа"
+        },
+        {
+          "Category": "Планетарная прицельная марка",
+          "Title": "Полоса высоты",
+          "File": "Advanced",
+          "Key": "x96|y96|z96|w96",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для линии приземления и каботажного судна (оранжевый) * Альфа"
+        },
+        {
+          "Category": "Планетарная прицельная марка",
+          "Title": "Цвет текста",
+          "File": "Advanced",
+          "Key": "x95|y95|z95|w95",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет текста в окошках сетки * Альфа"
+        },
+        {
+          "Category": "Планетарная прицельная марка",
+          "Title": "Яркость текста",
+          "File": "Advanced",
+          "Key": "x97",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость текста вдоль шкалы высоты (имеет тенденцию к выдуванию вокруг сетки)"
+        },
+        {
+          "Category": "Планетарная прицельная марка",
+          "Title": "Яркость текста",
+          "File": "Advanced",
+          "Key": "y97",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость текста для координат долготы / широты, силы тяжести"
+        },
+        {
+          "Category": "Голограмма SRV",
+          "Title": "Голограмма SRV - Основная",
+          "File": "Advanced",
+          "Key": "x250|y250|z250|w250",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "** (ОТКЛЮЧЕНО) ** Пользовательский цвет для голограммы SRV (* Alpha)"
+        },
+        {
+          "Category": "Голограмма SRV",
+          "Title": "Голограмма SRV - Маленькая",
+          "File": "Advanced",
+          "Key": "x251|y251|z251|w251",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для голограммы SRV. \r\n Альфа (% от альфа основной голограммы)"
+        }
+      ]
+    },
+    {
+      "Name": "RadarHUD",
+      "Title": "Радар и общая группа",
+      "Elements": [
+        {
+          "Category": "Корабельный радар",
+          "Title": "Режим радара",
+          "File": "Startup-Profile",
+          "Key": "y106",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим радара"
+        },
+        {
+          "Category": "Корабельный радар",
+          "Title": "Внешний обод радара",
+          "File": "Advanced",
+          "Key": "x236|y236|z236",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет компонентов внешнего радара."
+        },
+        {
+          "Category": "Корабельный радар",
+          "Title": "Яркость внешнего кольца",
+          "File": "Advanced",
+          "Key": "w236",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость внешнего радара (нормальный диапазон составляет от 0,3 до 1,0, но вы можете пойти и выше)"
+        },
+        {
+          "Category": "Сетка радара",
+          "Title": "Цвет",
+          "File": "Advanced",
+          "Key": "x237|y237|z237",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет сетки радара."
+        },
+        {
+          "Category": "Сетка радара",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w237",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для сетки радара"
+        },
+        {
+          "Category": "Виджет радара треугольник",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "x138",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим виджета \"Треугольник радара\""
+        },
+        {
+          "Category": "Виджет радара треугольник",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x239|y239|z239|w239",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для виджета «Треугольник». (*Альфа)"
+        },
+        {
+          "Category": "Виджет масштабирования радара",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "w136",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для линий уровня масштабирования радара"
+        },
+        {
+          "Category": "Виджет масштабирования радара",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x240|y240|z240|w240",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для виджета масштабирования радара. (*Альфа)"
+        },
+        {
+          "Category": "Виджет масштабирования радара",
+          "Title": "Линии уровня",
+          "File": "Advanced",
+          "Key": "x231|y231|z231",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Линии уровня масштабирования радара Пользовательский цвет."
+        },
+        {
+          "Category": "Виджет масштабирования радара",
+          "Title": "Яркость линий уровня",
+          "File": "Advanced",
+          "Key": "w231",
+          "Value": 1.2,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость линий уровня масштабирования радара"
+        },
+        {
+          "Category": "Объекты радара - Supercruice",
+          "Title": "Радиолокационные тела в Supercruice",
+          "File": "Startup-Profile",
+          "Key": "z138",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для радиолокационных тел в Supercruice"
+        },
+        {
+          "Category": "Объекты радара - Supercruice",
+          "Title": "Radar - Planets",
+          "File": "Advanced",
+          "Key": "x241|y241|z241|w241",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для тел радара в Supercruise. (* С альфа-версией)"
+        },
+        {
+          "Category": "Объекты радара - Суперкруиз",
+          "Title": "Радар - Луны",
+          "File": "Advanced",
+          "Key": "x242|y242|z242|w242",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для тел радара в суперкруизе. (* С альфа-версией)"
+        },
+        {
+          "Category": "Объекты радара - Суперкруиз",
+          "Title": "Радар - Звезды",
+          "File": "Advanced",
+          "Key": "x243|y243|z243|w243",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет тел радара в суперкруизе. (* С альфа-версией)"
+        },
+        {
+          "Category": "Объекты радара - Суперкруиз",
+          "Title": "Нейтральные цели - Линии",
+          "File": "Advanced",
+          "Key": "x244|y244|z244|w244",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для линий объектов и подставок в суперкруизе."
+        },
+        {
+          "Category": "Объекты радара",
+          "Title": "Объекты радара",
+          "File": "Startup-Profile",
+          "Key": "y139",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для объектов радара в нормальном полете"
+        },
+        {
+          "Category": "Объекты радара",
+          "Title": "Удалить белые объекты",
+          "File": "Startup-Profile",
+          "Key": "x115",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Переключатель для удаления белых объектов на радаре (следы, материалы, спасение и т. Д.) В стандартном полете (не суперкруизе)"
+        },
+        {
+          "Category": "Радарные объекты",
+          "Title": "Радар - нейтральные цели",
+          "File": "Advanced",
+          "Key": "x245|y245|z245|w245",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ОРАНЖЕВЫЕ квадраты в обоих режимах полета; Оранжевые линии объектов и подставки в нормальном полете. \r\n * Alpha"
+        },
+        {
+          "Category": "Радарные объекты",
+          "Title": "Радар - дружественные цели",
+          "File": "Advanced",
+          "Key": "x246|y246|z246|w246",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ЗЕЛЕНЫЕ квадраты, линии и подставки в обоих режимах полета. \r\n * Alpha"
+        },
+        {
+          "Category": "Радарные объекты",
+          "Title": "Радар - враждебные цели",
+          "File": "Advanced",
+          "Key": "x247|y247|z247|w247",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "КРАСНЫЕ квадраты, линии и подставки в обоих режимах полета. \r\n * Alpha"
+        },
+        {
+          "Category": "Внешние компоненты радара",
+          "Title": "Цветовой режим",
+          "File": "Startup-Profile",
+          "Key": "x136",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для шкалы нагрева и шкалы скорости"
+        },
+        {
+          "Category": "Внешние компоненты радара",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x221|y221|z221",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет компонентов внешнего радара."
+        },
+        {
+          "Category": "Внешние компоненты радара",
+          "Title": "Bar Booster",
+          "File": "Advanced",
+          "Key": "w221",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Bar Booster (увеличивает яркость фона основных полос скорости и тепла)"
+        },
+        {
+          "Category": "Внешние компоненты радара",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w222",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Общая яркость (всех компонентов внешнего радара)"
+        },
+        {
+          "Category": "Панель оптимальной скорости",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x222|y222|z222",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Цвет полосы оптимальной скорости (значения относятся к основному цвету; может быть отрицательным, чтобы уменьшить цвет из основного цвета)"
+        },
+        {
+          "Category": "Объекты радара",
+          "Title": "Объекты радара - Посадка",
+          "File": "Startup-Profile",
+          "Key": "x139",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для объектов радара при приземлении, линия и каботажное судно"
+        },
+        {
+          "Category": "Объекты радара",
+          "Title": "Объекты радара - Посадка",
+          "File": "Advanced",
+          "Key": "x253|y253|z253|w253",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет ландшафта при приземлении на планету."
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Сканер SRV",
+          "File": "Startup-Profile",
+          "Key": "w210",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Цветной сканер SRV"
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Сканер SRV - основной цвет",
+          "File": "Advanced",
+          "Key": "x210|y210|z210",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Основной цвет сканера SRV, цвет обнаружения объекта."
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Сканер SRV - вторичный цвет",
+          "File": "Advanced",
+          "Key": "x211|y211|z211",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Сканер SRV вторичный цвет, цвет развертки сканера."
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Общая альфа",
+          "File": "Advanced",
+          "Key": "w211",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Сканер SRV - Общая альфа"
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Голограмма местности на радаре",
+          "File": "Advanced",
+          "Key": "x252|y252|z252|w252",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет голограммы местности на радаре (в режиме SRV)."
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Сканер SRV Elevation",
+          "File": "Startup-Profile",
+          "Key": "z139",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для диагональных линий SRV Radar Elevation"
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Высота сканера SRV",
+          "File": "Advanced",
+          "Key": "x50|y50|z50|w50",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для диагональных линий высоты радара SRV. *Альфа*"
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Режим турели SRV",
+          "File": "Startup-Profile",
+          "Key": "w73",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Башня SRV, небольшое изображение SRV на радаре, плюс разные элементы"
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Цвет башни SRV",
+          "File": "Advanced",
+          "Key": "x147|y147|z147|w147",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для башни SRV, маленькое изображение SRV на радаре, а также разные элементы. *Альфа*"
+        },
+        {
+          "Category": "Сканер SRV",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w70",
+          "Value": 1.1,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "SRV Turret, Увеличение яркости дистрибьютора. \r\n FDev применяет фильтр подавления нечетных цветов к экрану SRV Turret. \r\n Используйте это значение, чтобы усилить цвет распределителя (он не будет выглядеть точно так же как судовой / распределитель СРВ за счет фильтра)"
+        },
+        {
+          "Category": "Компас",
+          "Title": "Цветовой режим",
+          "File": "Startup-Profile",
+          "Key": "w135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Цвет компаса"
+        },
+        {
+          "Category": "Компас",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x219|y219|z219",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет компаса."
+        },
+        {
+          "Category": "Компас",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w219",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Усилитель фона компаса"
+        },
+        {
+          "Category": "Компас",
+          "Title": "Точка компаса",
+          "File": "Advanced",
+          "Key": "x220|y220|z220",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Точка компаса Пользовательский цвет."
+        },
+        {
+          "Category": "Компас",
+          "Title": "Яркость точки компаса",
+          "File": "Advanced",
+          "Key": "w220",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость точки компаса \r\n (Примечание: этот элемент ведет себя немного иначе, чем другие. Рекомендуемый минимум - 0,7 яркости)"
+        }
+      ]
+    },
+    {
+      "Name": "Power_Distributor",
+      "Title": "Распределитель энергии",
+      "Elements": [
+        {
+          "Category": "Распределитель энергии",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "y136",
+          "Value": 101.0,
+          "ValueType": "Preset",
+          "Type": "PowerDistributor",
+          "Description": "Режим распределителя мощности"
+        },
+        {
+          "Category": "Распределитель энергии",
+          "Title": "Цвет верхнего блока",
+          "File": "Advanced",
+          "Key": "x223|y223|z223",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для верхнего блока трехцветного распределителя или стандартный (одноцветный)"
+        },
+        {
+          "Category": "Распределитель энергии",
+          "Title": "Яркость верхнего блока",
+          "File": "Advanced",
+          "Key": "w223",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость верхнего блока трехцветного распределителя или стандарт (одноцветный)"
+        },
+        {
+          "Category": "Трехцветный распределитель",
+          "Title": "Цвет среднего блока",
+          "File": "Advanced",
+          "Key": "x224|y224|z224",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательские значения цвета для среднего блока Tri-Distributor."
+        },
+        {
+          "Category": "Трехцветный распределитель",
+          "Title": "Яркость среднего блока",
+          "File": "Advanced",
+          "Key": "w224",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость (альфа) для среднего блока"
+        },
+        {
+          "Category": "Трехцветный распределитель",
+          "Title": "Цвет нижнего блока",
+          "File": "Advanced",
+          "Key": "x225|y225|z225",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательские значения цвета для нижнего блока Tri-Distributor."
+        },
+        {
+          "Category": "Трехцветный распределитель",
+          "Title": "Яркость нижнего блока",
+          "File": "Advanced",
+          "Key": "w225",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость нижнего блока"
+        },
+        {
+          "Category": "Дистрибьютор градиента",
+          "Title": "Цвет 1",
+          "File": "Advanced",
+          "Key": "x47|y47|z47",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для цвета 1: Верхний цвет распространителя градиента."
+        },
+        {
+          "Category": "Дистрибьютор градиента",
+          "Title": "Доминирование 1",
+          "File": "Advanced",
+          "Key": "w47",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "4X",
+          "Description": "Доминирование цвета 1 (значения> 1,0 увеличивают доминирование, значения <1,0 уменьшают доминирование)"
+        },
+        {
+          "Category": "Дистрибьютор градиента",
+          "Title": "Цвет 2",
+          "File": "Advanced",
+          "Key": "x46|y46|z46",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для цвета 2: нижний цвет распределителя градиента."
+        },
+        {
+          "Category": "Дистрибьютор градиента",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w46",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Общая яркость распределителя градиента"
+        },
+        {
+          "Category": "Распределитель энергии - Пипсы",
+          "Title": "Режим пипсов",
+          "File": "Startup-Profile",
+          "Key": "w134",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим Pips распределителя мощности"
+        },
+        {
+          "Category": "Распределитель энергии - Пипсы",
+          "Title": "Цвет пипсов",
+          "File": "Advanced",
+          "Key": "x214|y214|z214",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для Power Distributor Pipsr."
+        },
+        {
+          "Category": "Распределитель энергии - Пипсы",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w214",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для точек распределителя мощности"
+        },
+        {
+          "Category": "Распределитель энергии - Пипсы",
+          "Title": "Неактивный усилитель пунктов",
+          "File": "Advanced",
+          "Key": "z134",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для неактивных пунктов."
+        },
+        {
+          "Category": "Блоки выбора",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "z136",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим блоков выбора дистрибьютора"
+        },
+        {
+          "Category": "Блоки выбора",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x230|y230|z230",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для блоков выбора дистрибьютора."
+        },
+        {
+          "Category": "Блоки выбора",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w230",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для блоков выбора дистрибьютора"
+        },
+        {
+          "Category": "Полосы RST (Reset)",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "w133",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Полосы RST [..] под дистрибьютором"
+        },
+        {
+          "Category": "Полосы RST (Сброс)",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x227|y227|z227",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для столбцов RST под дистрибьютором."
+        },
+        {
+          "Category": "RST (Сброс) Полоски",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w227",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для RST-полос"
+        }
+      ]
+    },
+    {
+      "Name": "FuelBars",
+      "Title": "Подпись и топливные панели",
+      "Elements": [
+        {
+          "Category": "Панель подписи",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "w106",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим панели подписи"
+        },
+        {
+          "Category": "Полоса подписи",
+          "Title": "Основной цвет",
+          "File": "Advanced",
+          "Key": "x206|y206|z206",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Основной цвет, внешняя часть сигнала"
+        },
+        {
+          "Category": "Полоса подписи",
+          "Title": "Дополнительный цвет",
+          "File": "Advanced",
+          "Key": "x207|y207|z207",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Дополнительный цвет, середина сигнала (относительно основного цвета)"
+        },
+        {
+          "Category": "Панель подписи",
+          "Title": "Общая альфа",
+          "File": "Advanced",
+          "Key": "w207",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Общая альфа (прозрачность) панели подписи"
+        },
+        {
+          "Category": "Индикатор уровня топлива",
+          "Title": "Режим топливного стержня",
+          "File": "Startup-Profile",
+          "Key": "y135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Топливный стержень"
+        },
+        {
+          "Category": "Индикатор уровня топлива",
+          "Title": "Пользовательский цвет",
+          "File": "Advanced",
+          "Key": "x216|y216|z216",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет топливной планки"
+        },
+        {
+          "Category": "Индикатор уровня топлива",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w216",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость топливного стержня"
+        },
+        {
+          "Category": "Индикатор уровня топлива",
+          "Title": "Топливо для следующего прыжка",
+          "File": "Advanced",
+          "Key": "x94|y94|z94",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "(чтобы увидеть этот элемент, в вашем навигационном компьютере должна быть запрограммирована система)"
+        },
+        {
+          "Category": "Индикатор уровня топлива",
+          "Title": "Яркость следующего прыжка",
+          "File": "Advanced",
+          "Key": "w94",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость для следующего прыжка (не может сделать невидимым, становится черным на 0,0)"
+        },
+        {
+          "Category": "Индикатор уровня топлива",
+          "Title": "Режим черпака",
+          "File": "Startup-Profile",
+          "Key": "x133",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим для скорости / количества черпания, а не уровня тепла"
+        },
+        {
+          "Category": "Индикатор уровня топлива",
+          "Title": "Цвет топливной лопатки",
+          "File": "Advanced",
+          "Key": "x145|y145|z145|w145",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет топливной лопатки * Alpha"
+        },
+        {
+          "Category": "Индикаторы состояния",
+          "Title": "Режим",
+          "File": "Startup-Profile",
+          "Key": "z135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Режим индикаторов состояния (блокировка масс, шасси, грузовой ковш)."
+        },
+        {
+          "Category": "Индикаторы состояния",
+          "Title": "Цвет выключения",
+          "File": "Advanced",
+          "Key": "x217|y217|z217",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для выключенного состояния."
+        },
+        {
+          "Category": "Индикаторы состояния",
+          "Title": "Цвет включения",
+          "File": "Advanced",
+          "Key": "x218|y218|z218",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для состояния включения света."
+        },
+        {
+          "Category": "Индикаторы состояния",
+          "Title": "Яркость",
+          "File": "Advanced",
+          "Key": "w217",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Яркость индикаторов состояния"
+        }
+      ]
+    },
+    {
+      "Name": "StationsPanels",
+      "Title": "Панели кораблей и станций",
+      "Elements": [
+
+      ]
+    }
+  ],
+  "Presets": [
+    {
+      "Type": "AdvancedMode",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "AdvancedMode",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "AdvancedMode",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "ShortMode",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "ShortMode",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "NavPanel",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "NavPanel",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "Custom Single Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "Custom Bi-colour",
+      "Index": 101.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "Elite default",
+      "Index": 200.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Restricted",
+      "Index": 0.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Full",
+      "Index": 1.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Complete",
+      "Index": 2.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Space Disco",
+      "Index": 3.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "Space Grey (dark)",
+      "Index": 101.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "AHUDText",
+      "Name": "Use Main Text Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "AHUDText",
+      "Name": "Custom",
+      "Index": 101.0
+    },
+    {
+      "Type": "AHUDText",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "Custom Multi-Shield",
+      "Index": 100.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "Custom Single Color",
+      "Index": 101.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "Elite default",
+      "Index": 200.0
+    },
+    {
+      "Type": "ShieldsDown",
+      "Name": "Red - Default Elite",
+      "Index": 0.0
+    },
+    {
+      "Type": "ShieldsDown",
+      "Name": "Black - Custom",
+      "Index": 1.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Custom Single Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Custom Gradient",
+      "Index": 101.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Custom Tri-colour",
+      "Index": 102.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Elite default",
+      "Index": 200.0
+    },
+    {
+      "Type": "CausticEffect",
+      "Name": "Original Elite yellow/green colour",
+      "Index": 0.0
+    },
+    {
+      "Type": "CausticEffect",
+      "Name": "Custom Color",
+      "Index": 1.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "Use Main Text Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "Neutral target holo colour",
+      "Index": 101.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+
+    {
+      "Type": "SC_SideLines",
+      "Name": "Off",
+      "Index": 0.0
+    },
+    {
+      "Type": "SC_SideLines",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "SC_SideLines",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "SC_SideLines",
+      "Name": "Elite Default",
+      "Index": 200.0
+    }
+  ]
+}
