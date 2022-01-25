@@ -1,27 +1,41 @@
 # EDHM_UI
+[![Latest Release](https://img.shields.io/github/v/release/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/releases)
+[![Downloads](https://img.shields.io/github/downloads/BlueMystical/EDHM_UI/latest/total)](https://github.com/BlueMystical/EDHM_UI/releases)
+[![Issues](https://img.shields.io/github/issues/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/issues)
+[![Discord](https://img.shields.io/discord/773552741632180224?color=899AF9)](https://discord.gg/ZaRt6bCXvj)
+
 User Interface for Elite Dangerous HUD Mod (EDHM)
--------------------------------------------------------------------------------------------------------
 
-<a href="#"><img src="https://i.ibb.co/sFdrZJn/EDHM-UI-PREVIEW.png" alt="EDHM-UI-PREVIEW" border="0"></a>
+<img src="static/EDHM_UI_preview.png" alt="EDHM_UI Preview">
 
-Download the latest Release here:  https://github.com/BlueMystical/EDHM_UI/releases<br>
--------------------------------------------------------------------------------------------------------<br>
-This is the User Interface for the Elite Dangerous Mod EDHM.<br>
-  * The App allows the user to Change all of the Mod's options using a graphical interface so you dont have to mess directly with the files.<br>
-  * This App comes packed with the latest Mod version available so it can be used by new users to intall both the Mod and its UI.<br>
-  * App also comes packed with lots of pre-made Color Themes ready to use.<br>
-  * NEW:  Now fully compatible with both Horizons and Odyssey.<br>
--------------------------------------------------------------------------------------------------------<br>
-Mod Autor:        psychicEgg<br>
-UI Autor:         BlueMystical<br>
-<br>
-Read the https://github.com/BlueMystical/EDHM_UI/wiki
-<br><br>
-If you have questions, suggestions or comments, join our Discord: https://discord.gg/ZaRt6bCXvj
-<br><br>
-EDHM on GitHub:   https://github.com/psychicEgg/EDHM<br>
-EDHM on Reddit:   https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_dangerous_hud_mod_edhm_custom_huds_without/
-<br><br><br>
-<h2>Requeriments:</h2><br>
-The Releases are compressed with https://www.7-zip.org/<br>
-This app requires Microsoft .NET Framework 4.52 or superior. If you are on Windows 10 then you may already have it, otherwise get it from here: https://dotnet.microsoft.com/download/dotnet-framework/net452<br>
+## What is EDHM_UI?
+
+EDHM_UI is the user interface for the Elite Dangerous mod [EDHM](https://github.com/psychicEgg/EDHM) by @psychicEgg.
+
+Current features include:
+
+* Allowing the user to change all of the mods current options using a simple graphical interface.
+* Bundled with the latest EDHM version - no need to install EDHM separately.
+* Bundled with lots of pre-made, community-contributed themes.
+* Fully compatible with both Horizons and Odyssey!
+
+## Requirements
+
+EDHM_UI requires Microsoft .NET Framework version 4.52 or newer. If you are on Windows
+10, you may already have it. If you don't have it installed yet, you can get it [here](https://dotnet.microsoft.com/download/dotnet-framework/net452).
+
+## Installing EDHM_UI
+
+* Download the latest release from the [releases page](https://github.com/BlueMystical/EDHM_UI/releases).
+* Run the installer.
+* Profit!
+
+## Further reading
+
+* [EDHM_UI Wiki](https://github.com/BlueMystical/EDHM_UI/wiki)
+* [EDHM (GitHub)](https://github.com/psychicEgg/EDHM)
+* [EDHM (Reddit)](https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_dangerous_hud_mod_edhm_custom_huds_without/)
+
+## Support
+
+If you have questions, suggestions, or comments, [join our Discord](https://discord.gg/ZaRt6bCXvj)!
