@@ -1,0 +1,294 @@
+Panel (Upper)
+Chat Panel|Chat Panel Lines|Mode for Chat Panel Lines (Top Left Side)<p>Note: The colours will look slightly different to the Info Panel lines because the original Elite colours are different.
+Chat Panel|Custom Color|Custom Color for Chat Panel Lines. (*Alpha)
+Chat Panel|Chat Panel Icons|Mode for Chat Panel Icons.
+Chat Panel|Custom Color|Custom Color for Chat Panel Icons. (*Alpha)
+Info Panel|Info Panel Lines|Mode for Info Panel Lines (Top Right Side)
+Info Panel|Info Panel Lines|Custom Color for Info Panel Lines. (*Alpha)
+Info Panel|Ship Name|Text Color for the Ship's Name.
+Info Panel|Ship Name|Custom Color for the Ship's Name.
+Info Panel|Ship Name Brightness|Ship Name Brightness
+Info Panel|Ship Name Background Glow|Ship Name Background Glow
+Targeting Reticle
+Targeting Reticle|Targeting Reticle|Mode for Targeting Reticle
+Targeting Reticle|Rank Icon|Rank icon that appears next to targeted ship (neutral / orange only)
+Targeting Reticle - Components|Large Tri-bars|Custom Color for Large Tri-bars (one vertical at the top, two diagonal at the bottom). (*Alpha)
+Targeting Reticle - Components|Small Tri-bars|Custom Color for Small Tri-bars. (*Alpha)
+Targeting Reticle - Components|Large Circle|Custom Color for Large Circle. (*Alpha)
+Targeting Reticle - Components|Leading Circle|Custom Color for Leading Circle. (*Alpha)
+Targeting Reticle - Components|Weapon Dots|Custom Color for Weapon Dots. (*Alpha)
+Targeting Reticle - Components|Mouse Dot|Custom Color for Mouse Dot. (*Alpha)
+Targeting Reticle - Components|Missile Lock|Custom Color for Missile Lock (also Lift Off from planet animation) *Alpha
+Environmental and Destination Targets|Mode|Environmental and Destination (& Missile Lock) Targets Mode
+Environmental and Destination Targets|Possible Ship target|Custom Color for Possible ship target (unselected). (*Alpha)
+Environmental and Destination Targets|Possible Destination target|Custom Color for Possible destination target and relative mouse arrow. (*Alpha)
+Environmental and Destination Targets|Possible Supercruise target circle|Custom Color for Possible supercruise target circle. (*Alpha)
+Environmental and Destination Targets|Destination target circle|Custom Color for Destination target circle. (*Alpha)
+Environmental and Destination Targets|Text brightness|Destination target Text brightness (the text to the right of the circle)
+Environmental and Destination Targets|Grey Rhombus Mode|Mode for Grey Rhombus (non-biological potential target in the environment)
+Environmental and Destination Targets|Grey Rhombus Color|Custom Color for Grey Rhombus (non-biological potential target in the environment).
+Environmental and Destination Targets|Rhombus Brightness|Brightness for Grey Rhombus (non-biological potential target in the environment).
+Environmental and Destination Targets|Grey Rhombus Boost|Opacity Boost in SRV<p>A booster for the SRV has been added as the grey rhombus on a planetary surface is very weak.
+Environmental and Destination Targets|Ship Planetary Landing Text (blue)|In default Elite, the 'Ship Secured' blue text when landing is blown out.<p>Here you can reduce the brightness of this text (recommended 0.4 to 0.6)
+HUD Settings
+Main Text|Text Mode|Orange Text Colour Swap (the majority of text).
+Main Text|Text Colour|Custom Color for Global Text. *Alpha*
+Main Text|Highlighted Text Mode|Mode for Highlighted Text in all Panels.
+Main Text|Highlighted Text Colour|Custom Color for Highlighted Text in all Panels. *Alpha*
+Secondary Texts|Text Mode|Blue Text Colour Swap (around the AHUD and mission text, among others).
+Secondary Texts|Text Colour|Custom Color for Secondary Texts. *Alpha*
+Tertiary Texts|Text Mode|Yellow Text Colour Swap (OwnCarrier highlight, landing reticle text, among others).
+Tertiary Texts|Text Colour|Custom Color for Terciary Texts. *Alpha*
+Galaxy Map|Icon Mode|GalMap Icon Colour (excluding Engineering), and Travel Line colour.
+Galaxy Map|Icon Colour|Custom Color for GalMap Icon Colour. *Alpha*
+Galaxy Map|Engineering Icon Mode|GalMap Engineering Icon Mode
+Galaxy Map|Engineering Icon Colour|Custom Color for GalMap Engineering Icon Colour. *Alpha*
+Galaxy Map|System Connector Lines|Mode for System Connector Lines.<p>Note: You can turn these off in GalMap Display Options (in-game) - Bottom left row of icons.
+Galaxy Map|System Connector Lines|Custom Color for System Connector Lines. *Alpha*
+Galaxy Map|System Hats|Toogle for GalMap System Hats (semi-circles on top of star images).
+Powers and GalNet|Background Colour Mode|Mode for Powers and GalNet Background Colour.
+Powers and GalNet|Galnet Image Filter Colour|Mode for Galnet Image Filter Colour.
+Powers and GalNet|Custom Colour|Custom Color for Powers and GalNet Background Colour. *Alpha*
+Powers and GalNet|Codex filter Colour|Mode for Codex filter (also Passenger Missions) Colour.
+Powers and GalNet|Custom Colour|Custom Color for Codex, Galnet, & Powers filter Custom Colour. *Alpha*
+Powers and GalNet|Powers Panel Portrait|Mode for Powers Panel Portrait filter & Galnet image filter.<p>Note: When changing modes you need to move your cursor around the screen (in-game) to update.<p>Note: If 'True powers colours' is selected for the Powers Panel filter, the Galnet filter will use the Custom colour.
+Warnings - Speeding|Color Mode|Mode for Speeding Warning (lines only)
+Warnings - Speeding|Custom Color|Custom Color for Speeding Warning (lines only)
+Warnings - Speeding|Brightness|Brightness for Speeding Warning (lines only).
+Warnings - Remote Release Flac|Color Mode|Mode for Remote Release Flac / Flechette Launcher
+Warnings - Remote Release Flac|Custom Color|Custom Color for Remote Release Flac / Flechette Launcher.<p>Note: The red trigger signal cannot be modded at this time.<p>Brightness controls are not available as it causes a glitch between the Outer and Proximity elements; To reduce brightness, simply reduce your RGB values by the same percentage
+Warnings - Remote Release Flac|Target Proximity colour|Custom Color for Remote Release Flac / Flechette Launcher.<p>Note: The red trigger signal cannot be modded at this time.<p>Brightness controls are not available as it causes a glitch between the Outer and Proximity elements; To reduce brightness, simply reduce your RGB values by the same percentage
+Warnings - SuperCruice|FSD Charging Bar|Mode for FSD Charging Bar.
+Warnings - SuperCruice|FSD Charging Bar|Custom Color for FSD Charging Bar (*Alpha).
+Ship Panels
+Lower Panel|Panel Lines (lower)|value for your favourite Lower Panel Lines colour.
+Lower Panel|Lower Panel Lines|(*Alpha) ** (if your custom colour is close to orange, add a little blue (eg. 0.1) to avoid a glitch on the targeting panel. The targeting panel uses a colour swap technique that looks for blue = 0).
+Targeting Panel|Mode|Speed/Distance/Alignment in Supercruise. Excluding lower panel lines and text colour.<p>If your chosen colour for Supercruise Speed/Distance elements are close to orange (high red, medium green), add 0.1 blue to avoid a glitch
+Targeting Panel|Correct Target Alignment (Blocks)|Custom Color for target alignment (correct) blocks, bar and indicator light (blue sections in original Elite).
+Targeting Panel|Brightness|Brightness for Target alignment (correct)
+Targeting Panel|Divider Lines Mode|Divider Lines on Targeting Panel in Supercruise
+Targeting Panel|Divider Lines Color|Custom Color for Divider Lines on Targeting Panel in Supercruise
+Targeting Panel|Divider Lines Brightness|Brightness for Icons on Nav panel and Targeting panel
+Targeting Panel|Incorrect Target Alignment (Blocks)|Custom Color for target alignment (incorrect / not aligned) blocks and indicator light (orange sections in original Elite).
+Targeting Panel|Brightness|Brightness for Target alignment (Incorrect)
+Targeting Panel|Incorrect Target Alignment (Bar)|Custom Color for Supercruise target alignment (incorrect) bar, divider lines (between Distance/Speed/Alignment), icons. These can't be separated any further..
+Targeting Panel|Brightness|Brightness for Supercruise target alignment (incorrect) bar
+Targeting & Navigation Panels|Icons Mode|Icons on Nav panel and Targeting panel
+Targeting & Navigation Panels|Icons Color|Custom Color for Icons on Nav panel and Targeting panel
+Targeting & Navigation Panels|Icons Color (Secondary)|Applied to icons and parts of icons on Nav panel that were cyan in default Elite
+Targeting & Navigation Panels|Icons Brightness|Brightness for Icons on Nav panel and Targeting panel.<p>Applies to both the primary and secondary icon colours
+Nav Panel|Nav Panel Mode|Current Location Pin/wedge (only the Current Location Pin can be modded to a custom colour. The Destination Pin is connected to other elements/lines on the Ship Panel)
+Nav Panel|Custom Color|Custom Color for GalMap Engineering Icon Colour. *Alpha*
+Middle Panel|Middle Panel Avatar|Brightness / Transparency of the Avatar in the Middle Panel (3)
+Panel Highlight|Panel Highlight Mode|(Note: This also colours the current speed indicator, the supercruise alignment bar (when not aligned), active fuel on the fuel bar. It can't be separated unfortunately, but you can choose the colour. I recommend XML.
+Panel Highlight|Custom Color|Custom Color for target alignment (correct) blocks, bar and indicator light (blue sections in original Elite).
+Panel Highlight|Brightness|Brightness for the Panel Highlight.
+Side Panels|Main Lines|(Note: This also colours the current speed indicator, the supercruise alignment bar (when not aligned), active fuel on the fuel bar. It can't be separated unfortunately, but you can choose the colour. I recommend XML.
+Side Panels|Custom Color|Custom Color for target alignment (correct) blocks, bar and indicator light (blue sections in original Elite).
+Side Panels|Brightness|Brightness for the Side Panels Main lines.
+Ship Panels|Ship Panel Background|(set default level of opacity in Advanced.ini, works across all colour modes)
+Ship Panels|Ship Panel Background|Custom Color for Ship Panels Background
+Ship Panels|Panel Background Opacity|Opcaity (Alpha) for the Ship Panels Background.
+Ship Panels|Ship Side Panels|Option to replace CYAN elements on ship side panels.<p>Turning this ON will colour the cyan rank icons & parts of the icons on the Nav Panel with your XML, and cyan.<p>It will also change the colour of the cyan blocks on the Ship Panel Storage Tab with your panel XML colour.
+Station Panels|Panel Drawings|Art and sketches on panels
+Station Panels|Panel Drawings|Custom Color for Panel Drawings. *Alpha*
+Mission Panel|Mission Panel Mode|Affects the colour of the Mission panels on the Nav Panel, plus mission icon on the Mission Selection screen)
+Mission Panel|Custom Color|Custom Color for Mission Panels on Nav Panel, plus mission icon on the Mission Selection screen.
+Mission Panel|Brightness|Brightness for Mission Panel.
+Mission Panel|Text Mode|Mission Line on Nav Panel TEXT Colour
+Maintenance Panel|Ship sketch|Ship sketch on Advanced Maintenance Panel (Station/Carrier)
+Maintenance Panel|Custom Color|Custom Color for Ship sketch. *Alpha
+OwnCarrier Nav Panel|Panel Mode|Note: This will also change the colour of the 'Confirm items transfer' on the Ship Panel Inventory tab.
+OwnCarrier Nav Panel|Custom Color|Custom Color for Mission Panels on Nav Panel, plus mission icon on the Mission Selection screen.
+OwnCarrier Nav Panel|Brightness|Brightness for the Side Panels Main lines.
+OwnCarrier Nav Panel|Text Mode|Note: This will also change the colour of the 'Confirm items transfer' on the Ship Panel Inventory tab.
+OwnCarrier Nav Panel|Text Color|Custom Color for Mission Panels on Nav Panel, plus mission icon on the Mission Selection screen.
+Cabin Lighting
+Cabin - Cockpit Lighting|Color Mode|Mode for Cabin / Cockpit Lighting
+Cabin - Cockpit Lighting|Lighting Style|0 = Restricted (Close to Elite standard, cabin light doesn't cover the whole cockpit)<p>1 = Full (Covers more of the cockpit, relative to 'Restricted', but will exclude areas of white light)<p>2 = Complete (Covers the 'Full' areas, plus some areas of white light. Use XML mode (in Startup-Profile.ini) to see multi-colour light on some ships (the orange areas and white areas will react differently to your XML)<p>3 = Space Disco (flood light with skin contamination, whole cabin).
+Cabin - Cockpit Lighting|Custom Color|Custom Color for Cabin - Cockpit Lighting.
+AmbientLights - Bi-colour|Left Color|(Experimental) - Best to use in FULL lighting mode.
+AmbientLights - Bi-colour|Right Color|Second colour (this colour is added to the Base colour on the right-hand side of the cockpit.
+Cabin - Cockpit Lighting|Overall Brightness|Overall Brightness (for all lighting styles).
+Special Efects
+Space FX|Supercruise SideLines|Switch for Remove Supercruise SideLines
+Space FX|SC_SideLines Color|Custom Color for Supercruise SideLines.
+Space FX|SC_SideLines Brightness|Brightness for Supercruise SideLines.
+Space FX|Supercruise Snow|Switch for Remove Supercruise Snow
+Space FX|Space Dust|Switch for Space Dust (aka Snow in normal flight)
+Orbital / Gravity / Exclusion zone Lines|Orbital Lines Mode|Mode for Orbital, Gravity and Exclusion zone Lines
+Orbital / Gravity / Exclusion zone Lines|Orbit Lines Color|Custom Color for Orbit Lines.
+Orbital / Gravity / Exclusion zone Lines|Orbit Lines Brightness|Brightness for Orbit Lines.
+Orbital / Gravity / Exclusion zone Lines|Gravity Well Lines Color|Custom Color for Gravity Well Lines.
+Orbital / Gravity / Exclusion zone Lines|Gravity Well Lines Brightness|Brightness for Gravity Well Lines.
+Orbital / Gravity / Exclusion zone Lines|Exclusion Zone Lines Color|Custom Color for Exclusion Zone Lines.
+Orbital / Gravity / Exclusion zone Lines|Exclusion Zone Lines Brightness|Brightness for Exclusion Zone Lines.
+Orbital / Gravity / Exclusion zone Lines|Orbital Cruise Lines Color|Custom Color for Orbital Cruise Lines.
+Orbital / Gravity / Exclusion zone Lines|Orbital Cruise Lines Brightness|Brightness for Orbital Cruise Lines.
+Night Vision|Night Vision Mode|Mode for Night Vision
+Night Vision|Night Vision Color|Custom Color for Night Vision.
+Night Vision|Night Vision Brightness|Brightness for Night Vision.
+Night Vision|PWA Asteroid Glow Mode|Mode for Pulse Wave Analyser Asteroid Glow
+Night Vision|PWA Asteroid Glow Color|Custom Color for PWA Asteroid Glow.
+Night Vision|PWA Asteroid Glow Brightness|Brightness for PWA Asteroid Glow.
+Night Vision|PWA Wavefront Mode|Mode for Pulse Wave Analyser Wavefront
+Night Vision|PWA Wavefront Color|Custom Color for PWA Wavefront.
+Night Vision|PWA Wavefront Brightness|Brightness for PWA Wavefront.
+Combat & Analysis HUD
+Combat HUD|Combat HUD Mode|** Combat HUD (CHUD) MODE ** <p> For a standard CHUD, Set Colour 2 RGB(0,0,0) and Fade Strength = 0<p> For a single colour Bird-of-Prey CHUD, Set Colour 2 RGB(0,0,0) and your preferred Fade Strength (0.7 is a nice balance)<p> For a synthwave (dual-colour) CHUD, Set Colour 2 RGB to your preference, and Fade Strenth = 1
+Combat HUD|Colour 1|Custom Color for Combat HUD - Color 1 (Top colour).
+Combat HUD|Colour 1 - Brightness|Brightness for Color 1 (Top colour).
+Combat HUD|Colour 2|Custom Color for Combat HUD - Colour 2 (Bottom colour).
+Combat HUD|Fade Strength|Fade Strength (or Synthwave Colour Balance: > 1 = more Second Colour, < 1 = less Second Colour).
+Combat HUD|Ammunition Colour|Custom Color for Combat HUD - Ammunition.
+Combat HUD|Ammunition Brightness|Brightness for Ammunition.
+Analysis HUD|Analysis HUD Mode|Radar Mode
+Analysis HUD|Analysis HUD|Custom Color for Analysis HUD. (*Alpha)
+Analysis HUD|Targeting Reticle|Custom Color for Analysis mode reticle when in Combat mode. (*Alpha)
+Analysis HUD|AHUD Text Mode|Mode for Texts around AHUD.
+Analysis HUD|AHUD Text Colour|Custom Color for Texts around AHUD. *Alpha*
+On Foot HUD
+Suit HUD - Panel|Panel Mode|Note: XML (will be faking an orange base to match ship HUD).
+Suit HUD - Panel|Panel Colour|Custom Color for On-foot Panel.
+Suit HUD - Panel|Panel Opacity|Brightness for On-foot Panel.
+Suit HUD - Shield|Shield Mode|Color Mode for Shields
+Suit HUD - Shield|Inner Ring|Custom Color for On-foot Shield Inner Ring (*alpha).
+Suit HUD - Shield|Middle Ring|Custom Color for On-foot Shield Middle Ring (*alpha).
+Suit HUD - Shield|Outer Ring|Custom Color for On-foot Shield Outer Ring (*alpha).
+Suit HUD - Shield|Shield Down Color|Custom Color for On-foot Shield Down (*alpha).
+Suit HUD - Shield|Shield Restoring|Custom Color for On-foot Shield Restoring Animation (*alpha).
+Suit HUD - Texts|Texts Mode|Note: XML (will be faking an orange base to match ship HUD).
+Suit HUD - Texts|Texts Colour|Custom Color for On-foot Texts. (*Alpha)
+Suit HUD - Texts|Highlighted Mode|Highlighted / inverted text and icon color.
+Suit HUD - Texts|Highlighted Colour|Custom Color for On-foot Highlighted Texts. (*Alpha)
+Shield & Holo Ship
+Shields|Shield Mode|Note: Multi-shield only works at resolutions >= 2560x1440, may work at 1920x1080. Applied to self and target.
+Shields|Shield Percentage % Colour|Custom Color for Shield Percentage %
+Multi-Shield|Inner Ring|Inner Ring Color, Only for Multi-Shield. (Alpha)
+Multi-Shield|Middle Ring|Middle Ring Color, Only for Multi-Shield. (Alpha)
+Multi-Shield|Outer Ring|Outer Ring Color, Only for Multi-Shield. (Alpha)
+Single-Shield|Shields Down|Single Color Shield - Shield Down Color .
+Single-Shield|Shields Up|Shield Up Colour (relative to Shield Down colour).
+Single-Shield|Brightness|Overall Shields Brightness/Alpha (Single Mode)
+Single-Shield|Ring Thickness|Overall Shields Brightness/Alpha (Single Mode)
+Circular Swirls|Top Swirls - Mode|Circular Swirls under Holos
+Circular Swirls|Top Swirls - Color|Custom Color for Circular Swirls under Holos
+Circular Swirls|Top Swirls - Brightness|Brightness for Top Swirls
+Circular Swirls|Middle Swirls - Mode|Status bars under shield
+Circular Swirls|Middle Swirls - Color|Custom color for Status Bars
+Circular Swirls|Middle Swirls - Brightness|Status Bars Brightness
+Circular Swirls|Bottom Swirls - Mode|Thin semi-circles at bottom of hologram
+Circular Swirls|Bottom Swirls - Color|Custom Color for Thin semi-circles at bottom of hologram. *Alpha
+Hull Gauge|Color Mode|Blocks for Hull Health, including target
+Hull Gauge|Custom Color|Custom color for Blocks under shield, including target.
+Hull Gauge|Brightness|Brightness for Blocks under shield
+Hull Gauge|Hull Gauge - Shading|Shading multiplier (Only aplies to the shaded mode)
+Hull Gauge|Caustic Affected Hull|Blocks for Hull Health, including target
+Hull Gauge|Caustic Affected Hull Color|Custom color for Caustic Affected Hull Bars.
+OwnShip Hologram|Hologram - Mode|OwnShip Hologram Mode<p>Also includes landing hologram, SRV hologram, SRV terrain on radar
+OwnShip Hologram|Hologram - Color|Custom color for OwnShip Hologram
+OwnShip Hologram|Hologram - Brightness|Brightness for Hologram's Hull<p>For Ultra-tron, set Hull brightness low (eg. 0), and Outer Lines bloom high (eg. 0.5)
+OwnShip Hologram|Hologram - Bloom|Holo bloom / glow
+OwnShip Hologram|Outer Lines bloom|Outer Lines bloom / glow (default= 0) (This value can be negative, such as -0.5)
+OwnShip Hologram|Overall Brightness|Overall brightness of hologram
+OwnShip Hologram|Shimmering lines|Switch for OwnShip Hologram Shimmer
+Target Ship Hologram|Neutral Target|Custom color for OwnShip Hologram
+Target Ship Hologram|Neutral Target - Brightness|Brightness for Hologram's Hull<p>For Ultra-tron, set Hull brightness low (eg. 0), and Outer Lines bloom high (eg. 0.5)
+Target Ship Hologram|Overall Brightness|Brightness for Hologram
+Target Ship Hologram|Green Target Brightness|Bright Green Target Holo Brightness (some green holograms have excessive brightness)
+Target Ship Hologram|Shimmering lines|Switch for Target Hologram Shimmer
+Landing Hologram|OFF landing site|Custom color for Landing Hologram
+Landing Hologram|ON landing site|Custom color for ON landing site
+Landing Hologram|Brightness|Brightness for Landing Hologram
+Planetary Landing Reticle|Color Mode|Planetary Landing Reticle - Bearing and descent angle bars
+Planetary Landing Reticle|Custom Color|Custom Color for Planetary Landing Reticle.
+Planetary Landing Reticle|Landing line and coasters|Custom color for Landing line and coaster (orange)*Alpha
+Planetary Landing Reticle|Altitude Bar|Custom color for Landing line and coaster (orange)*Alpha
+Planetary Landing Reticle|Text Color|Custom color for Text in reticle boxes *Alpha
+Planetary Landing Reticle|Text Brightness|Text Brightness Along the Altitude Bar (tends to be blown out around the reticle)
+Planetary Landing Reticle|Text Brightness|Text Brightness for Longitude / Latitude Coordinates, Gravity
+SRV Hologram|SRV Hologram - Main|**(DISABLED)** Custom color for SRV Hologram (*Alpha)
+SRV Hologram|SRV Hologram - Small|Custom color for SRV Hologram.<p>Alpha (is a % of the Main Hologram alpha)
+Radar & Common Group
+Ship Radar|Radar Mode|Radar Mode
+Ship Radar|Radar Outer Rim|Outer Radar Components Custom Color.
+Ship Radar|Outer Rim Brightness|Outer Radar Brightness (normal range is between 0.3 and 1.0, but you can go higher)
+Radar Grid|Color|Custom Color for Radar Grid .
+Radar Grid|Brightness|Brightness for Radar Grid
+Radar Triangle Widget|Mode|Radar Triangle Widget Mode
+Radar Triangle Widget|Custom Color|Custom Color for Triangle Radar Widget. (*Alpha)
+Radar Zoom Widget|Mode|Mode for Radar zoom level lines
+Radar Zoom Widget|Custom Color|Custom Color for Radar Zoom Widget. (*Alpha)
+Radar Zoom Widget|Level lines|Radar zoom level lines Custom Color.
+Radar Zoom Widget|Level lines Brightness|Radar zoom level lines Brightness
+Radar Objects - Supercruice|Radar Bodies in Supercruice|Mode for Radar Bodies in Supercruice
+Radar Objects - Supercruice|Radar - Planets|Custom Color for Radar Bodies in Supercruise. (* With Alpha)
+Radar Objects - Supercruice|Radar - Moons|Custom Color for Radar Bodies in Supercruise. (* With Alpha)
+Radar Objects - Supercruice|Radar - Stars|Custom Color for Radar Bodies in Supercruise. (* With Alpha)
+Radar Objects - Supercruice|Neutral Targets - Lines|Custom Color for Object Lines and coasters in Supercruise.
+Radar Objects|Radar Objects|Mode for Radar Objects in Normal Flight
+Radar Objects|White Objects|Switch for White objects on the radar (wakes, materials, salvage etc) in standard flight (not supercruise)
+Radar Objects|Radar - Neutral Targets|ORANGE Squares in both flight modes; Orange object lines and coasters in normal flight.<p>* Alpha
+Radar Objects|Radar - Friendly Targets|GREEN Squares, Lines, and Coasters in both flight modes.<p>* Alpha
+Radar Objects|Radar - Hostile Targets|RED Squares, Lines, and Coasters in both flight modes.<p>* Alpha
+Radar Outer Components|Color Mode|Mode for Heat Bar and Speed Bar
+Radar Outer Components|Custom Color|Outer Radar Components Custom Color.
+Radar Outer Components|Bar Booster|Bar Booster (increases the brightness of the main Speed and Heat bars background)
+Radar Outer Components|Brightness|Overall Brightness (of all Outer Radar Components)
+Optimal Speed Bar|Custom Color|Optimal Speed Bar Colour (values are relative to Main Colour; can be negative to reduce a colour from the Main Colour)
+Radar Objects|Radar Objects - Landing|Mode for Radar Objects while Landing, line and coaster
+Radar Objects|Radar Objects - Landing|Custom Color for Terrain While landing on a planet.
+SRV Scanner|SRV Scanner|SRV Scanner Colour
+SRV Scanner|SRV Scanner - Primary Colour|SRV Scanner Primary Colour, object detection colour.
+SRV Scanner|SRV Scanner - Secondary Colour|SRV Scanner Secondary Colour, scanner sweep colour.
+SRV Scanner|Overall Alpha|SRV Scanner - Overall Alpha
+SRV Scanner|Terrain Hologram on radar|Custom Color for Terrain Hologram on Radar (While in SRV).
+SRV Scanner|SRV Scanner Elevation|Mode for SRV Radar Elevation diagonal lines
+SRV Scanner|SRV Scanner Elevation|Custom Color for SRV Radar Elevation diagonal lines. *Alpha*
+SRV Scanner|SRV Turret Mode|SRV Turret, Small image of SRV on radar, plus misc elements
+SRV Scanner|SRV Turret Color|Custom Color for SRV Turret, Small image of SRV on radar, plus misc elements. *Alpha*
+SRV Scanner|Brightness|SRV Turret, Distributor Brightness Boost.<p>FDev applies an odd colour dampening filter to the SRV Turret screen.<p>Use this value to boost the colour of the distributor (it won't look exactly the same as the ship/SRV distributor due to the filter)
+Compass|Color Mode|Compass Colour
+Compass|Custom Color|Compass Custom Color.
+Compass|Brightness|Compass Background Booster
+Compass|Compass Dot|Compass Dot Custom Color.
+Compass|Compass Dot Brightness|Compass Dot Brightness<p>(Note: This element behaves a little differently to others. Recommended minimum is 0.7 brightness)
+Power Distributor
+Power Distributor|Mode|Power Distributor Mode
+Power Distributor|Top Block Color|Custom Color for Top Block of Tri-Colour Distributor, or Standard (single colour)
+Power Distributor|Top Block Brightness|Brightness for Top Block of Tri-Colour Distributor, or Standard (single colour)
+Tri-Colour Distributor|Middle Block Color|Custom Color values for Middle block of Tri-Distributor.
+Tri-Colour Distributor|Middle Block Brightness|Brightness (alpha) for Middle block
+Tri-Colour Distributor|Bottom Block Color|Custom Color values for Bottom block of Tri-Distributor.
+Tri-Colour Distributor|Bottom Block Brightness|Brightness for Bottom block
+Gradient Distributor|Color 1|Custom Color for Colour 1: Top Colour of Gradient Distributor.
+Gradient Distributor|Dominance 1|Colour 1 dominance (values > 1.0 will increase dominance, values < 1.0 will decrease dominance)
+Gradient Distributor|Color 2|Custom Color for Colour 2: Bottom colour of Gradient Distributor.
+Gradient Distributor|Brightness|Overall Brightness of the Gradient Distributor
+Power Distributor - Pips|Pips Mode|Power Distributor Pips Mode
+Power Distributor - Pips|Pips Color|Custom Color for Power Distributor Pipsr.
+Power Distributor - Pips|Brightness|Brightness for Power Distributor Pips
+Power Distributor - Pips|Non-active pip booster|Brightness for inactive Pips.
+Selection Blocks|Mode|Distributor Selection Blocks Mode
+Selection Blocks|Custom Color|Custom Color for Distributor Selection Blocks.
+Selection Blocks|Brightness|Brightness for Distributor Selection Blocks
+RST (Reset) Bars|Mode|RST bars [..] under distributor
+RST (Reset) Bars|Custom Color|Custom Color for RST bars under distributor.
+RST (Reset) Bars|Brightness|Brightness for RST Bars
+Signature & Fuel Bars
+Signature Bar|Mode|Signature Bar Mode
+Signature Bar|Primary Colour|Primary Colour, outer part of signal
+Signature Bar|Secondary Colour|Secondary Colour, middle of signal (relative to Primary Colour)
+Signature Bar|Overall Alpha|Overall Alpha (Transparency) for the Signature Bar
+Fuel Bar|Fuel Bar Mode|Fuel Bar Mode
+Fuel Bar|Custom Color|Custom Colour for Fuel Bar
+Fuel Bar|Brightness|Brightness for Fuel Bar
+Fuel Bar|Fuel for next jump|(must have a system programmed into your Nav computer to see this element)
+Fuel Bar|Next jump Brightness|Brightness for Next jump, (cannot make invisible, turns black at 0.0)
+Fuel Bar|Fuel Scoop Mode|Mode for scooping rate / amount, not heat level
+Fuel Bar|Fuel Scoop Color|Custom Colour for Fuel Scoop *Alpha
+Status Lights|Mode|Mode for Status Lights (Mass Lock, Landing Gear, Cargo Scoop).
+Status Lights|Off Color|Custom Color for Light Off State.
+Status Lights|ON Color|Custom Color for Light ON State.
+Ship & Stations Panels
+|293

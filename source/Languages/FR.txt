@@ -1,0 +1,257 @@
+Panneau (supérieur)
+Panneau de discussion|Lignes du panneau de discussion|Mode pour les lignes du panneau de discussion (côté supérieur gauche)<p>Remarque : Les couleurs seront légèrement différentes des lignes du panneau d'informations car les couleurs Elite d'origine sont différentes.
+Panneau de discussion|Couleur personnalisée|Couleur personnalisée pour les lignes du panneau de discussion. (*Alpha)
+Panneau de discussion|Icônes du panneau de discussion|Mode pour les icônes du panneau de discussion.
+Panneau de discussion|Couleur personnalisée|Couleur personnalisée pour les icônes du panneau de discussion. (*Alpha)
+Panneau d'informations|Lignes du panneau d'informations|Mode pour les lignes du panneau d'informations (côté supérieur droit)
+Panneau d'informations|Lignes du panneau d'informations|Couleur personnalisée pour les lignes du panneau d'informations. (*Alpha)
+Panneau d'informations|Nom du navire|Couleur du texte pour le nom du navire.
+Panneau d'informations|Nom du navire|Couleur personnalisée pour le nom du navire.
+Panneau d'informations|Luminosité du nom du navire|Luminosité du nom du navire
+Panneau d'informations|Lueur d'arrière-plan du nom du navire|Lueur d'arrière-plan du nom du navire
+Réticule de ciblage
+Réticule de ciblage|Réticule de ciblage|Mode de réticule de ciblage
+Réticule de ciblage|Icône de rang|Icône de rang qui apparaît à côté du vaisseau ciblé (neutre/orange uniquement)
+Réticule de ciblage - Composants|Grandes Tri-bars|Couleur personnalisée pour les grandes Tri-bars (une verticale en haut, deux en diagonale en bas). (*Alpha)
+Réticule de ciblage - Composants|Petits Tri-bars|Couleur personnalisée pour les petits Tri-bars. (*Alpha)
+Réticule de ciblage - Composants|Grand cercle|Couleur personnalisée pour grand cercle. (*Alpha)
+Réticule de ciblage - Composants|Cercle principal|Couleur personnalisée pour le cercle principal. (*Alpha)
+Réticule de ciblage - Composants|Points d'arme|Couleur personnalisée pour les points d'arme. (*Alpha)
+Réticule de ciblage - Composants|Point de souris|Couleur personnalisée pour le point de souris. (*Alpha)
+Réticule de ciblage - Composants|Verrouillage du missile|Couleur personnalisée pour le verrouillage du missile (également décollé de l'animation de la planète) *Alpha
+Cibles environnementales et de destination|Mode|Mode Cibles environnementales et de destination (& Missile Lock)
+Cibles environnementales et de destination|Cible de navire possible|Couleur personnalisée pour la cible de navire possible (non sélectionnée). (*Alpha)
+Cibles environnementales et de destination|Cible de destination possible|Couleur personnalisée pour la cible de destination possible et la flèche relative de la souris. (*Alpha)
+Cibles environnementales et de destination|Cercle cible Supercruise possible|Couleur personnalisée pour cercle cible supercruise possible. (*Alpha)
+Cibles environnementales et de destination|Cercle cible de destination|Couleur personnalisée pour le cercle cible de destination. (*Alpha)
+Cibles environnementales et de destination|Luminosité du texte|Cible de destination Luminosité du texte (le texte à droite du cercle)
+Cibles environnementales et de destination|Mode Grey Rhombus|Mode pour Grey Rhombus (cible potentielle non biologique dans l'environnement)
+Cibles environnementales et de destination|Couleur Grey Rhombus|Couleur personnalisée pour Grey Rhombus (cible potentielle non biologique dans l'environnement). (*Alpha)
+Cibles environnementales et de destination|Augmentation du losange gris|Augmentation de l'opacité dans SRV
+Cibles environnementales et de destination|Texte d'atterrissage planétaire du navire (bleu)|Dans Elite par défaut, le texte bleu "Ship Secured" lors de l'atterrissage est soufflé.<p>Ici, vous pouvez réduire la luminosité de ce texte (recommandé de 0,4 à 0,6)
+Paramètres HUD
+Texte principal|Mode texte|Echange de couleur de texte orange (la majorité du texte).
+Texte principal|Couleur du texte|Couleur personnalisée pour le texte global. *Alpha*
+Texte principal|Mode texte en surbrillance|Mode pour le texte en surbrillance dans tous les panneaux.
+Texte principal|Couleur du texte en surbrillance|Couleur personnalisée pour le texte en surbrillance dans tous les panneaux. *Alpha*
+Textes secondaires|Mode texte|Échange de couleur de texte bleu (autour de l'AHUD et du texte de la mission, entre autres).
+Textes secondaires|Couleur du texte|Couleur personnalisée pour les textes secondaires. *Alpha*
+Textes tertiaires|Mode texte|Échange de couleur de texte jaune (surbrillance OwnCarrier, texte de réticule d'atterrissage, entre autres).
+Textes tertiaires|Couleur du texte|Couleur personnalisée pour les textes tertiaires. *Alpha*
+Carte Galaxy|Mode Icône|Couleur de l'icône GalMap (hors ingénierie) et couleur de la ligne de voyage.
+Carte Galaxy|Couleur de l'icône|Couleur personnalisée pour la couleur de l'icône GalMap. *Alpha*
+Carte Galaxy|Mode Icône d'Ingénierie|Mode Icône d'Ingénierie GalMap
+Carte Galaxy|Couleur de l'icône d'ingénierie|Couleur personnalisée pour la couleur de l'icône d'ingénierie GalMap. *Alpha*
+Avertissements - Excès de vitesse|Mode couleur|Mode d'avertissement d'excès de vitesse (lignes uniquement)
+Avertissements - Excès de vitesse|Couleur personnalisée|Couleur personnalisée pour l'avertissement d'excès de vitesse (lignes uniquement)
+Avertissements - Excès de vitesse|Luminosité|Luminosité pour l'avertissement d'excès de vitesse (lignes uniquement).
+Avertissements - Déclenchement à distance Flac|Mode couleur|Mode de déclenchement à distance Flac/Fléchette Launcher
+Avertissements - Remote Release Flac|Custom Color|Custom Color for Remote Release Flac / Flechette Launcher.<p>Remarque : Le signal de déclenchement rouge ne peut pas être modifié pour le moment.<p>Les commandes de luminosité ne sont pas disponibles car elles provoquent un problème entre le Éléments extérieurs et de proximité ; Pour réduire la luminosité, réduisez simplement vos valeurs RVB du même pourcentage
+Avertissements - Remote Release Flac|Couleur de proximité cible|Couleur personnalisée pour Remote Release Flac / Flechette Launcher.<p>Remarque : Le signal de déclenchement rouge ne peut pas être modifié pour le moment.<p>Les contrôles de luminosité ne sont pas disponibles car il provoque un problème entre les éléments Extérieur et Proximité ; Pour réduire la luminosité, réduisez simplement vos valeurs RVB du même pourcentage
+Panneau (inférieur)
+Panneau inférieur|Lignes du panneau (inférieur)|valeur pour votre couleur préférée des lignes du panneau inférieur.
+Panneau inférieur|Lignes du panneau inférieur|(*Alpha) ** (si votre couleur personnalisée est proche de l'orange, ajoutez un peu de bleu (par exemple 0,1) pour éviter un problème sur le panneau de ciblage. Le panneau de ciblage utilise une technique d'échange de couleur qui cherche bleu = 0).
+Panneau de ciblage|Mode|Vitesse/Distance/Alignement en Supercruise. À l'exclusion des lignes du panneau inférieur et de la couleur du texte.<p>Si la couleur que vous avez choisie pour les éléments Supercruise Speed/Distance est proche de l'orange (rouge vif, vert moyen), ajoutez 0,1 bleu pour éviter un problème.
+Panneau de ciblage|Alignement correct de la cible (blocs)|Couleur personnalisée pour les blocs d'alignement de la cible (corrects), la barre et le voyant (sections bleues dans l'Elite d'origine).
+Panneau de ciblage|Luminosité|Luminosité pour l'alignement de la cible (correct)
+Panneau de ciblage|Mode Lignes de séparation|Lignes de séparation sur le panneau de ciblage dans Supercruise
+Panneau de ciblage|Couleur des lignes de séparation|Couleur personnalisée pour les lignes de séparation sur le panneau de ciblage dans Supercruise
+Panneau de ciblage|Luminosité des lignes de séparation|Luminosité des icônes sur le panneau de navigation et le panneau de ciblage
+Panneau de ciblage|Alignement de cible incorrect (blocs)|Couleur personnalisée pour les blocs d'alignement de cible (incorrects / non alignés) et le voyant (sections orange dans Elite d'origine).
+Panneau de ciblage|Luminosité|Luminosité pour l'alignement de la cible (incorrect)
+Panneau de ciblage|Alignement de cible incorrect (barre)|Couleur personnalisée pour la barre d'alignement de la cible Supercruise (incorrecte), lignes de séparation (entre Distance/Vitesse/Alignement), icônes. Ceux-ci ne peuvent plus être séparés.
+Panneau de ciblage|Luminosité|Luminosité pour la barre d'alignement de la cible Supercruise (incorrecte)
+Panneau de ciblage|Mode icônes|Icônes sur le panneau de navigation et le panneau de ciblage
+Panneau de ciblage|Couleur des icônes|Couleur personnalisée pour les icônes des panneaux de navigation et de ciblage
+Panneau de ciblage|Luminosité des icônes|Luminosité des icônes sur le panneau de navigation et le panneau de ciblage
+Panneau du milieu|Avatar du panneau du milieu|Luminosité/Transparence de l'avatar dans le panneau du milieu (3)
+Surbrillance du panneau|Mode de surbrillance du panneau|(Remarque : Cela colore également l'indicateur de vitesse actuelle, la barre d'alignement de supercruise (lorsqu'elle n'est pas alignée), le carburant actif sur la barre de carburant. Il ne peut malheureusement pas être séparé, mais vous pouvez choisir la couleur. Je recommande XML.
+Surbrillance du panneau|Couleur personnalisée|Couleur personnalisée pour les blocs d'alignement cible (corrects), la barre et le voyant (sections bleues dans l'Elite d'origine).
+Surbrillance du panneau|Luminosité|Luminosité pour la surbrillance du panneau.
+Panneaux latéraux|Lignes principales|(Remarque : Cela colore également l'indicateur de vitesse actuelle, la barre d'alignement de supercruise (lorsqu'elle n'est pas alignée), le carburant actif sur la barre de carburant. Il ne peut malheureusement pas être séparé, mais vous pouvez choisir la couleur. Je recommander XML.
+Panneaux latéraux|Couleur personnalisée|Couleur personnalisée pour les blocs d'alignement cible (corrects), la barre et le voyant (sections bleues dans l'Elite d'origine).
+Panneaux latéraux|Luminosité|Luminosité pour les lignes principales des panneaux latéraux.
+Panneau de navigation|Mode panneau de navigation|Broche/coin d'emplacement actuel (seule la broche d'emplacement actuel peut être modifiée en une couleur personnalisée. La broche de destination est connectée à d'autres éléments/lignes sur le panneau du navire)
+Panneau de navigation|Couleur personnalisée|Couleur personnalisée pour la couleur de l'icône GalMap Engineering. *Alpha*
+Panneau de mission|Mode panneau de mission|Affecte la couleur des panneaux de mission sur le panneau de navigation, ainsi que l'icône de mission sur l'écran de sélection de mission)
+Panneau de mission|Couleur personnalisée|Couleur personnalisée pour les panneaux de mission sur le panneau de navigation, plus icône de mission sur l'écran de sélection de mission.
+Panneau de maintenance|Croquis du navire|Croquis du navire sur le panneau de maintenance avancé (station/transporteur)
+Panneau de maintenance|Couleur personnalisée|Couleur personnalisée pour le croquis du navire. *Alpha
+Éclairage de la cabine
+Cabine - Éclairage du cockpit|Mode couleur|Mode pour l'éclairage de la cabine / du cockpit
+Cabine - Éclairage du cockpit|Style d'éclairage|0 = Restreint (Proche de la norme Elite, l'éclairage de la cabine ne couvre pas l'ensemble du cockpit)<p>1 = Complet (Couvre davantage le cockpit, par rapport à « Restricted », mais exclura des zones de lumière blanche)<p>2 = Complète (Couvre les zones 'Complètes', plus certaines zones de lumière blanche. Utilisez le mode XML (dans Startup-Profile.ini) pour voir la lumière multicolore sur certains navires (les zones oranges et les zones blanches réagiront différemment à votre XML)<p>3 = Space Disco (projecteur avec contamination de la peau, cabine entière).
+Cabine - Éclairage du cockpit|Couleur personnalisée|Couleur personnalisée pour la cabine - Éclairage du cockpit.
+Cabine - Éclairage du cockpit|Luminosité|Luminosité pour la cabine - Éclairage du cockpit.
+AmbientLights - Bicolore|Couleur gauche|(Expérimental) - Il est préférable d'utiliser le mode d'éclairage COMPLET.
+AmbientLights - Bicolore|Couleur de droite|cette couleur est ajoutée à la couleur de base sur le côté droit du cockpit.
+AmbientLights - Bicolore|Luminosité|Luminosité pour AmbientLights - Bicolore.
+Panneaux de navire|Arrière-plan du panneau de navire|(définir le niveau d'opacité par défaut dans Advanced.ini, fonctionne dans tous les modes de couleur)
+Panneaux de navire|Arrière-plan du panneau de navire|Couleur personnalisée pour l'arrière-plan du panneau de navire et l'opacité'. *Alpha*
+Panneaux de navire|Opacité d'arrière-plan du panneau|Opcaité (alpha) pour l'arrière-plan des panneaux de navire.
+Panneaux de station|Dessins de panneaux|Art et croquis sur panneaux
+Panneaux de station|Dessins de panneau|Couleur personnalisée pour les dessins de panneau. *Alpha*
+Effets spéciaux
+Effets spatiaux|Supercruise SideLines|Commutateur pour supprimer les Supercruise SideLines
+Effets spatiaux|Supercruise Snow|Commutateur pour supprimer Supercruise Snow
+Effets spatiaux|Space Dust|Switch for Space Dust (alias Snow en vol normal)
+HUD de combat et d'analyse
+HUD de combat|Combat HUD Mode|** Combat HUD (CHUD) MODE ** <p> Pour un CHUD standard, définissez la couleur 2 RVB (0,0,0) et la force de fondu = 0<p> Pour un oiseau d'une seule couleur- of-Prey CHUD, Set Color 2 RGB (0,0,0) et votre force de fondu préférée (0,7 est un bon équilibre)<p> Pour un synthwave (bicolore) CHUD, Set Color 2 RGB selon vos préférences, et Force de fondu = 1
+HUD de combat|Couleur 1|Couleur personnalisée pour Combat HUD - Couleur 1 (Couleur du haut).
+HUD de combat|Couleur 1 - Luminosité|Luminosité pour la couleur 1 (couleur supérieure).
+HUD de combat|Couleur 2|Couleur personnalisée pour Combat HUD - Couleur 2 (couleur du bas).
+HUD de combat|Force de fondu|Force de fondu (ou Balance des couleurs Synthwave : > 1 = plus de deuxième couleur, < 1 = moins de deuxième couleur).
+HUD de combat|Couleur des munitions|Couleur personnalisée pour Combat HUD - Munitions.
+HUD de combat|Luminosité des munitions|Luminosité des munitions.
+HUD d'analyse|Mode HUD d'analyse|Mode radar
+HUD d'analyse|Analyse HUD|Couleur personnalisée pour l'analyse HUD. (*Alpha)
+HUD d'analyse|Réticule de ciblage|Couleur personnalisée pour le réticule du mode Analyse en mode Combat. (*Alpha)
+HUD d'analyse|Mode texte AHUD|Mode pour les textes autour de l'AHUD.
+HUD d'analyse|Couleur du texte AHUD|Couleur personnalisée pour les textes autour de l'AHUD. *Alpha*
+À pied HUD
+Costume HUD - Panneau|Mode Panel|Remarque : XML (fabriquera une base orange pour correspondre au HUD du navire).
+Costume HUD - Panneau|Couleur du panneau|Couleur personnalisée pour le panneau sur pied.
+Costume HUD - Panneau|Opacité du panneau|Luminosité pour le panneau sur pied.
+Costume HUD - Panneau|Panneaux latéraux du navire|Option pour remplacer les éléments CYAN sur les panneaux latéraux du navire.<p>Activer cette option colorera les icônes de rang cyan et certaines parties des icônes sur le panneau de navigation avec votre XML et cyan.<p> Cela changera également la couleur des blocs cyan sur l'onglet Ship Panel Storage avec la couleur XML de votre panneau.
+Costume HUD - Bouclier|Mode Bouclier|Mode Couleur pour Boucliers
+Costume HUD - Bouclier | Anneau intérieur | Couleur personnalisée pour l'anneau intérieur du bouclier à pied (* alpha).
+Costume HUD - Bouclier | Anneau central | Couleur personnalisée pour l'anneau central du bouclier à pied (* alpha).
+Costume HUD - Bouclier | Anneau extérieur | Couleur personnalisée pour l'anneau extérieur du bouclier à pied (* alpha).
+Costume HUD - Bouclier|Couleur du duvet du bouclier|Couleur personnalisée pour le duvet du bouclier à pied (*alpha).
+Costume HUD - Bouclier|Restauration de bouclier|Couleur personnalisée pour l'animation de restauration de bouclier à pied (*alpha).
+Costume HUD - Textes|Texts Mode|Remarque : XML (fabriquera une base orange pour correspondre au HUD du navire).
+Costume HUD - Textes|Couleur des textes|Couleur personnalisée pour les textes à pied. (*Alpha)
+Costume HUD - Textes|Mode surligné|Texte surligné / inversé et couleur de l'icône.
+Costume HUD - Textes|Couleur surlignée|Couleur personnalisée pour les textes surlignés à pied. (*Alpha)
+Bouclier et Holo Navire
+Boucliers|Mode Bouclier|Remarque : le multi-bouclage ne fonctionne qu'à des résolutions >= 2560x1440, peut fonctionner à 1920x1080. Appliqué à soi et à la cible.
+Boucliers|Pourcentage de bouclier % Couleur|Couleur personnalisée pour le pourcentage de bouclier %
+Boucliers|Pourcentage de bouclier - Luminosité|Luminosité pour le texte de pourcentage de bouclier
+Bouclier multicolore|Inner Ring|Couleur de la bague intérieure, uniquement pour Multi-Shield. (Alpha)
+Bouclier multicolore|Anneau du milieu|Couleur de l'anneau du milieu, uniquement pour le multi-blindage. (Alpha)
+Bouclier multicolore|Anneau extérieur|Couleur de la bague extérieure, uniquement pour Multi-Shield. (Alpha)
+Bouclier simple|Boucliers vers le bas|Bouclier unicolore - Couleur du bouclier vers le bas .
+Bouclier simple|Shields Up|Shield Up Color (par rapport à la couleur Shield Down).
+Bouclier simple|Luminosité|Global Shields Brightness/Alpha (Single Mode)
+Bouclier simple|Epaisseur de l'anneau|Luminosité globale des boucliers/Alpha (mode unique)
+Tourbillons circulaires|Top Swirls - Mode|Tourbillons circulaires sous Holos
+Tourbillons circulaires|Top Swirls - Couleur|Couleur personnalisée pour les tourbillons circulaires sous Holos
+Tourbillons circulaires|Top Swirls - Luminosité|Luminosité pour Top Swirls
+Tourbillons circulaires|Tourbillons moyens - Mode|Barres d'état sous le bouclier
+Tourbillons circulaires|Tourbillons moyens - Couleur|Couleur personnalisée pour les barres d'état
+Tourbillons circulaires|Tourbillons moyens - Luminosité|Brillance des barres d'état
+Tourbillons circulaires|Tourbillons inférieurs - Mode|Demi-cercles minces au bas de l'hologramme
+Tourbillons circulaires|Remous inférieurs - Couleur|Couleur personnalisée pour les demi-cercles minces au bas de l'hologramme. *Alpha
+Jauge de coque|Mode de couleur|Blocs pour la santé de la coque, y compris la cible
+Jauge de coque|Couleur personnalisée|Couleur personnalisée pour les blocs sous le bouclier, y compris la cible.
+Jauge de coque|Luminosité|Luminosité pour les blocs sous le bouclier
+Jauge de coque|Jauge de coque - Ombrage|Multiplicateur d'ombrage (s'applique uniquement au mode ombré)
+Jauge de coque|Coque affectée caustique|Blocs pour la santé de la coque, y compris la cible
+Jauge de coque|Couleur de coque affectée caustique|Couleur personnalisée pour les barres de coque affectées caustique.
+Mon hologramme de navire|Hologramme - Mode|Mode Hologramme OwnShip<p>Comprend également l'hologramme d'atterrissage, l'hologramme SRV, le terrain SRV sur le radar
+Mon hologramme de navire|Hologramme - Couleur|Couleur personnalisée pour Hologramme OwnShip
+Mon hologramme de navire|Hologram - Luminosité|Luminosité pour la coque de l'hologramme<p>Pour Ultra-tron, réglez la luminosité de la coque sur faible (par exemple 0) et les lignes extérieures surélevé (par exemple 0,5)
+Mon hologramme de navire|Hologramme - Bloom|Holo bloom / glow
+Mon hologramme de navire|Les lignes extérieures s'épanouissent|Les lignes extérieures s'épanouissent / brillent (par défaut = 0) (Cette valeur peut être négative, telle que -0,5)
+Mon hologramme de navire|Luminosité globale|Luminosité globale de l'hologramme
+Mon hologramme de navire|Lignes chatoyantes|Switch pour Hologramme OwnShip Shimmer
+Hologramme de navire cible | Cible neutre | Couleur personnalisée pour l'hologramme de OwnShip
+Hologramme du navire cible |Cible neutre - Luminosité|Luminosité de la coque de l'hologramme<p>Pour l'Ultra-tron, réglez la luminosité de la coque sur faible (par exemple 0) et les lignes extérieures surélevé (par exemple 0,5)
+Hologramme du navire cible |Luminosité globale|Luminosité pour l'hologramme
+Hologramme du navire cible | Luminosité de la cible verte | Luminosité de l'holo de la cible vert vif (certains hologrammes verts ont une luminosité excessive)
+Hologramme du navire cible |Lignes chatoyantes|Commutateur pour le miroitement de l'hologramme cible
+Hologramme d'atterrissage|Site d'atterrissage OFF|Couleur personnalisée pour l'hologramme d'atterrissage
+Hologramme d'atterrissage|Site d'atterrissage ON|Couleur personnalisée pour site d'atterrissage ON
+Hologramme d'atterrissage|Luminosité|Luminosité pour l'hologramme d'atterrissage
+Réticule d'atterrissage planétaire|Mode couleur|Réticule d'atterrissage planétaire - Barres d'angle de relèvement et de descente
+Réticule d'atterrissage planétaire | Couleur personnalisée | Couleur personnalisée pour le réticule d'atterrissage planétaire.
+Réticule d'atterrissage planétaire|Ligne d'atterrissage et caboteurs|Couleur personnalisée pour ligne d'atterrissage et caboteur (orange)*Alpha
+Réticule d'atterrissage planétaire|Barre d'altitude|Couleur personnalisée pour la ligne d'atterrissage et le caboteur (orange)*Alpha
+Réticule d'atterrissage planétaire|Couleur du texte|Couleur personnalisée pour le texte dans les boîtes de réticule *Alpha
+Réticule d'atterrissage planétaire|Luminosité du texte|Luminosité du texte le long de la barre d'altitude (a tendance à être soufflée autour du réticule)
+Réticule d'atterrissage planétaire|Luminosité du texte|Luminosité du texte pour les coordonnées de longitude/latitude, la gravité
+Hologramme SRV|Hologramme SRV - Principal|**(DÉSACTIVÉ)** Couleur personnalisée pour l'hologramme SRV (*Alpha)
+Hologramme SRV|Hologramme SRV - Petit|Couleur personnalisée pour l'hologramme SRV.<p>Alpha (est un % de l'alpha de l'hologramme principal)
+Radar et groupe commun
+Radar de navire|Mode radar|Mode radar
+Radar de navire| Bordure extérieure du radar | Couleur personnalisée des composants du radar extérieur.
+Radar du navire|Luminosité de la jante extérieure|Luminosité du radar extérieur (la plage normale est comprise entre 0,3 et 1,0, mais vous pouvez aller plus haut)
+Grille radar|Couleur|Couleur personnalisée pour la grille radar .
+Grille radar|Luminosité|Luminosité pour la grille radar
+Widget radar triangulaire|Mode|Mode Widget Triangle radar
+Widget radar triangulaire|Couleur personnalisée|Couleur personnalisée pour Triangle Radar Widget. (*Alpha)
+Widget de zoom radar|Mode|Mode pour les lignes de niveau de zoom radar
+Widget de zoom radar|Couleur personnalisée|Couleur personnalisée pour Widget de zoom radar. (*Alpha)
+Widget de zoom radar|Lignes de niveau|Lignes de niveau de zoom radar Couleur personnalisée.
+Widget de zoom radar|Lignes de niveau Luminosité|Lignes de niveau de zoom radar Luminosité
+Objets radar - Supercruice|Corps radar dans Supercruice|Mode pour corps radar dans Supercruice
+Objets radar - Supercruice|Radar - Planètes|Couleur personnalisée pour les corps radar dans Supercruise. (* Avec Alpha)
+Objets radar - Supercruice|Radar - Lunes|Couleur personnalisée pour les corps de radar dans Supercruise. (* Avec Alpha)
+Objets radar - Supercruice|Radar - Etoiles|Couleur personnalisée pour les corps de radar dans Supercruise. (* Avec Alpha)
+Objets radar - Supercruice|Cibles neutres - Lignes|Couleur personnalisée pour les lignes d'objets et les sous-bocks dans Supercruise.
+Objets radar|Objets radar|Mode pour les objets radar en vol normal
+Objets radar|Supprimer les objets blancs|Commutateur pour supprimer les objets blancs sur le radar (sillages, matériaux, récupération, etc.) en vol standard (pas supercruise)
+Objets radar|Radar - Cibles neutres|Carrés ORANGE dans les deux modes de vol ; Lignes d'objets oranges et caboteurs en vol normal.<p>* Alpha
+Objets radar|Radar - Cibles amies|Carrés, lignes et caboteurs VERTS dans les deux modes de vol.<p>* Alpha
+Objets radar|Radar - Cibles hostiles|Carrés, lignes et caboteurs ROUGES dans les deux modes de vol.<p>* Alpha
+Composants externes du radar|Mode couleur|Mode pour la barre chauffante et la barre de vitesse
+Composants externes du radar|Couleur personnalisée|Couleur personnalisée des composants externes du radar.
+Composants externes du radar|Bar Booster|Bar Booster (augmente la luminosité de l'arrière-plan des barres de vitesse et de chaleur principales)
+Composants externes du radar|Luminosité|Luminosité globale (de tous les composants externes du radar)
+Barre de vitesse optimale|Couleur personnalisée|Couleur de la barre de vitesse optimale (les valeurs sont relatives à la couleur principale ; peut être négative pour réduire une couleur de la couleur principale)
+Objets radar|Objets radar - Atterrissage|Mode pour les objets radar lors de l'atterrissage, ligne et caboteur
+Objets radar|Objets radar - Atterrissage|Couleur personnalisée pour le terrain Lors de l'atterrissage sur une planète.
+Scanner SRV|Scanner SRV|Scanner SRV Couleur
+Scanner SRV|Scanner SRV - Couleur primaire|Scanner SRV Couleur primaire, couleur de détection d'objet.
+Scanner SRV|Scanner SRV - Couleur secondaire|Scanner SRV Couleur secondaire, couleur de balayage du scanner.
+Scanner SRV|Alpha global|Scanner SRV - Alpha global
+Scanner SRV|Hologramme de terrain sur radar|Couleur personnalisée pour l'hologramme de terrain sur radar (en mode SRV).
+Scanner SRV|Élévation du scanner SRV|Mode pour les lignes diagonales d'élévation du radar SRV
+Scanner SRV|Élévation du scanner SRV|Couleur personnalisée pour les lignes diagonales de l'élévation du radar SRV. *Alpha*
+Scanner SRV|Mode tourelle SRV|Tourelle SRV, petite image de SRV sur le radar, plus divers éléments
+Scanner SRV|Couleur de la tourelle SRV|Couleur personnalisée pour la tourelle SRV, petite image de SRV sur le radar, plus divers éléments. *Alpha*
+Scanner SRV|Luminosité|Tourelle SRV, Boost de luminosité du distributeur.<p>FDev applique un filtre d'atténuation des couleurs étranges à l'écran de la tourelle SRV.<p>Utilisez cette valeur pour augmenter la couleur du distributeur (il n'aura pas exactement la même apparence en tant que distributeur de navire/SRV en raison du filtre)
+Boussole|Mode couleur|Couleur boussole
+Boussole|Couleur personnalisée|Couleur personnalisée de la boussole.
+Boussole|Luminosité|Amplificateur d'arrière-plan de la boussole
+Boussole|Point de boussole|Couleur personnalisée de point de boussole.
+Boussole|Luminosité des points de la boussole|Luminosité des points de la boussole<p>(Remarque : cet élément se comporte un peu différemment des autres. La luminosité minimale recommandée est de 0,7)
+Distributeur d'alimentation
+Distributeur d'alimentation|Mode|Mode du distributeur d'alimentation
+Distributeur d'alimentation|Couleur du bloc supérieur|Couleur personnalisée pour le bloc supérieur du distributeur tricolore, ou standard (couleur unique)
+Distributeur d'alimentation|Luminosité du bloc supérieur|Luminosité pour le bloc supérieur du distributeur tricolore, ou standard (une seule couleur)
+Distributeur tricolore|Couleur du bloc du milieu|Valeurs de couleur personnalisées pour le bloc du milieu du tri-distributeur.
+Distributeur tricolore|Luminosité du bloc du milieu|Luminosité (alpha) pour le bloc du milieu
+Distributeur tricolore|Couleur du bloc inférieur|Valeurs de couleur personnalisées pour le bloc inférieur du tri-distributeur.
+Distributeur tricolore|Luminosité du bloc inférieur|Luminosité du bloc inférieur
+Distributeur de dégradé|Couleur 1|Couleur personnalisée pour la couleur 1 : Couleur supérieure du distributeur de dégradé.
+Distributeur de dégradé|Dominance 1|Dominance de la couleur 1 (les valeurs > 1,0 augmenteront la dominance, les valeurs < 1,0 diminueront la dominance)
+Distributeur de dégradé|Couleur 2|Couleur personnalisée pour la couleur 2 : Couleur inférieure du distributeur de dégradé.
+Distributeur de dégradé|Luminosité|Luminosité globale du distributeur de dégradé
+Distributeur d'alimentation - Pips|Mode Pips|Mode Pips du distributeur de puissance
+Distributeur d'alimentation - Pips|Couleur des pips|Couleur personnalisée pour le distributeur d'alimentation Pipsr.
+Distributeur d'alimentation - Pips|Luminosité|Luminosité pour les pépins du distributeur de puissance
+Distributeur d'alimentation - Pips|Amplificateur de pip non actif|Luminosité pour les pips inactifs.
+Blocs de sélection|Mode|Mode Blocs de sélection du distributeur
+Blocs de sélection|Couleur personnalisée|Couleur personnalisée pour les blocs de sélection du distributeur.
+Blocs de sélection|Luminosité|Luminosité pour les blocs de sélection de distributeur
+Barres RST (Reset)|Mode|Barres RST [..] sous distributeur
+Barres RST (Réinitialiser)|Couleur personnalisée|Couleur personnalisée pour les barres RST sous le distributeur.
+Barres RST (Réinitialiser)|Luminosité|Luminosité pour les barres RST
+Signature et barres de carburant
+Barre de signature|Mode|Mode de barre de signature
+Barre de signature|Couleur principale|Couleur principale, partie extérieure du signal
+Barre de signature|Couleur secondaire|Couleur secondaire, milieu du signal (par rapport à la couleur primaire)
+Barre de signature|Alpha global|Alpha global (transparence) pour la barre de signature
+Barre de carburant|Mode barre de carburant|Mode barre de carburant
+Barre de carburant|Couleur personnalisée|Couleur personnalisée pour la barre de carburant
+Barre de carburant|Luminosité|Luminosité pour la barre de carburant
+Barre de carburant|Carburant pour le prochain saut|(doit avoir un système programmé dans votre ordinateur de navigation pour voir cet élément)
+Barre de carburant|Luminosité du prochain saut|Luminosité du prochain saut, (ne peut pas rendre invisible, devient noir à 0,0)
+Barre de carburant|Mode de prélèvement de carburant|Mode pour le taux/la quantité de prélèvement, pas le niveau de chaleur
+Barre de carburant|Couleur de la pelle à carburant|Couleur personnalisée pour la pelle à carburant *Alpha
+Voyants d'état|Mode|Mode pour les voyants d'état (verrouillage de masse, train d'atterrissage, écope de cargaison).
+Voyants d'état|Couleur éteinte|Couleur personnalisée pour l'état de la lumière éteinte.
+Voyants d'état|Couleur ON|Couleur personnalisée pour l'état de la lumière ON.
+Voyants d'état|Luminosité|Luminosité des voyants d'état
+Panneaux de navires et de stations
+|256

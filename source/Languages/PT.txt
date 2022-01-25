@@ -1,0 +1,257 @@
+Painel (superior)
+Painel de bate-papo | Linhas do painel de bate-papo | Modo para linhas do painel de bate-papo (canto superior esquerdo) <p> Observação: as cores serão ligeiramente diferentes das linhas do painel de informações porque as cores Elite originais são diferentes.
+Painel de bate-papo | Cor personalizada | Cor personalizada para linhas do painel de bate-papo. (*Alfa)
+Painel de bate-papo | Ícones do painel de bate-papo | Modo para ícones do painel de bate-papo.
+Painel de bate-papo | Cor personalizada | Cor personalizada para ícones do painel de bate-papo. (*Alfa)
+Painel de informações | Linhas do painel de informações | Modo para linhas do painel de informações (lado superior direito)
+Painel de informações | Linhas do painel de informações | Cor personalizada para as linhas do painel de informações. (*Alfa)
+Painel de informações | Nome do navio | Cor do texto para o nome do navio.
+Painel de informações | Nome do navio | Cor personalizada para o nome do navio.
+Painel de informações | Brilho do nome do navio | Brilho do nome do navio
+Painel de informações | Brilho do fundo do nome do navio | Brilho do fundo do nome do navio
+Retícula de mira
+Retículo de mira | Retículo de mira | Modo para retículo de mira
+Retícula de mira | Ícone de classificação | Ícone de classificação que aparece ao lado do navio alvo (apenas neutro / laranja)
+Retícula de mira - Componentes | Tri-barras grandes | Cor personalizada para tri-barras grandes (uma vertical na parte superior, duas diagonais na parte inferior). (*Alfa)
+Retícula de mira - Componentes | Tri-barras pequenas | Cor personalizada para Tri-barras pequenas. (*Alfa)
+Retícula de mira - Componentes | Círculo grande | Cor personalizada para o círculo grande. (*Alfa)
+Retícula de mira - Componentes | Círculo principal | Cor personalizada para o círculo principal. (*Alfa)
+Retícula de mira - Componentes | Pontos de arma | Cor personalizada para pontos de arma. (*Alfa)
+Retícula de mira - Componentes | Ponto do mouse | Cor personalizada para ponto do mouse. (*Alfa)
+Retícula de mira - Componentes | Bloqueio de mísseis | Cor personalizada para o bloqueio de mísseis (também animação de decolagem do planeta) * Alfa
+Metas ambientais e de destino | Modo | Modo de metas ambientais e de destino (e bloqueio de mísseis)
+Metas ambientais e de destino | Alvo de navio possível | Cor personalizada para alvo de navio possível (não selecionado). (*Alfa)
+Metas ambientais e de destino | Alvo de destino possível | Cor personalizada para alvo de destino possível e seta relativa do mouse. (*Alfa)
+Metas ambientais e de destino | Círculo de alvo de supercruzamento possível | Cor personalizada para círculo de alvo de supercruzamento Possível. (*Alfa)
+Metas ambientais e de destino | Círculo de destino de destino | Cor personalizada para o círculo de destino de destino. (*Alfa)
+Metas ambientais e de destino | Brilho do texto | Alvo de destino Brilho do texto (o texto à direita do círculo)
+Metas ambientais e de destino | Modo Rhombus cinza | Modo para Rhombus cinza (alvo potencial não biológico no ambiente)
+Metas ambientais e de destino | Cor cinza Rhombus | Cor personalizada para cinza Rhombus (alvo potencial não biológico no ambiente). (*Alfa)
+Metas ambientais e de destino | Aumento de Rhombus cinza | Aumento de opacidade em SRV
+Metas ambientais e de destino | Texto de pouso planetário de navio (azul) | No padrão Elite, o texto azul "Navio protegido" ao pousar é apagado. <p> Aqui você pode reduzir o brilho deste texto (recomendado de 0,4 a 0,6)
+Configurações do HUD
+Texto principal | Modo de texto | Troca da cor do texto laranja (a maior parte do texto).
+Texto principal | Cor do texto | Cor personalizada para texto global. *Alfa*
+Texto principal | Modo de texto destacado | Modo para texto destacado em todos os painéis.
+Texto principal | Cor do texto em destaque | Cor personalizada para o texto em destaque em todos os painéis. *Alfa*
+Textos secundários | Modo de texto | Troca de cor de texto azul (em torno do AHUD e do texto da missão, entre outros).
+Textos secundários | Cor do texto | Cor personalizada para textos secundários. *Alfa*
+Textos terciários | Modo de texto | Troca de cor de texto em amarelo (destaque do OwnCarrier, texto do retículo de aterrissagem, entre outros).
+Textos terciários | Cor do texto | Cor personalizada para textos terciários. *Alfa*
+Mapa da galáxia | Modo de ícone | Cor do ícone GalMap (excluindo Engenharia) e cor da Linha de Viagem.
+Mapa da galáxia | Cor do ícone | Cor personalizada para a cor do ícone GalMap. *Alfa*
+Mapa da galáxia | Modo de ícone de engenharia | Modo de ícone de engenharia GalMap
+Mapa da galáxia | Cor do ícone de engenharia | Cor personalizada para a cor do ícone de engenharia GalMap. *Alfa*
+Avisos - Excesso de velocidade | Modo de cor | Modo para aviso de excesso de velocidade (somente linhas)
+Avisos - Excesso de velocidade | Cor personalizada | Cor personalizada para aviso de excesso de velocidade (somente linhas)
+Avisos - Excesso de velocidade | Brilho | Brilho para aviso de excesso de velocidade (somente linhas).
+Avisos - Flac de liberação remota | Modo de cor | Modo para Flac / lançador de flechette de liberação remota
+Avisos - Flac de liberação remota | Cor personalizada | Cor personalizada para Flac / lançador de flechette de liberação remota. <p> Nota: O sinal de disparo vermelho não pode ser modificado no momento. <p> Os controles de brilho não estão disponíveis porque causa uma falha entre os Elementos externos e de proximidade; Para reduzir o brilho, basta reduzir seus valores RGB na mesma porcentagem
+Avisos - Flac de liberação remota | Cor de proximidade do alvo | Cor personalizada para Flac / lançador Flechette de liberação remota. <p> Observação: O sinal de disparo vermelho não pode ser modificado no momento. <p> Os controles de brilho não estão disponíveis porque causa uma falha entre os elementos externos e de proximidade; Para reduzir o brilho, basta reduzir seus valores RGB na mesma porcentagem
+Painel (inferior)
+Painel inferior | Linhas do painel (inferior) | valor para sua cor favorita das linhas do painel inferior.
+Painel inferior | Linhas do painel inferior | (* Alpha) ** (se sua cor personalizada estiver próxima do laranja, adicione um pouco de azul (por exemplo, 0,1) para evitar uma falha no painel de segmentação. O painel de segmentação usa uma técnica de troca de cor que procura azul = 0).
+Painel de direcionamento | Modo | Velocidade / Distância / Alinhamento em Supercruise. Excluindo as linhas do painel inferior e a cor do texto. <p> Se a cor escolhida para os elementos Velocidade / Distância do Supercruise for próxima do laranja (vermelho alto, verde médio), adicione 0,1 azul para evitar uma falha
+Painel de direcionamento | Alinhamento correto do destino (blocos) | Cor personalizada para blocos de alinhamento do destino (correto), barra e luz indicadora (seções azuis no Elite original).
+Painel de direcionamento | Brilho | Brilho para alinhamento do destino (correto)
+Painel de direcionamento | Modo de linhas divisórias | Linhas divisórias no painel de segmentação no supercruise
+Painel de direcionamento | Cor das linhas divisórias | Cor personalizada para as linhas divisórias no painel de segmentação no supercruise
+Painel de direcionamento | Brilho das linhas divisórias | Brilho dos ícones no painel de navegação e no painel de segmentação
+Painel de direcionamento | Alinhamento incorreto do alvo (blocos) | Cor personalizada para blocos de alinhamento do alvo (incorreto / não alinhado) e luz indicadora (seções laranja no Elite original).
+Painel de direcionamento | Brilho | Brilho para alinhamento do destino (incorreto)
+Painel de direcionamento | Alinhamento incorreto do alvo (barra) | Cor personalizada para o alinhamento do alvo supercruise (incorreto) barra, linhas divisórias (entre Distância / Velocidade / Alinhamento), ícones. Eles não podem ser mais separados ..
+Painel de direcionamento | Brilho | Brilho para barra de alinhamento do alvo supercruise (incorreta)
+Painel de direcionamento | Modo de ícones | Ícones no painel de navegação e no painel de segmentação
+Painel de direcionamento | Cor dos ícones | Cor personalizada para ícones no painel de navegação e no painel de segmentação
+Painel de direcionamento | Brilho dos ícones | Brilho dos ícones no painel de navegação e no painel de segmentação
+Painel intermediário | Avatar do painel intermediário | Brilho / transparência do avatar no painel intermediário (3)
+Destaque do painel | Modo de destaque do painel | (Nota: Isso também colore o indicador de velocidade atual, a barra de alinhamento do supercruise (quando não estiver alinhada), combustível ativo na barra de combustível. Infelizmente, não pode ser separado, mas você pode escolher a cor. Eu recomendo XML.
+Destaque do painel | Cor personalizada | Cor personalizada para blocos de alinhamento de destino (correto), barra e luz indicadora (seções azuis no Elite original).
+Destaque do painel | Brilho | Brilho do destaque do painel.
+Painéis laterais | Linhas principais | (Nota: Isso também colore o indicador de velocidade atual, a barra de alinhamento do supercruise (quando não estiver alinhada), combustível ativo na barra de combustível. Infelizmente, não pode ser separado, mas você pode escolher a cor. I recomendar XML.
+Painéis laterais | Cor personalizada | Cor personalizada para blocos de alinhamento de destino (correto), barra e luz indicadora (seções azuis no Elite original).
+Painéis laterais | Brilho | Brilho dos painéis laterais Linhas principais.
+Painel de navegação | Modo do painel de navegação | Pino / cunha do local atual (apenas o pino do local atual pode ser modificado para uma cor personalizada. O pino de destino é conectado a outros elementos / linhas no painel do navio)
+Painel de navegação | Cor personalizada | Cor personalizada para a cor do ícone de engenharia GalMap. *Alfa*
+Painel de missão | Modo de painel de missão | Afeta a cor dos painéis de missão no painel de navegação, além do ícone de missão na tela de seleção de missão)
+Painel de missão | Cor personalizada | Cor personalizada para painéis de missão no painel de navegação, além do ícone de missão na tela de seleção de missão.
+Painel de manutenção | Esboço do navio | Esboço do navio no painel de manutenção avançada (estação / transportadora)
+Painel de manutenção | Cor personalizada | Cor personalizada para esboço do navio. *Alfa
+Iluminação da cabine
+Cabine - Iluminação da cabine | Modo de cor | Modo para iluminação da cabine / cabine
+Cabine - Iluminação do cabine | Estilo de iluminação | 0 = Restrito (próximo ao padrão Elite, a luz da cabine não cobre todo o cockpit) <p> 1 = Completo (cobre mais do cockpit, em relação a 'Restrito', mas excluirá áreas de luz branca) <p> 2 = Completo (Cobre as áreas 'Completas', além de algumas áreas de luz branca. Use o modo XML (em Startup-Profile.ini) para ver a luz multicolorida em alguns navios (as áreas laranja e áreas brancas irão reagir de forma diferente ao seu XML) <p> 3 = Space Disco (luz de inundação com contaminação da pele, cabine inteira).
+Cabine - Iluminação do cabine | Cor personalizada | Cor personalizada para cabine - Iluminação do cockpit.
+Cabine - Iluminação do cabine | Brilho | Brilho para cabine - Iluminação do cockpit.
+AmbientLights - Bi-color | Left Color | (Experimental) - Melhor para usar no modo de iluminação COMPLETA.
+AmbientLights - Bi-color | Right Color | esta cor é adicionada à cor Base no lado direito do cockpit.
+AmbientLights - Bi-color | Brightness | Brightness for AmbientLights - Bi-color.
+Painéis de envio | Plano de fundo do painel de envio | (definir o nível padrão de opacidade em Advanced.ini, funciona em todos os modos de cor)
+Painéis do navio | Plano de fundo do painel do navio | Cor personalizada para o plano de fundo do painel do navio e opacidade '. *Alfa*
+Painéis do navio | Opacidade do plano de fundo do painel | Opcaidade (Alfa) para o plano de fundo dos painéis do navio.
+Painéis da estação | Desenhos do painel | Arte e esboços nos painéis
+Painéis da estação | Desenhos do painel | Cor personalizada para os desenhos do painel. *Alfa*
+Efeitos especiais
+Space FX | Supercruise SideLines | Interruptor para Remover Supercruise SideLines
+Space FX | Supercruise Snow | Interruptor para Remover Supercruise Snow
+Space FX | Space Dust | Switch para Space Dust (também conhecido como neve em vôo normal)
+HUD de combate e análise
+HUD de combate | Modo HUD de combate | ** MODO HUD de combate (CHUD) ** <p> Para um CHUD padrão, defina a cor 2 RGB (0,0,0) e a força de atenuação = 0 <p> Para um pássaro de cor única of-Prey CHUD, defina a cor 2 RGB (0,0,0) e sua força de atenuação preferida (0,7 é um bom equilíbrio) <p> Para um CHUD de synthwave (duas cores), defina a cor 2 RGB de acordo com sua preferência e Fade Strenth = 1
+HUD de combate | Cor 1 | Cor personalizada para Combat HUD - Cor 1 (cor superior).
+HUD de combate | Cor 1 - Brilho | Brilho da Cor 1 (cor superior).
+HUD de combate | Cor 2 | Cor personalizada para Combat HUD - Cor 2 (cor inferior).
+HUD de combate | Fade Strength | Fade Strength (ou Synthwave Color Balance:> 1 = mais Second Color, <1 = menos Second Color).
+HUD de combate | Cor da munição | Cor personalizada para Combat HUD - Munição.
+HUD de combate | Brilho da munição | Brilho da munição.
+HUD de análise | Análise de modo de HUD | Modo de radar
+HUD de análise | HUD de análise | Cor personalizada para HUD de análise. (*Alfa)
+HUD de análise | Retículo de segmentação | Cor personalizada para retículo do modo de análise quando no modo de combate. (*Alfa)
+HUD de análise | Modo de texto AHUD | Modo para textos em torno de AHUD.
+HUD de análise | Cor do texto AHUD | Cor personalizada para textos em torno do AHUD. *Alfa*
+HUD a pé
+HUD de Traje - Panel | Panel Mode | Nota: XML (estará falsificando uma base laranja para combinar com o HUD do navio).
+HUD de Traje - Painel | Cor do painel | Cor personalizada para painel de pé.
+HUD de Traje - Painel | Opacidade do painel | Brilho para painel de pé.
+HUD de Traje - Painel | Painéis do lado do navio | Opção para substituir elementos CIANO nos painéis do lado do navio. <p> Ativar irá colorir os ícones de classificação de ciano e partes dos ícones no Painel de Navegação com seu XML e ciano. <p> Isso também mudará a cor dos blocos de ciano na guia Armazenamento do painel do navio com a cor XML do painel.
+HUD de Traje - Escudo | Modo Escudo | Modo de Cor para Escudos
+HUD de Traje - Escudo | Anel interno | Cor personalizada para Escudo de Pé Anel interno (* alfa).
+HUD de Traje - Escudo | Anel do meio | Cor personalizada para Escudo de Pé Anel do meio (* alfa).
+HUD de Traje - Escudo | Anel externo | Cor personalizada para escudo em pé. Anel externo (* alfa).
+HUD de Traje - Escudo | Cor Escudo Inferior | Cor personalizada para Escudo Inferior a Pé (* alfa).
+HUD de Traje - Escudo | Restaurando Escudo | Cor personalizada para Animação de Restauração de Escudo a Pé (* alfa).
+HUD de Traje - Textos | Modo Textos | Nota: XML (estará falsificando uma base laranja para combinar com o HUD do navio).
+HUD de Traje - Textos | Cor dos textos | Cor personalizada para textos a pé. (*Alfa)
+HUD de Traje - Textos | Modo realçado | Texto realçado / invertido e cor do ícone.
+HUD de Traje - Textos | Cor realçada | Cor personalizada para textos realçados a pé. (*Alfa)
+Escudo e navio Holo
+Escudos | Modo de Escudo | Nota: Multi-escudo só funciona em resoluções> = 2560x1440, pode funcionar em 1920x1080. Aplicado a si mesmo e ao alvo.
+Escudos | Porcentagem de escudos% cor | Cor personalizada para porcentagem de escudos
+Escudos | Porcentagem de escudo - Brilho | Brilho para texto de porcentagem de escudo
+Multi-escudo | Anel interno | Cor do anel interno, somente para Multi-escudo. (Alfa)
+Multi-escudo | Anel do meio | Cor do anel do meio, somente para Multi-escudo. (Alfa)
+Multi-escudo | Anel externo | Cor do anel externo, somente para Multi-escudo. (Alfa)
+Escudo único | Escudos abaixados | Escudo de cor única - Escudo abaixado.
+Escudo Único | Escudos em Cima | Cor Escudo em Cima (em relação à cor Escudo em Baixo).
+Escudo único | Brilho | Brilho dos escudos gerais / Alfa (modo único)
+Escudo único | Espessura do anel | Brilho geral dos escudos / Alfa (modo único)
+Redemoinhos circulares | Redemoinhos superiores - Modo | Redemoinhos circulares sob Holos
+Redemoinhos circulares | Redemoinhos principais - Cor | Cor personalizada para redemoinhos circulares sob Holos
+Redemoinhos circulares | Redemoinhos superiores - Brilho | Brilho para redemoinhos principais
+Redemoinhos circulares | Redemoinhos médios - Modo | Barras de status sob o escudo
+Redemoinhos circulares | Redemoinhos médios - Cor | Cor personalizada para barras de status
+Redemoinhos circulares | Redemoinhos médios - Brilho | Brilho das barras de status
+Redemoinhos circulares | Redemoinhos inferiores - Modo | Semicírculos finos na parte inferior do holograma
+Redemoinhos circulares | Redemoinhos inferiores - Cor | Cor personalizada para semicírculos finos na parte inferior do holograma. *Alfa
+Medidor do casco | Modo de cor | Blocos para a saúde do casco, incluindo alvo
+Medidor do casco | Cor personalizada | Cor personalizada para blocos sob o escudo, incluindo o alvo.
+Medidor do casco | Brilho | Brilho para blocos sob o escudo
+Medidor do casco | Medidor do casco - Sombreamento | Multiplicador de sombreamento (aplica-se somente ao modo sombreado)
+Medidor do casco | Casco afetado por corrosão | Blocos para a saúde do casco, incluindo alvo
+Medidor do casco | Cor do casco afetado por cáustica | Cor personalizada para barras do casco afetado por cáusticos.
+Holograma do Navio | Holograma - Modo | Modo de holograma OwnShip <p> Também inclui holograma de pouso, holograma SRV e terreno SRV no radar
+Holograma do Navio| Holograma - Cor | Cor personalizada para Holograma OwnShip
+Holograma do Navio| Holograma - Brilho | Brilho do casco do holograma <p> Para Ultra-tron, defina o brilho do casco para baixo (por exemplo, 0) e as linhas externas florescem alto (por exemplo, 0,5)
+Holograma do Navio| Holograma - Flor | Holo flor / brilho
+Holograma do Navio| Linhas externas florescem | Linhas externas florescem / brilham (padrão = 0) (este valor pode ser negativo, como -0,5)
+Holograma do Navio| Brilho geral | Brilho geral do holograma
+Holograma do Navio| Linhas cintilantes | Interruptor para holograma OwnShip Shimmer
+Holograma do Navio de destino | Alvo neutro | Cor personalizada para holograma OwnShip
+Holograma do Navio de destino | Alvo neutro - Brilho | Brilho para o casco do holograma <p> Para Ultra-tron, defina o brilho do casco para baixo (por exemplo, 0) e as linhas externas florescem alto (por exemplo, 0,5)
+Holograma do Navio de destino | Brilho geral | Brilho do holograma
+Holograma do navio de destino | Brilho do alvo verde | Brilho do holograma do alvo verde brilhante (alguns hologramas verdes têm brilho excessivo)
+Holograma do Navio de destino | Linhas cintilantes | Interruptor para holograma do alvo
+Holograma de aterrissagem | Local de pouso DESLIGADO | Cor personalizada para o holograma de pouso
+Holograma de aterrissagem | Local de pouso ON | Cor personalizada para local de pouso ON
+Holograma de aterrissagem | Brilho | Brilho do holograma de aterrissagem
+Retículo de aterrissagem planetário | Modo de cor | Retículo de pouso planetário - Barras de rolamento e ângulo de descida
+Retícula de aterrissagem planetário | Cor personalizada | Cor personalizada para retícula de aterrissagem planetária.
+Retícula de aterrissagem planetário | Linha de pouso e montanhas-russas | Cor personalizada para linha de pouso e montanha-russa (laranja) * Alpha
+Retículo de aterrissagem planetário | Barra de altitude | Cor personalizada para linha de pouso e montanha-russa (laranja) * Alpha
+Retículo de aterrissagem planetário | Cor do texto | Cor personalizada para texto em caixas de retículo * Alfa
+Retículo de aterrissagem planetário | Brilho do texto | Brilho do texto ao longo da barra de altitude (tende a estourar ao redor da retícula)
+Retículo de aterrissagem planetário | Brilho do texto | Brilho do texto para coordenadas de longitude / latitude, gravidade
+Holograma SRV | Holograma SRV - Principal | ** (DESATIVADO) ** Cor personalizada para holograma SRV (* Alpha)
+Holograma SRV | Holograma SRV - Pequeno | Cor personalizada para holograma SRV. <p> Alfa (é uma% do holograma principal alfa)
+Radar e Grupo Comum
+Navio de radar | Modo de radar | Modo de radar
+Radar do navio | Borda externa do radar | Componentes do radar externo Cor personalizada.
+Radar do navio | Brilho da borda externa | Brilho do radar externo (a faixa normal é entre 0,3 e 1,0, mas você pode ir mais alto)
+Grade de radar | Cor | Cor personalizada para grade de radar.
+Grade de radar | Brilho | Brilho da grade de radar
+Widget de triângulo de radar | Modo | Modo de widget de triângulo de radar
+Widget de radar de triângulo | Cor personalizada | Cor personalizada para o widget de radar de triângulo. (*Alfa)
+Widget de zoom do radar | Modo | Modo para linhas de nível de zoom do radar
+Widget de zoom de radar | Cor personalizada | Cor personalizada para o widget de zoom de radar. (*Alfa)
+Widget de zoom do radar | Linhas de nível | Linhas de nível de zoom do radar Cor personalizada.
+Widget de zoom do radar | Brilho das linhas de nível | Brilho das linhas do nível de zoom do radar
+Objetos de radar - Supercruice | Radar Bodies in Supercruice | Modo para Radar Bodies in Supercruice
+Objetos de radar - Supercruise | Radar - Planetas | Cor personalizada para corpos de radar em supercruise. (* Com Alpha)
+Objetos de radar - Supercruise | Radar - Luas | Cor personalizada para corpos de radar no Supercruise. (* Com Alpha)
+Objetos de radar - Supercruise | Radar - Estrelas | Cor personalizada para corpos de radar no Supercruise. (* Com Alpha)
+Objetos de radar - Supercruise | Alvos neutros - Linhas | Cor personalizada para linhas de objeto e montanhas-russas em Supercruise.
+Objetos de radar | Objetos de radar | Modo para objetos de radar em vôo normal
+Objetos de radar | Remover objetos brancos | Interruptor para remover objetos brancos no radar (rastros, materiais, salvamento, etc.) em vôo padrão (não supercruise)
+Objetos de radar | Radar - alvos neutros | LARANJA Quadrados em ambos os modos de vôo; Linhas de objeto laranja e montanhas-russas em vôo normal. <p> * Alfa
+Objetos de radar | Alvos compatíveis com radar | Quadrados, linhas e montanhas-russas VERDES em ambos os modos de voo. <p> * Alfa
+Objetos de radar | Radar - Alvos hostis | Quadrados, linhas e montanhas-russas RED em ambos os modos de voo. <p> * Alpha
+Componentes externos do radar | Modo de cor | Modo para barra de calor e barra de velocidade
+Componentes externos do radar | Cor personalizada | Componentes externos do radar Cor personalizada.
+Componentes externos do radar | Booster de barra | Booster de barra (aumenta o brilho do fundo das barras de calor e velocidade principal)
+Componentes externos do radar | Brilho | Brilho geral (de todos os componentes externos do radar)
+Barra de velocidade ideal | Cor personalizada | Cor da barra de velocidade ideal (os valores são relativos à cor principal; pode ser negativo para reduzir uma cor da cor principal)
+Objetos de radar | Objetos de radar - Pouso | Modo para objetos de radar durante a aterrissagem, linha e montanha-russa
+Objetos de radar | Objetos de radar - Pouso | Cor personalizada para o terreno ao pousar em um planeta.
+Scanner SRV | Scanner SRV | Scanner SRV em cores
+Scanner SRV | Scanner SRV - Cor primária | Cor primária do scanner SRV, cor de detecção de objeto.
+Scanner SRV | Scanner SRV - Cor secundária | Scanner SRV Cor secundária, cor de varredura do scanner.
+Scanner SRV | Alfa geral | Scanner SRV - Alfa geral
+Scanner SRV | Holograma de terreno no radar | Cor personalizada para holograma de terreno no radar (enquanto em SRV).
+Scanner SRV | SRV Scanner Elevation | Modo para SRV Radar Elevation linhas diagonais
+Scanner SRV | Elevação do scanner SRV | Cor personalizada para linhas diagonais de elevação do radar SRV. *Alfa*
+Scanner SRV | Modo torre SRV | Torre SRV, pequena imagem de SRV no radar, além de elementos diversos
+Scanner SRV | SRV Turret Color | Cor personalizada para SRV Turret, pequena imagem de SRV no radar, além de elementos diversos. *Alfa*
+Scanner SRV | Brilho | Torre SRV, Aumento de brilho do distribuidor. <p> O FDev aplica um filtro de amortecimento de cor estranha à tela da torre SRV. <p> Use este valor para aumentar a cor do distribuidor (não será exatamente igual como distribuidor de navio / SRV devido ao filtro)
+Bússola | Modo de cor | Cor da bússola
+Bússola | Cor personalizada | Cor personalizada da bússola.
+Bússola | Brilho | Amplificador de fundo da bússola
+Bússola | Compass Dot | Compass Dot Cor personalizada.
+Bússola | Brilho do ponto da bússola | Brilho do ponto da bússola <p> (Observação: este elemento se comporta de maneira um pouco diferente dos outros. O mínimo recomendado é 0,7 de brilho)
+Distribuidor de energia
+Distribuidor de energia | Modo | Modo de distribuidor de energia
+Distribuidor de energia | Cor do bloco superior | Cor personalizada para o bloco superior do distribuidor de três cores ou padrão (cor única)
+Distribuidor de energia | Brilho do Bloco Superior | Brilho para o Bloco Superior do Distribuidor Tricolor ou Padrão (cor única)
+Distribuidor tricolor | Cor do bloco intermediário | Valores de cor personalizados para o bloco médio do tri-distribuidor.
+Distribuidor tricolor | Brilho do bloco do meio | Brilho (alfa) para o bloco do meio
+Distribuidor tricolor | Cor do bloco inferior | Valores de cor personalizados para o bloco inferior do tri-distribuidor.
+Distribuidor tricolor | Brilho do bloco inferior | Brilho do bloco inferior
+Distribuidor de gradiente | Cor 1 | Cor personalizada para a cor 1: Cor superior do distribuidor de gradiente.
+Distribuidor de gradiente | Dominância 1 | Cor 1 dominância (valores> 1,0 aumentam a dominância, valores <1,0 diminuem a dominância)
+Distribuidor de gradiente | Cor 2 | Cor personalizada para a cor 2: Cor inferior do distribuidor de gradiente.
+Distribuidor de gradiente | Brilho | Brilho geral do distribuidor de gradiente
+Distribuidor de energia - Pips | Modo Pips | Modo Pips do distribuidor de energia
+Distribuidor de energia - Pips | Cor Pips | Cor personalizada para Distribuidor de energia Pipsr.
+Distribuidor de energia - Pips | Brilho | Brilho para Distribuidor de energia Pips
+Distribuidor de energia - Pips | Booster pip não ativo | Brilho para Pips inativos.
+Blocos de seleção | Modo | Modo de blocos de seleção de distribuidor
+Blocos de seleção | Cor personalizada | Cor personalizada para blocos de seleção de distribuidor.
+Blocos de seleção | Brilho | Brilho para blocos de seleção de distribuidor
+Barras RST (redefinir) | Modo | Barras RST [..] sob o distribuidor
+Barras RST (redefinir) | Cor personalizada | Cor personalizada para barras RST no distribuidor.
+Barras RST (redefinir) | Brilho | Brilho para barras RST
+Barras de assinatura e combustível
+Barra de assinatura | Modo | Modo de barra de assinatura
+Barra de assinatura | Cor primária | Cor primária, parte externa do sinal
+Barra de assinatura | Cor secundária | Cor secundária, meio do sinal (em relação à cor primária)
+Barra de assinatura | Alfa geral | Alfa geral (transparência) para a barra de assinatura
+Barra de combustível | Modo de barra de combustível | Modo de barra de combustível
+Barra de combustível | Cor personalizada | Cor personalizada para a barra de combustível
+Barra de combustível | Brilho | Brilho da barra de combustível
+Barra de combustível | Combustível para o próximo salto | (deve ter um sistema programado em seu computador Nav para ver este elemento)
+Barra de combustível | Brilho do próximo salto | Brilho do próximo salto, (não pode ficar invisível, fica preto em 0,0)
+Barra de combustível | Modo de coleta de combustível | Modo para taxa / quantidade de coleta, não nível de aquecimento
+Barra de combustível | Cor da colher de combustível | Cor personalizada para a colher de combustível * Alpha
+Luzes de status | Modo | Modo para luzes de status (Bloqueio de massa, Trem de pouso, Coletor de carga).
+Luzes de status | Cor desligada | Cor personalizada para o estado da luz desligada.
+Luzes de status | Cor LIGADA | Cor personalizada para o estado LIGADO da luz.
+Luzes de status | Brilho | Brilho das luzes de status
+Painéis de navios e estações
+|256

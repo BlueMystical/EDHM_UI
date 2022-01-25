@@ -1,0 +1,63 @@
+Panel (Upper)
+Panel Lines|Panel Lines (upper)|[CTRL]+[F4]
+Targeting Reticle
+Targeting Reticle|Targeting Reticle|Cycle through reticle colours with [F7]
+Targeting Reticle|Environment Target Colour|Indicates current and possible destination targets, such as planets, stations.<p>Cycle through Environment target Colours with [CTRL]+[F7]
+HUD Settings
+Visuals|Hud Dimmer|Cycle with [F5].<p>There are 6 levels of brightness (5,4,3,2,1,0).
+Visuals|HUD and Panel Opacity Layer|The colour of the background behind the panels
+Visuals|CHUD and A-HUD Brightness|
+Texts|Text Colour|If Text Colour is set to 4 then you can choose your own text colour.
+Texts|Text Custom Color|Please note, the XML shader will overlay the text and modify the text colour. There is no way to prevent this from happening.
+Texts|Text Brightness|Brightness for Texts
+Panel (Lower)
+Visuals|Panel Lines (lower)|[ALT]+[F4]
+Visuals|Panel Opacity Boost|Transparency of the Shadows behind Panels and HUD elements.
+Cabin Lighting
+Cabin Lighting|Ambient Cabin Lights|Cycle with [CTRL]+[F6]. 
+Cabin Lighting|Cabin Lighting Style|Restricted (Elite standard, cabin light doesn't cover whole cockpit)
+Cabin Lighting|Night Vision|Night Vision
+Cabin Lighting|Lighting Dimmer|Cycle with [F6]. Each press of F6 reduces the cabin lighting brightness by 0.2 (20%)
+Special Efects
+Special Efects|OwnCarrier Highlight|OwnCarrier Highlight on Nav panel (also highlights the current planetary bearing indicator on the landing reticle/SRV).<p>(OFF will show the XML matrix colour)
+Special Efects|OwnCarrier Highlight Color|Note: A custom XML will modify this colour. Base colour refers to the colour on orange Elite panels.
+Special Efects|Orbit Lines|Orbit Lines (and Exclusion Zone Lines) & Gravity Well Lines ** (Supercruise only)
+Special Efects|Orbit Lines Brightness|Orbit Lines Brightness. Try 0.05 or 0.1 for very dim lines. Turn off with 0.0
+Special Efects|Gravity Well Lines|Gravity Well Lines colour
+Special Efects|Gravity Well Brightness|Gravity Well Lines Brightness
+Special Efects|Planetary Landing Reticle|Planetary Landing Reticle ** Bearing and descent angle bars
+Supercruise|Supercruise Speed Lines|supercruise speed lines colour
+Supercruise|Supercruise Speed Lines Brightness|Supercruise Speed Lines Brightness ** (range 0 to 1) (0 = OFF)
+Supercruise|Supercruise Dust|Supercruise Snow / Convergent white lines
+Supercruise|Supercruise Dust Brightness|
+Special Efects|Space Dust|Space Dust (in normal flight)
+Special Efects|DSS Overlay|Setting to OFF will remove the green / blue overlay while the DSS is not active
+Special Efects|Dirty streaks on canopy windows|You can turn off the dirty streaks on the canopy windows if you prefer a 'cleaner' look :)
+Combat & Analysis HUD
+Combat HUD|Combat HUD|Cycle through CHUD colours with [CTRL]+[F2]
+Combat HUD|Combat HUD Mode|[SHIFT]+[F2] to swap between modes
+Combat HUD|CHUD and A-HUD Brightness|
+Analysis HUD|Analysis HUD Inner Lines|Cycle through A-HUD colours with [ALT]+[F2].
+Analysis HUD|Analysis HUD Outer Lines|Cycling through colours will change both the inner lines and the outer lines together.
+Radar & Common Group
+Common Group|HUD Common Group|[CTRL]+[F5]. The Common Group comprises the fuel bar, indicator lights, hologram swirls, ship status bar, hull bar, and outer radar elements 
+Radar|Radar Colour|Cycle through radar colours with [F4]
+Radar|Inner Radar Brightness|
+Radar|Outer Radar Brightness|
+Radar|Radar White-coloured Objects|Turn off white-coloured objects on the radar (materials, wakes, etc). Toggle with [CTRL]+[ALT]+[W]
+Shield & Holo Ship
+Shields|Shield Color|Cycle with [F2]
+Own Ship Hologram|Hologram Mode|Ship only, not SRV [CTRL]+[F3]
+Own Ship Hologram|Holo Color|Cycle through OwnShip hologram colours with [F3]
+Own Ship Hologram|Hologram Dimmer|Each press of [ALT]+[F3] dims the hologram by 10% (1.0, 0.9, 0.8, 0.7, etc)
+Own Ship Hologram|Hologram Shimmer|shimmering lines on the Holo
+Target Ship Hologram|Target Hologram Custom Color|Custom Color for Target Hologram - Neutral Colour.
+Target Ship Hologram|Target Hologram Brightness|Brightness for Target Hologram - Neutral Colour.
+Target Ship Hologram|Target Hologram Shimmer|shimmering lines on the Holo
+Power Distributor
+Distributor|Power Distributor|[ALT]+[F5]
+Signature & Fuel Bars
+Signature Bar|Signature Bar Colour|Cycle through Signature Bar colours (looks like a radio signal) colours with [SHIFT]+[F4]
+Ship & Stations Panels
+On Foot HUD
+|62

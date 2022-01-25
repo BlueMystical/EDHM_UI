@@ -1,0 +1,257 @@
+Panel (oben)
+Chat-Panel|Chat-Panel-Zeilen|Modus für Chat-Panel-Zeilen (oben links)<p>Hinweis: Die Farben sehen etwas anders aus als die Info-Panel-Zeilen, da die ursprünglichen Elite-Farben anders sind.
+Chat-Panel|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Chat-Panel-Zeilen. (*Alpha)
+Chat-Panel|Chat-Panel-Symbole|Modus für Chat-Panel-Symbole.
+Chat-Panel|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Chat-Panel-Symbole. (*Alpha)
+Info-Panel|Info-Panel-Zeilen|Modus für Info-Panel-Zeilen (oben rechts)
+Info-Panel|Info-Panel-Zeilen|Benutzerdefinierte Farbe für Info-Panel-Zeilen. (*Alpha)
+Info-Panel|Schiffsname|Textfarbe für den Schiffsnamen.
+Info-Panel|Schiffsname|Benutzerdefinierte Farbe für den Schiffsnamen.
+Info-Panel|Helligkeit des Schiffsnamens|Helligkeit des Schiffsnamens
+Info-Panel|Hintergrundbeleuchtung Schiffsname|Hintergrundbeleuchtung Schiffsname
+Zielabsehen
+Zielabsehen|Zielabsehen|Modus für Zielabsehen
+Zielabsehen|Rangsymbol|Rangsymbol, das neben dem anvisierten Schiff erscheint (nur neutral / orange)
+Zielabsehen - Komponenten|Große Tri-Bars|Benutzerdefinierte Farbe für große Tri-Bars (eine vertikal oben, zwei diagonal unten). (*Alpha)
+Zielabsehen - Komponenten|Kleine Tri-Bars|Benutzerdefinierte Farbe für kleine Tri-Bars. (*Alpha)
+Zielabsehen - Komponenten|Großer Kreis|Benutzerdefinierte Farbe für großen Kreis. (*Alpha)
+Zielabsehen - Komponenten|Führender Kreis|Benutzerdefinierte Farbe für den führenden Kreis. (*Alpha)
+Zielabsehen - Komponenten|Waffenpunkte|Benutzerdefinierte Farbe für Waffenpunkte. (*Alpha)
+Zielabsehen - Komponenten|Mauspunkt|Benutzerdefinierte Farbe für Mauspunkt. (*Alpha)
+Zielabsehen - Komponenten|Raketensperre|Benutzerdefinierte Farbe für Raketensperre (auch Abheben von Planetenanimation) *Alpha
+Umgebungs- und Zielziele|Modus|Umwelt- und Zielziele (& Raketensperre) Modus
+Umgebungs- und Zielziele|Mögliches Schiffsziel|Benutzerdefinierte Farbe für mögliches Schiffsziel (nicht ausgewählt). (*Alpha)
+Umgebungs- und Zielziele|Mögliches Zielziel|Benutzerdefinierte Farbe für mögliches Zielziel und relativen Mauspfeil. (*Alpha)
+Umgebungs- und Zielziele|Möglicher Supercruise-Zielkreis|Benutzerdefinierte Farbe für möglichen Supercruise-Zielkreis. (*Alpha)
+Umgebungs- und Zielziele|Zielzielkreis|Benutzerdefinierte Farbe für den Zielzielkreis. (*Alpha)
+Umgebungs- und Zielziele|Texthelligkeit|Zielziel Texthelligkeit (der Text rechts vom Kreis)
+Umgebungs- und Zielziele|Grauer Rhombus-Modus|Modus für Grauen Rhombus (nicht-biologisches potenzielles Ziel in der Umgebung)
+Umgebungs- und Zielziele|Graue Rautenfarbe|Benutzerdefinierte Farbe für Graue Rauten (nicht biologisches potenzielles Ziel in der Umwelt). (*Alpha)
+Umgebungs- und Zielziele|Graue Rhombus-Verstärkung|Verstärkung der Deckkraft in SRV
+Umgebungs- und Zielziele|Planetary Landing Text (blau)|In der Standardeinstellung Elite wird der blaue Text "Ship Secured" bei der Landung ausgeblasen.<p>Hier können Sie die Helligkeit dieses Textes reduzieren (empfohlen 0,4 bis 0,6)
+HUD-Einstellungen
+Haupttext|Textmodus|Orangefarbener Textfarbwechsel (der Großteil des Textes).
+Haupttext|Textfarbe|Benutzerdefinierte Farbe für globalen Text. *Alpha*
+Haupttext|Modus für hervorgehobenen Text|Modus für hervorgehobenen Text in allen Bedienfeldern.
+Haupttext|Hervorgehobene Textfarbe|Benutzerdefinierte Farbe für hervorgehobenen Text in allen Panels. *Alpha*
+Sekundärtexte|Textmodus|Blauer Textfarbwechsel (unter anderem um den AHUD- und Missionstext herum).
+Sekundärtexte|Textfarbe|Benutzerdefinierte Farbe für Sekundärtexte. *Alpha*
+Tertiärtexte|Textmodus|Gelber Text-Farbwechsel (unter anderem Eigene Träger-Markierung, Landing-Absehen-Text).
+Tertiärtexte|Textfarbe|Benutzerdefinierte Farbe für Tertiärtexte. *Alpha*
+Galaxie-Karte|Symbolmodus|GalMap-Symbolfarbe (außer Ingenieurwesen) und Farbe der Reiselinie.
+Galaxie-Karte|Symbolfarbe|Benutzerdefinierte Farbe für GalMap-Symbolfarbe. *Alpha*
+Galaxie-Karte|Engineering-Symbolmodus|GalMap-Engineering-Symbolmodus
+Galaxie-Karte|Engineering Icon Colour|Benutzerdefinierte Farbe für GalMap Engineering Icon Colour. *Alpha*
+Warnungen - Geschwindigkeitsüberschreitung|Farbmodus|Modus für Geschwindigkeitswarnung (nur Linien)
+Warnungen - Geschwindigkeitsüberschreitung|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Geschwindigkeitswarnung (nur Linien)
+Warnungen - Geschwindigkeitsüberschreitung|Helligkeit|Helligkeit für Geschwindigkeitswarnung (nur Linien).
+Warnungen - Remote Release Flac|Farbmodus|Modus für Remote Release Flac / Flechette Launcher
+Warnungen - Fernauslöser Flac|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Fernauslöser Flac / Flechette Launcher.<p>Hinweis: Das rote Triggersignal kann derzeit nicht modifiziert werden.<p>Helligkeitsregler sind nicht verfügbar, da es einen Fehler zwischen den Äußere und Näherungselemente; Um die Helligkeit zu reduzieren, reduzieren Sie einfach Ihre RGB-Werte um denselben Prozentsatz
+Warnungen - Remote Release Flac|Target Proximity Farbe|Benutzerdefinierte Farbe für Remote Release Flac / Flechette Launcher.<p>Hinweis: Das rote Triggersignal kann derzeit nicht modifiziert werden.<p>Helligkeitsregler sind nicht verfügbar, da es einen Fehler zwischen verursacht die Elemente Äußeres und Nähe; Um die Helligkeit zu reduzieren, reduzieren Sie einfach Ihre RGB-Werte um denselben ProzentsatzPanel (unten)
+Unteres Panel 
+Unteres Panel|Panel-Linien (unten)| Wert für Ihre Lieblingsfarbe der Lower Panel Lines.
+Unteres Panel|Untere Bedienfeldzeilen|(*Alpha) ** (Wenn Ihre benutzerdefinierte Farbe nahe an Orange liegt, fügen Sie ein wenig Blau hinzu (z. B. 0,1), um einen Fehler im Zielfeld zu vermeiden. Das Zielfeld verwendet eine Farbwechseltechnik, die sucht nach blau = 0).
+Zieltafel|Modus|Geschwindigkeit/Entfernung/Ausrichtung in Supercruise. Mit Ausnahme der unteren Panellinien und der Textfarbe.<p>Wenn Ihre gewählte Farbe für Supercruise-Geschwindigkeits-/Distance-Elemente nahe an Orange ist (hohes Rot, mittleres Grün), fügen Sie 0,1 Blau hinzu, um einen Fehler zu vermeiden
+Zieltafel|Korrekte Zielausrichtung (Blöcke)|Benutzerdefinierte Farbe für die Zielausrichtung (korrekte) Blöcke, Balken und Anzeigelicht (blaue Abschnitte im Original Elite).
+Zieltafel|Helligkeit|Helligkeit für die Ausrichtung des Ziels (korrekt)
+Zieltafel|Trennlinienmodus|Trennlinien im Zielbereich in Supercruise
+Zieltafel|Farbe der Trennlinien|Benutzerdefinierte Farbe für Trennlinien auf dem Targeting-Panel in Supercruise
+Zieltafel|Helligkeit der Trennlinien|Helligkeit für Symbole im Nav-Panel und Targeting-Panel
+Zieltafel|Falsche Zielausrichtung (Blöcke)|Benutzerdefinierte Farbe für die Zielausrichtung (falsche / nicht ausgerichtete) Blöcke und Anzeigelicht (orange Abschnitte im Original Elite).
+Zieltafel|Helligkeit|Helligkeit für Zielausrichtung (falsch)
+Zieltafel|Falsche Zielausrichtung (Balken)|Benutzerdefinierte Farbe für Supercruise-Zielausrichtung (falsche) Balken, Trennlinien (zwischen Distanz/Geschwindigkeit/Ausrichtung), Symbole. Diese lassen sich nicht weiter trennen..
+Zieltafel|Helligkeit|Helligkeit für Supercruise-Zielausrichtungsleiste (falsch)
+Zieltafel|Symbole-Modus|Symbole im Nav-Panel und Targeting-Panel
+Zieltafel|Symbolfarbe|Benutzerdefinierte Farbe für Symbole im Nav-Panel und Targeting-Panel
+Zieltafel|Symbole Helligkeit|Helligkeit für Icons im Nav Panel und Targeting Panel
+Mittleres Panel|Mittelpanel-Avatar|Helligkeit/Transparenz des Avatars im mittleren Panel (3)
+Panel-Hervorhebung|Panel-Highlight-Modus|(Hinweis: Dies färbt auch die aktuelle Geschwindigkeitsanzeige, den Supercruise-Ausrichtungsbalken (wenn nicht ausgerichtet), den aktiven Kraftstoff auf dem Tankbalken. Er kann leider nicht getrennt werden, aber Sie können die Farbe auswählen. Ich empfehle XML.
+Panel-Hervorhebung|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Zielausrichtung (korrekte) Blöcke, Balken und Anzeigelicht (blaue Abschnitte im Original-Elite).
+Panel-Hervorhebung|Helligkeit|Helligkeit für das Panel-Highlight.
+Seitenwände|Hauptlinien|(Hinweis: Dies färbt auch die aktuelle Geschwindigkeitsanzeige, den Supercruise-Ausrichtungsbalken (wenn nicht ausgerichtet), den aktiven Kraftstoff auf dem Tankbalken. Er kann leider nicht getrennt werden, aber Sie können die Farbe wählen. I XML empfehlen.
+Seitenwände|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Zielausrichtung (korrekte) Blöcke, Balken und Anzeigelicht (blaue Abschnitte im Original Elite).
+Seitenwände|Helligkeit|Helligkeit für die Hauptlinien der Seitenwände.
+Nav Panel|Nav-Panel-Modus|Aktueller Standort-Pin/Keil (nur der aktuelle Standort-Pin kann in eine benutzerdefinierte Farbe geändert werden. Der Ziel-Pin ist mit anderen Elementen/Linien auf dem Schiffs-Panel verbunden)
+Nav Panel|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für GalMap Engineering Symbolfarbe. *Alpha*
+Missionsfenster|Missionsfenstermodus|Beeinflusst die Farbe der Missionsfenster im Navigationsfenster sowie das Missionssymbol auf dem Missionsauswahlbildschirm)
+Missionsfenster|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Missionsfelder im Navigationsfeld, plus Missionssymbol auf dem Missionsauswahlbildschirm.
+Wartungspanel|Schiffsskizze|Schiffsskizze auf der erweiterten Wartungstafel (Station/Träger)
+Wartungspanel|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für die Schiffsskizze. *Alpha
+Kabinenbeleuchtung
+Kabine - Cockpitbeleuchtung|Farbmodus|Modus für Kabinen-/Cockpitbeleuchtung
+Kabine - Cockpitbeleuchtung|Beleuchtungsstil|0 = Eingeschränkt (Nähe dem Elite-Standard, die Kabinenbeleuchtung deckt nicht das gesamte Cockpit ab)<p>1 = Voll (deckt einen größeren Teil des Cockpits ab, relativ zu „Eingeschränkt“, schließt jedoch Bereiche aus von weißem Licht)<p>2 = Vollständig (deckt die 'Voll'-Bereiche sowie einige Bereiche mit weißem Licht ab. Verwenden Sie den XML-Modus (in Startup-Profile.ini), um auf einigen Schiffen mehrfarbiges Licht zu sehen (die orangefarbenen Bereiche und weiße Bereiche reagieren anders auf Ihre XML)<p>3 = Space Disco (Flutlicht mit Hautverschmutzung, ganze Kabine).
+Kabine - Cockpitbeleuchtung|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Kabine - Cockpitbeleuchtung.
+Kabine - Cockpitbeleuchtung|Helligkeit|Helligkeit für Kabine - Cockpitbeleuchtung.
+AmbientLights - Zweifarbig|Linke Farbe|(Experimentell) - Am besten im VOLL-Beleuchtungsmodus zu verwenden.
+AmbientLights - Zweifarbig|Right Color|diese Farbe wird der Grundfarbe auf der rechten Seite des Cockpits hinzugefügt.
+AmbientLights - Zweifarbig|Helligkeit|Helligkeit für AmbientLights - Zweifarbig.
+Schiffspaneele|Ship Panel Background|(Standard-Deckkraft in Advanced.ini festlegen, funktioniert in allen Farbmodi)
+Schiffspaneele|Hintergrund des Schiffsfensters|Benutzerdefinierte Farbe für den Hintergrund des Schiffsfensters und die Deckkraft. *Alpha*
+Schiffspaneele|Panel Background Opazität|Opcaity (Alpha) für den Ship Panels Hintergrund.
+Stationstafeln|Tafelzeichnungen|Kunst und Skizzen auf Tafeln
+Stationstafeln|Panel-Zeichnungen|Benutzerdefinierte Farbe für Panel-Zeichnungen. *Alpha*
+Spezialeffekte
+Weltraumeffekte|Supercruise SideLines|Schalter zum Entfernen von Supercruise SideLines
+Weltraumeffekte|Supercruise Snow|Schalter für Supercruise Snow entfernen
+Weltraumeffekte|Space Dust|Switch für Space Dust (auch bekannt als Schnee im normalen Flug)
+Kampf- und Analyse-HUD
+Kampf-HUD|Kampf-HUD-Modus| ** Kampf-HUD (CHUD) MODUS ** <p> Für ein Standard-CHUD, Setze Farbe 2 RGB(0,0,0) und Fade Strength = 0<p> Für ein einfarbiges Bird-of-Prey CHUD, Set Color 2 RGB (0,0,0) und Ihre bevorzugte Fade-Stärke (0,7 ist eine schöne Balance)<p> Stellen Sie für ein Synthwave (zweifarbiges) CHUD die Farbe 2 RGB nach Ihren Wünschen ein und die Fade-Stärke = 1
+Kampf-HUD|Farbe 1|Benutzerdefinierte Farbe für Combat HUD - Farbe 1 (obere Farbe).
+Kampf-HUD|Farbe 1 - Helligkeit|Helligkeit für Farbe 1 (oberste Farbe).
+Kampf-HUD|Farbe 2|Benutzerdefinierte Farbe für Combat HUD – Farbe 2 (untere Farbe).
+Kampf-HUD|Fade Strength|Fade Strength (oder Synthwave-Farbbalance: > 1 = mehr Zweite Farbe, < 1 = weniger Zweite Farbe).
+Kampf-HUD|Munitionsfarbe|Benutzerdefinierte Farbe für Combat HUD - Munition.
+Kampf-HUD|Munition Brightness|Helligkeit für Munition.
+Analyse-HUD|Analyse-HUD-Modus|Radar-Modus
+Analyse HUD|Analyse HUD|Benutzerdefinierte Farbe für Analyse HUD. (*Alpha)
+Analyse-HUD|Zielabsehen|Benutzerdefinierte Farbe für das Absehen im Analysemodus im Kampfmodus. (*Alpha)
+Analyse HUD|AHUD Text Mode|Modus für Texte rund um AHUD.
+Analyse HUD|AHUD Textfarbe|Benutzerdefinierte Farbe für Texte rund um AHUD. *Alpha*
+Zu Fuß HUD
+Anzug HUD - Panel|Panel Mode|Hinweis: XML (wird eine orangefarbene Basis vortäuschen, die dem Schiffs-HUD entspricht).
+Anzug HUD - Panel|Panelfarbe|Benutzerdefinierte Farbe für On-Fuß-Panel.
+Anzug HUD - Panel|Panel-Opazität|Helligkeit für On-Fuß-Panel.
+Anzug HUD - Panel|Ship Side Panels|Option zum Ersetzen von CYAN-Elementen auf Schiffsseitenpanels.<p>Wenn Sie diese Option aktivieren, werden die Cyan-Rangsymbole und Teile der Symbole im Nav-Panel mit Ihrem XML und Cyan eingefärbt.<p> Es ändert auch die Farbe der Cyan-Blöcke auf der Registerkarte "Versand-Panel-Speicher" mit Ihrer Panel-XML-Farbe.
+Anzug HUD - Schild|Schildmodus|Farbmodus für Schilde
+Anzug HUD - Schild|Innenring|Benutzerdefinierte Farbe für den Innenring des On-Fuß-Schilds (*alpha).
+Anzug HUD - Schild|Mittlerer Ring|Benutzerdefinierte Farbe für den Mittelring des On-Fuß-Schilds (*alpha).
+Anzug HUD - Schild|Außenring|Benutzerdefinierte Farbe für den Außenring des On-Fuß-Schilds (*alpha).
+Anzug HUD - Shield|Shield Down Color|Benutzerdefinierte Farbe für On-Fuß-Shield Down (*Alpha).
+Anzug HUD - Schild|Schildwiederherstellung|Benutzerdefinierte Farbe für die Animation zur Schildwiederherstellung zu Fuß (*alpha).
+Anzug HUD - Texte|Textmodus|Hinweis: XML (wird eine orangefarbene Basis vortäuschen, die dem Schiffs-HUD entspricht).
+Anzug HUD - Texte|Textfarbe|Benutzerdefinierte Farbe für On-Fuß-Texte. (*Alpha)
+Anzug HUD - Texte|Hervorgehobener Modus|Hervorgehobener / invertierter Text und Symbolfarbe.
+Anzug HUD - Texte|Hervorgehobene Farbe|Benutzerdefinierte Farbe für hervorgehobene Texte zu Fuß. (*Alpha)
+Schild & Holo-Schiff
+Schilde|Schildmodus|Hinweis: Multi-Schild funktioniert nur bei Auflösungen >= 2560 x 1440, möglicherweise bei 1920 x 1080. Auf Selbst und Ziel angewendet.
+Schilde|Schildprozentsatz % Farbe|Benutzerdefinierte Farbe für Schildprozentsatz %
+Schilde|Schildprozentsatz - Helligkeit|Helligkeit für Schildprozentsatz-Text
+Mehrfarbiger Schild |Innenring|Innenringfarbe, nur für Multi-Shield. (Alpha)
+Mehrfarbiger Schild | Mittlerer Ring | Mittlere Ringfarbe, Nur für Multi-Shield. (Alpha)
+Mehrfarbiger Schild |Äußerer Ring|Äußere Ringfarbe, nur für Multi-Shield. (Alpha)
+Einfarbiger Schild|Shields Down|Einfarbiges Schild - Shield Down Color .
+Einfarbiger Schild|Shields Up|Shield Up-Farbe (relativ zur Shield Down-Farbe).
+Einfarbiger Schild|Helligkeit|Gesamtschildhelligkeit/Alpha (Einzelmodus)
+Einfarbiger Schild|Ringstärke|Helligkeit/Alpha der Gesamtschilde (Einzelmodus)
+Kreisförmige Wirbel|Obere Wirbel - Modus|Kreisförmige Wirbel unter Holos
+Kreisförmige Wirbel|Top Wirbel - Farbe|Benutzerdefinierte Farbe für Kreiswirbel unter Holos
+Kreisförmige Wirbel|Top Wirbel - Helligkeit|Helligkeit für Top Wirbel
+Kreisförmige Wirbel|Mittlere Wirbel - Modus|Statusleisten unter dem Schild
+Kreisförmige Wirbel|Mitte Wirbel - Farbe|Benutzerdefinierte Farbe für Statusleisten
+Kreisförmige Wirbel|Mittlere Wirbel - Helligkeit|Statusleisten-Helligkeit
+Kreisförmige Wirbel|Untere Wirbel - Modus|Dünne Halbkreise am unteren Rand des Hologramms
+Kreisförmige Wirbel|Untere Wirbel - Farbe|Benutzerdefinierte Farbe für dünne Halbkreise am unteren Rand des Hologramms. *Alpha
+Rumpfmesser|Farbmodus|Blöcke für Rumpfgesundheit, einschließlich Ziel
+Rumpfmesser|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Blöcke unter dem Schild, einschließlich des Ziels.
+Rumpfmesser|Helligkeit|Helligkeit für Blöcke unter dem Schild
+Rumpfmesser|Rumpfmesser - Schattierung|Schattierungsmultiplikator (gilt nur für den schattierten Modus)
+Rumpfmesser|Ätzend betroffene Hülle|Blockiert die Hüllengesundheit, einschließlich des Ziels
+Rumpfmesser| Caustic Affected Hull Color | Benutzerdefinierte Farbe für Caustic Affected Hull Bars.
+Hologramm des eigenen Schiffs|Hologramm - Modus|OwnShip Hologramm-Modus<p>Umfasst auch Landehologramm, SRV-Hologramm, SRV-Gelände auf Radar
+Hologramm des eigenen Schiffs|Hologramm - Farbe|Benutzerdefinierte Farbe für OwnShip Hologramm
+Hologramm des eigenen Schiffs|Hologram - Helligkeitsstufe|Hellness for Hologram's Hull<p>Setzen Sie für Ultra-Tron die Helligkeit des Rumpfes niedrig (z. B. 0) und die Außenlinienblüte hoch (z. B. 0,5)
+Hologramm des eigenen Schiffs|Hologramm - Bloom|Holo Bloom / glow
+Hologramm des eigenen Schiffs|Outer Lines Bloom|Outer Lines Bloom/Glow (Standard= 0) (Dieser Wert kann negativ sein, z. B. -0.5)
+Hologramm des eigenen Schiffs|Gesamthelligkeit|Gesamthelligkeit des Hologramms
+Hologramm des eigenen Schiffs|Schimmernde Linien|Schalter für OwnShip Hologramm Shimmer
+Zielschiff-Hologramm|Neutrales Ziel|Benutzerdefinierte Farbe für OwnShip-Hologramm
+Zielschiff-Hologramm|Neutrales Ziel - Helligkeit|Helligkeit für Hologramm-Rumpf<p>Setzen Sie für Ultra-Tron die Rumpfhelligkeit niedrig (z. B. 0) und die Außenlinien blühen hoch (z. B. 0,5)
+Zielschiff-Hologramm|Gesamthelligkeit|Helligkeit für Hologramm
+Zielschiff-Hologramm|Grüne Ziel-Helligkeit|Hellgrüne Ziel-Holo-Helligkeit (einige grüne Hologramme haben übermäßige Helligkeit)
+Zielschiff-Hologramm|Schimmernde Linien|Schalter für Ziel-Hologramm-Schimmer
+Landungshologramm|OFF Landeplatz|Benutzerdefinierte Farbe für Landing Hologramm
+Landungshologramm|ON-Landeplatz|Benutzerdefinierte Farbe für ON-Landeplatz
+Landungshologramm|Helligkeit|Helligkeit für Landing Hologramm
+Planetarisches Landeabsehen|Farbmodus|Planetary Landing Absehen - Peil- und Sinkwinkelleisten
+Planetarisches Landeabsehen|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für planetares Landeabsehen.
+Planetarisches Landeabsehen|Landing Line und Coasters|Benutzerdefinierte Farbe für Landing Line und Coaster (orange)*Alpha
+Planetarisches Landeabsehen|Höhenbalken|Benutzerdefinierte Farbe für Landing Line und Coaster (orange)*Alpha
+Planetarisches Landeabsehen|Textfarbe|Benutzerdefinierte Farbe für Text in Absehenfeldern *Alpha
+Planetarisches Landeabsehen|Texthelligkeit|Texthelligkeit entlang des Höhenbalkens (wird um das Fadenkreuz herum ausgeblasen)
+Planetarisches Landeabsehen|Texthelligkeit|Texthelligkeit für Längen-/Breitenkoordinaten, Schwerkraft
+SRV-Hologramm|SRV-Hologramm - Main|**(DEAKTIVIERT)** Benutzerdefinierte Farbe für SRV-Hologramm (*Alpha)
+SRV-Hologramm|SRV-Hologramm - Klein|Benutzerdefinierte Farbe für SRV-Hologramm.<p>Alpha (ist ein % des Haupthologramm-Alpha)
+Radar & gemeinsame Gruppe
+Schiffsradar|Radarmodus|Radarmodus
+Schiffsradar|Radaraußenrand|Außenradarkomponenten Benutzerdefinierte Farbe.
+Schiffsradar|Außenrandhelligkeit|Außenradarhelligkeit (normaler Bereich liegt zwischen 0,3 und 1,0, aber Sie können höher gehen)
+Radargitter|Farbe|Benutzerdefinierte Farbe für Radargitter.
+Radargitter|Helligkeit|Helligkeit für Radargitter
+Radar-Dreieck-Widget|Modus|Radar-Dreieck-Widget-Modus
+Radar-Dreieck-Widget|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für das Dreieck-Radar-Widget. (*Alpha)
+Radar-Zoom-Widget|Modus|Modus für Radar-Zoom-Level-Linien
+Radar-Zoom-Widget|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für das Radar-Zoom-Widget. (*Alpha)
+Radar-Zoom-Widget|Level-Linien|Radar-Zoom-Level-Linien Benutzerdefinierte Farbe.
+Radar-Zoom-Widget|Helligkeit der Pegellinien|Helligkeit der Radar-Zoompegellinien
+Radarobjekte - Supercruice|Radarkörper in Supercruice|Modus für Radarkörper in Supercruice
+Radarobjekte - Supercruice|Radar - Planets|Benutzerdefinierte Farbe für Radarkörper in Supercruise. (* Mit Alpha)
+Radarobjekte - Supercruice|Radar - Moons|Benutzerdefinierte Farbe für Radarkörper in Supercruise. (* Mit Alpha)
+Radarobjekte - Supercruise|Radar - Stars|Benutzerdefinierte Farbe für Radarkörper in Supercruise. (* Mit Alpha)
+Radarobjekte – Supercruice|Neutrale Ziele – Linien|Benutzerdefinierte Farbe für Objektlinien und Achterbahnen in Supercruise.
+Radarobjekte|Radarobjekte|Modus für Radarobjekte im Normalflug
+Radarobjekte| Weiße Objekte entfernen | Schalter zum Entfernen weißer Objekte auf dem Radar (Wake, Materialien, Bergung usw.) im Standardflug (nicht Supercruise)
+Radarobjekte|Radar - Neutrale Ziele|ORANGE Quadrate in beiden Flugmodi; Orangefarbene Objektlinien und Untersetzer im Normalflug.<p>* Alpha
+Radarobjekte|Radar - Freundliche Ziele|GRÜNE Quadrate, Linien und Untersetzer in beiden Flugmodi.<p>* Alpha
+Radarobjekte|Radar - Feindliche Ziele|ROTE Quadrate, Linien und Untersetzer in beiden Flugmodi.<p>* Alpha
+Äußere Radar Komponenten|Farbmodus|Modus für Heat Bar und Speed ​​Bar
+Äußere Radar Komponenten|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe der äußeren Radarkomponenten.
+Äußere Radar Komponenten|Bar Booster|Bar Booster (erhöht die Helligkeit des Hintergrunds der Hauptgeschwindigkeits- und Heizbalken)
+Äußere Radar Komponenten|Helligkeit|Gesamthelligkeit (aller äußeren Radarkomponenten)
+Optimale Geschwindigkeitsleiste|Benutzerdefinierte Farbe|Optimale Geschwindigkeitsleistenfarbe (Werte beziehen sich auf die Hauptfarbe; können negativ sein, um eine Farbe von der Hauptfarbe zu reduzieren)
+Radarobjekte|Radarobjekte - Landung|Modus für Radarobjekte bei Landung, Linie und Achterbahn
+Radarobjekte|Radarobjekte - Landung|Benutzerdefinierte Farbe für das Gelände Bei der Landung auf einem Planeten.
+SRV-Scanner|SRV-Scanner|SRV-Scanner Farbe
+SRV-Scanner|SRV-Scanner - Primärfarbe|SRV-Scanner Primärfarbe, Objekterkennungsfarbe.
+SRV-Scanner|SRV-Scanner - Sekundärfarbe|SRV-Scanner Sekundärfarbe, Abtastfarbe des Scanners.
+SRV-Scanner|Gesamt-Alpha|SRV-Scanner – Gesamt-Alpha
+SRV-Scanner|Geländehologramm auf Radar|Benutzerdefinierte Farbe für Geländehologramm auf Radar (während in SRV).
+SRV Scanner|SRV Scanner Elevation|Modus für SRV Radar Elevation diagonale Linien
+SRV-Scanner|SRV-Scanner-Elevation|Benutzerdefinierte Farbe für diagonale Linien der SRV-Radarhöhe. *Alpha*
+SRV-Scanner|SRV-Turmmodus|SRV-Turm, kleines Bild von SRV auf dem Radar, plus verschiedene Elemente
+SRV-Scanner|SRV-Turmfarbe|Benutzerdefinierte Farbe für SRV-Turm, kleines Bild von SRV auf dem Radar plus verschiedene Elemente. *Alpha*
+SRV Scanner|Brightness|SRV Turret, Distributor Brightness Boost.<p>FDev wendet einen ungeraden Farbdämpfungsfilter auf den SRV Turret-Bildschirm an.<p>Verwenden Sie diesen Wert, um die Farbe des Verteilers zu verstärken (er sieht nicht genau gleich aus als Schiffs-/SRV-Verteiler aufgrund des Filters)
+Kompass|Farbmodus|Kompassfarbe
+Kompass|Benutzerdefinierte Farbe|Benutzerdefinierte Kompassfarbe.
+Kompass|Helligkeit|Kompass-Hintergrund-Booster
+Kompass|Kompasspunkt|Kompasspunkt Benutzerdefinierte Farbe.
+Kompass|Kompasspunkthelligkeit|Kompasspunkthelligkeit<p>(Hinweis: Dieses Element verhält sich etwas anders als andere. Empfohlenes Minimum ist 0,7 Helligkeit)
+Stromverteiler
+Stromverteiler|Modus|Stromverteilermodus
+Stromverteiler|Farbe des oberen Blocks|Benutzerdefinierte Farbe für den oberen Block des dreifarbigen Verteilers oder Standard (einfarbig)
+Stromverteiler|Helligkeit des oberen Blocks|Helligkeit für den oberen Block des dreifarbigen Verteilers oder Standard (einfarbig)
+Dreifarbiger Verteiler|Farbe des mittleren Blocks|Benutzerdefinierte Farbwerte für den mittleren Block des Tri-Verteilers.
+Dreifarbiger Verteiler|Mittelblock-Helligkeit|Helligkeit (Alpha) für Mittelblock
+Dreifarbiger Verteiler|Bottom Block Color|Benutzerdefinierte Farbwerte für den unteren Block des Tri-Distributors.
+Dreifarbiger Verteiler|Bottom Block Brightness|Helligkeit für Bottom Block
+Farbverlaufsverteiler|Farbe 1|Benutzerdefinierte Farbe für Farbe 1: Obere Farbe des Farbverlaufsverteilers.
+Farbverlaufsverteiler|Dominanz 1|Farbe 1-Dominanz (Werte > 1,0 erhöhen die Dominanz, Werte < 1,0 verringern die Dominanz)
+Farbverlaufsverteiler|Farbe 2|Benutzerdefinierte Farbe für Farbe 2: Untere Farbe des Farbverlaufsverteilers.
+Farbverlaufsverteiler|Helligkeit|Gesamthelligkeit des Farbverlaufsverteilers
+Stromverteiler - Pips|Pips-Modus|Stromverteiler Pips-Modus
+Stromverteiler - Pips|Pips-Farbe|Benutzerdefinierte Farbe für Stromverteiler Pipsr.
+Stromverteiler - Pips|Helligkeit|Helligkeit für Stromverteiler Pips
+Stromverteiler - Pips|Nicht aktiver Pip-Booster|Helligkeit für inaktive Pips.
+Auswahlblöcke|Modus|Verteilerauswahlblockmodus
+Auswahlblöcke|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Verteilerauswahlblöcke.
+Auswahlblöcke|Helligkeit|Helligkeit für Verteilerauswahlblöcke
+RST (Reset) Bars|Mode|RST Bars [..] unter Verteiler
+RST (Reset) Bars|Custom Color|Custom Farbe für RST Bars unter dem Verteiler.
+RST (Reset) Balken|Helligkeit|Helligkeit für RST Balken
+Signatur & Kraftstoffbars
+Signaturleiste|Modus|Unterschriftsleistenmodus
+Signaturleiste|Primärfarbe|Primärfarbe, äußerer Teil des Signals
+Signaturleiste|Sekundärfarbe|Sekundärfarbe, Mitte des Signals (relativ zur Primärfarbe)
+Signaturleiste|Overall Alpha|Overall Alpha (Transparenz) für die Signaturleiste
+Kraftstoffanzeige|Kraftstoffleisten-Modus|Kraftstoffleisten-Modus
+Kraftstoffanzeige|Benutzerdefinierte Farbe|Benutzerdefinierte Farbe für Kraftstoffleiste
+Kraftstoffanzeige|Helligkeit|Helligkeit für Fuel Bar
+Kraftstoffanzeige|Kraftstoff für den nächsten Sprung|(muss ein in Ihrem Nav-Computer programmiertes System haben, um dieses Element zu sehen)
+Kraftstoffanzeige|Nächster Sprung Helligkeit|Helligkeit für den nächsten Sprung, (kann nicht unsichtbar gemacht werden, wird bei 0.0 schwarz)
+Kraftstoffanzeige|Fuel Scoop Mode|Modus für Schöpfrate/Menge, nicht Heizstufe
+Kraftstoffanzeige|Kraftstoff-Schaufelfarbe|Benutzerdefinierte Farbe für Kraftstoff-Schaufel *Alpha
+Statuslichter|Modus|Modus für Statuslichter (Mass Lock, Fahrwerk, Cargo Scoop).
+Statuslichter|Aus-Farbe|Benutzerdefinierte Farbe für den Licht-Aus-Zustand.
+Statuslichter|AN-Farbe|Benutzerdefinierte Farbe für Licht-EIN-Zustand.
+Statuslichter|Helligkeit|Helligkeit für Statusleuchten
+Schiffs- und Stationstafeln
+|256

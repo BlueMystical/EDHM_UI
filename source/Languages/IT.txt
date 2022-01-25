@@ -1,0 +1,257 @@
+Pannello (superiore)
+Pannello dialogo|Linee pannello dialogo|Modalità linee pannello dialogo (in alto a sinistra)<p>Nota: i colori appariranno leggermente diversi dalle linee del pannello informazioni perché i colori originali in Elite sono diversi.
+Pannello dialogo|Colore personalizzato|Colore personalizzato linee pannello dialogo. (*Alpha)
+Pannello dialogo|Icone del pannello dialogo|Modalità icone pannello dialogo.
+Pannello dialogo|Colore personalizzato|Colore personalizzato icone pannello dialogo. (*Alpha)
+Pannello informazioni|Linee pannello informazioni|Modalità linee pannello informazioni (in alto a destra)
+Pannello informazioni|Linee pannello informazioni|Colore personalizzato linee pannello informazioni. (*Alpha)
+Pannello informazioni|Nome astronave|Colore testo nome astronave.
+Pannello informazioni|Nome astronave|Colore personalizzato nome astronave.
+Pannello informazioni|Luminosità nome astronave|Luminosità nome astronave
+Pannello informazioni|Bagliore sfondo nome astronave|Bagliore sfondo nome astronave
+Reticolo di mira
+Reticolo di mira|Reticolo di mira|Modalità per reticolo di mira
+Reticolo di mira|Icona del grado|Icona del grado che appare accanto alla astronave bersaglio (solo neutro / arancione)
+Reticolo di mira - Componenti|Tre linee grandi|Colore personalizzato per Tre linee grandi (una verticale in alto, due diagonali in basso). (*Alpha)
+Reticolo di mira - Componenti|Tre linee piccole|Colore personalizzato per Tre linee piccole. (*Alpha)
+Reticolo di mira - Componenti|Cerchio grande|Colore personalizzato per cerchio grande. (*Alpha)
+Reticolo di mira - Componenti|Cerchio principale|Colore personalizzato per cerchio principale. (*Alpha)
+Reticolo di mira - Componenti|Puntatore arma|Colore personalizzato per puntatori arma. (*Alpha)
+Reticolo di mira - Componenti|Puntatore mouse|Colore personalizzato per puntatore mouse. (*Alpha)
+Reticolo di mira - Componenti|Aggancio missile|Colore personalizzato per aggancio missile (anche per l'animazione del decollo da pianeta) *Alpha
+Obiettivi ambientali e di destinazione|Modalità|Modalità obiettivi ambientali e di destinazione (& aggancio dei missili)
+Obiettivi ambientali e di destinazione|Possibile obiettivo astronave|Colore personalizzato per possibile obiettivo astronave (non selezionato). (*Alpha)
+Obiettivi ambientali e di destinazione|Possibile obiettivo destinazione|Colore personalizzato per possibile obiettivo destinazione e relativa freccia del mouse. (*Alpha)
+Obiettivi ambientali e di destinazione|Cerchio possibile obiettivo in supercruise|Colore personalizzato per cerchio possibile obiettivo in supercruise. (*Alpha)
+Obiettivi ambientali e di destinazione|Cerchio obiettivo destinazione|Colore personalizzato per il cerchio obiettivo destinazione. (*Alpha)
+Obiettivi ambientali e di destinazione|Luminosità testo|Luminosità testo obiettivo destinazione (il testo a destra del cerchio)
+Obiettivi ambientali e di destinazione|Modalità del rombo grigio|Modalità del rombo grigio (obiettivo potenziale non biologico nell'ambiente)
+Obiettivi ambientali e di destinazione|Colore del rombo grigio|Colore personalizzato per il rombo grigio (obiettivo potenziale non biologico nell'ambiente). (*Alpha)
+Obiettivi ambientali e di destinazione|Aumento visibilità del rombo grigio|Aumento dell'opacità nel SRV
+Obiettivi ambientali e di destinazione|Testo durante atterraggio planetario astronave (blu)|In Elite, il testo blu dell'astronave 'agganciata' all'atterraggio è eccessivamente luminoso.<p>Qui puoi ridurre la luminosità di questo testo (consigliato da 0,4 a 0,6)
+Impostazioni HUD
+Testo principale|Modalità testo|Cambia colore del testo arancione (la maggior parte del testo).
+Testo principale|Colore testo|Colore personalizzato per il testo globale. *Alpha*
+Testo principale|Modalità testo evidenziato|Modalità per testo evidenziato in tutti i pannelli.
+Testo principale|Colore testo evidenziato|Colore personalizzato per il testo evidenziato in tutti i pannelli. *Alpha*
+Testi secondari|Modalità testo|Cambia colore del testo blu (tra gli altri, intorno all'AHUD e al testo della missione).
+Testi secondari|Colore testo|Colore personalizzato per i testi secondari. *Alpha*
+Testi terziari|Modalità testo|Scambio colore testo giallo (tra gli altri, evidenzia la propria Fleet Carrier, testo del reticolo di atterraggio).
+Testi terziari|Colore testo|Colore personalizzato per testi terziari. *Alpha*
+Mappa Galassia|Modalità icona|Colore icona GalMap (esclusa icona Engineer) e colore della linea di rotta.
+Mappa Galassia|Colore icona|Colore personalizzato per il colore dell'icona su GalMap. *Alpha*
+Mappa Galassia|Modalità icona Engineer|Modalità icona Engineer su GalMap
+Mappa Galassia|Colore dell'icona Engineer|Colore personalizzato per l'icona Engineer su GalMap. *Alpha*
+Avvisi - Accelerazione|Modalità colore|Modalità per avviso di accelerazione (solo linee)
+Avvisi - Accelerazione|Colore personalizzato|Colore personalizzato per avviso di accelerazione (solo linee)
+Avvisi - Accelerazione|Luminosità|Luminosità per avviso di accelerazione (solo linee).
+Avvertenze - Flak a rilascio remoto|Modalità colore|Modalità per Flak a rilascio remoto / Lanciatore Flak
+Avvertenze - Flak a rilascio remoto|Colore personalizzato|Colore personalizzato per Flak a rilascio remoto/Lanciatore Flak.<p>Nota: il segnale di attivazione rosso non può essere modificato in questo momento.<p>I controlli della luminosità non sono disponibili in quanto alterano la visualizzazione tra gli elementi esterni e di prossimità; Per ridurre la luminosità, ridurre semplicemente i valori RGB della stessa percentuale
+Avvertenze - Flak a rilascio remoto|Colore di prossimità del bersaglio|Colore personalizzato per Flak a rilascio remoto/Lanciatore Flak.<p>Nota: il segnale di attivazione rosso non può essere modificato in questo momento.<p>I controlli della luminosità non sono disponibili in quanto alterano la visualizzazione tra gli elementi esterni e di prossimità; Per ridurre la luminosità, riduci semplicemente i valori RGB della stessa percentuale
+Pannello (inferiore)
+Pannello inferiore|Linee pannello (inferiore)|Valore per il colore preferito delle linee del pannello inferiore.
+Pannello inferiore|Linee pannello inferiore|(*Alpha) ** (se il tuo colore personalizzato è vicino all'arancione, aggiungi un po' di blu (es. 0.1) per evitare un problema di visualizzazione sul pannello di mira. Il pannello di mira utilizza una tecnica di cambio colore che considera blu = 0).
+Pannello di mira|Modalità|Velocità/Distanza/Allineamento in Supercruise. Escluse le linee del pannello inferiore e il colore del testo.<p>Se il colore scelto per gli elementi Velocità/Distanza in Supercruise è vicino all'arancione (rosso alto, verde medio), aggiungi 0,1 blu per evitare un problema di visualizzazione
+Pannello di mira|Allineamento corretto del bersaglio (blocchi)|Colore personalizzato per blocchi di allineamento (corretto) del bersaglio, barra e indicatore luminoso (sezioni blu in Elite originale).
+Pannello di mira|Luminosità|Luminosità per l'allineamento (corretto) del bersaglio
+Pannello di mira|Modalità linee di divisione|Linee di divisione sul pannello di mira in Supercruise
+Pannello di mira|Colore linee di divisione|Colore personalizzato per le linee di divisione nel pannello di mira in Supercruise
+Pannello di mira|Luminosità linee di divisione|Luminosità per le icone nel pannello Nav e nel pannello di mira
+Pannello di mira|Allineamento del bersaglio errato (blocchi)|Colore personalizzato per i blocchi di allineamento del bersaglio (errato / non allineato) e indicatore luminoso (sezioni arancioni nell'Elite originale).
+Pannello di mira|Luminosità|Luminosità per l'allineamento del bersaglio (errato)
+Pannello di mira|Allineamento del bersaglio errato (barra)|Colore personalizzato per barra di allineamento del bersaglio in Supercruise (errato), linee di divisione (tra Distanza/Velocità/Allineamento), icone. Questi non possono essere separati ulteriormente..
+Pannello di mira|Luminosità|Luminosità per barra di allineamento del bersaglio in Supercruise (errato)
+Pannello di mira|Modalità icone|Icone nel pannello navigazione e nel pannello di mira
+Pannello di mira|Colore icone|Colore personalizzato per le icone nel pannello navigazione e nel pannello di mira
+Pannello di mira|Luminosità icone|Luminosità per le icone nel pannello navigazione e nel pannello di mira
+Pannello centrale|Avatar pannello centrale|Luminosità / Trasparenza dell'avatar nel pannello centrale (3)
+Evidenza pannello|Modalità evidenza pannello|(Nota: questo colora anche l'indicatore della velocità attuale, la barra di allineamento in Supercruise (quando non allineata), il carburante attivo sulla barra del carburante. Sfortunatamente non può essere separato, ma puoi scegliere il colore. Consigliato XML.
+Evidenza pannello|Colore personalizzato|Colore personalizzato per i blocchi di allineamento (corretto) del bersaglio, la barra e l'indicatore luminoso (sezioni blu in Elite originale).
+Evidenza pannello|Luminosità|Luminosità per evidenza pannello.
+Pannelli laterali|Linee principali|(Nota: questo colora anche l'indicatore della velocità attuale, la barra di allineamento in Supercruise (quando non allineata), il carburante attivo sulla barra del carburante. Sfortunatamente non può essere separato, ma puoi scegliere il colore. Consigliato XML.
+Pannelli laterali|Colore personalizzato|Colore personalizzato per i blocchi di allineamento (corretto) del bersaglio, la barra e l'indicatore luminoso (sezioni blu in Elite originale).
+Pannelli laterali|Luminosità|Luminosità per le linee principali dei pannelli laterali.
+Pannello Navigazione|Modalità pannello navigazione|Puntatore/cuneo di posizione attuale (solo il Puntatore di posizione attuale può essere modificato con un colore personalizzato. Il Puntatore di destinazione è collegato ad altri elementi/linee sul pannello dell'astronave)
+Pannello Navigazione|Colore personalizzato|Colore personalizzato per il colore dell'icona Engineering su GalMap. *Alpha*
+Pannello Missione|Modalità pannello missione|Influisce sul colore dei pannelli missione sul pannello di navigazione, oltre all'icona della missione nella schermata di selezione della missione)
+Pannello Missione|Colore personalizzato|Colore personalizzato per i pannelli missione sul pannello di navigazione, più l'icona della missione nella schermata di selezione della missione.
+Pannello Manutenzione|Schizzo della astronave|Schizzo della astronave sul pannello di manutenzione avanzata (stazione/fleet carrier)
+Pannello Manutenzione|Colore personalizzato|Colore personalizzato per lo schizzo della astronave. *Alpha*
+Illuminazione Cabina
+Cabina - Illuminazione del pannello strumenti|Modalità colore|Modalità per illuminazione cabina/pannello strumenti
+Cabina - Illuminazione del pannello strumenti|Stile di illuminazione|0 = Limitata (Vicino allo standard Elite, la luce della cabina non copre l'intera cabina di pilotaggio)<p>1 = Estesa (Copre una parte maggiore della cabina di pilotaggio, rispetto a "Limitata", ma esclude le aree di luce bianca)<p>2 = Completo (Copre le aree 'Estesa', più alcune aree di luce bianca. Usa la modalità XML (in Startup-Profile.ini) per vedere la luce multicolore su alcune astronavi (le aree arancioni e le aree bianche reagiranno in modo diverso al tuo XML)<p>3 = Space Disco (inondazione di luce con contaminazione della pelle, cabina intera).
+Cabina - Illuminazione pannello strumenti|Colore personalizzato|Colore personalizzato per la cabina - Illuminazione pannello strumenti.
+Cabina - Illuminazione pannello strumenti|Luminosità|Luminosità per la cabina - Illuminazione pannello strumenti.
+Luci Ambientali - Bicolore|Colore sinistro|(Sperimentale) - Ideale da usare in modalità di illuminazione COMPLETA.
+Luci Ambientali - Bicolore|Colore destro|questo colore viene aggiunto al colore Base sul lato destro del cockpit.
+Luci Ambientali - Bicolore|Luminosità|Luminosità per Luci Ambientali - Bicolore.
+Pannelli astronave|Sfondo pannello astronave|(imposta il livello di opacità predefinito in Advanced.ini, funziona con tutte le modalità colore)
+Pannelli astronave|Sfondo pannello astronave|Colore personalizzato per sfondo pannello astronave e opacità'. *Alpha*
+Pannelli astronave|Opacità dello sfondo del pannello|Opacità (Alpha) per lo sfondo dei pannelli dell'astronave.
+Pannelli della stazione|Disegni del pannello|Decorazioni e schizzi su pannelli
+Pannelli stazione|Disegni del pannello|Colore personalizzato per disegni del pannello. *Alpha*
+Effetti Speciali
+Space FX|Linee Laterali in Supercruise|Interruttore per rimuovere le Linee Laterali in Supercruise
+Space FX|Supercruise Snow|Interruttore per attivare/disattivare l'effetto 'neve' in Supercruise
+Space FX|Space Dust|Interruttore per attivare/disattivare l'effetto Space Dust (noto anche come 'neve') in volo normale
+HUD di Combattimento ed Analisi
+HUD di combattimento|Modalità HUD di combattimento| ** MODALITÀ Combat HUD (CHUD) ** <p> Per un CHUD standard, imposta Colore 2 RGB(0,0,0) e Intensità dissolvenza = 0<p> Per un singolo colore CHUD Bird-of-Prey, imposta Color 2 RGB(0,0,0) e il tuo Fade Strength (intensità dissolvenza) preferito (0,7 è un buon equilibrio)<p> Per un CHUD 'synthwave' (doppio colore), imposta Color 2 RGB secondo le tue preferenze e Fade Strenth = 1
+HUD di combattimento|Colore 1|Colore personalizzato per HUD da combattimento - Colore 1 (colore superiore).
+HUD di combattimento|Colore 1 - Luminosità|Luminosità per Colore 1 (Colore superiore).
+HUD di combattimento|Colore 2|Colore personalizzato per HUD da combattimento - Colore 2 (colore inferiore).
+HUD di combattimento|Intensità dissolvenza|Intensità dissolvenza (o bilanciamento del colore Synthwave: > 1 = più secondo colore, < 1 = meno secondo colore).
+HUD di combattimento|Colore munizioni|Colore personalizzato per HUD da combattimento - Munizioni.
+HUD di combattimento|Luminosità munizioni|Luminosità per le munizioni.
+HUD di analisi|Modalità HUD di analisi|Modalità radar
+HUD di analisi|HUD di analisi|Colore personalizzato per HUD di analisi. (*Alpha)
+HUD di analisi|Reticolo di mira|Colore personalizzato per il reticolo della modalità Analisi in modalità Combattimento. (*Alpha)
+HUD di analisi|Modalità testo HUD di analisi|Modalità per i testi intorno al AHUD.
+HUD di analisi|Colore del testo HUD di analisi|Colore personalizzato per i testi intorno al AHUD. *Alpha*
+HUD Tuta (On-Foot)
+HUD Tuta - Pannello|Modalità pannello|Nota: XML (simulerà una base arancione per abbinarlo all'HUD della astronave).
+HUD Tuta - Pannello|Colore pannello|Colore personalizzato per pannello On-Foot.
+HUD Tuta - Pannello|Opacità del pannello|Luminosità per il pannello On-Foot.
+HUD Tuta - Pannello|Pannelli laterali astronave|Opzione per sostituire gli elementi CIANO sui pannelli laterali dell'astronave.<p>L'attivazione di questa opzione colorerà le icone del rango ciano e parti delle icone sul pannello di navigazione con il tuo XML e ciano.<p>Cambierà anche il colore dei blocchi ciano nella scheda di archiviazione del pannello di spedizione con il colore XML del pannello.
+HUD Tuta - Scudo|Modalità scudo|Modalità colore per scudi
+HUD Tuta - Scudo|Anello interno|Colore personalizzato per l'anello interno dello scudo On-Foot (*alpha).
+HUD Tuta - Scudo|Anello centrale|Colore personalizzato per l'anello centrale dello scudo On-Foot (*alpha).
+HUD Tuta - Scudo|Anello esterno|Colore personalizzato per l'anello esterno dello scudo On-Foot (*alpha).
+HUD Tuta - Scudo|Colore scudo abbassato|Colore personalizzato per lo scudo abbassato On-Foot (*alpha).
+HUD Tuta - Scudo|Ripristino dello scudo|Colore personalizzato per l'animazione di ripristino dello scudo On-Foot (*alpha).
+HUD Tuta - Testi|Modalità testi|Nota: XML (simulerà una base arancione per abbinarlo all'HUD della astronave).
+HUD Tuta - Testi|Colore testi|Colore personalizzato per testi On-Foot. (*Alpha)
+HUD Tuta - Testi|Modalità evidenziata|Colore del testo e dell'icona evidenziato/invertito.
+HUD Tuta - Testi|Colore evidenziato|Colore personalizzato per testi evidenziati On-Foot. (*Alpha)
+Scudo ed Ologramma Astronave
+Scudi|Modalità Scudo|Nota: lo schermo multiplo funziona solo con risoluzioni >= 2560x1440, potrebbe funzionare a 1920x1080. Applicato a se stesso e al bersaglio.
+Scudi|Percentuale scudo % - Colore|Colore personalizzato per percentuale scudo %
+Scudi|Percentuale scudo - Luminosità|Luminosità per il testo percentuale scudo
+Scudo multiplo|Anello interno|Colore anello interno, solo per Scudo multiplo. (Alpha)
+Scudo multiplo|Anello centrale|Colore anello centrale, solo per Scudo multiplo. (Alpha)
+Scudo multiplo|Anello esterno|Colore anello esterno, solo per Scudo multiplo. (Alpha)
+Scudo singolo|Scudo abbassato|Scudo monocolore - Colore scudo abbassato.
+Scudo singolo|Scudo alzato|Colore scudo alzato (relativo al colore scudo abbassato).
+Scudo singolo|Luminosità|Luminosità complessiva scudi/Alpha (modalità singola)
+Scudo singolo|Spessore anello|Luminosità complessiva scudi/Alpha (modalità singola)
+Swirl circolari|Swirl superiori - Modalità|Swirl circolari sotto Hologrammi
+Swirl circolari|Swirl superiori - Colore|Colore personalizzato per Swirl circolari sotto ologrammi
+Swirl circolari|Swirl superiori - Luminosità|Luminosità per Swirl superiori
+Swirl circolari|Swirl centrali - Modalità|Barre di stato sotto lo scudo
+Swirl circolari|Swirl centrali - Colore|Colore personalizzato barre di stato
+Swirl circolari|Swirl centrali - Luminosità|Luminosità barre di stato
+Swirl circolari|Swirl inferiori - Modalità|Semicerchi sottili nella parte inferiore dell'ologramma
+Swirl circolari|Swirl inferiori - Colore|Colore personalizzato per semicerchi sottili nella parte inferiore dell'ologramma. *Alpha
+Indicatore scafo|Modalità colore|Blocchi per l'integrità dello scafo, incluso il bersaglio
+Indicatore scafo|Colore personalizzato|Colore personalizzato per i blocchi sotto lo scudo, incluso il bersaglio.
+Indicatore scafo|Luminosità|Luminosità per i blocchi sotto lo scudo
+Indicatore scafo|Indicatore scafo - Ombreggiatura|Moltiplicatore dell'ombreggiatura (si applica solo alla modalità ombreggiata)
+Indicatore scafo|Scafo affetto da sostanze caustiche|Blocchi per l'integrità dello scafo, incluso il bersaglio
+Indicatore scafo|Colore scafo affetto da sostanze caustiche|Colore personalizzato per barre dello scafo affette da sostanze caustiche.
+Ologramma Astronave Propria|Modalità Ologramma|Modalità Ologramma Astronave Propria<p>Include anche ologramma di atterraggio, ologramma SRV, terreno SRV sul radar
+Ologramma Astronave Propria|Colore Ologramma|Colore personalizzato per Ologramma Astronave Propria
+Ologramma Astronave Propria|Luminosità Ologramma|Luminosità Ologramma Astronave Propria<p>Per Ultra-tron, imposta la luminosità dello scafo bassa (es. 0) e le linee esterne bloom alte (es. 0.5)
+Ologramma Astronave Propria|Alone Ologramma|Alone Ologramma / glow
+Ologramma Astronave Propria|Alone linee esterne|Alone linee esterne / glow (default= 0) (Questo valore può essere negativo, ad esempio -0,5)
+Ologramma Astronave Propria|Luminosità complessiva|Luminosità complessiva ologramma
+Ologramma Astronave Propria|Linee luccicanti|Passa a Ologramma Astronave Propria con Linee luccicanti
+Ologramma Astronave Bersaglio|Bersaglio neutro|Colore personalizzato per ologramma astronave bersaglio
+Ologramma Astronave Bersaglio|Bersaglio neutro - Luminosità|Luminosità per lo scafo dell'ologramma astronave bersaglio<p>Per Ultra-tron, impostare la luminosità dello scafo bassa (es. 0) e le linee esterne bloom alte (es. 0,5)
+Ologramma Astronave Bersaglio|Luminosità complessiva|Luminosità per l'ologramma
+Ologramma Astronave Bersaglio|Luminosità bersaglio verde|Luminosità ologramma bersaglio verde brillante (alcuni ologrammi verdi hanno una luminosità eccessiva)
+Ologramma Astronave Bersaglio|Linee luccicanti|Interruttore per l'ologramma dell'obiettivo luccicante
+Ologramma di atterraggio|Lontano dal sito di atterraggio|Colore personalizzato per l'ologramma di atterraggio
+Ologramma di atterraggio|Sul sito di atterraggio|Colore personalizzato sul sito di atterraggio
+Ologramma di atterraggio|Luminosità|Luminosità per l'ologramma di atterraggio
+Reticolo di atterraggio planetario|Modalità colore|Reticolo di atterraggio planetario - Barre angolari di rilevamento e discesa
+Reticolo di atterraggio planetario|Colore personalizzato|Colore personalizzato per reticolo di atterraggio planetario.
+Reticolo di atterraggio planetario|Linea di atterraggio e ausilii visivi|Colore personalizzato per linea di atterraggio e ausilii visivi (arancioni)*Alpha
+Reticolo di atterraggio planetario|Barra di altitudine|Colore personalizzato per linea di atterraggio e ausilii visivi (arancioni)*Alpha
+Reticolo di atterraggio planetario|Colore testo|Colore personalizzato per il testo nelle caselle del reticolo *Alpha
+Reticolo di atterraggio planetario|Luminosità del testo|Luminosità del testo lungo la barra dell'altitudine (tende ad essere troppo illuminato intorno al reticolo)
+Reticolo di atterraggio planetario|Luminosità del testo|Luminosità del testo per coordinate di longitudine/latitudine, gravità
+Ologramma SRV|Ologramma SRV - Principale|**(DISABILITATO)** Colore personalizzato per ologramma SRV (*Alpha)
+Ologramma SRV|Ologramma SRV - Piccolo|Colore personalizzato per ologramma SRV.<p>Alpha (è una % dell'ologramma principale alpha)
+Radar e Gruppo Comune
+Radar astronave|Modalità radar|Modalità radar
+Radar astronave|Bordo esterno radar|Componenti radar esterni Colore personalizzato.
+Radar astronave|Luminosità bordo esterno|Luminosità bodo esterno radar (l'intervallo normale è compreso tra 0,3 e 1,0, ma è possibile aumentare)
+Griglia radar|Colore|Colore personalizzato per griglia radar.
+Griglia radar|Luminosità|Luminosità per griglia radar
+Widget triangolo radar|Modalità|Modalità widget triangolo radar
+Widget triangolo radar|Colore personalizzato|Colore personalizzato per widget triangolo radar. (*Alpha)
+Widget zoom radar|Modalità|Modalità per linee di livello zoom radar
+Widget zoom radar|Colore personalizzato|Colore personalizzato per widget zoom radar. (*Alpha)
+Widget zoom radar|Linee di livello|Colore personalizzato per linee di livello zoom radar.
+Widget zoom radar|Luminosità linee di livello|Luminosità linee di livello zoom radar
+Oggetti radar - Supercruise|Radar - Corpi celesti in Supercruise|Modalità per corpi celesti sul radar in Supercruise
+Oggetti radar - Supercruise|Radar - Pianeti|Colore personalizzato per corpi celesti sul radar in Supercruise. (* Con Alpha)
+Oggetti radar - Supercruise|Radar - Lune|Colore personalizzato per corpi celesti sul radar in Supercruise. (* Con Alpha)
+Oggetti radar - Supercruice|Radar - Stelle|Colore personalizzato per corpi celesti sul radar in Supercruise. (* Con Alpha)
+Oggetti radar - Supercruise|Obiettivi neutri - Linee|Colore personalizzato per linee di oggetti ed ausilii visivi in Supercruise.
+Oggetti radar|Oggetti radar|Modalità per oggetti sul radar in volo normale
+Oggetti radar|Rimuovi oggetti bianchi|Attiva/disattiva la rimozione di oggetti bianchi sul radar (scie, materiali, recupero, ecc.) in volo standard (non supercrociera)
+Oggetti radar|Radar - Bersagli neutri|Quadrati ARANCIONI in entrambe le modalità di volo; Linee di oggetti e ausilii visivi ARANCIONI in volo normale.<p>* Alpha
+Oggetti radar|Radar - Bersagli amici|Quadrati, linee e ausilii visivi VERDI in entrambe le modalità di volo.<p>* Alpha
+Oggetti radar|Radar - Bersagli ostili|Quadrati, linee e ausilii visivi ROSSI in entrambe le modalità di volo.<p>* Alpha
+Componenti esterni radar|Modalità colore|Modalità per barra di calore e barra della velocità
+Componenti esterni radar|Colore personalizzato|Colore personalizzato per componenti radar esterni.
+Componenti esterni radar|Bar Booster|Bar Booster (aumenta la luminosità dello sfondo delle barre principali di velocità e calore)
+Componenti esterni radar|Luminosità|Luminosità complessiva (di tutti i componenti radar esterni)
+Barra velocità ottimale|Colore personalizzato|Colore barra velocità ottimale (i valori sono relativi al colore principale; può essere negativo per sottrarre un colore dal colore principale)
+Oggetti radar|Oggetti radar - Atterraggio|Modalità per oggetti radar durante l'atterraggio, la linea e gli ausilii visivi
+Oggetti radar|Oggetti radar - Atterraggio|Colore personalizzato per il terreno durante l'atterraggio su un pianeta.
+Scanner SRV|Scanner SRV|Colore Scanner SRV
+Scanner SRV|Scanner SRV - Colore primario|Colore primario Scanner SRV, colore di rilevamento oggetto.
+Scanner SRV|Scanner SRV - Colore secondario|Colore secondario Scanner SRV, colore del diagramma di scansione.
+Scanner SRV|Canale Alpha globale|Scanner SRV - Canale Alpha globale
+Scanner SRV|Ologramma del terreno sul radar|Colore personalizzato per l'ologramma del terreno sul radar (mentre in SRV).
+Scanner SRV|Elevazione dello scanner SRV|Modalità per linee diagonali di elevazione radar SRV
+Scanner SRV|Elevazione dello scanner SRV|Colore personalizzato per le linee diagonali dell'elevazione radar SRV. *Alpha*
+Scanner SRV|Modalità torretta SRV|Torretta SRV, piccola immagine di SRV sul radar, più elementi vari
+Scanner SRV|Colore torretta SRV|Colore personalizzato per torretta SRV, piccola immagine di SRV sul radar, più elementi vari. *Alpha*
+Scanner SRV|Luminosità|Torretta SRV, incremento luminosità distributore.<p>FDev applica un filtro di smorzamento del colore dispari alla schermata della torretta SRV.<p>Utilizza questo valore per aumentare il colore del distributore (non sarà esattamente lo stesso come distributore astronave/SRV a causa del filtro)
+Bussola|Modalità colore|Colore bussola
+Bussola|Colore personalizzato|Colore personalizzato bussola.
+Bussola|Luminosità|Amplificatore sfondo bussola.
+Bussola|Punto su Bussola|Colore personalizzato punto su bussola.
+Bussola|Luminosità Punto su bussola|Luminosità punto su bussola<p>(Nota: questo elemento si comporta in modo leggermente diverso dagli altri. Il minimo consigliato è 0,7 luminosità)
+Distributore di Potenza
+Distributore di Potenza|Modalità|Modalità Distributore di Potenza
+Distributore di Potenza|Colore blocco superiore|Colore personalizzato per il blocco superiore del distributore tricolore o Standard (colore singolo)
+Distributore di Potenza|Luminosità blocco superiore|Luminosità per blocco superiore del distributore tricolore o standard (colore singolo)
+Distributore tricolore|Colore blocco centrale|Valori colore personalizzati per il blocco centrale del distributore a tre colori.
+Distributore tricolore|Luminosità blocco centrale|Luminosità (Alpha) per blocco centrale
+Distributore tricolore|Colore blocco inferiore|Valori di colore personalizzati per il blocco inferiore del distributore a tre colori.
+Distributore tricolore|Luminosità blocco inferiore|Luminosità per blocco inferiore
+Distributore gradiente|Colore 1|Colore personalizzato per Colore 1: Colore superiore del distributore gradiente.
+Distributore gradiente|Dominanza 1|Dominanza colore 1 (valori > 1.0 aumenteranno la dominanza, valori < 1.0 diminuiranno la dominanza)
+Distributore gradiente|Colore 2|Colore personalizzato per Colore 2: Colore inferiore del distributore gradiente.
+Distributore gradiente|Luminosità|Luminosità complessiva del distributore gradiente
+Distributore di Potenza - Pips|Modalità Pips|Modalità Pips Distributore di Potenza
+Distributore di Potenza - Pips|Colore pips|Colore personalizzato per Pips del distributore di Potenza.
+Distributore di Potenza - Pips|Luminosità|Luminosità per Pips del distributore di Potenza.
+Distributore di potenza - Pips|Amplificatore di Pip non attivo|Luminosità per Pips inattivi.
+Blocchi di selezione|Modalità|Modalità blocchi di selezione distributore
+Blocchi selezione|Colore personalizzato|Colore personalizzato per blocchi selezione distributore.
+Blocchi di selezione|Luminosità|Luminosità per blocchi di selezione del distributore
+Barre RST (Reset)|Modalità|RST bar [..] sotto distributore
+Barre RST (Reset)|Colore personalizzato|Colore personalizzato per barre RST sotto il distributore.
+Barre RST (Reset)|Luminosità|Luminosità per barre RST
+Traccia termica e barre del carburante
+Barra della Traccia termica|Modalità|Modalità barra della traccia termica
+Barra della Traccia termica|Colore primario|Colore primario, parte esterna del segnale
+Barra della Traccia termica|Colore secondario|Colore secondario, al centro del segnale (rispetto al colore primario)
+Barra della Traccia termica|Alpha generale|Alpha generale (trasparenza) per la barra della traccia termica
+Barra del carburante|Modalità barra del carburante|Modalità barra del carburante
+Barra del carburante|Colore personalizzato|Colore personalizzato per barra del carburante
+Barra del carburante|Luminosità|Luminosità per la barra del carburante
+Barra del carburante|Carburante per il prossimo salto|(deve esserci un sistema programmato nel computer di navigazione per vedere questo elemento)
+Barra del carburante|Luminosità per salto successivo|Luminosità per salto successivo (non può essere reso invisibile, diventa nero a 0.0)
+Barra del carburante|Modalità della raccolta del carburante|Modalità per la velocità di raccolta / quantità, non il livello di calore
+Barra del carburante|Colore della raccolta del carburante|Colore personalizzato per la raccolta del carburante *Alpha
+Luci di stato|Modalità|Modalità per luci di stato (mass lock, carrello di atterraggio, raccolta di carico).
+Spie di stato|Colore Spento|Colore personalizzato per lo stato Spento.
+Spie di stato|Colore Acceso|Colore personalizzato per lo stato Acceso.
+Luci di stato|Luminosità|Luminosità per le luci di stato
+Pannelli per Astronavi e Stazioni
+|256
