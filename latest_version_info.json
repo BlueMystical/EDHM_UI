@@ -5,7 +5,7 @@
    "last_installer": "2.1.1.0",
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Couple Bug Fixes in the UI program.\r\n- New theme added.",
+   "changelog": "- Blue Texts fixed.\r\n- New theme added.",
    "re_install": false,
    "run_hotfix": true
 }
