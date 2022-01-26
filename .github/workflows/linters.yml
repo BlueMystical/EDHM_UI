@@ -1,0 +1,23 @@
+name: Syntax Checking and Linting
+on:
+  [pull_request]
+
+jobs:
+  build:
+    name: Linting
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: JSON Lint
+        uses: limitusus/json-syntax-check@v1
+        with:
+          pattern: "\\.json$"
+      - name: Markdown Lint
+        uses: nosborn/github-action-markdown-cli@v3.0.1
+        with:
+          files: "**.md"
+      - name: YAML Lint
+        uses: ibiqlik/action-yamllint@v0.0.1
+        with:
+          file_or_dir: .
