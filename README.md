@@ -8,7 +8,7 @@
 
 User Interface for Elite Dangerous HUD Mod (EDHM)
 
-<img src="static/preview.jpg" alt="EDHM_UI Preview">
+![EDHM_UI Preview](static/preview.jpg)
 
 ## What is EDHM_UI?
 
