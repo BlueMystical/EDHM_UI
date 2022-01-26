@@ -42,25 +42,25 @@ used by ED for various services.
 
 ### Steam
 
-| Game Version | Install Path                                                                                         |
-|--------------|------------------------------------------------------------------------------------------------------|
-| Horizons     | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-64\`         |
-| Odyssey      | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\` |
-| Odyssey      | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\FORC-FDEV-DO-1000\`          |
+| Version  | Install Path                                                                                         |
+|----------|:-----------------------------------------------------------------------------------------------------|
+| Horizons | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-64\`         |
+| Odyssey  | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\` |
+| Odyssey  | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\FORC-FDEV-DO-1000\`          |
 
 ### Epic Games
 
-| Game Version | Install Path                                                                                         |
-|--------------|------------------------------------------------------------------------------------------------------|
-| Horizons     | `C:\Program Files\Epic Games\EliteDangerous\Products\elitedangerous-64\`                             |
-| Odyssey      | `C:\Program Files\Epic Games\EliteDangerous\Products\elite-dangerous-odyssey-64\`                    |
+| Version  | Install Path                                                                                         |
+|----------|:-----------------------------------------------------------------------------------------------------|
+| Horizons | `C:\Program Files\Epic Games\EliteDangerous\Products\elitedangerous-64\`                             |
+| Odyssey  | `C:\Program Files\Epic Games\EliteDangerous\Products\elite-dangerous-odyssey-64\`                    |
 
 ### Frontier
 
-| Game Version | Install Path                                                                                         |
-|--------------|------------------------------------------------------------------------------------------------------|
-| Horizons     | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-64\`                                       |
-| Odyssey      | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-odyssey-64\`                               |
+| Version  | Install Path                                                                                         |
+|----------|:-----------------------------------------------------------------------------------------------------|
+| Horizons | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-64\`                                       |
+| Odyssey  | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-odyssey-64\`                               |
 
 ## Further reading
 
