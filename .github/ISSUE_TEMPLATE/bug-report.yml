@@ -1,3 +1,4 @@
+---
 name: Bug Report
 description: File a bug report
 title: "[Bug]: "
@@ -8,7 +9,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        The purpose of this template is to create a standardized issue workflow for EDHM_UI.
+        The purpose of this template is to create a standardized issue workflow
+        for EDHM_UI.
   - type: textarea
     id: expected_behavior
     attributes:
@@ -65,13 +67,17 @@ body:
     id: edhm_version
     attributes:
       label: EDHM Version
-      description: What version of EDHM are you using (this should only be necessary if you are testing a pre-release)
+      description: |
+        What version of EDHM are you using (this should only be
+        necessary if you are testing a pre-release)
     validations:
       required: false
   - type: textarea
     id: info
     attributes:
       label: Other Relevant Info
-      description: If there is anything else you feel we should know, please let us know!
+      description: |
+        If there is anything else you feel we should know, please
+        let us know!
     validations:
       required: false
