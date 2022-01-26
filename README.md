@@ -3,7 +3,6 @@
 [![Latest Release](https://img.shields.io/github/v/release/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/releases)
 [![Downloads](https://img.shields.io/github/downloads/BlueMystical/EDHM_UI/latest/total)](https://github.com/BlueMystical/EDHM_UI/releases)
 [![Issues](https://img.shields.io/github/issues/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/issues)
-[![Discord](https://img.shields.io/discord/773552741632180224?color=899AF9)](https://discord.gg/ZaRt6bCXvj)
 
 User Interface for Elite Dangerous HUD Mod (EDHM)
 
