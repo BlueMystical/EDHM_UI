@@ -10,7 +10,7 @@ User Interface for Elite Dangerous HUD Mod (EDHM)
 
 ## What is EDHM_UI?
 
-EDHM_UI is the user interface for the Elite Dangerous mod [EDHM by psychicEgg](https://github.com/psychicEgg/EDHM).
+EDHM_UI is the user interface for the Elite Dangerous mod [EDHM](https://github.com/psychicEgg/EDHM) by @psychicEgg.
 
 Current features include:
 
