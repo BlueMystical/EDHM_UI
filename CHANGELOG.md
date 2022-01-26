@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Invictus Federal (by Invictus)
 
 ### Changed
+- Improvements to README/documentation
+- Improvements to development/git workflow
 - Improvements to Russian translation (props Alex_238)
 
 ### Fixed
