@@ -29,7 +29,29 @@ EDHM_UI requires Microsoft .NET Framework version 4.52 or newer. If you are on W
 
 * Download the latest release from the [releases page](https://github.com/BlueMystical/EDHM_UI/releases).
 * Run the installer.
+  * NOTE: It is recommended to install EDHM_UI in the default location to avoid possible permissions issues.
+* Double-click on the EDHM_UI desktop icon.
 * Profit!
+
+## Initial setup
+
+The first time EDHM_UI runs, it will prompt you for the Elite Dangerous game folder.
+This determines where the EDHM core mod will be installed. The location varies depending
+on which version of ED you have installed. The following indicate the default locations
+used by ED for various services.
+
+| Service        | Game Version | Install Path                                                                                         |
+|----------------|--------------|------------------------------------------------------------------------------------------------------|
+| **Steam**      |              |                                                                                                      |
+|                | Horizons     | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-64\`         |
+|                | Odyssey      | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\` |
+|                | Odyssey      | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\FORC-FDEV-DO-1000\`          |
+| **Epic Games** |              |                                                                                                      |
+|                | Horizons     | `C:\Program Files\Epic Games\EliteDangerous\Products\elitedangerous-64\`                             |
+|                | Odyssey      | ` C:\Program Files\Epic Games\EliteDangerous\Products\elite-dangerous-odyssey-64\`                   |
+| **Frontier**   |              |                                                                                                      |
+|                | Horizons     | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-64\`                                       |
+|                | Odyssey      | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-odyssey-64\`                               |
 
 ## Further reading
 
