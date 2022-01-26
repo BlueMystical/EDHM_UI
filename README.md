@@ -1,4 +1,5 @@
 # EDHM_UI
+[![License: GPL-3.0+](https://img.shields.io/badge/license-GPL--3.0%2B-blue.svg)](https://raw.githubusercontent.com/BlueMystical/EDHM_UI/main/license.txt)
 [![Latest Release](https://img.shields.io/github/v/release/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/releases)
 [![Downloads](https://img.shields.io/github/downloads/BlueMystical/EDHM_UI/latest/total)](https://github.com/BlueMystical/EDHM_UI/releases)
 [![Issues](https://img.shields.io/github/issues/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/issues)
