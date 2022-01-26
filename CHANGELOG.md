@@ -27,11 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for menu XML skinning
 - Deep Purple theme for Odyssey (by Pissman)
 - Cyan Combat theme for Odyssey (by Alex_238)
-- Janus Emerald theme for Odyssey (by [@Evertiro](https://github.com/evertiro))
-- Janus Blackout theme for Odyssey (by [@Evertiro](https://github.com/evertiro))
-- Interstellar UltraBlue for Odyssey (by [@BlueMystical - Blue Mystic](https://github.com/BlueMystical))
+- Janus Emerald theme for Odyssey (by @Evertiro)
+- Janus Blackout theme for Odyssey (by @Evertiro)
+- Interstellar UltraBlue for Odyssey (by @BlueMystical - Blue Mystic)
 - Everything Off for Odyssey (by c4t4ly5t)
-- Interstellar UltraBlue for Horizons (by [@psychicEgg](https://github.com/psychicEgg))
+- Interstellar UltraBlue for Horizons (by @psychicEgg)
 - Quiet Grey for Horizons (by Alex_238)
 
 ### Changed
@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated EDHM library to 9.2c BOTE
 - Updated cockpit light skinning
 - Updated Grey Cyan theme for Odyssey (by Alex_238)
-- Updated Janus Core theme for Odyssey (by [@Evertiro](https://github.com/evertiro))
+- Updated Janus Core theme for Odyssey (by @Evertiro)
 
 ### Fixed
 - Preview bug in Horizons
@@ -51,29 +51,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global settings feature
 - Ability to set multiple instances of each game version
 - Russian translation for Horizons
-- Janus Core theme for Odyssey (by [@Evertiro](https://github.com/evertiro))
+- Janus Core theme for Odyssey (by @Evertiro)
 
 ### Fixed
 - Minor bugs
 
 ## [2.0.8.6] - 21 Dec, 2021
 ### Added
-- Gold and Blue (by [@BFGfreak](https://github.com/BFGfreak))
+- Gold and Blue (by @BFGfreak)
 
 ### Changed
 - Implemented patch 1.52.b for Horizons
 - Removed annoying notifications
-- Updated Cornflower Blue theme (by [@Mystler](https://github.com/Mystler))
+- Updated Cornflower Blue theme (by @Mystler)
 
 ### Fixed
 - Bug when switching from Horizons to Odyssey
 
 ## [2.0.6.5] - 21 Dec, 2021
 ### Added
-- Serenity theme (by [@ashH](https://github.com/ashH) - Whisky)
+- Serenity theme (by @ashH - Whisky)
 
 ### Changed
-- Updated Rat King Red theme (by [@ashH](https://github.com/ashH) - Whisky)
+- Updated Rat King Red theme (by @ashH - Whisky)
 
 ### Fixed
 - Default values for new elements
@@ -129,7 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.7.1] - 22 Nov, 2021
 ### Added
 - Installer support for Windows 7 and 8
-- On-foot HUD support for Odyssey (props [@Mystler](https://github.com/Mystler))
+- On-foot HUD support for Odyssey (props @Mystler)
 - SRV turret enemy hull bar support
 - Health bars of ship target sub-components
 - Support for shield brightness being set to 0 for shieldless designs
@@ -142,7 +142,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Improved cleanup on uninstallation
-- Updated Cornflower_Blue theme (by [@Mystler](https://github.com/Mystler))
+- Updated Cornflower_Blue theme (by @Mystler)
 
 ### Fixed
 - Target holos in AX CZ and NHSSs
