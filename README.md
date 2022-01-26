@@ -40,18 +40,18 @@ This determines where the EDHM core mod will be installed. The location varies d
 on which version of ED you have installed. The following indicate the default locations
 used by ED for various services.
 
-| Service        | Game Version | Install Path                                                                                             |
-|----------------|--------------|----------------------------------------------------------------------------------------------------------|
-| **Steam**      |              |                                                                                                          |
-|                | Horizons     | ```C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-64\```         |
-|                | Odyssey      | ```C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\``` |
-|                | Odyssey      | ```C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\FORC-FDEV-DO-1000\```          |
-| **Epic Games** |              |                                                                                                          |
-|                | Horizons     | ```C:\Program Files\Epic Games\EliteDangerous\Products\elitedangerous-64\```                             |
-|                | Odyssey      | ```C:\Program Files\Epic Games\EliteDangerous\Products\elite-dangerous-odyssey-64\```                    |
-| **Frontier**   |              |                                                                                                          |
-|                | Horizons     | ```C:\Program Files (x86)\Frontier\Products\elite-dangerous-64\```                                       |
-|                | Odyssey      | ```C:\Program Files (x86)\Frontier\Products\elite-dangerous-odyssey-64\```                               |
+| Service        | Game Version | Install Path                                                                                         |
+|----------------|--------------|------------------------------------------------------------------------------------------------------|
+| **Steam**      |              |                                                                                                      |
+|                | Horizons     | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-64\`         |
+|                | Odyssey      | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\` |
+|                | Odyssey      | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\FORC-FDEV-DO-1000\`          |
+| **Epic**       |              |                                                                                                      |
+|                | Horizons     | `C:\Program Files\Epic Games\EliteDangerous\Products\elitedangerous-64\`                             |
+|                | Odyssey      | `C:\Program Files\Epic Games\EliteDangerous\Products\elite-dangerous-odyssey-64\`                    |
+| **Frontier**   |              |                                                                                                      |
+|                | Horizons     | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-64\`                                       |
+|                | Odyssey      | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-odyssey-64\`                               |
 
 ## Further reading
 
