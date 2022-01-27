@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,43 +48,110 @@ namespace EDHM_UI_Patcher
 			return _ret;
 		}
 
-		public static T DeSerialize_FromJSON<T>(string filePath) where T : new()
-		{
-			/* EJEMPLO:  inventario _JSON = Util.DeSerialize_FromJSON_String<inventario>(Inventario_JSON);  */
-			/* List<string> videogames = JsonConvert.DeserializeObject<List<string>>(json); */
+        /// <summary>Serializa y escribe el objeto indicado en una cadena JSON.
+        /// <para>El objeto (Clase) debe tener un Constructor sin Parametros definido.</para>
+        /// <para>Only Public properties and variables will be written to the file. These can be any type though, even other classes.</para>
+        /// <para>If there are public properties/variables that you do not want written to the file, decorate them with the [JsonIgnore] attribute.</para>
+        /// </summary>
+        /// <typeparam name="T">Tipo de Objeto al cual queremos convertir.</typeparam>
+        /// <param name="objectToWrite">Instancia del Objeto que se va a Serializar.</param>
+        public static string Serialize_ToJSON<T>(T objectToWrite) where T : new()
+        {
+            /* EJEMPLO:  string _JsonString = Util.Serialize_ToJSON(_Inventario);  */
+            string _ret = string.Empty;
+            try
+            {
+                _ret = Newtonsoft.Json.JsonConvert.SerializeObject(objectToWrite);
+            }
+            catch { }
+            return _ret;
+        }
 
-			try
-			{
-				if (!filePath.EmptyOrNull())
-				{
-					if (System.IO.File.Exists(filePath))
-					{
-						using (TextReader reader = new StreamReader(filePath))
-						{
-							var fileContents = reader.ReadToEnd(); reader.Close();
-							return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(fileContents);
-						}
-					}
-					else
-					{
-						return default(T); //<- Si el Archivo NO Existe, les devuelvo un Objeto Vacio.
-					}
-				}
-				else
-				{
-					return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
-				}
-			}
-			finally { }
-		}
+        public static T DeSerialize_FromJSON<T>(string filePath) where T : new()
+        {
+            /* EJEMPLO:  inventario _JSON = Util.DeSerialize_FromJSON_String<inventario>(Inventario_JSON);  */
+            /* List<string> videogames = JsonConvert.DeserializeObject<List<string>>(json); */
+
+            try
+            {
+                if (!filePath.EmptyOrNull())
+                {
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        using (TextReader reader = new StreamReader(filePath))
+                        {
+                            var fileContents = reader.ReadToEnd(); reader.Close();
+                            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(fileContents);
+                        }
+                    }
+                    else
+                    {
+                        return default(T); //<- Si el Archivo NO Existe, les devuelvo un Objeto Vacio.
+                    }
+                }
+                else
+                {
+                    return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
+                }
+            }
+            finally { }
+        }
+
+        /// <summary>Serializa y escribe el objeto indicado en un archivo JSON.
+        /// <para>La Clase a Serializar DEBE tener un Constructor sin parametros.</para>
+        /// <para>Only Public properties and variables will be written to the file. These can be any type, even other classes.</para>
+        /// <para>If there are public properties/variables that you do not want written to the file, decorate them with the [JsonIgnore] attribute.</para>
+        /// </summary>
+        /// <typeparam name="T">El tipo de Objeto a guardar en el Archivo.</typeparam>
+        /// <param name="filePath">Ruta completa al archivo donde se guardará el JSON.</param>
+        /// <param name="objectToWrite">Instancia del Objeto a Serializar</param>
+        /// <param name="append">'false'=Sobre-Escribe el Archivo, 'true'=Añade datos al final del archivo.</param>
+        public static string Serialize_ToJSON<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+        {
+            /* EJEMPLO:  string _JsonString = Util.Serialize_ToJSON(System.IO.Path.Combine(file_path,_file_name), _Inventario);  */
+
+            string _ret = string.Empty;
+            try
+            {
+                if (!filePath.EmptyOrNull())
+                {
+                    _ret = Newtonsoft.Json.JsonConvert.SerializeObject(objectToWrite);
+                    using (System.IO.TextWriter writer = new System.IO.StreamWriter(filePath, append))
+                    {
+                        writer.Write(_ret);
+                        writer.Close();
+                    };
+                }
+            }
+            catch { }
+            return _ret;
+        }
+
+        /// <summary>Crea una instancia de un Objeto leyendo sus datos desde una cadena JSON.
+        /// <para>El objeto (Clase) debe tener un Constructor sin Parametros definido.</para></summary>
+        /// <typeparam name="T">Tipo de Objeto al cual queremos convertir.</typeparam>
+        /// <param name="JSONstring">Texto con formato JSON</param>
+        public static T DeSerialize_FromJSON_String<T>(string JSONstring) where T : new()
+        {
+            /* EJEMPLO:  inventario _JSON = Util.DeSerialize_FromJSON_String<inventario>(Inventario_JSON);  */
+
+            if (!JSONstring.EmptyOrNull())
+            {
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(JSONstring);
+            }
+            else
+            {
+                return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
+            }
+        }
 
 
-		/// <summary>Lee una Clave del Registro de Windows para el Usuario Actual.
-		/// Las Claves en este caso siempre se Leen desde 'HKEY_CURRENT_USER\Software\Elte Dangerous\Mods\'.</summary>
-		/// <param name="Sistema">Nombre del Sistema que guarda las Claves, ejem: RRHH, Contaduria, CutcsaPagos, etc.</param>
-		/// <param name="KeyName">Nombre de la Clave a Leer</param>
-		/// <returns>Devuelve NULL si la clave no existe</returns>
-		public static object WinReg_ReadKey(string Sistema, string KeyName)
+        /// <summary>Lee una Clave del Registro de Windows para el Usuario Actual.
+        /// Las Claves en este caso siempre se Leen desde 'HKEY_CURRENT_USER\Software\Elte Dangerous\Mods\'.</summary>
+        /// <param name="Sistema">Nombre del Sistema que guarda las Claves, ejem: RRHH, Contaduria, CutcsaPagos, etc.</param>
+        /// <param name="KeyName">Nombre de la Clave a Leer</param>
+        /// <returns>Devuelve NULL si la clave no existe</returns>
+        public static object WinReg_ReadKey(string Sistema, string KeyName)
 		{
 			Microsoft.Win32.RegistryKey rk = Microsoft.Win32.Registry.CurrentUser;
 			Microsoft.Win32.RegistryKey sk1 = rk.OpenSubKey(@"Software\Elte Dangerous\Mods\" + Sistema);
@@ -1005,4 +1072,34 @@ namespace EDHM_UI_Patcher
 
 		}
 	}
+
+    [Serializable]
+    public class game_instance
+    {
+        public game_instance() { }
+
+        public string instance { get; set; } = "Default";
+        public string game_id { get; set; }
+
+        public string key { get; set; }
+        public string name { get; set; }
+        public string path { get; set; }
+
+        public string themes_folder { get; set; }
+        public bool is_active { get; set; } = false;
+
+        public override string ToString()
+        {
+            return String.Format("{0} ({1})", name, instance);
+        }
+    }
+
+    [Serializable]
+    public class GameInstance
+    {
+        public GameInstance() { }
+
+        public string instance { get; set; }
+        public List<game_instance> games { get; set; }
+    }
 }
