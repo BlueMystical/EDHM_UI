@@ -8,8 +8,7 @@ assignees:
 body:
   - type: markdown
     attributes:
-      value: |
-        The purpose of this template is to create a standardized issue workflow
+      value: The purpose of this template is to create a standardized issue workflow
         for EDHM_UI.
   - type: textarea
     id: expected_behavior
@@ -56,6 +55,8 @@ body:
         - Frontier
         - Epic Games
         - Steam
+    validations:
+      required: true
   - type: input
     id: edhm_ui_version
     attributes:
@@ -67,8 +68,7 @@ body:
     id: edhm_version
     attributes:
       label: EDHM Version
-      description: |
-        What version of EDHM are you using (this should only be
+      description: What version of EDHM are you using (this should only be
         necessary if you are testing a pre-release)
     validations:
       required: false
@@ -76,8 +76,7 @@ body:
     id: info
     attributes:
       label: Other Relevant Info
-      description: |
-        If there is anything else you feel we should know, please
+      description: If there is anything else you feel we should know, please
         let us know!
     validations:
       required: false
