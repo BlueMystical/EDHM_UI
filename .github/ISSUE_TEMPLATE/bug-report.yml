@@ -8,8 +8,8 @@ assignees:
 body:
   - type: markdown
     attributes:
-      value: The purpose of this template is to create a standardized issue workflow
-        for EDHM_UI.
+      value: The purpose of this template is to create a standardized issue
+        workflow for EDHM_UI.
   - type: textarea
     id: expected_behavior
     attributes:
