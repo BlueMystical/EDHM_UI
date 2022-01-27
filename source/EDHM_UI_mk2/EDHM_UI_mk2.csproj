@@ -68,7 +68,7 @@
       <HintPath>lib\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\EDHM_DX\EDHM_DX\lib\MathNet.Numerics.dll</HintPath>
+      <HintPath>lib\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>

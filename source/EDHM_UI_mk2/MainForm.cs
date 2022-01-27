@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -19,6 +19,7 @@ using EDHM_UI_mk2.Clases;
 using EDHM_UI_mk2.Forms;
 using EDHM_UserInterface;
 using DevExpress.Data.Filtering;
+using System.Diagnostics;
 
 namespace EDHM_UI_mk2
 {
@@ -157,6 +158,12 @@ namespace EDHM_UI_mk2
 
 			//Carga el Idioma del Usuario:
 			this.LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
+            string _AvailableLanguages = Util.AppConfig_GetValue("Languages");
+            if (!_AvailableLanguages.Contains(this.LangShort))
+            {
+                this.LangShort = "en";
+            }
+
 			this.WatchMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "WatchMe").NVL("true"));
 			this.GreetMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "GreetMe").NVL("true"));
 			this.HideToTray = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "HideToTray").NVL("false"));
@@ -306,17 +313,14 @@ namespace EDHM_UI_mk2
 							}
 						}
 					}
-					
-					Run_HotFix();
-
-					Util.AppConfig_SetValue("FirstRun", "false");
+                    Util.AppConfig_SetValue("FirstRun", "false");
+                    Task.Factory.StartNew(() => { Run_HotFix(); });                  
 				}
 
 				CheckForModUpdates();
-				LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa, tambien verifica si el MOD esta instalado	
-				//LoadThemeList(); //<- Cargar la Lista de Temas disponibles	
-				LoadThemeList_EX();
-				LoadGlobalSettings(this.ActiveInstance);
+				LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa, tambien verifica si el MOD esta instalado		
+				LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
+                LoadGlobalSettings(this.ActiveInstance);
 
 				string search = this.ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 				this.lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
@@ -1166,12 +1170,7 @@ namespace EDHM_UI_mk2
 								//this.SelectedThemeElement = this.accordionControl1.Elements[0];
 								if (this.SelectedTheme != null)
 								{
-									switch (this.ActiveInstance.key)
-									{
-										case "ED_Horizons": LoadTheme_Horizons(this.SelectedTheme); break;
-										case "ED_Odissey": LoadTheme_Odissey(this.SelectedTheme); break;
-										default: break;
-									}
+                                    LoadTheme(this.SelectedTheme);                                    
 								}
 							}
 						}));
@@ -1320,6 +1319,26 @@ namespace EDHM_UI_mk2
 			return _ret;
 		}
 
+        Stopwatch _Stopwatch = new Stopwatch();
+        private void LoadTheme(ui_preset_new _Theme)
+        {
+            try
+            {
+               //if (_Stopwatch.IsRunning) _Stopwatch.Stop();
+                _Stopwatch.Start();
+                switch (this.ActiveInstance.key)
+                {
+                    case "ED_Horizons": LoadTheme_Horizons(_Theme); break;
+                    case "ED_Odissey": LoadTheme_Odissey(_Theme); break;
+                    default: break;
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 		private void LoadTheme_Horizons(ui_preset_new _Theme)
 		{
 			this.Cursor = Cursors.WaitCursor;
@@ -1351,7 +1370,10 @@ namespace EDHM_UI_mk2
 						{
 							if (this.Settings.ui_groups.IsNotEmpty())
 							{
-								this._RecentColors = new HashSet<Color>();
+                                this.Settings.name = _Theme.name;
+                                this.Settings.author = _Theme.author;
+
+                                this._RecentColors = new HashSet<Color>();
 
 								foreach (var _group in this.Settings.ui_groups)
 								{
@@ -1461,19 +1483,24 @@ namespace EDHM_UI_mk2
 		}
 		private void LoadTheme_Odissey(ui_preset_new _Theme)
 		{
-			/* LEE LOS VALORES DEL TEMA ACTUAL Y LOS GUARDA EN EL JSON  'this.Settings'  */
-			this.Cursor = Cursors.WaitCursor;
-
-			try
+            /* LEE LOS VALORES DEL TEMA ACTUAL Y LOS GUARDA EN EL JSON  'this.Settings'  */
+            try
 			{
-				if (_Theme != null && !this.LoadingTheme)
+                if (_Stopwatch.ElapsedMilliseconds >= 5000)
+                {
+                    this.LoadingTheme = false;
+                    _Stopwatch.Stop();
+                }
+                if (_Theme != null && !this.LoadingTheme)
 				{
 					if (!_Theme.folder.EmptyOrNull() && Directory.Exists(_Theme.folder))
 					{
 						this.LoadingTheme = true;
+                        this.navApplyTheme.Enabled = false;
+                        this.Cursor = Cursors.WaitCursor;
 
-						//2. Abrir el Archivo INI desde su Ubicacion:
-						IniFile _Reader = new IniFile(Path.Combine(_Theme.folder, @"Startup-Profile.ini"));
+                        //2. Abrir el Archivo INI desde su Ubicacion:
+                        IniFile _Reader = new IniFile(Path.Combine(_Theme.folder, @"Startup-Profile.ini"));
 						IniFile _ReaderXML = new IniFile(Path.Combine(_Theme.folder, @"XML-Profile.ini"));
 						IniFile _ReaderAdvanced = null;
 						IniFile _ReaderOnfoot = null;
@@ -1498,7 +1525,10 @@ namespace EDHM_UI_mk2
 
 						if (_Reader != null && _ReaderAdvanced != null)
 						{
-							if (this.Settings.ui_groups.IsNotEmpty())
+                            this.Settings.name = _Theme.name;
+                            this.Settings.author = _Theme.author;
+
+                            if (this.Settings.ui_groups.IsNotEmpty())
 							{
 								this._RecentColors = new HashSet<Color>();
 
@@ -1608,7 +1638,10 @@ namespace EDHM_UI_mk2
 								}
 
 								this.LoadingTheme = false;
-								PreviewTheme(true);
+                                this.navApplyTheme.Enabled = true;
+                                _Stopwatch.Stop();
+
+                                PreviewTheme(true);
 							}
 						}
 
@@ -2218,47 +2251,61 @@ namespace EDHM_UI_mk2
 		}
 
 		private void ApplyTheme(bool SaveIt = true, bool KeepItQuiet = false)
-		{
-			// Copiar los Archivos Plantilla con la Ultima Version del MOD:
-			if (File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Startup-Profile.ini", this.ActiveInstance.key))))
-			{
-				File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Startup-Profile.ini", this.ActiveInstance.key)),
-					Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini"), true);
-			}
-			if (File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_XML-Profile.ini", this.ActiveInstance.key))))
-			{
-				File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_XML-Profile.ini", this.ActiveInstance.key)),
-					Path.Combine(this.ActiveInstance.path, @"EDHM-ini\XML-Profile.ini"), true);
-			}
-			if (this.ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Advanced.ini", this.ActiveInstance.key))))
-			{
-				File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Advanced.ini", this.ActiveInstance.key)),
-					Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Advanced.ini"), true);
-			}
-			if (this.ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_SuitHud.ini", this.ActiveInstance.key))))
-			{
-				File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_SuitHud.ini", this.ActiveInstance.key)),
-					Path.Combine(this.ActiveInstance.path, @"EDHM-ini\SuitHud.ini"), true);
-			}			
+		{           
+            this.Cursor = Cursors.WaitCursor;
+            this.navApplyTheme.Enabled = false;
+            this.gridControl1.Cursor = Cursors.WaitCursor;
 
-			switch (this.ActiveInstance.key)
-			{
-				case "ED_Horizons":
-					ApplyTheme_Horizons(SaveIt, KeepItQuiet);
-					break;
-				case "ED_Odissey":
-					ApplyTheme_Odissey(SaveIt, KeepItQuiet);
-					break;
-			}
+            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+                #region COPY THE TEMPLATE FILES
+
+                if (File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Startup-Profile.ini", this.ActiveInstance.key))))
+                {
+                    File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Startup-Profile.ini", this.ActiveInstance.key)),
+                        Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini"), true);
+                }
+                if (File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_XML-Profile.ini", this.ActiveInstance.key))))
+                {
+                    File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_XML-Profile.ini", this.ActiveInstance.key)),
+                        Path.Combine(this.ActiveInstance.path, @"EDHM-ini\XML-Profile.ini"), true);
+                }
+                if (this.ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Advanced.ini", this.ActiveInstance.key))))
+                {
+                    File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_Advanced.ini", this.ActiveInstance.key)),
+                        Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Advanced.ini"), true);
+                }
+                if (this.ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_SuitHud.ini", this.ActiveInstance.key))))
+                {
+                    File.Copy(Path.Combine(this.AppExePath, string.Format(@"Data\{0}_SuitHud.ini", this.ActiveInstance.key)),
+                        Path.Combine(this.ActiveInstance.path, @"EDHM-ini\SuitHud.ini"), true);
+                }
+
+                #endregion
+
+                switch (this.ActiveInstance.key)
+                {
+                    case "ED_Horizons":
+                        ApplyTheme_Horizons(SaveIt, KeepItQuiet);
+                        break;
+                    case "ED_Odissey":
+                        ApplyTheme_Odissey(SaveIt, KeepItQuiet);
+                        break;
+                }                
+
+            });
 		}
 		private void ApplyTheme_Horizons(bool SaveIt = true, bool KeepItQuiet = false)
 		{
-			this.Cursor = Cursors.WaitCursor;
 			try
 			{
 				if (!this.ActiveInstance.path.EmptyOrNull())
 				{
-					IniFile _Reader = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini")); //<- Open and Read the INI file
+                    this.LoadingTheme = true;
+                    IniFile _Reader = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini")); //<- Open and Read the INI file
 					IniFile _ReaderXML = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\XML-Profile.ini"));
 					IniFile _Custom = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Custom.ini")); //<- Open and Read the INI file
 
@@ -2343,16 +2390,18 @@ namespace EDHM_UI_mk2
 
 					if (KeepItQuiet == false)
 					{
-						//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 3 SEGUNDOS:
-						XtraMessageBoxArgs args = new XtraMessageBoxArgs();
-						args.AutoCloseOptions.Delay = 2500;
-						args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-						args.Caption = "Done";
-						args.Text = "Visual Theme Applied Succesfully!.";
-						args.Buttons = new DialogResult[] { DialogResult.OK };
+                        //MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 3 SEGUNDOS:
+                        XtraMessageBoxArgs args = new XtraMessageBoxArgs()
+                        {
+                            Caption = "Visual Theme Applied Succesfully!.",
+                            Text = string.Format("{0} by {1}\r\n{2}", this.Settings.name, this.Settings.author, this.ActiveInstance.instance),
+                            Buttons = new DialogResult[] { DialogResult.OK }
+                        };
+                        args.AutoCloseOptions.Delay = 2000;
+                        args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
 
-						XtraMessageBox.Show(args).ToString();
-					}
+                        XtraMessageBox.Show(args).ToString();
+                    }
 				}
 				else
 				{
@@ -2364,16 +2413,26 @@ namespace EDHM_UI_mk2
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			finally { this.Cursor = Cursors.Default; }
-		}
+            finally
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    this.LoadingTheme = false;
+                    this.Cursor = Cursors.Default;
+                    this.navApplyTheme.Enabled = true;
+                    this.gridControl1.Cursor = Cursors.Default;
+                }));
+            }
+        }
 		private void ApplyTheme_Odissey(bool SaveIt = true, bool KeepItQuiet = false)
-		{
-			this.Cursor = Cursors.WaitCursor;
+		{			
 			try
 			{
 				if (!this.ActiveInstance.path.EmptyOrNull())
 				{
-					IniFile _Reader = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini")); //<- Open and Read the INI file			
+                    this.LoadingTheme = true;
+
+                    IniFile _Reader = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini")); //<- Open and Read the INI file			
 					IniFile _ReaderXML = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\XML-Profile.ini"));
 					IniFile _ReaderAdvanced = null;
 					IniFile _ReaderOnfoot = null;
@@ -2446,6 +2505,7 @@ namespace EDHM_UI_mk2
 						}
 					}
 
+                    //Now we Apply the XML:
 					if (this.Settings.xml_profile.IsNotEmpty())
 					{						
 						if (_ReaderXML != null)
@@ -2464,15 +2524,15 @@ namespace EDHM_UI_mk2
 					{
 						XtraMessageBoxArgs args = new XtraMessageBoxArgs()
 						{
-							Caption = "Done",
-							Text = "Visual Theme Applied Succesfully!.",
+							Caption = "Visual Theme Applied Succesfully!.",
+							Text = string.Format("{0} by {1}\r\n{2}",  this.Settings.name, this.Settings.author, this.ActiveInstance.instance),
 							Buttons = new DialogResult[] { DialogResult.OK }
 						};
 						args.AutoCloseOptions.Delay = 2000;
 						args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
 
 						XtraMessageBox.Show(args).ToString();
-					}
+                    }
 				}
 				else
 				{
@@ -2484,7 +2544,16 @@ namespace EDHM_UI_mk2
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			finally { this.Cursor = Cursors.Default; }
+			finally
+            {
+                Invoke((MethodInvoker)(() =>
+                { 
+                    this.LoadingTheme = false;
+                    this.Cursor = Cursors.Default;
+                    this.navApplyTheme.Enabled = true;
+                    this.gridControl1.Cursor = Cursors.Default;
+                }));
+            }
 		}
 
 		private void SaveTheme(bool Silent = false)
@@ -2826,71 +2895,134 @@ namespace EDHM_UI_mk2
 				}
 			}
 		}
-		private bool Run_HotFix()
-		{
-			bool _ret = false;
-			try
-			{
-				if (File.Exists(Path.Combine(this.AppExePath, "EDHM_HOTFIX.json")))
-				{
-					List<file_job> _Jobs = Util.DeSerialize_FromJSON<List<file_job>>(Path.Combine(this.AppExePath, "EDHM_HOTFIX.json"));
-					if (_Jobs != null)
-					{
-						string HORI_Path = Util.WinReg_ReadKey("EDHM", "ED_Horizons").NVL(string.Empty);
-						string ODYS_Path = Util.WinReg_ReadKey("EDHM", "ED_Odissey").NVL(string.Empty);
-						_ret = true;
+        private bool Run_HotFix()
+        {
+            bool _ret = false;
+            try
+            {
+                if (File.Exists(Path.Combine(this.AppExePath, "EDHM_HOTFIX.json")))
+                {
+                    List<file_job> _Jobs = Util.DeSerialize_FromJSON<List<file_job>>(Path.Combine(this.AppExePath, "EDHM_HOTFIX.json"));
+                    if (_Jobs != null)
+                    {
+                        /* AHORA ES MULTI-INSTANCIA !!!!!******  */
+                        List<GameInstance> GameInstancesEx = null;
 
-						foreach (file_job _job in _Jobs)
-						{
-							string GamePath = _job.game == "ODYSSEY" ? ODYS_Path : HORI_Path;
+                        string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
+                        string GameInstances_JSON = Util.WinReg_ReadKey("EDHM", "GameInstances").NVL(string.Empty);
 
-							_job.file_path = _job.file_path.Replace("%GAME_PATH%", GamePath);
-							_job.file_path = _job.file_path.Replace("%UI_PATH%", this.AppExePath);
+                        #region Load the Game Instances from Windows Registry
 
-							if (_job.destination != null && _job.destination != string.Empty)
-							{
-								_job.destination = _job.destination.Replace("%GAME_PATH%", GamePath);
-								_job.destination = _job.destination.Replace("%UI_PATH%", this.AppExePath);
-							}
+                        if (!GameInstances_JSON.EmptyOrNull())
+                        {
+                            GameInstancesEx = Util.DeSerialize_FromJSON_String<List<GameInstance>>(GameInstances_JSON);
+                            if (GameInstancesEx != null && GameInstancesEx.Count > 0)
+                            {
+                                GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
+                            }
+                        }
+                        else
+                        {
+                            //Crea Las Instancias x Defecto:
+                            GameInstancesEx = new List<GameInstance>();
+                            GameInstancesEx.Add(new GameInstance() { instance = "Default", games = new List<game_instance>() });
+                            GameInstancesEx[0].games.Add(new game_instance()
+                            {
+                                key = "ED_Horizons",
+                                name = "Horizons",
+                                instance = "Horizons (Default)",
+                                game_id = "Default|ED_Horizons",
+                                themes_folder = @"EDHM-ini\DemoProfiles",
+                                path = Util.WinReg_ReadKey("EDHM", "ED_Horizons").NVL(string.Empty),
+                                is_active = (_RegActiveInstance == "ED_Horizons" ? true : false)
+                            });
+                            GameInstancesEx[0].games.Add(new game_instance()
+                            {
+                                key = "ED_Odissey",
+                                name = "Odyssey",
+                                instance = "Odyssey (Default)",
+                                game_id = "Default|ED_Odissey",
+                                themes_folder = @"EDHM-ini\MyProfiles",
+                                path = Util.WinReg_ReadKey("EDHM", "ED_Odissey").NVL(string.Empty),
+                                is_active = (_RegActiveInstance == "ED_Horizons" ? true : false)
+                            });
 
-							try
-							{
-								if (File.Exists(_job.file_path))
-								{
-									switch (_job.action)
-									{
-										case "COPY":
-											File.Copy(_job.file_path, _job.destination, true);
-											break;
+                            GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
+                        }
 
-										case "MOVE":
-											File.Copy(_job.file_path, _job.destination, true);
-											File.Delete(_job.file_path);
-											break;
+                        #endregion
 
-										case "DEL":
-											File.Delete(_job.file_path);
-											break;
+                        if (GameInstancesEx != null && GameInstancesEx.Count > 0)
+                        {
+                            // Aplicar el HotFix a cada instancia
+                            foreach (var _Instance in GameInstancesEx)
+                            {
+                                string HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);
+                                string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
 
-										case "RMDIR":
-											Directory.Delete(_job.file_path, true);
-											break;
-									}
-								}
-							}
-							catch { }
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-			return _ret;
-		}
+                                foreach (file_job _job in _Jobs)
+                                {
+                                    string GamePath = _job.game == "ODYSSEY" ? ODYS_Path : HORI_Path;
 
-		private bool CheckGameRunning(bool ForceCheck = false)
+                                    _job.file_path = _job.file_path.Replace("%GAME_PATH%", GamePath);
+                                    _job.file_path = _job.file_path.Replace("%UI_PATH%", this.AppExePath);
+
+                                    if (_job.destination != null && _job.destination != string.Empty)
+                                    {
+                                        _job.destination = _job.destination.Replace("%GAME_PATH%", GamePath);
+                                        _job.destination = _job.destination.Replace("%UI_PATH%", this.AppExePath);
+                                    }
+
+                                    try
+                                    {
+                                        switch (_job.action)
+                                        {
+                                            case "COPY":
+                                                if (!Directory.Exists(Path.GetDirectoryName(_job.destination)))
+                                                    Directory.CreateDirectory(Path.GetDirectoryName(_job.destination));
+
+                                                if (File.Exists(_job.file_path))
+                                                    File.Copy(_job.file_path, _job.destination, true);
+                                                break;
+
+                                            case "MOVE":
+                                                if (File.Exists(_job.file_path))
+                                                {
+                                                    if (!Directory.Exists(Path.GetDirectoryName(_job.destination)))
+                                                        Directory.CreateDirectory(Path.GetDirectoryName(_job.destination));
+
+                                                    File.Copy(_job.file_path, _job.destination, true);
+                                                    File.Delete(_job.file_path);
+                                                }
+                                                break;
+
+                                            case "DEL":
+                                                if (File.Exists(_job.file_path))
+                                                    File.Delete(_job.file_path);
+                                                break;
+
+                                            case "RMDIR":
+                                                if (Directory.Exists(_job.file_path))
+                                                    Directory.Delete(_job.file_path, true);
+                                                break;
+                                        }
+                                    }
+                                    catch { }
+                                }
+                            }
+                            _ret = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+            return _ret;
+        }
+
+        private bool CheckGameRunning(bool ForceCheck = false)
 		{
 			bool _ret = false;
 			try
@@ -3426,12 +3558,7 @@ namespace EDHM_UI_mk2
 									Invoke((MethodInvoker)(() =>
 									{
 										this.SelectedTheme = _Theme;
-										switch (this.ActiveInstance.key)
-										{
-											case "ED_Horizons": LoadTheme_Horizons(_Theme); break;
-											case "ED_Odissey": LoadTheme_Odissey(_Theme); break;
-											default: break;
-										}
+                                        LoadTheme(_Theme);
 										this.lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}",
 													this.CommanderName, this.ShipIDName);
 										//Aplica el Tema:
@@ -3606,10 +3733,12 @@ namespace EDHM_UI_mk2
 		{
 			if (this.CboGameInstances.EditValue != null)
 			{
-				this.ActiveInstance = (game_instance)(this.CboGameInstances.Edit as RepositoryItemLookUpEdit)
+				var _Selected = (game_instance)(this.CboGameInstances.Edit as RepositoryItemLookUpEdit)
 					.GetDataSourceRowByKeyValue(this.CboGameInstances.EditValue);
 
-				this.vGridDetalles.Rows.Clear();
+                this.ActiveInstance = this.GameInstances.Find(x => x.game_id == _Selected.game_id);
+
+                this.vGridDetalles.Rows.Clear();
 				//this.accordionControl1.Elements.Clear();
 				Application.DoEvents();
 
@@ -3630,17 +3759,12 @@ namespace EDHM_UI_mk2
 			DevExpress.XtraGrid.Views.Grid.GridView view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
 			if (view.IsRowSelected(e.RowHandle) && e.Column.FieldName == "Preview")
 			{
-				ui_preset_new _theme = view.GetRow(e.RowHandle) as ui_preset_new;
-				if (_theme != null)
+				ui_preset_new _Theme = view.GetRow(e.RowHandle) as ui_preset_new;
+				if (_Theme != null)
 				{
-					this.SelectedTheme = _theme;
-					switch (this.ActiveInstance.key)
-					{
-						case "ED_Horizons": LoadTheme_Horizons(_theme); break;
-						case "ED_Odissey": LoadTheme_Odissey(_theme); break;
-						default: break;
-					}
-				}
+					this.SelectedTheme = _Theme;
+                    LoadTheme(_Theme);
+                }
 			}
 		}
 
@@ -4047,11 +4171,100 @@ namespace EDHM_UI_mk2
 			Util.AppConfig_SetValue("ShowTips", (!this.chkTips_NoShow.Checked).ToString());
 		}
 
-		#endregion
+        private void toolTipController1_GetActiveObjectInfo(object sender, ToolTipControllerGetActiveObjectInfoEventArgs e)
+        {
+            //Muestra un tooltip sobre el tema al pasar el mosue
+            if (e.Info == null && e.SelectedControl == this.gridControl1)
+            {
+                DevExpress.XtraGrid.Views.Grid.GridView view = this.gridControl1.FocusedView as DevExpress.XtraGrid.Views.Grid.GridView;
+                DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo info = view.CalcHitInfo(e.ControlMousePosition);
+                if (info.InRowCell)
+                {
+                    ui_preset_new _theme = view.GetRow(info.RowHandle) as ui_preset_new;
+                    if (_theme != null)
+                    {
+                        string cellKey = info.RowHandle.ToString() + " - " + info.Column.ToString();
+                        e.Info = new ToolTipControlInfo(cellKey, string.Format("By {0}", _theme.author), _theme.name);
+                    }
+                }
+            }
+        }
 
-		#region Botonera
+        private void gridView1_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
+        {
+            //Dibuja sobre el tema seleccionaod
+            DevExpress.XtraGrid.Views.Grid.GridView view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
 
-		private void navApplyTheme_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
+            if (view.IsRowSelected(e.RowHandle) && e.Column.FieldName == "Preview")
+            {
+                ui_preset_new _theme = view.GetRow(e.RowHandle) as ui_preset_new;
+                if (_theme != null && _theme.Preview != null)
+                {
+                    //Aqui dibuja la imagen normalmente:
+                    e.Graphics.DrawImage(_theme.Preview, e.Bounds);
+
+                    //Aqui escribo el Nombre del Tema
+                    e.Cache.DrawString(_theme.name, new System.Drawing.Font("Tahoma", 12, FontStyle.Bold),
+                        Brushes.White, e.Bounds);
+
+                    e.Handled = true;
+                }
+            }
+        }
+        private void gridView1_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
+        {
+            /* Cuando se hace un tema favorito, se crea un archivo para identificarlo  */
+            ui_preset_new _theme = e.Row as ui_preset_new;
+            if (_theme.IsFavorite)
+            {
+                Util.SaveTextFile(Path.Combine(_theme.folder, "IsFavorite.fav"),
+                                "** THIS THEME IS A FAVORITE **",
+                                Util.TextEncoding.UTF8);
+            }
+            else
+            {
+                if (File.Exists(Path.Combine(_theme.folder, "IsFavorite.fav")))
+                {
+                    File.Delete(Path.Combine(_theme.folder, "IsFavorite.fav"));
+                }
+            }
+        }
+        private void gridView1_BeforeLeaveRow(object sender, DevExpress.XtraGrid.Views.Base.RowAllowEventArgs e)
+        {
+            //Previene que se cambie la fila activa hasta que se termine de cargar el tema
+            if (this.LoadingTheme)
+            {
+                e.Allow = false;
+            }
+        }
+
+        private void cmdThemes_ShowFavorites_CheckedChanged(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            //Filtra mostrando solo los temas favoritos
+            BarToggleSwitchItem _Toogle = sender as BarToggleSwitchItem;
+            if (_Toogle.Checked)
+            {
+                //CriteriaOperator expr1 = new BinaryOperator("IsFavorite", true);
+                gridView1.ActiveFilterCriteria = new BinaryOperator("IsFavorite", true);
+            }
+            else
+            {
+                gridView1.ActiveFilterCriteria = null;
+            }
+            Util.WinReg_WriteKey("EDHM", "FavToogle", _Toogle.Checked.ToString());
+        }
+
+        private void repGridThemes_Favorite_EditValueChanged(object sender, EventArgs e)
+        {
+            this.gridView1.PostEditor(); //<- Actualiza el DataSource de la Grilla inmediatamente
+            gridView1.UpdateCurrentRow();
+        }
+
+        #endregion
+
+        #region Botonera
+
+        private void navApplyTheme_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
 		{
 			ApplyTheme(true);
 		}
@@ -4381,86 +4594,6 @@ namespace EDHM_UI_mk2
 
 
 		#endregion
-
-		private void toolTipController1_GetActiveObjectInfo(object sender, ToolTipControllerGetActiveObjectInfoEventArgs e)
-		{
-			//Muestra un tooltip sobre el tema al pasar el mosue
-			if (e.Info == null && e.SelectedControl == this.gridControl1)
-			{
-				DevExpress.XtraGrid.Views.Grid.GridView view = this.gridControl1.FocusedView as DevExpress.XtraGrid.Views.Grid.GridView;
-				DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo info = view.CalcHitInfo(e.ControlMousePosition);
-				if (info.InRowCell)
-				{
-					ui_preset_new _theme = view.GetRow(info.RowHandle) as ui_preset_new;
-					if (_theme != null)
-					{
-						string cellKey = info.RowHandle.ToString() + " - " + info.Column.ToString();
-						e.Info = new ToolTipControlInfo(cellKey, string.Format("By {0}", _theme.author), _theme.name);
-					}					
-				}
-			}
-		}
-
-		private void gridView1_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e)
-		{
-			//Dibuja sobre el tema seleccionaod
-			DevExpress.XtraGrid.Views.Grid.GridView view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
-
-			if (view.IsRowSelected(e.RowHandle) && e.Column.FieldName == "Preview")
-			{
-				ui_preset_new _theme = view.GetRow(e.RowHandle) as ui_preset_new;
-				if (_theme != null)
-				{
-					//Aqui dibuja la imagen normalmente:
-					e.Graphics.DrawImage(_theme.Preview, e.Bounds);
-
-					//Aqui escribo el Nombre del Tema
-					e.Cache.DrawString(_theme.name, new System.Drawing.Font("Tahoma", 12, FontStyle.Bold),
-						Brushes.White, e.Bounds);
-
-					e.Handled = true;
-				}
-			}			
-		}
-		private void gridView1_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
-		{
-			/* Cuando se hace un tema favorito, se crea un archivo para identificarlo  */
-			ui_preset_new _theme = e.Row as ui_preset_new;
-			if (_theme.IsFavorite)
-			{
-				Util.SaveTextFile(Path.Combine(_theme.folder, "IsFavorite.fav"),
-								"** THIS THEME IS A FAVORITE **",
-								Util.TextEncoding.UTF8);
-			}
-			else
-			{
-				if (File.Exists(Path.Combine(_theme.folder, "IsFavorite.fav")))
-				{
-					File.Delete(Path.Combine(_theme.folder, "IsFavorite.fav"));
-				}
-			}
-		}
-
-		private void cmdThemes_ShowFavorites_CheckedChanged(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			//Filtra mostrando solo los temas favoritos
-			BarToggleSwitchItem _Toogle = sender as BarToggleSwitchItem;
-			if (_Toogle.Checked)
-			{
-				//CriteriaOperator expr1 = new BinaryOperator("IsFavorite", true);
-				gridView1.ActiveFilterCriteria = new BinaryOperator("IsFavorite", true);
-			}
-			else
-			{
-				gridView1.ActiveFilterCriteria = null;
-			}
-			Util.WinReg_WriteKey("EDHM", "FavToogle", _Toogle.Checked.ToString());
-		}
-
-		private void repGridThemes_Favorite_EditValueChanged(object sender, EventArgs e)
-		{
-			this.gridView1.PostEditor(); //<- Actualiza el DataSource de la Grilla inmediatamente
-			gridView1.UpdateCurrentRow();
-		}
-	}
+   
+    }
 }

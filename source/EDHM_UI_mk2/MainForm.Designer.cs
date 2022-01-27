@@ -190,8 +190,8 @@
 			this.GlobalSettings_Title = new DevExpress.XtraEditors.LabelControl();
 			this.mnuGlobalSettings_Add = new DevExpress.XtraBars.BarButtonItem();
 			this.mnuGlobalSettings_Remove = new DevExpress.XtraBars.BarButtonItem();
-			this.popupMenu_GlobalSettings = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.popupMenu_Detalles = new DevExpress.XtraBars.PopupMenu(this.components);
+			this.popupMenu_GlobalSettings = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.tileGroup1 = new DevExpress.XtraEditors.TileGroup();
 			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -247,8 +247,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.vGridGlobalSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).BeginInit();
 			this.contextMenuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
 			this.panelControl3.SuspendLayout();
@@ -1243,6 +1243,7 @@
 			this.gridView1.RowHeight = 71;
 			this.gridView1.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView1_RowCellClick);
 			this.gridView1.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridView1_CustomDrawCell);
+			this.gridView1.BeforeLeaveRow += new DevExpress.XtraGrid.Views.Base.RowAllowEventHandler(this.gridView1_BeforeLeaveRow);
 			this.gridView1.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView1_RowUpdated);
 			// 
 			// gridColumn4
@@ -1549,19 +1550,19 @@
 			this.mnuGlobalSettings_Remove.Name = "mnuGlobalSettings_Remove";
 			this.mnuGlobalSettings_Remove.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuGlobalSettings_Remove_ItemClick);
 			// 
-			// popupMenu_GlobalSettings
-			// 
-			this.popupMenu_GlobalSettings.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalSettings_Remove)});
-			this.popupMenu_GlobalSettings.Manager = this.barManager1;
-			this.popupMenu_GlobalSettings.Name = "popupMenu_GlobalSettings";
-			// 
 			// popupMenu_Detalles
 			// 
 			this.popupMenu_Detalles.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalSettings_Add)});
 			this.popupMenu_Detalles.Manager = this.barManager1;
 			this.popupMenu_Detalles.Name = "popupMenu_Detalles";
+			// 
+			// popupMenu_GlobalSettings
+			// 
+			this.popupMenu_GlobalSettings.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalSettings_Remove)});
+			this.popupMenu_GlobalSettings.Manager = this.barManager1;
+			this.popupMenu_GlobalSettings.Name = "popupMenu_GlobalSettings";
 			// 
 			// tileGroup1
 			// 
@@ -1728,8 +1729,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.vGridGlobalSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).EndInit();
 			this.contextMenuStrip1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
 			this.panelControl3.ResumeLayout(false);
