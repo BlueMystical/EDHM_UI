@@ -28,16 +28,14 @@ EDHM_UI requires Microsoft .NET Framework version 4.52 or newer. If you are on
 Windows 10, you may already have it. If you don't have it installed yet, you
 can get it [here](https://dotnet.microsoft.com/download/dotnet-framework/net452).
 
-## Installing EDHM_UI
+## Installation
 
-* Download the latest release from the [releases page](https://github.com/BlueMystical/EDHM_UI/releases).
-* Run the installer.
-  * NOTE: It is recommended to install EDHM_UI in the default location to avoid
-    possible permissions issues.
+* Download the latest `EDHM_UI_Setup.msi` file from the [releases page](https://github.com/BlueMystical/EDHM_UI/releases/latest).
+* Run the installer and follow the on-screen prompts.
 * Double-click on the EDHM_UI desktop icon.
 * Profit!
 
-## Initial setup
+## First-Run Setup
 
 The first time EDHM_UI runs, it will prompt you for the Elite Dangerous game
 folder. This determines where the EDHM core mod will be installed. The location
