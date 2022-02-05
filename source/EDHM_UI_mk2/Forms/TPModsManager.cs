@@ -54,11 +54,11 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void TPModsManager_Shown(object sender, EventArgs e)
 		{
 			try
 			{
-
 			}
 			catch (Exception ex)
 			{
@@ -240,7 +240,6 @@ namespace EDHM_UI_mk2.Forms
 											Image = _ManagedMod.Thumbnail
 										};
 										this.lst3PMods.Elements.Add(_Element);
-
 									}));
 								}
 							}
@@ -269,6 +268,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void LoadMod(TPMod_Config _Mod)
 		{
 			try
@@ -287,7 +287,6 @@ namespace EDHM_UI_mk2.Forms
 							this._IniReader_OLD = new IniFile(this.ModFullPath);
 							//this.IniReader = new FileIniDataParser();
 							//this._IniData = this.IniReader.ReadFile(this.ModFullPath);
-
 
 							//if (this._IniData != null)
 							if (this._IniReader_OLD != null)
@@ -372,14 +371,14 @@ namespace EDHM_UI_mk2.Forms
 															Name = string.Format("{0}|{1}", _Section.ini_section, _key.name),
 															EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
 															UseMaskAsDisplayFormat = true,
-															EditValueChangedDelay = 500,															
+															EditValueChangedDelay = 500,
 															AllowMouseWheel = true,
 															AllowFocused = true,
 															IsFloatValue = true,
 															Increment = 0.01m,
 															EditMask = "n2",
 															MinValue = -1,
-															MaxValue = 1,															
+															MaxValue = 1,
 															Tag = _key
 														};
 														_NumericDecimal.EditValueChanged += PropertyGrid_EditValueChanged;
@@ -643,7 +642,7 @@ namespace EDHM_UI_mk2.Forms
 
 						if (File.Exists(Path.Combine(this.TPMods_Path, FileName + ".png")) == false)
 						{
-							//Ahora Creamos una Imagen que sirva de Thumbnail:  
+							//Ahora Creamos una Imagen que sirva de Thumbnail:
 							//Formato PNG, 200x61 pix, Fondo Gris semi-transparente, Borde Naranja
 							Bitmap ThumbNail = new Bitmap(200, 61);
 							using (Graphics g = Graphics.FromImage(ThumbNail))
@@ -689,7 +688,7 @@ namespace EDHM_UI_mk2.Forms
 
 				ColorManagment.ColorConverter.Init();
 
-				//Convertir al espacio sRGB no lineal: 
+				//Convertir al espacio sRGB no lineal:
 				ColorManagment.ColorRGB sRGBcolor = new ColorManagment.ColorRGB(ColorManagment.RGBSpaceName.sRGB, _Color.R, _Color.G, _Color.B);
 
 				//Get Gamma Corrected Values:
@@ -702,6 +701,7 @@ namespace EDHM_UI_mk2.Forms
 			catch (Exception ex) { MessageBox.Show(ex.Message + ex.StackTrace); }
 			return _ret;
 		}
+
 		private Color ReverseGammaCorrected(double _Gamma_R, double _Gamma_G, double _Gamma_B, double _Gamma_A = 1.0, double _GammaValue = 2.4)
 		{
 			System.Drawing.Color _ret = System.Drawing.Color.White;
@@ -728,6 +728,7 @@ namespace EDHM_UI_mk2.Forms
 			catch (Exception ex) { MessageBox.Show(ex.Message + ex.StackTrace); }
 			return _ret;
 		}
+
 		private Color ReverseGammaCorrected(List<double> _GammaComponents, double _GammaValue = 2.4)
 		{
 			System.Drawing.Color _ret = System.Drawing.Color.White;
@@ -888,7 +889,6 @@ namespace EDHM_UI_mk2.Forms
 		//			default:
 		//				break;
 		//		}
-
 
 		//		/* AQUI SE GUARDAN LOS CAMBIOS EN EL INI FILE  */
 		//		//if (this.IniReader != null && this._IniData != null)
@@ -1051,7 +1051,7 @@ namespace EDHM_UI_mk2.Forms
 					default:
 						break;
 				}
-				
+
 				/* AQUI SE GUARDAN LOS CAMBIOS EN EL INI FILE */
 				if (this._IniReader_OLD != null)
 				{
@@ -1146,6 +1146,7 @@ namespace EDHM_UI_mk2.Forms
 			}
 			//this.vGridDetalles.Tag = e.Row;
 		}
+
 		private void vGridDetalles_DoubleClick(object sender, EventArgs e)
 		{
 			var _Row = this.vGridDetalles.FocusedRow;
@@ -1172,6 +1173,7 @@ namespace EDHM_UI_mk2.Forms
 
 		/* AL SELECCIONAR UN MOD DE LA LISTA  */
 		private AccordionControlElement SelectedThemeElement = null;
+
 		private void lst3PMods_ElementClick(object sender, ElementClickEventArgs e)
 		{
 			if (sender != null)
@@ -1351,7 +1353,6 @@ namespace EDHM_UI_mk2.Forms
 					{
 						SaveMod(this.CurrentdMod);
 					}
-
 				}
 			}
 			catch (Exception ex)
@@ -1364,7 +1365,6 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
-
 			}
 			catch (Exception ex)
 			{
@@ -1396,6 +1396,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void cmdEdit_AddSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1409,7 +1410,6 @@ namespace EDHM_UI_mk2.Forms
 
 					this.dockSection.FloatLocation = new System.Drawing.Point((int)((Screen.PrimaryScreen.Bounds.Width - this.dockSection.Width) / 2),
 									(int)((Screen.PrimaryScreen.Bounds.Height - this.dockSection.Height) / 2));
-
 				}
 			}
 			catch (Exception ex)
@@ -1417,6 +1417,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void cmdEdit_EditSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1447,6 +1448,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void cmdEdit_RemoveSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1471,7 +1473,6 @@ namespace EDHM_UI_mk2.Forms
 							Util.Serialize_ToJSON(ModFullPath, this.CurrentdMod);
 						}
 					}
-
 				}
 			}
 			catch (Exception ex)
@@ -1523,7 +1524,7 @@ namespace EDHM_UI_mk2.Forms
 
 								#endregion
 
-								#region Crear la Seccion en el INI 
+								#region Crear la Seccion en el INI
 
 								//this._IniData.Sections.Add(new SectionData(_Section.name));
 								//this.IniReader.WriteFile(Path.Combine(this.TPMods_Path, FileName + ".ini"), this._IniData);
@@ -1570,6 +1571,7 @@ namespace EDHM_UI_mk2.Forms
 		#region Editor de claves
 
 		private bool AddingNew_KEY = false;
+
 		private void Dock_KeyEditor_Show(TPMod_Key _Key, string Caption)
 		{
 			try
@@ -1611,6 +1613,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void cmdEdit_AddKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1627,6 +1630,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void cmdEdit_EditKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1657,6 +1661,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void cmdEdit_RemoveKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1689,7 +1694,6 @@ namespace EDHM_UI_mk2.Forms
 										}
 									}
 								}
-
 							}
 						}
 					}
@@ -1753,7 +1757,7 @@ namespace EDHM_UI_mk2.Forms
 													_KAY = _SEC.keys.Find(x => x.name == _Key.name);
 													if (_KAY != null)
 													{
-														//Edita la Clave:													
+														//Edita la Clave:
 														{
 															_KAY.name = this.DockKeys_txtName.Text;
 															_KAY.type = this.DockKeys_cboType.EditValue.NVL("");
@@ -1836,6 +1840,7 @@ namespace EDHM_UI_mk2.Forms
 		#region Custom Types Editor
 
 		private bool AddingNewType = false;
+
 		private void LoadCustomTypes(TPMod_Config _Mod)
 		{
 			try
@@ -1996,6 +2001,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void DockCustomTypes_CmdApply_Click(object sender, EventArgs e)
 		{
 			/* APLICA LOS CAMBIOS AL MOD */
@@ -2008,7 +2014,6 @@ namespace EDHM_UI_mk2.Forms
 
 				LoadMod(this.CurrentdMod);
 				LoadCustomTypes(this.CurrentdMod);
-
 			}
 		}
 

@@ -71,7 +71,6 @@ namespace EDHM_UI_mk2
 		private string WatchingFile = string.Empty;
 		private string LangShort = "en"; //<- Idioma x Defecto
 
-
 		private List<ui_preset_new> UI_Themes = null;
 		private ui_setting Settings = new ui_setting();
 		private HashSet<Color> _RecentColors = new HashSet<Color>();            //<- Guarda los Colores del Tema, no admite repetidos
@@ -111,7 +110,7 @@ namespace EDHM_UI_mk2
 			Night_Vision_ON = 268435456,
 			Altitude_Average_Radius = 536870912
 			//fsd_jump = 1073741824‬‬
-		};
+		}
 
 		//Srv_HighBeam = 2147483648
 		//https://elite-journal.readthedocs.io/en/latest/Status%20File/
@@ -126,6 +125,7 @@ namespace EDHM_UI_mk2
 			InitializeComponent();
 			this.DoubleBuffered = true;
 		}
+
 		public MainForm(string[] args)
 		{
 			InitializeComponent();
@@ -240,7 +240,7 @@ namespace EDHM_UI_mk2
 
 			this.repCboGameInstances.ValueMember = "game_id";
 			this.repCboGameInstances.DisplayMember = "instance";
-			this.repCboGameInstances.DataSource = this.GameInstances;			
+			this.repCboGameInstances.DataSource = this.GameInstances;
 
 			#endregion
 
@@ -271,7 +271,7 @@ namespace EDHM_UI_mk2
 				this.ActiveInstance = this.GameInstances.Find(x => x.game_id == _RegActiveInstance);
 				Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
 			}
-			
+
 			if (this.ActiveInstance != null)
 			{
 				this.CboGameInstances.EditValue = this.ActiveInstance.game_id;
@@ -286,6 +286,7 @@ namespace EDHM_UI_mk2
 
 			//this.Location = new Point(0, 0);
 		}
+
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
 			this.Cursor = Cursors.WaitCursor;
@@ -314,11 +315,11 @@ namespace EDHM_UI_mk2
 						}
 					}
                     Util.AppConfig_SetValue("FirstRun", "false");
-                    Task.Factory.StartNew(() => { Run_HotFix(); });                  
+                    Task.Factory.StartNew(() => { Run_HotFix(); });
 				}
 
 				CheckForModUpdates();
-				LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa, tambien verifica si el MOD esta instalado		
+				LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa, tambien verifica si el MOD esta instalado
 				LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
                 LoadGlobalSettings(this.ActiveInstance);
 
@@ -336,6 +337,7 @@ namespace EDHM_UI_mk2
 			}
 			finally { this.Cursor = Cursors.Default; }
 		}
+
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			//Al intentar cerrar la ventana se minimiza en la bandeja 'SysTray'
@@ -375,6 +377,7 @@ namespace EDHM_UI_mk2
 				}
 			}
 		}
+
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			//Al Cerrar definitivamente el Formulario elimina el icono del SysTray
@@ -386,6 +389,7 @@ namespace EDHM_UI_mk2
 			}
 			if (this.GameWindow != null) this.GameWindow.Dispose();
 		}
+
 		private void MainForm_Resize(object sender, EventArgs e)
 		{
 			//Al Minimizar la Ventana, se oculta y se minimiza en la bandeja 'SysTray'
@@ -408,6 +412,7 @@ namespace EDHM_UI_mk2
 		#region Metodos
 
 		bool LoadingGameInstance = false;
+
 		private void LoadGameInstance(game_instance pGameInstance, string pLang = "en")
 		{
 			/* AQUI SE CARGA LA CONFIGURACION ACTUAL */
@@ -534,6 +539,7 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private bool InstallGameInstance(game_instance pGameInstance)
 		{
 			bool _ret = false;
@@ -562,12 +568,12 @@ namespace EDHM_UI_mk2
 							//Backup Current Settings:
 							if (!Directory.Exists(@"C:\Temp")) Directory.CreateDirectory(@"C:\Temp");
 							if (File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini")))
-							{								
-								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"), 
+							{
+								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"),
 											   Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini"), true);
 
-								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "XML-Profile.ini"), 
-											   Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"), true);								
+								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "XML-Profile.ini"),
+											   Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"), true);
 							}
 							if (File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini")))
 							{
@@ -576,7 +582,7 @@ namespace EDHM_UI_mk2
 							}
 							if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini")))
 							{
-								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"), 
+								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"),
 									           Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"), true);
 							}
 						}
@@ -591,7 +597,7 @@ namespace EDHM_UI_mk2
 
 							SetGraphicSettings();
 
-							XtraMessageBox.Show(string.Format("EDHM Version '{0}' had been Installed!\r\n{1}", 
+							XtraMessageBox.Show(string.Format("EDHM Version '{0}' had been Installed!\r\n{1}",
 										_Version, pGameInstance.instance), "Success!",
 										MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -608,12 +614,12 @@ namespace EDHM_UI_mk2
 							{
 								if (File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini")))
 								{
-									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini"), 
-										Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"), true);									
+									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini"),
+										Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"), true);
 								}
 								if (File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini")))
 								{
-									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"), 
+									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"),
 										Path.Combine(pGameInstance.path, "EDHM-ini", "XML-Profile.ini"), true);
 								}
 								if (pGameInstance.key == "ED_Horizons" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini")))
@@ -623,7 +629,7 @@ namespace EDHM_UI_mk2
 								}
 								if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini")))
 								{
-									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"), 
+									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"),
 										Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"), true);
 								}
 							}
@@ -718,7 +724,7 @@ namespace EDHM_UI_mk2
 				//----------------------------------------------------------------
 
 				/* esto es para guardar varias claves en un XML
-				 * 
+				 *
 				 * xmlFile = System.Xml.Linq.XDocument.Load(
 									Path.Combine(LocalAppData, @"Frontier Developments\Elite Dangerous\Options\Graphics\GraphicsConfigurationOverride.xml"));
 
@@ -1058,14 +1064,14 @@ namespace EDHM_UI_mk2
 							Invoke((MethodInvoker)(() =>
 							{
 								this.vGridGlobalSettings.Rows.Clear();
-							}));							
+							}));
 						}
 
 						Invoke((MethodInvoker)(() =>
 						{
 							this.GlobalSettings_Title.Text = "Global Settings";
 							this.GlobalSettings_Description.Text = "Elements in this List will have priority over the same from themes, so you can 'force' this settings to be applied no mather what theme you choose.";
-						}));						
+						}));
 					});
 				}
 			}
@@ -1170,7 +1176,7 @@ namespace EDHM_UI_mk2
 								//this.SelectedThemeElement = this.accordionControl1.Elements[0];
 								if (this.SelectedTheme != null)
 								{
-                                    LoadTheme(this.SelectedTheme);                                    
+                                    LoadTheme(this.SelectedTheme);
 								}
 							}
 						}));
@@ -1320,6 +1326,7 @@ namespace EDHM_UI_mk2
 		}
 
         Stopwatch _Stopwatch = new Stopwatch();
+
         private void LoadTheme(ui_preset_new _Theme)
         {
             try
@@ -1339,6 +1346,7 @@ namespace EDHM_UI_mk2
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 		private void LoadTheme_Horizons(ui_preset_new _Theme)
 		{
 			this.Cursor = Cursors.WaitCursor;
@@ -1414,7 +1422,6 @@ namespace EDHM_UI_mk2
 												{
 													if (_Element.Key == "x72|y72|z72")
 													{
-
 													}
 													_Element.Value = ReverseGammaCorrected(_GammaColors).ToArgb();
 												}
@@ -1442,7 +1449,7 @@ namespace EDHM_UI_mk2
 													default:
 														_Element.Value = Convert.ToDecimal(_Reader.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
 														break;
-												}												
+												}
 											}
 											if (_Element.ValueType != "Color" && _Element.Value < 0)
 											{
@@ -1481,6 +1488,7 @@ namespace EDHM_UI_mk2
 			}
 			finally { this.Cursor = Cursors.Default; }
 		}
+
 		private void LoadTheme_Odissey(ui_preset_new _Theme)
 		{
             /* LEE LOS VALORES DEL TEMA ACTUAL Y LOS GUARDA EN EL JSON  'this.Settings'  */
@@ -1542,7 +1550,6 @@ namespace EDHM_UI_mk2
 											{
 												if (_Element.Key == "x171|y171|z171")
 												{
-
 												}
 												#region Es un Color
 
@@ -1713,7 +1720,7 @@ namespace EDHM_UI_mk2
 									//Valor x defecto para el brillo de Orbit Lines en horizons:
 									if (this.ActiveInstance.key == "ED_Horizons" && _Element.Key == "y117")
 									{
-										if (_Element.Value <= 0) _Element.Value = 1; 
+										if (_Element.Value <= 0) _Element.Value = 1;
 									}
 
 									switch (_Element.ValueType)
@@ -1870,7 +1877,7 @@ namespace EDHM_UI_mk2
 													_Fila.Properties.Value = Color.FromArgb(Util.ValidarNulo(_Element.Value, 0));
 												}
 
-												_Fila.Properties.RowEdit = _ComboColor;												
+												_Fila.Properties.RowEdit = _ComboColor;
 											}));
 
 											#endregion
@@ -2042,8 +2049,6 @@ namespace EDHM_UI_mk2
 			}
 			else
 			{
-				
-
 				//if (this.PreviewFormODY == null || !this.PreviewFormODY.Visible)
 				//{
 				//	XMLchanged = true;
@@ -2055,6 +2060,7 @@ namespace EDHM_UI_mk2
 				//this.PreviewFormODY.PreviewTheme(XMLchanged);
 			}
 		}
+
 		private void PreviewForm_OnPreviewLoaded(object sender, EventArgs e)
 		{
 			//sI EL TEMA NO TIENE PREVIEW, le creamos una usando el Preview;
@@ -2150,6 +2156,7 @@ namespace EDHM_UI_mk2
 			finally { this.Cursor = Cursors.Default; }
 			return _ret;
 		}
+
 		private void CreateThemeKeyBinding(string _ProfileName)
 		{
 			try
@@ -2251,7 +2258,7 @@ namespace EDHM_UI_mk2
 		}
 
 		private void ApplyTheme(bool SaveIt = true, bool KeepItQuiet = false)
-		{           
+		{
             this.Cursor = Cursors.WaitCursor;
             this.navApplyTheme.Enabled = false;
             this.gridControl1.Cursor = Cursors.WaitCursor;
@@ -2294,10 +2301,10 @@ namespace EDHM_UI_mk2
                     case "ED_Odissey":
                         ApplyTheme_Odissey(SaveIt, KeepItQuiet);
                         break;
-                }                
-
+                }
             });
 		}
+
 		private void ApplyTheme_Horizons(bool SaveIt = true, bool KeepItQuiet = false)
 		{
 			try
@@ -2352,7 +2359,7 @@ namespace EDHM_UI_mk2
 													default:
 														_Reader.WriteKey(_Key, _GammaColors[i].ToString(), _Element.Section);
 														break;
-												}												
+												}
 												i++;
 											}
 										}
@@ -2368,7 +2375,7 @@ namespace EDHM_UI_mk2
 											default:
 												_Reader.WriteKey(_Element.Key, _Element.Value.NVL("0"), _Element.Section);
 												break;
-										}										
+										}
 									}
 								}
 							}
@@ -2376,7 +2383,7 @@ namespace EDHM_UI_mk2
 					}
 
 					if (this.Settings.xml_profile.IsNotEmpty())
-					{						
+					{
 						if (_ReaderXML != null)
 						{
 							foreach (var _key in this.Settings.xml_profile)
@@ -2424,15 +2431,16 @@ namespace EDHM_UI_mk2
                 }));
             }
         }
+
 		private void ApplyTheme_Odissey(bool SaveIt = true, bool KeepItQuiet = false)
-		{			
+		{
 			try
 			{
 				if (!this.ActiveInstance.path.EmptyOrNull())
 				{
                     this.LoadingTheme = true;
 
-                    IniFile _Reader = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini")); //<- Open and Read the INI file			
+                    IniFile _Reader = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini")); //<- Open and Read the INI file
 					IniFile _ReaderXML = new IniFile(Path.Combine(this.ActiveInstance.path, @"EDHM-ini\XML-Profile.ini"));
 					IniFile _ReaderAdvanced = null;
 					IniFile _ReaderOnfoot = null;
@@ -2507,7 +2515,7 @@ namespace EDHM_UI_mk2
 
                     //Now we Apply the XML:
 					if (this.Settings.xml_profile.IsNotEmpty())
-					{						
+					{
 						if (_ReaderXML != null)
 						{
 							foreach (var _key in this.Settings.xml_profile)
@@ -2547,7 +2555,7 @@ namespace EDHM_UI_mk2
 			finally
             {
                 Invoke((MethodInvoker)(() =>
-                { 
+                {
                     this.LoadingTheme = false;
                     this.Cursor = Cursors.Default;
                     this.navApplyTheme.Enabled = true;
@@ -2621,6 +2629,7 @@ namespace EDHM_UI_mk2
 			finally { this.Cursor = Cursors.Default; }
 			return _ret;
 		}
+
 		private bool ExportTheme()
 		{
 			/* Convierte la configuracion actual en un tema nuevo y lo empaca en un ZIP  */
@@ -2765,7 +2774,6 @@ namespace EDHM_UI_mk2
 								File_Path = Path.Combine(this.ActiveInstance.path, @"ShaderUsage.txt");
 								if (File.Exists(File_Path)) File.Delete(File_Path);
 
-
 								Invoke((MethodInvoker)(() => { this.progressPanel1.Description = "Removing ShaderFixes"; }));
 								File_Path = Path.Combine(this.ActiveInstance.path, @"ShaderFixes");
 								if (Directory.Exists(File_Path)) Directory.Delete(File_Path, true);
@@ -2785,7 +2793,6 @@ namespace EDHM_UI_mk2
 								/* ODYSSEY EXCLUSIVE FILES */
 								if (_KEY == "ODYSSEY")
 								{
-
 								}
 
 								/* HORIZONS EXCLUSIVE FILES */
@@ -2801,11 +2808,11 @@ namespace EDHM_UI_mk2
 
 									Invoke((MethodInvoker)(() => { this.progressPanel1.Description = "Removing EDHM-v1.51-Profile-Guide.pdf"; }));
 									File_Path = Path.Combine(this.ActiveInstance.path, @"EDHM-v1.51-Profile-Guide.pdf");
-									if (File.Exists(File_Path)) File.Delete(File_Path); 
+									if (File.Exists(File_Path)) File.Delete(File_Path);
 
 									Invoke((MethodInvoker)(() => { this.progressPanel1.Description = "Removing EDHM-v1.52-Manual.pdf"; }));
 									File_Path = Path.Combine(this.ActiveInstance.path, @"EDHM-v1.52-Manual.pdf");
-									if (File.Exists(File_Path)) File.Delete(File_Path); 
+									if (File.Exists(File_Path)) File.Delete(File_Path);
 
 									Invoke((MethodInvoker)(() => { this.progressPanel1.Description = "Removing EDHM-Keybinds-Essential.bat"; }));
 									File_Path = Path.Combine(this.ActiveInstance.path, @"EDHM-Keybinds-Essential.bat");
@@ -2854,6 +2861,7 @@ namespace EDHM_UI_mk2
 				this.Cursor = Cursors.Default;
 			}
 		}
+
 		private void ExecuteBAT(string FilePath, string _Arguments = "")
 		{
 			if (!FilePath.EmptyOrNull() && File.Exists(FilePath))
@@ -2895,6 +2903,7 @@ namespace EDHM_UI_mk2
 				}
 			}
 		}
+
         private bool Run_HotFix()
         {
             bool _ret = false;
@@ -3070,6 +3079,7 @@ namespace EDHM_UI_mk2
 			}
 			return _ret;
 		}
+
 		private bool CheckGameRunning()
 		{
 			//Busca un Proceso x Nombre de Ventana:
@@ -3093,6 +3103,7 @@ namespace EDHM_UI_mk2
 
 		/* HERE CHECKS FOR UPDATES  */
 		bool CheckingUpdates = false; //<- Previene que se llame este metodo varias veces a la vez.
+
 		private void CheckForModUpdates()
 		{
 			/* AQUI SE BUSCAN ACTUALIZACIONDES DEL PROGRAMA, DEL MOD Y ARCHIVOS VARIOS */
@@ -3195,7 +3206,7 @@ namespace EDHM_UI_mk2
 
 				ColorManagment.ColorConverter.Init();
 
-				//Convertir al espacio sRGB no lineal: 
+				//Convertir al espacio sRGB no lineal:
 				ColorManagment.ColorRGB sRGBcolor = new ColorManagment.ColorRGB(ColorManagment.RGBSpaceName.sRGB, _Color.R, _Color.G, _Color.B);
 
 				//Get Gamma Corrected Values:
@@ -3264,6 +3275,7 @@ namespace EDHM_UI_mk2
 		}
 
 		private bool ApplyingShip = false;
+
 		private void ReadPlayerJournal()
 		{
 			try
@@ -3281,7 +3293,7 @@ namespace EDHM_UI_mk2
 						Enum.GetFlafValues(typeof(StatusFlags))
 							.Cast<StatusFlags>()
 							.Where(value => mask.HasFlag(value))
-							.ToList();  
+							.ToList();
 					*/
 
 					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -3316,6 +3328,7 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void PlayerJournal_WatchDirectory(string pDirectoryPath)
 		{
 			FileSystemWatcher watcher = new FileSystemWatcher();
@@ -3339,8 +3352,8 @@ namespace EDHM_UI_mk2
 					PlayerJournal_WatchFile(JournalFile.FullName);
 				}
 			};
-
 		}
+
 		private void PlayerJournal_WatchFile(string pFilePath)
 		{
 			/* LEE EL ARCHIVO DE LOG DEL JORNAL Y LO MANTIENE ABIERTO REACCIONANDO A SUS CAMBIOS  */
@@ -3394,6 +3407,7 @@ namespace EDHM_UI_mk2
 				}
 			});
 		}
+
 		private void PlayerJournal_DetectEvents(string JsonLine)
 		{
 			/* AQUI SE LEEN LAS LINEAS NUEVAS DEL LOG Y SE DETECTAN LOS EVENTOS DESEADOS   */
@@ -3455,11 +3469,12 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void PlayerJournal_ShipChanged(ship_loadout CurrentShip)
 		{
-			/* OCURRE CUANDO SE CAMBIA LA NAVE 
-			    - Guarda la Nave en el Historial de Naves   
-				- Si el Juego está abierto, Aplica el Tema seleccionado para la nave  
+			/* OCURRE CUANDO SE CAMBIA LA NAVE
+			    - Guarda la Nave en el Historial de Naves
+				- Si el Juego está abierto, Aplica el Tema seleccionado para la nave
 			*/
 			// Esto sigue ejecutandose dentro del proceso iniciado x 'ReadPlayerJournal()'
 			try
@@ -3496,9 +3511,9 @@ namespace EDHM_UI_mk2
 						return;
 					}
 
-					//Verificar si el Juego esta Corriendo:		
+					//Verificar si el Juego esta Corriendo:
 					//if (!ApplyingShip)
-					//{						
+					//{
 					string GameTitle = Util.AppConfig_GetValue("GameProcessID");
 					System.Diagnostics.Process[] processlist = System.Diagnostics.Process.GetProcesses();
 					foreach (System.Diagnostics.Process process in processlist)
@@ -3578,7 +3593,6 @@ namespace EDHM_UI_mk2
 
 											this.ApplyingShip = false;
 										}
-
 									}));
 								}
 							}
@@ -3652,7 +3666,7 @@ namespace EDHM_UI_mk2
 							}
 							if (_TipsLang != null)
 							{
-								//Actualiza los Controles fuera de este Proceso:	
+								//Actualiza los Controles fuera de este Proceso:
 								Invoke((MethodInvoker)(() =>
 								{
 									this.listTips.DataSource = _TipsLang.Elements;
@@ -3689,7 +3703,7 @@ namespace EDHM_UI_mk2
 
 						foreach (ui_group _UIGroup in this.Settings.ui_groups)
 						{
-							List<element> _Elements = _UIGroup.Elements.FindAll(obj => obj.Title.ToUpper().Contains(_NameFilter.ToUpper()) || 
+							List<element> _Elements = _UIGroup.Elements.FindAll(obj => obj.Title.ToUpper().Contains(_NameFilter.ToUpper()) ||
 																						obj.Category.ToUpper().Contains(_NameFilter.ToUpper()));
 							if (_Elements.IsNotEmpty())
 							{
@@ -3698,12 +3712,12 @@ namespace EDHM_UI_mk2
 									_Element.Parent = _UIGroup.Name;
 								}
 								_Results.AddRange(_Elements);
-							}							
+							}
 						}
 
 						if (_Results.IsNotEmpty())
 						{
-							//Actualiza los Controles fuera de este Proceso:	
+							//Actualiza los Controles fuera de este Proceso:
 							Invoke((MethodInvoker)(() =>
 							{
 								this.gridSearch.DataSource = _Results;
@@ -3711,7 +3725,6 @@ namespace EDHM_UI_mk2
 							}));
 						}
 					});
-
 				}
 			}
 			catch (Exception ex)
@@ -3727,8 +3740,8 @@ namespace EDHM_UI_mk2
 		/* AQUI SE Establece la Instancia Activa:  */
 		private void CboGameInstances_EditValueChanged(object sender, EventArgs e)
 		{
-
 		}
+
 		private void CboGameInstances_HiddenEditor(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			if (this.CboGameInstances.EditValue != null)
@@ -3744,7 +3757,7 @@ namespace EDHM_UI_mk2
 
 				Util.WinReg_WriteKey("EDHM", "ActiveInstance", this.ActiveInstance.game_id);
 
-				LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa	
+				LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa
 				LoadGlobalSettings(this.ActiveInstance); //<- Carga los Valores Globales
 				LoadThemeList_EX();
 
@@ -3922,7 +3935,7 @@ namespace EDHM_UI_mk2
 					}
 					GameInstances_JSON = Util.Serialize_ToJSON(this.GameInstancesEx);
 					Util.WinReg_WriteKey("EDHM", "GameInstances", GameInstances_JSON);
-				}				
+				}
 
 				//Carga los valores que se muestran en el Combo:
 				this.GameInstances = new List<game_instance>();
@@ -3951,7 +3964,6 @@ namespace EDHM_UI_mk2
 				this.repCboGameInstances.DisplayMember = "instance";
 				this.repCboGameInstances.DataSource = this.GameInstances;
 
-
 				//this.ActiveInstance = this.GameInstances.Find(x => x.key == _RegActiveInstance);
 				if (this.ActiveInstance != null)
 				{
@@ -3960,7 +3972,7 @@ namespace EDHM_UI_mk2
 					//Carga el Idioma del Usuario:
 					this.LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
 
-					LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa	
+					LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa
 				}
 
 				this.HideToTray = _Form.HideToTray;
@@ -3968,6 +3980,7 @@ namespace EDHM_UI_mk2
 				this.WatchMe = _Form.WatchMe;
 			}
 		}
+
 		private void tileNav_OpenGameFolder_TileClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
 		{
 			if (this.ActiveInstance != null && !this.ActiveInstance.path.EmptyOrNull())
@@ -3976,11 +3989,13 @@ namespace EDHM_UI_mk2
 				System.Diagnostics.Process.Start(this.ActiveInstance.path);
 			}
 		}
+
 		private void tileNav_About_TileClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
 		{
 			AboutForm _form = new AboutForm();
 			_form.ShowDialog();
 		}
+
 		private void tileNav_KeyBindings_ElementClick(object sender, NavElementEventArgs e)
 		{
 			//XtraMessageBox.Show("HUD Dimmer = [F5]\r\nLighting Dimmer = [F6]\r\nAmbient Cabin Lights = [CTRL]+[F6]\r\nHUD Common Group = [CTRL]+[F5]\r\nDistributor = [ALT]+[F5]\r\nShield colour =[F2]\r\nPanel Lines (upper) = [CTRL]+[F4]\r\nPanel Lines (lower) = [ALT]+[F4]\r\nCombat HUD Colour = [CTRL]+[F2]\r\nCombat HUD Mode = [SHIFT]+[F2]\r\nAnalysis HUD Colour = [ALT]+[F2]\r\nRadar Colour = [F4]\r\nTargeting Reticle = [F7]\r\nSignature Bar Colour = [SHIFT]+[F4]\r\nEnvironment Target = [CTRL]+[F7]\r\nOwnShip Hologram = [F3]\r\nOwnShip Hologram Mode = [CTRL F3]\r\nReload Settings = [F11]\r\nKill Switch = [SHIFT]+[F1]",
@@ -3998,6 +4013,7 @@ namespace EDHM_UI_mk2
 				this.Shipyard = _Form.Shipyard;
 			}
 		}
+
 		private void tileUpdateEDHM_ElementClick(object sender, NavElementEventArgs e)
 		{
 			this.SilentUpdate = false;
@@ -4033,6 +4049,7 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show("Please Close the Game and try again.", "Game Most Be Closed!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 			}
 		}
+
 		private void tileUninstallEDHM_TileClick(object sender, NavElementEventArgs e)
 		{
 			UninstallEDHMmod();
@@ -4041,8 +4058,6 @@ namespace EDHM_UI_mk2
 			//var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 			//{
 			//	System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
-
 
 			//});
 
@@ -4060,6 +4075,7 @@ namespace EDHM_UI_mk2
 			//	XtraMessageBox.Show("Un-Installer BAT could not be found!", "ERROR 404");
 			//}
 		}
+
 		private void tile3PMods_TileClick(object sender, NavElementEventArgs e)
 		{
 			try
@@ -4078,18 +4094,21 @@ namespace EDHM_UI_mk2
 			this.mCloseAutorized = true;
 			Close();
 		}
+
 		private void mnuTray_Open_Click(object sender, EventArgs e)
 		{
 			Show();
 			base.WindowState = FormWindowState.Normal;
 			BringToFront();
 		}
+
 		private void notifyIcon1_DoubleClick(object sender, EventArgs e)
 		{
 			Show(); //Doble Click en el Icono del SysTray para Mostrar la Ventana
 			base.WindowState = FormWindowState.Normal;
 			BringToFront();
 		}
+
 
 		private void tileGetHelp_ElementClick(object sender, NavElementEventArgs e)
 		{
@@ -4100,6 +4119,7 @@ namespace EDHM_UI_mk2
 			}
 			Load_UITips(true);
 		}
+
 		private void navButton_Themes_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
 		{
 			this.dockManager1.ActivePanel = this.dockThemes;
@@ -4161,11 +4181,13 @@ namespace EDHM_UI_mk2
 			}
 			catch { }*/
 		}
+
 		private void dockTips_ClosingPanel(object sender, DevExpress.XtraBars.Docking.DockPanelCancelEventArgs e)
 		{
 			e.Cancel = true;
 			e.Panel.HideSliding();
 		}
+
 		private void chkTips_NoShow_CheckedChanged(object sender, EventArgs e)
 		{
 			Util.AppConfig_SetValue("ShowTips", (!this.chkTips_NoShow.Checked).ToString());
@@ -4211,6 +4233,7 @@ namespace EDHM_UI_mk2
                 }
             }
         }
+
         private void gridView1_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
         {
             /* Cuando se hace un tema favorito, se crea un archivo para identificarlo  */
@@ -4229,6 +4252,7 @@ namespace EDHM_UI_mk2
                 }
             }
         }
+
         private void gridView1_BeforeLeaveRow(object sender, DevExpress.XtraGrid.Views.Base.RowAllowEventArgs e)
         {
             //Previene que se cambie la fila activa hasta que se termine de cargar el tema
@@ -4268,14 +4292,17 @@ namespace EDHM_UI_mk2
 		{
 			ApplyTheme(true);
 		}
+
 		private void cmdReloadThemes_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			LoadThemeList_EX();
 		}
+
 		private void cmdMakeNewTheme_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			CreateNewTheme();
 		}
+
 		private void cmdSaveTheme_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -4359,10 +4386,12 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message);
 			}
 		}
+
 		private void cmdSaveThemeChanges_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			SaveTheme();
 		}
+
 		private void cmdShowPreview_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			/* Huevo de Pascua, sólo en Odissey  */
@@ -4379,14 +4408,17 @@ namespace EDHM_UI_mk2
 			}
 			PreviewTheme(true);
 		}
+
 		private void cmdImportTheme_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			ImportTheme();
 		}
+
 		private void cmdExportTheme_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			ExportTheme();
 		}
+
 		private void cmdDeletetheme_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			if (this.SelectedTheme != null && this.SelectedTheme.name != "Current Settings")
@@ -4403,7 +4435,6 @@ namespace EDHM_UI_mk2
 					}
 				}
 			}
-
 		}
 
 		#endregion
@@ -4414,6 +4445,7 @@ namespace EDHM_UI_mk2
 		{
 			SearchElement(this.txtSeach.Text);
 		}
+
 		private void txtSeach_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == (char)Keys.Enter)
@@ -4444,6 +4476,7 @@ namespace EDHM_UI_mk2
 			this.panelSearch.ShowSliding();
 			SearchElement(this.txtSearchBox.Text);
 		}
+
 		private void txtSearchBox_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == (char)Keys.Enter)
@@ -4462,8 +4495,8 @@ namespace EDHM_UI_mk2
 
 		private void vGridDetalles_Click(object sender, EventArgs e)
 		{
-
 		}
+
 		private void vGridDetalles_MouseDown(object sender, MouseEventArgs e)
 		{
 			//Selecciona la Fila al dar Click Derecho
@@ -4493,7 +4526,7 @@ namespace EDHM_UI_mk2
 						if (XtraMessageBox.Show(string.Format("You want to add '{0}' to the Global Settings List?", _Element.Title),
 							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 						{
-							if (this.GlobalSettings is null) this.GlobalSettings = new ui_group("GlobalSettings", "Global Settings");							
+							if (this.GlobalSettings is null) this.GlobalSettings = new ui_group("GlobalSettings", "Global Settings");
 
 							element _Existe = null;
 							if (this.GlobalSettings.Elements.IsNotEmpty())
@@ -4526,6 +4559,7 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private void mnuGlobalSettings_Remove_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -4538,7 +4572,7 @@ namespace EDHM_UI_mk2
 					{
 						if (XtraMessageBox.Show(string.Format("You want to Remove '{0}' from the Global Settings List?", _Element.Title),
 							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-						{							
+						{
 							if (this.GlobalSettings != null)
 							{
 								this.GlobalSettings.Elements.Remove(_Element);
@@ -4575,6 +4609,7 @@ namespace EDHM_UI_mk2
 				}
 			}
 		}
+
 		private void vGridGlobalSettings_MouseDown(object sender, MouseEventArgs e)
 		{
 			//Selecciona la Fila al dar Click Derecho
@@ -4591,9 +4626,6 @@ namespace EDHM_UI_mk2
 			}
 		}
 
-
-
 		#endregion
-   
     }
 }
