@@ -39,9 +39,9 @@ namespace EDHM_UI_mk2
 
 		public GameFolderForm()
 		{
-
 		}
-		public GameFolderForm(List<GameInstance> _GameInstances)
+
+  		public GameFolderForm(List<GameInstance> _GameInstances)
 		{
 			InitializeComponent();
 			this.GameInstancesEx = _GameInstances;
@@ -132,6 +132,7 @@ namespace EDHM_UI_mk2
 			this.chkSettings_GreetMe.Checked = this.GreetMe;
 			this.chkSettings_HideToTray.Checked = this.HideToTray;
 		}
+
 		private void GameFolderForm_Shown(object sender, EventArgs e)
 		{
 			if (this.GameInstancesEx.IsNotEmpty())
@@ -146,6 +147,7 @@ namespace EDHM_UI_mk2
 							MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
+
 		private void GameFolderForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			//if (this.IsFirstRun)
@@ -203,9 +205,7 @@ namespace EDHM_UI_mk2
 		private void FindGameEx()
 		{
 			try
-			{
-
-			}
+			{}
 			catch (Exception ex)
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -332,8 +332,8 @@ namespace EDHM_UI_mk2
 								string ODYS_PATH = string.Empty;
 								string HORI_PATH = string.Empty;
 
-								string GameFolder = System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName); //Obtiene el Path: (Sin archivo ni extension:							
-								string ProductsFolder = System.IO.Directory.GetParent(GameFolder).FullName; //<- Obtiene la Carpeta Anterior 
+								string GameFolder = System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName); //Obtiene el Path: (Sin archivo ni extension:
+								string ProductsFolder = System.IO.Directory.GetParent(GameFolder).FullName; //<- Obtiene la Carpeta Anterior
 
 								#region Close the Game
 
@@ -463,7 +463,6 @@ namespace EDHM_UI_mk2
 			}
 		}
 
-
 		private void cmdRemoveInstance_Click(object sender, EventArgs e)
 		{
 			/* Elimina la Instancia Elejida  */
@@ -478,6 +477,7 @@ namespace EDHM_UI_mk2
 				}
 			}
 		}
+
 		private void cmdAddGameInstance_Click(object sender, EventArgs e)
 		{
 			/*  Agrega una Nueva Instancia */
@@ -517,7 +517,6 @@ namespace EDHM_UI_mk2
 						int rowHandle = gridView1.LocateByValue("instance", _GameInstanceName.Trim());
 						if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
 							gridView1.FocusedRowHandle = rowHandle;
-						
 
 						XtraMessageBox.Show("Instance Created!\r\n\r\nYou now need to set the Game Paths, click the [...] buttons.\r\nYou can also use the 'Game Locator Assistant'.", "Success!",
 							MessageBoxButtons.OK, MessageBoxIcon.Information);

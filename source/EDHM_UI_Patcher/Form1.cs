@@ -13,7 +13,7 @@ namespace EDHM_UI_Patcher
 
         private VersionInfo _VersionInfo = null;    //<- Version Publicada
         private Version Curr_Version = null;        //<- Version en la PC local
-        private Version Last_Version = null;        //<- Ultima Version Disponible	
+        private Version Last_Version = null;        //<- Ultima Version Disponible
         private Version Inst_Version = null;        //<- Ultimo Instalador
 
         private bool _Instalar = false;             //<- Hay que bajar y correr el Instalador
@@ -27,6 +27,7 @@ namespace EDHM_UI_Patcher
         {
             InitializeComponent();
         }
+
         public Form1(string _InfoJsonPath)
         {
             InitializeComponent();
@@ -52,6 +53,7 @@ namespace EDHM_UI_Patcher
             customCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
             customCulture.DateTimeFormat.LongDatePattern = "dddd, MMMM d, yyyy";
         }
+
         private void Form1_Shown(object sender, EventArgs e)
         {
             if (this._VersionInfo != null)
@@ -60,7 +62,7 @@ namespace EDHM_UI_Patcher
                 this.textBox1.Text = this._VersionInfo.changelog;
 
                 this.Curr_Version = new Version(this._VersionInfo.cur_version);         //<- Version en la PC local
-                this.Last_Version = new Version(this._VersionInfo.app_version);         //<- Ultima Version Disponible		
+                this.Last_Version = new Version(this._VersionInfo.app_version);         //<- Ultima Version Disponible
                 this.Inst_Version = new Version(this._VersionInfo.last_installer);      //<- Ultimo Instalador
 
                 this._Instalar = this.Inst_Version > this.Curr_Version ? true : false;            //<- Hay que bajar y correr el Instalador
@@ -377,7 +379,7 @@ namespace EDHM_UI_Patcher
                     var Installer_PROC = System.Diagnostics.Process.Start(TempFilePath);
                     Installer_PROC.EnableRaisingEvents = true;
                     if (this._Parchear) Installer_PROC.WaitForExit();
-                }              
+                }
 
                 if (this._Parchear)
                 {
@@ -565,7 +567,7 @@ namespace EDHM_UI_Patcher
                         {
                             // Aplicar el HotFix a cada instancia
                             foreach (var _Instance in GameInstancesEx)
-                            {                                
+                            {
                                 string HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);
                                 string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
 
@@ -608,7 +610,7 @@ namespace EDHM_UI_Patcher
                                         }
                                     }
                                     catch { }
-                                }                                
+                                }
                             }
                             _ret = true;
                         }
@@ -662,5 +664,4 @@ namespace EDHM_UI_Patcher
 
         public string destination { get; set; }
     }
-
 }
