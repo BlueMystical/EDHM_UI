@@ -19,7 +19,6 @@ namespace elite_dangerous_64
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-
 		}
 
 		private void Form1_KeyPress(object sender, KeyPressEventArgs e)

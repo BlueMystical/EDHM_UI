@@ -24,7 +24,7 @@ namespace EDHM_UI_mk2.Forms
 
 		public string XMLColors = string.Empty;
 
-		public event EventHandler OnPreviewLoaded;//<- Ocurre cuando termino de Actualizar el Preview
+		public event EventHandler OnPreviewLoaded; //<- Ocurre cuando termino de Actualizar el Preview
 
 		public PreviewOdysseyForm(game_instance _ActiveInstance)
 		{

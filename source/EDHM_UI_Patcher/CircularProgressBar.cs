@@ -367,7 +367,6 @@ namespace EDHM_UI_Patcher
 								Convert.ToInt32(this.Width / 2 - MS.Width / 2),
 								Convert.ToInt32(this.Height / 2 - MS.Height / 2) -10);
 						}
-
 					}
 					#endregion
 
@@ -406,8 +405,8 @@ namespace EDHM_UI_Patcher
 								Convert.ToInt32(this.Width / 2 - MS.Width / 2),
 								Convert.ToInt32(this.Height / 2 - MS.Height / 2) + 20);
 						}
-
 					}
+
 					#endregion
 
 					e.Graphics.DrawImage(bitmap, 0, 0);
