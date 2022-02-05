@@ -201,14 +201,13 @@ namespace EDHM_DX
 					this.sBG_B.Value = Convert.ToInt32(bBG * 100);
 					this.sBB_B.Value = Convert.ToInt32(bBB * 100);
 				}
-				//});				
+				//});
 			}
 			catch (Exception ex)
 			{
 				XtraMessageBox.Show(ex.Message);
 			}
 		}
-
 
 		private Matrix<double> CalculateInverseValues()
 		{
@@ -229,7 +228,6 @@ namespace EDHM_DX
 				//var inv = MatrixInverse(colorMatrixElements);
 				if (inv != null && !this.toggleLock_MID.IsOn)
 				{
-
 					this.invRR.Value = Convert.ToDecimal(Math.Round(inv[0, 0], 3));
 					this.invRG.Value = Convert.ToDecimal(Math.Round(inv[0, 1], 3));
 					this.invRB.Value = Convert.ToDecimal(Math.Round(inv[0, 2], 3));
@@ -269,10 +267,6 @@ namespace EDHM_DX
 			return _ret;
 		}
 
-
-
-
-
 		private void MakeXML_TOP()
 		{
 			decimal tRR, tRG, tRB;
@@ -298,6 +292,7 @@ namespace EDHM_DX
 
 			this.txtXML.Text = _XML_Matrix.ToString();
 		}
+
 		private void MakeXML_LOW()
 		{
 			decimal tRR, tRG, tRB;
@@ -345,9 +340,9 @@ namespace EDHM_DX
 						RG = Convert.ToDecimal(subs[1].NVL("0"));
 						RB = Convert.ToDecimal(subs[2].NVL("0"));
 
-						this.sRR.Value = Convert.ToInt32(RR * 100); 
-						this.sRG.Value = Convert.ToInt32(RG * 100); 
-						this.sRB.Value = Convert.ToInt32(RB * 100); 
+						this.sRR.Value = Convert.ToInt32(RR * 100);
+						this.sRG.Value = Convert.ToInt32(RG * 100);
+						this.sRB.Value = Convert.ToInt32(RB * 100);
 					}
 
 					_Start = _XML.IndexOf("<MatrixGreen>");
@@ -363,7 +358,7 @@ namespace EDHM_DX
 
 						this.sGR.Value = Convert.ToInt32(GR * 100);
 						this.sGG.Value = Convert.ToInt32(GG * 100);
-						this.sGB.Value = Convert.ToInt32(GB * 100); 
+						this.sGB.Value = Convert.ToInt32(GB * 100);
 					}
 
 					_Start = _XML.IndexOf("<MatrixBlue>");
@@ -378,7 +373,7 @@ namespace EDHM_DX
 						BB = Convert.ToDecimal(subs[2].NVL("0"));
 
 						this.sBR.Value = Convert.ToInt32(BR * 100);
-						this.sBG.Value = Convert.ToInt32(BG * 100); 
+						this.sBG.Value = Convert.ToInt32(BG * 100);
 						this.sBB.Value = Convert.ToInt32(BB * 100);
 					}
 				}
@@ -388,6 +383,7 @@ namespace EDHM_DX
 				MessageBox.Show(ex.Message);
 			}
 		}
+
 		private void ImportXML_LOW(string _XML)
 		{
 			try
@@ -485,8 +481,8 @@ namespace EDHM_DX
 				{
 					G.DrawImage(
 					   image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle 
-					   0, 0,        // upper-left corner of source rectangle 
+					   new Rectangle(0, 0, width, height),  // destination rectangle
+					   0, 0,        // upper-left corner of source rectangle
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
@@ -501,6 +497,7 @@ namespace EDHM_DX
 				XtraMessageBox.Show(ex.Message);
 			}
 		}
+
 		private void DrawPortrait_TOP()
 		{
 			Image _BaseLayer = null;
@@ -588,8 +585,8 @@ namespace EDHM_DX
 				{
 					G.DrawImage(
 					   image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle 
-					   0, 0,        // upper-left corner of source rectangle 
+					   new Rectangle(0, 0, width, height),  // destination rectangle
+					   0, 0,        // upper-left corner of source rectangle
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
@@ -606,6 +603,7 @@ namespace EDHM_DX
 				XtraMessageBox.Show(ex.Message);
 			}
 		}
+
 		private void DrawPortrait_LOW()
 		{
 			Image _BaseLayer = null;
@@ -675,8 +673,8 @@ namespace EDHM_DX
 				{
 					G.DrawImage(
 					   _Image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle 
-					   0, 0,        // upper-left corner of source rectangle 
+					   new Rectangle(0, 0, width, height),  // destination rectangle
+					   0, 0,        // upper-left corner of source rectangle
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
@@ -691,8 +689,6 @@ namespace EDHM_DX
 			return _ret;
 		}
 
-
-
 		private void sRR_EditValueChanged(object sender, EventArgs e)
 		{
 			TrackBarControl _Slider = sender as TrackBarControl;
@@ -702,6 +698,7 @@ namespace EDHM_DX
 				var X = (_Parent.GetItemByControl(_Slider)).Text = ((decimal)_Slider.Value / 100).ToString();
 			}
 		}
+
 		private void sBB_MouseUp(object sender, MouseEventArgs e)
 		{
 			MakeXML_TOP();
@@ -709,6 +706,7 @@ namespace EDHM_DX
 			DrawPicture_TOP();
 			DrawPortrait_TOP();
 		}
+
 		private void sRR_KeyUp(object sender, KeyEventArgs e)
 		{
 			MakeXML_TOP();
@@ -724,6 +722,7 @@ namespace EDHM_DX
 			DrawPicture_LOW();
 			DrawPortrait_LOW();
 		}
+
 		private void sRR_B_KeyUp(object sender, KeyEventArgs e)
 		{
 			MakeXML_LOW();
@@ -737,6 +736,7 @@ namespace EDHM_DX
 			DrawPortrait_TOP();
 			DrawPortrait_LOW();
 		}
+
 		private void invRG_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
@@ -746,7 +746,6 @@ namespace EDHM_DX
 			}
 		}
 
-
 		private void cmdImportXML_1_Click(object sender, EventArgs e)
 		{
 			ImportXML_TOP(this.txtXML.Text);
@@ -755,6 +754,7 @@ namespace EDHM_DX
 			DrawPortrait_TOP();
 			DrawPortrait_LOW();
 		}
+
 		private void cmdImportXML_2_Click(object sender, EventArgs e)
 		{
 			ImportXML_LOW(this.txtXML_LOW.Text);
@@ -790,7 +790,6 @@ namespace EDHM_DX
 						this._Reader.WriteKey("y160", ((decimal)sBG.Value / 100).ToString(), "constants");
 						this._Reader.WriteKey("z160", ((decimal)sBB.Value / 100).ToString(), "constants");
 
-
 						this._Reader.WriteKey("x153", invRR.Value.ToString(), "constants");
 						this._Reader.WriteKey("y153", invRG.Value.ToString(), "constants");
 						this._Reader.WriteKey("z153", invRB.Value.ToString(), "constants");
@@ -802,7 +801,6 @@ namespace EDHM_DX
 						this._Reader.WriteKey("x155", invBR.Value.ToString(), "constants");
 						this._Reader.WriteKey("y155", invBG.Value.ToString(), "constants");
 						this._Reader.WriteKey("z155", invBB.Value.ToString(), "constants");
-
 
 						this._Reader.WriteKey("x150", ((decimal)sRR_B.Value / 100).ToString(), "constants");
 						this._Reader.WriteKey("y150", ((decimal)sRG_B.Value / 100).ToString(), "constants");
@@ -834,6 +832,7 @@ namespace EDHM_DX
 				XtraMessageBox.Show(ex.Message);
 			}
 		}
+
 		private void cmdCancel_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -846,6 +845,7 @@ namespace EDHM_DX
 				result[i] = new double[cols];
 			return result;
 		}
+
 		private double[][] MatrixIdentity(int n)
 		{
 			// return an n x n Identity matrix
@@ -855,6 +855,7 @@ namespace EDHM_DX
 
 			return result;
 		}
+
 		private double[][] MatrixProduct(double[][] matrixA, double[][] matrixB)
 		{
 			int aRows = matrixA.Length; int aCols = matrixA[0].Length;
@@ -871,6 +872,7 @@ namespace EDHM_DX
 
 			return result;
 		}
+
 		private double[][] MatrixInverse(double[][] matrix)
 		{
 			int n = matrix.Length;
@@ -901,6 +903,7 @@ namespace EDHM_DX
 			}
 			return result;
 		}
+
 		private double[][] MatrixDuplicate(double[][] matrix)
 		{
 			// allocates/creates a duplicate of a matrix.
@@ -910,6 +913,7 @@ namespace EDHM_DX
 					result[i][j] = matrix[i][j];
 			return result;
 		}
+
 		private double[] HelperSolve(double[][] luMatrix, double[] b)
 		{
 			// before calling this helper, permute b using the perm array
@@ -937,6 +941,7 @@ namespace EDHM_DX
 
 			return x;
 		}
+
 		private double[][] MatrixDecompose(double[][] matrix, out int[] perm, out int toggle)
 		{
 			// Doolittle LUP decomposition with partial pivoting.
@@ -1028,7 +1033,7 @@ namespace EDHM_DX
 				}
 				// --------------------------------------------------
 				// if diagonal after swap is zero . .
-				//if (Math.Abs(result[j][j]) less-than 1.0E-20) 
+				//if (Math.Abs(result[j][j]) less-than 1.0E-20)
 				//  return null; // consider a throw
 
 				for (int i = j + 1; i < n; ++i)
@@ -1039,8 +1044,6 @@ namespace EDHM_DX
 						result[i][k] -= result[i][j] * result[j][k];
 					}
 				}
-
-
 			} // main j column loop
 
 			return result;
@@ -1055,11 +1058,13 @@ namespace EDHM_DX
 				var X = (_Parent.GetItemByControl(_Slider)).Text = string.Format("Brightness: [{0}]", ((decimal)_Slider.Value / 100).ToString());
 			}
 		}
+
 		private void trackPortraitBrightness_MouseUp(object sender, MouseEventArgs e)
 		{
 			//Ajusta el Brillo del Portrait
 			DrawPortrait_TOP();
 		}
+
 		private void trackPortraitBrightness_KeyUp(object sender, KeyEventArgs e)
 		{
 			//Ajusta el Brillo del Portrait
@@ -1075,11 +1080,13 @@ namespace EDHM_DX
 				var X = (_Parent.GetItemByControl(_Slider)).Text = string.Format("Brightness: [{0}]", ((decimal)_Slider.Value / 100).ToString());
 			}
 		}
+
 		private void trackShipPanelsBrightness_KeyUp(object sender, KeyEventArgs e)
 		{
 			//Ajustar el Brillo del Panel
 			DrawPicture_LOW();
 		}
+
 		private void trackShipPanelsBrightness_MouseUp(object sender, MouseEventArgs e)
 		{
 			DrawPicture_LOW();
