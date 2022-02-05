@@ -2021,7 +2021,6 @@ namespace EDHM_UI_mk2
 								this.dockManager1.ActivePanel = this.dockDetalles;
 								this.Cursor = Cursors.Default;
 							}));
-
 						}
 					});
 				}
@@ -4108,7 +4107,6 @@ namespace EDHM_UI_mk2
 			base.WindowState = FormWindowState.Normal;
 			BringToFront();
 		}
-
 
 		private void tileGetHelp_ElementClick(object sender, NavElementEventArgs e)
 		{

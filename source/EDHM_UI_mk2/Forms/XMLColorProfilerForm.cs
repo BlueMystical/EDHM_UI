@@ -825,7 +825,6 @@ namespace EDHM_DX
 				{
 					throw new Exception("ERROR 404: Could not find the 'XML - Profile.ini' file!");
 				}
-
 			}
 			catch (Exception ex)
 			{

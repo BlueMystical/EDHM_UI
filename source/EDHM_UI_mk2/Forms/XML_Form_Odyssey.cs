@@ -59,6 +59,7 @@ namespace EDHM_UI_mk2.Forms
 
 			this.picStationPanels.Image = this.StationOriginalImage;
 		}
+
 		private void XML_Form_Odyssey_Shown(object sender, EventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -73,12 +74,11 @@ namespace EDHM_UI_mk2.Forms
 			});
 		}
 
-
 		private void LoadINIProfile()
 		{
 			try
 			{
-				//Cuando se Carga un Tema, el XML se copia Localmente, usamos ese archivo 
+				//Cuando se Carga un Tema, el XML se copia Localmente, usamos ese archivo
 				//this._Reader = new IniFile(Path.Combine(this.AppExePath, "Data", this.ActiveInstance.key + "_XML-Profile.ini"));
 				//this._Reader = new IniFile(Path.Combine(this.ActiveTheme.folder, "XML-Profile.ini"));
 
@@ -94,7 +94,7 @@ namespace EDHM_UI_mk2.Forms
 						//this.trackShipPanelsBrightness.Value = Convert.ToInt32(Convert.ToDecimal(this._Reader.ReadKey("z157", "constants")) * 100);
 						//this.trackHiglightsBrightness.Value = Convert.ToInt32(Convert.ToDecimal(this._Reader.ReadKey("w157", "constants")) * 100);
 					}));
-					
+
 					//-----------------------------------------------------------------------------------;
 					//** --== XML Ship Profile ==--
 
@@ -181,8 +181,8 @@ namespace EDHM_UI_mk2.Forms
 				{
 					G.DrawImage(
 					   image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle 
-					   0, 0,        // upper-left corner of source rectangle 
+					   new Rectangle(0, 0, width, height),  // destination rectangle
+					   0, 0,        // upper-left corner of source rectangle
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
@@ -207,6 +207,7 @@ namespace EDHM_UI_mk2.Forms
 				}));
 			}
 		}
+
 		private void DrawPortrait_SHIP()
 		{
 			Image _BaseLayer = null;
@@ -260,13 +261,13 @@ namespace EDHM_UI_mk2.Forms
 				{
 					G.DrawImage(
 					   image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle 
-					   0, 0,        // upper-left corner of source rectangle 
+					   new Rectangle(0, 0, width, height),  // destination rectangle
+					   0, 0,        // upper-left corner of source rectangle
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
 					   imageAttributes);
-				}				
+				}
 
 				Invoke((MethodInvoker)(() =>
 				{
@@ -284,6 +285,7 @@ namespace EDHM_UI_mk2.Forms
 				}));
 			}
 		}
+
 		private void DrawPortrait_STATION()
 		{
 			Image _BaseLayer = null;
@@ -333,6 +335,7 @@ namespace EDHM_UI_mk2.Forms
 				this.txtXML_LOW.Text = _XML_Matrix.ToString();
 			}));
 		}
+
 		private void ImportXML_LOW(string _XML)
 		{
 			try
@@ -419,6 +422,7 @@ namespace EDHM_UI_mk2.Forms
 				var X = (_Parent.GetItemByControl(_Slider)).Text = ((decimal)_Slider.Value / 100).ToString();
 			}
 		}
+
 		private void sliderBar_KeyUp(object sender, KeyEventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -431,6 +435,7 @@ namespace EDHM_UI_mk2.Forms
 				DrawPicture_STATION();
 			});
 		}
+
 		private void sliderBar_MouseUp(object sender, MouseEventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();

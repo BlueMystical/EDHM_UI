@@ -25,15 +25,15 @@ namespace EDHM_DX
 
 		public game_instance ActiveInstance { get; set; }
 
-
 		public ShipPreviewForm(game_instance _ActiveInstance)
 		{
 			InitializeComponent();
 			this.ActiveInstance = _ActiveInstance;
 		}
+
 		private void ShipPreviewForm_Load(object sender, EventArgs e)
 		{
-			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, Screen.PrimaryScreen.Bounds.Height - this.Height - 50);			
+			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, Screen.PrimaryScreen.Bounds.Height - this.Height - 50);
 		}
 
 		public void PreviewTheme()
@@ -84,7 +84,6 @@ namespace EDHM_DX
 								_BaseLayer = Bitmap.FromFile(_FilePath);
 							}
 						}
-
 
 						//Layer 2: Here we'll be adding the different UI elements
 						//Starting with the Common Group:
@@ -213,7 +212,7 @@ namespace EDHM_DX
 						}
 						// ------------------------------------------------------------------------------------------------
 
-						//Panel Lines (lower): 
+						//Panel Lines (lower):
 						_BaseHud = this.Settings.ui_groups.Find(x => x.Name == "Panel (Lower)");
 						_ElementIndex = Convert.ToInt32(_BaseHud.Elements.Find(x => x.Type == "PanelLinesLOW").Value);
 						if (_ElementIndex == 199)
@@ -354,7 +353,7 @@ namespace EDHM_DX
 							_BaseLayer = Util.Superimpose(new Bitmap(_BaseLayer), new Bitmap(_Layer_2));
 						}
 
-						//Layer_1 (the HUD elements) Needs to be Alpha Blended depending on the Value of 'HudDimmer':					
+						//Layer_1 (the HUD elements) Needs to be Alpha Blended depending on the Value of 'HudDimmer':
 						//----------------------------------------------------------------------------------------;
 						_BaseHud = this.Settings.ui_groups.Find(x => x.Name == "HUD Settings");
 						_Value = (float)_BaseHud.Elements.Find(x => x.Type == "HudDimmer").Value;
@@ -377,8 +376,8 @@ namespace EDHM_DX
 							this.picturePreview.Image = _Layer_1;
 							this.picturePreview.Refresh();
 						}));
-					}					
-				});				
+					}
+				});
 			}
 			catch (Exception ex)
 			{
@@ -418,7 +417,7 @@ namespace EDHM_DX
 					   new float[] { (float)BR, (float)BG, (float)BR / 100,  0, 1},        // blue scaling factor of 1
 					   new float[] {0,  0,  0,  1, 0},        // alpha scaling factor of 1
 					   new float[] {0, 0, 0, 0, 1			// three translations of 0
-					 } };    
+					 } };
 					this.ColorMatrix = colorMatrixElements;
 				}
 			}
@@ -444,8 +443,8 @@ namespace EDHM_DX
 				{
 					G.DrawImage(
 					   _Image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle 
-					   0, 0,        // upper-left corner of source rectangle 
+					   new Rectangle(0, 0, width, height),  // destination rectangle
+					   0, 0,        // upper-left corner of source rectangle
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
