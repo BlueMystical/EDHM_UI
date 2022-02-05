@@ -21,10 +21,11 @@ namespace EDHM_UI_mk2.Forms
 		{
 			InitializeComponent();
 		}
+
 		private void ShipyardForm_Load(object sender, EventArgs e)
 		{
-
 		}
+
 		private void ShipyardForm_Shown(object sender, EventArgs e)
 		{
 			LoadShipyardData();
@@ -113,6 +114,7 @@ namespace EDHM_UI_mk2.Forms
 				this.pictureEdit2.Image = null;
 			}
 		}
+
 		private void chkEnableThemeChange_Rep_Toggled(object sender, EventArgs e)
 		{
 			this.Shipyard.theme_swaping = Convert.ToBoolean(this.chkEnableThemeChange_Rep.EditValue);
@@ -126,12 +128,13 @@ namespace EDHM_UI_mk2.Forms
 		{
 			if (this.Shipyard != null)
 			{
-				Util.Serialize_ToJSON(Path.Combine(this.AppExePath, @"Data\PlayerLoadout.json"), 
+				Util.Serialize_ToJSON(Path.Combine(this.AppExePath, @"Data\PlayerLoadout.json"),
 					this.Shipyard);
 
 				this.DialogResult = DialogResult.OK;
 			}
 		}
+
 		private void cmdRefreshList_Click(object sender, EventArgs e)
 		{
 			try
@@ -152,12 +155,13 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void cmdRemoveShip_Click(object sender, EventArgs e)
 		{
 			ship_loadout _Row = (ship_loadout)this.gridView1.GetFocusedRow();
 			if (_Row != null)
 			{
-				if (XtraMessageBox.Show("Are you sure to Delete the Selected Ship from the Shipyard?\r\nIt may come back again next time you use it in game.", 
+				if (XtraMessageBox.Show("Are you sure to Delete the Selected Ship from the Shipyard?\r\nIt may come back again next time you use it in game.",
 					"Confirm Ship Removal:", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes)
 				{
 					this.Shipyard.ships.Remove(_Row);
@@ -165,10 +169,11 @@ namespace EDHM_UI_mk2.Forms
 				}
 			}
 		}
+
 		private void cmdHowTo_Click(object sender, EventArgs e)
 		{
 			StringBuilder _Message = new StringBuilder();
-			_Message.AppendLine("- The ships in the list gets updated once you board any ship in the game.");			
+			_Message.AppendLine("- The ships in the list gets updated once you board any ship in the game.");
 			_Message.AppendLine("- Once your Ship is in the List, you can asign it a Theme.");
 			_Message.AppendLine("- Whenever you swap ships in game, the UI will check if it has a theme asigned, if so, the UI will Apply it's theme and refresh changes in game.");
 			_Message.AppendLine("- The 'Swap themes on ship change' Switch must be ON, it is OFF by default.");
@@ -176,7 +181,7 @@ namespace EDHM_UI_mk2.Forms
 			_Message.AppendLine("- The UI Program (but not this window) needs to be runing for the Detection of your Ships.");
 
 			XtraMessageBox.Show(_Message.ToString(),
-					"How To:", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+					"How To:", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

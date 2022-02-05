@@ -1378,7 +1378,6 @@ namespace EDHM_UI_mk2
 		//	dest.UnlockBits(bdDst);
 		//}
 
-
 		/// <summary>Dibuja una imagen sobre otra (capas)</summary>
 		/// <param name="BottomLayer">Imagen de la Capa más Baja</param>
 		/// <param name="TopLayer">Imagen de la Capa Superior</param>

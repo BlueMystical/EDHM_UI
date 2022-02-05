@@ -65,9 +65,6 @@ namespace EDHM_UI_mk2
 			return ReadKey(Key, Section).Length > 0;
 		}
 
-
-		
-
 		public List<string> GetAllSectionNames()
 		{
 			List<string> _ret = new List<string>();
@@ -82,7 +79,7 @@ namespace EDHM_UI_mk2
 				if (sectionName != string.Empty)
 					_ret.Add(sectionName);
 			}
-			
+
 			return _ret;
 		}
 
@@ -96,12 +93,10 @@ namespace EDHM_UI_mk2
 			string[] tmp = System.Text.Encoding.Default.GetString(buffer).Trim('\0').Split('\0');
 			foreach (string entry in tmp)
 			{
-				if (!entry.EmptyOrNull()) _ret.Add(entry.Substring(0, entry.IndexOf("=")));				
+				if (!entry.EmptyOrNull()) _ret.Add(entry.Substring(0, entry.IndexOf("=")));
 			}
 
 			return _ret;
 		}
-
 	}
-
 }
