@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -54,11 +54,11 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void TPModsManager_Shown(object sender, EventArgs e)
 		{
 			try
 			{
+
 			}
 			catch (Exception ex)
 			{
@@ -240,6 +240,7 @@ namespace EDHM_UI_mk2.Forms
 											Image = _ManagedMod.Thumbnail
 										};
 										this.lst3PMods.Elements.Add(_Element);
+
 									}));
 								}
 							}
@@ -268,7 +269,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void LoadMod(TPMod_Config _Mod)
 		{
 			try
@@ -287,6 +287,7 @@ namespace EDHM_UI_mk2.Forms
 							this._IniReader_OLD = new IniFile(this.ModFullPath);
 							//this.IniReader = new FileIniDataParser();
 							//this._IniData = this.IniReader.ReadFile(this.ModFullPath);
+
 
 							//if (this._IniData != null)
 							if (this._IniReader_OLD != null)
@@ -371,14 +372,14 @@ namespace EDHM_UI_mk2.Forms
 															Name = string.Format("{0}|{1}", _Section.ini_section, _key.name),
 															EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
 															UseMaskAsDisplayFormat = true,
-															EditValueChangedDelay = 500,
+															EditValueChangedDelay = 500,															
 															AllowMouseWheel = true,
 															AllowFocused = true,
 															IsFloatValue = true,
 															Increment = 0.01m,
 															EditMask = "n2",
 															MinValue = -1,
-															MaxValue = 1,
+															MaxValue = 1,															
 															Tag = _key
 														};
 														_NumericDecimal.EditValueChanged += PropertyGrid_EditValueChanged;
@@ -642,7 +643,7 @@ namespace EDHM_UI_mk2.Forms
 
 						if (File.Exists(Path.Combine(this.TPMods_Path, FileName + ".png")) == false)
 						{
-							//Ahora Creamos una Imagen que sirva de Thumbnail:
+							//Ahora Creamos una Imagen que sirva de Thumbnail:  
 							//Formato PNG, 200x61 pix, Fondo Gris semi-transparente, Borde Naranja
 							Bitmap ThumbNail = new Bitmap(200, 61);
 							using (Graphics g = Graphics.FromImage(ThumbNail))
@@ -688,7 +689,7 @@ namespace EDHM_UI_mk2.Forms
 
 				ColorManagment.ColorConverter.Init();
 
-				//Convertir al espacio sRGB no lineal:
+				//Convertir al espacio sRGB no lineal: 
 				ColorManagment.ColorRGB sRGBcolor = new ColorManagment.ColorRGB(ColorManagment.RGBSpaceName.sRGB, _Color.R, _Color.G, _Color.B);
 
 				//Get Gamma Corrected Values:
@@ -701,7 +702,6 @@ namespace EDHM_UI_mk2.Forms
 			catch (Exception ex) { MessageBox.Show(ex.Message + ex.StackTrace); }
 			return _ret;
 		}
-
 		private Color ReverseGammaCorrected(double _Gamma_R, double _Gamma_G, double _Gamma_B, double _Gamma_A = 1.0, double _GammaValue = 2.4)
 		{
 			System.Drawing.Color _ret = System.Drawing.Color.White;
@@ -728,7 +728,6 @@ namespace EDHM_UI_mk2.Forms
 			catch (Exception ex) { MessageBox.Show(ex.Message + ex.StackTrace); }
 			return _ret;
 		}
-
 		private Color ReverseGammaCorrected(List<double> _GammaComponents, double _GammaValue = 2.4)
 		{
 			System.Drawing.Color _ret = System.Drawing.Color.White;
@@ -806,176 +805,7 @@ namespace EDHM_UI_mk2.Forms
 
 		#region Eventos Principales
 
-		/* AQUI SE CAPTURAN LOS CAMBIOS HECHOS EN LOS CONTROLES del cuadro de Propiedades */
-		//private void PropertyGrid_EditValueChanged(object sender, EventArgs e)
-		//{
-		//	try
-		//	{
-		//		TPMod_Key _SelectedElement = null;
-		//		string _SectionName = string.Empty;
-		//		string _ModFileName = string.Empty;
-
-		//		if (this.CurrentdMod != null)
-		//		{
-		//			_ModFileName = this.CurrentdMod.file;
-		//		}
-
-		//		//Obtiene el Valor del Control adecuado
-		//		switch (sender.GetType().Name)
-		//		{
-		//			case "TextEdit":
-		//				TextEdit _TextControl = sender as TextEdit;
-		//				_SectionName = _TextControl.Properties.Name.Split(new char[] { '|' })[0];
-		//				if (_TextControl.Properties.Tag != null)
-		//				{
-		//					_SelectedElement = _TextControl.Properties.Tag as TPMod_Key;
-		//					_SelectedElement.value = Util.ValidarNulo(_TextControl.EditValue, "");
-		//				}
-		//				break;
-
-		//			case "SpinEdit":
-		//				SpinEdit _NumericControl = sender as SpinEdit;
-		//				_SectionName = _NumericControl.Properties.Name.Split(new char[] { '|' })[0];
-		//				if (_NumericControl.Properties.Tag != null)
-		//				{
-		//					_SelectedElement = _NumericControl.Properties.Tag as TPMod_Key;
-		//					_SelectedElement.value = Util.ValidarNulo(_NumericControl.EditValue, 0).ToString();
-		//				}
-		//				break;
-
-		//			case "ToggleSwitch":
-		//				ToggleSwitch _ToogleControl = sender as ToggleSwitch;
-		//				_SectionName = _ToogleControl.Properties.Name.Split(new char[] { '|' })[0];
-		//				if (_ToogleControl.Properties.Tag != null)
-		//				{
-		//					_SelectedElement = _ToogleControl.Properties.Tag as TPMod_Key;
-		//					_SelectedElement.value = Util.BoolToInteger(Util.ValidarNulo(_ToogleControl.EditValue, false)).ToString();
-		//				}
-		//				break;
-
-		//			case "LookUpEdit":
-		//				LookUpEdit _Combo = sender as LookUpEdit;
-		//				_SectionName = _Combo.Properties.Name.Split(new char[] { '|' })[0];
-		//				if (_Combo.Properties.Tag != null)
-		//				{
-		//					_SelectedElement = _Combo.Properties.Tag as TPMod_Key;
-		//					_SelectedElement.value = Util.ValidarNulo(_Combo.EditValue, "");
-		//				}
-		//				break;
-
-		//			case "TrackBarControl":
-		//				TrackBarControl _TrackBar = sender as TrackBarControl;
-		//				_SectionName = _TrackBar.Properties.Name.Split(new char[] { '|' })[0];
-		//				if (_TrackBar.Properties.Tag != null)
-		//				{
-		//					_SelectedElement = _TrackBar.Properties.Tag as TPMod_Key;
-		//					_SelectedElement.value = (Util.ValidarNulo(_TrackBar.EditValue, 0m) / 10m).ToString();
-		//				}
-		//				break;
-
-		//			case "ColorPickEdit":
-		//				ColorPickEdit _ColorEd = sender as ColorPickEdit;
-		//				_SectionName = _ColorEd.Properties.Name.Split(new char[] { '|' })[0];
-		//				if (_ColorEd.Properties.Tag != null)
-		//				{
-		//					_SelectedElement = _ColorEd.Properties.Tag as TPMod_Key;
-		//					if (_ColorEd.EditValue != null)
-		//					{
-		//						_SelectedElement.value = _ColorEd.Color.ToArgb().ToString();
-		//					}
-		//				}
-		//				break;
-
-		//			default:
-		//				break;
-		//		}
-
-		//		/* AQUI SE GUARDAN LOS CAMBIOS EN EL INI FILE  */
-		//		//if (this.IniReader != null && this._IniData != null)
-		//		if (this._IniReader_OLD != null)
-		//		{
-		//			if (_SelectedElement.type != "color")
-		//			{
-		//				//Primero Leemos la Clave (con comentarios) desde el archivo:
-		//				var _Data = this._IniData.Sections[_SectionName].GetKeyData(_SelectedElement.key);
-		//				if (_Data != null)
-		//				{
-		//					_Data.Value = _SelectedElement.value;
-		//				}
-		//				else
-		//				{
-		//					//Si la clave no existe la creamos nueva:
-		//					_Data = new KeyData(_SelectedElement.key)
-		//					{
-		//						Value = _SelectedElement.value
-		//					};
-
-		//					List<string> _comm = null; //Agregamos la Descripcion como Comentarios:
-		//					if (!_SelectedElement.description.EmptyOrNull())
-		//					{
-		//						_comm = new List<string>(_SelectedElement.description.Split(new string[] { "\r\n" }, StringSplitOptions.None));
-		//						if (_comm.IsNotEmpty())
-		//						{
-		//							_Data.Comments = new List<string>();
-		//							foreach (string s in _comm)
-		//							{
-		//								_Data.Comments.Add("; " + s);
-		//							}
-		//						}
-		//					}
-		//				}
-
-		//				this._IniData[_SectionName].SetKeyData(_Data);
-		//				//this._IniReader_OLD.WriteKey(_SelectedElement.key, _SelectedElement.value, _SectionName);
-		//			}
-		//			else
-		//			{
-		//				//Los Colores tienen las claves RGBA en el campo key: 'xR|xG|xB|xA'
-		//				string[] keys = _SelectedElement.key.Split(new char[] { '|' });
-		//				if (keys != null && keys.Length > 0)
-		//				{
-		//					//Convertir Color RGB -> sRGB -> GammaCorrected
-		//					Color _Color = Color.FromArgb(Convert.ToInt32(_SelectedElement.value));
-		//					List<double> _GammaColors = GetGammaCorrected_RGBA(_Color);
-
-		//					int i = 0;
-		//					foreach (string _Key in keys)
-		//					{
-		//						/*//Primero Leemos la Clave (con comentarios) desde el archivo:
-		//						var _Data = this._IniData[_SectionName].GetKeyData(_Key);
-		//						if (_Data != null)
-		//						{
-		//							_Data.Value = _GammaColors[i].ToString();
-		//						}
-		//						else
-		//						{
-		//							//Si la clave no existe la creamos nueva:
-		//							_Data = new KeyData(_Key)
-		//							{
-		//								Value = _GammaColors[i].ToString()
-		//							};
-
-		//							if (!_SelectedElement.description.EmptyOrNull())
-		//							{
-		//								_Data.Comments = new List<string>(_SelectedElement.description.Split(new string[] { "\r\n" }, StringSplitOptions.None));
-		//							}
-		//						}*/
-		//						//this._IniData[_SectionName].SetKeyData(_Data);
-		//						this._IniReader_OLD.WriteKey(_Key, _GammaColors[i].ToString(), _SectionName);
-		//						//this._IniReader_OLD.WriteKey(_SelectedElement.key,  _SelectedElement.value, _SectionName);
-		//						i++;
-		//					}
-		//				}
-		//			}
-
-		//			//this.IniReader.WriteFile(this.ModFullPath, this._IniData, Encoding.UTF8);
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-		//	}
-		//}
+		
 
 		/* AQUI SE CAPTURAN LOS CAMBIOS HECHOS EN LOS CONTROLES del cuadro de Propiedades */
 		private void PropertyGrid_EditValueChanged(object sender, EventArgs e)
@@ -1051,7 +881,7 @@ namespace EDHM_UI_mk2.Forms
 					default:
 						break;
 				}
-
+				
 				/* AQUI SE GUARDAN LOS CAMBIOS EN EL INI FILE */
 				if (this._IniReader_OLD != null)
 				{
@@ -1146,7 +976,6 @@ namespace EDHM_UI_mk2.Forms
 			}
 			//this.vGridDetalles.Tag = e.Row;
 		}
-
 		private void vGridDetalles_DoubleClick(object sender, EventArgs e)
 		{
 			var _Row = this.vGridDetalles.FocusedRow;
@@ -1173,21 +1002,27 @@ namespace EDHM_UI_mk2.Forms
 
 		/* AL SELECCIONAR UN MOD DE LA LISTA  */
 		private AccordionControlElement SelectedThemeElement = null;
-
 		private void lst3PMods_ElementClick(object sender, ElementClickEventArgs e)
 		{
-			if (sender != null)
-			{
-				if (e.Element != null && e.Element.Tag != null)
-				{
-					if (e.Element.Tag is TPMod_Config _Mod)
-					{
-						this.SelectedThemeElement = e.Element;
-						LoadMod(_Mod);
-					}
-				}
-			}
-		}
+            try
+            {
+                if (sender != null)
+                {
+                    if (e.Element != null && e.Element.Tag != null)
+                    {
+                        if (e.Element.Tag is TPMod_Config _Mod)
+                        {
+                            this.SelectedThemeElement = e.Element;
+                            LoadMod(_Mod);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
 		private void lst3PMods_CustomDrawElement(object sender, CustomDrawElementEventArgs e)
 		{
 			//Dibuja Borde sobre el tema seleccionado
@@ -1353,6 +1188,7 @@ namespace EDHM_UI_mk2.Forms
 					{
 						SaveMod(this.CurrentdMod);
 					}
+
 				}
 			}
 			catch (Exception ex)
@@ -1365,6 +1201,7 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
+
 			}
 			catch (Exception ex)
 			{
@@ -1396,7 +1233,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void cmdEdit_AddSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1410,6 +1246,7 @@ namespace EDHM_UI_mk2.Forms
 
 					this.dockSection.FloatLocation = new System.Drawing.Point((int)((Screen.PrimaryScreen.Bounds.Width - this.dockSection.Width) / 2),
 									(int)((Screen.PrimaryScreen.Bounds.Height - this.dockSection.Height) / 2));
+
 				}
 			}
 			catch (Exception ex)
@@ -1417,7 +1254,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void cmdEdit_EditSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1448,7 +1284,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void cmdEdit_RemoveSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1473,6 +1308,7 @@ namespace EDHM_UI_mk2.Forms
 							Util.Serialize_ToJSON(ModFullPath, this.CurrentdMod);
 						}
 					}
+
 				}
 			}
 			catch (Exception ex)
@@ -1524,7 +1360,7 @@ namespace EDHM_UI_mk2.Forms
 
 								#endregion
 
-								#region Crear la Seccion en el INI
+								#region Crear la Seccion en el INI 
 
 								//this._IniData.Sections.Add(new SectionData(_Section.name));
 								//this.IniReader.WriteFile(Path.Combine(this.TPMods_Path, FileName + ".ini"), this._IniData);
@@ -1571,7 +1407,6 @@ namespace EDHM_UI_mk2.Forms
 		#region Editor de claves
 
 		private bool AddingNew_KEY = false;
-
 		private void Dock_KeyEditor_Show(TPMod_Key _Key, string Caption)
 		{
 			try
@@ -1613,7 +1448,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void cmdEdit_AddKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1630,7 +1464,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void cmdEdit_EditKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1661,7 +1494,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void cmdEdit_RemoveKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
@@ -1694,6 +1526,7 @@ namespace EDHM_UI_mk2.Forms
 										}
 									}
 								}
+
 							}
 						}
 					}
@@ -1757,7 +1590,7 @@ namespace EDHM_UI_mk2.Forms
 													_KAY = _SEC.keys.Find(x => x.name == _Key.name);
 													if (_KAY != null)
 													{
-														//Edita la Clave:
+														//Edita la Clave:													
 														{
 															_KAY.name = this.DockKeys_txtName.Text;
 															_KAY.type = this.DockKeys_cboType.EditValue.NVL("");
@@ -1840,7 +1673,6 @@ namespace EDHM_UI_mk2.Forms
 		#region Custom Types Editor
 
 		private bool AddingNewType = false;
-
 		private void LoadCustomTypes(TPMod_Config _Mod)
 		{
 			try
@@ -2001,7 +1833,6 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-
 		private void DockCustomTypes_CmdApply_Click(object sender, EventArgs e)
 		{
 			/* APLICA LOS CAMBIOS AL MOD */
@@ -2014,6 +1845,7 @@ namespace EDHM_UI_mk2.Forms
 
 				LoadMod(this.CurrentdMod);
 				LoadCustomTypes(this.CurrentdMod);
+
 			}
 		}
 

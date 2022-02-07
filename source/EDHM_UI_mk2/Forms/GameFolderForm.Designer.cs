@@ -77,6 +77,8 @@
 			this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.txtPlayerJournal = new DevExpress.XtraEditors.ButtonEdit();
+			this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
 			((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repGameFolderSelector)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
@@ -102,6 +104,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.txtPlayerJournal.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// gridView2
@@ -190,6 +194,7 @@
 			// 
 			// layoutControl1
 			// 
+			this.layoutControl1.Controls.Add(this.txtPlayerJournal);
 			this.layoutControl1.Controls.Add(this.cmdRemoveInstance);
 			this.layoutControl1.Controls.Add(this.cmdAddGameInstance);
 			this.layoutControl1.Controls.Add(this.gridControl1);
@@ -258,14 +263,14 @@
 			// 
 			// cboLanguages
 			// 
-			this.cboLanguages.Location = new System.Drawing.Point(512, 405);
+			this.cboLanguages.Location = new System.Drawing.Point(587, 405);
 			this.cboLanguages.Name = "cboLanguages";
 			this.cboLanguages.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
 			this.cboLanguages.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name", "Language"),
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Value", "Value", 20, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Default, DevExpress.Data.ColumnSortOrder.None, DevExpress.Utils.DefaultBoolean.Default)});
-			this.cboLanguages.Size = new System.Drawing.Size(358, 20);
+			this.cboLanguages.Size = new System.Drawing.Size(283, 20);
 			this.cboLanguages.StyleController = this.layoutControl1;
 			this.cboLanguages.TabIndex = 11;
 			// 
@@ -363,7 +368,8 @@
             this.layoutControlItem7,
             this.layoutControlItem5,
             this.emptySpaceItem1,
-            this.layoutControlItem8});
+            this.layoutControlItem8,
+            this.layoutControlItem1});
 			this.layoutControlGroup1.Location = new System.Drawing.Point(0, 356);
 			this.layoutControlGroup1.Name = "layoutControlGroup1";
 			this.layoutControlGroup1.Size = new System.Drawing.Size(874, 193);
@@ -399,9 +405,9 @@
 			// emptySpaceItem1
 			// 
 			this.emptySpaceItem1.AllowHotTrack = false;
-			this.emptySpaceItem1.Location = new System.Drawing.Point(422, 24);
+			this.emptySpaceItem1.Location = new System.Drawing.Point(422, 64);
 			this.emptySpaceItem1.Name = "emptySpaceItem1";
-			this.emptySpaceItem1.Size = new System.Drawing.Size(428, 120);
+			this.emptySpaceItem1.Size = new System.Drawing.Size(428, 80);
 			this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
 			// 
 			// layoutControlItem8
@@ -411,7 +417,7 @@
 			this.layoutControlItem8.Name = "layoutControlItem8";
 			this.layoutControlItem8.Size = new System.Drawing.Size(428, 24);
 			this.layoutControlItem8.Text = "Language:";
-			this.layoutControlItem8.TextSize = new System.Drawing.Size(54, 13);
+			this.layoutControlItem8.TextSize = new System.Drawing.Size(129, 13);
 			// 
 			// layoutControlGroup2
 			// 
@@ -470,6 +476,27 @@
 			this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem12.TextVisible = false;
 			// 
+			// txtPlayerJournal
+			// 
+			this.txtPlayerJournal.Location = new System.Drawing.Point(446, 445);
+			this.txtPlayerJournal.Name = "txtPlayerJournal";
+			this.txtPlayerJournal.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+			this.txtPlayerJournal.Size = new System.Drawing.Size(424, 20);
+			this.txtPlayerJournal.StyleController = this.layoutControl1;
+			this.txtPlayerJournal.TabIndex = 16;
+			this.txtPlayerJournal.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.txtPlayerJournal_ButtonClick);
+			// 
+			// layoutControlItem1
+			// 
+			this.layoutControlItem1.Control = this.txtPlayerJournal;
+			this.layoutControlItem1.Location = new System.Drawing.Point(422, 24);
+			this.layoutControlItem1.Name = "layoutControlItem1";
+			this.layoutControlItem1.Size = new System.Drawing.Size(428, 40);
+			this.layoutControlItem1.Text = "Player\'s Journal Location:";
+			this.layoutControlItem1.TextLocation = DevExpress.Utils.Locations.Top;
+			this.layoutControlItem1.TextSize = new System.Drawing.Size(129, 13);
+			// 
 			// GameFolderForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -510,6 +537,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.txtPlayerJournal.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -547,5 +576,7 @@
 		private DevExpress.XtraEditors.SimpleButton cmdAddGameInstance;
 		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem11;
 		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem12;
+		private DevExpress.XtraEditors.ButtonEdit txtPlayerJournal;
+		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
 	}
 }

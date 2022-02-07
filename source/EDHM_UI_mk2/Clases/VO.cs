@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -11,10 +11,9 @@ namespace EDHM_UI_mk2
 
 		public bool theme_swaping { get; set; }
 		public string player_name { get; set; }
-		public string active_instance { get; set; }
+		public string active_instance { get; set; }		
 		public List<ship_loadout> ships { get; set; }
 	}
-
 	[Serializable]
 	public class ship_loadout
 	{
@@ -32,6 +31,7 @@ namespace EDHM_UI_mk2
 		}
 	}
 
+
 	[Serializable]
 	public class game_instance
 	{
@@ -43,7 +43,7 @@ namespace EDHM_UI_mk2
 		public string key { get; set; }
 		public string name { get; set; }
 		public string path { get; set; }
-
+		
 		public string themes_folder { get; set; }
 		public bool is_active { get; set; } = false;
 
@@ -111,7 +111,6 @@ namespace EDHM_UI_mk2
 		{
 			return (combo_item)MemberwiseClone();
 		}
-
 		public override string ToString()
 		{
 			return string.Format("[{0}]: '{1}'", this.Type, this.Name);
@@ -126,11 +125,12 @@ namespace EDHM_UI_mk2
 		public string language { get; set; }
 		public string game { get; set; }
 		public string version { get; set; }
-		public string author { get; set; }
+
+        public string name { get; set; }
+        public string author { get; set; }
+
 		public List<ui_group> ui_groups { get; set; }
-
 		public List<combo_item> Presets { get; set; }
-
 		public List<value_key> xml_profile { get; set; }
 
 		public object Clone()
@@ -176,24 +176,24 @@ namespace EDHM_UI_mk2
 		{
 			return (ui_group)MemberwiseClone();
 		}
-
 		public override string ToString()
 		{
 			return this.Title;
 		}
-	}
+	}	
 
 	[Serializable]
 	public class element : ICloneable
 	{
 		public element() { }
 
+		
 		public string Category { get; set; }
 		public string Title { get; set; }
 		public string File { get; set; }
 
 		public string Section { get; set; } = "Constants";
-		public string Key { get; set; }
+		public string Key { get; set; }		
 		public decimal Value { get; set; }
 
 		public string ValueType { get; set; }
@@ -208,7 +208,6 @@ namespace EDHM_UI_mk2
 		{
 			return (element)MemberwiseClone();
 		}
-
 		public override string ToString()
 		{
 			return string.Format("{0}: {1}", this.Title, this.Value);
@@ -229,6 +228,7 @@ namespace EDHM_UI_mk2
 			return string.Format("Name: {0}, Value: {1}", this.Name, this.Value);
 		}
 	}
+
 
 	[Serializable]
 	public class TPMod_Config
@@ -251,7 +251,6 @@ namespace EDHM_UI_mk2
 		public List<TPMod_Type> types { get; set; }
 		public List<TPMod_Type> custom_types { get; set; }
 	}
-
 	[Serializable]
 	public class TPMod_Section
 	{
@@ -266,9 +265,8 @@ namespace EDHM_UI_mk2
 		public string title { get; set; }
 		public string ini_section { get; set; }
 
-		public List<TPMod_Key> keys { get; set; }
+		public List<TPMod_Key> keys { get; set; }		
 	}
-
 	[Serializable]
 	public class TPMod_Key
 	{
@@ -276,11 +274,10 @@ namespace EDHM_UI_mk2
 
 		public string name { get; set; }
 		public string type { get; set; }
-		public string key { get; set; }
+		public string key { get; set; }		
 		public string value { get; set; }
 		public string description { get; set; }
 	}
-
 	[Serializable]
 	public class TPMod_Type
 	{
@@ -291,11 +288,12 @@ namespace EDHM_UI_mk2
 			this.name = _Name;
 			this.value = _Value;
 		}
-
+				
 		public string type { get; set; }
 		public string name { get; set; }
 		public string value { get; set; }
 	}
+
 
 	[Serializable]
 	public class UI_Tips

@@ -64,6 +64,7 @@ namespace EDHM_UI_mk2.Forms
 			this.picShipPanels.Image = this.ShipPanelOriginalImage;
 			this.picPortraits.Image = this.PortraitMainImage;
 
+
 			List<combo_item> _OnOff = new List<combo_item>();
 			_OnOff.Add(new combo_item("ONOFF", "Use the Ship Panel XML", 0));
 			_OnOff.Add(new combo_item("ONOFF", "Use the Station panel XML", 1));
@@ -72,7 +73,6 @@ namespace EDHM_UI_mk2.Forms
 			this.cboPortrasitModel.Properties.DisplayMember = "Name";
 			this.cboPortrasitModel.Properties.DataSource = _OnOff;
 		}
-
 		private void XML_Form_Shown(object sender, EventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -329,7 +329,6 @@ namespace EDHM_UI_mk2.Forms
 				this.txtXML.Text = _XML_Matrix.ToString();
 			}));
 		}
-
 		private void MakeXML_LOW()
 		{
 			decimal tRR, tRG, tRB;
@@ -431,11 +430,11 @@ namespace EDHM_UI_mk2.Forms
 			{
 				Invoke((MethodInvoker)(() =>
 				{
+
 				}));
 				MessageBox.Show(ex.Message);
 			}
 		}
-
 		private void ImportXML_LOW(string _XML)
 		{
 			try
@@ -549,8 +548,8 @@ namespace EDHM_UI_mk2.Forms
 				{
 					G.DrawImage(
 					   image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle
-					   0, 0,        // upper-left corner of source rectangle
+					   new Rectangle(0, 0, width, height),  // destination rectangle 
+					   0, 0,        // upper-left corner of source rectangle 
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
@@ -571,7 +570,6 @@ namespace EDHM_UI_mk2.Forms
 				}));
 			}
 		}
-
 		private void DrawPortrait_TOP()
 		{
 			Image _BaseLayer = null;
@@ -674,8 +672,8 @@ namespace EDHM_UI_mk2.Forms
 				{
 					G.DrawImage(
 					   image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle
-					   0, 0,        // upper-left corner of source rectangle
+					   new Rectangle(0, 0, width, height),  // destination rectangle 
+					   0, 0,        // upper-left corner of source rectangle 
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
@@ -683,7 +681,7 @@ namespace EDHM_UI_mk2.Forms
 				}
 
 				//image = Util.AdjustGamma(image, 2.4f);
-				image = Util.SetBrightness(image, (float)_Brightness);
+				image = Util.SetBrightness(image, (float)_Brightness);				
 
 				Invoke((MethodInvoker)(() =>
 				{
@@ -699,7 +697,6 @@ namespace EDHM_UI_mk2.Forms
 				}));
 			}
 		}
-
 		private void DrawPortrait_LOW()
 		{
 			Image _BaseLayer = null;
@@ -765,7 +762,6 @@ namespace EDHM_UI_mk2.Forms
 				var X = (_Parent.GetItemByControl(_Slider)).Text = ((decimal)_Slider.Value / 100).ToString();
 			}
 		}
-
 		private void sRR_KeyUp(object sender, KeyEventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -778,7 +774,6 @@ namespace EDHM_UI_mk2.Forms
 				DrawPortrait_LOW();
 			});
 		}
-
 		private void sBR_MouseUp(object sender, MouseEventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -791,7 +786,6 @@ namespace EDHM_UI_mk2.Forms
 				DrawPortrait_LOW();
 			});
 		}
-
 		private void sRR_B_MouseUp(object sender, MouseEventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -804,7 +798,6 @@ namespace EDHM_UI_mk2.Forms
 				DrawPortrait_TOP();
 			});
 		}
-
 		private void sRR_B_KeyUp(object sender, KeyEventArgs e)
 		{
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -828,7 +821,6 @@ namespace EDHM_UI_mk2.Forms
 				DrawPortrait_LOW();
 			});
 		}
-
 		private void invRG_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
@@ -842,6 +834,7 @@ namespace EDHM_UI_mk2.Forms
 				});
 			}
 		}
+
 
 		private void cmdSaveExit_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
@@ -878,6 +871,7 @@ namespace EDHM_UI_mk2.Forms
 					this.xml_profile.Find(X => X.key == "x155").value = this.invBR.Value;
 					this.xml_profile.Find(X => X.key == "y155").value = this.invBG.Value;
 					this.xml_profile.Find(X => X.key == "z155").value = this.invBB.Value;
+
 
 					this.xml_profile.Find(X => X.key == "x150").value = ((decimal)this.sRR_B.Value / 100);
 					this.xml_profile.Find(X => X.key == "y150").value = ((decimal)this.sRG_B.Value / 100);
@@ -973,7 +967,6 @@ namespace EDHM_UI_mk2.Forms
 			DrawPortrait_TOP();
 			DrawPortrait_LOW();
 		}
-
 		private void cmdImportXML_2_Click(object sender, EventArgs e)
 		{
 			ImportXML_LOW(this.txtXML_LOW.Text);
@@ -990,13 +983,11 @@ namespace EDHM_UI_mk2.Forms
 				var X = (_Parent.GetItemByControl(_Slider)).Text = string.Format("Brightness: [{0}]", ((decimal)_Slider.Value / 100).ToString());
 			}
 		}
-
 		private void trackShipPanelsBrightness_KeyUp(object sender, KeyEventArgs e)
 		{
 			//Ajustar el Brillo del Panel
 			DrawPicture_LOW();
 		}
-
 		private void trackShipPanelsBrightness_MouseUp(object sender, MouseEventArgs e)
 		{
 			DrawPicture_LOW();
@@ -1021,13 +1012,11 @@ namespace EDHM_UI_mk2.Forms
 				var X = (_Parent.GetItemByControl(_Slider)).Text = string.Format("Brightness: [{0}]", ((decimal)_Slider.Value / 100).ToString());
 			}
 		}
-
 		private void trackPortraitBrightness_MouseUp(object sender, MouseEventArgs e)
 		{
 			//Ajusta el Brillo del Portrait
 			DrawPortrait_TOP();
 		}
-
 		private void trackPortraitBrightness_KeyUp(object sender, KeyEventArgs e)
 		{
 			//Ajusta el Brillo del Portrait
@@ -1044,5 +1033,7 @@ namespace EDHM_UI_mk2.Forms
 			//abre con el programa predeterminado:
 			System.Diagnostics.Process.Start("https://forums.frontier.co.uk/threads/no2o-the-definitive-list-of-1-7-2-2-compatible-hud-colour-color-configs-please-add-yours.259311/");
 		}
+
+
 	}
 }

@@ -51,11 +51,11 @@ namespace EDHM_DX
 			this.cboModifKeys.Properties.ValueMember = "description";
 			this.cboModifKeys.Properties.DataSource = ModifKeys;
 		}
-
 		private void KeyBindingSimpleForm_Shown(object sender, EventArgs e)
 		{
 			this.txtProfileName.EditValue = this.ProfileName;
 		}
+
 
 		private void cmdAceptar_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{

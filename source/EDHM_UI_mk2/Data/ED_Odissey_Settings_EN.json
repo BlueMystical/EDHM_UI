@@ -2903,9 +2903,7 @@
     {
       "Name": "StationsPanels",
       "Title": "Ship & Stations Panels",
-      "Elements": [
-
-      ]
+      "Elements": null
     }
   ],
   "Presets": [

@@ -39,9 +39,9 @@ namespace EDHM_UI_mk2
 
 		public GameFolderForm()
 		{
-		}
 
-  		public GameFolderForm(List<GameInstance> _GameInstances)
+		}
+		public GameFolderForm(List<GameInstance> _GameInstances)
 		{
 			InitializeComponent();
 			this.GameInstancesEx = _GameInstances;
@@ -54,6 +54,8 @@ namespace EDHM_UI_mk2
 			this.WatchMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "WatchMe").NVL("true"));
 			this.GreetMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "GreetMe").NVL("true"));
 			this.HideToTray = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "HideToTray").NVL("false"));
+
+			this.txtPlayerJournal.EditValue = Util.WinReg_ReadKey("EDHM", "PlayerJournal").NVL(string.Empty);
 
 			#region Carga los Idiomas Disponibles
 
@@ -132,7 +134,6 @@ namespace EDHM_UI_mk2
 			this.chkSettings_GreetMe.Checked = this.GreetMe;
 			this.chkSettings_HideToTray.Checked = this.HideToTray;
 		}
-
 		private void GameFolderForm_Shown(object sender, EventArgs e)
 		{
 			if (this.GameInstancesEx.IsNotEmpty())
@@ -147,7 +148,6 @@ namespace EDHM_UI_mk2
 							MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
-
 		private void GameFolderForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			//if (this.IsFirstRun)
@@ -205,7 +205,9 @@ namespace EDHM_UI_mk2
 		private void FindGameEx()
 		{
 			try
-			{}
+			{
+
+			}
 			catch (Exception ex)
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -254,6 +256,7 @@ namespace EDHM_UI_mk2
 					Util.WinReg_WriteKey("EDHM", "GreetMe", this.GreetMe);
 					Util.WinReg_WriteKey("EDHM", "WatchMe", this.WatchMe);
 					Util.WinReg_WriteKey("EDHM", "Language", this.cboLanguages.EditValue.ToString());
+					Util.WinReg_WriteKey("EDHM", "PlayerJournal", this.txtPlayerJournal.EditValue.ToString());
 
 					XtraMessageBox.Show("Settings Saved.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.DialogResult = DialogResult.OK;
@@ -332,8 +335,8 @@ namespace EDHM_UI_mk2
 								string ODYS_PATH = string.Empty;
 								string HORI_PATH = string.Empty;
 
-								string GameFolder = System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName); //Obtiene el Path: (Sin archivo ni extension:
-								string ProductsFolder = System.IO.Directory.GetParent(GameFolder).FullName; //<- Obtiene la Carpeta Anterior
+								string GameFolder = System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName); //Obtiene el Path: (Sin archivo ni extension:							
+								string ProductsFolder = System.IO.Directory.GetParent(GameFolder).FullName; //<- Obtiene la Carpeta Anterior 
 
 								#region Close the Game
 
@@ -463,6 +466,7 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+
 		private void cmdRemoveInstance_Click(object sender, EventArgs e)
 		{
 			/* Elimina la Instancia Elejida  */
@@ -477,7 +481,6 @@ namespace EDHM_UI_mk2
 				}
 			}
 		}
-
 		private void cmdAddGameInstance_Click(object sender, EventArgs e)
 		{
 			/*  Agrega una Nueva Instancia */
@@ -517,6 +520,7 @@ namespace EDHM_UI_mk2
 						int rowHandle = gridView1.LocateByValue("instance", _GameInstanceName.Trim());
 						if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
 							gridView1.FocusedRowHandle = rowHandle;
+						
 
 						XtraMessageBox.Show("Instance Created!\r\n\r\nYou now need to set the Game Paths, click the [...] buttons.\r\nYou can also use the 'Game Locator Assistant'.", "Success!",
 							MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -527,6 +531,35 @@ namespace EDHM_UI_mk2
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					}
 				}
+			}
+		}
+
+		private void txtPlayerJournal_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+		{
+			try
+			{
+				ButtonEdit _Selector = sender as ButtonEdit;
+				string _path = _Selector.EditValue.NVL("");
+
+				OpenFileDialog OFDialog = new OpenFileDialog()
+				{
+					Filter = "Log Files|*.log",
+					FilterIndex = 0,
+					DefaultExt = "log",
+					AddExtension = true,
+					CheckPathExists = true,
+					CheckFileExists = false,
+					InitialDirectory = (!_path.EmptyOrNull()) ? _path.ToString() : Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+				};
+
+				if (OFDialog.ShowDialog() == DialogResult.OK)
+				{
+					_Selector.EditValue = System.IO.Path.GetDirectoryName(OFDialog.FileName);
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Win32;
 
 namespace EDHM_UI_mk2
@@ -48,7 +50,7 @@ namespace EDHM_UI_mk2
 				StringBuilder sbProductCode = new StringBuilder(39);
 				int iIdx = 0;
 				while (
-					MsiEnumProducts(iIdx++, sbProductCode) == 0)
+					0 == MsiEnumProducts(iIdx++, sbProductCode))
 				{
 					Int32 productNameLen = 512;
 					StringBuilder sbProductName = new StringBuilder(productNameLen);
@@ -160,13 +162,14 @@ namespace EDHM_UI_mk2
 
 			return listToClone.Select(item => (T)item.Clone()).ToList();
 		}
-
+		
 		/// <summary>Devuelve 'true' si la lista de elementos NO está Vacia.</summary>
 		/// <param name="elements">Lista de Elementos</param>
 		public static bool IsNotEmpty(this System.Collections.ICollection elements)
 		{
 			return elements != null && elements.Count > 0;
 		}
+
 
 		/// <summary>Serializa y escribe el objeto indicado en una cadena JSON.
 		/// <para>El objeto (Clase) debe tener un Constructor sin Parametros definido.</para>
@@ -214,7 +217,7 @@ namespace EDHM_UI_mk2
 					return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
 				}
 			}
-			finally {}
+			finally { }
 		}
 
 		/// <summary>Serializa y escribe el objeto indicado en un archivo JSON.
@@ -240,7 +243,7 @@ namespace EDHM_UI_mk2
 					{
 						writer.Write(_ret);
 						writer.Close();
-					}
+					};
 				}
 			}
 			catch { }
@@ -264,6 +267,7 @@ namespace EDHM_UI_mk2
 				return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
 			}
 		}
+
 
 		/// <summary>Lee un Archivo de Texto usando la Codificacion especificada.</summary>
 		/// <param name="FilePath">Ruta de acceso al Archivo. Si no existe se produce un Error.</param>
@@ -305,10 +309,10 @@ namespace EDHM_UI_mk2
 			{
 				if (FilePath != null && FilePath != string.Empty)
 				{
-					/* ANSI code pages, like windows-1252, can be different on different computers,
-					 * or can be changed for a single computer, leading to data corruption.
-					 * For the most consistent results, applications should use UNICODE,
-					 * such as UTF-8 or UTF-16, instead of a specific code page.
+					/* ANSI code pages, like windows-1252, can be different on different computers, 
+					 * or can be changed for a single computer, leading to data corruption. 
+					 * For the most consistent results, applications should use UNICODE, 
+					 * such as UTF-8 or UTF-16, instead of a specific code page. 
 					 https://docs.microsoft.com/es-es/windows/desktop/Intl/code-page-identifiers  */
 
 					System.Text.Encoding ENCODING = System.Text.Encoding.GetEncoding((int)CodePage); //<- Unicode Garantiza Maxima compatibilidad
@@ -328,6 +332,9 @@ namespace EDHM_UI_mk2
 			catch (Exception ex) { throw ex; }
 			return _ret;
 		}
+
+
+		
 
 		/// <summary>Devuelve la 'key' de la Instancia Activa.</summary>
 		/// <param name="elements"></param>
@@ -349,6 +356,7 @@ namespace EDHM_UI_mk2
 			}
 			return _ret;
 		}
+
 
 		/// <summary>Evalua si un determinado valor se encuentra entre una lista de valores.</summary>
 		/// <param name="pVariable">Valor a Buscar.</param>
@@ -387,7 +395,7 @@ namespace EDHM_UI_mk2
 		}
 		public static bool In<T>(this T source, params T[] list)
 		{
-			if (source == null) throw new ArgumentNullException("source");
+			if (null == source) throw new ArgumentNullException("source");
 			return list.Contains(source);
 		}
 
@@ -400,6 +408,7 @@ namespace EDHM_UI_mk2
 		{
 			return Valor.CompareTo(Desde) >= 0 && Valor.CompareTo(Hasta) < 0;
 		}
+
 
 		/// <summary>Si el Valor es Nulo, devuelve el valor por defecto.</summary>
 		/// <param name="pValor">Valor a Verificar.</param>
@@ -491,15 +500,15 @@ namespace EDHM_UI_mk2
 		}
 
 		/// <summary>
-		/// Encodes integers into a byte array. Due to padding if
-		/// encoding integers of less than 8 bits you could reserve 0
+		/// Encodes integers into a byte array. Due to padding if 
+		/// encoding integers of less than 8 bits you could reserve 0 
 		/// as a special case to allow for detecting surplus results
 		/// (or explicitly externally keep track of the expected length
-		/// and truncate the excess 0 value integers returned by this
+		/// and truncate the excess 0 value integers returned by this 
 		/// method).
 		/// </summary>
 		/// <param name="ints">integer arrays, value of each must be >=0
-		///                    and below the maximum storable in an
+		///                    and below the maximum storable in an 
 		///                    unsigned int of bitsPerInt bits</param>
 		/// <param name="bitsPerInt"># bits to use to encode each
 		///                          integer</param>
@@ -664,6 +673,7 @@ namespace EDHM_UI_mk2
 			catch { return false; }
 		}
 
+
 		/// <summary>Convierte el tamaño de un archivo a la unidad más adecuada.</summary>
 		/// <param name="pFileBytes">Tamaño del Archivo en Bytes</param>
 		/// <returns>"0.### XB", ejem. "4.2 KB" or "1.434 GB"</returns>
@@ -720,7 +730,7 @@ namespace EDHM_UI_mk2
 		/// <param name="searchOption"></param>
 		public static IEnumerable<string> GetXFiles(string path, string searchPattern, SearchOption searchOption)
 		{
-			/* Sólo para .NET 4.5+
+			/* Sólo para .NET 4.5+  
 			 * OBTIENE LA LISTA DE TODOS LOS ARCHIVOS Y SUB-DIRECTORIOS DENTRO DE LA RUTA ESPECIFICADA
 			 */
 			var foldersToProcess = new List<string>()
@@ -787,7 +797,7 @@ namespace EDHM_UI_mk2
 			}
 			return _ret;
 		}
-
+		
 		#region Random Numbers
 
 		/// <summary>Generador de numeros aleatorios.
@@ -902,7 +912,7 @@ namespace EDHM_UI_mk2
 		}
 
 		#endregion
-
+		
 		#region Imagen
 
 		public static String Number_To_RGBA_Normalized(decimal _Value,
@@ -1085,6 +1095,7 @@ namespace EDHM_UI_mk2
 			return _Ret;
 		}
 
+
 		/// <summary>Abre la Imagen indicada (si existe) sin dejarla 'en uso'.</summary>
 		/// <param name="_ImagePath">Ruta Completa al Archivo</param>
 		public static Image GetElementImage(string _ImagePath, string _DefaultImage = "")
@@ -1176,6 +1187,7 @@ namespace EDHM_UI_mk2
 			return alteredImage;
 		}
 
+
 		/// <summary>Crea una Matrix de Identidad de Color.</summary>
 		public static float[][] CreateIdentityMatrix()
 		{
@@ -1193,10 +1205,10 @@ namespace EDHM_UI_mk2
 				// 3,3 Determina la Transparencia Global de la Imagen
 
 				float[][] colorMatrixElements = {
-				   new float[] { 1,  0,  0,  0,  0 },        // red scaling
-				   new float[] { 0,  1,  0,  0,  0 },        // green scaling
-				   new float[] { 0,  0,  1,  0,  0 },        // blue scaling
-				   new float[] { 0,  0,  0,  1,  0 },		// alpha scaling
+				   new float[] { 1,  0,  0,  0,  0 },        // red scaling 
+				   new float[] { 0,  1,  0,  0,  0 },        // green scaling 
+				   new float[] { 0,  0,  1,  0,  0 },        // blue scaling 
+				   new float[] { 0,  0,  0,  1,  0 },		// alpha scaling 
 				   new float[] { 0,  0,  0,  0,  1 }
 				};
 				_ret = colorMatrixElements;
@@ -1227,8 +1239,8 @@ namespace EDHM_UI_mk2
 				{
 					G.DrawImage(
 					   _Image,
-					   new Rectangle(0, 0, width, height),  // destination rectangle
-					   0, 0,        // upper-left corner of source rectangle
+					   new Rectangle(0, 0, width, height),  // destination rectangle 
+					   0, 0,        // upper-left corner of source rectangle 
 					   width,       // width of source rectangle
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
@@ -1377,6 +1389,7 @@ namespace EDHM_UI_mk2
 		//	source.UnlockBits(bdSrc);
 		//	dest.UnlockBits(bdDst);
 		//}
+
 
 		/// <summary>Dibuja una imagen sobre otra (capas)</summary>
 		/// <param name="BottomLayer">Imagen de la Capa más Baja</param>
@@ -1816,7 +1829,7 @@ namespace EDHM_UI_mk2
 				}
 				// --------------------------------------------------
 				// if diagonal after swap is zero . .
-				//if (Math.Abs(result[j][j]) less-than 1.0E-20)
+				//if (Math.Abs(result[j][j]) less-than 1.0E-20) 
 				//  return null; // consider a throw
 
 				for (int i = j + 1; i < n; ++i)
@@ -1827,12 +1840,30 @@ namespace EDHM_UI_mk2
 						result[i][k] -= result[i][j] * result[j][k];
 					}
 				}
+
+
 			} // main j column loop
 
 			return result;
 		}
 
 		#endregion
+
+		public static IEnumerable<Color> GetGradients(Color start, Color end, int steps)
+		{
+			int stepA = ((end.A - start.A) / (steps - 1));
+			int stepR = ((end.R - start.R) / (steps - 1));
+			int stepG = ((end.G - start.G) / (steps - 1));
+			int stepB = ((end.B - start.B) / (steps - 1));
+
+			for (int i = 0; i < steps; i++)
+			{
+				yield return Color.FromArgb(start.A + (stepA * i),
+											start.R + (stepR * i),
+											start.G + (stepG * i),
+											start.B + (stepB * i));
+			}
+		}
 	}
 
 	[Serializable]
@@ -1848,6 +1879,8 @@ namespace EDHM_UI_mk2
 		public int key { get; set; }
 		public decimal value { get; set; }
 	}
+
+	
 
 	[Serializable]
 	public class Codiguera
@@ -1924,7 +1957,7 @@ namespace EDHM_UI_mk2
 		public static Image Resize(Image current, int maxWidth, int maxHeight)
 		{
 			int width, height;
-			#region reckon size
+			#region reckon size 
 			if (current.Width > current.Height)
 			{
 				width = maxWidth;
@@ -1937,7 +1970,7 @@ namespace EDHM_UI_mk2
 			}
 			#endregion
 
-			#region get resized bitmap
+			#region get resized bitmap 
 			var canvas = new Bitmap(width, height);
 
 			using (var graphics = Graphics.FromImage(canvas))
@@ -1971,7 +2004,7 @@ namespace EDHM_UI_mk2
 			return retorno;
 		}
 
-		/// <summary>Convierte una Imagen almacenada en un campo BLOB de la Base de Datos
+		/// <summary>Convierte una Imagen almacenada en un campo BLOB de la Base de Datos 
 		/// en un Objeto Image para mostrar en los Controles.</summary>
 		/// <param name="byteArrayIn">Array de Bits que contiene la Imagen.</param>
 		/// <returns>Imagen lista para Mostrar.</returns>
@@ -2003,4 +2036,136 @@ namespace EDHM_UI_mk2
 			return newImage;
 		}
 	}
+
+    public static class AsyncHelpers
+    {
+        /*   USO:
+         *  customerList = AsyncHelpers.RunSync<List<Customer>>(() => GetCustomers());
+         *  
+         */
+
+
+        /// <summary>
+        /// Execute's an async Task<T> method which has a void return value synchronously
+        /// </summary>
+        /// <param name="task">Task<T> method to execute</param>
+        public static void RunSync(Func<Task> task)
+        {
+            var oldContext = SynchronizationContext.Current;
+            var synch = new ExclusiveSynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(synch);
+            synch.Post(async _ =>
+            {
+                try
+                {
+                    await task();
+                }
+                catch (Exception e)
+                {
+                    synch.InnerException = e;
+                    throw;
+                }
+                finally
+                {
+                    synch.EndMessageLoop();
+                }
+            }, null);
+            synch.BeginMessageLoop();
+
+            SynchronizationContext.SetSynchronizationContext(oldContext);
+        }
+
+        /// <summary>
+        /// Execute's an async Task<T> method which has a T return type synchronously
+        /// </summary>
+        /// <typeparam name="T">Return Type</typeparam>
+        /// <param name="task">Task<T> method to execute</param>
+        /// <returns></returns>
+        public static T RunSync<T>(Func<Task<T>> task)
+        {
+            var oldContext = SynchronizationContext.Current;
+            var synch = new ExclusiveSynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(synch);
+            T ret = default(T);
+            synch.Post(async _ =>
+            {
+                try
+                {
+                    ret = await task();
+                }
+                catch (Exception e)
+                {
+                    synch.InnerException = e;
+                    throw;
+                }
+                finally
+                {
+                    synch.EndMessageLoop();
+                }
+            }, null);
+            synch.BeginMessageLoop();
+            SynchronizationContext.SetSynchronizationContext(oldContext);
+            return ret;
+        }
+
+        private class ExclusiveSynchronizationContext : SynchronizationContext
+        {
+            private bool done;
+            public Exception InnerException { get; set; }
+            readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
+            readonly Queue<Tuple<SendOrPostCallback, object>> items =
+                new Queue<Tuple<SendOrPostCallback, object>>();
+
+            public override void Send(SendOrPostCallback d, object state)
+            {
+                throw new NotSupportedException("We cannot send to our same thread");
+            }
+
+            public override void Post(SendOrPostCallback d, object state)
+            {
+                lock (items)
+                {
+                    items.Enqueue(Tuple.Create(d, state));
+                }
+                workItemsWaiting.Set();
+            }
+
+            public void EndMessageLoop()
+            {
+                Post(_ => done = true, null);
+            }
+
+            public void BeginMessageLoop()
+            {
+                while (!done)
+                {
+                    Tuple<SendOrPostCallback, object> task = null;
+                    lock (items)
+                    {
+                        if (items.Count > 0)
+                        {
+                            task = items.Dequeue();
+                        }
+                    }
+                    if (task != null)
+                    {
+                        task.Item1(task.Item2);
+                        if (InnerException != null) // the method threw an exeption
+                        {
+                            throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
+                        }
+                    }
+                    else
+                    {
+                        workItemsWaiting.WaitOne();
+                    }
+                }
+            }
+
+            public override SynchronizationContext CreateCopy()
+            {
+                return this;
+            }
+        }
+    }
 }

@@ -35,6 +35,7 @@ namespace EDHM_UserInterface
 			linkModVersion.Text = string.Format("Mod Version <href=https://github.com/psychicEgg/EDHM/releases/latest>{0}</href>", _ModVersion);
 		}
 
+
 		private void simpleButton1_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -88,5 +89,7 @@ namespace EDHM_UserInterface
 		{
 			System.Diagnostics.Process.Start(e.Link);
 		}
+
+		
 	}
 }

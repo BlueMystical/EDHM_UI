@@ -22,6 +22,8 @@ namespace EDHM_UI_mk2.Forms
 			Rectangle _Rec = new Rectangle(new Point(0, 0), new Size(20, 20));
 			Pen _Color = new Pen(Color.Red);
 
+			
+
 			e.Graphics.FillRectangle(Brushes.AliceBlue, _Rec);
 		}
 	}

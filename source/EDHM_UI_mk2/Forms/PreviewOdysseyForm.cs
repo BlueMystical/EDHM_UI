@@ -15,8 +15,8 @@ namespace EDHM_UI_mk2.Forms
 	public partial class PreviewOdysseyForm : DevExpress.XtraEditors.XtraForm
 	{
 		private IniFile _Reader = null;
-		private string AppExePath = AppDomain.CurrentDomain.BaseDirectory;
-		private string ImagesPath = string.Empty;
+		private string AppExePath = AppDomain.CurrentDomain.BaseDirectory;		
+		private string ImagesPath = string.Empty;		
 
 		public game_instance ActiveInstance { get; set; }
 		public float[][] ColorMatrix { get; set; }
@@ -24,7 +24,7 @@ namespace EDHM_UI_mk2.Forms
 
 		public string XMLColors = string.Empty;
 
-		public event EventHandler OnPreviewLoaded; //<- Ocurre cuando termino de Actualizar el Preview
+		public event EventHandler OnPreviewLoaded;//<- Ocurre cuando termino de Actualizar el Preview
 
 		public PreviewOdysseyForm(game_instance _ActiveInstance)
 		{
@@ -50,8 +50,8 @@ namespace EDHM_UI_mk2.Forms
 		}
 		private void PreviewOdysseyForm_Shown(object sender, EventArgs e)
 		{
-		}
 
+		}
 		private void PreviewOdysseyForm_ResizeEnd(object sender, EventArgs e)
 		{
 			this.Text = string.Format("Theme Preview ({0}x{1})", this.ClientSize.Width, this.ClientSize.Height);
@@ -207,9 +207,9 @@ namespace EDHM_UI_mk2.Forms
 						_Layer_2 = Util.ApplyColorMatrix(_Layer_2, this.ColorMatrix);
 					}
 					else
-					{
+					{						
 						_ColorInteger = Convert.ToInt32(_BaseHud.Elements.Find(x => x.Category == "Radar Triangle Widget" && x.Title == "Custom Color").Value);
-						_Layer_2 = Util.ChangeToColor((Bitmap)_Layer_2, Color.FromArgb(_ColorInteger));
+						_Layer_2 = Util.ChangeToColor((Bitmap)_Layer_2, Color.FromArgb(_ColorInteger));						
 					}
 					_Layer_1 = Util.Superimpose(new Bitmap(_Layer_1), new Bitmap(_Layer_2));
 
@@ -225,7 +225,7 @@ namespace EDHM_UI_mk2.Forms
 						_Layer_2 = Util.ApplyColorMatrix(_Layer_2, this.ColorMatrix);
 					}
 					else
-					{
+					{						
 						_ColorInteger = Convert.ToInt32(_BaseHud.Elements.Find(x => x.Category == "Radar Zoom Widget" && x.Title == "Level lines").Value);
 						_Layer_2 = Util.ChangeToColor((Bitmap)_Layer_2, Color.FromArgb(_ColorInteger));
 					}
@@ -388,7 +388,7 @@ namespace EDHM_UI_mk2.Forms
 
 					#region Circular Swirls - TOP
 
-					_Layer_2 = Util.GetElementBitmap(Path.Combine(ImagesPath, "SWIRLS_Top.png"));
+					_Layer_2 = Util.GetElementBitmap(Path.Combine(ImagesPath, "SWIRLS_Top.png")); 
 					_ElementIndex = Convert.ToInt32(_BaseHud.Elements.Find(x => x.Category == "Circular Swirls" && x.Title == "Top Swirls - Mode").Value);
 
 					if (_ElementIndex == 199)
@@ -406,9 +406,9 @@ namespace EDHM_UI_mk2.Forms
 					_Layer_1 = Util.Superimpose(new Bitmap(_Layer_1), new Bitmap(_Layer_2));
 
 					#endregion
-
+					
 					#region Ship Holo
-
+					
 					_ElementIndex = Convert.ToInt32(_BaseHud.Elements.Find(x => x.Category == "OwnShip Hologram" && x.Title == "Hologram - Mode").Value);
 
 					if (_ElementIndex == 199)
@@ -451,6 +451,7 @@ namespace EDHM_UI_mk2.Forms
 					_Layer_1 = Util.Superimpose(new Bitmap(_Layer_1), new Bitmap(_Layer_2));
 
 					#endregion
+
 
 					//Finally we Merge the Base Layer with all the Added Layers:
 					_Layer_1 = Util.Superimpose(new Bitmap(_BaseLayer), new Bitmap(_Layer_1), 0);

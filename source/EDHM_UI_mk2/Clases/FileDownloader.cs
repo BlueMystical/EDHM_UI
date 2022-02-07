@@ -114,7 +114,7 @@ namespace EDHM_UI_mk2.Clases
 				//Si no existe, crea la carpeta donde se guarda la descarga
 				Directory.CreateDirectory(Path.GetDirectoryName(this.SaveFileName));
 
-				//Si el archivo existe, lo borra
+				//Si el archivo existe, lo borra					
 				if (this.DeleteExisting && File.Exists(this.SaveFileName)) File.Delete(this.SaveFileName);
 
 				using (WebClient client = new WebClient())
@@ -161,10 +161,10 @@ namespace EDHM_UI_mk2.Clases
 						this.AcceptRanges = String.Compare(_response.Headers["Accept-Ranges"], "bytes", true) == 0;
 
 						this.TotalBytesToReceive = Convert.ToInt64(_response.Headers["Content-Length"]);
-					}
+					};
 					#endregion
 
-					//-----------------------------------------------------------------------------------;
+					//-----------------------------------------------------------------------------------;					
 					this.StartTime = DateTime.Now;
 					int count = 1;
 					//Si ocurre un error, se Reintenta x veces:
@@ -298,7 +298,6 @@ namespace EDHM_UI_mk2.Clases
 			}
 			catch { throw; }
 		}
-
 		private void ResponseCallback(object state)
 		{
 			try
@@ -346,7 +345,6 @@ namespace EDHM_UI_mk2.Clases
 			}
 			catch { throw; }
 		}
-
 		private byte[] GetContentWithProgressReporting(Stream responseStream, long contentLength)
 		{
 			try
@@ -374,7 +372,6 @@ namespace EDHM_UI_mk2.Clases
 			}
 			catch { throw; }
 		}
-
 		private void UpdateProgressBar(int percentage, int bytesReceived, long contentLength)
 		{
 			OnDownload_Progress(new long[] { percentage, bytesReceived, contentLength }, null);
@@ -393,7 +390,6 @@ namespace EDHM_UI_mk2.Clases
 				OnDownload_Progress(new double[] { e.ProgressPercentage, e.BytesReceived, e.TotalBytesToReceive, Speed }, e);
 			}
 		}
-
 		private void WebClientDownloadCompleted(object sender, AsyncCompletedEventArgs args)
 		{
 			if (OnDownload_Complete != null)
@@ -422,7 +418,7 @@ namespace EDHM_UI_mk2.Clases
 		public string last_installer { get; set; }
 
 		public string ED_Horizons { get; set; }
-		public string ED_Odissey { get; set; }
+		public string ED_Odissey { get; set; }		
 
 		public string download_url { get; set; }
 		public string install_url { get; set; }

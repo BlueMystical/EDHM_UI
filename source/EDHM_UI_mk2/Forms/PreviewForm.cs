@@ -6,12 +6,13 @@ using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 
+
 namespace EDHM_UI_mk2.Forms
 {
 	public partial class PreviewForm : DevExpress.XtraEditors.XtraForm
 	{
 		private string AppExePath = AppDomain.CurrentDomain.BaseDirectory;
-		public event EventHandler OnPreviewLoaded; //<- Ocurre cuando termino de Actualizar el Preview
+		public event EventHandler OnPreviewLoaded;//<- Ocurre cuando termino de Actualizar el Preview
 
 		public ui_setting Settings { get; set; }
 		public float[][] ColorMatrix { get; set; }
@@ -24,7 +25,6 @@ namespace EDHM_UI_mk2.Forms
 			InitializeComponent();
 			this.ActiveInstance = _ActiveInstance;
 		}
-
 		private void PreviewForm_Load(object sender, EventArgs e)
 		{
 			//Obligar a usar los puntos y las comas;
@@ -32,7 +32,7 @@ namespace EDHM_UI_mk2.Forms
 			customCulture.NumberFormat.NumberDecimalSeparator = ".";
 			customCulture.NumberFormat.CurrencyDecimalSeparator = ".";
 
-			customCulture.NumberFormat.NumberGroupSeparator = ",";
+			customCulture.NumberFormat.NumberGroupSeparator = ",";			
 			customCulture.NumberFormat.CurrencyGroupSeparator = ",";
 			System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
@@ -41,15 +41,15 @@ namespace EDHM_UI_mk2.Forms
 
 			this.Location = new Point(Screen.PrimaryScreen.Bounds.Width - this.Width, Screen.PrimaryScreen.Bounds.Height - this.Height - 50);
 		}
-
 		private void PreviewForm_Shown(object sender, EventArgs e)
 		{
-		}
 
+		}
 		private void PreviewForm_ResizeEnd(object sender, EventArgs e)
 		{
 			this.Text = string.Format("Theme Preview ({0}x{1})", this.ClientSize.Width, this.ClientSize.Height);
 		}
+
 
 		public void PreviewTheme(bool XMLchanged = false)
 		{
@@ -74,7 +74,7 @@ namespace EDHM_UI_mk2.Forms
 
 						//Adding Layers from Bottom to Top:
 						#region Base Layer (Imagenes de Fondo):
-
+						
 						_BaseLayer = Util.GetElementBitmap(Path.Combine(ImagesPath, "AmbientLights_0.png")); //<- Imagen de Fondo (NO cambiar)
 						  _Layer_1 = Util.GetElementBitmap(Path.Combine(ImagesPath, "Blank.png")); //Sobre esta Imagen iremos agregando Capa sobre capa
 
@@ -106,7 +106,7 @@ namespace EDHM_UI_mk2.Forms
 						{
 							//Aplica la Matrix de Color:
 							_Layer_2 = Util.GetElementBitmap(Path.Combine(ImagesPath, "CommonGroup_0.png"));
-							_Layer_2 = Util.ApplyColorMatrix(_Layer_2, this.ColorMatrix);
+							_Layer_2 = Util.ApplyColorMatrix(_Layer_2, this.ColorMatrix);							
 						}
 						else
 						{
@@ -128,11 +128,11 @@ namespace EDHM_UI_mk2.Forms
 						}
 						else
 						{
-							_Layer_2 = Util.GetElementBitmap(Path.Combine(ImagesPath, string.Format("Radar_{0}.png", _ElementIndex)));
+							_Layer_2 = Util.GetElementBitmap(Path.Combine(ImagesPath, string.Format("Radar_{0}.png", _ElementIndex)));								
 						}
 						if (_Layer_2 != null) _Layer_1 = Util.Superimpose(new Bitmap(_Layer_1), new Bitmap(_Layer_2));
 
-						#endregion
+						#endregion						
 
 						#region Ship Hologram:
 
@@ -206,7 +206,7 @@ namespace EDHM_UI_mk2.Forms
 
 						#endregion
 
-						#region Panel Lines (lower):
+						#region Panel Lines (lower): 
 
 						_BaseHud = this.Settings.ui_groups.Find(x => x.Name == "Panel_Lower");
 						_ElementIndex = Convert.ToInt32(_BaseHud.Elements.Find(x => x.Key == "z104").Value); //PanelLinesLOW
@@ -279,7 +279,7 @@ namespace EDHM_UI_mk2.Forms
 														Util.IIf(_CHudMode == 1, "b", string.Empty)));
 								if (File.Exists(_FilePath))
 								{
-									_Layer_2 = Util.GetElementBitmap(_FilePath);
+									_Layer_2 = Util.GetElementBitmap(_FilePath);									
 								}
 							}
 						}
@@ -322,7 +322,7 @@ namespace EDHM_UI_mk2.Forms
 						if (_Layer_2 != null) _Layer_1 = Util.Superimpose(new Bitmap(_Layer_1), new Bitmap(_Layer_2));
 
 						#endregion
-
+											   
 						#region Lights & FX
 
 						float _Value = 0.0f;
@@ -345,7 +345,7 @@ namespace EDHM_UI_mk2.Forms
 							_BaseLayer = Util.Superimpose(new Bitmap(_BaseLayer), new Bitmap(_Layer_2));
 						}
 
-						//Layer_1 (the HUD elements) Needs to be Alpha Blended depending on the Value of 'HudDimmer':
+						//Layer_1 (the HUD elements) Needs to be Alpha Blended depending on the Value of 'HudDimmer':					
 						//----------------------------------------------------------------------------------------;
 						_BaseHud = this.Settings.ui_groups.Find(x => x.Name == "Settings");
 						_Value = (float)_BaseHud.Elements.Find(x => x.Key == "y100").Value;
@@ -382,7 +382,6 @@ namespace EDHM_UI_mk2.Forms
 					MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-
 		private void LoadINIProfile()
 		{
 			try
@@ -413,9 +412,9 @@ namespace EDHM_UI_mk2.Forms
 					   new float[] { (float)RR, (float)RG, (float)RB,		0,		0 },
 					   new float[] { (float)GR, (float)GG, (float)GB,		0,		0 },
 					   new float[] { (float)BR, (float)BG, (float)BR,		0,		0 },
-					   new float[] { 0,         0,          0,				1,      0 },
+					   new float[] { 0,         0,          0,				1,      0 },        
 					   new float[] { 0,         0,          0,              0,      1 }
-					};
+					};  
 
 					this.ColorMatrix = colorMatrixElements;
 				}
@@ -463,12 +462,12 @@ namespace EDHM_UI_mk2.Forms
 				barToggleSwitchItem1.Caption = "Combat Mode";
 			}
 			PreviewTheme();
-		}
+	}
 
 		private void picturePreview_MouseClick(object sender, MouseEventArgs e)
 		{
-			Console.WriteLine(string.Format("X:{0}, Y:{1}, W:{2}, H:{3}, PW:{4}, PH:{5}",
-				e.X, e.Y,
+			Console.WriteLine(string.Format("X:{0}, Y:{1}, W:{2}, H:{3}, PW:{4}, PH:{5}", 
+				e.X, e.Y, 
 				picturePreview.Width, picturePreview.Height,
 				this.Width, this.Height
 			));

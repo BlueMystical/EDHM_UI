@@ -14,7 +14,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -35,32 +35,24 @@
   <PropertyGroup>
     <ApplicationIcon>ED_TripleElite.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="AutoUpdater.NET">
-      <HintPath>lib\AutoUpdater.NET.dll</HintPath>
-    </Reference>
     <Reference Include="ColorManagment">
       <HintPath>lib\ColorManagment.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.BonusSkins.v21.1" />
-    <Reference Include="DevExpress.Data.Desktop.v21.1" />
-    <Reference Include="DevExpress.Data.v21.1" />
-    <Reference Include="DevExpress.DataAccess.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v21.1" />
-    <Reference Include="DevExpress.Sparkline.v21.1.Core" />
-    <Reference Include="DevExpress.XtraBars.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraDialogs.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v21.1" />
-    <Reference Include="DevExpress.Printing.v21.1.Core" />
-    <Reference Include="DevExpress.XtraGrid.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraNavBar.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPrinting.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraVerticalGrid.v21.1, Version=21.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.BonusSkins.v18.1" />
+    <Reference Include="DevExpress.Data.Desktop.v18.1" />
+    <Reference Include="DevExpress.Data.v18.1" />
+    <Reference Include="DevExpress.Utils.v18.1" />
+    <Reference Include="DevExpress.Sparkline.v18.1.Core" />
+    <Reference Include="DevExpress.XtraBars.v18.1, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraDialogs.v18.1, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v18.1" />
+    <Reference Include="DevExpress.Printing.v18.1.Core" />
+    <Reference Include="DevExpress.XtraLayout.v18.1, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraNavBar.v18.1, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v18.1, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v18.1, Version=18.1.10.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="ICCReader">
       <HintPath>lib\ICCReader.dll</HintPath>
     </Reference>
@@ -71,7 +63,7 @@
       <HintPath>lib\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
-      <HintPath>lib\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\..\EDHM_DX\EDHM_DX\lib\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
@@ -97,22 +89,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clases\FileDownloader.cs" />
-    <Compile Include="Clases\MyColorPickEdit.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Clases\Retry.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AboutForm.designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\GameFolderForm.cs">
       <SubType>Form</SubType>
@@ -133,35 +114,17 @@
     <Compile Include="Forms\PreviewForm.Designer.cs">
       <DependentUpon>PreviewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PreviewOdysseyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PreviewOdysseyForm.Designer.cs">
-      <DependentUpon>PreviewOdysseyForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ShipyardForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ShipyardForm.Designer.cs">
-      <DependentUpon>ShipyardForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TPModsManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\TPModsManager.Designer.cs">
-      <DependentUpon>TPModsManager.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\XML_Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\XML_Form.Designer.cs">
       <DependentUpon>XML_Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\XML_Form_Odyssey.cs">
+    <Compile Include="Forms\XtraForm1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\XML_Form_Odyssey.Designer.cs">
-      <DependentUpon>XML_Form_Odyssey.cs</DependentUpon>
+    <Compile Include="Forms\XtraForm1.Designer.cs">
+      <DependentUpon>XtraForm1.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -176,9 +139,6 @@
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameFolderForm.resx">
       <DependentUpon>GameFolderForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -188,20 +148,11 @@
     <EmbeddedResource Include="Forms\PreviewForm.resx">
       <DependentUpon>PreviewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PreviewOdysseyForm.resx">
-      <DependentUpon>PreviewOdysseyForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ShipyardForm.resx">
-      <DependentUpon>ShipyardForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TPModsManager.resx">
-      <DependentUpon>TPModsManager.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\XML_Form.resx">
       <DependentUpon>XML_Form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\XML_Form_Odyssey.resx">
-      <DependentUpon>XML_Form_Odyssey.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\XtraForm1.resx">
+      <DependentUpon>XtraForm1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -220,58 +171,22 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Data\ED_Horizons_Custom.ini">
+    <None Include="Data\ED_Horizons_Presets.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Horizons_Settings_EN.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Horizons_Settings_RU.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Horizons_Startup-Profile.ini">
+    <None Include="Data\ED_Horizons_Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Data\ED_Horizons_XML-Profile.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_Advanced.ini">
+    <None Include="Data\ED_Odissey_Presets.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_Settings_DE.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Settings_EN.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Settings_ES.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Settings_FR.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Settings_IT.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Settings_JP.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Settings_PT.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Settings_RU.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_Startup-Profile.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\ED_Odissey_SuitHud.ini">
+    <None Include="Data\ED_Odissey_Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Data\ED_Odissey_XML-Profile.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\UI_Tips.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
@@ -286,7 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ED_TripleElite.ico" />
-    <None Include="Resources\OnFoot_HUD.png" />
     <None Include="Resources\Keybindings.png" />
     <None Include="Resources\devexpress.png" />
     <None Include="Resources\devexpress-500x433.jpg" />
@@ -316,14 +230,12 @@
     <None Include="img\triple-elite_250.png" />
     <None Include="Resources\triple-elite_250.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EDHM_UI_Patcher\EDHM_UI_Patcher.csproj">
-      <Project>{a17c4b8f-96d0-4da8-bc46-7ceca0d580ab}</Project>
-      <Name>EDHM_UI_Patcher</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Data_4ED_3Odissey_3Settings_1json__JSONSchema="https://json.schemastore.org/appsscript.json" />
+    </VisualStudio>
+  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
