@@ -120,7 +120,7 @@ namespace EDHM_UI_Patcher
                     {
                         writer.Write(_ret);
                         writer.Close();
-                    }
+                    };
                 }
             }
             catch { }
@@ -144,6 +144,7 @@ namespace EDHM_UI_Patcher
                 return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
             }
         }
+
 
         /// <summary>Lee una Clave del Registro de Windows para el Usuario Actual.
         /// Las Claves en este caso siempre se Leen desde 'HKEY_CURRENT_USER\Software\Elte Dangerous\Mods\'.</summary>
@@ -242,7 +243,7 @@ namespace EDHM_UI_Patcher
 		/// <param name="searchOption"></param>
 		public static IEnumerable<string> GetXFiles(string path, string searchPattern, SearchOption searchOption)
 		{
-			/* Sólo para .NET 4.5+
+			/* Sólo para .NET 4.5+  
 			 * OBTIENE LA LISTA DE TODOS LOS ARCHIVOS Y SUB-DIRECTORIOS DENTRO DE LA RUTA ESPECIFICADA
 			 */
 			var foldersToProcess = new List<string>()
@@ -566,7 +567,7 @@ namespace EDHM_UI_Patcher
 				//Si no existe, crea la carpeta donde se guarda la descarga
 				Directory.CreateDirectory(Path.GetDirectoryName(this.SaveFileName));
 
-				//Si el archivo existe, lo borra
+				//Si el archivo existe, lo borra					
 				if (this.DeleteExisting && File.Exists(this.SaveFileName)) File.Delete(this.SaveFileName);
 
 				using (WebClient client = new WebClient())
@@ -613,10 +614,10 @@ namespace EDHM_UI_Patcher
 						this.AcceptRanges = String.Compare(_response.Headers["Accept-Ranges"], "bytes", true) == 0;
 
 						this.TotalBytesToReceive = Convert.ToInt64(_response.Headers["Content-Length"]);
-					}
+					};
 					#endregion
 
-					//-----------------------------------------------------------------------------------;
+					//-----------------------------------------------------------------------------------;					
 					this.StartTime = DateTime.Now;
 					int count = 1;
 					//Si ocurre un error, se Reintenta x veces:
@@ -687,7 +688,6 @@ namespace EDHM_UI_Patcher
 			catch { }
 			return _ret;
 		}
-
 		private void GetFile(int _Start, int _End)
 		{
 			try
@@ -719,6 +719,7 @@ namespace EDHM_UI_Patcher
 
 							Console.WriteLine("Got bytes: {0}", RequestContentLength);
 						}
+
 					}
 				}
 				catch (Exception ex)
@@ -736,7 +737,7 @@ namespace EDHM_UI_Patcher
 			//Si no existe, crea la carpeta donde se guarda la descarga
 			Directory.CreateDirectory(Path.GetDirectoryName(this.SaveFileName));
 
-			//Si el archivo existe, lo borra
+			//Si el archivo existe, lo borra					
 			if (this.DeleteExisting && File.Exists(this.SaveFileName)) File.Delete(this.SaveFileName);
 
 			var url = new Uri(this.DownloadUrl + "?random=" + DateTime.Now.Ticks); //<- para evitar la Caché
@@ -806,7 +807,6 @@ namespace EDHM_UI_Patcher
 			}
 			catch { throw; }
 		}
-
 		private void ResponseCallback(object state)
 		{
 			try
@@ -854,7 +854,6 @@ namespace EDHM_UI_Patcher
 			}
 			catch { throw; }
 		}
-
 		private byte[] GetContentWithProgressReporting(Stream responseStream, long contentLength)
 		{
 			try
@@ -882,7 +881,6 @@ namespace EDHM_UI_Patcher
 			}
 			catch { throw; }
 		}
-
 		private void UpdateProgressBar(int percentage, int bytesReceived, long contentLength)
 		{
 			OnDownload_Progress(new long[] { percentage, bytesReceived, contentLength }, null);
@@ -901,7 +899,6 @@ namespace EDHM_UI_Patcher
 				OnDownload_Progress(new double[] { e.ProgressPercentage, e.BytesReceived, e.TotalBytesToReceive, Speed }, e);
 			}
 		}
-
 		private void WebClientDownloadCompleted(object sender, AsyncCompletedEventArgs args)
 		{
 			if (OnDownload_Complete != null)
@@ -925,7 +922,6 @@ namespace EDHM_UI_Patcher
 		public long Start { get; set; }
 		public long End { get; set; }
 	}
-
 	public class DownloadResult
 	{
 		public long Size { get; set; }
@@ -948,7 +944,6 @@ namespace EDHM_UI_Patcher
 			ServicePointManager.MaxServicePointIdleTime = 1000;
 			this.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
 		}
-
 		public DownloadResult Download(String fileUrl, String destinationFolderPath, int numberOfParallelDownloads = 0, bool validateSSL = false)
 		{
 			if (!validateSSL)
@@ -960,18 +955,18 @@ namespace EDHM_UI_Patcher
 			System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => { return true; };
 			System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-			//Calculate destination path
+			//Calculate destination path  
 			String destinationFilePath = Path.Combine(destinationFolderPath, uri.Segments.Last());
 
 			DownloadResult result = new DownloadResult() { FilePath = destinationFilePath };
 
-			//Handle number of parallel downloads
+			//Handle number of parallel downloads  
 			if (numberOfParallelDownloads <= 0)
 			{
 				numberOfParallelDownloads = Environment.ProcessorCount;
 			}
 
-			#region Get file size
+			#region Get file size  
 
 			HttpWebRequest webRequest = HttpWebRequest.Create(fileUrl) as HttpWebRequest;
 			webRequest.Method = "HEAD";
@@ -999,7 +994,7 @@ namespace EDHM_UI_Patcher
 			{
 				ConcurrentDictionary<int, String> tempFilesDictionary = new ConcurrentDictionary<int, String>();
 
-				#region Calculate ranges
+				#region Calculate ranges  
 
 				List<Range> readRanges = new List<Range>();
 				for (int chunk = 0; chunk < numberOfParallelDownloads - 1; chunk++)
@@ -1022,7 +1017,7 @@ namespace EDHM_UI_Patcher
 
 				DateTime startTime = DateTime.Now;
 
-				#region Parallel download
+				#region Parallel download  
 
 				int index = 0;
 				Parallel.ForEach(readRanges, new ParallelOptions() { MaxDegreeOfParallelism = numberOfParallelDownloads }, readRange =>
@@ -1033,7 +1028,7 @@ namespace EDHM_UI_Patcher
 					_Request.UserAgent = this.UserAgent;
 					_Request.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
 					_Request.AddRange(readRange.Start, readRange.End);
-
+					
 					using (HttpWebResponse _response = _Request.GetResponse() as HttpWebResponse)
 					{
 						String tempFilePath = Path.GetTempFileName();
@@ -1052,7 +1047,7 @@ namespace EDHM_UI_Patcher
 
 				result.TimeTaken = DateTime.Now.Subtract(startTime);
 
-				#region Merge to single file
+				#region Merge to single file  
 
 				foreach (var tempFile in tempFilesDictionary.OrderBy(b => b.Key))
 				{
@@ -1074,6 +1069,7 @@ namespace EDHM_UI_Patcher
 				response.GetResponseStream().CopyTo(fileStream);
 				tempFilesDictionary.TryAdd((int)index, tempFilePath);
 			}
+
 		}
 	}
 

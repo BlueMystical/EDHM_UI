@@ -58,5 +58,8 @@ namespace EDHM_UI_Patcher
 				g.DrawString(text, f, _Brush, location);
 			}
 		}
+
+		
 	}
+
 }
