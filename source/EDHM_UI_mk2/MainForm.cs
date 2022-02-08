@@ -3751,7 +3751,7 @@ namespace EDHM_UI_mk2
 							.ToList();  
 					*/
 
-					string EDJournalDir = Util.WinReg_ReadKey("EDHM_UI", "PlayerJournal").NVL("");
+					string EDJournalDir = Util.WinReg_ReadKey("EDHM", "PlayerJournal").NVL("");
 					if (Directory.Exists(EDJournalDir))
 					{
 						System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -4321,6 +4321,8 @@ namespace EDHM_UI_mk2
 					this.LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
 
 					LoadGameInstance(this.ActiveInstance, this.LangShort);  //<- Carga La Instancia Activa	
+					LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
+					//ReadPlayerJournal();
 				}
 
 				this.HideToTray = _Form.HideToTray;
