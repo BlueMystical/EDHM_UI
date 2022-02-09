@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.6.0",
-   "last_installer": "2.1.6.0",
+   "app_version": "2.1.6.1",
+   "last_installer": "2.1.6.1",
    "ED_Horizons": "1.52.1.0",
-   "ED_Odissey":  "2.10.1.0",   
+   "ED_Odissey":  "2.10.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Fixed a bug with the Shipyard.\r\n- EDHM v10.1 for Odyssey had been implemented.",
+   "changelog": "- Fixed weird warnings about the Cockpitlighs.\r\n  ✦ You need to Download and install latest version of the CockpitLighs mod.\r\n- EDHM v10.2 for Odyssey had been implemented.",
    "re_install": true,
    "run_hotfix": true
 }
