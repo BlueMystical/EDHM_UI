@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.7.0",
-   "last_installer": "2.1.7.0",
+   "app_version": "2.1.7.1",
+   "last_installer": "2.1.7.1",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.10.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- All Themes got relocated.\r\n- Right Click Menu for Theme Management.\r\n- Updated Translations for EN, RU, FR and IT.\r\n- EDHM v10.1 for Odyssey had been implemented.\r\n- Lots of new/updated themes for Odyssey.",
-   "re_install": true,
-   "run_hotfix": false
+   "changelog": "- History feature added\r\n- Main Menu got a 'Makeover'.",
+   "re_install": false,
+   "run_hotfix": true
 }
