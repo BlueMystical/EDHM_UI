@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.7.2",
+   "app_version": "2.1.7.3",
    "last_installer": "2.1.7.2",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.10.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Patch fixing missing file.",
-   "re_install": true,
+   "changelog": "- Minor bug fixes.\r\n- New Themes added for ODY and HORI.",
+   "re_install": false,
    "run_hotfix": true
 }
