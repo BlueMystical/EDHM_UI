@@ -12,7 +12,7 @@ User Interface for Elite Dangerous HUD Mod (EDHM)
 
 ## What is EDHM_UI?
 
-EDHM_UI is the user interface for the Elite Dangerous mod [EDHM by psychicEgg](https://github.com/psychicEgg/EDHM).
+EDHM_UI is the user interface for the Elite Dangerous mod [EDHM](https://github.com/psychicEgg/EDHM).
 
 Current features include:
 
@@ -21,6 +21,7 @@ Current features include:
 * Bundled with the latest EDHM version - no need to install EDHM separately.
 * Bundled with lots of pre-made, community-contributed themes.
 * Fully compatible with both Horizons and Odyssey!
+* Translated to 5 languages: EN, RU, DE, FR, IT.
 
 ## Requirements
 
@@ -42,33 +43,6 @@ folder. This determines where the EDHM core mod will be installed. The location
 varies depending on which version of ED you have installed. The following
 indicate the default locations used by ED for various services.
 
-### Steam
-
-<!-- markdownlint-disable MD013 -->
-| Version  | Install Path                                                                                         |
-|----------|:-----------------------------------------------------------------------------------------------------|
-| Horizons | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-64\`         |
-| Odyssey  | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\` |
-| Odyssey  | `C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\FORC-FDEV-DO-1000\`          |
-<!-- markdownlint-enable MD013 -->
-
-### Epic Games
-
-<!-- markdownlint-disable MD013 -->
-| Version  | Install Path                                                                                         |
-|----------|:-----------------------------------------------------------------------------------------------------|
-| Horizons | `C:\Program Files\Epic Games\EliteDangerous\Products\elitedangerous-64\`                             |
-| Odyssey  | `C:\Program Files\Epic Games\EliteDangerous\Products\elite-dangerous-odyssey-64\`                    |
-<!-- markdownlint-enable MD013 -->
-
-### Frontier
-
-<!-- markdownlint-disable MD013 -->
-| Version  | Install Path                                                                                         |
-|----------|:-----------------------------------------------------------------------------------------------------|
-| Horizons | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-64\`                                       |
-| Odyssey  | `C:\Program Files (x86)\Frontier\Products\elite-dangerous-odyssey-64\`                               |
-<!-- markdownlint-enable MD013 -->
 
 ## Further reading
 
