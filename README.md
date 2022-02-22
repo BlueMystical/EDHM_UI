@@ -26,7 +26,7 @@ Current features include:
 ## Requirements
 
 EDHM_UI requires Microsoft .NET Framework version 4.52 or newer. If you are on
-Windows 10, you may already have it. If you don't have it installed yet, you
+Windows 10, you may already have it. If you don't have it installed yet, you.
 can get it [here](https://dotnet.microsoft.com/download/dotnet-framework/net452).
 
 ## Installation
