@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.9.0",
+   "app_version": "2.1.9.1",
    "last_installer": "2.1.9.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.10.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Fixed minor bug in the Searchbox.\r\n- EDHM, v10.2 (Odyssey) implemented.",
-   "re_install": true,
-   "run_hotfix": true
+   "changelog": "- Quick Fix for missing Key in the Fuelbar section, Sorry about it.",
+   "re_install": false,
+   "run_hotfix": false
 }
