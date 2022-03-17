@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.9.2",
-   "last_installer": "2.1.9.2",
+   "app_version": "2.1.9.3",
+   "last_installer": "2.1.9.3",
    "ED_Horizons": "1.52.1.0",
-   "ED_Odissey":  "2.10.2.1",   
+   "ED_Odissey":  "2.11.0.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- EDHM, v10.21 (Odyssey) implemented.",
+   "changelog": "- EDHM, v11.0 (Odyssey) implemented.\r\n- NO MORE ORANGES (•̀ᴗ•́)و",
    "re_install": true,
-   "run_hotfix": false
+   "run_hotfix": true
 }
