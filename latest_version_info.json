@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.9.7",
-   "last_installer": "2.1.9.7",
+   "app_version": "2.1.9.8",
+   "last_installer": "2.1.9.8",
    "ED_Horizons": "1.52.1.0",
-   "ED_Odissey":  "2.11.11.0",   
+   "ED_Odissey":  "2.11.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Re-Uploaded due a corrupted file, sorry for the inconveniences.",
+   "changelog": "- EDHM, v11.2 (Odyssey) implemented.",
    "re_install": true,
    "run_hotfix": true
 }
