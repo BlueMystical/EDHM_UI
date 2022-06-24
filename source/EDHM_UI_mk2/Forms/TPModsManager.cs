@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using DevExpress.Utils;
 using DevExpress.XtraBars.Navigation;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraVerticalGrid.Rows;
-
-using IniParser;
-using IniParser.Model;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace EDHM_UI_mk2.Forms
 {
@@ -30,8 +25,7 @@ namespace EDHM_UI_mk2.Forms
 		private TPMod_Config CurrentdMod = null; //<- El Mod Actualmente Seleccionado
 
 		private IniFile _IniReader_OLD = null;
-		//private FileIniDataParser IniReader = null; //<- Lector INI para el MOD actual
-		//private IniData _IniData = null; //<- Datos del Archivo INI para el mod actual
+		private string UI_DOCUMENTS = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
 
 		#endregion
 
@@ -40,7 +34,7 @@ namespace EDHM_UI_mk2.Forms
 		public TPModsManager(game_instance pActiveInstance)
 		{
 			InitializeComponent();
-			this.ActiveInstance = pActiveInstance;
+			ActiveInstance = pActiveInstance;
 		}
 
 		private void TPModsManager_Load(object sender, EventArgs e)
@@ -74,192 +68,231 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
-				this.Cursor = Cursors.WaitCursor;
-				this.lst3PMods.BeginUpdate();
-				this.lst3PMods.Elements.Clear();
+				Cursor = Cursors.WaitCursor;
+				lst3PMods.BeginUpdate();
+				lst3PMods.Elements.Clear();
 
 				System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 				var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 				{
 					System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-					this.TPMods_Path = Path.Combine(this.ActiveInstance.path, @"EDHM-ini\3rdPartyMods");
+					TPMods_Path = Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods");
 
-					if (Directory.Exists(this.TPMods_Path))
+					if (Directory.Exists(TPMods_Path))
 					{
-						var Mods = new DirectoryInfo(this.TPMods_Path).GetFiles("*.ini");
-						if (Mods != null && Mods.Length > 0)
+						//Obtiene la lista de SubDirectorios:
+						List<string> directories = new List<string>(Directory.GetDirectories(TPMods_Path));
+						directories.Add(TPMods_Path);
+
+						TPMods = new List<TPMod_Config>(); //<- Lista de MODs detectados (Manejados e Independientes)
+
+						foreach (string _Folder in directories)
 						{
-							this.TPMods = new List<TPMod_Config>(); //<- Lista de MODs detectados (Manejados e Independientes)
-
-							foreach (FileInfo _File in Mods)
+							var Mods = new DirectoryInfo(_Folder).GetFiles("*.ini");
+							if (Mods != null && Mods.Length > 0)
 							{
-								//Revisa si el MOD tiene un JSON acompañante:
-								string FileName = System.IO.Path.GetFileNameWithoutExtension(_File.FullName); //<- Nombre sin Extension ni Path
-								TPMod_Config _ManagedMod = null;
-								//Image _Image = null;
+								int ModCountThisFolder = 0;
+								AccordionControlElement _ModElement = null;
 
-								if (File.Exists(Path.Combine(this.TPMods_Path, FileName + ".json")))
+								foreach (FileInfo _File in Mods)
 								{
-									#region Si hay JSON es un Mod Manejado:
+									//Revisa si el MOD tiene un JSON acompañante:
+									string FileName = System.IO.Path.GetFileNameWithoutExtension(_File.FullName); //<- Nombre sin Extension ni Path
+									TPMod_Config _ManagedMod = null;
 
-									_ManagedMod = Util.DeSerialize_FromJSON<TPMod_Config>(
-																			Path.Combine(this.TPMods_Path, FileName + ".json"));
-									if (_ManagedMod != null)
+									if (File.Exists(Path.Combine(_Folder, FileName + ".json")))
 									{
-										_ManagedMod.managed = true;
+										#region Si hay JSON es un Mod Manejado:
 
-										//Si Tiene una Imagen:
-										if (File.Exists(Path.Combine(this.TPMods_Path, FileName + ".png")))
+										_ManagedMod = Util.DeSerialize_FromJSON<TPMod_Config>(
+																				Path.Combine(_Folder, FileName + ".json"));
+										if (_ManagedMod != null)
 										{
-											_ManagedMod.Thumbnail = Image.FromFile(Path.Combine(this.TPMods_Path, FileName + ".png"));
-										}
-										else
-										{
-											if (File.Exists(Path.Combine(this.AppExePath, @"Images\3PM_Default.png")))
+											_ManagedMod.managed = true;
+											_ManagedMod.file_full = _Folder;
+
+											//Si Tiene una Imagen:
+											if (File.Exists(Path.Combine(_Folder, FileName + ".png")))
 											{
-												_ManagedMod.Thumbnail = Image.FromFile(Path.Combine(this.AppExePath, @"Images\3PM_Default.png"));
-											}
-										}
-									}
-
-									#endregion
-								}
-								else
-								{
-									#region Un-Managed Mod
-
-									_ManagedMod = new TPMod_Config
-									{
-										mod_name = FileName,
-										author = "Unknown",
-										description = @"¯\_(ツ)_/¯",
-										file = _File.Name,
-										managed = false
-									};
-
-									_ManagedMod.types = new List<TPMod_Type>();
-									_ManagedMod.types.Add(new TPMod_Type("text", "Text"));
-									_ManagedMod.types.Add(new TPMod_Type("number", "Integer Number"));
-									_ManagedMod.types.Add(new TPMod_Type("decimal", "Decimal Number"));
-									_ManagedMod.types.Add(new TPMod_Type("color", "Color Value"));
-									_ManagedMod.types.Add(new TPMod_Type("toggle", "ON/OFF Switch"));
-
-									if (File.Exists(Path.Combine(this.AppExePath, @"Images\3PM_Default.png")))
-									{
-										_ManagedMod.Thumbnail = Image.FromFile(Path.Combine(this.AppExePath, @"Images\3PM_Default.png"));
-									}
-
-									/* Abre el INI y Carga sus Secciones y Claves  */
-									if (File.Exists(_File.FullName))
-									{
-										var IniReader = new FileIniDataParser();
-										IniData _IniData = IniReader.ReadFile(Path.Combine(this.TPMods_Path, FileName + ".ini"));
-
-										if (IniReader != null && _IniData != null)
-										{
-											if (_IniData.Sections != null && _IniData.Sections.Count > 0)
-											{
-												_ManagedMod.sections = new List<TPMod_Section>();
-
-												foreach (var _RawSection in _IniData.Sections)
+												//Carga la Imagen sin dejara 'en uso':
+												using (Stream stream = File.OpenRead(Path.Combine(_Folder, FileName + ".png")))
 												{
-													TPMod_Section _Section = new TPMod_Section
+													_ManagedMod.Thumbnail = System.Drawing.Image.FromStream(stream);
+												}
+											}
+											else
+											{
+												if (File.Exists(Path.Combine(AppExePath, @"Images\3PM_Default.png")))
+												{
+													//Carga la Imagen sin dejara 'en uso':
+													using (Stream stream = File.OpenRead(Path.Combine(AppExePath, @"Images\3PM_Default.png")))
 													{
-														name = _RawSection.SectionName,
-														title = _RawSection.SectionName
-													};
-
-													var _RawKeys = _RawSection.Keys; //IniReader.GetAllKeys(_RawSection);
-													if (_RawKeys != null && _RawKeys.Count > 0)
-													{
-														_Section.keys = new List<TPMod_Key>();
-														foreach (var _Rawkey in _RawKeys)
-														{
-															StringBuilder _Comments = new StringBuilder();
-															if (_Rawkey.Comments != null && _Rawkey.Comments.Count > 0)
-															{
-																foreach (string _Comment in _Rawkey.Comments)
-																{
-																	_Comments.AppendLine(_Comment);
-																}
-															}
-
-															TPMod_Key _Key = new TPMod_Key
-															{
-																name = _Rawkey.KeyName,
-																type = "text",
-																key = _Rawkey.KeyName,
-																description = _Comments.Length > 0 ? _Comments.ToString() : string.Empty,
-																value = _Rawkey.Value
-															};
-															_Section.keys.Add(_Key);
-														}
+														_ManagedMod.Thumbnail = System.Drawing.Image.FromStream(stream);
 													}
-													_ManagedMod.sections.Add(_Section);
 												}
 											}
 										}
+
+										#endregion
 									}
-
-									#endregion
-								}
-
-								if (_ManagedMod != null)
-								{
-									//Escribe el Nombre del Mod Sobre la Imagen Thumbnail:
-									if (_ManagedMod.Thumbnail != null)
+									else
 									{
-										Bitmap bm = new Bitmap(_ManagedMod.Thumbnail.Width, _ManagedMod.Thumbnail.Height);
-										using (Graphics e = Graphics.FromImage(bm))
+										#region Un-Managed Mod
+
+										_ManagedMod = new TPMod_Config
 										{
-											e.DrawImage(_ManagedMod.Thumbnail, new Rectangle(new Point(0, 0), new Size(_ManagedMod.Thumbnail.Width, _ManagedMod.Thumbnail.Height)));
-											e.DrawString(_ManagedMod.mod_name, new System.Drawing.Font("Tahoma", 9, FontStyle.Bold),
-													Brushes.White, 10, _ManagedMod.Thumbnail.Height - 20);
-										}
-										_ManagedMod.Thumbnail = bm;
-									}
-
-									this.TPMods.Add(_ManagedMod);
-
-									Invoke((MethodInvoker)(() =>
-									{
-										SuperToolTipSetupArgs args = new SuperToolTipSetupArgs();
-										args.Title.Text = string.Format("{0} ({1})", _ManagedMod.mod_name, _ManagedMod.managed ? "Managed" : "Unmanaged");
-										args.Contents.Text = string.Format("    By {0}\r\n\r\nDescription:\r\n{1}", _ManagedMod.author, _ManagedMod.description);
-										SuperToolTip sTooltip2 = new SuperToolTip();
-										sTooltip2.Setup(args);
-
-										AccordionControlElement _Element = new AccordionControlElement()
-										{
-											Expanded = false,
-											Name = _ManagedMod.mod_name,
-											Text = _ManagedMod.Thumbnail != null ? "" : _ManagedMod.mod_name,
-											Style = ElementStyle.Item,
-											SuperTip = sTooltip2,
-											Tag = _ManagedMod,
-											Image = _ManagedMod.Thumbnail
+											mod_name = FileName,
+											author = "Unknown",
+											description = @"¯\_(ツ)_/¯",
+											file = _File.Name,
+											file_full = _Folder,
+											managed = false
 										};
-										this.lst3PMods.Elements.Add(_Element);
 
-									}));
+										_ManagedMod.types = new List<TPMod_Type>();
+										_ManagedMod.types.Add(new TPMod_Type("text", "Text"));
+										_ManagedMod.types.Add(new TPMod_Type("number", "Integer Number"));
+										_ManagedMod.types.Add(new TPMod_Type("decimal", "Decimal Number"));
+										_ManagedMod.types.Add(new TPMod_Type("color", "Color Value"));
+										_ManagedMod.types.Add(new TPMod_Type("toggle", "ON/OFF Switch"));
+
+										if (File.Exists(Path.Combine(AppExePath, @"Images\3PM_Default.png")))
+										{
+											//_ManagedMod.Thumbnail = Image.FromFile(Path.Combine(AppExePath, @"Images\3PM_Default.png"));
+											//Carga la Imagen sin dejara 'en uso':
+											using (Stream stream = File.OpenRead(Path.Combine(AppExePath, @"Images\3PM_Default.png")))
+											{
+												_ManagedMod.Thumbnail = System.Drawing.Image.FromStream(stream);
+											}
+										}
+
+										/* Abre el INI y Carga sus Secciones y Claves  */
+										if (File.Exists(_File.FullName))
+										{
+											var IniReader = new IniFile(Path.Combine(_Folder, FileName + ".ini"));
+
+											if (IniReader != null)
+											{
+												var _IniSections = IniReader.GetAllSectionNames();
+
+												if (_IniSections != null && _IniSections.Count > 0)
+												{
+													_ManagedMod.sections = new List<TPMod_Section>();
+
+													foreach (var _RawSection in _IniSections)
+													{
+														TPMod_Section _Section = new TPMod_Section
+														{
+															name = _RawSection,
+															title = _RawSection
+														};
+
+														var _RawKeys = IniReader.GetAllKeys(_RawSection);
+														if (_RawKeys != null && _RawKeys.Count > 0)
+														{
+															_Section.keys = new List<TPMod_Key>();
+															foreach (var _Rawkey in _RawKeys)
+															{
+																TPMod_Key _Key = new TPMod_Key
+																{
+																	name = _Rawkey,
+																	key = _Rawkey,
+																	type = "text",
+																	description = _Rawkey, //_Comments.Length > 0 ? _Comments.ToString() : string.Empty,
+																	value = IniReader.ReadKey(_Rawkey, _RawSection)
+																};
+																_Section.keys.Add(_Key);
+															}
+														}
+														_ManagedMod.sections.Add(_Section);
+													}
+												}
+											}
+										}
+
+										#endregion
+									}
+
+									if (_ManagedMod != null)
+									{
+										ModCountThisFolder++;
+
+										//Escribe el Nombre del Mod Sobre la Imagen Thumbnail:
+										if (_ManagedMod.Thumbnail != null)
+										{
+											Bitmap bm = new Bitmap(_ManagedMod.Thumbnail.Width, _ManagedMod.Thumbnail.Height);
+											using (Graphics e = Graphics.FromImage(bm))
+											{
+												e.DrawImage(_ManagedMod.Thumbnail, new Rectangle(new Point(0, 0), new Size(_ManagedMod.Thumbnail.Width, _ManagedMod.Thumbnail.Height)));
+												e.DrawString(_ManagedMod.mod_name, new System.Drawing.Font("Tahoma", 9, FontStyle.Bold),
+														Brushes.White, 10, _ManagedMod.Thumbnail.Height - 20);
+											}
+											_ManagedMod.Thumbnail = bm;
+										}
+
+										TPMods.Add(_ManagedMod);
+
+										Invoke((MethodInvoker)(() =>
+										{
+											SuperToolTipSetupArgs args = new SuperToolTipSetupArgs();
+											args.Title.Text = string.Format("{0} ({1})", _ManagedMod.mod_name, _ManagedMod.managed ? "Managed" : "Unmanaged");
+											args.Contents.Text = string.Format("    By {0}\r\n\r\nDescription:\r\n{1}", _ManagedMod.author, _ManagedMod.description);
+											SuperToolTip sTooltip2 = new SuperToolTip();
+											sTooltip2.Setup(args);
+
+											if (ModCountThisFolder > 1)
+											{
+												//Agrega un Sub-Componente:
+												_ModElement.Style = ElementStyle.Group;
+												_ModElement.Elements.Add(new AccordionControlElement()
+												{
+													Expanded = false,
+													Name = _ManagedMod.mod_name,
+													Text = _ManagedMod.Thumbnail != null ? "" : _ManagedMod.mod_name,
+													Style = ElementStyle.Item,
+													SuperTip = sTooltip2,
+													Tag = _ManagedMod,
+													Image = _ManagedMod.Thumbnail,
+													ImageLayoutMode = ImageLayoutMode.OriginalSize
+												});
+											}
+											else
+											{
+												//Agrega el Componente Root:
+												_ModElement = new AccordionControlElement()
+												{
+													Expanded = false,
+													Name = _ManagedMod.mod_name,
+													Text = _ManagedMod.Thumbnail != null ? "" : _ManagedMod.mod_name,
+													Style = ElementStyle.Item,
+													SuperTip = sTooltip2,
+													Tag = _ManagedMod,
+													Image = _ManagedMod.Thumbnail,
+													ImageLayoutMode = ImageLayoutMode.OriginalSize,
+												};
+												lst3PMods.Elements.Add(_ModElement);
+											}
+
+										}));
+									}
 								}
 							}
 						}
 					}
 					Invoke((MethodInvoker)(() =>
 					{
-						this.Cursor = Cursors.Default;
-						this.lst3PMods.EndUpdate();
+						Cursor = Cursors.Default;
+						lst3PMods.EndUpdate();
 
-						if (this.TPMods.IsNotEmpty())
+						if (TPMods.IsNotEmpty())
 						{
-							this.lblStatus.Caption = string.Format("{0} Mods detected.", this.TPMods.Count);
-							this.SelectedThemeElement = this.lst3PMods.Elements[0];
-							LoadMod(this.TPMods[0]);
+							lblStatus.Caption = string.Format("{0} Mods detected.", TPMods.Count);
+							SelectedThemeElement = lst3PMods.Elements[0];
+							LoadMod(TPMods[0]);
 						}
 						else
 						{
-							this.lblStatus.Caption = "NO mods detected.";
+							lblStatus.Caption = "NO mods detected.";
 						}
 					}));
 				});
@@ -275,26 +308,22 @@ namespace EDHM_UI_mk2.Forms
 			{
 				if (_Mod != null)
 				{
-					this.Cursor = Cursors.WaitCursor;
+					Cursor = Cursors.WaitCursor;
+					vGridDetalles.BeginUpdate();
+					vGridDetalles.Rows.Clear();
+
 					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-						this.ModFullPath = Path.Combine(this.TPMods_Path, _Mod.file);
+						ModFullPath = Path.Combine(_Mod.file_full, _Mod.file);
 
-						if (File.Exists(this.ModFullPath))
+						if (File.Exists(ModFullPath))
 						{
-							this._IniReader_OLD = new IniFile(this.ModFullPath);
-							//this.IniReader = new FileIniDataParser();
-							//this._IniData = this.IniReader.ReadFile(this.ModFullPath);
-
-
-							//if (this._IniData != null)
-							if (this._IniReader_OLD != null)
+							/* READS THE VALUES FROM THE INI FILES */
+							_IniReader_OLD = new IniFile(ModFullPath);
+							if (_IniReader_OLD != null)
 							{
-								this.vGridDetalles.BeginUpdate();
-								this.vGridDetalles.Rows.Clear();
-
 								if (_Mod.sections.IsNotEmpty())
 								{
 									foreach (var _Section in _Mod.sections)
@@ -304,7 +333,7 @@ namespace EDHM_UI_mk2.Forms
 											foreach (var _key in _Section.keys)
 											{
 												Console.WriteLine(string.Format("{0};{1};{2}", _key.key, _key.name, _Mod.file));
-												_key.value = this._IniReader_OLD.ReadKey(_key.key, _Section.ini_section);
+												_key.value = _IniReader_OLD.ReadKey(_key.key, _Section.ini_section);
 
 												#region Fila de Datos
 
@@ -334,9 +363,6 @@ namespace EDHM_UI_mk2.Forms
 														};
 														_TextItem.EditValueChanged += PropertyGrid_EditValueChanged;
 														_TextItem.AppearanceFocused.ForeColor = Color.Orange;
-
-														//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_key.key);
-														//_key.value = _KeyData != null ? _KeyData.Value : _key.value;
 
 														_Fila.Properties.RowEdit = _TextItem;
 														_Fila.Properties.Value = _key.value;
@@ -372,14 +398,14 @@ namespace EDHM_UI_mk2.Forms
 															Name = string.Format("{0}|{1}", _Section.ini_section, _key.name),
 															EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
 															UseMaskAsDisplayFormat = true,
-															EditValueChangedDelay = 500,															
+															EditValueChangedDelay = 500,
 															AllowMouseWheel = true,
 															AllowFocused = true,
 															IsFloatValue = true,
 															Increment = 0.01m,
 															EditMask = "n2",
 															MinValue = -1,
-															MaxValue = 1,															
+															MaxValue = 1,
 															Tag = _key
 														};
 														_NumericDecimal.EditValueChanged += PropertyGrid_EditValueChanged;
@@ -391,7 +417,7 @@ namespace EDHM_UI_mk2.Forms
 														#endregion
 														break;
 
-													case "decimal":
+													case "decimal": //<- Max = 2.0
 														#region Mostrar una TrackBar
 
 														Invoke((MethodInvoker)(() =>
@@ -408,9 +434,6 @@ namespace EDHM_UI_mk2.Forms
 															_DecimalItem.ValueChanged += PropertyGrid_EditValueChanged;
 															_DecimalItem.EditValueChangedFiringMode =
 																	DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
-
-															//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_key.key);
-															//_key.value = _KeyData != null ? _KeyData.Value : _key.value;
 
 															_Fila.Properties.RowEdit = _DecimalItem;
 															_Fila.Properties.Value = Util.ValidarNulo(_key.value, 0.0m) * 10;
@@ -437,8 +460,30 @@ namespace EDHM_UI_mk2.Forms
 															_DecimalItem.EditValueChangedFiringMode =
 																	DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
 
-															//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_key.key);
-															//_key.value = _KeyData != null ? _KeyData.Value : _key.value;
+															_Fila.Properties.RowEdit = _DecimalItem;
+															_Fila.Properties.Value = Util.ValidarNulo(_key.value, 0.0m) * 10;
+														}));
+
+														#endregion
+														break;
+
+													case "decimal_10x":
+														#region Mostrar una TrackBar
+
+														Invoke((MethodInvoker)(() =>
+														{
+															RepositoryItemTrackBar _DecimalItem = new RepositoryItemTrackBar
+															{
+																Name = string.Format("{0}|{1}", _Section.ini_section, _key.name),
+																EditValueChangedDelay = 500,
+																ShowValueToolTip = true,
+																Maximum = 100,
+																Minimum = 0,
+																Tag = _key
+															};
+															_DecimalItem.ValueChanged += PropertyGrid_EditValueChanged;
+															_DecimalItem.EditValueChangedFiringMode =
+																	DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
 
 															_Fila.Properties.RowEdit = _DecimalItem;
 															_Fila.Properties.Value = Util.ValidarNulo(_key.value, 0.0m) * 10;
@@ -477,10 +522,10 @@ namespace EDHM_UI_mk2.Forms
 															string[] ColorKeys = _key.key.Split(new char[] { '|' });
 															foreach (string _ColorKey in ColorKeys)
 															{
-															//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_ColorKey);
-															_GammaColors.Add(Convert.ToDouble(
-																this._IniReader_OLD.ReadKey(_ColorKey, _Section.ini_section)));
-															//(_KeyData != null ? _KeyData.Value : "0")));
+																//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_ColorKey);
+																_GammaColors.Add(Convert.ToDouble(
+																	_IniReader_OLD.ReadKey(_ColorKey, _Section.ini_section)));
+																//(_KeyData != null ? _KeyData.Value : "0")));
 
 																string _keyRGBA = "R";
 																switch (_keyIndex)
@@ -580,20 +625,26 @@ namespace EDHM_UI_mk2.Forms
 												//Agrega la Categoria del Elemento, si ya existe, usa esa, sino, la crea nueva:
 												if (!_Section.title.EmptyOrNull())
 												{
-													if (!(this.vGridDetalles.Rows[_Section.name] is CategoryRow Categoria))
+													if (!(vGridDetalles.Rows[_Section.name] is CategoryRow Categoria))
 													{
 														Categoria = new CategoryRow(_Section.title)
 														{
 															Name = _Section.name,
 															Tag = _Section
 														};
-														this.vGridDetalles.Rows.Add(Categoria);
+														Invoke((MethodInvoker)(() =>
+														{
+															vGridDetalles.Rows.Add(Categoria);
+														}));
 													}
 													Categoria.ChildRows.Add(_Fila);
 												}
 												else
 												{
-													this.vGridDetalles.Rows.Add(_Fila);
+													Invoke((MethodInvoker)(() =>
+													{
+														vGridDetalles.Rows.Add(_Fila);
+													}));
 												}
 
 												#endregion
@@ -604,16 +655,99 @@ namespace EDHM_UI_mk2.Forms
 							}
 						}
 
+						#region Themes
+						/** CHECK IF THE 3PMOD HAS THEMES AND SHOW THEM IN THE SIDE LIST  */
+						List<ui_preset_new> UI_Themes = null;
+						string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods", Path.GetFileNameWithoutExtension(_Mod.file));
+						if (Directory.Exists(ThemesFolder))
+						{
+							List<string> directories = new List<string>(Directory.GetDirectories(ThemesFolder));
+							if (directories != null && directories.Count > 0)
+							{
+								UI_Themes = new List<ui_preset_new>();
+								foreach (string _Folder in directories)
+								{
+									string RootFolder = System.IO.Path.GetFileNameWithoutExtension(_Folder);
+									var Theme = new DirectoryInfo(_Folder).GetFiles("*.json");
+									if (Theme != null && Theme.Length > 0)
+									{
+										var ThemeDetails = Util.DeSerialize_FromJSON<TPMod_Config>(Theme[0].FullName);
+										ui_preset_new _theme = new ui_preset_new(RootFolder, Theme[0].FullName)
+										{
+											author = ThemeDetails.author,
+											description = ThemeDetails.description
+										};
+
+										//Buscar el archivo del Thumbnail:
+										if (File.Exists(Path.Combine(_Folder, System.IO.Path.GetFileNameWithoutExtension(ThemeDetails.file) + ".png")))
+										{
+											//Carga la Imagen sin dejara 'en uso':
+											using (Stream stream = File.OpenRead(Path.Combine(_Folder, Path.GetFileNameWithoutExtension(ThemeDetails.file) + ".png")))
+											{
+												_theme.Preview = System.Drawing.Image.FromStream(stream);
+												_theme.HasPreview = true;
+											}
+										}
+										else
+										{
+											//sI EL TEMA NO TIENE PREVIEW, USA UNA IMAGEN X DEFECTO;
+											using (Stream stream = File.OpenRead(Path.Combine(AppExePath, "Images", "PREVIEW_DEFAULT.PNG")))
+											{
+												_theme.Preview = System.Drawing.Image.FromStream(stream);
+												_theme.HasPreview = false;
+											}
+										}
+
+										//Escribe el Nombre del Mod Sobre la Imagen Thumbnail:
+										if (_theme.Preview != null)
+										{
+											Bitmap bm = new Bitmap(_theme.Preview.Width, _theme.Preview.Height);
+											using (Graphics e = Graphics.FromImage(bm))
+											{
+												e.DrawImage(_theme.Preview, new Rectangle(new Point(0, 0), new Size(_theme.Preview.Width, _theme.Preview.Height)));
+												e.DrawString(RootFolder, new System.Drawing.Font("Tahoma", 8, FontStyle.Bold),
+														Brushes.White, 10, _theme.Preview.Height - 20);
+											}
+											_theme.Preview = bm;
+										}
+
+										UI_Themes.Add(_theme);
+									}
+								}
+
+							}
+						}
+						#endregion
+
+
 						Invoke((MethodInvoker)(() =>
 						{
-							this.vGridDetalles.EndUpdate();
+							try
+							{
+								vGridDetalles.EndUpdate();
 
-							this.lblMODdescription.Text = string.Format("<b>{0}</b>\r\n{1}",
-								string.Format("<b>{0}</b> ( {1} )", _Mod.mod_name, _Mod.managed ? "<color=0, 255, 0>Managed</color>" : "<color=255, 0, 0>Unmanaged</color>"),
-								string.Format("           By {0}\r\n\r\nDescription:\r\n<i>{1}</i>", _Mod.author, _Mod.description));
+								if (UI_Themes != null && UI_Themes.Count > 0)
+								{
+									gridThemes.DataSource = UI_Themes;
+									dock3PM_Themes.Visibility = DevExpress.XtraBars.Docking.DockVisibility.AutoHide;
+								}
+								else
+								{
+									gridThemes.DataSource = null;
+								}
 
-							this.CurrentdMod = _Mod;
-							this.Cursor = Cursors.Default;
+								lblMODdescription.Text = string.Format("<b>{0}</b>\r\n{1}",
+									string.Format("<b>{0}</b> ( {1} )", _Mod.mod_name, _Mod.managed ? "<color=0, 255, 0>Managed</color>" : "<color=255, 0, 0>Unmanaged</color>"),
+									string.Format("           By {0}\r\n\r\nDescription:\r\n<i>{1}</i>", _Mod.author, _Mod.description));
+
+								CurrentdMod = _Mod;
+							}
+							catch (Exception)
+							{
+
+								throw;
+							}
+							finally { Cursor = Cursors.Default; }
 						}));
 					});
 				}
@@ -629,7 +763,7 @@ namespace EDHM_UI_mk2.Forms
 			try
 			{
 				string FileName = Path.GetFileNameWithoutExtension(_Mod.file); //<- Nombre sin Extension ni Path
-				string ModFullPath = Path.Combine(this.TPMods_Path, FileName + ".json");
+				string ModFullPath = Path.Combine(_Mod.file_full, FileName + ".json");
 				if (_Mod.managed)
 				{
 					Util.Serialize_ToJSON(ModFullPath, _Mod); //<- Crea el JSON
@@ -641,7 +775,7 @@ namespace EDHM_UI_mk2.Forms
 					{
 						Util.Serialize_ToJSON(ModFullPath, _Mod); //<- Crea el JSON
 
-						if (File.Exists(Path.Combine(this.TPMods_Path, FileName + ".png")) == false)
+						if (File.Exists(Path.Combine(TPMods_Path, FileName + ".png")) == false)
 						{
 							//Ahora Creamos una Imagen que sirva de Thumbnail:  
 							//Formato PNG, 200x61 pix, Fondo Gris semi-transparente, Borde Naranja
@@ -659,13 +793,248 @@ namespace EDHM_UI_mk2.Forms
 									g.DrawRectangle(pen, _Box);
 								}
 							}
-							ThumbNail.Save(Path.Combine(this.TPMods_Path, FileName + ".png"), System.Drawing.Imaging.ImageFormat.Png);
+							ThumbNail.Save(Path.Combine(TPMods_Path, FileName + ".png"), System.Drawing.Imaging.ImageFormat.Png);
 						}
 
 						LoadModList(); //<- Refresh Mod List
 					}
 				}
 				//XtraMessageBox.Show("All Changes Saved!");
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
+		private void ImportMod()
+		{
+			try
+			{
+				OpenFileDialog OFDialog = new OpenFileDialog()
+				{
+					Filter = "ZIP Files|*.zip",
+					FilterIndex = 0,
+					DefaultExt = "zip",
+					AddExtension = true,
+					CheckPathExists = true,
+					CheckFileExists = true,
+					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+				};
+
+				if (OFDialog.ShowDialog() == DialogResult.OK)
+				{
+					/* ZIP Estructure:
+					   ├── ShaderFixes		
+					   |	└── [Optional Shader Files]
+					   └── EDHM-ini
+							└──3rdPartyMods
+								├── [MOD_NAME]			//<- Files can either be in the root or in a subfolder
+								|	  └── [Files]
+								├── [MOD_NAME].ini
+								├── [MOD_NAME].json
+								├── [MOD_NAME].bat
+								└── [MOD_NAME].png					 
+					 */
+
+					Util.DoNetZIP_UnCompressFile(OFDialog.FileName, ActiveInstance.path);
+
+					LoadModList();
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
+		private void ExportMod(TPMod_Config _Mod)
+		{
+			try
+			{
+				string ModPath = _Mod.file_full; // Path.GetDirectoryName(this.ModFullPath);
+				string ModName = Path.GetFileNameWithoutExtension(_Mod.file); //Path.GetFileNameWithoutExtension(this.ModFullPath);
+
+				//1. Preguntar donde se Guarda el Mod (o Tema):
+				SaveFileDialog XSFD = new SaveFileDialog()
+				{
+					Filter = "ZIP file|*.zip",
+					FilterIndex = 0,
+					DefaultExt = "zip",
+					AddExtension = true,
+					CheckPathExists = true,
+					OverwritePrompt = true,
+					FileName = _Mod.theme_name,
+					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+				};
+				if (XSFD.ShowDialog() == DialogResult.OK)
+				{
+					Cursor = Cursors.WaitCursor;
+
+					string ThemeName = System.IO.Path.GetFileNameWithoutExtension(XSFD.FileName);
+					string TempPath = Path.Combine(Path.GetTempPath(), "EDHM_UI", ThemeName);
+					string RootFolder = Path.GetFileNameWithoutExtension(_Mod.file_full);
+
+					//2. Crear una Carpeta Temporal para los Archivos del Tema:
+					if (Directory.Exists(TempPath))
+					{
+						Directory.Delete(TempPath, true);
+					}
+
+					Directory.CreateDirectory(TempPath);
+
+					if (Directory.Exists(TempPath))
+					{
+						//3. Crea la Estructura de Directorios necesaria:  %TEMP_FOLDER%\EDHM-ini\3rdPartyMods\%MOD_NAME%\
+						string ThemeFolder = Path.Combine(TempPath, "EDHM-ini", "3rdPartyMods");
+						if (RootFolder != "3rdPartyMods")
+						{
+							ThemeFolder = Path.Combine(ThemeFolder, RootFolder);
+						}
+						Directory.CreateDirectory(ThemeFolder);
+
+						if (Directory.Exists(ThemeFolder))
+						{
+							//4. Copiar los Archivos del MOD a la carpeta Temporal:
+							string[] FileList = Directory.GetFiles(ModPath, ModName + "*.*");
+							if (FileList != null && FileList.Length > 0)
+							{
+								foreach (string _file in FileList)
+								{
+									File.Copy(_file, Path.Combine(ThemeFolder, Path.GetFileName(_file)), true);
+								}
+							}
+
+							//5. Comprimir la Carpeta Temporal:
+							Util.DoNetZIP_CompressFolder(Path.Combine(TempPath, "EDHM-ini"), XSFD.FileName);
+							if (File.Exists(XSFD.FileName))
+							{
+								Directory.Delete(TempPath, true); //<- Borra la Carpeta Temporal
+
+								XtraMessageBox.Show(string.Format("The theme '{0}' had been Exported!", ThemeName), "Success!",
+											MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+								//6. Muestra el ZIP creado en el Explorador de Windows:
+								string argument = string.Format("/select, \"{0}\"", XSFD.FileName);
+								System.Diagnostics.Process.Start("explorer.exe", argument);
+							}
+						}
+					}
+				}
+
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+			finally { Cursor = Cursors.Default; }
+		}
+		private void ImportTheme()
+		{
+			try
+			{
+				OpenFileDialog OFDialog = new OpenFileDialog()
+				{
+					Filter = "ZIP Files|*.zip",
+					FilterIndex = 0,
+					DefaultExt = "zip",
+					AddExtension = true,
+					CheckPathExists = true,
+					CheckFileExists = true,
+					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+				};
+
+				if (OFDialog.ShowDialog() == DialogResult.OK)
+				{
+					/* ZIP Estructure:
+					   ├── ShaderFixes		
+					   |	└── [Optional Shader Files]
+					   └── EDHM-ini
+							└──3rdPartyMods
+								├── [MOD_NAME]			//<- Files can either be in the root or in a subfolder
+								|	  └── [Files]
+								├── [MOD_NAME].ini
+								├── [MOD_NAME].json
+								├── [MOD_NAME].bat
+								└── [MOD_NAME].png					 
+					 */
+					string ThemeName = Path.GetFileNameWithoutExtension(OFDialog.FileName);
+					string TempPath = Path.Combine(Path.GetTempPath(), "EDHM_UI", ThemeName);
+					List<FileInfo> ThemeFiles = null;
+					string ModPath_Root = string.Empty;
+					string Mod_Root = string.Empty;
+					string Mod_Name = string.Empty;
+
+
+					//2. Crear una Carpeta Temporal para los Archivos del Tema:
+					if (Directory.Exists(TempPath))
+					{
+						Directory.Delete(TempPath, true);
+					}
+
+					Directory.CreateDirectory(TempPath);
+					if (Directory.Exists(TempPath))
+					{
+						Util.DoNetZIP_UnCompressFile(OFDialog.FileName, TempPath);
+
+						ModPath_Root = Path.Combine(TempPath, "EDHM-ini", "3rdPartyMods");
+						if (Directory.Exists(ModPath_Root))
+						{
+							List<string> directories = new List<string>(Directory.GetDirectories(ModPath_Root));
+							if (directories != null)
+							{
+								directories.Add(ModPath_Root); //<- Need to search the Root too
+								ThemeFiles = new List<FileInfo>();
+
+								foreach (string _Folder in directories)
+								{
+									FileInfo[] _Files = new DirectoryInfo(_Folder).GetFiles("*.ini");
+									if (_Files != null && _Files.Length > 0)
+									{
+										ThemeFiles.AddRange(_Files);
+									}
+								}
+							}
+						}
+					}
+
+
+					if (MessageBox.Show(string.Format("Do you want to add '{0}' as a Theme?", ThemeName), "Add Theme?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					{
+						// %USERPROFILE%\Documents\Elite Dangerous\EDHM_UI\ODYSS\3PMods\[MOD_NAME]\[THEME_NAME]\
+						string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods");
+						if (!Directory.Exists(ThemesFolder))
+						{
+							Directory.CreateDirectory(ThemesFolder);
+						}
+
+						if (ThemeFiles != null && ThemeFiles.Count > 0)
+						{
+							foreach (var _file in ThemeFiles)
+							{
+								Mod_Name = Path.GetFileNameWithoutExtension(_file.Name);
+								if (!Directory.Exists(Path.Combine(ThemesFolder, Mod_Name, ThemeName)))
+								{
+									Directory.CreateDirectory(Path.Combine(ThemesFolder, Mod_Name, ThemeName));
+								}
+
+								FileInfo[] _Files = _file.Directory.GetFiles(Mod_Name + ".*");
+								foreach (var item in _Files)
+								{
+									item.CopyTo(Path.Combine(ThemesFolder, Mod_Name, ThemeName, item.Name), true);
+								}
+							}
+						}
+					}
+
+					// Borrar la Carpeta Temporal
+					if (Directory.Exists(TempPath))
+					{
+						Directory.Delete(TempPath, true);
+					}
+
+					XtraMessageBox.Show("Import Complete.", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+					LoadModList();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -740,7 +1109,10 @@ namespace EDHM_UI_mk2.Forms
 				double inv_G = Convert_sRGB_FromLinear(_GammaComponents[1], _GammaValue);
 				double inv_B = Convert_sRGB_FromLinear(_GammaComponents[2], _GammaValue);
 				double alpha = 1;
-				if (_GammaComponents.Count > 3) alpha = _GammaComponents[3];
+				if (_GammaComponents.Count > 3)
+				{
+					alpha = _GammaComponents[3];
+				}
 
 				//Linearizar el sRGB:
 				var colorB = new ColorManagment.ColorRGB(ColorManagment.RGBSpaceName.sRGB, inv_R, inv_G, inv_B, true);
@@ -805,159 +1177,115 @@ namespace EDHM_UI_mk2.Forms
 
 		#region Eventos Principales
 
-		
 
 		/* AQUI SE CAPTURAN LOS CAMBIOS HECHOS EN LOS CONTROLES del cuadro de Propiedades */
 		private void PropertyGrid_EditValueChanged(object sender, EventArgs e)
 		{
 			try
 			{
-				TPMod_Key _SelectedElement = null;
-				string _SectionName = string.Empty;
-				string _ModFileName = string.Empty;
-
-				if (this.CurrentdMod != null) _ModFileName = this.CurrentdMod.file;
-
-				//Obtiene el Valor del Control adecuado
-				switch (sender.GetType().Name)
+				Invoke((MethodInvoker)(() =>
 				{
-					case "TextEdit":
-						TextEdit _TextControl = sender as TextEdit;
-						_SectionName = _TextControl.Properties.Name.Split(new char[] { '|' })[0];
-						if (_TextControl.Properties.Tag != null)
-						{
-							_SelectedElement = _TextControl.Properties.Tag as TPMod_Key;
-							_SelectedElement.value = Util.ValidarNulo(_TextControl.EditValue, "");
-						}
-						break;
-					case "SpinEdit":
-						SpinEdit _NumericControl = sender as SpinEdit;
-						_SectionName = _NumericControl.Properties.Name.Split(new char[] { '|' })[0];
-						if (_NumericControl.Properties.Tag != null)
-						{
-							_SelectedElement = _NumericControl.Properties.Tag as TPMod_Key;
-							_SelectedElement.value = Util.ValidarNulo(_NumericControl.EditValue, 0).ToString();
-						}
-						break;
-					case "ToggleSwitch":
-						ToggleSwitch _ToogleControl = sender as ToggleSwitch;
-						_SectionName = _ToogleControl.Properties.Name.Split(new char[] { '|' })[0];
-						if (_ToogleControl.Properties.Tag != null)
-						{
-							_SelectedElement = _ToogleControl.Properties.Tag as TPMod_Key;
-							_SelectedElement.value = Util.BoolToInteger(Util.ValidarNulo(_ToogleControl.EditValue, false)).ToString();
-						}
-						break;
-					case "LookUpEdit":
-						LookUpEdit _Combo = sender as LookUpEdit;
-						_SectionName = _Combo.Properties.Name.Split(new char[] { '|' })[0];
-						if (_Combo.Properties.Tag != null)
-						{
-							_SelectedElement = _Combo.Properties.Tag as TPMod_Key;
-							_SelectedElement.value = Util.ValidarNulo(_Combo.EditValue, "");
-						}
-						break;
-					case "TrackBarControl":
-						TrackBarControl _TrackBar = sender as TrackBarControl;
-						_SectionName = _TrackBar.Properties.Name.Split(new char[] { '|' })[0];
-						if (_TrackBar.Properties.Tag != null)
-						{
-							_SelectedElement = _TrackBar.Properties.Tag as TPMod_Key;
-							_SelectedElement.value = (Util.ValidarNulo(_TrackBar.EditValue, 0m) / 10m).ToString();
-						}
-						break;
-					case "ColorPickEdit":
-						ColorPickEdit _ColorEd = sender as ColorPickEdit;
-						_SectionName = _ColorEd.Properties.Name.Split(new char[] { '|' })[0];
-						if (_ColorEd.Properties.Tag != null)
-						{
-							_SelectedElement = _ColorEd.Properties.Tag as TPMod_Key;
-							if (_ColorEd.EditValue != null)
+					TPMod_Key _SelectedElement = null;
+					string _SectionName = string.Empty;
+					string _ModFileName = string.Empty;
+
+					if (CurrentdMod != null)
+					{
+						_ModFileName = CurrentdMod.file;
+					}
+
+
+					//Obtiene el Valor del Control adecuado:
+					switch (sender.GetType().Name)
+					{
+						case "TextEdit":
+							TextEdit _TextControl = sender as TextEdit;
+							_SectionName = _TextControl.Properties.Name.Split(new char[] { '|' })[0];
+							if (_TextControl.Properties.Tag != null)
 							{
-								_SelectedElement.value = _ColorEd.Color.ToArgb().ToString();
+								_SelectedElement = _TextControl.Properties.Tag as TPMod_Key;
+								_SelectedElement.value = Util.ValidarNulo(_TextControl.EditValue, "");
+							}
+							break;
+						case "SpinEdit":
+							SpinEdit _NumericControl = sender as SpinEdit;
+							_SectionName = _NumericControl.Properties.Name.Split(new char[] { '|' })[0];
+							if (_NumericControl.Properties.Tag != null)
+							{
+								_SelectedElement = _NumericControl.Properties.Tag as TPMod_Key;
+								_SelectedElement.value = Util.ValidarNulo(_NumericControl.EditValue, 0).ToString();
+							}
+							break;
+						case "ToggleSwitch":
+							ToggleSwitch _ToogleControl = sender as ToggleSwitch;
+							_SectionName = _ToogleControl.Properties.Name.Split(new char[] { '|' })[0];
+							if (_ToogleControl.Properties.Tag != null)
+							{
+								_SelectedElement = _ToogleControl.Properties.Tag as TPMod_Key;
+								_SelectedElement.value = Util.BoolToInteger(Util.ValidarNulo(_ToogleControl.EditValue, false)).ToString();
+							}
+							break;
+						case "LookUpEdit":
+							LookUpEdit _Combo = sender as LookUpEdit;
+							_SectionName = _Combo.Properties.Name.Split(new char[] { '|' })[0];
+							if (_Combo.Properties.Tag != null)
+							{
+								_SelectedElement = _Combo.Properties.Tag as TPMod_Key;
+								_SelectedElement.value = Util.ValidarNulo(_Combo.EditValue, "");
+							}
+							break;
+						case "TrackBarControl":
+							TrackBarControl _TrackBar = sender as TrackBarControl;
+							_SectionName = _TrackBar.Properties.Name.Split(new char[] { '|' })[0];
+							if (_TrackBar.Properties.Tag != null)
+							{
+								_SelectedElement = _TrackBar.Properties.Tag as TPMod_Key;
+								_SelectedElement.value = (Util.ValidarNulo(_TrackBar.EditValue, 0m) / 10m).ToString();
+							}
+							break;
+						case "ColorPickEdit":
+							ColorPickEdit _ColorEd = sender as ColorPickEdit;
+							_SectionName = _ColorEd.Properties.Name.Split(new char[] { '|' })[0];
+							if (_ColorEd.Properties.Tag != null)
+							{
+								_SelectedElement = _ColorEd.Properties.Tag as TPMod_Key;
+								if (_ColorEd.EditValue != null)
+								{
+									_SelectedElement.value = _ColorEd.Color.ToArgb().ToString();
+								}
+							}
+							break;
+						default:
+							break;
+					}
+
+					/* AQUI SE GUARDAN LOS CAMBIOS EN EL INI FILE */
+					if (_IniReader_OLD != null)
+					{
+						if (_SelectedElement.type != "color")
+						{
+							_IniReader_OLD.WriteKey(_SelectedElement.key, _SelectedElement.value, _SectionName);
+						}
+						else
+						{
+							//Los Colores tienen las claves RGBA en el campo key: 'xR|xG|xB|xA'
+							string[] keys = _SelectedElement.key.Split(new char[] { '|' });
+							if (keys != null && keys.Length > 0)
+							{
+								//Convertir Color RGB -> sRGB -> GammaCorrected
+								Color _Color = Color.FromArgb(Convert.ToInt32(_SelectedElement.value));
+								List<double> _GammaColors = GetGammaCorrected_RGBA(_Color);
+								int i = 0;
+								foreach (string _Key in keys)
+								{
+									_IniReader_OLD.WriteKey(_Key, _GammaColors[i].ToString(), _SectionName);
+									i++;
+								}
 							}
 						}
-						break;
-					default:
-						break;
-				}
-				
-				/* AQUI SE GUARDAN LOS CAMBIOS EN EL INI FILE */
-				if (this._IniReader_OLD != null)
-				{
-					if (_SelectedElement.type != "color")
-					{
-						//Primero Leemos la Clave (con comentarios) desde el archivo:
-						//var _Data = this._IniData.Sections[_SectionName].GetKeyData(_SelectedElement.key);
-						//if (_Data != null)
-						//{
-						//	_Data.Value = _SelectedElement.value;
-						//}
-						//else
-						//{
-						//	//Si la clave no existe la creamos nueva:
-						//	_Data = new KeyData(_SelectedElement.key)
-						//	{
-						//		Value = _SelectedElement.value
-						//	};
-						//	List<string> _comm = null; //Agregamos la Descripcion como Comentarios:
-						//	if (!_SelectedElement.description.EmptyOrNull())
-						//	{
-						//		_comm = new List<string>
-						//		(_SelectedElement.description.Split(new string[] { "\r\n" }, StringSplitOptions.None));
-						//		if (_comm.IsNotEmpty())
-						//		{
-						//			_Data.Comments = new List<string>();
-						//			foreach (string s in _comm)
-						//			{
-						//				_Data.Comments.Add("; " + s);
-						//			}
-						//		}
-						//	}
-						//}
-						//this._IniData[_SectionName].SetKeyData(_Data);
-						_IniReader_OLD.WriteKey(_SelectedElement.key, _SelectedElement.value, _SectionName);
+						//this.IniReader.WriteFile(this.ModFullPath, this._IniData, new UTF8Encoding(false)); //<- UTF8 NO BOM
 					}
-					else
-					{
-						//Los Colores tienen las claves RGBA en el campo key: 'xR|xG|xB|xA'
-						string[] keys = _SelectedElement.key.Split(new char[] { '|' });
-						if (keys != null && keys.Length > 0)
-						{
-							//Convertir Color RGB -> sRGB -> GammaCorrected
-							Color _Color = Color.FromArgb(Convert.ToInt32(_SelectedElement.value));
-							List<double> _GammaColors = GetGammaCorrected_RGBA(_Color);
-							int i = 0;
-							foreach (string _Key in keys)
-							{
-								//Primero Leemos la Clave (con comentarios) desde el archivo:
-								//var _Data = this._IniData[_SectionName].GetKeyData(_Key);
-								//if (_Data != null)
-								//{
-								//	_Data.Value = _GammaColors[i].ToString();
-								//}
-								//else
-								//{
-								//	//Si la clave no existe la creamos nueva:
-								//	_Data = new KeyData(_Key)
-								//	{
-								//		Value = _GammaColors[i].ToString()
-								//	};
-
-								//	if (!_SelectedElement.description.EmptyOrNull())
-								//	{
-								//		_Data.Comments = new List<string>
-								//		(_SelectedElement.description.Split(new string[] { "\r\n" }, StringSplitOptions.None));
-								//	}
-								//}
-								//this._IniData[_SectionName].SetKeyData(_Data);
-								_IniReader_OLD.WriteKey(_Key, _GammaColors[i].ToString(), _SectionName);
-								i++;
-							}
-						}
-					}
-					//this.IniReader.WriteFile(this.ModFullPath, this._IniData, new UTF8Encoding(false)); //<- UTF8 NO BOM
-				}
+				}));
 			}
 			catch (Exception ex)
 			{
@@ -965,38 +1293,34 @@ namespace EDHM_UI_mk2.Forms
 			}
 		}
 
-		private void vGridDetalles_FocusedRowChanged(object sender, DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventArgs e)
-		{
-			DevExpress.XtraVerticalGrid.PropertyGridControl pg = sender as DevExpress.XtraVerticalGrid.PropertyGridControl;
-			// Do not display anything when a category row is selected.
-			if (e.Row is CategoryRow)
-			{
-				Console.WriteLine(string.Format("Category '{0}' is Selected.", e.Row.Name));
-				return;
-			}
-			//this.vGridDetalles.Tag = e.Row;
-		}
 		private void vGridDetalles_DoubleClick(object sender, EventArgs e)
 		{
-			var _Row = this.vGridDetalles.FocusedRow;
-			if (_Row != null)
+			try
 			{
-				if (this.CurrentdMod != null)
-				{
-					if (_Row is CategoryRow Categoria)
-					{
-						//Edita la Seccion
-						Dock_SectionEditor_Show(Categoria, "Edit Section:");
-					}
-					if (_Row is EditorRow _Fila)
-					{
-						if (_Fila.Tag != null && _Fila.Tag is TPMod_Key _Key)
-						{
-							//Edita la Clave:
-							Dock_KeyEditor_Show(_Key, "Edit Key:");
-						}
-					}
-				}
+				//var _Row = vGridDetalles.FocusedRow;
+				//if (_Row != null)
+				//{
+				//	if (CurrentdMod != null)
+				//	{
+				//		if (_Row is CategoryRow Categoria)
+				//		{
+				//			//Edita la Seccion
+				//			Dock_SectionEditor_Show(Categoria, "Edit Section:");
+				//		}
+				//		if (_Row is EditorRow _Fila)
+				//		{
+				//			if (_Fila.Tag != null && _Fila.Tag is TPMod_Key _Key)
+				//			{
+				//				//Edita la Clave:
+				//				Dock_KeyEditor_Show(_Key, "Edit Key:");
+				//			}
+				//		}
+				//	}
+				//}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -1004,46 +1328,54 @@ namespace EDHM_UI_mk2.Forms
 		private AccordionControlElement SelectedThemeElement = null;
 		private void lst3PMods_ElementClick(object sender, ElementClickEventArgs e)
 		{
-            try
-            {
-                if (sender != null)
-                {
-                    if (e.Element != null && e.Element.Tag != null)
-                    {
-                        if (e.Element.Tag is TPMod_Config _Mod)
-                        {
-                            this.SelectedThemeElement = e.Element;
-                            LoadMod(_Mod);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                XtraMessageBox.Show(ex.Message + ex.StackTrace);
-            }
-        }
+			try
+			{
+				if (sender != null)
+				{
+					if (e.Element != null && e.Element.Tag != null)
+					{
+						if (e.Element.Tag is TPMod_Config _Mod)
+						{
+							SelectedThemeElement = e.Element;
+							LoadMod(_Mod);
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
 		private void lst3PMods_CustomDrawElement(object sender, CustomDrawElementEventArgs e)
 		{
 			//Dibuja Borde sobre el tema seleccionado
 			try
 			{
-				if (this.SelectedThemeElement != null)
+				if (SelectedThemeElement != null)
 				{
 					//Si el elemento está seleccionado, Dibuja un borde Amarillo alrededor
-					if (e.ObjectInfo.Element == this.SelectedThemeElement || this.SelectedThemeElement.OwnerElement == e.ObjectInfo.Element)
+					if (e.ObjectInfo.Element == SelectedThemeElement || SelectedThemeElement.OwnerElement == e.ObjectInfo.Element)
 					{
 						if (e.Element.Tag != null)
 						{
 							TPMod_Config _Theme = e.Element.Tag as TPMod_Config;
-							Rectangle _Box = e.ObjectInfo.HeaderBounds; _Box.Width = 200;
+							if (_Theme != null)
+							{
+								Rectangle _Box = e.ObjectInfo.HeaderBounds;
+								_Box.Width = 200; _Box.Height = 62;
 
-							//Aqui dibuja la imagen normalmente:
-							e.Cache.DrawImage(_Theme.Thumbnail, _Box);
+								//Aqui dibuja la imagen normalmente:
+								if (_Theme.Thumbnail != null)
+								{
+									e.Cache.DrawImage(_Theme.Thumbnail, _Box);
+								}
+							}
+
 						}
 
 						//Aqui le dibuja un Borde Amarillo a la izquierda
-						e.Cache.FillRectangle(Color.Orange, new Rectangle(e.ObjectInfo.HeaderBounds.Location, new Size(this.ScaleHelper.ScaleHorizontal(3),
+						e.Cache.FillRectangle(Color.Orange, new Rectangle(e.ObjectInfo.HeaderBounds.Location, new Size(ScaleHelper.ScaleHorizontal(3),
 								e.ObjectInfo.HeaderBounds.Height)));
 
 						e.Handled = true;
@@ -1056,13 +1388,41 @@ namespace EDHM_UI_mk2.Forms
 			}
 		}
 
+		private void gridView1_RowCellClick(object sender, DevExpress.XtraGrid.Views.Grid.RowCellClickEventArgs e)
+		{
+			/* AL SELECCIONAR UN TEMA DE LA LISTA  */
+			DevExpress.XtraGrid.Views.Grid.GridView view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
+			if (view.IsRowSelected(e.RowHandle) && e.Column.FieldName == "Preview")
+			{
+				if (view.GetRow(e.RowHandle) is ui_preset_new _Theme)
+				{
+					//Cargar el Thema Seleccionado:
+					if (MessageBox.Show("Do you want to Apply this Theme now?", "Apply Theme?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					{
+						string ThemePath = System.IO.Path.GetDirectoryName(_Theme.folder);
+						string[] FileList = Directory.GetFiles(ThemePath, "*.*");
+						if (FileList != null && FileList.Length > 0)
+						{
+							string ModFolder = System.IO.Path.GetDirectoryName(ModFullPath);
+
+							foreach (string _file in FileList)
+							{
+								File.Copy(_file, Path.Combine(ModFolder, Path.GetFileName(_file)), true);
+							}
+						}
+						LoadMod(CurrentdMod);
+					}
+				}
+			}
+		}
+
 		#endregion
 
 		#region Botoneras
 
 		private void cmdSaveChanges_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-			this.DialogResult = DialogResult.OK;
+			DialogResult = DialogResult.OK;
 			Close();
 		}
 
@@ -1075,10 +1435,10 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
-				if (this.CurrentdMod != null)
+				if (CurrentdMod != null)
 				{
-					string TPMods_Path = Path.Combine(this.ActiveInstance.path, @"EDHM-ini\3rdPartyMods");
-					string ModFullPath = Path.Combine(TPMods_Path, this.CurrentdMod.file);
+					string TPMods_Path = Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods");
+					string ModFullPath = Path.Combine(TPMods_Path, CurrentdMod.file);
 
 					if (File.Exists(ModFullPath))
 					{
@@ -1094,70 +1454,44 @@ namespace EDHM_UI_mk2.Forms
 
 		private void cmdImportMod_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-			try
-			{
-				OpenFileDialog OFDialog = new OpenFileDialog()
-				{
-					Filter = "ZIP Files|*.zip",
-					FilterIndex = 0,
-					DefaultExt = "zip",
-					AddExtension = true,
-					CheckPathExists = true,
-					CheckFileExists = true,
-					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-				};
-
-				if (OFDialog.ShowDialog() == DialogResult.OK)
-				{
-					/* ZIP Estructure:
-					 * - Folder 'ShaderFixes'				<- Contains the Added/Modified Shader files.
-					 * - Folder 'EDHM-ini\3rdPartyMods\'	<- Contains the Mod's INI files. */
-
-					System.IO.FileInfo file = new System.IO.FileInfo(OFDialog.FileName);
-					if (Util.DoNetZIP_UnCompressFile(OFDialog.FileName, this.ActiveInstance.path))
-					{
-						LoadModList();
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
+			ImportMod();
 		}
 
 		private void cmdEdit_RemoveMod_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			try
 			{
-				if (this.CurrentdMod != null)
+				if (CurrentdMod != null)
 				{
-					if (XtraMessageBox.Show(string.Format("Are you sure of Deleting the MOD: '{0}'?", this.CurrentdMod.mod_name),
+					if (XtraMessageBox.Show(string.Format("Are you sure of Deleting the MOD: '{0}'?", CurrentdMod.mod_name),
 						"Confirm Deletion?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
-						string TPMods_Path = Path.Combine(this.ActiveInstance.path, @"EDHM-ini\3rdPartyMods");
-						string ModFullPath = Path.Combine(TPMods_Path, this.CurrentdMod.file);
-						string FileName = Path.GetFileNameWithoutExtension(ModFullPath); //<- Nombre sin Extension ni Path
+						if (!CurrentdMod.file_full.EmptyOrNull() && Directory.Exists(CurrentdMod.file_full))
+						{
+							string FileName = Path.GetFileNameWithoutExtension(Path.Combine(CurrentdMod.file_full, CurrentdMod.file)); //<- Nombre sin Extension ni Path
 
-						if (File.Exists(Path.Combine(TPMods_Path, FileName + ".bat")))
-						{
-							/* usamos el BAT desinstalador */
-							ExecuteBAT(Path.Combine(TPMods_Path, FileName + ".bat"), "-silent");
-						}
-						else
-						{
-							XtraMessageBox.Show("This Mod doesnt have an Un-Installer, so it is possible that some files remain, if you experience problems, contact this mod's author.",
-								"WARNING!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-							if (File.Exists(ModFullPath))
+							if (File.Exists(Path.Combine(CurrentdMod.file_full, FileName + ".bat")))
 							{
-								var dir = new DirectoryInfo(TPMods_Path);
-
-								foreach (var file in dir.EnumerateFiles(string.Format("{0}.*", FileName)))
+								/* usamos el BAT desinstalador */
+								ExecuteBAT(Path.Combine(CurrentdMod.file_full, FileName + ".bat"), "-silent");
+							}
+							else
+							{
+								XtraMessageBox.Show(
+									string.Format("This Mod doesnt have an Un-Installer.\r\nThen, it is possible that some files remain, like Shaders.\r\nIf you experience problems, contact this mod's author ({0}).\r\nNow We'r going to try to delete the files manually, hold on..", CurrentdMod.author),
+									"WARNING!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+								if (File.Exists(Path.Combine(CurrentdMod.file_full, CurrentdMod.file)))
 								{
-									file.Delete();
+									var dir = new DirectoryInfo(CurrentdMod.file_full);
+
+									foreach (var file in dir.EnumerateFiles(string.Format("{0}.*", CurrentdMod.file)))
+									{
+										file.Delete();
+									}
 								}
 							}
 						}
+
 						LoadModList(); //<- Actualizar los cambios
 					}
 				}
@@ -1172,12 +1506,12 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
-				if (this.CurrentdMod != null)
+				if (CurrentdMod != null)
 				{
-					string FileName = Path.GetFileNameWithoutExtension(this.CurrentdMod.file); //<- Nombre sin Extension ni Path
-					string ModFullPath = Path.Combine(this.TPMods_Path, FileName + ".json");
+					string FileName = Path.GetFileNameWithoutExtension(CurrentdMod.file); //<- Nombre sin Extension ni Path
+					string ModFullPath = Path.Combine(TPMods_Path, FileName + ".json");
 
-					if (this.CurrentdMod.managed)
+					if (CurrentdMod.managed)
 					{
 						if (File.Exists(ModFullPath))
 						{
@@ -1186,7 +1520,7 @@ namespace EDHM_UI_mk2.Forms
 					}
 					else
 					{
-						SaveMod(this.CurrentdMod);
+						SaveMod(CurrentdMod);
 					}
 
 				}
@@ -1209,646 +1543,58 @@ namespace EDHM_UI_mk2.Forms
 			}
 		}
 
-		#endregion
-
-		#region Editor de Secciones
-
-		private void Dock_SectionEditor_Show(CategoryRow Categoria, string Caption)
+		private void cmdExport_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-			try
+			if (CurrentdMod != null)
 			{
-				this.DockSection_txtName.Text = Categoria.Name;
-				this.DockSection_txtTitle.Text = Categoria.Properties.Caption;
+				string ThemePath = Path.Combine(CurrentdMod.file_full, Path.GetFileNameWithoutExtension(CurrentdMod.file));
+				Image _Thumbnail = null;
 
-				this.dockSection.Tag = Categoria;
-				this.dockSection.Text = Caption;
-				this.dockSection.Show();
-				this.dockSection.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
-
-				this.dockSection.FloatLocation = new System.Drawing.Point((int)((Screen.PrimaryScreen.Bounds.Width - this.dockSection.Width) / 2),
-								(int)((Screen.PrimaryScreen.Bounds.Height - this.dockSection.Height) / 2));
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-		private void cmdEdit_AddSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			try
-			{
-				if (this.CurrentdMod != null)
+				if (File.Exists(ThemePath + ".png"))
 				{
-					// Mostrar el Panel en Modo Flotante Centrado en la Ventana:
-					this.dockSection.Text = "Add New Section:";
-					this.dockSection.Show();
-					this.dockSection.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
-
-					this.dockSection.FloatLocation = new System.Drawing.Point((int)((Screen.PrimaryScreen.Bounds.Width - this.dockSection.Width) / 2),
-									(int)((Screen.PrimaryScreen.Bounds.Height - this.dockSection.Height) / 2));
-
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-		private void cmdEdit_EditSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			try
-			{
-				var _Row = this.vGridDetalles.FocusedRow;
-				if (_Row != null)
-				{
-					if (this.CurrentdMod != null)
+					//Carga la Imagen sin dejara 'en uso':
+					using (Stream stream = File.OpenRead(ThemePath + ".png"))
 					{
-						if (_Row is CategoryRow Categoria)
-						{
-							//Edita la Seccion
-							Dock_SectionEditor_Show(Categoria, "Edit Section:");
-						}
-						if (_Row is EditorRow _Fila)
-						{
-							if (_Fila.Tag != null && _Fila.Tag is TPMod_Key _Key)
-							{
-								//Edita la Clave:
-								Dock_KeyEditor_Show(_Key, "Edit Key:");
-							}
-						}
+						_Thumbnail = System.Drawing.Image.FromStream(stream);
 					}
 				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-		private void cmdEdit_RemoveSection_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			try
-			{
-				if (this.CurrentdMod != null)
+
+				ThemeParametersForm _Form = new ThemeParametersForm
 				{
-					if (this.vGridDetalles.FocusedRow is CategoryRow Categoria)
-					{
-						if (XtraMessageBox.Show(string.Format("Are you sure of Deleting the section '{0}' and ALL it's Keys and Values?", Categoria.Name),
-							"Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-						{
-							this.vGridDetalles.Rows.Remove(Categoria);
-							if (Categoria.Tag is TPMod_Section _EditSection)
-							{
-								this.CurrentdMod.sections.Remove(_EditSection);
-							}
-
-							string ModFullPath = Path.Combine(this.TPMods_Path, this.CurrentdMod.file);
-							string FileName = Path.GetFileNameWithoutExtension(this.CurrentdMod.file); //<- Nombre sin Extension ni Path
-							ModFullPath = Path.Combine(this.TPMods_Path, FileName + ".json");
-
-							Util.Serialize_ToJSON(ModFullPath, this.CurrentdMod);
-						}
-					}
-
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-
-		private void DockSection_cmdApply_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				//Agrega la Categoria del Elemento, si ya existe, usa esa, sino, la crea nueva:
-				if (!this.DockSection_txtName.Text.EmptyOrNull())
+					ModName = CurrentdMod.mod_name,
+					ThemeName = CurrentdMod.theme_name,
+					Author = CurrentdMod.author,
+					Description = CurrentdMod.description,
+					Thumbnail = _Thumbnail
+				};
+				if (_Form.ShowDialog() == DialogResult.OK)
 				{
-					TPMod_Section _Section = new TPMod_Section
+					CurrentdMod.theme_name = _Form.ThemeName;
+					CurrentdMod.author = _Form.Author;
+					CurrentdMod.description = _Form.Description;
+					CurrentdMod.Thumbnail = _Form.Thumbnail;
+
+					if (CurrentdMod.Thumbnail != null)
 					{
-						name = this.DockSection_txtName.Text,
-						title = this.DockSection_txtTitle.Text
-					};
-
-					if (this.dockSection.Text == "Add New Section:")
-					{
-						//Si la Seccion NO Existe:
-						if (!(this.vGridDetalles.Rows[_Section.name] is CategoryRow Categoria))
-						{
-							#region Agrega la Seccion a la Grilla
-
-							Categoria = new CategoryRow(_Section.title)
-							{
-								Name = _Section.name
-							};
-							this.vGridDetalles.Rows.Add(Categoria);
-
-							#endregion
-
-							if (this.CurrentdMod != null)
-							{
-								string FileName = Path.GetFileNameWithoutExtension(this.CurrentdMod.file);
-
-								this.CurrentdMod.sections.Add(_Section); //<- la agrega al Mod Actual
-
-								#region Guarda los cambios en el JSON
-
-								if (this.CurrentdMod.managed)
-								{
-									Util.Serialize_ToJSON(Path.Combine(this.TPMods_Path, FileName + ".json"), this.CurrentdMod);
-								}
-
-								#endregion
-
-								#region Crear la Seccion en el INI 
-
-								//this._IniData.Sections.Add(new SectionData(_Section.name));
-								//this.IniReader.WriteFile(Path.Combine(this.TPMods_Path, FileName + ".ini"), this._IniData);
-
-								#endregion
-
-								//LoadModList(); //<- Refresh Mod List
-							}
-
-							this.dockSection.Close();
-						}
-						else
-						{
-							XtraMessageBox.Show(string.Format("The section '{0}' already exists!", _Section.name));
-						}
+						//Save the Image as PNG:
+						CurrentdMod.Thumbnail.Save(ThemePath + ".png",
+							System.Drawing.Imaging.ImageFormat.Png);
 					}
-					if (this.dockSection.Text == "Edit Section:")
-					{
-						if (this.dockSection.Tag is CategoryRow _Categoria)
-						{
-							_Categoria.Name = _Section.name;
-							_Categoria.Properties.Caption = _Section.title;
 
-							if (_Categoria.Tag is TPMod_Section _EditSection)
-							{
-								_EditSection.name = _Section.name;
-								_EditSection.title = _Section.title;
-							}
+					//Save the changes in the JSON:
+					Util.Serialize_ToJSON(ThemePath + ".json", CurrentdMod);
 
-							//TODO: Crear la Seccion en el INI y guardar los cambios en el JSON
-							this.dockSection.Close();
-						}
-					}
+					ExportMod(CurrentdMod);
 				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
 
 		#endregion
 
-		#region Editor de claves
 
-		private bool AddingNew_KEY = false;
-		private void Dock_KeyEditor_Show(TPMod_Key _Key, string Caption)
+		private void cmdImportTheme_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-			try
-			{
-				if (this.CurrentdMod != null)
-				{
-					this.DockKeys_txtKey.Text = _Key.key;
-					this.DockKeys_txtName.Text = _Key.name;
-					this.DockKeys_txtValue.Text = _Key.value;
-					this.DockKeys_cboType.EditValue = _Key.type;
-					this.DockKeys_memoDescription.Text = _Key.description;
-
-					List<TPMod_Type> _TypesList = new List<TPMod_Type>();
-					_TypesList.AddRange(this.CurrentdMod.types);
-
-					if (this.CurrentdMod.custom_types.IsNotEmpty())
-					{
-						List<TPMod_Type> Uniques = this.CurrentdMod.custom_types.GroupBy(x => x.type).Select(x => x.First()).ToList<TPMod_Type>();
-						_TypesList.AddRange(Uniques);
-					}
-
-					this.DockKeys_cboType.Properties.ValueMember = "type";
-					this.DockKeys_cboType.Properties.DisplayMember = "type";
-					this.DockKeys_cboType.Properties.DataSource = _TypesList;
-					this.DockKeys_cboType.Properties.BestFit();
-					this.DockKeys_cboType.EditValue = _Key.type;
-
-					this.dockKeys.Tag = _Key;
-					this.dockKeys.Text = Caption;
-					this.dockKeys.Show();
-					this.dockKeys.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
-
-					this.dockKeys.FloatLocation = new Point((int)((Screen.PrimaryScreen.Bounds.Width - this.dockKeys.Width) / 2),
-									(int)((Screen.PrimaryScreen.Bounds.Height - this.dockKeys.Height) / 2));
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
+			ImportTheme();
 		}
-		private void cmdEdit_AddKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			try
-			{
-				if (this.CurrentdMod != null)
-				{
-					this.AddingNew_KEY = true;
-					TPMod_Key _Key = new TPMod_Key();
-					Dock_KeyEditor_Show(_Key, "Add New Key:");
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-		private void cmdEdit_EditKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			try
-			{
-				var _Row = this.vGridDetalles.FocusedRow;
-				if (_Row != null)
-				{
-					if (this.CurrentdMod != null)
-					{
-						if (_Row is CategoryRow Categoria)
-						{
-							//Edita la Seccion
-							Dock_SectionEditor_Show(Categoria, "Edit Section:");
-						}
-						if (_Row is EditorRow _Fila)
-						{
-							if (_Fila.Tag != null && _Fila.Tag is TPMod_Key _Key)
-							{
-								//Edita la Clave:
-								Dock_KeyEditor_Show(_Key, "Edit Key:");
-							}
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-		private void cmdEdit_RemoveKey_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			try
-			{
-				var _Row = this.vGridDetalles.FocusedRow;
-				if (_Row != null)
-				{
-					if (this.CurrentdMod != null)
-					{
-						if (_Row is EditorRow _Fila)
-						{
-							if (_Fila.Tag != null && _Fila.Tag is TPMod_Key _Key)
-							{
-								if (_Fila.ParentRow is CategoryRow _Parent)
-								{
-									if (_Parent.Tag is TPMod_Section _Section)
-									{
-										if (XtraMessageBox.Show(string.Format("Are you sure of Deleting the key '{0}'?", _Key.name),
-											"Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-										{
-											TPMod_Section _SEC = this.CurrentdMod.sections.Find(x => x.name == _Section.name);
-											if (_SEC != null)
-											{
-												TPMod_Key _KAY = _SEC.keys.Find(x => x.name == _Key.name);
-												_SEC.keys.Remove(_KAY);
-
-												SaveMod(this.CurrentdMod);
-												LoadMod(this.CurrentdMod);
-											}
-										}
-									}
-								}
-
-							}
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-
-		private void DockKeys_cmdApply_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				var _Row = this.vGridDetalles.FocusedRow;
-				if (_Row != null)
-				{
-					if (_Row is EditorRow _Fila)
-					{
-						if (this.CurrentdMod != null)
-						{
-							if (_Fila.ParentRow is CategoryRow _Parent)
-							{
-								if (_Parent.Tag is TPMod_Section _Section)
-								{
-									if (_Fila.Tag != null && _Fila.Tag is TPMod_Key _Key)
-									{
-										if (this.CurrentdMod.sections.IsNotEmpty())
-										{
-											TPMod_Section _SEC = this.CurrentdMod.sections.Find(x => x.name == _Section.name);
-											if (_SEC != null)
-											{
-												//Revisa si la Clave Existe:
-												TPMod_Key _KAY = _SEC.keys.Find(x => x.key == this.DockKeys_txtKey.Text);
-
-												#region Prepara los Datos de la Clave
-
-												if (this.AddingNew_KEY) //<- Modo Agregar Clave
-												{
-													if (_KAY != null)
-													{
-														//La Clave ya Existe!
-														XtraMessageBox.Show(string.Format("The Key '{0}' already Exists!", _KAY.name), "Error");
-														return;
-													}
-													else
-													{
-														_KAY = new TPMod_Key();
-														_KAY.name = this.DockKeys_txtName.Text;
-														_KAY.type = this.DockKeys_cboType.EditValue.NVL("");
-														_KAY.key = this.DockKeys_txtKey.Text;
-														_KAY.value = this.DockKeys_txtValue.Text;
-														_KAY.description = this.DockKeys_memoDescription.Text;
-
-														_SEC.keys.Add(_KAY); //<- agrega la nueva clave al JSON
-													}
-												}
-												else //<- Modo Editar Clave
-												{
-													_KAY = _SEC.keys.Find(x => x.name == _Key.name);
-													if (_KAY != null)
-													{
-														//Edita la Clave:													
-														{
-															_KAY.name = this.DockKeys_txtName.Text;
-															_KAY.type = this.DockKeys_cboType.EditValue.NVL("");
-															_KAY.key = this.DockKeys_txtKey.Text;
-															_KAY.value = this.DockKeys_txtValue.Text;
-															_KAY.description = this.DockKeys_memoDescription.Text;
-														}
-													}
-													else
-													{
-														//La Clave NO existe!
-														XtraMessageBox.Show(string.Format("The Key '{0}' does NOT Exists!", this.DockKeys_txtName.Text), "Error");
-														return;
-													}
-												}
-
-												#endregion
-
-												#region Guarda la Clave en el INI
-
-												/*bool EditINI = false;
-												if (EditINI && this.IniReader != null && this._IniData != null)
-												{
-													var _Data = this._IniData.Sections[_SEC.name].GetKeyData(_Key.name);
-													if (_Data != null)
-													{
-														_Data.KeyName = _KAY.name;
-														_Data.Value = _KAY.value;
-													}
-													else
-													{
-														//Si la clave no existe la creamos nueva:
-														_Data = new KeyData(_KAY.name)
-														{
-															Value = _KAY.value
-														};
-														List<string> _comm = null; //Agregamos la Descripcion como Comentarios:
-														if (!_KAY.description.EmptyOrNull())
-														{
-															_comm = new List<string>(_KAY.description.Split(new string[] { "\r\n" }, StringSplitOptions.None));
-															if (_comm.IsNotEmpty())
-															{
-																_Data.Comments = new List<string>();
-																foreach (string s in _comm)
-																{
-																	_Data.Comments.Add("; " + s);
-																}
-															}
-														}
-													}
-
-													this._IniData[_SEC.name].SetKeyData(_Data);
-													this.IniReader.WriteFile(this.ModFullPath, this._IniData, Encoding.UTF8);
-												}*/
-
-												#endregion
-
-												SaveMod(this.CurrentdMod);
-												LoadMod(this.CurrentdMod);
-
-												this.AddingNew_KEY = false;
-												this.dockKeys.Hide();
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-
-		#endregion
-
-		#region Custom Types Editor
-
-		private bool AddingNewType = false;
-		private void LoadCustomTypes(TPMod_Config _Mod)
-		{
-			try
-			{
-				if (_Mod.custom_types.IsNotEmpty())
-				{
-					List<TPMod_Type> Uniques = _Mod.custom_types.GroupBy(x => x.type).Select(x => x.First()).ToList<TPMod_Type>();
-					this.DockCustomTypes_lstGroupTypes.DataSource = Uniques;
-					this.DockCustomTypes_lstGroupTypes.DisplayMember = "type";
-					this.DockCustomTypes_lstGroupTypes.ValueMember = "type";
-					this.DockCustomTypes_lstGroupTypes.SelectedValueChanged += (object _Sender, EventArgs _E) =>
-					{
-						if (this.DockCustomTypes_lstGroupTypes.DataSource != null)
-						{
-							if (this.DockCustomTypes_lstGroupTypes.SelectedItem is TPMod_Type _SelectedGroup)
-							{
-								this.AddingNewType = false;
-
-								List<TPMod_Type> _GroupDetails = _Mod.custom_types.FindAll(x => x.type == _SelectedGroup.type);
-
-								if (_GroupDetails.IsNotEmpty())
-								{
-									this.DockCustomTypes_lstTypes.DataSource = _GroupDetails;
-									this.DockCustomTypes_lstTypes.DisplayMember = "name";
-									this.DockCustomTypes_lstTypes.ValueMember = "name";
-									this.DockCustomTypes_lstTypes.SelectedItem = _GroupDetails[0];
-									this.DockCustomTypes_lstTypes.SelectedValueChanged += (object _Sender2, EventArgs _E2) =>
-									{
-										this.AddingNewType = false;
-
-										if (this.DockCustomTypes_lstTypes.DataSource != null)
-										{
-											if (this.DockCustomTypes_lstTypes.SelectedItem is TPMod_Type _SelectedType)
-											{
-												this.DockCustomTypes_txtType.Text = _SelectedType.type;
-												this.DockCustomTypes_txtName.Text = _SelectedType.name;
-												this.DockCustomTypes_txtValue.Text = _SelectedType.value;
-											}
-										}
-									};
-								}
-							}
-						}
-					};
-				}
-				else
-				{
-					this.DockCustomTypes_lstGroupTypes.DataSource = null;
-					this.DockCustomTypes_lstTypes.DataSource = null;
-					this.DockCustomTypes_txtType.Text = null;
-					this.DockCustomTypes_txtName.Text = null;
-					this.DockCustomTypes_txtValue.Text = null;
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-
-		private void DockKeys_cmdCustomTypes_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				if (this.CurrentdMod != null)
-				{
-					LoadCustomTypes(this.CurrentdMod);
-
-					this.dockCustomTypesEditor.Text = "Custom Types Editor";
-					this.dockCustomTypesEditor.Show();
-					this.dockCustomTypesEditor.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
-
-					this.dockCustomTypesEditor.FloatLocation = new System.Drawing.Point((int)((Screen.PrimaryScreen.Bounds.Width - this.dockCustomTypesEditor.Width) / 2),
-									(int)((Screen.PrimaryScreen.Bounds.Height - this.dockCustomTypesEditor.Height) / 2));
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-
-		private void DockCustomTypes_cmdAddNew_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			this.AddingNewType = true;
-			this.DockCustomTypes_txtType.Text = null;
-			this.DockCustomTypes_txtName.Text = null;
-			this.DockCustomTypes_txtValue.Text = null;
-
-			this.DockCustomTypes_txtType.Focus();
-		}
-		private void DockCustomTypes_cmdRemove_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			try
-			{
-				if (this.CurrentdMod != null)
-				{
-					if (this.CurrentdMod.custom_types.IsNotEmpty())
-					{
-						if (this.DockCustomTypes_lstTypes.SelectedItem is TPMod_Type _SelectedType)
-						{
-							if (XtraMessageBox.Show(string.Format("Are you sure to delete the type '{0}'?", _SelectedType.name),
-								"Confirm Deletion?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-							{
-								this.CurrentdMod.custom_types.Remove(_SelectedType);
-							}
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-		private void DockCustomTypes_cmdEdit_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-		{
-			//EL NOMBRE ESTA MAL, EN REALIDAD AQUI SE GUARDAN LOS CAMBIOS
-			try
-			{
-				if (this.CurrentdMod != null)
-				{
-					if (this.AddingNewType) /* <- AGREGANDO UN NUEVO TIPO */
-					{
-						TPMod_Type _SelectedType = new TPMod_Type
-						{
-							name = this.DockCustomTypes_txtName.Text,
-							type = this.DockCustomTypes_txtType.Text,
-							value = this.DockCustomTypes_txtValue.Text
-						};
-						if (this.CurrentdMod.custom_types == null) this.CurrentdMod.custom_types = new List<TPMod_Type>();
-						var _ExistingType = this.CurrentdMod.custom_types.Find(x => x.type == _SelectedType.type && x.name == _SelectedType.name);
-						if (_ExistingType == null)
-						{
-							this.CurrentdMod.custom_types.Add(_SelectedType);
-
-							LoadCustomTypes(this.CurrentdMod);
-						}
-					}
-					else //<- EDITANDO UN TIPO EXISTENTE:
-					{
-						if (this.CurrentdMod.custom_types.IsNotEmpty())
-						{
-							if (this.DockCustomTypes_lstTypes.SelectedItem is TPMod_Type _SelectedType)
-							{
-								_SelectedType.name = this.DockCustomTypes_txtName.Text;
-								_SelectedType.type = this.DockCustomTypes_txtType.Text;
-								_SelectedType.value = this.DockCustomTypes_txtValue.Text;
-
-								this.DockCustomTypes_lstTypes.Focus();
-							}
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
-			}
-		}
-		private void DockCustomTypes_CmdApply_Click(object sender, EventArgs e)
-		{
-			/* APLICA LOS CAMBIOS AL MOD */
-			if (this.CurrentdMod != null)
-			{
-				SaveMod(this.CurrentdMod);
-
-				this.dockCustomTypesEditor.Close();
-				this.dockKeys.Hide();
-
-				LoadMod(this.CurrentdMod);
-				LoadCustomTypes(this.CurrentdMod);
-
-			}
-		}
-
-		#endregion
 	}
 }
