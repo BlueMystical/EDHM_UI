@@ -5,7 +5,7 @@
    "ED_Odissey":  "2.11.20.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- EDHM v13.3 ODYSSEY implemented\r\n- - A few Fixes and some themes, 1 for Horizons!",
+   "changelog": "- EDHM v13.3 ODYSSEY implemented\r\n- - A few Fixes and some themes, 1 for Horizons!.",
    "re_install": true,
    "run_hotfix": true
 }
