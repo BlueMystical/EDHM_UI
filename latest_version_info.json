@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.35.0",
-   "last_installer": "2.1.35.0",
+   "app_version": "2.1.36.0",
+   "last_installer": "2.1.36.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.11.20.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Few changes on 3PMods.\r\n- Pre FDev update.",
+   "changelog": "- Fix post FDev Update.\r\n- EDHM enabled for all Horizons 4.0 Players!",
    "re_install": true,
    "run_hotfix": true
 }
