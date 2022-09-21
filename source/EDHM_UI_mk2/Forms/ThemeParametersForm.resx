@@ -117,71 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AmbientLights_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AmbientLights_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="toolTipItem5.Text" xml:space="preserve">
+    <value>Here you can add a short description for your theme.
+Please include what are the main Colors used and other information you want to share.
+
+You can use &lt;href=https://docs.devexpress.com/WindowsForms/4874/common-features/html-text-formatting&gt;HTML Tags&lt;/href&gt; and include Non-Malitious Links for personal advertizing.  For example, a link to your Inara's Profile.</value>
   </data>
-  <data name="SetGameFolder_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SetGameFolder_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PanleLinesDown_0a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PanleLinesDown_0a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="triple-elite_2501" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\img\triple-elite_250.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="OpenGameFolder_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OpenGameFolder_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SpecialEfects_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SpecialEfects_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ShipPanels_0a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShipPanels_0a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PowerDistributor_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PowerDistributor_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Keybindings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Keybindings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TargetReticle_0a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TargetReticle_0a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="devexpress" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\devexpress.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="3PM_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\Images\3PM_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="OnFoot_HUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OnFoot_HUD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PanleLinesTop_0a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PanleLinesTop_0a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CHUD_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CHUD_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FuelBars_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FuelBars_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Radar_Common_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Radar_Common_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="About" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\About.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ShieldHolo_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShieldHolo_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="triple-elite_250" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\triple-elite_250.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AHUD_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AHUD_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="3PM_Default_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\Images\3PM_Default_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+  <metadata name="dxErrorProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="defaultToolTipController1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>160, 17</value>
+  </metadata>
 </root>

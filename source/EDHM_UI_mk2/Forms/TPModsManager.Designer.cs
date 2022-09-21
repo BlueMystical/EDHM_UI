@@ -69,6 +69,7 @@
 			this.bar3 = new DevExpress.XtraBars.Bar();
 			this.lblStatus = new DevExpress.XtraBars.BarStaticItem();
 			this.cmdSaveChanges = new DevExpress.XtraBars.BarButtonItem();
+			this.cmdReadMe = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdRefresh = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdImportMod = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdEdit_RemoveMod = new DevExpress.XtraBars.BarButtonItem();
@@ -76,6 +77,7 @@
 			this.cmdOpenJsonFile = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdExport = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdImportTheme = new DevExpress.XtraBars.BarButtonItem();
+			this.cmdFindMoreMods = new DevExpress.XtraBars.BarButtonItem();
 			this.bar1 = new DevExpress.XtraBars.Bar();
 			this.DockCustomTypes_cmdAddNew = new DevExpress.XtraBars.BarButtonItem();
 			this.DockCustomTypes_cmdRemove = new DevExpress.XtraBars.BarButtonItem();
@@ -144,6 +146,10 @@
 			this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.dockReadMe = new DevExpress.XtraBars.Docking.DockPanel();
+			this.controlContainer4 = new DevExpress.XtraBars.Docking.ControlContainer();
+			this.lblReadMe = new DevExpress.XtraEditors.LabelControl();
+			this.ElementsImgCollection = new DevExpress.Utils.ImageCollection(this.components);
 			this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdEdit_AddSection = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdEdit_RemoveSection = new DevExpress.XtraBars.BarButtonItem();
@@ -155,6 +161,12 @@
 			this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
 			this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
 			this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
+			this.barLinkContainerItem1 = new DevExpress.XtraBars.BarLinkContainerItem();
+			this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+			this.barLinkContainerItem2 = new DevExpress.XtraBars.BarLinkContainerItem();
+			this.cmdMoreMods = new DevExpress.XtraBars.BarEditItem();
+			this.cmdMoreMods_Link = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
+			this.repositoryItemHyperLinkEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit();
 			this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
 			this.lst3PMods = new DevExpress.XtraBars.Navigation.AccordionControl();
 			this.accordionControlElement1 = new DevExpress.XtraBars.Navigation.AccordionControlElement();
@@ -218,6 +230,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
+			this.dockReadMe.SuspendLayout();
+			this.controlContainer4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.ElementsImgCollection)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.cmdMoreMods_Link)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).BeginInit();
 			this.splitContainerControl1.Panel1.SuspendLayout();
@@ -265,9 +282,17 @@
             this.barButtonItem6,
             this.barButtonItem7,
             this.cmdExport,
-            this.cmdImportTheme});
-			this.barManager1.MaxItemId = 25;
-			this.barManager1.StatusBar = this.bar3;
+            this.cmdImportTheme,
+            this.barLinkContainerItem1,
+            this.barButtonItem2,
+            this.barLinkContainerItem2,
+            this.cmdMoreMods,
+            this.cmdFindMoreMods,
+            this.cmdReadMe});
+			this.barManager1.MaxItemId = 33;
+			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemHyperLinkEdit1,
+            this.cmdMoreMods_Link});
 			// 
 			// bar3
 			// 
@@ -279,13 +304,15 @@
 			this.bar3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.lblStatus),
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdSaveChanges, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdReadMe),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdRefresh),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdImportMod),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdEdit_RemoveMod),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenRawFile, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenJsonFile),
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdExport, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
-            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdImportTheme, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdImportTheme, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdFindMoreMods)});
 			this.bar3.OptionsBar.AllowQuickCustomization = false;
 			this.bar3.OptionsBar.DrawDragBorder = false;
 			this.bar3.OptionsBar.UseWholeRow = true;
@@ -300,15 +327,24 @@
 			// cmdSaveChanges
 			// 
 			this.cmdSaveChanges.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
-			this.cmdSaveChanges.Caption = "&Close";
+			this.cmdSaveChanges.Caption = "&Apply XML Changes";
 			this.cmdSaveChanges.Id = 2;
-			this.cmdSaveChanges.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdSaveChanges.ImageOptions.SvgImage")));
 			this.cmdSaveChanges.ItemAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-			this.cmdSaveChanges.ItemAppearance.Normal.ForeColor = DevExpress.LookAndFeel.DXSkinColors.ForeColors.ControlText;
+			this.cmdSaveChanges.ItemAppearance.Normal.ForeColor = System.Drawing.Color.White;
 			this.cmdSaveChanges.ItemAppearance.Normal.Options.UseBackColor = true;
 			this.cmdSaveChanges.ItemAppearance.Normal.Options.UseForeColor = true;
 			this.cmdSaveChanges.Name = "cmdSaveChanges";
 			this.cmdSaveChanges.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdSaveChanges_ItemClick);
+			// 
+			// cmdReadMe
+			// 
+			this.cmdReadMe.Caption = "&Read Me";
+			this.cmdReadMe.Id = 32;
+			this.cmdReadMe.ItemAppearance.Normal.BackColor = System.Drawing.Color.Green;
+			this.cmdReadMe.ItemAppearance.Normal.Options.UseBackColor = true;
+			this.cmdReadMe.Name = "cmdReadMe";
+			this.cmdReadMe.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+			this.cmdReadMe.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdReadMe_ItemClick);
 			// 
 			// cmdRefresh
 			// 
@@ -366,6 +402,17 @@
 			this.cmdImportTheme.Name = "cmdImportTheme";
 			this.cmdImportTheme.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdImportTheme_ItemClick);
 			// 
+			// cmdFindMoreMods
+			// 
+			this.cmdFindMoreMods.Caption = "Find More Mods Here";
+			this.cmdFindMoreMods.Id = 31;
+			this.cmdFindMoreMods.ItemAppearance.Normal.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cmdFindMoreMods.ItemAppearance.Normal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.cmdFindMoreMods.ItemAppearance.Normal.Options.UseFont = true;
+			this.cmdFindMoreMods.ItemAppearance.Normal.Options.UseForeColor = true;
+			this.cmdFindMoreMods.Name = "cmdFindMoreMods";
+			this.cmdFindMoreMods.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdFindMoreMods_ItemClick);
+			// 
 			// bar1
 			// 
 			this.bar1.BarName = "Personalizada 3";
@@ -421,15 +468,15 @@
 			this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
 			this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlTop.Manager = this.barManager1;
-			this.barDockControlTop.Size = new System.Drawing.Size(866, 0);
+			this.barDockControlTop.Size = new System.Drawing.Size(930, 0);
 			// 
 			// barDockControlBottom
 			// 
 			this.barDockControlBottom.CausesValidation = false;
 			this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.barDockControlBottom.Location = new System.Drawing.Point(0, 665);
+			this.barDockControlBottom.Location = new System.Drawing.Point(0, 661);
 			this.barDockControlBottom.Manager = this.barManager1;
-			this.barDockControlBottom.Size = new System.Drawing.Size(866, 34);
+			this.barDockControlBottom.Size = new System.Drawing.Size(930, 38);
 			// 
 			// barDockControlLeft
 			// 
@@ -437,15 +484,15 @@
 			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
 			this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlLeft.Manager = this.barManager1;
-			this.barDockControlLeft.Size = new System.Drawing.Size(0, 665);
+			this.barDockControlLeft.Size = new System.Drawing.Size(0, 661);
 			// 
 			// barDockControlRight
 			// 
 			this.barDockControlRight.CausesValidation = false;
 			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.barDockControlRight.Location = new System.Drawing.Point(866, 0);
+			this.barDockControlRight.Location = new System.Drawing.Point(930, 0);
 			this.barDockControlRight.Manager = this.barManager1;
-			this.barDockControlRight.Size = new System.Drawing.Size(0, 665);
+			this.barDockControlRight.Size = new System.Drawing.Size(0, 661);
 			// 
 			// dockManager1
 			// 
@@ -457,6 +504,8 @@
             this.dockCustomTypesEditor,
             this.dockKeys});
 			this.dockManager1.MenuManager = this.barManager1;
+			this.dockManager1.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
+            this.dockReadMe});
 			this.dockManager1.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
             "DevExpress.XtraBars.StandaloneBarDockControl",
@@ -476,9 +525,9 @@
 			this.hideContainerRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
 			this.hideContainerRight.Controls.Add(this.dock3PM_Themes);
 			this.hideContainerRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.hideContainerRight.Location = new System.Drawing.Point(835, 0);
+			this.hideContainerRight.Location = new System.Drawing.Point(899, 0);
 			this.hideContainerRight.Name = "hideContainerRight";
-			this.hideContainerRight.Size = new System.Drawing.Size(31, 665);
+			this.hideContainerRight.Size = new System.Drawing.Size(31, 661);
 			// 
 			// dock3PM_Themes
 			// 
@@ -490,7 +539,7 @@
 			this.dock3PM_Themes.OriginalSize = new System.Drawing.Size(329, 200);
 			this.dock3PM_Themes.SavedDock = DevExpress.XtraBars.Docking.DockingStyle.Right;
 			this.dock3PM_Themes.SavedIndex = 0;
-			this.dock3PM_Themes.Size = new System.Drawing.Size(329, 665);
+			this.dock3PM_Themes.Size = new System.Drawing.Size(329, 661);
 			this.dock3PM_Themes.Text = "Themes";
 			this.dock3PM_Themes.Visibility = DevExpress.XtraBars.Docking.DockVisibility.AutoHide;
 			// 
@@ -499,7 +548,7 @@
 			this.controlContainer3.Controls.Add(this.gridThemes);
 			this.controlContainer3.Location = new System.Drawing.Point(8, 44);
 			this.controlContainer3.Name = "controlContainer3";
-			this.controlContainer3.Size = new System.Drawing.Size(318, 618);
+			this.controlContainer3.Size = new System.Drawing.Size(318, 614);
 			this.controlContainer3.TabIndex = 0;
 			// 
 			// gridThemes
@@ -511,7 +560,7 @@
 			this.gridThemes.Name = "gridThemes";
 			this.gridThemes.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repGridThemes_Favorite});
-			this.gridThemes.Size = new System.Drawing.Size(318, 618);
+			this.gridThemes.Size = new System.Drawing.Size(318, 614);
 			this.gridThemes.TabIndex = 12;
 			this.gridThemes.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -1136,6 +1185,45 @@
 			this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem10.TextVisible = false;
 			// 
+			// dockReadMe
+			// 
+			this.dockReadMe.Controls.Add(this.controlContainer4);
+			this.dockReadMe.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
+			this.dockReadMe.FloatLocation = new System.Drawing.Point(380, 236);
+			this.dockReadMe.FloatSize = new System.Drawing.Size(566, 547);
+			this.dockReadMe.ID = new System.Guid("a771d759-08df-4fb0-87fd-ae29212b304b");
+			this.dockReadMe.Location = new System.Drawing.Point(0, 0);
+			this.dockReadMe.Name = "dockReadMe";
+			this.dockReadMe.OriginalSize = new System.Drawing.Size(200, 200);
+			this.dockReadMe.Size = new System.Drawing.Size(566, 547);
+			this.dockReadMe.Text = "Read Me";
+			// 
+			// controlContainer4
+			// 
+			this.controlContainer4.Controls.Add(this.lblReadMe);
+			this.controlContainer4.Location = new System.Drawing.Point(8, 56);
+			this.controlContainer4.Name = "controlContainer4";
+			this.controlContainer4.Size = new System.Drawing.Size(550, 483);
+			this.controlContainer4.TabIndex = 0;
+			// 
+			// lblReadMe
+			// 
+			this.lblReadMe.AllowHtmlString = true;
+			this.lblReadMe.AllowHtmlTextInToolTip = DevExpress.Utils.DefaultBoolean.True;
+			this.lblReadMe.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical;
+			this.lblReadMe.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lblReadMe.HtmlImages = this.ElementsImgCollection;
+			this.lblReadMe.Location = new System.Drawing.Point(0, 0);
+			this.lblReadMe.Name = "lblReadMe";
+			this.lblReadMe.Size = new System.Drawing.Size(550, 13);
+			this.lblReadMe.TabIndex = 0;
+			this.lblReadMe.Text = "labelControl1";
+			this.lblReadMe.HyperlinkClick += new DevExpress.Utils.HyperlinkClickEventHandler(this.lblReadMe_HyperlinkClick);
+			// 
+			// ElementsImgCollection
+			// 
+			this.ElementsImgCollection.ImageStream = ((DevExpress.Utils.ImageCollectionStreamer)(resources.GetObject("ElementsImgCollection.ImageStream")));
+			// 
 			// barButtonItem1
 			// 
 			this.barButtonItem1.Caption = "Refresh";
@@ -1214,6 +1302,45 @@
 			this.barButtonItem7.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem7.ImageOptions.SvgImage")));
 			this.barButtonItem7.Name = "barButtonItem7";
 			// 
+			// barLinkContainerItem1
+			// 
+			this.barLinkContainerItem1.Caption = "barLinkContainerItem1";
+			this.barLinkContainerItem1.Id = 27;
+			this.barLinkContainerItem1.Name = "barLinkContainerItem1";
+			// 
+			// barButtonItem2
+			// 
+			this.barButtonItem2.Caption = "barButtonItem2";
+			this.barButtonItem2.Id = 28;
+			this.barButtonItem2.Name = "barButtonItem2";
+			// 
+			// barLinkContainerItem2
+			// 
+			this.barLinkContainerItem2.Caption = "barLinkContainerItem2";
+			this.barLinkContainerItem2.Id = 29;
+			this.barLinkContainerItem2.Name = "barLinkContainerItem2";
+			// 
+			// cmdMoreMods
+			// 
+			this.cmdMoreMods.Caption = "barEditItem1";
+			this.cmdMoreMods.Edit = this.cmdMoreMods_Link;
+			this.cmdMoreMods.Id = 30;
+			this.cmdMoreMods.Name = "cmdMoreMods";
+			this.cmdMoreMods.PaintStyle = DevExpress.XtraBars.BarItemPaintStyle.Caption;
+			// 
+			// cmdMoreMods_Link
+			// 
+			this.cmdMoreMods_Link.AutoHeight = false;
+			this.cmdMoreMods_Link.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+			this.cmdMoreMods_Link.Caption = "Find Mods Here";
+			this.cmdMoreMods_Link.Name = "cmdMoreMods_Link";
+			this.cmdMoreMods_Link.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
+			// 
+			// repositoryItemHyperLinkEdit1
+			// 
+			this.repositoryItemHyperLinkEdit1.AutoHeight = false;
+			this.repositoryItemHyperLinkEdit1.Name = "repositoryItemHyperLinkEdit1";
+			// 
 			// splitContainerControl1
 			// 
 			this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1230,7 +1357,7 @@
 			// 
 			this.splitContainerControl1.Panel2.Controls.Add(this.vGridDetalles);
 			this.splitContainerControl1.Panel2.Text = "Panel2";
-			this.splitContainerControl1.Size = new System.Drawing.Size(835, 665);
+			this.splitContainerControl1.Size = new System.Drawing.Size(899, 661);
 			this.splitContainerControl1.SplitterPosition = 247;
 			this.splitContainerControl1.TabIndex = 4;
 			// 
@@ -1241,7 +1368,7 @@
             this.accordionControlElement1});
 			this.lst3PMods.Location = new System.Drawing.Point(0, 0);
 			this.lst3PMods.Name = "lst3PMods";
-			this.lst3PMods.Size = new System.Drawing.Size(247, 565);
+			this.lst3PMods.Size = new System.Drawing.Size(247, 561);
 			this.lst3PMods.TabIndex = 0;
 			this.lst3PMods.ElementClick += new DevExpress.XtraBars.Navigation.ElementClickEventHandler(this.lst3PMods_ElementClick);
 			this.lst3PMods.CustomDrawElement += new DevExpress.XtraBars.Navigation.CustomDrawElementEventHandler(this.lst3PMods_CustomDrawElement);
@@ -1255,7 +1382,7 @@
 			// 
 			this.panelControl1.Controls.Add(this.lblMODdescription);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 565);
+			this.panelControl1.Location = new System.Drawing.Point(0, 561);
 			this.panelControl1.Name = "panelControl1";
 			this.panelControl1.Size = new System.Drawing.Size(247, 100);
 			this.panelControl1.TabIndex = 1;
@@ -1293,7 +1420,7 @@
 			this.vGridDetalles.RowHeaderWidth = 264;
 			this.vGridDetalles.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.category});
-			this.vGridDetalles.Size = new System.Drawing.Size(556, 665);
+			this.vGridDetalles.Size = new System.Drawing.Size(620, 661);
 			this.vGridDetalles.TabIndex = 1;
 			this.vGridDetalles.DoubleClick += new System.EventHandler(this.vGridDetalles_DoubleClick);
 			// 
@@ -1306,7 +1433,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(866, 699);
+			this.ClientSize = new System.Drawing.Size(930, 699);
 			this.Controls.Add(this.splitContainerControl1);
 			this.Controls.Add(this.hideContainerRight);
 			this.Controls.Add(this.barDockControlLeft);
@@ -1374,6 +1501,11 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
+			this.dockReadMe.ResumeLayout(false);
+			this.controlContainer4.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.ElementsImgCollection)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.cmdMoreMods_Link)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).EndInit();
 			this.splitContainerControl1.Panel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel2)).EndInit();
@@ -1488,5 +1620,17 @@
 		private DevExpress.XtraBars.BarButtonItem cmdImportTheme;
 		private DevExpress.XtraVerticalGrid.VGridControl vGridDetalles;
 		private DevExpress.XtraVerticalGrid.Rows.CategoryRow category;
+		private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit repositoryItemHyperLinkEdit1;
+		private DevExpress.XtraBars.BarLinkContainerItem barLinkContainerItem1;
+		private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+		private DevExpress.XtraBars.BarEditItem cmdMoreMods;
+		private DevExpress.XtraEditors.Repository.RepositoryItemHyperLinkEdit cmdMoreMods_Link;
+		private DevExpress.XtraBars.BarLinkContainerItem barLinkContainerItem2;
+		private DevExpress.XtraBars.BarButtonItem cmdFindMoreMods;
+		private DevExpress.XtraBars.BarButtonItem cmdReadMe;
+		private DevExpress.XtraBars.Docking.DockPanel dockReadMe;
+		private DevExpress.XtraBars.Docking.ControlContainer controlContainer4;
+		private DevExpress.XtraEditors.LabelControl lblReadMe;
+		private DevExpress.Utils.ImageCollection ElementsImgCollection;
 	}
 }

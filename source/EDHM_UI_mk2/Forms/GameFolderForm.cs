@@ -31,9 +31,11 @@ namespace EDHM_UI_mk2
 		public game_instance ActiveInstance { get; set; }
 		public List<key> Languages { get; set; }
 
-		public bool WatchMe { get; set; } //<- Determina si Registra las Naves del Jugador
-		public bool GreetMe { get; set; } //<- Determina si Saluda al Jugador al Inicio
-		public bool HideToTray { get; set; } //<- Determina si se Oculta en el Tray al Cerrar la ventana
+		public bool WatchMe { get; set; }		//<- Determina si Registra las Naves del Jugador
+		public bool GreetMe { get; set; }		//<- Determina si Saluda al Jugador al Inicio
+		public bool HideToTray { get; set; }	//<- Determina si se Oculta en el Tray al Cerrar la ventana
+		public int SavesToRemember { get; set; } //<- Cantidad de Guardados a recordar
+		public bool AutoApplyTheme { get; set; } //<- If set, and game is running, it will send the F11 key to the game
 
 		#endregion
 
@@ -54,8 +56,11 @@ namespace EDHM_UI_mk2
 			this.WatchMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "WatchMe").NVL("true"));
 			this.GreetMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "GreetMe").NVL("true"));
 			this.HideToTray = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "HideToTray").NVL("false"));
+			this.SavesToRemember = Convert.ToInt32(Util.WinReg_ReadKey("EDHM", "SavesToRemember").NVL("10"));
+			this.AutoApplyTheme = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "AutoApplyTheme").NVL("false"));
 
 			this.txtPlayerJournal.EditValue = Util.WinReg_ReadKey("EDHM", "PlayerJournal").NVL(string.Empty);
+			this.txtSavesToRememberRep.Value = this.SavesToRemember;
 
 			#region Carga los Idiomas Disponibles
 
@@ -133,6 +138,7 @@ namespace EDHM_UI_mk2
 			this.chkSettings_WatchMe.Checked = this.WatchMe;
 			this.chkSettings_GreetMe.Checked = this.GreetMe;
 			this.chkSettings_HideToTray.Checked = this.HideToTray;
+			this.chkAutoApplyTheme.Checked = this.AutoApplyTheme;
 		}
 		private void GameFolderForm_Shown(object sender, EventArgs e)
 		{
@@ -251,12 +257,16 @@ namespace EDHM_UI_mk2
 					this.HideToTray = this.chkSettings_HideToTray.Checked;
 					this.GreetMe = this.chkSettings_GreetMe.Checked;
 					this.WatchMe = this.chkSettings_WatchMe.Checked;
+					this.AutoApplyTheme = this.chkAutoApplyTheme.Checked;
+					this.SavesToRemember = Convert.ToInt32(this.txtSavesToRememberRep.Value);
 
 					Util.WinReg_WriteKey("EDHM", "HideToTray", this.HideToTray);
 					Util.WinReg_WriteKey("EDHM", "GreetMe", this.GreetMe);
 					Util.WinReg_WriteKey("EDHM", "WatchMe", this.WatchMe);
 					Util.WinReg_WriteKey("EDHM", "Language", this.cboLanguages.EditValue.ToString());
 					Util.WinReg_WriteKey("EDHM", "PlayerJournal", this.txtPlayerJournal.EditValue.ToString());
+					Util.WinReg_WriteKey("EDHM", "SavesToRemember", this.SavesToRemember);
+					Util.WinReg_WriteKey("EDHM", "AutoApplyTheme", this.AutoApplyTheme);
 
 					XtraMessageBox.Show("Settings Saved.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.DialogResult = DialogResult.OK;
@@ -274,29 +284,7 @@ namespace EDHM_UI_mk2
 			}
 		}
 
-		//Expandir todas las Filas Maestras:
-		public void ExpandAllRows(GridView View)
-		{
-			//GridView View = sender as GridView;
-			View.BeginUpdate();
-			try
-			{
-				int dataRowCount = View.DataRowCount;
-				for (int rHandle = 0; rHandle < dataRowCount; rHandle++)
-					View.SetMasterRowExpanded(rHandle, true);
-			}
-			finally
-			{
-				View.EndUpdate();
-			}
-		}
-
-		private void cmdSaveChanges_Click(object sender, EventArgs e)
-		{
-			SaveChanges();
-		}
-
-		private void cmdHelp_Click(object sender, EventArgs e)
+		public void GameLocatorAssistant()
 		{
 			/*  ASISTENTE PARA LOCALIZAR EL JUEGO */
 			try
@@ -307,7 +295,7 @@ namespace EDHM_UI_mk2
 					if (XtraMessageBox.Show(string.Format("Do you Need Help Finding the Locations for Elite Dangerous Game?\r\nFor the '{0}' Instance.", _Selected.instance),
 										"Need a Hand?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
-						if (XtraMessageBox.Show("First go and Start the Game Client.\r\n\r\nClick Yes when the Game is Running.",
+						if (XtraMessageBox.Show("First go and Start the Game Client.\r\nLeave this window open while you go,\r\n or open it again after game is running.\r\n\r\nClick Yes when the Game is Running.",
 						"STEP 1:", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 						{
 							#region Detecting the Game Process
@@ -342,36 +330,6 @@ namespace EDHM_UI_mk2
 
 								try
 								{
-									//const uint VK_F1 = 0x70;
-									//const uint VK_F2 = 0x71;
-									//const uint VK_F3 = 0x72;
-									//const uint VK_F4 = 0x73;
-									//const uint VK_F5 = 0x74;
-									//const uint VK_F6 = 0x75;
-									//const uint VK_F7 = 0x76;
-									//const uint VK_F8 = 0x77;
-									//const uint VK_F9 = 0x78;
-									//const uint VK_F10 = 0x79;
-									//const uint VK_F11 = 0x7A;
-									//const uint VK_F12 = 0x7B;
-									//const uint VK_F13 = 0x7C;
-									//const uint VK_F14 = 0x7D;
-									//const uint VK_F15 = 0x7E;
-									//const uint VK_F16 = 0x7F;
-									//const uint VK_F17 = 0x80;
-									//const uint VK_F18 = 0x81;
-									//const uint VK_F19 = 0x82;
-									//const uint VK_F20 = 0x83;
-									//const uint VK_F21 = 0x84;
-									//const uint VK_F22 = 0x85;
-									//const uint VK_F23 = 0x86;
-									//const uint VK_F24 = 0x87;
-
-									//IntPtr hwnd = FindWindowByCaption(IntPtr.Zero, GameTitle);
-									//int result3 = SendMessage(hwnd, (int)VK_F11, (int)VK_F11, "0");
-									//SendMessage(hwnd, 0x7A, (int)VK_F11, "{F11}");
-
-									//Aqui se cierra la ventana del juego
 									GameProcess.CloseMainWindow();
 									GameProcess.Kill();
 								}
@@ -380,21 +338,39 @@ namespace EDHM_UI_mk2
 
 								#endregion
 
-								if (Directory.Exists(Path.Combine(ProductsFolder, "elite-dangerous-64")))
+								switch (GameFolder)
 								{
-									HORI_PATH = Path.Combine(ProductsFolder, "elite-dangerous-64");
-								}
-								if (Directory.Exists(Path.Combine(ProductsFolder, "elite-dangerous-odyssey-64")))
-								{
-									ODYS_PATH = Path.Combine(ProductsFolder, "elite-dangerous-odyssey-64");
-								}
-								if (Directory.Exists(Path.Combine(ProductsFolder, "FORC-FDEV-DO-1000")))
-								{
-									ODYS_PATH = Path.Combine(ProductsFolder, "FORC-FDEV-DO-1000");
+									case "elite-dangerous-64":			HORI_PATH = GameFolder; break;		//<- Horizons 3.8
+									case "FORC-FDEV-DO-38-IN-40":		ODYS_PATH = GameFolder; break;		//<- Horizons 4.0
+									case "elite-dangerous-odyssey-64":	ODYS_PATH = GameFolder; break;		//<- Odyssey 4.0
+									case "FORC-FDEV-DO-1000":			ODYS_PATH = GameFolder; break;		//<- Odyssey 4.0 alt								
+
+									default: break;
 								}
 
-								string Msg1 = !HORI_PATH.EmptyOrNull() ? "Horizons had been Detected" : string.Empty;
-								string Msg2 = !ODYS_PATH.EmptyOrNull() ? "Odyssey had been Detected" : string.Empty;
+								if (HORI_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "elite-dangerous-64")))
+								{
+									HORI_PATH = Path.Combine(ProductsFolder, "elite-dangerous-64");
+									_Selected.games[0].instance = "Horizons (3.8)";
+								}
+								if (ODYS_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "FORC-FDEV-DO-38-IN-40")))
+								{
+									ODYS_PATH = Path.Combine(ProductsFolder, "FORC-FDEV-DO-38-IN-40");
+									_Selected.games[1].instance = "Horizons (4.0)";
+								}
+								if (ODYS_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "elite-dangerous-odyssey-64")))
+								{
+									ODYS_PATH = Path.Combine(ProductsFolder, "elite-dangerous-odyssey-64");
+									_Selected.games[1].instance = "Odyssey (4.0)";
+								}
+								if (ODYS_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "FORC-FDEV-DO-1000")))
+								{
+									ODYS_PATH = Path.Combine(ProductsFolder, "FORC-FDEV-DO-1000");
+									_Selected.games[1].instance = "Odyssey";
+								}
+
+								string Msg1 = !HORI_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[0].instance) : string.Empty;
+								string Msg2 = !ODYS_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[1].instance) : string.Empty;
 
 								if (!HORI_PATH.EmptyOrNull())
 								{
@@ -407,6 +383,10 @@ namespace EDHM_UI_mk2
 										{
 											_Selected.games[0].path = HORI_PATH;
 											_Selected.games[1].path = ODYS_PATH;
+
+											if (HORI_PATH.Contains("steamapps"))	_Selected.instance = "Steam";
+											if (HORI_PATH.Contains("Epic Games"))	_Selected.instance = "Epic Games";
+											if (HORI_PATH.Contains("Frontier"))		_Selected.instance = "Frontier";
 
 											this.gridControl1.RefreshDataSource();
 											ExpandAllRows(this.gridView1);
@@ -432,6 +412,35 @@ namespace EDHM_UI_mk2
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+
+		//Expandir todas las Filas Maestras:
+		public void ExpandAllRows(GridView View)
+		{
+			//GridView View = sender as GridView;
+			View.BeginUpdate();
+			try
+			{
+				int dataRowCount = View.DataRowCount;
+				for (int rHandle = 0; rHandle < dataRowCount; rHandle++)
+					View.SetMasterRowExpanded(rHandle, true);
+			}
+			finally
+			{
+				View.EndUpdate();
+			}
+		}
+
+
+
+		private void cmdSaveChanges_Click(object sender, EventArgs e)
+		{
+			SaveChanges();
+		}
+
+		private void cmdHelp_Click(object sender, EventArgs e)
+		{
+			GameLocatorAssistant();
 		}
 
 		private void repGameFolderSelector_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
@@ -561,6 +570,16 @@ namespace EDHM_UI_mk2
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
+		}
+
+		private void chkAutoApplyTheme_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void chkSettings_HideToTray_CheckedChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

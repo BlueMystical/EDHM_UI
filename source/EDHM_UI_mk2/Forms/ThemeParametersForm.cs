@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -17,6 +18,8 @@ namespace EDHM_UI_mk2.Forms
 		public string Description { get; set; }
 		public Image Thumbnail { get; set; }
 
+		public bool ThisIsAMod { get; set; } = false;
+
 
 		private void ThemeParametersForm_Load(object sender, EventArgs e)
 		{
@@ -24,6 +27,8 @@ namespace EDHM_UI_mk2.Forms
 		}
 		private void ThemeParametersForm_Shown(object sender, EventArgs e)
 		{
+			//txtModName.Visible = this.ThisIsAMod; <href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>
+
 			if (this.ModName != null && this.ModName != string.Empty)
 			{
 				this.txtModName.EditValue = this.ModName;
@@ -36,6 +41,14 @@ namespace EDHM_UI_mk2.Forms
 			{
 				this.txtAuthor.EditValue = this.Author;
 			}
+			if (this.ThisIsAMod)
+			{
+				this.txtAuthor.Properties.MaskSettings.Configure<DevExpress.XtraEditors.Mask.MaskSettings.RegExp>(settings =>
+				{
+					settings.MaskExpression = "[0-9a-zA-Z ()-]+";
+				});
+			}
+
 			if (this.Description != null && this.Description != string.Empty)
 			{
 				this.txtDescription.EditValue = this.Description;
@@ -54,13 +67,43 @@ namespace EDHM_UI_mk2.Forms
 
 		private void cmdOK_Click(object sender, EventArgs e)
 		{
-			this.ModName = this.txtModName.EditValue.ToString();
-			this.ThemeName = this.txtName.EditValue.ToString();
-			this.Author = this.txtAuthor.EditValue.ToString();
-			this.Description = this.txtDescription.EditValue.ToString();
-			this.Thumbnail = this.picThumb.Image;
+			bool Continuar = true;
+			if (this.txtAuthor.EditValue == null || this.txtAuthor.EditValue.ToString().Trim() == string.Empty)
+			{
+				this.dxErrorProvider1.SetError(this.txtAuthor, "Required Field!"); Continuar = false;
+			}
+			if (this.txtName.EditValue == null || this.txtName.EditValue.ToString().Trim() == string.Empty)
+			{
+				this.dxErrorProvider1.SetError(this.txtName, "Required Field!"); Continuar = false;
+			}
 
-			this.DialogResult = DialogResult.OK;
+			if (Continuar)
+			{
+				this.dxErrorProvider1.SetError(this.txtAuthor, string.Empty);
+				this.dxErrorProvider1.SetError(this.txtName, string.Empty);
+
+				this.ModName = this.txtModName.EditValue.ToString().Trim();
+				this.ThemeName = this.txtName.EditValue.ToString().Trim();
+				this.Author = this.txtAuthor.EditValue.ToString().Trim();
+				this.Description = Util.NVL(this.txtDescription.EditValue, "").Trim();
+				this.Thumbnail = this.picThumb.Image;
+
+				this.DialogResult = DialogResult.OK;
+			}
+			
+		}
+
+		private void defaultToolTipController1_DefaultController_HyperlinkClick(object sender, DevExpress.Utils.HyperlinkClickEventArgs e)
+		{
+			Process process = new Process();
+			process.StartInfo.FileName = (e.Link);
+			process.StartInfo.Verb = "open";
+			process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+			try
+			{
+				process.Start();
+			}
+			catch { }
 		}
 	}
 }

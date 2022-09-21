@@ -4,7 +4,6 @@
     "Language": "en",
     "Title": "Tips & Features",
     "Elements": [
-      "Ensure your 'Material Quality' is set to Ultra.",
       "You can Refresh your changes in game by pressing the F11 key.",
       "There is no preview for Odyssey version at the moment.",
       "To change the XML click 'Ship & Station Panels' tile.",
@@ -23,7 +22,6 @@
     "Language": "es",
     "Title": "Consejos y Carácteristicas",
     "Elements": [
-      "Asegurate que 'Material Quality' está en Ultra.",
       "Puedes Refrescar tus Cambios en el juego presionando F11.",
       "No hay Vista Previa para la version Odyssey.",
       "Para cambiar el XML dale click al cuadro 'Ship & Station Panels'.",
@@ -39,10 +37,27 @@
   },
   {
     "Name": "Tips",
+    "Language": "fr",
+    "Title": "Conseils et fonctionnalités",
+    "Elements": [
+       "Vous pouvez actualiser vos modifications dans le jeu en appuyant sur la touche F11.",
+       "Il n'y a pas d'aperçu pour la version Odyssey pour le moment.",
+       "Pour modifier le XML, cliquez sur la vignette 'Ship & Station Panels'.",
+       "NOUVEAU : la fonction Chantier naval vous permet de définir un thème pour chacun de vos navires, et lorsque vous montez à bord, le thème sera automatiquement appliqué.",
+       "NOUVEAU : la version Odyssey dispose de 4 raccourcis clavier :",
+       " F1 : activer/désactiver les objets blancs dans le radar.",
+       " F2 : Cycle des ombres du panneau ",
+       " F3 : Intensité des lumières ambiantes de la cabine du cycle ",
+       " F4 : Cycle Radar Grid Lines Intensity ",
+       "Vous pouvez modifier les raccourcis clavier dans le menu '3PMods'.",
+       "Certaines couleurs acceptent les valeurs Alpha (transparence)."
+    ]
+  },
+  {
+    "Name": "Tips",
     "Language": "ru",
     "Title": "Советы и особенности",
     "Elements": [
-      "Убедитесь, что для параметра «Качество материала» установлено значение «Ультра».",
       "Вы можете обновить свои изменения в игре, нажав клавишу F11.",
       "На данный момент нет превью версии Odyssey. ",
       "Чтобы изменить XML, щелкните плитку «Панели кораблей и станций». ",
@@ -56,21 +71,20 @@
       "Некоторые цвета принимают значения альфа (прозрачности)."
     ]
   },
-  {
+{
     "Name": "Tips",
     "Language": "de",
     "Title": "Tipps & Funktionen",
     "Elements": [
-      "Stellen Sie sicher, dass Ihre 'Materialqualität' auf Ultra eingestellt ist. ",
       "Sie können Ihre Änderungen im Spiel aktualisieren, indem Sie die Taste F11 drücken.",
       "Derzeit gibt es keine Vorschau für die Odyssey-Version. ",
-      "Um die XML zu ändern, klicken Sie auf die Kachel 'chiffs- und Stationspanels'. ",
+      "Um die XML zu ändern, klicken Sie auf die Kachel 'Schiffs- und Stationspanel'. ",
       "NEU: Mit der Schiffswerft-Funktion können Sie für jedes Ihrer Schiffe ein Thema festlegen, und wenn Sie an Bord gehen, wird das Thema automatisch angewendet. ",
       "NEU: Odyssey Version hat 4 Tastenkombinationen:",
       "   F1: Schalten Sie die weißen Objekte im Radar ein/aus. ",
       "   F2: Panel-Schatten wechseln ",
-      "   F3: Intensität des Umgebungslichts in der Fahrradkabine ",
-      "   F4: Intensität der Radarrasterlinien radeln ",
+      "   F3: Intensität des Umgebungslichts im Cockpit ändern ",
+      "   F4: Intensität der Radarrasterlinien ändern ",
       "Sie können die Tastenbelegung im Menü '3PMods' bearbeiten. ",
       "Einige Farben akzeptieren Alpha-Werte (Transparenz). "
     ]

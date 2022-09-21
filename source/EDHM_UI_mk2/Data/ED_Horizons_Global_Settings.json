@@ -1,0 +1,1 @@
+{"Name":"GlobalSettings","Title":"Global Settings","Elements":[{"Category":"Radar","Title":"Radar White-coloured Objects","File":"Startup-Profile","Section":"Constants","Key":"x115","Value":1.0,"ValueType":"ONOFF","Type":"ONOFF","Description":"Turn off white-coloured objects on the radar (materials, wakes, etc). Toggle with [CTRL]+[ALT]+[W]"}]}

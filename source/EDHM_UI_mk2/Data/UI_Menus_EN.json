@@ -1,0 +1,134 @@
+[
+    {
+        "key":"MainMenu_Menu",
+        "value":"Main Menu"
+    },
+    {
+        "key":"MainMenu_Settings",
+        "value":"Settings"
+    },
+    {
+        "key":"MainMenu_GameFolder",
+        "value":"Open Game Folder.."
+    },
+    {
+        "key":"MainMenu_Sipyard",
+        "value":"Shipyard"
+    },
+    {
+        "key":"MainMenu_InstallMod",
+        "value":"Install EDHM Mod"
+    },
+    {
+        "key":"MainMenu_UninstallMod",
+        "value":"Uninstall Mod"
+    },
+    {
+        "key":"MainMenu_Plugins",
+        "value":"3PMods (Plugins)"
+    },
+    {
+        "key":"MainMenu_Help",
+        "value":"Help"
+    },
+    {
+        "key":"MainMenu_About",
+        "value":"About.."
+    },
+    {
+        "key":"MainMenu_Themes",
+        "value":"Themes 🡻"
+    },
+    {
+        "key":"MainMenu_ApplyTheme",
+        "value":"Apply Theme"
+    },
+    {
+        "key":"MainMenu_SearchBox",
+        "value":"Search:"
+    },
+
+    {
+        "key":"mnuTheme_Apply",
+        "value":"Apply Theme"
+    },
+    {
+        "key":"mnuTheme_Rename",
+        "value":"Rename Theme"
+    },
+    {
+        "key":"mnuTheme_Delete",
+        "value":"Delete Theme"
+    },
+    {
+        "key":"mnuTheme_Export",
+        "value":"Export Theme"
+    },
+    {
+        "key":"mnuTheme_MakeNew",
+        "value":"Duplicate Theme"
+    },
+    {
+        "key":"mnuTheme_Thumbnail",
+        "value":"Create Thumbnail Image.."
+    },
+    {
+        "key":"mnuTheme_OpenFolder",
+        "value":"Open Theme's Folder.."
+    },
+    {
+        "key":"mnuTheme_Save",
+        "value":"Save Theme Changes.."
+    },
+
+    {
+        "key":"mnuGlobalSettings_Add",
+        "value":"Add to Global Settings"
+    },
+    {
+        "key":"mnuGlobalSettings_Remove",
+        "value":"Remove from Global Settings"
+    },
+
+    {
+        "key":"cmdReloadThemes",
+        "value":"Reload Theme List",
+	  "extra":"Reload Themes/Search any changes in the 'Demo-Profiles' folder and re-load all themes found."
+    },
+    {
+        "key":"cmdMakeNewTheme",
+        "value":"New Theme",
+	  "extra":"Make New Theme/This will Create a New Theme using the Current Settings as Base."
+    },
+    {
+        "key":"cmdDeletetheme",
+        "value":"Delete Theme",
+	  "extra":"Delete Theme/Deletes the Selected theme and all its files."
+    },
+    {
+        "key":"cmdSaveTheme",
+        "value":"Save Theme",
+	  "extra":"Save Theme:/Save the Current Changes into the Selected Theme./NOTE: Your Changes in other people's Themes may get Overwritten by future updates."
+    },
+    {
+        "key":"cmdImportTheme",
+        "value":"Import Theme",
+	  "extra":"Import Theme/Import a ZIP file containing a downloaded theme."
+    },
+    {
+        "key":"cmdExportTheme",
+        "value":"Export Theme",
+	  "extra":"Export Theme/Export the current settings into a New Theme and Packs it into a ZIP file, ready for Upload or sharing."
+    },
+    {
+        "key":"cmdOpenThemeFolder",
+        "value":"Open Selected Theme Folder",
+	  "extra":"Open Selected Theme Folder/Opens the Folder where this Theme is located."
+    },
+    {
+        "key":"cmdThemes_ShowFavorites",
+        "value":"Favorites",
+	  "extra":"Favorites/Shows or Hides your Favorite Themes."
+    }
+
+]

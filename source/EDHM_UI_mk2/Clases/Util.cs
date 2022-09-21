@@ -20,6 +20,15 @@ namespace EDHM_UI_mk2
 		[DllImport("msi.dll", SetLastError = true)]
 		private static extern int MsiEnumProducts(int iProductIndex, StringBuilder lpProductBuf);
 
+		[DllImport("user32.dll", EntryPoint = "FindWindowEx")]
+		public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+		[DllImport("User32.dll")]
+		public static extern int SendMessage(IntPtr hWnd, int uMsg, int wParam, string lParam);
+
+		[DllImport("User32.dll")]
+		static extern int SetForegroundWindow(IntPtr point);
+
 		private enum MSIINSTALLCONTEXT
 		{
 			MSIINSTALLCONTEXT_NONE = 0,
@@ -170,6 +179,29 @@ namespace EDHM_UI_mk2
 			return elements != null && elements.Count > 0;
 		}
 
+		public static void SplitOnce(this string value, string separator, out string part1, out string part2)
+		{
+			if (value != null)
+			{
+				int idx = value.IndexOf(separator);
+				if (idx >= 0)
+				{
+					part1 = value.Substring(0, idx);
+					part2 = value.Substring(idx + separator.Length);
+				}
+				else
+				{
+					part1 = value;
+					part2 = null;
+				}
+			}
+			else
+			{
+				part1 = "";
+				part2 = null;
+			}
+		}
+
 
 		/// <summary>Serializa y escribe el objeto indicado en una cadena JSON.
 		/// <para>El objeto (Clase) debe tener un Constructor sin Parametros definido.</para>
@@ -195,29 +227,24 @@ namespace EDHM_UI_mk2
 			/* EJEMPLO:  inventario _JSON = Util.DeSerialize_FromJSON_String<inventario>(Inventario_JSON);  */
 			/* List<string> videogames = JsonConvert.DeserializeObject<List<string>>(json); */
 
+			var _ret = default(T);
 			try
 			{
 				if (!filePath.EmptyOrNull())
 				{
 					if (System.IO.File.Exists(filePath))
 					{
+						//Carga el JSON sin dejar el archivo 'en uso':
 						using (TextReader reader = new StreamReader(filePath))
 						{
 							var fileContents = reader.ReadToEnd(); reader.Close();
-							return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(fileContents);
+							_ret = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(fileContents);
 						}
 					}
-					else
-					{
-						return default(T); //<- Si el Archivo NO Existe, les devuelvo un Objeto Vacio.
-					}
-				}
-				else
-				{
-					return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
 				}
 			}
 			finally { }
+			return _ret;
 		}
 
 		/// <summary>Serializa y escribe el objeto indicado en un archivo JSON.
@@ -267,6 +294,8 @@ namespace EDHM_UI_mk2
 				return default(T); //<- Si me pasan un JSON vacio, les devuelvo un Objeto Vacio.
 			}
 		}
+
+
 
 
 		/// <summary>Lee un Archivo de Texto usando la Codificacion especificada.</summary>
@@ -333,7 +362,31 @@ namespace EDHM_UI_mk2
 			return _ret;
 		}
 
+		/// <summary>En una Cadena con multiples lineas, Borra la linea indicada.</summary>
+		/// <param name="_Text">Cadena de Texto</param>
+		/// <param name="Line">Indice basado en Cero que indica el numero de linea a Borrar</param>
+		public static string RemoveLine(this String _Text, int Line)
+		{
+			string _ret = _Text;
 
+			if (_Text != null && _Text != string.Empty)
+			{
+				int index = 0;
+				StringBuilder Texto = new StringBuilder();
+				string[] Lineas = System.Text.RegularExpressions.Regex.Split(_Text, "\r\n|\r|\n");
+				foreach (string _line in Lineas)
+				{
+					if (index != Line)
+					{
+						Texto.AppendLine(_line);
+					}
+					index++;
+				}
+				_ret = Texto.ToString();
+			}
+
+			return _ret;
+		}
 		
 
 		/// <summary>Devuelve la 'key' de la Instancia Activa.</summary>
@@ -632,6 +685,8 @@ namespace EDHM_UI_mk2
 		public static T IIf<T>(bool expression, T truePart, T falsePart)
 		{ return expression ? truePart : falsePart; }
 
+
+
 		/// <summary>Lee una Clave del Registro de Windows para el Usuario Actual.
 		/// Las Claves en este caso siempre se Leen desde 'HKEY_CURRENT_USER\Software\Elte Dangerous\Mods\'.</summary>
 		/// <param name="Sistema">Nombre del Sistema que guarda las Claves, ejem: RRHH, Contaduria, CutcsaPagos, etc.</param>
@@ -912,34 +967,6 @@ namespace EDHM_UI_mk2
 		}
 
 		#endregion
-		
-		#region Imagen
-
-		public static String Number_To_RGBA_Normalized(decimal _Value,
-			decimal A_MinValue = 0, decimal A_MaxValue = 1,
-			decimal B_MinValue = 0, decimal B_MaxValue = 1,
-			int DecimalPlaces = 6)
-		{
-			string _Ret = string.Empty;
-			decimal _RedDec = NormalizeNumber(A_MinValue, A_MaxValue, B_MinValue, B_MaxValue);
-
-			_Ret = string.Format("{0}", Math.Round(_RedDec, DecimalPlaces).ToString().Replace(',', '.').PadRight(DecimalPlaces + 2, '0'));
-			return _Ret;
-		}
-
-		public static decimal NormalizeNumber(decimal _Value,
-			decimal A_MinValue = 0, decimal A_MaxValue = 1,
-			decimal B_MinValue = 0, decimal B_MaxValue = 10)
-		{
-			decimal _ret = 0;
-			if (B_MaxValue > B_MinValue && A_MaxValue > A_MinValue)
-			{
-				_ret = (B_MaxValue - B_MinValue) / (A_MaxValue - A_MinValue) * (_Value - A_MaxValue) + B_MaxValue;
-			}
-			if (_ret < B_MinValue) _ret = B_MinValue;
-			if (_ret > B_MaxValue) _ret = B_MaxValue;
-			return _ret;
-		}
 
 		public static System.Windows.Forms.DialogResult ShowInputDialog(string _Title, ref string input)
 		{
@@ -993,6 +1020,36 @@ namespace EDHM_UI_mk2
 			input = textBox.Text;
 			return result;
 		}
+
+		#region Imagen
+
+		public static String Number_To_RGBA_Normalized(decimal _Value,
+			decimal A_MinValue = 0, decimal A_MaxValue = 1,
+			decimal B_MinValue = 0, decimal B_MaxValue = 1,
+			int DecimalPlaces = 6)
+		{
+			string _Ret = string.Empty;
+			decimal _RedDec = NormalizeNumber(A_MinValue, A_MaxValue, B_MinValue, B_MaxValue);
+
+			_Ret = string.Format("{0}", Math.Round(_RedDec, DecimalPlaces).ToString().Replace(',', '.').PadRight(DecimalPlaces + 2, '0'));
+			return _Ret;
+		}
+
+		public static decimal NormalizeNumber(decimal _Value,
+			decimal A_MinValue = 0, decimal A_MaxValue = 1,
+			decimal B_MinValue = 0, decimal B_MaxValue = 10)
+		{
+			decimal _ret = 0;
+			if (B_MaxValue > B_MinValue && A_MaxValue > A_MinValue)
+			{
+				_ret = (B_MaxValue - B_MinValue) / (A_MaxValue - A_MinValue) * (_Value - A_MaxValue) + B_MaxValue;
+			}
+			if (_ret < B_MinValue) _ret = B_MinValue;
+			if (_ret > B_MaxValue) _ret = B_MaxValue;
+			return _ret;
+		}
+
+		
 
 		/// <summary>Convierte un color RGBA (0 -> 255) a la escala indicada, por defecto 0.0 -> 1.0</summary>
 		/// <param name="_Color"></param>
@@ -1078,7 +1135,7 @@ namespace EDHM_UI_mk2
 			else
 			{
 				/* Fomula for Normalize Ranges:
-			     * newvalue = (max2 - min2)/ (max1 - min1) * (value - max1) + max2 */
+				 * newvalue = (max2 - min2)/ (max1 - min1) * (value - max1) + max2 */
 				_RedDec = (MaxValue - MinValue) / (255 - 0) * (_R - 255) + MaxValue;
 				_GreenDec = (MaxValue - MinValue) / (255 - 0) * (_G - 255) + MaxValue;
 				_BlueDec = (MaxValue - MinValue) / (255 - 0) * (_B - 255) + MaxValue;
@@ -1542,14 +1599,7 @@ namespace EDHM_UI_mk2
 									Relative = Path.Combine(RootFolder, Relative);
 								}
 
-								if (Relative != string.Empty)
-								{
-									zip.AddFile(_File, Relative);
-								}
-								else
-								{
-									zip.AddFile(_File);
-								}
+								zip.AddFile(_File, Relative);
 							}
 
 							zip.Save(ZIPfilePath);
@@ -1864,10 +1914,165 @@ namespace EDHM_UI_mk2
 											start.B + (stepB * i));
 			}
 		}
+
+		public static string GetPrettyDate(DateTime d)
+		{
+			// 1.
+			// Get time span elapsed since the date.
+			TimeSpan s = DateTime.Now.Subtract(d);
+
+			// 2.
+			// Get total number of days elapsed.
+			int dayDiff = (int)s.TotalDays;
+
+			// 3.
+			// Get total number of seconds elapsed.
+			int secDiff = (int)s.TotalSeconds;
+
+			// 4.
+			// Don't allow out of range values.
+			if (dayDiff < 0 || dayDiff >= 31)
+			{
+				return null;
+			}
+
+			// 5.
+			// Handle same-day times.
+			if (dayDiff == 0)
+			{
+				// A.
+				// Less than one minute ago.
+				if (secDiff < 60)
+				{
+					return "just now";
+				}
+				// B.
+				// Less than 2 minutes ago.
+				if (secDiff < 120)
+				{
+					return string.Format("{0:D2}:{1:D2} minutes ago",
+						s.Minutes, s.Seconds);
+				}
+				// C.
+				// Less than one hour ago.
+				if (secDiff < 3600)
+				{
+					return string.Format("{0:D2}:{1:D2} minutes ago",
+						s.Minutes, s.Seconds);
+				}
+				// D.
+				// Less than 2 hours ago.
+				if (secDiff < 7200)
+				{
+					return string.Format("1 hour ago ({0})", d.ToShortTimeString());
+				}
+				// E.
+				// Less than one day ago.
+				if (secDiff < 86400)
+				{
+					return string.Format("{0:D2}:{1:D2} hours ago",
+						s.Hours, s.Seconds);
+				}
+			}
+			// 6.
+			// Handle previous days.
+			if (dayDiff == 1)
+			{
+				return string.Format("Yesterday at {0}", d.ToShortTimeString());
+			}
+			if (dayDiff < 7)
+			{
+				return string.Format("{0} days ago ({1})",
+					dayDiff, d.ToString());
+			}
+			if (dayDiff < 31)
+			{
+				return string.Format("{0} weeks ago ({1})",
+					Math.Ceiling((double)dayDiff / 7), d.ToString());
+			}
+			if (dayDiff > 31)
+			{
+				return d.ToString();
+			}
+			return null;
+		}
+
+		/// <summary>Envia una solicitud a un sitio we usando GET.</summary>
+		/// <param name="uri">Direccion URL dek sitio</param>
+		/// <returns></returns>
+		public static string WebRequest_GET(string uri)
+		{
+			System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
+			request.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+
+			using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
+			using (Stream stream = response.GetResponseStream())
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				return reader.ReadToEnd();
+			}
+		}
+		public static async Task<string> WebRequest_GetAsync(string uri)
+		{
+			System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
+			request.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+
+			using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)await request.GetResponseAsync())
+			using (Stream stream = response.GetResponseStream())
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				return await reader.ReadToEndAsync();
+			}
+		}
+
+		public static string WebRequest_POST(string uri, string data, string contentType, string method = "POST")
+		{
+			byte[] dataBytes = Encoding.UTF8.GetBytes(data);
+
+			System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
+			request.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+			request.ContentLength = dataBytes.Length;
+			request.ContentType = contentType;
+			request.Method = method;
+
+			using (Stream requestBody = request.GetRequestStream())
+			{
+				requestBody.Write(dataBytes, 0, dataBytes.Length);
+			}
+
+			using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
+			using (Stream stream = response.GetResponseStream())
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				return reader.ReadToEnd();
+			}
+		}
+		public static async Task<string> WebRequest_PostAsync(string uri, string data, string contentType, string method = "POST")
+		{
+			byte[] dataBytes = Encoding.UTF8.GetBytes(data);
+
+			System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
+			request.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+			request.ContentLength = dataBytes.Length;
+			request.ContentType = contentType;
+			request.Method = method;
+
+			using (Stream requestBody = request.GetRequestStream())
+			{
+				await requestBody.WriteAsync(dataBytes, 0, dataBytes.Length);
+			}
+
+			using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)await request.GetResponseAsync())
+			using (Stream stream = response.GetResponseStream())
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				return await reader.ReadToEndAsync();
+			}
+		}
 	}
 
 	[Serializable]
-	public class key_value
+	public class key_value : ICloneable
 	{
 		public key_value() { }
 		public key_value(int _Key, decimal _Value)
@@ -1878,9 +2083,67 @@ namespace EDHM_UI_mk2
 
 		public int key { get; set; }
 		public decimal value { get; set; }
+
+		public object Clone()
+		{
+			return (key_value)MemberwiseClone();
+		}
+
+		public override string ToString()
+		{
+			return string.Format("{0}: {1}", this.key, this.value);
+		}
 	}
 
-	
+	[Serializable]
+	public class key_value_ex : ICloneable
+	{
+		public key_value_ex() { }
+		public key_value_ex(string _Key, string _Value)
+		{
+			this.key = _Key;
+			this.value = _Value;
+		}
+
+		public string key { get; set; }
+		public string value { get; set; }
+		public string description { get; set; }
+		public string extra { get; set; }
+
+		public object Clone()
+		{
+			return (key_value_ex)MemberwiseClone();
+		}
+
+		public override string ToString()
+		{
+			return string.Format("{0}: {1}", this.key, this.value);
+		}
+	}
+
+	[Serializable]
+	public class value_key : ICloneable
+	{
+		public value_key() { }
+		public value_key(string _Key, decimal _Value)
+		{
+			this.key = _Key;
+			this.value = _Value;
+		}
+
+		public string key { get; set; }
+		public decimal value { get; set; }
+
+		public object Clone()
+		{
+			return (value_key)MemberwiseClone();
+		}
+		public override string ToString()
+		{
+			return string.Format("{0}: {1}", this.key, this.value);
+		}
+	}
+
 
 	[Serializable]
 	public class Codiguera
@@ -2037,135 +2300,135 @@ namespace EDHM_UI_mk2
 		}
 	}
 
-    public static class AsyncHelpers
-    {
-        /*   USO:
-         *  customerList = AsyncHelpers.RunSync<List<Customer>>(() => GetCustomers());
-         *  
-         */
+	public static class AsyncHelpers
+	{
+		/*   USO:
+		 *  customerList = AsyncHelpers.RunSync<List<Customer>>(() => GetCustomers());
+		 *  
+		 */
 
 
-        /// <summary>
-        /// Execute's an async Task<T> method which has a void return value synchronously
-        /// </summary>
-        /// <param name="task">Task<T> method to execute</param>
-        public static void RunSync(Func<Task> task)
-        {
-            var oldContext = SynchronizationContext.Current;
-            var synch = new ExclusiveSynchronizationContext();
-            SynchronizationContext.SetSynchronizationContext(synch);
-            synch.Post(async _ =>
-            {
-                try
-                {
-                    await task();
-                }
-                catch (Exception e)
-                {
-                    synch.InnerException = e;
-                    throw;
-                }
-                finally
-                {
-                    synch.EndMessageLoop();
-                }
-            }, null);
-            synch.BeginMessageLoop();
+		/// <summary>
+		/// Execute's an async Task<T> method which has a void return value synchronously
+		/// </summary>
+		/// <param name="task">Task<T> method to execute</param>
+		public static void RunSync(Func<Task> task)
+		{
+			var oldContext = SynchronizationContext.Current;
+			var synch = new ExclusiveSynchronizationContext();
+			SynchronizationContext.SetSynchronizationContext(synch);
+			synch.Post(async _ =>
+			{
+				try
+				{
+					await task();
+				}
+				catch (Exception e)
+				{
+					synch.InnerException = e;
+					throw;
+				}
+				finally
+				{
+					synch.EndMessageLoop();
+				}
+			}, null);
+			synch.BeginMessageLoop();
 
-            SynchronizationContext.SetSynchronizationContext(oldContext);
-        }
+			SynchronizationContext.SetSynchronizationContext(oldContext);
+		}
 
-        /// <summary>
-        /// Execute's an async Task<T> method which has a T return type synchronously
-        /// </summary>
-        /// <typeparam name="T">Return Type</typeparam>
-        /// <param name="task">Task<T> method to execute</param>
-        /// <returns></returns>
-        public static T RunSync<T>(Func<Task<T>> task)
-        {
-            var oldContext = SynchronizationContext.Current;
-            var synch = new ExclusiveSynchronizationContext();
-            SynchronizationContext.SetSynchronizationContext(synch);
-            T ret = default(T);
-            synch.Post(async _ =>
-            {
-                try
-                {
-                    ret = await task();
-                }
-                catch (Exception e)
-                {
-                    synch.InnerException = e;
-                    throw;
-                }
-                finally
-                {
-                    synch.EndMessageLoop();
-                }
-            }, null);
-            synch.BeginMessageLoop();
-            SynchronizationContext.SetSynchronizationContext(oldContext);
-            return ret;
-        }
+		/// <summary>
+		/// Execute's an async Task<T> method which has a T return type synchronously
+		/// </summary>
+		/// <typeparam name="T">Return Type</typeparam>
+		/// <param name="task">Task<T> method to execute</param>
+		/// <returns></returns>
+		public static T RunSync<T>(Func<Task<T>> task)
+		{
+			var oldContext = SynchronizationContext.Current;
+			var synch = new ExclusiveSynchronizationContext();
+			SynchronizationContext.SetSynchronizationContext(synch);
+			T ret = default(T);
+			synch.Post(async _ =>
+			{
+				try
+				{
+					ret = await task();
+				}
+				catch (Exception e)
+				{
+					synch.InnerException = e;
+					throw;
+				}
+				finally
+				{
+					synch.EndMessageLoop();
+				}
+			}, null);
+			synch.BeginMessageLoop();
+			SynchronizationContext.SetSynchronizationContext(oldContext);
+			return ret;
+		}
 
-        private class ExclusiveSynchronizationContext : SynchronizationContext
-        {
-            private bool done;
-            public Exception InnerException { get; set; }
-            readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
-            readonly Queue<Tuple<SendOrPostCallback, object>> items =
-                new Queue<Tuple<SendOrPostCallback, object>>();
+		private class ExclusiveSynchronizationContext : SynchronizationContext
+		{
+			private bool done;
+			public Exception InnerException { get; set; }
+			readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
+			readonly Queue<Tuple<SendOrPostCallback, object>> items =
+				new Queue<Tuple<SendOrPostCallback, object>>();
 
-            public override void Send(SendOrPostCallback d, object state)
-            {
-                throw new NotSupportedException("We cannot send to our same thread");
-            }
+			public override void Send(SendOrPostCallback d, object state)
+			{
+				throw new NotSupportedException("We cannot send to our same thread");
+			}
 
-            public override void Post(SendOrPostCallback d, object state)
-            {
-                lock (items)
-                {
-                    items.Enqueue(Tuple.Create(d, state));
-                }
-                workItemsWaiting.Set();
-            }
+			public override void Post(SendOrPostCallback d, object state)
+			{
+				lock (items)
+				{
+					items.Enqueue(Tuple.Create(d, state));
+				}
+				workItemsWaiting.Set();
+			}
 
-            public void EndMessageLoop()
-            {
-                Post(_ => done = true, null);
-            }
+			public void EndMessageLoop()
+			{
+				Post(_ => done = true, null);
+			}
 
-            public void BeginMessageLoop()
-            {
-                while (!done)
-                {
-                    Tuple<SendOrPostCallback, object> task = null;
-                    lock (items)
-                    {
-                        if (items.Count > 0)
-                        {
-                            task = items.Dequeue();
-                        }
-                    }
-                    if (task != null)
-                    {
-                        task.Item1(task.Item2);
-                        if (InnerException != null) // the method threw an exeption
-                        {
-                            throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
-                        }
-                    }
-                    else
-                    {
-                        workItemsWaiting.WaitOne();
-                    }
-                }
-            }
+			public void BeginMessageLoop()
+			{
+				while (!done)
+				{
+					Tuple<SendOrPostCallback, object> task = null;
+					lock (items)
+					{
+						if (items.Count > 0)
+						{
+							task = items.Dequeue();
+						}
+					}
+					if (task != null)
+					{
+						task.Item1(task.Item2);
+						if (InnerException != null) // the method threw an exeption
+						{
+							throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
+						}
+					}
+					else
+					{
+						workItemsWaiting.WaitOne();
+					}
+				}
+			}
 
-            public override SynchronizationContext CreateCopy()
-            {
-                return this;
-            }
-        }
-    }
+			public override SynchronizationContext CreateCopy()
+			{
+				return this;
+			}
+		}
+	}
 }

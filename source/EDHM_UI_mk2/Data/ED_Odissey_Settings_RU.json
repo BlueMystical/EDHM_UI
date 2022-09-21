@@ -1,7 +1,7 @@
 {
   "language": "ru",
   "game": "ED_Odissey",
-  "version": "9.2C",
+  "version": "10.1",
   "author": "Blue Mystic",
   "ui_groups": [
     {
@@ -1653,6 +1653,16 @@
           "Description": "Яркость боеприпасов."
         },
         {
+          "Category": "Боевой HUD",
+          "Title": "Оружие вне досягаемости (красный текст)",
+          "File": "Advanced",
+          "Key": "w111",
+          "Value": 1.6,
+          "ValueType": "Brightness",
+          "Type": "4X",
+          "Description": "CHUD / AHUD Red Text Alpha boost (default = 1)"
+        },
+        {
           "Category": "Аналит. HUD",
           "Title": "Режим HUD анализа",
           "File": "Startup-Profile",
@@ -2326,7 +2336,7 @@
         },
         {
           "Category": "Посадочная сетка",
-          "Title": "Цвет текста",
+          "Title": "Текст в полях Reticle",
           "File": "Advanced",
           "Section": "Constants",
           "Key": "x95|y95|z95|w95",
@@ -2337,7 +2347,17 @@
         },
         {
           "Category": "Посадочная сетка",
-          "Title": "Яркость текста",
+          "Title": "Текст вдоль полос высоты",
+          "File": "Advanced",
+          "Key": "w101",
+          "Value": 101.0,
+          "ValueType": "Preset",
+          "Type": "AltitudeBarText",
+          "Description": "Custom color for Text Along the Altitude Bar"
+        },
+        {
+          "Category": "Посадочная сетка",
+          "Title": "Яркость текста строки высоты",
           "File": "Advanced",
           "Section": "Constants",
           "Key": "x97",
@@ -2346,9 +2366,30 @@
           "Type": "2X",
           "Description": "Яркость текста вдоль шкалы высоты (имеет тенденцию затухать вокруг сетки)"
         },
+
+        {
+          "Category": "Планетарная посадочная сетка",
+          "Title": "Цвет текста координат и гравитации",
+          "File": "Advanced",
+          "Key": "x185|y185|z185|w185",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Пользовательский цвет для координат широты / долготы и цвет текста гравитации *Alpha"
+        },
+        {
+          "Category": "Планетарная посадочная сетка",
+          "Title": "Text Background: Shadows / Glow ",
+          "File": "Advanced",
+          "Key": "y109",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "TextBackgroundShadowsGlow",
+          "Description": "Mode for Text Background: Shadows / Glow \r\nIs applied to:  Text in reticle boxes, Text on the altitude bar, Lat / Long & Gravity text."
+        },
         {
           "Category": "Посадочная сетка",
-          "Title": "Яркость текста",
+          "Title": "Текстовый фон Тень / усиление свечения",
           "File": "Advanced",
           "Section": "Constants",
           "Key": "y97",
@@ -2357,6 +2398,7 @@
           "Type": "2X",
           "Description": "Яркость текста для координат долготы/широты, силы тяжести"
         },
+
         {
           "Category": "Голограмма ТРП",
           "Title": "Голограмма ТРП - Основная",

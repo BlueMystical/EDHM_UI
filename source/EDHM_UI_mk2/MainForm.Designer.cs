@@ -29,22 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem1 = new DevExpress.Utils.ToolTipSeparatorItem();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.XtraEditors.TileItemElement tileItemElement1 = new DevExpress.XtraEditors.TileItemElement();
 			DevExpress.XtraEditors.TileItemElement tileItemElement2 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem4 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.XtraEditors.TileItemElement tileItemElement3 = new DevExpress.XtraEditors.TileItemElement();
 			DevExpress.XtraEditors.TileItemElement tileItemElement4 = new DevExpress.XtraEditors.TileItemElement();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			DevExpress.XtraEditors.TileItemElement tileItemElement5 = new DevExpress.XtraEditors.TileItemElement();
 			DevExpress.XtraEditors.TileItemElement tileItemElement6 = new DevExpress.XtraEditors.TileItemElement();
 			DevExpress.XtraEditors.TileItemElement tileItemElement7 = new DevExpress.XtraEditors.TileItemElement();
@@ -54,52 +42,36 @@
 			DevExpress.XtraEditors.TileItemElement tileItemElement11 = new DevExpress.XtraEditors.TileItemElement();
 			DevExpress.XtraEditors.TileItemElement tileItemElement12 = new DevExpress.XtraEditors.TileItemElement();
 			DevExpress.XtraEditors.TileItemElement tileItemElement13 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.XtraEditors.TileItemElement tileItemElement14 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.XtraEditors.TileItemElement tileItemElement15 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.XtraEditors.TileItemElement tileItemElement16 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.XtraEditors.TileItemElement tileItemElement17 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.XtraEditors.TileItemElement tileItemElement18 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.XtraEditors.TileItemElement tileItemElement19 = new DevExpress.XtraEditors.TileItemElement();
-			DevExpress.XtraEditors.TileItemElement tileItemElement20 = new DevExpress.XtraEditors.TileItemElement();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip4 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem5 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem4 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.SuperToolTip superToolTip5 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem6 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem1 = new DevExpress.Utils.ToolTipSeparatorItem();
 			DevExpress.Utils.ToolTipItem toolTipItem5 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.SuperToolTip superToolTip6 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem7 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.SuperToolTip superToolTip5 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem5 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem6 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.SuperToolTip superToolTip7 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem8 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.SuperToolTip superToolTip6 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem6 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem7 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem2 = new DevExpress.Utils.ToolTipSeparatorItem();
+			DevExpress.Utils.SuperToolTip superToolTip7 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem7 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem8 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip8 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem9 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem8 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem9 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip9 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem10 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem9 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem10 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.SuperToolTip superToolTip10 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem11 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem11 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
-			this.tileNavPane1 = new DevExpress.XtraBars.Navigation.TileNavPane();
-			this.navButton2 = new DevExpress.XtraBars.Navigation.NavButton();
-			this.navButton_Themes = new DevExpress.XtraBars.Navigation.NavButton();
-			this.navApplyTheme = new DevExpress.XtraBars.Navigation.NavButton();
-			this.tileNav_SetGameFolder = new DevExpress.XtraBars.Navigation.TileNavCategory();
-			this.tileNav_OpenGameFolder = new DevExpress.XtraBars.Navigation.TileNavCategory();
-			this.tileNav_KeyBindings = new DevExpress.XtraBars.Navigation.TileNavCategory();
-			this.tileUpdateEDHM = new DevExpress.XtraBars.Navigation.TileNavCategory();
-			this.tileUninstallEDHM = new DevExpress.XtraBars.Navigation.TileNavCategory();
-			this.tile3PMods = new DevExpress.XtraBars.Navigation.TileNavCategory();
-			this.tileGetHelp = new DevExpress.XtraBars.Navigation.TileNavCategory();
 			this.tileControl1 = new DevExpress.XtraEditors.TileControl();
 			this.tileGroup4 = new DevExpress.XtraEditors.TileGroup();
 			this.tilePanel_UP = new DevExpress.XtraEditors.TileItem();
@@ -136,6 +108,23 @@
 			this.barProgress = new DevExpress.XtraBars.BarEditItem();
 			this.repProgressBar = new DevExpress.XtraEditors.Repository.RepositoryItemProgressBar();
 			this.lblShipStatus = new DevExpress.XtraBars.BarStaticItem();
+			this.MainMenuBar = new DevExpress.XtraBars.Bar();
+			this.MainMenu_Menu = new DevExpress.XtraBars.BarSubItem();
+			this.MainMenu_Settings = new DevExpress.XtraBars.BarLargeButtonItem();
+			this.MainMenu_GameFolder = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_Sipyard = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_InstallMod = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_UninstallMod = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_UpdateCheck = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_Plugins = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_Help = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_About = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_Themes = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_SearchBox = new DevExpress.XtraBars.BarEditItem();
+			this.repMainMenu_SearchBox = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+			this.MainMenu_ApplyTheme = new DevExpress.XtraBars.BarButtonItem();
+			this.MainMenu_History = new DevExpress.XtraBars.BarSubItem();
+			this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
 			this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
 			this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
 			this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
@@ -168,14 +157,14 @@
 			this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.repGridThemes_Favorite = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+			this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.toolTipController1 = new DevExpress.Utils.ToolTipController(this.components);
+			this.ElementsImgCollection = new DevExpress.Utils.ImageCollection(this.components);
 			this.dockDetalles = new DevExpress.XtraBars.Docking.DockPanel();
 			this.controlContainer1 = new DevExpress.XtraBars.Docking.ControlContainer();
 			this.vGridDetalles = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.repositoryItemZoomTrackBar1 = new DevExpress.XtraEditors.Repository.RepositoryItemZoomTrackBar();
 			this.repositoryItemSpinEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
-			this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-			this.row1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
 			this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
 			this.lblDescription_Description = new DevExpress.XtraEditors.LabelControl();
@@ -191,6 +180,18 @@
 			this.GlobalSettings_Title = new DevExpress.XtraEditors.LabelControl();
 			this.mnuGlobalSettings_Add = new DevExpress.XtraBars.BarButtonItem();
 			this.mnuGlobalSettings_Remove = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_Rename = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_OpenFolder = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_Delete = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_Export = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_Save = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_MakeNew = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_Thumbnail = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_Apply = new DevExpress.XtraBars.BarButtonItem();
+			this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+			this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
+			this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuTheme_Preview = new DevExpress.XtraBars.BarButtonItem();
 			this.popupMenu_Detalles = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.popupMenu_GlobalSettings = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.tileGroup1 = new DevExpress.XtraEditors.TileGroup();
@@ -199,14 +200,11 @@
 			this.mnuTray_Open = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuTray_Exit = new System.Windows.Forms.ToolStripMenuItem();
 			this.progressPanel1 = new DevExpress.XtraWaitForm.ProgressPanel();
-			this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
-			this.txtSearchBox = new DevExpress.XtraEditors.ButtonEdit();
-			this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
 			this.popupMenu_Themes = new DevExpress.XtraBars.PopupMenu(this.components);
-			((System.ComponentModel.ISupportInitialize)(this.tileNavPane1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repCboGameInstances)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repProgressBar)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.repMainMenu_SearchBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
 			this.hideContainerLeft.SuspendLayout();
 			this.panelSearch.SuspendLayout();
@@ -231,6 +229,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repGridThemes_Favorite)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.ElementsImgCollection)).BeginInit();
 			this.dockDetalles.SuspendLayout();
 			this.controlContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.vGridDetalles)).BeginInit();
@@ -252,211 +251,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).BeginInit();
 			this.contextMenuStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
-			this.panelControl3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.txtSearchBox.Properties)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Themes)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// tileNavPane1
-			// 
-			this.tileNavPane1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-			this.tileNavPane1.Buttons.Add(this.navButton2);
-			this.tileNavPane1.Buttons.Add(this.navButton_Themes);
-			this.tileNavPane1.Buttons.Add(this.navApplyTheme);
-			this.tileNavPane1.Categories.AddRange(new DevExpress.XtraBars.Navigation.TileNavCategory[] {
-            this.tileNav_SetGameFolder,
-            this.tileNav_OpenGameFolder,
-            this.tileNav_KeyBindings,
-            this.tileUpdateEDHM,
-            this.tileUninstallEDHM,
-            this.tile3PMods,
-            this.tileGetHelp});
-			// 
-			// tileNavCategory1
-			// 
-			this.tileNavPane1.DefaultCategory.Name = "tileNavCategory1";
-			// 
-			// 
-			// 
-			this.tileNavPane1.DefaultCategory.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			this.tileNavPane1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tileNavPane1.Location = new System.Drawing.Point(0, 0);
-			this.tileNavPane1.Name = "tileNavPane1";
-			this.tileNavPane1.Size = new System.Drawing.Size(1340, 40);
-			this.tileNavPane1.TabIndex = 0;
-			this.tileNavPane1.Text = "tileNavPane1";
-			// 
-			// navButton2
-			// 
-			this.navButton2.Caption = "Main Menu";
-			this.navButton2.IsMain = true;
-			this.navButton2.Name = "navButton2";
-			// 
-			// navButton_Themes
-			// 
-			this.navButton_Themes.Alignment = DevExpress.XtraBars.Navigation.NavButtonAlignment.Right;
-			this.navButton_Themes.Caption = "Themes 🡻";
-			this.navButton_Themes.Name = "navButton_Themes";
-			toolTipTitleItem1.Text = "Themes:";
-			toolTipItem1.LeftIndent = 6;
-			toolTipItem1.Text = "Show me the available themes!";
-			superToolTip1.Items.Add(toolTipTitleItem1);
-			superToolTip1.Items.Add(toolTipItem1);
-			this.navButton_Themes.SuperTip = superToolTip1;
-			this.navButton_Themes.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.navButton_Themes_ElementClick);
-			// 
-			// navApplyTheme
-			// 
-			this.navApplyTheme.Alignment = DevExpress.XtraBars.Navigation.NavButtonAlignment.Right;
-			this.navApplyTheme.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-			this.navApplyTheme.Appearance.ForeColor = System.Drawing.Color.White;
-			this.navApplyTheme.Appearance.Options.UseBackColor = true;
-			this.navApplyTheme.Appearance.Options.UseForeColor = true;
-			this.navApplyTheme.Caption = "Apply Theme";
-			this.navApplyTheme.Name = "navApplyTheme";
-			toolTipTitleItem2.Text = "Apply Theme";
-			toolTipItem2.LeftIndent = 6;
-			toolTipItem2.Text = "This Saves the current Settings and apply them into the Game.";
-			toolTipTitleItem3.LeftIndent = 6;
-			toolTipTitleItem3.Text = "While ingame hit [F11] key to reload the theme.";
-			superToolTip2.Items.Add(toolTipTitleItem2);
-			superToolTip2.Items.Add(toolTipItem2);
-			superToolTip2.Items.Add(toolTipSeparatorItem1);
-			superToolTip2.Items.Add(toolTipTitleItem3);
-			this.navApplyTheme.SuperTip = superToolTip2;
-			this.navApplyTheme.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.navApplyTheme_ElementClick);
-			// 
-			// tileNav_SetGameFolder
-			// 
-			this.tileNav_SetGameFolder.Caption = "Settings";
-			this.tileNav_SetGameFolder.Name = "tileNav_SetGameFolder";
-			// 
-			// 
-			// 
-			this.tileNav_SetGameFolder.Tile.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(19)))), ((int)(((byte)(3)))));
-			this.tileNav_SetGameFolder.Tile.AppearanceItem.Normal.ForeColor = System.Drawing.Color.White;
-			this.tileNav_SetGameFolder.Tile.AppearanceItem.Normal.Options.UseBackColor = true;
-			this.tileNav_SetGameFolder.Tile.AppearanceItem.Normal.Options.UseForeColor = true;
-			this.tileNav_SetGameFolder.Tile.BackgroundImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter;
-			this.tileNav_SetGameFolder.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			tileItemElement1.ImageOptions.Image = global::EDHM_UI_mk2.Properties.Resources.SetGameFolder_;
-			tileItemElement1.Text = "Settings";
-			this.tileNav_SetGameFolder.Tile.Elements.Add(tileItemElement1);
-			this.tileNav_SetGameFolder.Tile.Name = "tileBarItem2";
-			this.tileNav_SetGameFolder.TileClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tileNav_SetGameFolder_TileClick);
-			// 
-			// tileNav_OpenGameFolder
-			// 
-			this.tileNav_OpenGameFolder.Caption = "Game Folder";
-			this.tileNav_OpenGameFolder.Name = "tileNav_OpenGameFolder";
-			// 
-			// 
-			// 
-			this.tileNav_OpenGameFolder.Tile.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(19)))), ((int)(((byte)(3)))));
-			this.tileNav_OpenGameFolder.Tile.AppearanceItem.Normal.ForeColor = System.Drawing.Color.White;
-			this.tileNav_OpenGameFolder.Tile.AppearanceItem.Normal.Options.UseBackColor = true;
-			this.tileNav_OpenGameFolder.Tile.AppearanceItem.Normal.Options.UseForeColor = true;
-			this.tileNav_OpenGameFolder.Tile.BackgroundImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter;
-			this.tileNav_OpenGameFolder.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			tileItemElement2.ImageOptions.Image = global::EDHM_UI_mk2.Properties.Resources.Keybindings;
-			tileItemElement2.Text = "Open Game Folder";
-			this.tileNav_OpenGameFolder.Tile.Elements.Add(tileItemElement2);
-			this.tileNav_OpenGameFolder.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
-			this.tileNav_OpenGameFolder.Tile.Name = "tileBarItem3";
-			this.tileNav_OpenGameFolder.TileClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tileNav_OpenGameFolder_TileClick);
-			// 
-			// tileNav_KeyBindings
-			// 
-			this.tileNav_KeyBindings.Caption = "Shipyard";
-			this.tileNav_KeyBindings.Name = "tileNav_KeyBindings";
-			toolTipTitleItem4.Text = "Shipyard";
-			toolTipItem3.Text = "Your owned Ships.";
-			superToolTip3.Items.Add(toolTipTitleItem4);
-			superToolTip3.Items.Add(toolTipItem3);
-			this.tileNav_KeyBindings.SuperTip = superToolTip3;
-			// 
-			// 
-			// 
-			this.tileNav_KeyBindings.Tile.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(19)))), ((int)(((byte)(3)))));
-			this.tileNav_KeyBindings.Tile.AppearanceItem.Normal.ForeColor = System.Drawing.Color.White;
-			this.tileNav_KeyBindings.Tile.AppearanceItem.Normal.Options.UseBackColor = true;
-			this.tileNav_KeyBindings.Tile.AppearanceItem.Normal.Options.UseForeColor = true;
-			this.tileNav_KeyBindings.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			tileItemElement3.ImageOptions.Image = global::EDHM_UI_mk2.Properties.Resources.OpenGameFolder_;
-			tileItemElement3.Text = "Shipyard";
-			this.tileNav_KeyBindings.Tile.Elements.Add(tileItemElement3);
-			this.tileNav_KeyBindings.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
-			this.tileNav_KeyBindings.Tile.Name = "tileBarItem2";
-			this.tileNav_KeyBindings.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tileNav_KeyBindings_ElementClick);
-			// 
-			// tileUpdateEDHM
-			// 
-			this.tileUpdateEDHM.Caption = "Update EDHM mod";
-			this.tileUpdateEDHM.Name = "tileUpdateEDHM";
-			// 
-			// 
-			// 
-			this.tileUpdateEDHM.Tile.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(19)))), ((int)(((byte)(3)))));
-			this.tileUpdateEDHM.Tile.AppearanceItem.Normal.ForeColor = System.Drawing.Color.White;
-			this.tileUpdateEDHM.Tile.AppearanceItem.Normal.Options.UseBackColor = true;
-			this.tileUpdateEDHM.Tile.AppearanceItem.Normal.Options.UseForeColor = true;
-			this.tileUpdateEDHM.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			tileItemElement4.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("tileUpdateEDHM.TileImageOptions.Image")));
-			tileItemElement4.Text = "Update EDHM mod";
-			this.tileUpdateEDHM.Tile.Elements.Add(tileItemElement4);
-			this.tileUpdateEDHM.Tile.Name = "tileBarItem2";
-			this.tileUpdateEDHM.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tileUpdateEDHM_ElementClick);
-			// 
-			// tileUninstallEDHM
-			// 
-			this.tileUninstallEDHM.Caption = "Un-Install EDHM Mod";
-			this.tileUninstallEDHM.Name = "tileUninstallEDHM";
-			// 
-			// 
-			// 
-			this.tileUninstallEDHM.Tile.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(19)))), ((int)(((byte)(3)))));
-			this.tileUninstallEDHM.Tile.AppearanceItem.Normal.ForeColor = System.Drawing.Color.White;
-			this.tileUninstallEDHM.Tile.AppearanceItem.Normal.Options.UseBackColor = true;
-			this.tileUninstallEDHM.Tile.AppearanceItem.Normal.Options.UseForeColor = true;
-			this.tileUninstallEDHM.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			tileItemElement5.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("tileUninstallEDHM.TileImageOptions.Image")));
-			tileItemElement5.Text = "Un-Install EDHM Mod";
-			this.tileUninstallEDHM.Tile.Elements.Add(tileItemElement5);
-			this.tileUninstallEDHM.Tile.Name = "tileBarItem2";
-			this.tileUninstallEDHM.TileClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tileUninstallEDHM_TileClick);
-			// 
-			// tile3PMods
-			// 
-			this.tile3PMods.Caption = "3PMods";
-			this.tile3PMods.Name = "tile3PMods";
-			// 
-			// 
-			// 
-			this.tile3PMods.Tile.AppearanceItem.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(19)))), ((int)(((byte)(3)))));
-			this.tile3PMods.Tile.AppearanceItem.Normal.ForeColor = System.Drawing.Color.White;
-			this.tile3PMods.Tile.AppearanceItem.Normal.Options.UseBackColor = true;
-			this.tile3PMods.Tile.AppearanceItem.Normal.Options.UseForeColor = true;
-			this.tile3PMods.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			tileItemElement6.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("tile3PMods.TileImageOptions.Image")));
-			tileItemElement6.Text = "3PMods";
-			this.tile3PMods.Tile.Elements.Add(tileItemElement6);
-			this.tile3PMods.Tile.Name = "tileBarItem2";
-			this.tile3PMods.TileClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tile3PMods_TileClick);
-			// 
-			// tileGetHelp
-			// 
-			this.tileGetHelp.Caption = "Help";
-			this.tileGetHelp.Name = "tileGetHelp";
-			// 
-			// 
-			// 
-			this.tileGetHelp.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-			tileItemElement7.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("tileGetHelp.TileImageOptions.Image")));
-			tileItemElement7.Text = "Help";
-			this.tileGetHelp.Tile.Elements.Add(tileItemElement7);
-			this.tileGetHelp.Tile.Name = "tileBarItem2";
-			this.tileGetHelp.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tileGetHelp_ElementClick);
 			// 
 			// tileControl1
 			// 
@@ -478,11 +274,11 @@
 			this.tileControl1.ItemBackgroundImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomInside;
 			this.tileControl1.ItemBorderVisibility = DevExpress.XtraEditors.TileItemBorderVisibility.Always;
 			this.tileControl1.ItemCheckMode = DevExpress.XtraEditors.TileItemCheckMode.Single;
-			this.tileControl1.Location = new System.Drawing.Point(31, 40);
+			this.tileControl1.Location = new System.Drawing.Point(31, 42);
 			this.tileControl1.MaxId = 18;
 			this.tileControl1.Name = "tileControl1";
 			this.tileControl1.Padding = new System.Windows.Forms.Padding(18, 18, 18, 2);
-			this.tileControl1.Size = new System.Drawing.Size(811, 647);
+			this.tileControl1.Size = new System.Drawing.Size(811, 645);
 			this.tileControl1.TabIndex = 1;
 			this.tileControl1.Text = "tileControl1";
 			this.tileControl1.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.tileControl1_ItemClick);
@@ -502,8 +298,8 @@
 			// tilePanel_UP
 			// 
 			this.tilePanel_UP.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.PanleLinesTop_0a;
-			tileItemElement8.Text = ".";
-			this.tilePanel_UP.Elements.Add(tileItemElement8);
+			tileItemElement1.Text = ".............";
+			this.tilePanel_UP.Elements.Add(tileItemElement1);
 			this.tilePanel_UP.Id = 6;
 			this.tilePanel_UP.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tilePanel_UP.Name = "tilePanel_UP";
@@ -514,8 +310,8 @@
 			this.tileSettings.AppearanceItem.Normal.BackColor = System.Drawing.Color.Black;
 			this.tileSettings.AppearanceItem.Normal.Options.UseBackColor = true;
 			this.tileSettings.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.triple_elite_2501;
-			tileItemElement9.Text = ".";
-			this.tileSettings.Elements.Add(tileItemElement9);
+			tileItemElement2.Text = ".";
+			this.tileSettings.Elements.Add(tileItemElement2);
 			this.tileSettings.Id = 11;
 			this.tileSettings.ItemSize = DevExpress.XtraEditors.TileItemSize.Medium;
 			this.tileSettings.Name = "tileSettings";
@@ -524,8 +320,8 @@
 			// tileSpecialFX
 			// 
 			this.tileSpecialFX.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.SpecialEfects_0;
-			tileItemElement10.Text = ".";
-			this.tileSpecialFX.Elements.Add(tileItemElement10);
+			tileItemElement3.Text = ".";
+			this.tileSpecialFX.Elements.Add(tileItemElement3);
 			this.tileSpecialFX.Id = 12;
 			this.tileSpecialFX.ItemSize = DevExpress.XtraEditors.TileItemSize.Medium;
 			this.tileSpecialFX.Name = "tileSpecialFX";
@@ -534,8 +330,8 @@
 			// tilePanel_Lower
 			// 
 			this.tilePanel_Lower.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.PanleLinesDown_0a;
-			tileItemElement11.Text = ".";
-			this.tilePanel_Lower.Elements.Add(tileItemElement11);
+			tileItemElement4.Text = ".";
+			this.tilePanel_Lower.Elements.Add(tileItemElement4);
 			this.tilePanel_Lower.Id = 10;
 			this.tilePanel_Lower.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tilePanel_Lower.Name = "tilePanel_Lower";
@@ -544,8 +340,8 @@
 			// tileLighting
 			// 
 			this.tileLighting.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.AmbientLights_0;
-			tileItemElement12.Text = ".";
-			this.tileLighting.Elements.Add(tileItemElement12);
+			tileItemElement5.Text = ".";
+			this.tileLighting.Elements.Add(tileItemElement5);
 			this.tileLighting.Id = 15;
 			this.tileLighting.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tileLighting.Name = "tileLighting";
@@ -556,8 +352,8 @@
 			this.tileReticle.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.TargetReticle_0a;
 			this.tileReticle.BackgroundImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleCenter;
 			this.tileReticle.BackgroundImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomInside;
-			tileItemElement13.Text = ".";
-			this.tileReticle.Elements.Add(tileItemElement13);
+			tileItemElement6.Text = ".";
+			this.tileReticle.Elements.Add(tileItemElement6);
 			this.tileReticle.Id = 0;
 			this.tileReticle.ItemSize = DevExpress.XtraEditors.TileItemSize.Large;
 			this.tileReticle.Name = "tileReticle";
@@ -566,8 +362,8 @@
 			// tileRadarHUD
 			// 
 			this.tileRadarHUD.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.Radar_Common_0;
-			tileItemElement14.Text = ".";
-			this.tileRadarHUD.Elements.Add(tileItemElement14);
+			tileItemElement7.Text = ".";
+			this.tileRadarHUD.Elements.Add(tileItemElement7);
 			this.tileRadarHUD.Id = 1;
 			this.tileRadarHUD.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tileRadarHUD.Name = "tileRadarHUD";
@@ -576,8 +372,8 @@
 			// tileStationsPanels
 			// 
 			this.tileStationsPanels.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.ShipPanels_0a;
-			tileItemElement15.Text = ".";
-			this.tileStationsPanels.Elements.Add(tileItemElement15);
+			tileItemElement8.Text = ".";
+			this.tileStationsPanels.Elements.Add(tileItemElement8);
 			this.tileStationsPanels.Id = 14;
 			this.tileStationsPanels.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tileStationsPanels.Name = "tileStationsPanels";
@@ -595,8 +391,8 @@
 			// tileCHUD_AHUD
 			// 
 			this.tileCHUD_AHUD.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.CHUD_0;
-			tileItemElement16.Text = ".";
-			this.tileCHUD_AHUD.Elements.Add(tileItemElement16);
+			tileItemElement9.Text = ".";
+			this.tileCHUD_AHUD.Elements.Add(tileItemElement9);
 			this.tileCHUD_AHUD.Id = 2;
 			this.tileCHUD_AHUD.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tileCHUD_AHUD.Name = "tileCHUD_AHUD";
@@ -605,8 +401,8 @@
 			// tileShieldsHolo
 			// 
 			this.tileShieldsHolo.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.ShieldHolo_0;
-			tileItemElement17.Text = ".";
-			this.tileShieldsHolo.Elements.Add(tileItemElement17);
+			tileItemElement10.Text = ".";
+			this.tileShieldsHolo.Elements.Add(tileItemElement10);
 			this.tileShieldsHolo.Id = 5;
 			this.tileShieldsHolo.ItemSize = DevExpress.XtraEditors.TileItemSize.Medium;
 			this.tileShieldsHolo.Name = "tileShieldsHolo";
@@ -615,8 +411,8 @@
 			// tileIPower_Distributor
 			// 
 			this.tileIPower_Distributor.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.PowerDistributor_0;
-			tileItemElement18.Text = ".";
-			this.tileIPower_Distributor.Elements.Add(tileItemElement18);
+			tileItemElement11.Text = ".";
+			this.tileIPower_Distributor.Elements.Add(tileItemElement11);
 			this.tileIPower_Distributor.Id = 4;
 			this.tileIPower_Distributor.ItemSize = DevExpress.XtraEditors.TileItemSize.Medium;
 			this.tileIPower_Distributor.Name = "tileIPower_Distributor";
@@ -625,8 +421,8 @@
 			// tileFuelBars
 			// 
 			this.tileFuelBars.BackgroundImage = global::EDHM_UI_mk2.Properties.Resources.FuelBars_0;
-			tileItemElement19.Text = ".";
-			this.tileFuelBars.Elements.Add(tileItemElement19);
+			tileItemElement12.Text = ".";
+			this.tileFuelBars.Elements.Add(tileItemElement12);
 			this.tileFuelBars.Id = 16;
 			this.tileFuelBars.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tileFuelBars.Name = "tileFuelBars";
@@ -634,9 +430,9 @@
 			// 
 			// tileFoot_HUD
 			// 
-			tileItemElement20.ImageOptions.Image = global::EDHM_UI_mk2.Properties.Resources.OnFoot_HUD;
-			tileItemElement20.Text = ".";
-			this.tileFoot_HUD.Elements.Add(tileItemElement20);
+			tileItemElement13.ImageOptions.Image = global::EDHM_UI_mk2.Properties.Resources.OnFoot_HUD;
+			tileItemElement13.Text = ".";
+			this.tileFoot_HUD.Elements.Add(tileItemElement13);
 			this.tileFoot_HUD.Id = 17;
 			this.tileFoot_HUD.ItemSize = DevExpress.XtraEditors.TileItemSize.Wide;
 			this.tileFoot_HUD.Name = "tileFoot_HUD";
@@ -646,7 +442,8 @@
 			// 
 			this.barManager1.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
             this.bar1,
-            this.bar2});
+            this.bar2,
+            this.MainMenuBar});
 			this.barManager1.DockControls.Add(this.barDockControlTop);
 			this.barManager1.DockControls.Add(this.barDockControlBottom);
 			this.barManager1.DockControls.Add(this.barDockControlLeft);
@@ -671,11 +468,39 @@
             this.mnuGlobalSettings_Add,
             this.mnuGlobalSettings_Remove,
             this.cmdThemes_ShowFavorites,
-            this.cmdOpenThemeFolder});
-			this.barManager1.MaxItemId = 22;
+            this.cmdOpenThemeFolder,
+            this.mnuTheme_Rename,
+            this.mnuTheme_OpenFolder,
+            this.mnuTheme_Delete,
+            this.mnuTheme_Export,
+            this.mnuTheme_Save,
+            this.mnuTheme_MakeNew,
+            this.mnuTheme_Thumbnail,
+            this.mnuTheme_Apply,
+            this.MainMenu_Menu,
+            this.MainMenu_Themes,
+            this.MainMenu_SearchBox,
+            this.barButtonItem1,
+            this.barButtonItem2,
+            this.barButtonItem3,
+            this.MainMenu_Settings,
+            this.MainMenu_History,
+            this.barButtonItem4,
+            this.MainMenu_ApplyTheme,
+            this.MainMenu_GameFolder,
+            this.MainMenu_Sipyard,
+            this.MainMenu_InstallMod,
+            this.MainMenu_UninstallMod,
+            this.MainMenu_Plugins,
+            this.MainMenu_Help,
+            this.MainMenu_About,
+            this.mnuTheme_Preview,
+            this.MainMenu_UpdateCheck});
+			this.barManager1.MaxItemId = 50;
 			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repCboGameInstances,
-            this.repProgressBar});
+            this.repProgressBar,
+            this.repMainMenu_SearchBox});
 			this.barManager1.StatusBar = this.bar2;
 			// 
 			// bar1
@@ -710,12 +535,12 @@
 			this.cmdReloadThemes.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("cmdReloadThemes.ImageOptions.Image")));
 			this.cmdReloadThemes.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("cmdReloadThemes.ImageOptions.LargeImage")));
 			this.cmdReloadThemes.Name = "cmdReloadThemes";
-			toolTipTitleItem5.Text = "Reload Themes";
-			toolTipItem4.LeftIndent = 6;
-			toolTipItem4.Text = "Search any changes in the \'Demo-Profiles\' folder and re-load all themes found.";
-			superToolTip4.Items.Add(toolTipTitleItem5);
-			superToolTip4.Items.Add(toolTipItem4);
-			this.cmdReloadThemes.SuperTip = superToolTip4;
+			toolTipTitleItem1.Text = "Reload Themes";
+			toolTipItem1.LeftIndent = 6;
+			toolTipItem1.Text = "Search any changes in the \'Demo-Profiles\' folder and re-load all themes found.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			this.cmdReloadThemes.SuperTip = superToolTip1;
 			this.cmdReloadThemes.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdReloadThemes_ItemClick);
 			// 
 			// cmdMakeNewTheme
@@ -725,12 +550,12 @@
 			this.cmdMakeNewTheme.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("cmdMakeNewTheme.ImageOptions.Image")));
 			this.cmdMakeNewTheme.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("cmdMakeNewTheme.ImageOptions.LargeImage")));
 			this.cmdMakeNewTheme.Name = "cmdMakeNewTheme";
-			toolTipTitleItem6.Text = "Make New Theme";
-			toolTipItem5.LeftIndent = 6;
-			toolTipItem5.Text = "This will Create a New Theme using the Current Settings as Base.";
-			superToolTip5.Items.Add(toolTipTitleItem6);
-			superToolTip5.Items.Add(toolTipItem5);
-			this.cmdMakeNewTheme.SuperTip = superToolTip5;
+			toolTipTitleItem2.Text = "Make New Theme";
+			toolTipItem2.LeftIndent = 6;
+			toolTipItem2.Text = "This will Create a New Theme using the Current Settings as Base.";
+			superToolTip2.Items.Add(toolTipTitleItem2);
+			superToolTip2.Items.Add(toolTipItem2);
+			this.cmdMakeNewTheme.SuperTip = superToolTip2;
 			this.cmdMakeNewTheme.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdMakeNewTheme_ItemClick);
 			// 
 			// cmdDeletetheme
@@ -740,12 +565,12 @@
 			this.cmdDeletetheme.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("cmdDeletetheme.ImageOptions.Image")));
 			this.cmdDeletetheme.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("cmdDeletetheme.ImageOptions.LargeImage")));
 			this.cmdDeletetheme.Name = "cmdDeletetheme";
-			toolTipTitleItem7.Text = "Delete Theme";
-			toolTipItem6.LeftIndent = 6;
-			toolTipItem6.Text = "Deletes the Selected theme and all its files.";
-			superToolTip6.Items.Add(toolTipTitleItem7);
-			superToolTip6.Items.Add(toolTipItem6);
-			this.cmdDeletetheme.SuperTip = superToolTip6;
+			toolTipTitleItem3.Text = "Delete Theme";
+			toolTipItem3.LeftIndent = 6;
+			toolTipItem3.Text = "Deletes the Selected theme and all its files.";
+			superToolTip3.Items.Add(toolTipTitleItem3);
+			superToolTip3.Items.Add(toolTipItem3);
+			this.cmdDeletetheme.SuperTip = superToolTip3;
 			this.cmdDeletetheme.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdDeletetheme_ItemClick);
 			// 
 			// cmdSaveTheme
@@ -754,15 +579,15 @@
 			this.cmdSaveTheme.Id = 11;
 			this.cmdSaveTheme.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdSaveTheme.ImageOptions.SvgImage")));
 			this.cmdSaveTheme.Name = "cmdSaveTheme";
-			toolTipTitleItem8.Text = "Save Theme:";
-			toolTipItem7.Text = "Save the Current Changes into the Selected Theme.";
-			toolTipItem8.Text = "NOTE: Your Changes in other people\'s Themes may get Overwritten by future updates" +
+			toolTipTitleItem4.Text = "Save Theme:";
+			toolTipItem4.Text = "Save the Current Changes into the Selected Theme.";
+			toolTipItem5.Text = "NOTE: Your Changes in other people\'s Themes may get Overwritten by future updates" +
     ".";
-			superToolTip7.Items.Add(toolTipTitleItem8);
-			superToolTip7.Items.Add(toolTipItem7);
-			superToolTip7.Items.Add(toolTipSeparatorItem2);
-			superToolTip7.Items.Add(toolTipItem8);
-			this.cmdSaveTheme.SuperTip = superToolTip7;
+			superToolTip4.Items.Add(toolTipTitleItem4);
+			superToolTip4.Items.Add(toolTipItem4);
+			superToolTip4.Items.Add(toolTipSeparatorItem1);
+			superToolTip4.Items.Add(toolTipItem5);
+			this.cmdSaveTheme.SuperTip = superToolTip4;
 			this.cmdSaveTheme.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdSaveTheme_ItemClick);
 			// 
 			// cmdImportTheme
@@ -771,12 +596,12 @@
 			this.cmdImportTheme.Id = 3;
 			this.cmdImportTheme.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdImportTheme.ImageOptions.SvgImage")));
 			this.cmdImportTheme.Name = "cmdImportTheme";
-			toolTipTitleItem9.Text = "Import Theme";
-			toolTipItem9.LeftIndent = 6;
-			toolTipItem9.Text = "Import a ZIP file containing a downloaded theme.";
-			superToolTip8.Items.Add(toolTipTitleItem9);
-			superToolTip8.Items.Add(toolTipItem9);
-			this.cmdImportTheme.SuperTip = superToolTip8;
+			toolTipTitleItem5.Text = "Import Theme";
+			toolTipItem6.LeftIndent = 6;
+			toolTipItem6.Text = "Import a ZIP file containing a downloaded theme.";
+			superToolTip5.Items.Add(toolTipTitleItem5);
+			superToolTip5.Items.Add(toolTipItem6);
+			this.cmdImportTheme.SuperTip = superToolTip5;
 			this.cmdImportTheme.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdImportTheme_ItemClick);
 			// 
 			// cmdExportTheme
@@ -785,13 +610,13 @@
 			this.cmdExportTheme.Id = 4;
 			this.cmdExportTheme.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdExportTheme.ImageOptions.SvgImage")));
 			this.cmdExportTheme.Name = "cmdExportTheme";
-			toolTipTitleItem10.Text = "Export Theme";
-			toolTipItem10.LeftIndent = 6;
-			toolTipItem10.Text = "Export the current settings into a New Theme and Packs it into a ZIP file, ready " +
+			toolTipTitleItem6.Text = "Export Theme";
+			toolTipItem7.LeftIndent = 6;
+			toolTipItem7.Text = "Export the current settings into a New Theme and Packs it into a ZIP file, ready " +
     "for Upload or sharing.";
-			superToolTip9.Items.Add(toolTipTitleItem10);
-			superToolTip9.Items.Add(toolTipItem10);
-			this.cmdExportTheme.SuperTip = superToolTip9;
+			superToolTip6.Items.Add(toolTipTitleItem6);
+			superToolTip6.Items.Add(toolTipItem7);
+			this.cmdExportTheme.SuperTip = superToolTip6;
 			this.cmdExportTheme.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdExportTheme_ItemClick);
 			// 
 			// cmdThemes_ShowFavorites
@@ -800,6 +625,11 @@
 			this.cmdThemes_ShowFavorites.Caption = "Favorites";
 			this.cmdThemes_ShowFavorites.Id = 20;
 			this.cmdThemes_ShowFavorites.Name = "cmdThemes_ShowFavorites";
+			toolTipTitleItem7.Text = "Favorites";
+			toolTipItem8.Text = "Shows or Hides your Favorite Themes.";
+			superToolTip7.Items.Add(toolTipTitleItem7);
+			superToolTip7.Items.Add(toolTipItem8);
+			this.cmdThemes_ShowFavorites.SuperTip = superToolTip7;
 			this.cmdThemes_ShowFavorites.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdThemes_ShowFavorites_CheckedChanged);
 			// 
 			// cmdOpenThemeFolder
@@ -808,6 +638,11 @@
 			this.cmdOpenThemeFolder.Id = 21;
 			this.cmdOpenThemeFolder.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdOpenThemeFolder.ImageOptions.SvgImage")));
 			this.cmdOpenThemeFolder.Name = "cmdOpenThemeFolder";
+			toolTipTitleItem8.Text = "Open Selected Theme Folder";
+			toolTipItem9.Text = "Opens the Folder where this Theme is located.";
+			superToolTip8.Items.Add(toolTipTitleItem8);
+			superToolTip8.Items.Add(toolTipItem9);
+			this.cmdOpenThemeFolder.SuperTip = superToolTip8;
 			this.cmdOpenThemeFolder.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdOpenThemeFolder_ItemClick);
 			// 
 			// standaloneBarDockControl2
@@ -828,7 +663,7 @@
 			this.bar2.DockRow = 0;
 			this.bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Bottom;
 			this.bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.CboGameInstances, "", false, true, true, 116, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.CboGameInstances, "", false, true, true, 141, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(this.lblVersion_App),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdShowPreview),
             new DevExpress.XtraBars.LinkPersistInfo(this.lblVersion_MOD),
@@ -845,12 +680,12 @@
 			this.CboGameInstances.Edit = this.repCboGameInstances;
 			this.CboGameInstances.Id = 6;
 			this.CboGameInstances.Name = "CboGameInstances";
-			toolTipTitleItem11.Text = "Game Chooser:";
-			toolTipItem11.LeftIndent = 6;
-			toolTipItem11.Text = "Choose what instance of the Game you want to load.";
-			superToolTip10.Items.Add(toolTipTitleItem11);
-			superToolTip10.Items.Add(toolTipItem11);
-			this.CboGameInstances.SuperTip = superToolTip10;
+			toolTipTitleItem9.Text = "Game Chooser:";
+			toolTipItem10.LeftIndent = 6;
+			toolTipItem10.Text = "Choose what instance of the Game you want to load.";
+			superToolTip9.Items.Add(toolTipTitleItem9);
+			superToolTip9.Items.Add(toolTipItem10);
+			this.CboGameInstances.SuperTip = superToolTip9;
 			this.CboGameInstances.EditValueChanged += new System.EventHandler(this.CboGameInstances_EditValueChanged);
 			this.CboGameInstances.HiddenEditor += new DevExpress.XtraBars.ItemClickEventHandler(this.CboGameInstances_HiddenEditor);
 			// 
@@ -913,13 +748,212 @@
 			this.lblShipStatus.Id = 13;
 			this.lblShipStatus.Name = "lblShipStatus";
 			// 
+			// MainMenuBar
+			// 
+			this.MainMenuBar.BarAppearance.Disabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
+			this.MainMenuBar.BarAppearance.Disabled.Options.UseBackColor = true;
+			this.MainMenuBar.BarAppearance.Hovered.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(228)))), ((int)(((byte)(176)))));
+			this.MainMenuBar.BarAppearance.Hovered.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.MainMenuBar.BarAppearance.Hovered.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
+			this.MainMenuBar.BarAppearance.Hovered.Options.UseBackColor = true;
+			this.MainMenuBar.BarAppearance.Hovered.Options.UseFont = true;
+			this.MainMenuBar.BarAppearance.Hovered.Options.UseForeColor = true;
+			this.MainMenuBar.BarAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
+			this.MainMenuBar.BarAppearance.Normal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.MainMenuBar.BarAppearance.Normal.ForeColor = System.Drawing.Color.Black;
+			this.MainMenuBar.BarAppearance.Normal.Options.UseBackColor = true;
+			this.MainMenuBar.BarAppearance.Normal.Options.UseFont = true;
+			this.MainMenuBar.BarAppearance.Normal.Options.UseForeColor = true;
+			this.MainMenuBar.BarName = "MainMenuBar";
+			this.MainMenuBar.DockCol = 0;
+			this.MainMenuBar.DockRow = 0;
+			this.MainMenuBar.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
+			this.MainMenuBar.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_Menu),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_Themes),
+            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.MainMenu_SearchBox, "", false, true, true, 101, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_ApplyTheme),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_History)});
+			this.MainMenuBar.OptionsBar.AllowQuickCustomization = false;
+			this.MainMenuBar.OptionsBar.DisableClose = true;
+			this.MainMenuBar.OptionsBar.DrawBorder = false;
+			this.MainMenuBar.OptionsBar.DrawDragBorder = false;
+			this.MainMenuBar.OptionsBar.UseWholeRow = true;
+			this.MainMenuBar.Text = "Personalizada 4";
+			// 
+			// MainMenu_Menu
+			// 
+			this.MainMenu_Menu.Caption = "Main Menu";
+			this.MainMenu_Menu.Id = 30;
+			this.MainMenu_Menu.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_Settings),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_GameFolder),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_Sipyard),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_InstallMod, true),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_UninstallMod),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_UpdateCheck),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_Plugins, true),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_Help),
+            new DevExpress.XtraBars.LinkPersistInfo(this.MainMenu_About)});
+			this.MainMenu_Menu.MenuAppearance.AppearanceMenu.Hovered.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
+			this.MainMenu_Menu.MenuAppearance.AppearanceMenu.Hovered.Options.UseBackColor = true;
+			this.MainMenu_Menu.MenuAppearance.AppearanceMenu.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+			this.MainMenu_Menu.MenuAppearance.AppearanceMenu.Normal.Options.UseBackColor = true;
+			this.MainMenu_Menu.MenuAppearance.MenuBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
+			this.MainMenu_Menu.MenuAppearance.MenuBar.Options.UseBackColor = true;
+			this.MainMenu_Menu.Name = "MainMenu_Menu";
+			// 
+			// MainMenu_Settings
+			// 
+			this.MainMenu_Settings.Caption = "Settings";
+			this.MainMenu_Settings.Id = 37;
+			this.MainMenu_Settings.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_Settings.ImageOptions.SvgImage")));
+			this.MainMenu_Settings.Name = "MainMenu_Settings";
+			this.MainMenu_Settings.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_Settings_ItemClick);
+			// 
+			// MainMenu_GameFolder
+			// 
+			this.MainMenu_GameFolder.Caption = "Open Game Folder";
+			this.MainMenu_GameFolder.Id = 41;
+			this.MainMenu_GameFolder.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_GameFolder.ImageOptions.SvgImage")));
+			this.MainMenu_GameFolder.Name = "MainMenu_GameFolder";
+			this.MainMenu_GameFolder.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_GameFolder_ItemClick);
+			// 
+			// MainMenu_Sipyard
+			// 
+			this.MainMenu_Sipyard.Caption = "Sypyard";
+			this.MainMenu_Sipyard.Id = 42;
+			this.MainMenu_Sipyard.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_Sipyard.ImageOptions.SvgImage")));
+			this.MainMenu_Sipyard.Name = "MainMenu_Sipyard";
+			this.MainMenu_Sipyard.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_Sipyard_ItemClick);
+			// 
+			// MainMenu_InstallMod
+			// 
+			this.MainMenu_InstallMod.Caption = "Install EDHM mod";
+			this.MainMenu_InstallMod.Id = 43;
+			this.MainMenu_InstallMod.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_InstallMod.ImageOptions.SvgImage")));
+			this.MainMenu_InstallMod.Name = "MainMenu_InstallMod";
+			this.MainMenu_InstallMod.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_InstallMod_ItemClick);
+			// 
+			// MainMenu_UninstallMod
+			// 
+			this.MainMenu_UninstallMod.Caption = "Un-Install Mod";
+			this.MainMenu_UninstallMod.Id = 44;
+			this.MainMenu_UninstallMod.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_UninstallMod.ImageOptions.SvgImage")));
+			this.MainMenu_UninstallMod.Name = "MainMenu_UninstallMod";
+			this.MainMenu_UninstallMod.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_UninstallMod_ItemClick);
+			// 
+			// MainMenu_UpdateCheck
+			// 
+			this.MainMenu_UpdateCheck.Caption = "Check for Updates..";
+			this.MainMenu_UpdateCheck.Id = 49;
+			this.MainMenu_UpdateCheck.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_UpdateCheck.ImageOptions.SvgImage")));
+			this.MainMenu_UpdateCheck.Name = "MainMenu_UpdateCheck";
+			this.MainMenu_UpdateCheck.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_UpdateCheck_ItemClick);
+			// 
+			// MainMenu_Plugins
+			// 
+			this.MainMenu_Plugins.Caption = "3PMods (Plugins)";
+			this.MainMenu_Plugins.Id = 45;
+			this.MainMenu_Plugins.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_Plugins.ImageOptions.SvgImage")));
+			this.MainMenu_Plugins.Name = "MainMenu_Plugins";
+			this.MainMenu_Plugins.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_Plugins_ItemClick);
+			// 
+			// MainMenu_Help
+			// 
+			this.MainMenu_Help.Caption = "Help";
+			this.MainMenu_Help.Id = 46;
+			this.MainMenu_Help.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_Help.ImageOptions.SvgImage")));
+			this.MainMenu_Help.Name = "MainMenu_Help";
+			this.MainMenu_Help.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_Help_ItemClick);
+			// 
+			// MainMenu_About
+			// 
+			this.MainMenu_About.Caption = "About..";
+			this.MainMenu_About.Id = 47;
+			this.MainMenu_About.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("MainMenu_About.ImageOptions.SvgImage")));
+			this.MainMenu_About.Name = "MainMenu_About";
+			this.MainMenu_About.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_About_ItemClick);
+			// 
+			// MainMenu_Themes
+			// 
+			this.MainMenu_Themes.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+			this.MainMenu_Themes.Caption = "Themes 🡻";
+			this.MainMenu_Themes.Id = 32;
+			this.MainMenu_Themes.Name = "MainMenu_Themes";
+			this.MainMenu_Themes.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_Themes_ItemClick);
+			// 
+			// MainMenu_SearchBox
+			// 
+			this.MainMenu_SearchBox.Caption = "Search:";
+			this.MainMenu_SearchBox.Edit = this.repMainMenu_SearchBox;
+			this.MainMenu_SearchBox.Id = 33;
+			this.MainMenu_SearchBox.Name = "MainMenu_SearchBox";
+			// 
+			// repMainMenu_SearchBox
+			// 
+			this.repMainMenu_SearchBox.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.repMainMenu_SearchBox.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
+			this.repMainMenu_SearchBox.Appearance.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.repMainMenu_SearchBox.Appearance.Options.UseBackColor = true;
+			this.repMainMenu_SearchBox.Appearance.Options.UseBorderColor = true;
+			this.repMainMenu_SearchBox.Appearance.Options.UseFont = true;
+			this.repMainMenu_SearchBox.AutoHeight = false;
+			this.repMainMenu_SearchBox.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+			this.repMainMenu_SearchBox.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Search)});
+			this.repMainMenu_SearchBox.Name = "repMainMenu_SearchBox";
+			this.repMainMenu_SearchBox.ValidateOnEnterKey = true;
+			this.repMainMenu_SearchBox.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.repMainMenu_SearchBox_ButtonClick);
+			this.repMainMenu_SearchBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.repMainMenu_SearchBox_KeyDown);
+			// 
+			// MainMenu_ApplyTheme
+			// 
+			this.MainMenu_ApplyTheme.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+			this.MainMenu_ApplyTheme.Caption = "Apply Theme";
+			this.MainMenu_ApplyTheme.Id = 40;
+			this.MainMenu_ApplyTheme.ItemAppearance.Disabled.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.MainMenu_ApplyTheme.ItemAppearance.Disabled.ForeColor = System.Drawing.Color.DimGray;
+			this.MainMenu_ApplyTheme.ItemAppearance.Disabled.Options.UseBackColor = true;
+			this.MainMenu_ApplyTheme.ItemAppearance.Disabled.Options.UseForeColor = true;
+			this.MainMenu_ApplyTheme.ItemAppearance.Hovered.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(228)))), ((int)(((byte)(176)))));
+			this.MainMenu_ApplyTheme.ItemAppearance.Hovered.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
+			this.MainMenu_ApplyTheme.ItemAppearance.Hovered.Options.UseBackColor = true;
+			this.MainMenu_ApplyTheme.ItemAppearance.Hovered.Options.UseForeColor = true;
+			this.MainMenu_ApplyTheme.ItemAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+			this.MainMenu_ApplyTheme.ItemAppearance.Normal.ForeColor = System.Drawing.Color.White;
+			this.MainMenu_ApplyTheme.ItemAppearance.Normal.Options.UseBackColor = true;
+			this.MainMenu_ApplyTheme.ItemAppearance.Normal.Options.UseForeColor = true;
+			this.MainMenu_ApplyTheme.Name = "MainMenu_ApplyTheme";
+			this.MainMenu_ApplyTheme.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.MainMenu_ApplyTheme_ItemClick);
+			// 
+			// MainMenu_History
+			// 
+			this.MainMenu_History.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+			this.MainMenu_History.Id = 38;
+			this.MainMenu_History.ItemAppearance.Hovered.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(228)))), ((int)(((byte)(176)))));
+			this.MainMenu_History.ItemAppearance.Hovered.Options.UseBackColor = true;
+			this.MainMenu_History.ItemAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+			this.MainMenu_History.ItemAppearance.Normal.Options.UseBackColor = true;
+			this.MainMenu_History.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem4)});
+			this.MainMenu_History.Name = "MainMenu_History";
+			// 
+			// barButtonItem4
+			// 
+			this.barButtonItem4.Caption = "barButtonItem4";
+			this.barButtonItem4.Id = 39;
+			this.barButtonItem4.Name = "barButtonItem4";
+			// 
 			// barDockControlTop
 			// 
+			this.barDockControlTop.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
+			this.barDockControlTop.Appearance.Options.UseBackColor = true;
 			this.barDockControlTop.CausesValidation = false;
 			this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
 			this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlTop.Manager = this.barManager1;
-			this.barDockControlTop.Size = new System.Drawing.Size(1340, 0);
+			this.barDockControlTop.Size = new System.Drawing.Size(1340, 42);
 			// 
 			// barDockControlBottom
 			// 
@@ -933,17 +967,17 @@
 			// 
 			this.barDockControlLeft.CausesValidation = false;
 			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
+			this.barDockControlLeft.Location = new System.Drawing.Point(0, 42);
 			this.barDockControlLeft.Manager = this.barManager1;
-			this.barDockControlLeft.Size = new System.Drawing.Size(0, 687);
+			this.barDockControlLeft.Size = new System.Drawing.Size(0, 645);
 			// 
 			// barDockControlRight
 			// 
 			this.barDockControlRight.CausesValidation = false;
 			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.barDockControlRight.Location = new System.Drawing.Point(1340, 0);
+			this.barDockControlRight.Location = new System.Drawing.Point(1340, 42);
 			this.barDockControlRight.Manager = this.barManager1;
-			this.barDockControlRight.Size = new System.Drawing.Size(0, 687);
+			this.barDockControlRight.Size = new System.Drawing.Size(0, 645);
 			// 
 			// dockBar_Details_Container
 			// 
@@ -984,9 +1018,9 @@
 			this.hideContainerLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
 			this.hideContainerLeft.Controls.Add(this.panelSearch);
 			this.hideContainerLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			this.hideContainerLeft.Location = new System.Drawing.Point(0, 40);
+			this.hideContainerLeft.Location = new System.Drawing.Point(0, 42);
 			this.hideContainerLeft.Name = "hideContainerLeft";
-			this.hideContainerLeft.Size = new System.Drawing.Size(31, 647);
+			this.hideContainerLeft.Size = new System.Drawing.Size(31, 645);
 			// 
 			// panelSearch
 			// 
@@ -1189,7 +1223,7 @@
 			this.panelGlobalSettings.Controls.Add(this.dockGlobalSettings);
 			this.panelGlobalSettings.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
 			this.panelGlobalSettings.ID = new System.Guid("869a47f1-0807-4de2-bb7a-81ac966145aa");
-			this.panelGlobalSettings.Location = new System.Drawing.Point(842, 40);
+			this.panelGlobalSettings.Location = new System.Drawing.Point(842, 42);
 			this.panelGlobalSettings.Name = "panelGlobalSettings";
 			this.panelGlobalSettings.Options.AllowDockAsTabbedDocument = false;
 			this.panelGlobalSettings.Options.AllowDockBottom = false;
@@ -1202,7 +1236,7 @@
 			this.panelGlobalSettings.Options.ShowCloseButton = false;
 			this.panelGlobalSettings.Options.ShowMaximizeButton = false;
 			this.panelGlobalSettings.OriginalSize = new System.Drawing.Size(498, 200);
-			this.panelGlobalSettings.Size = new System.Drawing.Size(498, 647);
+			this.panelGlobalSettings.Size = new System.Drawing.Size(498, 645);
 			this.panelGlobalSettings.Tabbed = true;
 			this.panelGlobalSettings.Text = "panelContainer1";
 			// 
@@ -1217,8 +1251,8 @@
 			this.dockThemes.Options.ShowCloseButton = false;
 			this.dockThemes.Options.ShowMaximizeButton = false;
 			this.dockThemes.Options.ShowMinimizeButton = false;
-			this.dockThemes.OriginalSize = new System.Drawing.Size(485, 560);
-			this.dockThemes.Size = new System.Drawing.Size(487, 560);
+			this.dockThemes.OriginalSize = new System.Drawing.Size(487, 518);
+			this.dockThemes.Size = new System.Drawing.Size(487, 558);
 			this.dockThemes.Text = "Themes";
 			// 
 			// controlContainer5
@@ -1227,7 +1261,7 @@
 			this.controlContainer5.Controls.Add(this.standaloneBarDockControl2);
 			this.controlContainer5.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer5.Name = "controlContainer5";
-			this.controlContainer5.Size = new System.Drawing.Size(487, 560);
+			this.controlContainer5.Size = new System.Drawing.Size(487, 558);
 			this.controlContainer5.TabIndex = 0;
 			// 
 			// gridControl1
@@ -1239,7 +1273,7 @@
 			this.gridControl1.Name = "gridControl1";
 			this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repGridThemes_Favorite});
-			this.gridControl1.Size = new System.Drawing.Size(487, 522);
+			this.gridControl1.Size = new System.Drawing.Size(487, 520);
 			this.gridControl1.TabIndex = 0;
 			this.gridControl1.ToolTipController = this.toolTipController1;
 			this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -1249,7 +1283,8 @@
 			// 
 			this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn4,
-            this.gridColumn5});
+            this.gridColumn5,
+            this.gridColumn6});
 			this.gridView1.GridControl = this.gridControl1;
 			this.gridView1.Name = "gridView1";
 			this.gridView1.OptionsCustomization.AllowGroup = false;
@@ -1259,6 +1294,7 @@
 			this.gridView1.RowHeight = 71;
 			this.gridView1.RowCellClick += new DevExpress.XtraGrid.Views.Grid.RowCellClickEventHandler(this.gridView1_RowCellClick);
 			this.gridView1.CustomDrawCell += new DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventHandler(this.gridView1_CustomDrawCell);
+			this.gridView1.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView1_PopupMenuShowing);
 			this.gridView1.BeforeLeaveRow += new DevExpress.XtraGrid.Views.Base.RowAllowEventHandler(this.gridView1_BeforeLeaveRow);
 			this.gridView1.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView1_RowUpdated);
 			// 
@@ -1292,9 +1328,32 @@
 			this.repGridThemes_Favorite.Name = "repGridThemes_Favorite";
 			this.repGridThemes_Favorite.EditValueChanged += new System.EventHandler(this.repGridThemes_Favorite_EditValueChanged);
 			// 
+			// gridColumn6
+			// 
+			this.gridColumn6.Caption = "Name";
+			this.gridColumn6.FieldName = "name";
+			this.gridColumn6.Name = "gridColumn6";
+			// 
 			// toolTipController1
 			// 
+			this.toolTipController1.AllowHtmlText = true;
+			this.toolTipController1.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+			this.toolTipController1.Appearance.Options.UseBorderColor = true;
+			this.toolTipController1.Appearance.Options.UseTextOptions = true;
+			this.toolTipController1.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+			this.toolTipController1.AppearanceTitle.Options.UseTextOptions = true;
+			this.toolTipController1.AppearanceTitle.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+			this.toolTipController1.HtmlImages = this.ElementsImgCollection;
+			this.toolTipController1.InitialDelay = 300;
+			this.toolTipController1.Rounded = true;
+			this.toolTipController1.ToolTipType = DevExpress.Utils.ToolTipType.SuperTip;
 			this.toolTipController1.GetActiveObjectInfo += new DevExpress.Utils.ToolTipControllerGetActiveObjectInfoEventHandler(this.toolTipController1_GetActiveObjectInfo);
+			this.toolTipController1.HyperlinkClick += new DevExpress.Utils.HyperlinkClickEventHandler(this.toolTipController1_HyperlinkClick);
+			// 
+			// ElementsImgCollection
+			// 
+			this.ElementsImgCollection.ImageSize = new System.Drawing.Size(270, 180);
+			this.ElementsImgCollection.ImageStream = ((DevExpress.Utils.ImageCollectionStreamer)(resources.GetObject("ElementsImgCollection.ImageStream")));
 			// 
 			// dockDetalles
 			// 
@@ -1311,8 +1370,8 @@
 			this.dockDetalles.Options.ShowAutoHideButton = false;
 			this.dockDetalles.Options.ShowCloseButton = false;
 			this.dockDetalles.Options.ShowMaximizeButton = false;
-			this.dockDetalles.OriginalSize = new System.Drawing.Size(485, 560);
-			this.dockDetalles.Size = new System.Drawing.Size(487, 560);
+			this.dockDetalles.OriginalSize = new System.Drawing.Size(487, 518);
+			this.dockDetalles.Size = new System.Drawing.Size(487, 558);
 			this.dockDetalles.Text = "Details";
 			// 
 			// controlContainer1
@@ -1323,7 +1382,7 @@
 			this.controlContainer1.Controls.Add(this.panelControl1);
 			this.controlContainer1.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer1.Name = "controlContainer1";
-			this.controlContainer1.Size = new System.Drawing.Size(487, 560);
+			this.controlContainer1.Size = new System.Drawing.Size(487, 558);
 			this.controlContainer1.TabIndex = 0;
 			// 
 			// vGridDetalles
@@ -1353,11 +1412,9 @@
             this.repositoryItemZoomTrackBar1,
             this.repositoryItemSpinEdit1});
 			this.vGridDetalles.RowHeaderWidth = 242;
-			this.vGridDetalles.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.row,
-            this.row1});
-			this.vGridDetalles.Size = new System.Drawing.Size(487, 457);
+			this.vGridDetalles.Size = new System.Drawing.Size(487, 455);
 			this.vGridDetalles.TabIndex = 0;
+			this.vGridDetalles.ToolTipController = this.toolTipController1;
 			this.vGridDetalles.FocusedRowChanged += new DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventHandler(this.vGridDetalles_FocusedRowChanged);
 			this.vGridDetalles.Click += new System.EventHandler(this.vGridDetalles_Click);
 			this.vGridDetalles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vGridDetalles_MouseDown);
@@ -1373,20 +1430,10 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
 			this.repositoryItemSpinEdit1.Name = "repositoryItemSpinEdit1";
 			// 
-			// row
-			// 
-			this.row.Name = "row";
-			this.row.Properties.RowEdit = this.repositoryItemSpinEdit1;
-			// 
-			// row1
-			// 
-			this.row1.Name = "row1";
-			this.row1.Properties.RowEdit = this.repositoryItemZoomTrackBar1;
-			// 
 			// splitterControl1
 			// 
 			this.splitterControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.splitterControl1.Location = new System.Drawing.Point(0, 457);
+			this.splitterControl1.Location = new System.Drawing.Point(0, 455);
 			this.splitterControl1.Name = "splitterControl1";
 			this.splitterControl1.Size = new System.Drawing.Size(487, 32);
 			this.splitterControl1.TabIndex = 2;
@@ -1397,7 +1444,7 @@
 			this.panelControl1.Controls.Add(this.lblDescription_Description);
 			this.panelControl1.Controls.Add(this.lblDescription_Caption);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 489);
+			this.panelControl1.Location = new System.Drawing.Point(0, 487);
 			this.panelControl1.Name = "panelControl1";
 			this.panelControl1.Size = new System.Drawing.Size(487, 71);
 			this.panelControl1.TabIndex = 1;
@@ -1440,8 +1487,8 @@
 			this.dockGlobalSettings.Options.ShowCloseButton = false;
 			this.dockGlobalSettings.Options.ShowMaximizeButton = false;
 			this.dockGlobalSettings.Options.ShowMinimizeButton = false;
-			this.dockGlobalSettings.OriginalSize = new System.Drawing.Size(485, 560);
-			this.dockGlobalSettings.Size = new System.Drawing.Size(487, 560);
+			this.dockGlobalSettings.OriginalSize = new System.Drawing.Size(487, 518);
+			this.dockGlobalSettings.Size = new System.Drawing.Size(487, 558);
 			this.dockGlobalSettings.Text = "Global Settings";
 			// 
 			// controlContainer4
@@ -1449,7 +1496,7 @@
 			this.controlContainer4.Controls.Add(this.splitContainerControl1);
 			this.controlContainer4.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer4.Name = "controlContainer4";
-			this.controlContainer4.Size = new System.Drawing.Size(487, 560);
+			this.controlContainer4.Size = new System.Drawing.Size(487, 558);
 			this.controlContainer4.TabIndex = 0;
 			// 
 			// splitContainerControl1
@@ -1469,7 +1516,7 @@
 			this.splitContainerControl1.Panel2.Controls.Add(this.GlobalSettings_Description);
 			this.splitContainerControl1.Panel2.Controls.Add(this.GlobalSettings_Title);
 			this.splitContainerControl1.Panel2.Text = "Panel2";
-			this.splitContainerControl1.Size = new System.Drawing.Size(487, 560);
+			this.splitContainerControl1.Size = new System.Drawing.Size(487, 558);
 			this.splitContainerControl1.SplitterPosition = 368;
 			this.splitContainerControl1.TabIndex = 0;
 			// 
@@ -1533,7 +1580,7 @@
 			this.GlobalSettings_Description.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GlobalSettings_Description.Location = new System.Drawing.Point(0, 20);
 			this.GlobalSettings_Description.Name = "GlobalSettings_Description";
-			this.GlobalSettings_Description.Size = new System.Drawing.Size(487, 140);
+			this.GlobalSettings_Description.Size = new System.Drawing.Size(487, 138);
 			this.GlobalSettings_Description.TabIndex = 2;
 			// 
 			// GlobalSettings_Title
@@ -1565,6 +1612,96 @@
 			this.mnuGlobalSettings_Remove.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuGlobalSettings_Remove.ImageOptions.SvgImage")));
 			this.mnuGlobalSettings_Remove.Name = "mnuGlobalSettings_Remove";
 			this.mnuGlobalSettings_Remove.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuGlobalSettings_Remove_ItemClick);
+			// 
+			// mnuTheme_Rename
+			// 
+			this.mnuTheme_Rename.Caption = "Rename Theme";
+			this.mnuTheme_Rename.Id = 22;
+			this.mnuTheme_Rename.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_Rename.ImageOptions.SvgImage")));
+			this.mnuTheme_Rename.Name = "mnuTheme_Rename";
+			this.mnuTheme_Rename.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Rename_ItemClick);
+			// 
+			// mnuTheme_OpenFolder
+			// 
+			this.mnuTheme_OpenFolder.Caption = "Open Theme\'s Folder";
+			this.mnuTheme_OpenFolder.Id = 23;
+			this.mnuTheme_OpenFolder.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_OpenFolder.ImageOptions.SvgImage")));
+			this.mnuTheme_OpenFolder.Name = "mnuTheme_OpenFolder";
+			this.mnuTheme_OpenFolder.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_OpenFolder_ItemClick);
+			// 
+			// mnuTheme_Delete
+			// 
+			this.mnuTheme_Delete.Caption = "Delete Theme";
+			this.mnuTheme_Delete.Id = 24;
+			this.mnuTheme_Delete.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_Delete.ImageOptions.SvgImage")));
+			this.mnuTheme_Delete.Name = "mnuTheme_Delete";
+			this.mnuTheme_Delete.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Delete_ItemClick);
+			// 
+			// mnuTheme_Export
+			// 
+			this.mnuTheme_Export.Caption = "Export Theme";
+			this.mnuTheme_Export.Id = 25;
+			this.mnuTheme_Export.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_Export.ImageOptions.SvgImage")));
+			this.mnuTheme_Export.Name = "mnuTheme_Export";
+			this.mnuTheme_Export.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Export_ItemClick);
+			// 
+			// mnuTheme_Save
+			// 
+			this.mnuTheme_Save.Caption = "Save Theme Changes";
+			this.mnuTheme_Save.Id = 26;
+			this.mnuTheme_Save.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_Save.ImageOptions.SvgImage")));
+			this.mnuTheme_Save.Name = "mnuTheme_Save";
+			this.mnuTheme_Save.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Save_ItemClick);
+			// 
+			// mnuTheme_MakeNew
+			// 
+			this.mnuTheme_MakeNew.Caption = "Duplicate Theme";
+			this.mnuTheme_MakeNew.Id = 27;
+			this.mnuTheme_MakeNew.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_MakeNew.ImageOptions.SvgImage")));
+			this.mnuTheme_MakeNew.Name = "mnuTheme_MakeNew";
+			this.mnuTheme_MakeNew.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_MakeNew_ItemClick);
+			// 
+			// mnuTheme_Thumbnail
+			// 
+			this.mnuTheme_Thumbnail.Caption = "Create Thumbnail Image";
+			this.mnuTheme_Thumbnail.Id = 28;
+			this.mnuTheme_Thumbnail.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_Thumbnail.ImageOptions.SvgImage")));
+			this.mnuTheme_Thumbnail.Name = "mnuTheme_Thumbnail";
+			this.mnuTheme_Thumbnail.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Thumbnail_ItemClick);
+			// 
+			// mnuTheme_Apply
+			// 
+			this.mnuTheme_Apply.Caption = "Apply Theme";
+			this.mnuTheme_Apply.Id = 29;
+			this.mnuTheme_Apply.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_Apply.ImageOptions.SvgImage")));
+			this.mnuTheme_Apply.Name = "mnuTheme_Apply";
+			this.mnuTheme_Apply.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Apply_ItemClick);
+			// 
+			// barButtonItem1
+			// 
+			this.barButtonItem1.Caption = "History 1";
+			this.barButtonItem1.Id = 34;
+			this.barButtonItem1.Name = "barButtonItem1";
+			// 
+			// barButtonItem2
+			// 
+			this.barButtonItem2.Caption = "History 1";
+			this.barButtonItem2.Id = 35;
+			this.barButtonItem2.Name = "barButtonItem2";
+			// 
+			// barButtonItem3
+			// 
+			this.barButtonItem3.Caption = "History 3";
+			this.barButtonItem3.Id = 36;
+			this.barButtonItem3.Name = "barButtonItem3";
+			// 
+			// mnuTheme_Preview
+			// 
+			this.mnuTheme_Preview.Caption = "Theme Preview";
+			this.mnuTheme_Preview.Id = 48;
+			this.mnuTheme_Preview.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuTheme_Preview.ImageOptions.SvgImage")));
+			this.mnuTheme_Preview.Name = "mnuTheme_Preview";
+			this.mnuTheme_Preview.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Preview_ItemClick);
 			// 
 			// popupMenu_Detalles
 			// 
@@ -1629,52 +1766,20 @@
 			this.progressPanel1.TabIndex = 8;
 			this.progressPanel1.Visible = false;
 			this.progressPanel1.WaitAnimationType = DevExpress.Utils.Animation.WaitingAnimatorType.Line;
-			// 
-			// panelControl3
-			// 
-			this.panelControl3.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
-			this.panelControl3.Appearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(156)))), ((int)(((byte)(8)))));
-			this.panelControl3.Appearance.Options.UseBackColor = true;
-			this.panelControl3.Appearance.Options.UseBorderColor = true;
-			this.panelControl3.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-			this.panelControl3.Controls.Add(this.txtSearchBox);
-			this.panelControl3.Controls.Add(this.labelControl1);
-			this.panelControl3.Location = new System.Drawing.Point(103, 0);
-			this.panelControl3.Name = "panelControl3";
-			this.panelControl3.Size = new System.Drawing.Size(225, 40);
-			this.panelControl3.TabIndex = 15;
-			// 
-			// txtSearchBox
-			// 
-			this.txtSearchBox.Location = new System.Drawing.Point(60, 7);
-			this.txtSearchBox.MenuManager = this.barManager1;
-			this.txtSearchBox.Name = "txtSearchBox";
-			this.txtSearchBox.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.txtSearchBox.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtSearchBox.Properties.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
-			this.txtSearchBox.Properties.Appearance.Options.UseBackColor = true;
-			this.txtSearchBox.Properties.Appearance.Options.UseFont = true;
-			this.txtSearchBox.Properties.Appearance.Options.UseForeColor = true;
-			this.txtSearchBox.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-			this.txtSearchBox.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Search, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "Search UI Elements", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
-			this.txtSearchBox.Size = new System.Drawing.Size(148, 26);
-			this.txtSearchBox.TabIndex = 2;
-			this.txtSearchBox.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.txtSearchBox_ButtonClick);
-			this.txtSearchBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchBox_KeyPress);
-			// 
-			// labelControl1
-			// 
-			this.labelControl1.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
-			this.labelControl1.Appearance.Options.UseForeColor = true;
-			this.labelControl1.Location = new System.Drawing.Point(17, 14);
-			this.labelControl1.Name = "labelControl1";
-			this.labelControl1.Size = new System.Drawing.Size(37, 13);
-			this.labelControl1.TabIndex = 1;
-			this.labelControl1.Text = "Search:";
+			this.progressPanel1.Click += new System.EventHandler(this.progressPanel1_Click);
 			// 
 			// popupMenu_Themes
 			// 
+			this.popupMenu_Themes.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Apply),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Rename, true),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Delete),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Export),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_MakeNew),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Preview, true),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Thumbnail),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_OpenFolder, true),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Save)});
 			this.popupMenu_Themes.Manager = this.barManager1;
 			this.popupMenu_Themes.Name = "popupMenu_Themes";
 			// 
@@ -1683,12 +1788,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1340, 727);
-			this.Controls.Add(this.panelControl3);
 			this.Controls.Add(this.progressPanel1);
 			this.Controls.Add(this.tileControl1);
 			this.Controls.Add(this.panelGlobalSettings);
 			this.Controls.Add(this.hideContainerLeft);
-			this.Controls.Add(this.tileNavPane1);
 			this.Controls.Add(this.barDockControlLeft);
 			this.Controls.Add(this.barDockControlRight);
 			this.Controls.Add(this.barDockControlBottom);
@@ -1703,10 +1806,10 @@
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.Resize += new System.EventHandler(this.MainForm_Resize);
-			((System.ComponentModel.ISupportInitialize)(this.tileNavPane1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repCboGameInstances)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repProgressBar)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.repMainMenu_SearchBox)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager1)).EndInit();
 			this.hideContainerLeft.ResumeLayout(false);
 			this.panelSearch.ResumeLayout(false);
@@ -1731,6 +1834,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repGridThemes_Favorite)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.ElementsImgCollection)).EndInit();
 			this.dockDetalles.ResumeLayout(false);
 			this.controlContainer1.ResumeLayout(false);
 			this.controlContainer1.PerformLayout();
@@ -1753,10 +1857,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).EndInit();
 			this.contextMenuStrip1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
-			this.panelControl3.ResumeLayout(false);
-			this.panelControl3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.txtSearchBox.Properties)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Themes)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -1764,9 +1864,6 @@
 		}
 
 		#endregion
-
-		private DevExpress.XtraBars.Navigation.TileNavPane tileNavPane1;
-		private DevExpress.XtraBars.Navigation.NavButton navButton2;
 		private DevExpress.XtraEditors.TileControl tileControl1;
 		private DevExpress.XtraEditors.TileGroup tileGroup4;
 		private DevExpress.XtraEditors.TileItem tilePanel_UP;
@@ -1778,8 +1875,6 @@
 		private DevExpress.XtraEditors.TileItem tileCHUD_AHUD;
 		private DevExpress.XtraEditors.TileItem tileShieldsHolo;
 		private DevExpress.XtraEditors.TileItem tileIPower_Distributor;
-		private DevExpress.XtraBars.Navigation.NavButton navApplyTheme;
-		private DevExpress.XtraBars.Navigation.NavButton navButton_Themes;
 		private DevExpress.XtraBars.BarManager barManager1;
 		private DevExpress.XtraBars.Bar bar1;
 		private DevExpress.XtraBars.BarButtonItem cmdReloadThemes;
@@ -1795,8 +1890,6 @@
 		private DevExpress.XtraBars.BarEditItem CboGameInstances;
 		private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repCboGameInstances;
 		private DevExpress.XtraBars.BarStaticItem lblVersion_App;
-		private DevExpress.XtraBars.Navigation.TileNavCategory tileNav_SetGameFolder;
-		private DevExpress.XtraBars.Navigation.TileNavCategory tileNav_OpenGameFolder;
 		private DevExpress.XtraEditors.TileItem tileLighting;
 		private DevExpress.XtraEditors.TileItem tileStationsPanels;
 		private DevExpress.XtraEditors.TileGroup tileGroup8;
@@ -1806,16 +1899,11 @@
 		private DevExpress.XtraBars.Docking.DockPanel dockDetalles;
 		private DevExpress.XtraBars.Docking.ControlContainer controlContainer1;
 		private DevExpress.XtraVerticalGrid.VGridControl vGridDetalles;
-		private DevExpress.XtraVerticalGrid.Rows.EditorRow row;
-		private DevExpress.XtraVerticalGrid.Rows.EditorRow row1;
 		private DevExpress.XtraEditors.PanelControl panelControl1;
 		private DevExpress.XtraEditors.LabelControl lblDescription_Description;
 		private DevExpress.XtraEditors.LabelControl lblDescription_Caption;
-		private DevExpress.XtraBars.Navigation.TileNavCategory tileNav_KeyBindings;
 		private DevExpress.XtraBars.BarButtonItem cmdShowPreview;
 		private DevExpress.XtraBars.BarButtonItem cmdDeletetheme;
-		private DevExpress.XtraBars.Navigation.TileNavCategory tileUpdateEDHM;
-		private DevExpress.XtraBars.Navigation.TileNavCategory tileGetHelp;
 		private DevExpress.XtraBars.BarStaticItem lblVersion_MOD;
 		private DevExpress.XtraBars.BarButtonItem cmdSaveTheme;
 		private DevExpress.XtraBars.BarEditItem barProgress;
@@ -1826,8 +1914,6 @@
 		private System.Windows.Forms.ToolStripMenuItem mnuTray_Open;
 		private System.Windows.Forms.ToolStripMenuItem mnuTray_Exit;
 		private DevExpress.XtraBars.BarStaticItem lblShipStatus;
-		private DevExpress.XtraBars.Navigation.TileNavCategory tile3PMods;
-		private DevExpress.XtraBars.Navigation.TileNavCategory tileUninstallEDHM;
 		private DevExpress.XtraBars.Docking.DockPanel dockTips;
 		private DevExpress.XtraBars.Docking.ControlContainer controlContainer2;
 		private DevExpress.XtraEditors.PanelControl panelControl2;
@@ -1864,9 +1950,6 @@
 		private DevExpress.XtraBars.BarButtonItem mnuGlobalSettings_Add;
 		private DevExpress.XtraBars.PopupMenu popupMenu_GlobalSettings;
 		private DevExpress.XtraBars.BarButtonItem mnuGlobalSettings_Remove;
-		private DevExpress.XtraEditors.PanelControl panelControl3;
-		private DevExpress.XtraEditors.LabelControl labelControl1;
-		private DevExpress.XtraEditors.ButtonEdit txtSearchBox;
 		private DevExpress.XtraBars.Docking.DockPanel dockThemes;
 		private DevExpress.XtraBars.Docking.ControlContainer controlContainer5;
 		private DevExpress.XtraGrid.GridControl gridControl1;
@@ -1879,6 +1962,37 @@
 		private DevExpress.XtraBars.PopupMenu popupMenu_Themes;
 		private DevExpress.XtraBars.BarToggleSwitchItem cmdThemes_ShowFavorites;
 		private DevExpress.XtraBars.BarButtonItem cmdOpenThemeFolder;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_Rename;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_OpenFolder;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_Delete;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_Export;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_Save;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_MakeNew;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_Thumbnail;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_Apply;
+		private DevExpress.XtraBars.Bar MainMenuBar;
+		private DevExpress.XtraBars.BarSubItem MainMenu_Menu;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_Themes;
+		private DevExpress.XtraBars.BarEditItem MainMenu_SearchBox;
+		private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repMainMenu_SearchBox;
+		private DevExpress.XtraBars.BarLargeButtonItem MainMenu_Settings;
+		private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+		private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+		private DevExpress.XtraBars.BarButtonItem barButtonItem3;
+		private DevExpress.XtraBars.BarSubItem MainMenu_History;
+		private DevExpress.XtraBars.BarButtonItem barButtonItem4;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_ApplyTheme;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_GameFolder;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_Sipyard;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_InstallMod;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_UninstallMod;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_Plugins;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_Help;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_About;
+		private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_Preview;
+		private DevExpress.XtraBars.BarButtonItem MainMenu_UpdateCheck;
+		private DevExpress.Utils.ImageCollection ElementsImgCollection;
 	}
 }
 
