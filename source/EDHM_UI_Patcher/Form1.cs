@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -324,7 +324,7 @@ namespace EDHM_UI_Patcher
                                             };
                                             Game_Proc.CloseMainWindow();
                                         }
-                                        else  //<- UI IS NOT RUNNING
+                                        else  //<- GAME IS NOT RUNNING
                                         {
                                             DoPatch(vErsion, TempFilePath);
                                         }
@@ -345,15 +345,22 @@ namespace EDHM_UI_Patcher
                         FD2.StartDownload(); //<- Aqui se Inicia la Descarga
                     }
 
-                    //TODO: Este descarga en multiples procesos:
-                    //Downloader D = new Downloader();
-                    //var result = D.Download(FileToDownload, Path.Combine(Path.GetTempPath(), "EDHM_UI"), 2);
-                    //if (result != null)
-                    //{
-                    //	double Speed = Math.Round((result.Size / 1024) / result.TimeTaken.TotalSeconds, 2);
-                    //	Console.WriteLine(string.Format("Time: {0:n0}s | Speed: {1:n2} kb/s", result.TimeTaken.TotalSeconds, Speed));
-                    //}
-                }
+					if (!this._Instalar && !this._Parchear)
+					{
+						this.lblInfo.Text = @"Everything is Updated, nothing to do here ¯\_(ツ)_/¯.";
+						this.Cursor = Cursors.Default;
+						//this.cmdUpdate.Enabled = true;
+					}
+
+					//TODO: Este descarga en multiples procesos:
+					//Downloader D = new Downloader();
+					//var result = D.Download(FileToDownload, Path.Combine(Path.GetTempPath(), "EDHM_UI"), 2);
+					//if (result != null)
+					//{
+					//	double Speed = Math.Round((result.Size / 1024) / result.TimeTaken.TotalSeconds, 2);
+					//	Console.WriteLine(string.Format("Time: {0:n0}s | Speed: {1:n2} kb/s", result.TimeTaken.TotalSeconds, Speed));
+					//}
+				}
             }
             catch (ThreadAbortException tex)
             {
@@ -425,7 +432,7 @@ namespace EDHM_UI_Patcher
                         Game_Proc.WaitForExit();
                         if (Game_Proc != null && Game_Proc.HasExited == false) Game_Proc.Kill();
                     }
-                    else  //<- UI IS NOT RUNNING
+                    else  //<- GAME IS NOT RUNNING
                     {
                         //DoPatch(vErsion, TempFilePath);
                     }
@@ -519,10 +526,11 @@ namespace EDHM_UI_Patcher
 
                         string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
                         string GameInstances_JSON = Util.WinReg_ReadKey("EDHM", "GameInstances").NVL(string.Empty);
+						string UI_Documents = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
 
-                        #region Load the Game Instances from Windows Registry
+						#region Load the Game Instances from Windows Registry
 
-                        if (!GameInstances_JSON.EmptyOrNull())
+						if (!GameInstances_JSON.EmptyOrNull())
                         {
                             GameInstancesEx = Util.DeSerialize_FromJSON_String<List<GameInstance>>(GameInstances_JSON);
                             if (GameInstancesEx != null && GameInstancesEx.Count > 0)
@@ -572,11 +580,13 @@ namespace EDHM_UI_Patcher
                                 foreach (file_job _job in _Jobs)
                                 {
                                     string GamePath = _job.game == "ODYSSEY" ? ODYS_Path : HORI_Path;
+									string GameInstance = _job.game == "ODYSSEY" ? "ODYSS" : "HORIZ";									
 
-                                    _job.file_path = _job.file_path.Replace("%GAME_PATH%", GamePath);
+									_job.file_path = _job.file_path.Replace("%GAME_PATH%", GamePath);
                                     _job.file_path = _job.file_path.Replace("%UI_PATH%", this.AppExePath);
+									_job.file_path = _job.file_path.Replace("%UI_DOCS%", UI_Documents);
 
-                                    if (_job.destination != null && _job.destination != string.Empty)
+									if (_job.destination != null && _job.destination != string.Empty)
                                     {
                                         _job.destination = _job.destination.Replace("%GAME_PATH%", GamePath);
                                         _job.destination = _job.destination.Replace("%UI_PATH%", this.AppExePath);
@@ -584,29 +594,45 @@ namespace EDHM_UI_Patcher
 
                                     try
                                     {
-                                        switch (_job.action)
-                                        {
-                                            case "COPY":
-                                                if (File.Exists(_job.file_path)) File.Copy(_job.file_path, _job.destination, true);
-                                                break;
+										switch (_job.action)
+										{
+											case "COPY":
+												if (!Directory.Exists(Path.GetDirectoryName(_job.destination)))
+													Directory.CreateDirectory(Path.GetDirectoryName(_job.destination));
 
-                                            case "MOVE":
-                                                if (File.Exists(_job.file_path))
-                                                {
-                                                    File.Copy(_job.file_path, _job.destination, true);
-                                                    File.Delete(_job.file_path);
-                                                }
-                                                break;
+												if (File.Exists(_job.file_path))
+													File.Copy(_job.file_path, _job.destination, true);
+												break;
 
-                                            case "DEL":
-                                                if (File.Exists(_job.file_path)) File.Delete(_job.file_path);
-                                                break;
+											case "MOVE":
+												if (File.Exists(_job.file_path))
+												{
+													if (!Directory.Exists(Path.GetDirectoryName(_job.destination)))
+														Directory.CreateDirectory(Path.GetDirectoryName(_job.destination));
 
-                                            case "RMDIR":
-                                                if (Directory.Exists(_job.file_path)) Directory.Delete(_job.file_path, true);
-                                                break;
-                                        }
-                                    }
+													File.Copy(_job.file_path, _job.destination, true);
+													File.Delete(_job.file_path);
+												}
+												break;
+
+											case "REPLACE":
+												if (File.Exists(_job.file_path) && File.Exists(_job.destination))
+												{
+													File.Copy(_job.file_path, _job.destination, true);
+												}
+												break;
+
+											case "DEL":
+												if (File.Exists(_job.file_path))
+													File.Delete(_job.file_path);
+												break;
+
+											case "RMDIR":
+												if (Directory.Exists(_job.file_path))
+													Directory.Delete(_job.file_path, true);
+												break;
+										}
+									}
                                     catch { }
                                 }                                
                             }

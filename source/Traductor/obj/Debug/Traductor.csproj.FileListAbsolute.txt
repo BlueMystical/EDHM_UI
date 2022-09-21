@@ -1,0 +1,252 @@
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Horizons_Startup-Profile.ini
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Horizons_XML-Profile.ini
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Odissey_Settings_EN.json
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Odissey_Startup-Profile.ini
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Odissey_SuitHud.ini
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Odissey_XML-Profile.ini
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\UI_Tips.json
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Traductor.exe.config
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Traductor.exe
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Traductor.pdb
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\EDHM_UI_mk2.exe
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Utils.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraLayout.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraEditors.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraBars.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraVerticalGrid.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraGrid.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ColorManagment.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Ionic.Zip.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Newtonsoft.Json.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\INIFileParser.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\MathNet.Numerics.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Data.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Data.Desktop.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Printing.v21.1.Core.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Sparkline.v21.1.Core.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraPrinting.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ICCReader.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Core.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Drawing.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.RichEdit.v21.1.Core.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraTreeList.v21.1.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Office.v21.1.Core.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\EDHM_UI_mk2.pdb
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\EDHM_UI_mk2.exe.config
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Utils.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraLayout.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraEditors.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraBars.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraVerticalGrid.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraGrid.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Newtonsoft.Json.pdb
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Newtonsoft.Json.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\INIFileParser.pdb
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Data.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Data.Desktop.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Printing.v21.1.Core.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Sparkline.v21.1.Core.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraPrinting.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Core.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Drawing.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.RichEdit.v21.1.Core.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.XtraTreeList.v21.1.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\DevExpress.Office.v21.1.Core.xml
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.Utils.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.Utils.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.Utils.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.Utils.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.XtraLayout.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.XtraLayout.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.XtraLayout.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.XtraLayout.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.XtraEditors.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.XtraEditors.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.XtraEditors.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.XtraEditors.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.XtraBars.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.XtraBars.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.XtraBars.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.XtraBars.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.XtraGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.XtraGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.XtraGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.XtraGrid.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.Data.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.Data.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.Data.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.Data.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.Printing.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.Printing.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.Printing.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.Printing.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\de\DevExpress.Office.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\es\DevExpress.Office.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ja\DevExpress.Office.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\ru\DevExpress.Office.v21.1.Core.resources.dll
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.csprojAssemblyReference.cache
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.Form1.resources
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.Properties.Resources.resources
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.csproj.GenerateResource.cache
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.csproj.CoreCompileInputs.cache
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.csproj.CopyComplete
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.exe
+D:\Soft TEST\ED UI mk2\Traductor\obj\Debug\Traductor.pdb
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Horizons_Settings_EN.json
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Odissey_Advanced.ini
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Horizons_Custom.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.csprojAssemblyReference.cache
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.Form1.resources
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.Properties.Resources.resources
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.csproj.GenerateResource.cache
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.csproj.CoreCompileInputs.cache
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.exe
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.pdb
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Horizons_Custom.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Horizons_Settings_EN.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Horizons_Settings_RU.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Horizons_Startup-Profile.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Horizons_XML-Profile.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Advanced.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_DE.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_EN.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_ES.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_FR.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_IT.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_JP.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_PT.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Settings_RU.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_Startup-Profile.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_SuitHud.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\ED_Odissey_XML-Profile.ini
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Data\UI_Tips.json
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Traductor.exe.config
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Traductor.exe
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Traductor.pdb
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\EDHM_UI_mk2.exe
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Utils.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraLayout.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraEditors.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraBars.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraGrid.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraVerticalGrid.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ColorManagment.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Ionic.Zip.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Newtonsoft.Json.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\INIFileParser.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\MathNet.Numerics.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Data.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Data.Desktop.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Printing.v21.1.Core.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Sparkline.v21.1.Core.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraPrinting.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ICCReader.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Core.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Drawing.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.RichEdit.v21.1.Core.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraTreeList.v21.1.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Office.v21.1.Core.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\EDHM_UI_mk2.pdb
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\EDHM_UI_mk2.exe.config
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Utils.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraLayout.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraEditors.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraBars.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraGrid.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraVerticalGrid.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Newtonsoft.Json.pdb
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\Newtonsoft.Json.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\INIFileParser.pdb
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Data.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Data.Desktop.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Printing.v21.1.Core.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Sparkline.v21.1.Core.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraPrinting.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Core.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Pdf.v21.1.Drawing.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.RichEdit.v21.1.Core.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.XtraTreeList.v21.1.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\DevExpress.Office.v21.1.Core.xml
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.Utils.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.Utils.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.Utils.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.Utils.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.XtraLayout.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.XtraLayout.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.XtraLayout.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.XtraLayout.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.XtraEditors.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.XtraEditors.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.XtraEditors.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.XtraEditors.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.XtraBars.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.XtraBars.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.XtraBars.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.XtraBars.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.XtraGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.XtraGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.XtraGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.XtraGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.XtraVerticalGrid.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.Data.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.Data.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.Data.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.Data.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.Printing.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.Printing.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.Printing.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.Printing.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.Sparkline.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.XtraPrinting.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.Pdf.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.RichEdit.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.XtraTreeList.v21.1.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\de\DevExpress.Office.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\es\DevExpress.Office.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ja\DevExpress.Office.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\bin\Debug\ru\DevExpress.Office.v21.1.Core.resources.dll
+D:\EDHM_UI\EDHM_UI-main\source\Traductor\obj\Debug\Traductor.csproj.CopyComplete
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Horizons_Translations.json
+D:\Soft TEST\ED UI mk2\Traductor\bin\Debug\Data\ED_Odissey_Translations.json
