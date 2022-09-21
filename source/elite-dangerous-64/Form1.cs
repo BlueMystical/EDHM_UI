@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace elite_dangerous_64
@@ -19,6 +16,74 @@ namespace elite_dangerous_64
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			List<ed_ship> _Ships = new List<ed_ship>();
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Adder",
+				ed_short = "adder",
+				ship_name = "MyAdder",
+				ship_ident = ""
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Anaconda",
+				ed_short = "anaconda",
+				ship_name = "Bite This",
+				ship_ident = "AC-BT"
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Cobra Mk 3",
+				ed_short = "cobramkiii",
+				ship_name = "Cobra Kai",
+				ship_ident = "CMK3-01"
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Diamondback Explorer",
+				ed_short = "diamondbackxl",
+				ship_name = "DBS Explorer",
+				ship_ident = "DBS-01"
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Federal Corvette",
+				ed_short = "federation_corvette",
+				ship_name = "Vette",
+				ship_ident = "FC-01"
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Fer-de-lance",
+				ed_short = "ferdelance",
+				ship_name = "Overpowered",
+				ship_ident = "FDL-OP"
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Imperial Courier",
+				ed_short = "empire_courier",
+				ship_name = "Thunderbolt",
+				ship_ident = "IC-TB"
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Imperial Cutter",
+				ed_short = "empire_cutter",
+				ship_name = "Golden Heart",
+				ship_ident = "IC-GH"
+			});
+			_Ships.Add(new ed_ship
+			{
+				ed_full_name = "Krait Mk 3",
+				ed_short = "krait_mkii",
+				ship_name = "AlienHunter",
+				ship_ident = "K3-AH"
+			});
+
+			this.comboBox1.DataSource = _Ships;
+			this.comboBox1.DisplayMember = "ed_full_name";
+			this.comboBox1.ValueMember = "ed_short";
 		}
 
 		private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -27,22 +92,61 @@ namespace elite_dangerous_64
 			//a - z, A - Z; CTRL; Punctuation marks; ENTER; Number keys, both across the top of the keyboard and on the numeric keypad.
 			if (e.KeyChar != (char)Keys.ControlKey)
 			{
-				this.listBox1.Items.Add(string.Format("KeyPress: {0}", e.KeyChar.ToString()));
+				//this.listBox1.Items.Add(string.Format("KeyPress: {0}", e.KeyChar.ToString()));
+				this.lblStatus.Text = string.Format("KeyPress: {0}", e.KeyChar.ToString());
 			}
 		}
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
-			string Modifiers = e.Modifiers.ToString();
-			this.listBox1.Items.Add(string.Format("KeyDown: {0}{1}",
-				Modifiers != "None" ? Modifiers + " + " : string.Empty,
-				e.KeyCode.ToString()));
-
 			// CTRL+G:
-			if (e.KeyCode == Keys.G && (e.Control))
+			//if (e.Control)
+			//{
+			string Modifiers = e.Modifiers.ToString();
+			this.lblStatus.Text = string.Format("KeyDown: {0}{1}",
+				Modifiers != "None" ? Modifiers + " + " : string.Empty,
+				e.KeyCode.ToString());
+			//}
+		}
+
+		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void comboBox1_DropDownClosed(object sender, EventArgs e)
+		{
+			string EDJournalDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Saved Games\Frontier Developments\Elite Dangerous");
+			if (Directory.Exists(EDJournalDir))
 			{
-				//GotoLine();
+				DirectoryInfo di = new DirectoryInfo(EDJournalDir);
+
+				//Busca el Archivo de Log mas reciente:
+				FileInfo JournalFile = di.GetFiles("Journal.*.log")
+							.OrderByDescending(f => f.LastWriteTime).First();
+
+				if (JournalFile != null)
+				{
+					ed_ship _Ship = this.comboBox1.SelectedItem as ed_ship;
+
+					TextWriter tw = new StreamWriter(JournalFile.FullName, append: true);
+					tw.WriteLine("{ \"timestamp\":\"2021 - 11 - 26T01: 53:47Z\", \"event\":\"Loadout\", \"Ship\":\"" + _Ship.ed_short + "\", \"ShipID\":6, \"ShipName\":\"" + _Ship.ship_name + "\", \"ShipIdent\":\"" + _Ship.ship_ident + "\" } ");
+					tw.Close();
+
+					this.lblStatus.Text = string.Format("Journal - Ship Loadout: {0}", _Ship.ed_short);
+				}
 			}
 		}
+	}
+
+	[Serializable]
+	public class ed_ship
+	{
+		public ed_ship() { }
+
+		public string ed_full_name { get; set; }
+		public string ed_short { get; set; }
+		public string ship_name { get; set; }
+		public string ship_ident { get; set; }
 	}
 }
