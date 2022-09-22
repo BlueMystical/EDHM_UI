@@ -172,18 +172,23 @@ namespace EDHM_UI_mk2
 				GameInstancesEx = Util.DeSerialize_FromJSON_String<List<GameInstance>>(GameInstances_JSON);
 				if (GameInstancesEx != null && GameInstancesEx.Count > 0)
 				{
+					bool HayCambios = false;
 					foreach (var _instance in GameInstancesEx)
 					{
 						foreach (var _game in _instance.games)
 						{
 							if (_game.game_id.EmptyOrNull())
 							{
+								HayCambios = true;
 								_game.game_id = string.Format("{0}|{1}", _instance.instance, _game.key);
 							}
 						}
 					}
-					GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
-					Util.WinReg_WriteKey("EDHM", "GameInstances", GameInstances_JSON);
+					if (HayCambios)
+					{
+						GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
+						Util.WinReg_WriteKey("EDHM", "GameInstances", GameInstances_JSON);
+					}					
 				}
 			}
 			else
@@ -195,9 +200,9 @@ namespace EDHM_UI_mk2
 				{
 					key = "ED_Horizons",
 					name = "Horizons",
-					instance = "Horizons (Default)",
+					instance = "Default (Horizons)",
 					game_id = "Default|ED_Horizons",
-					themes_folder = @"EDHM-ini\DemoProfiles",
+					themes_folder = Path.Combine(UI_DOCUMENTS, "HORIZ", "Themes"),
 					path = Util.WinReg_ReadKey("EDHM", "ED_Horizons").NVL(string.Empty),
 					is_active = Util.IIf(_RegActiveInstance == "ED_Horizons", true, false)
 				});
@@ -205,9 +210,9 @@ namespace EDHM_UI_mk2
 				{
 					key = "ED_Odissey",
 					name = "Odyssey",
-					instance = "Odyssey (Default)",
+					instance = "Default (Odyssey)",
 					game_id = "Default|ED_Odissey",
-					themes_folder = @"EDHM-ini\MyProfiles",
+					themes_folder = Path.Combine(UI_DOCUMENTS, "ODYSS", "Themes"),
 					path = Util.WinReg_ReadKey("EDHM", "ED_Odissey").NVL(string.Empty),
 					is_active = Util.IIf(_RegActiveInstance == "ED_Odissey", true, false)
 				});
@@ -222,8 +227,16 @@ namespace EDHM_UI_mk2
 			{
 				foreach (var _Game in _Instance.games)
 				{
-					_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.instance);
-					GameInstances.Add(_Game);
+					GameInstances.Add(new game_instance()
+					{
+						instance = _Game.instance,
+						game_id = _Game.game_id,
+						key = _Game.key,
+						name = _Game.name,
+						path = _Game.path,
+						is_active = _Game.is_active,
+						themes_folder = _Game.themes_folder
+					});
 				}
 			}
 
@@ -585,18 +598,6 @@ namespace EDHM_UI_mk2
 							Util.WinReg_WriteKey("EDHM", string.Format("Version_{0}", search), _Version);
 
 							SetGraphicSettings();
-
-							//XtraMessageBox.Show(string.Format("EDHM Version '{0}' had been Installed!\r\n{1}",
-							//			_Version, pGameInstance.instance), "Success!",
-							//			MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-
-							//Abre el archivo de Ayuda:
-							//if (File.Exists(Path.Combine(this.AppExePath, @"Data\EDHM_UI_Guide.pdf")))
-							//{
-							//	System.Diagnostics.Process.Start(Path.Combine(this.AppExePath, @"Data\EDHM_UI_Guide.pdf"));
-							//}
 						}
 
 						// Unzip the Themes: D:\Documentos\Elite Dangerous\EDHM_UI\ODYSS\Themes
@@ -722,6 +723,33 @@ namespace EDHM_UI_mk2
 				{
 					try
 					{
+						var _XmlReader = new System.Xml.XmlDocument();
+						_XmlReader.Load(FilePath);
+						Util.SetXMLValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixRed", " 1, 0, 0 ");
+						Util.SetXMLValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixGreen", " 0, 1, 0 ");
+						Util.SetXMLValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixBlue", " 0, 0, 1 ");
+						_XmlReader.Save(FilePath);
+					}
+					catch 
+					{
+						StringBuilder _GP = new StringBuilder();
+						_GP.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+						_GP.AppendLine("<GraphicsConfig>");
+						_GP.AppendLine("  <GUIColour>");
+						_GP.AppendLine("    <Default>");
+						_GP.AppendLine("      <LocalisationName>Standard</LocalisationName>");
+						_GP.AppendLine("      <MatrixRed>1, 0, 0</MatrixRed>");
+						_GP.AppendLine("      <MatrixGreen>0, 1, 0</MatrixGreen>");
+						_GP.AppendLine("      <MatrixBlue>0, 0, 1</MatrixBlue>");
+						_GP.AppendLine("    </Default>");
+						_GP.AppendLine("  </GUIColour>");
+						_GP.AppendLine("</GraphicsConfig>");
+
+						Util.SaveTextFile(FilePath, _GP.ToString(), Util.TextEncoding.UTF8);
+					}
+
+					/* try
+					{
 						xmlFile = System.Xml.Linq.XDocument.Load(FilePath);
 
 						var query = from c in xmlFile.Elements("GraphicsConfig").Elements("GUIColour").Elements("Default") select c;
@@ -764,7 +792,7 @@ namespace EDHM_UI_mk2
 						_GP.AppendLine("</GraphicsConfig>");
 
 						Util.SaveTextFile(FilePath, _GP.ToString(), Util.TextEncoding.UTF8);
-					}
+					}*/
 				}
 
 				#endregion
@@ -1833,7 +1861,7 @@ namespace EDHM_UI_mk2
 													Color _E = (Sender as Util_Test.MyColorPickEdit).Color;
 													var _CustomColors = _ComboColor.MyStandardColors;
 
-													_GColors = Util.GetGradients(_E, Color.Black, 7).ToList();
+													_GColors = Util.GetColorGradients(_E, Color.Black, 7).ToList();
 
 													_CustomColors[0, 9] = _GColors[0];
 													_CustomColors[0, 19] = _GColors[1];
@@ -1842,7 +1870,7 @@ namespace EDHM_UI_mk2
 													_CustomColors[0, 49] = _GColors[4];
 													_CustomColors[0, 59] = _GColors[5];
 
-													_GColors = Util.GetGradients(_E, Color.White, 7).ToList();
+													_GColors = Util.GetColorGradients(_E, Color.White, 7).ToList();
 
 													_CustomColors[0, 8] = _GColors[0];
 													_CustomColors[0, 18] = _GColors[1];
@@ -1913,7 +1941,7 @@ namespace EDHM_UI_mk2
 												_ComboColor.AutomaticColor = (Color)_Fila.Properties.Value;
 
 												//----Crea un Gradiente a Blanco usando el color seleccionado, lo pone en la ultima columna												
-												_GColors = Util.GetGradients((Color)_Fila.Properties.Value, Color.Black, 7).ToList();
+												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.Black, 7).ToList();
 
 												_StandardColors[0, 9] = _GColors[0];
 												_StandardColors[0, 19] = _GColors[1];
@@ -1922,7 +1950,7 @@ namespace EDHM_UI_mk2
 												_StandardColors[0, 49] = _GColors[4];
 												_StandardColors[0, 59] = _GColors[5];
 
-												_GColors = Util.GetGradients((Color)_Fila.Properties.Value, Color.White, 7).ToList();
+												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.White, 7).ToList();
 
 												_StandardColors[0, 8] = _GColors[0];
 												_StandardColors[0, 18] = _GColors[1];
@@ -5828,12 +5856,11 @@ namespace EDHM_UI_mk2
 			GameFolderForm _Form = new GameFolderForm(GameInstancesEx);
 			if (_Form.ShowDialog() == DialogResult.OK)
 			{
-				GameInstancesEx = _Form.GameInstancesEx;
+				this.GameInstancesEx = _Form.GameInstancesEx;
 
 				string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
-				string GameInstances_JSON = Util.WinReg_ReadKey("EDHM", "GameInstances").NVL(string.Empty);
+				string GameInstances_JSON = Util.Serialize_ToJSON(_Form.GameInstancesEx); // Util.WinReg_ReadKey("EDHM", "GameInstances").NVL(string.Empty);
 
-				GameInstancesEx = Util.DeSerialize_FromJSON_String<List<GameInstance>>(GameInstances_JSON);
 				if (GameInstancesEx != null && GameInstancesEx.Count > 0)
 				{
 					foreach (var _instance in GameInstancesEx)
@@ -5846,8 +5873,6 @@ namespace EDHM_UI_mk2
 							}
 						}
 					}
-					GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
-					Util.WinReg_WriteKey("EDHM", "GameInstances", GameInstances_JSON);
 				}
 
 				//Carga los valores que se muestran en el Combo:
@@ -5856,8 +5881,16 @@ namespace EDHM_UI_mk2
 				{
 					foreach (var _Game in _Instance.games)
 					{
-						_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.instance);
-						GameInstances.Add(_Game);
+						GameInstances.Add(new game_instance()
+						{
+							instance = _Game.instance,
+							game_id = _Game.game_id,
+							key = _Game.key,
+							name = _Game.name,
+							path = _Game.path,
+							is_active = _Game.is_active,
+							themes_folder = _Game.themes_folder
+						});
 					}
 				}
 
