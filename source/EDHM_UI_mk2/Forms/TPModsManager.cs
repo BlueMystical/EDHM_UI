@@ -286,7 +286,7 @@ namespace EDHM_UI_mk2.Forms
 											{
 												if (_key.visible)
 												{
-													_key.value = GetXMLValue(_XmlReader, _Section.ini_section, _key.key, _key.value);
+													_key.value = Util.GetXMLValue(_XmlReader, _Section.ini_section, _key.key, _key.value);
 
 													EditorRow _Fila = new DevExpress.XtraVerticalGrid.Rows.EditorRow(_key.key);
 													_Fila.Properties.ToolTip = _key.description;
@@ -1122,11 +1122,12 @@ namespace EDHM_UI_mk2.Forms
 								}								
 							}
 
-							SetXMLValue(_XmlReader, ModSection.ini_section + ModKey.key, ModKey.value);
+							Util.SetXMLValue(_XmlReader, ModSection.ini_section + ModKey.key, ModKey.value);
 						}
 					}
 
 					this._XmlReader.Save(this.ModFullPath);
+
 					if (!Silent)
 					{
 						MessageBox.Show("Changes in the XML Configuration had been saved!\r\nYou will need to re-start the game", 
@@ -1140,129 +1141,7 @@ namespace EDHM_UI_mk2.Forms
 				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-		private string GetXMLValue(XmlDocument xmlFile, string Path, string Key, string DefaultValue = "")
-		{
-			string _ret = DefaultValue;
-			try
-			{
-				if (xmlFile != null && Path != string.Empty)
-				{
-					var a = xmlFile.SelectSingleNode(Path + "/" + Key);
-					if (a != null) _ret = a.InnerText;
-				}
-				
-				//string s = root.Attributes["success"].Value;
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-			return _ret;
-		}
 
-		/// <summary>Sets the value of an XML Element or Attribute using an XPath to identify it.</summary>
-		/// <param name="xmlFile">XML Document to write in</param>
-		/// <param name="Path">XPath string, ex: '/GraphicsConfig/GalaxyMap[@Something='Server']' /</param>
-		/// <param name="Value">Value to Write</param>
-		private void SetXMLValue(XmlDocument xmlFile, string Path, string Value)
-		{
-				if (xmlFile == null) throw new ArgumentNullException("doc");
-				if (string.IsNullOrEmpty(Path)) throw new ArgumentNullException("xpath");
-
-				XmlNodeList nodes = xmlFile.SelectNodes(Path);
-				if (nodes.Count > 1) throw new Exception("Xpath '" + Path + "' was not found multiple times!");
-				else if (nodes.Count == 0) createXPath(xmlFile, Path).InnerText = Value;
-				else nodes[0].InnerText = Value;
-		}
-		private IEnumerable<XElement> GetXMLQuery(XDocument xmlFile, string[] sectionPath)
-		{
-			if (xmlFile != null && sectionPath != null)
-			{
-				var query = from Config in xmlFile.Elements("root") select Config;
-
-				switch (sectionPath.Length)
-				{
-					case 1:
-						query = from Config in xmlFile.Elements(sectionPath[0]) select Config;
-						break;
-
-					case 2:
-						query = from Config in xmlFile.Elements(sectionPath[0]).Elements(sectionPath[1]) select Config;
-						break;
-
-					case 3:
-						query = from Config in xmlFile.Elements(sectionPath[0]).Elements(sectionPath[1]).Elements(sectionPath[2]) select Config;
-						break;
-
-					case 4:
-						query = from Config in xmlFile.Elements(sectionPath[0]).Elements(sectionPath[1]).Elements(sectionPath[2]).Elements(sectionPath[3]) select Config;
-						break;
-
-					case 5:
-						query = from Config in xmlFile.Elements(sectionPath[0]).Elements(sectionPath[1]).Elements(sectionPath[2]).Elements(sectionPath[3]).Elements(sectionPath[4]) select Config;
-						break;
-
-					default:
-						break;
-				}
-
-				return query;
-			}
-			else
-			{
-				return null;
-			}
-		}
-		private XmlNode createXPath(XmlDocument doc, string xpath)
-		{
-			XmlNode node = doc;
-			foreach (string part in xpath.Substring(1).Split('/'))
-			{
-				XmlNodeList nodes = node.SelectNodes(part);
-				if (nodes.Count > 1) throw new Exception("Xpath '" + xpath + "' was not found multiple times!");
-				else if (nodes.Count == 1) { node = nodes[0]; continue; }
-
-				if (part.StartsWith("@")) //<- es un Atributo
-				{
-					var anode = doc.CreateAttribute(part.Substring(1));
-					node.Attributes.Append(anode);
-					node = anode;
-				}
-				else //<- es un Nodo
-				{
-					string elName, attrib = null;
-					if (part.Contains("["))
-					{
-						part.SplitOnce("[", out elName, out attrib);
-						if (!attrib.EndsWith("]")) throw new Exception("Unsupported XPath (missing ]): " + part);
-						attrib = attrib.Substring(0, attrib.Length - 1);
-					}
-					else elName = part;
-
-					try
-					{
-						XmlNode next = doc.CreateElement(elName);
-						node.AppendChild(next);
-						node = next;
-					}
-					catch { }					
-
-					if (attrib != null)
-					{
-						if (!attrib.StartsWith("@")) throw new Exception("Unsupported XPath attrib (missing @): " + part);
-						string name, value;
-						attrib.Substring(1).SplitOnce("='", out name, out value);
-						if (string.IsNullOrEmpty(value) || !value.EndsWith("'")) throw new Exception("Unsupported XPath attrib: " + part);
-						value = value.Substring(0, value.Length - 1);
-						var anode = doc.CreateAttribute(name);
-						anode.Value = value;
-						node.Attributes.Append(anode);
-					}
-				}
-			}
-			return node;
-		}
-		
 
 		private void SaveMod(TPMod_Config _Mod)
 		{

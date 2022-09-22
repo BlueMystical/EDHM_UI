@@ -208,18 +208,6 @@ namespace EDHM_UI_mk2
 			return _ret;
 		}
 
-		private void FindGameEx()
-		{
-			try
-			{
-
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
-
 		private void SaveChanges()
 		{
 			try
@@ -232,8 +220,35 @@ namespace EDHM_UI_mk2
 						return;
 					}
 
-					string GameInstances_JSON = Util.Serialize_ToJSON(this.GameInstancesEx);
-					Util.WinReg_WriteKey("EDHM", "GameInstances", GameInstances_JSON);
+					string UI_DOCUMENTS = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
+
+					//Fixing the Instance Parameters:
+					foreach (var _Instance in this.GameInstancesEx)
+					{
+						foreach (var _Game in _Instance.games)
+						{
+							if (_Game.path.Contains("steamapps"))	_Instance.instance = "Steam";
+							if (_Game.path.Contains("Epic Games"))	_Instance.instance = "Epic Games";
+							if (_Game.path.Contains("Frontier"))	_Instance.instance = "Frontier";
+
+							switch (Path.GetFileNameWithoutExtension(_Game.path))
+							{
+								case "elite-dangerous-64":			_Game.name = "Horizons (3.8)";	_Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
+								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (4.0)";	_Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
+								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
+								default: break;
+							}
+
+							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
+							_Game.game_id = string.Format("{0}|{1}", _Instance.instance, _Game.key);
+							_Game.themes_folder = (_Game.key == "ED_Horizons") ?
+								Path.Combine(UI_DOCUMENTS, "HORIZ", "Themes") :
+								Path.Combine(UI_DOCUMENTS, "ODYSS", "Themes");
+						}
+					}
+
+					Util.WinReg_WriteKey("EDHM", "GameInstances", Util.Serialize_ToJSON(this.GameInstancesEx));
 
 					if (this.IsFirstRun)
 					{
@@ -325,6 +340,7 @@ namespace EDHM_UI_mk2
 
 								string GameFolder = System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName); //Obtiene el Path: (Sin archivo ni extension:							
 								string ProductsFolder = System.IO.Directory.GetParent(GameFolder).FullName; //<- Obtiene la Carpeta Anterior 
+								string RootFolder = new System.IO.DirectoryInfo(System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName)).Name; //<- Nombre de la Ultima Carpeta en la Ruta
 
 								#region Close the Game
 
@@ -338,13 +354,12 @@ namespace EDHM_UI_mk2
 
 								#endregion
 
-								switch (GameFolder)
+								switch (RootFolder)
 								{
-									case "elite-dangerous-64":			HORI_PATH = GameFolder; break;		//<- Horizons 3.8
-									case "FORC-FDEV-DO-38-IN-40":		ODYS_PATH = GameFolder; break;		//<- Horizons 4.0
-									case "elite-dangerous-odyssey-64":	ODYS_PATH = GameFolder; break;		//<- Odyssey 4.0
-									case "FORC-FDEV-DO-1000":			ODYS_PATH = GameFolder; break;		//<- Odyssey 4.0 alt								
-
+									case "elite-dangerous-64":			HORI_PATH = GameFolder; _Selected.games[0].name = "Horizons (3.8)";	_Selected.games[0].key = "ED_Horizons"; break;		//<- Horizons 3.8
+									case "FORC-FDEV-DO-38-IN-40":		ODYS_PATH = GameFolder; _Selected.games[1].name = "Horizons (4.0)";	_Selected.games[1].key = "ED_Odissey"; break;		//<- Horizons 4.0
+									case "elite-dangerous-odyssey-64":	ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey (4.0)";	_Selected.games[1].key = "ED_Odissey"; break;		//<- Odyssey 4.0
+									case "FORC-FDEV-DO-1000":			ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey";		_Selected.games[1].key = "ED_Odissey"; break;		//<- Odyssey 4.0 alt								
 									default: break;
 								}
 
@@ -369,8 +384,8 @@ namespace EDHM_UI_mk2
 									_Selected.games[1].instance = "Odyssey";
 								}
 
-								string Msg1 = !HORI_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[0].instance) : string.Empty;
-								string Msg2 = !ODYS_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[1].instance) : string.Empty;
+								string Msg1 = !HORI_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[0].name) : string.Empty;
+								string Msg2 = !ODYS_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[1].name) : string.Empty;
 
 								if (!HORI_PATH.EmptyOrNull())
 								{
