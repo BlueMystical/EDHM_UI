@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improvements to README/documentation
 - Improvements to development/git workflow
 - Improvements to Russian translation (props Alex_238)
+- Changed Toogle to Toggle
 
 ### Fixed
 - Blue text in Odyssey
