@@ -418,7 +418,7 @@ namespace EDHM_UI_mk2.Clases
 		public string last_installer { get; set; }
 
 		public string ED_Horizons { get; set; }
-		public string ED_Odissey { get; set; }		
+		public string ED_Odyssey { get; set; }		
 
 		public string download_url { get; set; }
 		public string install_url { get; set; }

@@ -208,13 +208,13 @@ namespace EDHM_UI_mk2
 				});
 				GameInstancesEx[0].games.Add(new game_instance()
 				{
-					key = "ED_Odissey",
+					key = "ED_Odyssey",
 					name = "Odyssey",
 					instance = "Default (Odyssey)",
-					game_id = "Default|ED_Odissey",
+					game_id = "Default|ED_Odyssey",
 					themes_folder = Path.Combine(UI_DOCUMENTS, "ODYSS", "Themes"),
-					path = Util.WinReg_ReadKey("EDHM", "ED_Odissey").NVL(string.Empty),
-					is_active = Util.IIf(_RegActiveInstance == "ED_Odissey", true, false)
+					path = Util.WinReg_ReadKey("EDHM", "ED_Odyssey").NVL(string.Empty),
+					is_active = Util.IIf(_RegActiveInstance == "ED_Odyssey", true, false)
 				});
 
 				GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
@@ -520,7 +520,7 @@ namespace EDHM_UI_mk2
 					goto Inicio;
 				}
 
-				if (ActiveInstance.key == "ED_Odissey" && PreviewForm != null && PreviewForm.Visible)
+				if (ActiveInstance.key == "ED_Odyssey" && PreviewForm != null && PreviewForm.Visible)
 				{
 					PreviewForm.Close();
 				}
@@ -582,7 +582,7 @@ namespace EDHM_UI_mk2
 								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini"),
 											   Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini"), true);
 							}
-							if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini")))
+							if (pGameInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini")))
 							{
 								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"),
 											   Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"), true);
@@ -634,7 +634,7 @@ namespace EDHM_UI_mk2
 									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini"),
 										Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini"), true);
 								}
-								if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini")))
+								if (pGameInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini")))
 								{
 									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"),
 										Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"), true);
@@ -1164,7 +1164,7 @@ namespace EDHM_UI_mk2
 				IniFile _ReaderSuitHud = null;
 				IniFile _ReaderCustom = null;
 
-				if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(_TemplatesPath, pGameInstance.key + "_Advanced.ini")))
+				if (pGameInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(_TemplatesPath, pGameInstance.key + "_Advanced.ini")))
 				{
 					_ReaderAdvanced = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_Advanced.ini"));
 					_ReaderSuitHud = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_SuitHud.ini"));
@@ -1296,7 +1296,7 @@ namespace EDHM_UI_mk2
 				switch (ActiveInstance.key)
 				{
 					case "ED_Horizons": LoadTheme_Horizons(_Theme); break;
-					case "ED_Odissey": LoadTheme_Odissey(_Theme); break;
+					case "ED_Odyssey": LoadTheme_Odyssey(_Theme); break;
 					default: break;
 				}
 			}
@@ -1459,7 +1459,7 @@ namespace EDHM_UI_mk2
 			}
 			finally { Cursor = Cursors.Default; }
 		}
-		private void LoadTheme_Odissey(ui_preset_new _Theme)
+		private void LoadTheme_Odyssey(ui_preset_new _Theme)
 		{
 			/* LEE LOS VALORES DEL TEMA ACTUAL Y LOS GUARDA EN EL JSON  'this.Settings'  */
 			try
@@ -1484,7 +1484,7 @@ namespace EDHM_UI_mk2
 						IniFile _ReaderAdvanced = null;
 						IniFile _ReaderOnfoot = null;
 
-						if (ActiveInstance.key == "ED_Odissey")
+						if (ActiveInstance.key == "ED_Odyssey")
 						{
 							if (File.Exists(Path.Combine(_Theme.folder, "Advanced.ini")))
 							{
@@ -2217,7 +2217,7 @@ namespace EDHM_UI_mk2
 								File.Copy(Path.Combine(GameFolder, "XML-Profile.ini"),
 									Path.Combine(NewProfileFolder, @"XML-Profile.ini"), true);
 
-								if (ActiveInstance.key == "ED_Odissey")
+								if (ActiveInstance.key == "ED_Odyssey")
 								{
 									if (File.Exists(Path.Combine(GameFolder, @"Advanced.ini")))
 									{
@@ -2289,7 +2289,7 @@ namespace EDHM_UI_mk2
 								File.Copy(Path.Combine(GameFolder, "XML-Profile.ini"),
 									Path.Combine(NewProfileFolder, @"XML-Profile.ini"), true);
 
-								if (ActiveInstance.key == "ED_Odissey")
+								if (ActiveInstance.key == "ED_Odyssey")
 								{
 									if (File.Exists(Path.Combine(GameFolder, @"Advanced.ini")))
 									{
@@ -2414,7 +2414,7 @@ namespace EDHM_UI_mk2
 								File.Copy(Path.Combine(GameFolder, "XML-Profile.ini"),
 									Path.Combine(NewProfileFolder, @"XML-Profile.ini"), true);
 
-								if (ActiveInstance.key == "ED_Odissey")
+								if (ActiveInstance.key == "ED_Odyssey")
 								{
 									if (File.Exists(Path.Combine(GameFolder, @"Advanced.ini")))
 									{
@@ -2597,7 +2597,7 @@ namespace EDHM_UI_mk2
 				File.Copy(Path.Combine(AppExePath, string.Format(@"Data\{0}_XML-Profile.ini", ActiveInstance.key)),
 					Path.Combine(ActiveInstance.path, @"EDHM-ini\XML-Profile.ini"), true);
 			}
-			if (ActiveInstance.key == "ED_Odissey")
+			if (ActiveInstance.key == "ED_Odyssey")
 			{
 				if (File.Exists(Path.Combine(AppExePath, string.Format(@"Data\{0}_Advanced.ini", ActiveInstance.key))))
 				{
@@ -2664,12 +2664,12 @@ namespace EDHM_UI_mk2
 
 						IniFile _Custom = null;
 
-						if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini")))
+						if (ActiveInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini")))
 						{
 							_ReaderAdvanced = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini"));
 						}
 
-						if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini")))
+						if (ActiveInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini")))
 						{
 							_ReaderOnfoot = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini"));
 						}
@@ -2680,7 +2680,7 @@ namespace EDHM_UI_mk2
 						}
 
 						IniFile _CPM_Interior = null;
-						if (CurrentShip != null && ActiveInstance.key == "ED_Odissey" &&
+						if (CurrentShip != null && ActiveInstance.key == "ED_Odyssey" &&
 							File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini")))
 						{
 							_CPM_Interior = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini"));
@@ -2938,7 +2938,7 @@ namespace EDHM_UI_mk2
 								File.Copy(Path.Combine(GameFolder, "XML-Profile.ini"),
 									Path.Combine(NewProfileFolder, @"XML-Profile.ini"), true);
 
-								if (ActiveInstance.key == "ED_Odissey")
+								if (ActiveInstance.key == "ED_Odyssey")
 								{
 									if (File.Exists(Path.Combine(GameFolder, @"Advanced.ini")))
 									{
@@ -3414,12 +3414,12 @@ namespace EDHM_UI_mk2
 							});
 							GameInstancesEx[0].games.Add(new game_instance()
 							{
-								key = "ED_Odissey",
+								key = "ED_Odyssey",
 								name = "Odyssey",
 								instance = "Odyssey (Default)",
-								game_id = "Default|ED_Odissey",
+								game_id = "Default|ED_Odyssey",
 								themes_folder = @"EDHM-ini\MyProfiles",
-								path = Util.WinReg_ReadKey("EDHM", "ED_Odissey").NVL(string.Empty),
+								path = Util.WinReg_ReadKey("EDHM", "ED_Odyssey").NVL(string.Empty),
 								is_active = (_RegActiveInstance == "ED_Horizons" ? true : false)
 							});
 
@@ -3434,7 +3434,7 @@ namespace EDHM_UI_mk2
 							foreach (var _Instance in GameInstancesEx)
 							{
 								string HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);
-								string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
+								string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odyssey").path.NVL(string.Empty);
 								string UI_Documents = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
 
 								foreach (file_job _job in _Jobs)
@@ -3708,7 +3708,7 @@ namespace EDHM_UI_mk2
 										HayActualizacion = true;
 									}
 									//if (HoriVersion < new Version(VI.ED_Horizons)) HayActualizacion = true;
-									//if (OddyVersion < new Version(VI.ED_Odissey)) HayActualizacion = true;
+									//if (OddyVersion < new Version(VI.ED_Odyssey)) HayActualizacion = true;
 
 									VI.cur_version = App_Version.ToString();
 									Util.Serialize_ToJSON(TempFilePath, VI);
@@ -4246,7 +4246,7 @@ namespace EDHM_UI_mk2
 
 
 					//Registrar el ID de la nave para el CPM:
-					if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini")))
+					if (ActiveInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini")))
 					{
 						IniFile _CPM_Interior = null;
 						_CPM_Interior = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini"));
@@ -4965,8 +4965,8 @@ namespace EDHM_UI_mk2
 		}
 		private void cmdShowPreview_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
-			/* Huevo de Pascua, sólo en Odissey  */
-			if (ActiveInstance.key == "ED_Odissey")
+			/* Huevo de Pascua, sólo en Odyssey  */
+			if (ActiveInstance.key == "ED_Odyssey")
 			{
 				//Rickroll:
 				System.Diagnostics.Process.Start(@"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
@@ -5533,11 +5533,11 @@ namespace EDHM_UI_mk2
 					IniFile _ReaderAdvanced = null;
 					IniFile _ReaderOnfoot = null;
 
-					if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini")))
+					if (ActiveInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini")))
 					{
 						_ReaderAdvanced = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini"));
 					}
-					if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini")))
+					if (ActiveInstance.key == "ED_Odyssey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini")))
 					{
 						_ReaderOnfoot = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini"));
 					}

@@ -121,12 +121,12 @@ namespace EDHM_UI_mk2
 					});
 					this.GameInstancesEx[0].games.Add(new game_instance()
 					{
-						key = "ED_Odissey",
+						key = "ED_Odyssey",
 						name = "Odyssey",
 						instance = "Odyssey (Default)",
 						themes_folder = @"EDHM-ini\MyProfiles",
-						path = Util.WinReg_ReadKey("EDHM", "ED_Odissey").NVL(string.Empty),
-						is_active = Util.IIf(_RegActiveInstance == "ED_Odissey", true, false)
+						path = Util.WinReg_ReadKey("EDHM", "ED_Odyssey").NVL(string.Empty),
+						is_active = Util.IIf(_RegActiveInstance == "ED_Odyssey", true, false)
 					});
 
 					GameInstances_JSON = Util.Serialize_ToJSON(this.GameInstancesEx);
@@ -188,7 +188,7 @@ namespace EDHM_UI_mk2
 							_ret.Add(Path.Combine(GameDir, @"Products\elite-dangerous-64"));
 						}
 
-						//Buscar Ruta de Odissey: \Products\elite-dangerous-odyssey-64
+						//Buscar Ruta de Odyssey: \Products\elite-dangerous-odyssey-64
 						if (Directory.Exists(Path.Combine(GameDir, @"Products\elite-dangerous-odyssey-64")))
 						{
 							_ret.Add(Path.Combine(GameDir, @"Products\elite-dangerous-odyssey-64"));
@@ -197,7 +197,7 @@ namespace EDHM_UI_mk2
 				}
 				else
 				{
-					XtraMessageBox.Show("Program tried to Detect your Game Install paths but failed to do so.\r\nPlease set the Game Paths manually.\r\n'elite-dangerous-64' for Horizons and 'elite-dangerous-odissey-64' for Odyssey.",
+					XtraMessageBox.Show("Program tried to Detect your Game Install paths but failed to do so.\r\nPlease set the Game Paths manually.\r\n'elite-dangerous-64' for Horizons and 'elite-dangerous-Odyssey-64' for Odyssey.",
 						"ERROR", MessageBoxButtons.OK, MessageBoxIcon.Hand);
 				}
 			}
@@ -234,9 +234,9 @@ namespace EDHM_UI_mk2
 							switch (Path.GetFileNameWithoutExtension(_Game.path))
 							{
 								case "elite-dangerous-64":			_Game.name = "Horizons (3.8)";	_Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
-								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (4.0)";	_Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
-								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
+								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (4.0)";	_Game.key = "ED_Odyssey"; break;        //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odyssey"; break;        //<- Odyssey 4.0
+								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odyssey"; break;       //<- Odyssey 4.0 alt
 								default: break;
 							}
 
@@ -357,9 +357,9 @@ namespace EDHM_UI_mk2
 								switch (RootFolder)
 								{
 									case "elite-dangerous-64":			HORI_PATH = GameFolder; _Selected.games[0].name = "Horizons (3.8)";	_Selected.games[0].key = "ED_Horizons"; break;		//<- Horizons 3.8
-									case "FORC-FDEV-DO-38-IN-40":		ODYS_PATH = GameFolder; _Selected.games[1].name = "Horizons (4.0)";	_Selected.games[1].key = "ED_Odissey"; break;		//<- Horizons 4.0
-									case "elite-dangerous-odyssey-64":	ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey (4.0)";	_Selected.games[1].key = "ED_Odissey"; break;		//<- Odyssey 4.0
-									case "FORC-FDEV-DO-1000":			ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey";		_Selected.games[1].key = "ED_Odissey"; break;		//<- Odyssey 4.0 alt								
+									case "FORC-FDEV-DO-38-IN-40":		ODYS_PATH = GameFolder; _Selected.games[1].name = "Horizons (4.0)";	_Selected.games[1].key = "ED_Odyssey"; break;		//<- Horizons 4.0
+									case "elite-dangerous-odyssey-64":	ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey (4.0)";	_Selected.games[1].key = "ED_Odyssey"; break;		//<- Odyssey 4.0
+									case "FORC-FDEV-DO-1000":			ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey";		_Selected.games[1].key = "ED_Odyssey"; break;		//<- Odyssey 4.0 alt								
 									default: break;
 								}
 
@@ -528,7 +528,7 @@ namespace EDHM_UI_mk2
 						});
 						_NewGame.games.Add(new game_instance()
 						{
-							key = "ED_Odissey",
+							key = "ED_Odyssey",
 							name = "Odyssey",
 							instance = _GameInstanceName.Trim(),
 							themes_folder = @"EDHM-ini\MyProfiles",

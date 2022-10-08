@@ -240,25 +240,25 @@
     <None Include="Data\ED_Horizons_XML-Profile.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_Advanced.ini">
+    <None Include="Data\ED_Odyssey_Advanced.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_Global_Settings.json">
+    <None Include="Data\ED_Odyssey_Global_Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_Settings_EN.json">
+    <None Include="Data\ED_Odyssey_Settings_EN.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_Startup-Profile.ini">
+    <None Include="Data\ED_Odyssey_Startup-Profile.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_SuitHud.ini">
+    <None Include="Data\ED_Odyssey_SuitHud.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_Translations.json">
+    <None Include="Data\ED_Odyssey_Translations.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\ED_Odissey_XML-Profile.ini">
+    <None Include="Data\ED_Odyssey_XML-Profile.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Data\Ship_List.json">
@@ -321,7 +321,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Data_4ED_3Odissey_3Translations_1json__JSONSchema="https://json.schemastore.org/appsettings.json" />
+      <UserProperties Data_4ED_3Odyssey_3Translations_1json__JSONSchema="https://json.schemastore.org/appsettings.json" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
