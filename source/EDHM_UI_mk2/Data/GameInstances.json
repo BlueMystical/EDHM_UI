@@ -11,7 +11,7 @@
             "is_active":true
          },
          {
-            "key":"ED_Odissey",
+            "key":"ED_Odyssey",
             "name":"ED Odyssey",
             "path":"F:\\Juegos\\SteamLibrary\\steamapps\\common\\Elite Dangerous\\Products\\elite-dangerous-odyssey-64",
             "instance":"Steeam",
@@ -32,7 +32,7 @@
             "is_active":true
          },
          {
-            "key":"ED_Odissey",
+            "key":"ED_Odyssey",
             "name":"ED Odyssey",
             "path":"%PROGRAMFILES%\\Epic Games\\EliteDangerous\\Products\\elite-dangerous-odyssey-64\\",
             "instance":"Epic Games",

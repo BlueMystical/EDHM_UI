@@ -555,12 +555,12 @@ namespace EDHM_UI_Patcher
                             });
                             GameInstancesEx[0].games.Add(new game_instance()
                             {
-                                key = "ED_Odissey",
+                                key = "ED_Odyssey",
                                 name = "Odyssey",
                                 instance = "Odyssey (Default)",
-                                game_id = "Default|ED_Odissey",
+                                game_id = "Default|ED_Odyssey",
                                 themes_folder = @"EDHM-ini\MyProfiles",
-                                path = Util.WinReg_ReadKey("EDHM", "ED_Odissey").NVL(string.Empty),
+                                path = Util.WinReg_ReadKey("EDHM", "ED_Odyssey").NVL(string.Empty),
                                 is_active = (_RegActiveInstance == "ED_Horizons" ? true : false)
                             });
 
@@ -575,7 +575,7 @@ namespace EDHM_UI_Patcher
                             foreach (var _Instance in GameInstancesEx)
                             {                                
                                 string HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);
-                                string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
+                                string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odyssey").path.NVL(string.Empty);
 
                                 foreach (file_job _job in _Jobs)
                                 {
@@ -666,7 +666,7 @@ namespace EDHM_UI_Patcher
         public string last_installer { get; set; }
 
         public string ED_Horizons { get; set; }
-        public string ED_Odissey { get; set; }
+        public string ED_Odyssey { get; set; }
 
         public string download_url { get; set; }
         public string install_url { get; set; }

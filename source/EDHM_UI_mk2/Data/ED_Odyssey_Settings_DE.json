@@ -1,961 +1,961 @@
 {
-  "language": "it",
-  "game": "ED_Odissey",
-  "author": "Cpt Mark Harlock",
+  "language": "de",
+  "game": "ED_Odyssey",
+  "author": "Blue Mystic",
   "ui_groups": [
     {
       "Name": "Panel_UP",
-      "Title": "Pannello (superiore)",
+      "Title": "Panel (oben)",
       "Elements": [
         {
-          "Category": "Pannello dialogo",
-          "Title": "Linee pannello dialogo",
+          "Category": "Chat-Panel",
+          "Title": "Chat-Panel-Zeilen",
           "File": "Startup-Profile",
           "Key": "x137",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità linee pannello dialogo (in alto a sinistra)\r\nNota: i colori appariranno leggermente diversi dalle linee del pannello informazioni perché i colori originali in Elite sono diversi."
+          "Description": "Modus für Chat-Panel-Zeilen (oben links)\r\nHinweis: Die Farben sehen etwas anders aus als die Info-Panel-Zeilen, da die ursprünglichen Elite-Farben anders sind."
         },
         {
-          "Category": "Pannello dialogo",
-          "Title": "Colore personalizzato",
+          "Category": "Chat-Panel",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x232|y232|z232|w232",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato linee pannello dialogo. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Chat-Panel-Zeilen. (*Alpha)"
         },
         {
-          "Category": "Pannello dialogo",
-          "Title": "Icone del pannello dialogo",
+          "Category": "Chat-Panel",
+          "Title": "Chat-Panel-Symbole",
           "File": "Startup-Profile",
           "Key": "y137",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità icone pannello dialogo."
+          "Description": "Modus für Chat-Panel-Symbole."
         },
         {
-          "Category": "Pannello dialogo",
-          "Title": "Colore personalizzato",
+          "Category": "Chat-Panel",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x233|y233|z233|w233",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato icone pannello dialogo. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Chat-Panel-Symbole. (*Alpha)"
         },
         {
-          "Category": "Pannello informazioni",
-          "Title": "Linee pannello informazioni",
+          "Category": "Info-Panel",
+          "Title": "Info-Panel-Zeilen",
           "File": "Startup-Profile",
           "Key": "w206",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità linee pannello informazioni (in alto a destra)"
+          "Description": "Modus für Info-Panel-Zeilen (oben rechts)"
         },
         {
-          "Category": "Pannello informazioni",
-          "Title": "Linee pannello informazioni",
+          "Category": "Info-Panel",
+          "Title": "Info-Panel-Zeilen",
           "File": "Advanced",
           "Key": "x208|y208|z208|w208",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato linee pannello informazioni. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Info-Panel-Zeilen. (*Alpha)"
         },
         {
-          "Category": "Pannello informazioni",
-          "Title": "Nome astronave",
+          "Category": "Info-Panel",
+          "Title": "Schiffsname",
           "File": "Startup-Profile",
           "Key": "z137",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Colore testo nome astronave."
+          "Description": "Textfarbe für den Schiffsnamen."
         },
         {
-          "Category": "Pannello informazioni",
-          "Title": "Nome astronave",
+          "Category": "Info-Panel",
+          "Title": "Schiffsname",
           "File": "Advanced",
           "Key": "x235|y235|z235",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato nome astronave."
+          "Description": "Benutzerdefinierte Farbe für den Schiffsnamen."
         },
         {
-          "Category": "Pannello informazioni",
-          "Title": "Luminosità nome astronave",
+          "Category": "Info-Panel",
+          "Title": "Helligkeit des Schiffsnamens",
           "File": "Advanced",
           "Key": "w235",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità nome astronave"
+          "Description": "Helligkeit des Schiffsnamens"
         },
         {
-          "Category": "Pannello informazioni",
-          "Title": "Bagliore sfondo nome astronave",
+          "Category": "Info-Panel",
+          "Title": "Hintergrundbeleuchtung Schiffsname",
           "File": "Advanced",
           "Key": "w137",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Bagliore sfondo nome astronave"
+          "Description": "Hintergrundbeleuchtung Schiffsname"
         }
       ]
     },
     {
       "Name": "Reticle",
-      "Title": "Reticolo di mira",
+      "Title": "Zielabsehen",
       "Elements": [
         {
-          "Category": "Reticolo di mira",
-          "Title": "Reticolo di mira",
+          "Category": "Zielabsehen",
+          "Title": "Zielabsehen",
           "File": "Startup-Profile",
           "Key": "y141",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per reticolo di mira"
+          "Description": "Modus für Zielabsehen"
         },
         {
-          "Category": "Reticolo di mira",
-          "Title": "Icona del grado",
+          "Category": "Zielabsehen",
+          "Title": "Rangsymbol",
           "File": "Startup-Profile",
           "Key": "w141",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "RankIcon",
-          "Description": "Icona del grado che appare accanto alla astronave bersaglio (solo neutro / arancione)"
+          "Description": "Rangsymbol, das neben dem anvisierten Schiff erscheint (nur neutral / orange)"
         },
         {
-          "Category": "Reticolo di mira - Componenti",
-          "Title": "Tre linee grandi",
+          "Category": "Zielabsehen - Komponenten",
+          "Title": "Große Tri-Bars",
           "File": "Advanced",
           "Key": "x56|y56|z56|w56",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Tre linee grandi (una verticale in alto, due diagonali in basso). (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für große Tri-Bars (eine vertikal oben, zwei diagonal unten). (*Alpha)"
         },
         {
-          "Category": "Reticolo di mira - Componenti",
-          "Title": "Tre linee piccole",
+          "Category": "Zielabsehen - Komponenten",
+          "Title": "Kleine Tri-Bars",
           "File": "Advanced",
           "Key": "x57|y57|z57|w57",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Tre linee piccole. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für kleine Tri-Bars. (*Alpha)"
         },
         {
-          "Category": "Reticolo di mira - Componenti",
-          "Title": "Cerchio grande",
+          "Category": "Zielabsehen - Komponenten",
+          "Title": "Großer Kreis",
           "File": "Advanced",
           "Key": "x58|y58|z58|w58",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per cerchio grande. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für großen Kreis. (*Alpha)"
         },
         {
-          "Category": "Reticolo di mira - Componenti",
-          "Title": "Cerchio principale",
+          "Category": "Zielabsehen - Komponenten",
+          "Title": "Führender Kreis",
           "File": "Advanced",
           "Key": "x59|y59|z59|w59",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per cerchio principale. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für den führenden Kreis. (*Alpha)"
         },
         {
-          "Category": "Reticolo di mira - Componenti",
-          "Title": "Puntatore arma",
+          "Category": "Zielabsehen - Komponenten",
+          "Title": "Waffenpunkte",
           "File": "Advanced",
           "Key": "x60|y60|z60|w60",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per puntatori arma. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Waffenpunkte. (*Alpha)"
         },
         {
-          "Category": "Reticolo di mira - Componenti",
-          "Title": "Puntatore mouse",
+          "Category": "Zielabsehen - Komponenten",
+          "Title": "Mauspunkt",
           "File": "Advanced",
           "Key": "x61|y61|z61|w61",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per puntatore mouse. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Mauspunkt. (*Alpha)"
         },
         {
-          "Category": "Reticolo di mira - Componenti",
-          "Title": "Aggancio missile",
+          "Category": "Zielabsehen - Komponenten",
+          "Title": "Raketensperre",
           "File": "Advanced",
           "Key": "x62|y62|z62|w62",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per aggancio missile (anche per l'animazione del decollo da pianeta) *Alpha"
+          "Description": "Benutzerdefinierte Farbe für Raketensperre (auch Abheben von Planetenanimation) *Alpha"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Modalità",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "z141",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità obiettivi ambientali e di destinazione (& aggancio dei missili)"
+          "Description": "Umwelt- und Zielziele (& Raketensperre) Modus"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Possibile obiettivo astronave",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Mögliches Schiffsziel",
           "File": "Advanced",
           "Key": "x64|y64|z64|w64",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per possibile obiettivo astronave (non selezionato). (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für mögliches Schiffsziel (nicht ausgewählt). (*Alpha)"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Possibile obiettivo destinazione",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Mögliches Zielziel",
           "File": "Advanced",
           "Key": "x65|y65|z65|w65",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per possibile obiettivo destinazione e relativa freccia del mouse. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für mögliches Zielziel und relativen Mauspfeil. (*Alpha)"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Cerchio possibile obiettivo in supercruise",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Möglicher Supercruise-Zielkreis",
           "File": "Advanced",
           "Key": "x66|y66|z66|w66",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per cerchio possibile obiettivo in supercruise. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für möglichen Supercruise-Zielkreis. (*Alpha)"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Cerchio obiettivo destinazione",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Zielzielkreis",
           "File": "Advanced",
           "Key": "x67|y67|z67|w67",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il cerchio obiettivo destinazione. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für den Zielzielkreis. (*Alpha)"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Luminosità testo",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Texthelligkeit",
           "File": "Advanced",
           "Key": "w68",
           "Value": 0.4,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità testo obiettivo destinazione (il testo a destra del cerchio)"
+          "Description": "Zielziel Texthelligkeit (der Text rechts vom Kreis)"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Modalità del rombo grigio",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Grauer Rhombus-Modus",
           "File": "Startup-Profile",
           "Key": "x107",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità del rombo grigio (obiettivo potenziale non biologico nell'ambiente)"
+          "Description": "Modus für Grauen Rhombus (nicht-biologisches potenzielles Ziel in der Umgebung)"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Colore del rombo grigio",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Graue Rautenfarbe",
           "File": "Advanced",
           "Key": "x171|y171|z171|w171",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il rombo grigio (obiettivo potenziale non biologico nell'ambiente). (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Graue Rauten (nicht biologisches potenzielles Ziel in der Umwelt). (*Alpha)"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Aumento visibilità del rombo grigio",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Graue Rhombus-Verstärkung",
           "File": "Advanced",
           "Key": "y107",
           "Value": 1.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Aumento dell'opacità nel SRV"
+          "Description": "Verstärkung der Deckkraft in SRV"
         },
         {
-          "Category": "Obiettivi ambientali e di destinazione",
-          "Title": "Testo durante atterraggio planetario astronave (blu)",
+          "Category": "Umgebungs- und Zielziele",
+          "Title": "Planetary Landing Text (blau)",
           "File": "Advanced",
           "Key": "w107",
           "Value": 0.4,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "In Elite, il testo blu dell'astronave 'agganciata' all'atterraggio è eccessivamente luminoso.\r\nQui puoi ridurre la luminosità di questo testo (consigliato da 0,4 a 0,6)"
+          "Description": "In der Standardeinstellung Elite wird der blaue Text \"Ship Secured\" bei der Landung ausgeblasen.\r\nHier können Sie die Helligkeit dieses Textes reduzieren (empfohlen 0,4 bis 0,6)"
         }
       ]
     },
     {
       "Name": "Settings",
-      "Title": "Impostazioni HUD",
+      "Title": "HUD-Einstellungen",
       "Elements": [
         {
-          "Category": "Testo principale",
-          "Title": "Modalità testo",
+          "Category": "Haupttext",
+          "Title": "Textmodus",
           "File": "Startup-Profile",
           "Key": "w75",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Cambia colore del testo arancione (la maggior parte del testo)."
+          "Description": "Orangefarbener Textfarbwechsel (der Großteil des Textes)."
         },
         {
-          "Category": "Testo principale",
-          "Title": "Colore testo",
+          "Category": "Haupttext",
+          "Title": "Textfarbe",
           "File": "Advanced",
           "Key": "x77|y77|z77|w77",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColour",
-          "Description": "Colore personalizzato per il testo globale. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für globalen Text. *Alpha*"
         },
         {
-          "Category": "Testo principale",
-          "Title": "Modalità testo evidenziato",
+          "Category": "Haupttext",
+          "Title": "Modus für hervorgehobenen Text",
           "File": "Startup-Profile",
           "Key": "z87",
           "Value": 200.0,
           "ValueType": "Preset",
           "Type": "ShortMode",
-          "Description": "Modalità per testo evidenziato in tutti i pannelli."
+          "Description": "Modus für hervorgehobenen Text in allen Bedienfeldern."
         },
         {
-          "Category": "Testo principale",
-          "Title": "Colore testo evidenziato",
+          "Category": "Haupttext",
+          "Title": "Hervorgehobene Textfarbe",
           "File": "Advanced",
           "Key": "x143|y143|z143|w143",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColour",
-          "Description": "Colore personalizzato per il testo evidenziato in tutti i pannelli. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für hervorgehobenen Text in allen Panels. *Alpha*"
         },
         {
-          "Category": "Testi secondari",
-          "Title": "Modalità testo",
+          "Category": "Sekundärtexte",
+          "Title": "Textmodus",
           "File": "Startup-Profile",
           "Key": "y78",
           "Value": 200.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Cambia colore del testo blu (tra gli altri, intorno all'AHUD e al testo della missione)."
+          "Description": "Blauer Textfarbwechsel (unter anderem um den AHUD- und Missionstext herum)."
         },
         {
-          "Category": "Testi secondari",
-          "Title": "Colore testo",
+          "Category": "Sekundärtexte",
+          "Title": "Textfarbe",
           "File": "Advanced",
           "Key": "x82|y82|z82|w82",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColour",
-          "Description": "Colore personalizzato per i testi secondari. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für Sekundärtexte. *Alpha*"
         },
         {
-          "Category": "Testi terziari",
-          "Title": "Modalità testo",
+          "Category": "Tertiärtexte",
+          "Title": "Textmodus",
           "File": "Startup-Profile",
           "Key": "z78",
           "Value": 200.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Scambio colore testo giallo (tra gli altri, evidenzia la propria Fleet Carrier, testo del reticolo di atterraggio)."
+          "Description": "Gelber Text-Farbwechsel (unter anderem Eigene Träger-Markierung, Landing-Absehen-Text)."
         },
         {
-          "Category": "Testi terziari",
-          "Title": "Colore testo",
+          "Category": "Tertiärtexte",
+          "Title": "Textfarbe",
           "File": "Advanced",
           "Key": "x80|y80|z80|w80",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColour",
-          "Description": "Colore personalizzato per testi terziari. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für Tertiärtexte. *Alpha*"
         },
         {
-          "Category": "Mappa Galassia",
-          "Title": "Modalità icona",
+          "Category": "Galaxie-Karte",
+          "Title": "Symbolmodus",
           "File": "Startup-Profile",
           "Key": "y84",
           "Value": 199.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Colore icona GalMap (esclusa icona Engineer) e colore della linea di rotta."
+          "Description": "GalMap-Symbolfarbe (außer Ingenieurwesen) und Farbe der Reiselinie."
         },
         {
-          "Category": "Mappa Galassia",
-          "Title": "Colore icona",
+          "Category": "Galaxie-Karte",
+          "Title": "Symbolfarbe",
           "File": "Advanced",
           "Key": "x85|y85|z85|w85",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il colore dell'icona su GalMap. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für GalMap-Symbolfarbe. *Alpha*"
         },
         {
-          "Category": "Mappa Galassia",
-          "Title": "Modalità icona Engineer",
+          "Category": "Galaxie-Karte",
+          "Title": "Engineering-Symbolmodus",
           "File": "Startup-Profile",
           "Key": "z84",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità icona Engineer su GalMap"
+          "Description": "GalMap-Engineering-Symbolmodus"
         },
         {
-          "Category": "Mappa Galassia",
-          "Title": "Colore dell'icona Engineer",
+          "Category": "Galaxie-Karte",
+          "Title": "Engineering Icon Colour",
           "File": "Advanced",
           "Key": "x86|y86|z86|w86",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per l'icona Engineer su GalMap. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für GalMap Engineering Icon Colour. *Alpha*"
         },
         {
-          "Category": "Avvisi - Accelerazione",
-          "Title": "Modalità colore",
+          "Category": "Warnungen - Geschwindigkeitsüberschreitung",
+          "Title": "Farbmodus",
           "File": "Startup-Profile",
           "Key": "y104",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per avviso di accelerazione (solo linee)"
+          "Description": "Modus für Geschwindigkeitswarnung (nur Linien)"
         },
         {
-          "Category": "Avvisi - Accelerazione",
-          "Title": "Colore personalizzato",
+          "Category": "Warnungen - Geschwindigkeitsüberschreitung",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x172|y172|z172",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per avviso di accelerazione (solo linee)"
+          "Description": "Benutzerdefinierte Farbe für Geschwindigkeitswarnung (nur Linien)"
         },
         {
-          "Category": "Avvisi - Accelerazione",
-          "Title": "Luminosità",
+          "Category": "Warnungen - Geschwindigkeitsüberschreitung",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w172",
           "Value": 1.1,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per avviso di accelerazione (solo linee)."
+          "Description": "Helligkeit für Geschwindigkeitswarnung (nur Linien)."
         },
         {
-          "Category": "Avvertenze - Flak a rilascio remoto",
-          "Title": "Modalità colore",
+          "Category": "Warnungen - Remote Release Flac",
+          "Title": "Farbmodus",
           "File": "Startup-Profile",
           "Key": "w174",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per Flak a rilascio remoto / Lanciatore Flak"
+          "Description": "Modus für Remote Release Flac / Flechette Launcher"
         },
         {
-          "Category": "Avvertenze - Flak a rilascio remoto",
-          "Title": "Colore personalizzato",
+          "Category": "Warnungen - Fernauslöser Flac",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x173|y173|z173",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Flak a rilascio remoto/Lanciatore Flak.\r\nNota: il segnale di attivazione rosso non può essere modificato in questo momento.\r\nI controlli della luminosità non sono disponibili in quanto alterano la visualizzazione tra gli elementi esterni e di prossimità; Per ridurre la luminosità, ridurre semplicemente i valori RGB della stessa percentuale"
+          "Description": "Benutzerdefinierte Farbe für Fernauslöser Flac / Flechette Launcher.\r\nHinweis: Das rote Triggersignal kann derzeit nicht modifiziert werden.\r\nHelligkeitsregler sind nicht verfügbar, da es einen Fehler zwischen den Äußere und Näherungselemente; Um die Helligkeit zu reduzieren, reduzieren Sie einfach Ihre RGB-Werte um denselben Prozentsatz"
         },
         {
-          "Category": "Avvertenze - Flak a rilascio remoto",
-          "Title": "Colore di prossimità del bersaglio",
+          "Category": "Warnungen - Remote Release Flac",
+          "Title": "Target Proximity Farbe",
           "File": "Advanced",
           "Key": "x174|y174|z1743",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Flak a rilascio remoto/Lanciatore Flak.\r\nNota: il segnale di attivazione rosso non può essere modificato in questo momento.\r\nI controlli della luminosità non sono disponibili in quanto alterano la visualizzazione tra gli elementi esterni e di prossimità; Per ridurre la luminosità, riduci semplicemente i valori RGB della stessa percentuale"
+          "Description": "Benutzerdefinierte Farbe für Remote Release Flac / Flechette Launcher.\r\nHinweis: Das rote Triggersignal kann derzeit nicht modifiziert werden.\r\nHelligkeitsregler sind nicht verfügbar, da es einen Fehler zwischen verursacht die Elemente Äußeres und Nähe; Um die Helligkeit zu reduzieren, reduzieren Sie einfach Ihre RGB-Werte um denselben ProzentsatzPanel (unten)"
         }
       ]
     },
     {
       "Name": "Panel_Lower",
-      "Title": "Pannello (inferiore)",
+      "Title": "Unteres Panel ",
       "Elements": [
         {
-          "Category": "Pannello inferiore",
-          "Title": "Linee pannello (inferiore)",
+          "Category": "Unteres Panel",
+          "Title": "Panel-Linien (unten)",
           "File": "Startup-Profile",
           "Key": "z104",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Valore per il colore preferito delle linee del pannello inferiore."
+          "Description": "Wert für Ihre Lieblingsfarbe der Lower Panel Lines."
         },
         {
-          "Category": "Pannello inferiore",
-          "Title": "Linee pannello inferiore",
+          "Category": "Unteres Panel",
+          "Title": "Untere Bedienfeldzeilen",
           "File": "Advanced",
           "Key": "x204|y204|z204|w204",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "(*Alpha) ** (se il tuo colore personalizzato è vicino all'arancione, aggiungi un po' di blu (es. 0.1) per evitare un problema di visualizzazione sul pannello di mira. Il pannello di mira utilizza una tecnica di cambio colore che considera blu = 0)."
+          "Description": "(*Alpha) ** (Wenn Ihre benutzerdefinierte Farbe nahe an Orange liegt, fügen Sie ein wenig Blau hinzu (z. B. 0,1), um einen Fehler im Zielfeld zu vermeiden. Das Zielfeld verwendet eine Farbwechseltechnik, die sucht nach blau = 0)."
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Modalità",
+          "Category": "Zieltafel",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "x140",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Velocità/Distanza/Allineamento in Supercruise. Escluse le linee del pannello inferiore e il colore del testo.\r\nSe il colore scelto per gli elementi Velocità/Distanza in Supercruise è vicino all'arancione (rosso alto, verde medio), aggiungi 0,1 blu per evitare un problema di visualizzazione"
+          "Description": "Geschwindigkeit/Entfernung/Ausrichtung in Supercruise. Mit Ausnahme der unteren Panellinien und der Textfarbe.\r\nWenn Ihre gewählte Farbe für Supercruise-Geschwindigkeits-/Distance-Elemente nahe an Orange ist (hohes Rot, mittleres Grün), fügen Sie 0,1 Blau hinzu, um einen Fehler zu vermeiden"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Allineamento corretto del bersaglio (blocchi)",
+          "Category": "Zieltafel",
+          "Title": "Korrekte Zielausrichtung (Blöcke)",
           "File": "Advanced",
           "Key": "x51|y51|z51",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per blocchi di allineamento (corretto) del bersaglio, barra e indicatore luminoso (sezioni blu in Elite originale)."
+          "Description": "Benutzerdefinierte Farbe für die Zielausrichtung (korrekte) Blöcke, Balken und Anzeigelicht (blaue Abschnitte im Original Elite)."
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Luminosità",
+          "Category": "Zieltafel",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w51",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per l'allineamento (corretto) del bersaglio"
+          "Description": "Helligkeit für die Ausrichtung des Ziels (korrekt)"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Modalità linee di divisione",
+          "Category": "Zieltafel",
+          "Title": "Trennlinienmodus",
           "File": "Startup-Profile",
           "Key": "x78",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Linee di divisione sul pannello di mira in Supercruise"
+          "Description": "Trennlinien im Zielbereich in Supercruise"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Colore linee di divisione",
+          "Category": "Zieltafel",
+          "Title": "Farbe der Trennlinien",
           "File": "Advanced",
           "Key": "x79|y79|z79",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per le linee di divisione nel pannello di mira in Supercruise"
+          "Description": "Benutzerdefinierte Farbe für Trennlinien auf dem Targeting-Panel in Supercruise"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Luminosità linee di divisione",
+          "Category": "Zieltafel",
+          "Title": "Helligkeit der Trennlinien",
           "File": "Advanced",
           "Key": "w79",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per le icone nel pannello Nav e nel pannello di mira"
+          "Description": "Helligkeit für Symbole im Nav-Panel und Targeting-Panel"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Allineamento del bersaglio errato (blocchi)",
+          "Category": "Zieltafel",
+          "Title": "Falsche Zielausrichtung (Blöcke)",
           "File": "Advanced",
           "Key": "x52|y52|z52",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per i blocchi di allineamento del bersaglio (errato / non allineato) e indicatore luminoso (sezioni arancioni nell'Elite originale)."
+          "Description": "Benutzerdefinierte Farbe für die Zielausrichtung (falsche / nicht ausgerichtete) Blöcke und Anzeigelicht (orange Abschnitte im Original Elite)."
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Luminosità",
+          "Category": "Zieltafel",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w52",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per l'allineamento del bersaglio (errato)"
+          "Description": "Helligkeit für Zielausrichtung (falsch)"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Allineamento del bersaglio errato (barra)",
+          "Category": "Zieltafel",
+          "Title": "Falsche Zielausrichtung (Balken)",
           "File": "Advanced",
           "Key": "x53|y53|z53",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per barra di allineamento del bersaglio in Supercruise (errato), linee di divisione (tra Distanza/Velocità/Allineamento), icone. Questi non possono essere separati ulteriormente.."
+          "Description": "Benutzerdefinierte Farbe für Supercruise-Zielausrichtung (falsche) Balken, Trennlinien (zwischen Distanz/Geschwindigkeit/Ausrichtung), Symbole. Diese lassen sich nicht weiter trennen.."
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Luminosità",
+          "Category": "Zieltafel",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w53",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per barra di allineamento del bersaglio in Supercruise (errato)"
+          "Description": "Helligkeit für Supercruise-Zielausrichtungsleiste (falsch)"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Modalità icone",
+          "Category": "Zieltafel",
+          "Title": "Symbole-Modus",
           "File": "Startup-Profile",
           "Key": "z75",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Icone nel pannello navigazione e nel pannello di mira"
+          "Description": "Symbole im Nav-Panel und Targeting-Panel"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Colore icone",
+          "Category": "Zieltafel",
+          "Title": "Symbolfarbe",
           "File": "Advanced",
           "Key": "x53|y53|z53",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per le icone nel pannello navigazione e nel pannello di mira"
+          "Description": "Benutzerdefinierte Farbe für Symbole im Nav-Panel und Targeting-Panel"
         },
         {
-          "Category": "Pannello di mira",
-          "Title": "Luminosità icone",
+          "Category": "Zieltafel",
+          "Title": "Symbole Helligkeit",
           "File": "Advanced",
           "Key": "w53",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per le icone nel pannello navigazione e nel pannello di mira"
+          "Description": "Helligkeit für Icons im Nav Panel und Targeting Panel"
         },
         {
-          "Category": "Pannello centrale",
-          "Title": "Avatar pannello centrale",
+          "Category": "Mittleres Panel",
+          "Title": "Mittelpanel-Avatar",
           "File": "Advanced",
           "Key": "y157",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità / Trasparenza dell'avatar nel pannello centrale (3)"
+          "Description": "Helligkeit/Transparenz des Avatars im mittleren Panel (3)"
         },
         {
-          "Category": "Evidenza pannello",
-          "Title": "Modalità evidenza pannello",
+          "Category": "Panel-Hervorhebung",
+          "Title": "Panel-Highlight-Modus",
           "File": "Startup-Profile",
           "Key": "z68",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "(Nota: questo colora anche l'indicatore della velocità attuale, la barra di allineamento in Supercruise (quando non allineata), il carburante attivo sulla barra del carburante. Sfortunatamente non può essere separato, ma puoi scegliere il colore. Consigliato XML."
+          "Description": "(Hinweis: Dies färbt auch die aktuelle Geschwindigkeitsanzeige, den Supercruise-Ausrichtungsbalken (wenn nicht ausgerichtet), den aktiven Kraftstoff auf dem Tankbalken. Er kann leider nicht getrennt werden, aber Sie können die Farbe auswählen. Ich empfehle XML."
         },
         {
-          "Category": "Evidenza pannello",
-          "Title": "Colore personalizzato",
+          "Category": "Panel-Hervorhebung",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x74|y74|z74",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per i blocchi di allineamento (corretto) del bersaglio, la barra e l'indicatore luminoso (sezioni blu in Elite originale)."
+          "Description": "Benutzerdefinierte Farbe für Zielausrichtung (korrekte) Blöcke, Balken und Anzeigelicht (blaue Abschnitte im Original-Elite)."
         },
         {
-          "Category": "Evidenza pannello",
-          "Title": "Luminosità",
+          "Category": "Panel-Hervorhebung",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w74",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per evidenza pannello."
+          "Description": "Helligkeit für das Panel-Highlight."
         },
         {
-          "Category": "Pannelli laterali",
-          "Title": "Linee principali",
+          "Category": "Seitenwände",
+          "Title": "Hauptlinien",
           "File": "Startup-Profile",
           "Key": "x75",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "(Nota: questo colora anche l'indicatore della velocità attuale, la barra di allineamento in Supercruise (quando non allineata), il carburante attivo sulla barra del carburante. Sfortunatamente non può essere separato, ma puoi scegliere il colore. Consigliato XML."
+          "Description": "(Hinweis: Dies färbt auch die aktuelle Geschwindigkeitsanzeige, den Supercruise-Ausrichtungsbalken (wenn nicht ausgerichtet), den aktiven Kraftstoff auf dem Tankbalken. Er kann leider nicht getrennt werden, aber Sie können die Farbe wählen. I XML empfehlen."
         },
         {
-          "Category": "Pannelli laterali",
-          "Title": "Colore personalizzato",
+          "Category": "Seitenwände",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x76|y76|z76",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per i blocchi di allineamento (corretto) del bersaglio, la barra e l'indicatore luminoso (sezioni blu in Elite originale)."
+          "Description": "Benutzerdefinierte Farbe für Zielausrichtung (korrekte) Blöcke, Balken und Anzeigelicht (blaue Abschnitte im Original Elite)."
         },
         {
-          "Category": "Pannelli laterali",
-          "Title": "Luminosità",
+          "Category": "Seitenwände",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w76",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per le linee principali dei pannelli laterali."
+          "Description": "Helligkeit für die Hauptlinien der Seitenwände."
         },
         {
-          "Category": "Pannello Navigazione",
-          "Title": "Modalità pannello navigazione",
+          "Category": "Nav Panel",
+          "Title": "Nav-Panel-Modus",
           "File": "Startup-Profile",
           "Key": "z97",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "NavPanel",
-          "Description": "Puntatore/cuneo di posizione attuale (solo il Puntatore di posizione attuale può essere modificato con un colore personalizzato. Il Puntatore di destinazione è collegato ad altri elementi/linee sul pannello dell'astronave)"
+          "Description": "Aktueller Standort-Pin/Keil (nur der aktuelle Standort-Pin kann in eine benutzerdefinierte Farbe geändert werden. Der Ziel-Pin ist mit anderen Elementen/Linien auf dem Schiffs-Panel verbunden)"
         },
         {
-          "Category": "Pannello Navigazione",
-          "Title": "Colore personalizzato",
+          "Category": "Nav Panel",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x98|y98|z98|w98",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il colore dell'icona Engineering su GalMap. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für GalMap Engineering Symbolfarbe. *Alpha*"
         },
         {
-          "Category": "Pannello Missione",
-          "Title": "Modalità pannello missione",
+          "Category": "Missionsfenster",
+          "Title": "Missionsfenstermodus",
           "File": "Startup-Profile",
           "Key": "z89",
           "Value": 200.0,
           "ValueType": "Preset",
           "Type": "NavPanel",
-          "Description": "Influisce sul colore dei pannelli missione sul pannello di navigazione, oltre all'icona della missione nella schermata di selezione della missione)"
+          "Description": "Beeinflusst die Farbe der Missionsfenster im Navigationsfenster sowie das Missionssymbol auf dem Missionsauswahlbildschirm)"
         },
         {
-          "Category": "Pannello Missione",
-          "Title": "Colore personalizzato",
+          "Category": "Missionsfenster",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x91|y91|z91",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per i pannelli missione sul pannello di navigazione, più l'icona della missione nella schermata di selezione della missione."
+          "Description": "Benutzerdefinierte Farbe für Missionsfelder im Navigationsfeld, plus Missionssymbol auf dem Missionsauswahlbildschirm."
         },
         {
-          "Category": "Pannello Manutenzione",
-          "Title": "Schizzo della astronave",
+          "Category": "Wartungspanel",
+          "Title": "Schiffsskizze",
           "File": "Startup-Profile",
           "Key": "w78",
           "Value": 200.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Schizzo della astronave sul pannello di manutenzione avanzata (stazione/fleet carrier)"
+          "Description": "Schiffsskizze auf der erweiterten Wartungstafel (Station/Träger)"
         },
         {
-          "Category": "Pannello Manutenzione",
-          "Title": "Colore personalizzato",
+          "Category": "Wartungspanel",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x146|y146|z146|w146",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per lo schizzo della astronave. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für die Schiffsskizze. *Alpha"
         }
       ]
     },
     {
       "Name": "Lighting",
-      "Title": "Illuminazione Cabina",
+      "Title": "Kabinenbeleuchtung",
       "Elements": [
         {
-          "Category": "Cabina - Illuminazione del pannello strumenti",
-          "Title": "Modalità colore",
+          "Category": "Kabine - Cockpitbeleuchtung",
+          "Title": "Farbmodus",
           "File": "Startup-Profile",
           "Key": "y68",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AmbientLights",
-          "Description": "Modalità per illuminazione cabina/pannello strumenti"
+          "Description": "Modus für Kabinen-/Cockpitbeleuchtung"
         },
         {
-          "Category": "Cabina - Illuminazione del pannello strumenti",
-          "Title": "Stile di illuminazione",
+          "Category": "Kabine - Cockpitbeleuchtung",
+          "Title": "Beleuchtungsstil",
           "File": "Advanced",
           "Key": "x68",
           "Value": 2.0,
           "ValueType": "Preset",
           "Type": "CabinLightingStyle",
-          "Description": "0 = Limitata (Vicino allo standard Elite, la luce della cabina non copre l'intera cabina di pilotaggio)\r\n1 = Estesa (Copre una parte maggiore della cabina di pilotaggio, rispetto a \"Limitata\", ma esclude le aree di luce bianca)\r\n2 = Completo (Copre le aree 'Estesa', più alcune aree di luce bianca. Usa la modalità XML (in Startup-Profile.ini) per vedere la luce multicolore su alcune astronavi (le aree arancioni e le aree bianche reagiranno in modo diverso al tuo XML)\r\n3 = Space Disco (inondazione di luce con contaminazione della pelle, cabina intera)."
+          "Description": "0 = Eingeschränkt (Nähe dem Elite-Standard, die Kabinenbeleuchtung deckt nicht das gesamte Cockpit ab)\r\n1 = Voll (deckt einen größeren Teil des Cockpits ab, relativ zu „Eingeschränkt“, schließt jedoch Bereiche aus von weißem Licht)\r\n2 = Vollständig (deckt die 'Voll'-Bereiche sowie einige Bereiche mit weißem Licht ab. Verwenden Sie den XML-Modus (in Startup-Profile.ini), um auf einigen Schiffen mehrfarbiges Licht zu sehen (die orangefarbenen Bereiche und weiße Bereiche reagieren anders auf Ihre XML)\r\n3 = Space Disco (Flutlicht mit Hautverschmutzung, ganze Kabine)."
         },
         {
-          "Category": "Cabina - Illuminazione pannello strumenti",
-          "Title": "Colore personalizzato",
+          "Category": "Kabine - Cockpitbeleuchtung",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x69|y69|z69",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per la cabina - Illuminazione pannello strumenti."
+          "Description": "Benutzerdefinierte Farbe für Kabine - Cockpitbeleuchtung."
         },
         {
-          "Category": "Cabina - Illuminazione pannello strumenti",
-          "Title": "Luminosità",
+          "Category": "Kabine - Cockpitbeleuchtung",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w69",
           "Value": 0.3,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per la cabina - Illuminazione pannello strumenti."
+          "Description": "Helligkeit für Kabine - Cockpitbeleuchtung."
         },
         {
-          "Category": "Luci Ambientali - Bicolore",
-          "Title": "Colore sinistro",
+          "Category": "AmbientLights - Zweifarbig",
+          "Title": "Linke Farbe",
           "File": "Advanced",
           "Key": "x70|y70|z70",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "(Sperimentale) - Ideale da usare in modalità di illuminazione COMPLETA."
+          "Description": "(Experimentell) - Am besten im VOLL-Beleuchtungsmodus zu verwenden."
         },
         {
-          "Category": "Luci Ambientali - Bicolore",
-          "Title": "Colore destro",
+          "Category": "AmbientLights - Zweifarbig",
+          "Title": "Right Color",
           "File": "Advanced",
           "Key": "x71|y71|z71",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "questo colore viene aggiunto al colore Base sul lato destro del cockpit."
+          "Description": "diese Farbe wird der Grundfarbe auf der rechten Seite des Cockpits hinzugefügt."
         },
         {
-          "Category": "Luci Ambientali - Bicolore",
-          "Title": "Luminosità",
+          "Category": "AmbientLights - Zweifarbig",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w71",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per Luci Ambientali - Bicolore."
+          "Description": "Helligkeit für AmbientLights - Zweifarbig."
         },
         {
-          "Category": "Pannelli astronave",
-          "Title": "Sfondo pannello astronave",
+          "Category": "Schiffspaneele",
+          "Title": "Ship Panel Background",
           "File": "Startup-Profile",
           "Key": "x89",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "ShipPanelOpacity",
-          "Description": "(imposta il livello di opacità predefinito in Advanced.ini, funziona con tutte le modalità colore)"
+          "Description": "(Standard-Deckkraft in Advanced.ini festlegen, funktioniert in allen Farbmodi)"
         },
         {
-          "Category": "Pannelli astronave",
-          "Title": "Sfondo pannello astronave",
+          "Category": "Schiffspaneele",
+          "Title": "Hintergrund des Schiffsfensters",
           "File": "Advanced",
           "Key": "x90|y90|z90",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per sfondo pannello astronave e opacità'. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für den Hintergrund des Schiffsfensters und die Deckkraft. *Alpha*"
         },
         {
-          "Category": "Pannelli astronave",
-          "Title": "Opacità dello sfondo del pannello",
+          "Category": "Schiffspaneele",
+          "Title": "Panel Background Opazität",
           "File": "Advanced",
           "Key": "w90",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "Brightness",
-          "Description": "Opacità (Alpha) per lo sfondo dei pannelli dell'astronave."
+          "Description": "Opcaity (Alpha) für den Ship Panels Hintergrund."
         },
         {
-          "Category": "Pannelli della stazione",
-          "Title": "Disegni del pannello",
+          "Category": "Stationstafeln",
+          "Title": "Tafelzeichnungen",
           "File": "Startup-Profile",
           "Key": "w89",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Decorazioni e schizzi su pannelli"
+          "Description": "Kunst und Skizzen auf Tafeln"
         },
         {
-          "Category": "Pannelli stazione",
-          "Title": "Disegni del pannello",
+          "Category": "Stationstafeln",
+          "Title": "Panel-Zeichnungen",
           "File": "Advanced",
           "Key": "x92|y92|z92|w92",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per disegni del pannello. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für Panel-Zeichnungen. *Alpha*"
         }
       ]
     },
     {
       "Name": "SpecialFX",
-      "Title": "Effetti Speciali",
+      "Title": "Spezialeffekte",
       "Elements": [
         {
-          "Category": "Effetti speciali",
-          "Title": "Linee Laterali in Supercruise",
+          "Category": "Weltraumeffekte",
+          "Title": "Supercruise SideLines",
           "File": "Startup-Profile",
           "Key": "w120",
           "Value": 0.0,
-          "ValueType": "Preset",
-          "Type": "SC_SideLines",
-          "Description": "Modalità colore per le linee secondarie in Super-Cruise"
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Schalter zum Entfernen von Supercruise SideLines"
         },
         {
-          "Category": "Effetti speciali",
-          "Title": "SC_SideLines Colore",
+          "Category": "Weltraumeffekte",
+          "Title": "Farbe für SC_SideLines Farbe",
           "File": "Advanced",
           "Key": "x176|y176|z176",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore per le linee laterali in Super-Cruiser."
+          "Description": "Farbe für die Seitenlinien in Super-Cruise."
         },
         {
-          "Category": "Effetti speciali",
-          "Title": "SC_SideLines Luminosità",
+          "Category": "Weltraumeffekte",
+          "Title": "Glanz für SC_SideLines Farbe",
           "File": "Advanced",
           "Key": "w176",
           "Value": 0.3,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Gloss per le linee secondarie in Super-Cruiser."
+          "Description": "Glanz für die Seitenlinien im Super-Cruiser."
         },
         {
-          "Category": "Effetti speciali",
+          "Category": "Weltraumeffekte",
           "Title": "Supercruise Snow",
           "File": "Startup-Profile",
           "Key": "y121",
           "Value": 0.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Interruttore per attivare/disattivare l'effetto 'neve' in Supercruise"
+          "Description": "Schalter für Supercruise Snow entfernen"
         },
         {
-          "Category": "Effetti speciali",
+          "Category": "Weltraumeffekte",
           "Title": "Space Dust",
           "File": "Startup-Profile",
           "Key": "z121",
           "Value": 0.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Interruttore per attivare/disattivare l'effetto Space Dust (noto anche come 'neve') in volo normale"
+          "Description": "Switch für Space Dust (auch bekannt als Schnee im normalen Flug)"
         },
 
         {
@@ -1143,1573 +1143,1573 @@
     },
     {
       "Name": "CHUD_AHUD",
-      "Title": "HUD di Combattimento ed Analisi",
+      "Title": "Kampf- und Analyse-HUD",
       "Elements": [
         {
-          "Category": "HUD di combattimento",
-          "Title": "Modalità HUD di combattimento",
+          "Category": "Kampf-HUD",
+          "Title": "Kampf-HUD-Modus",
           "File": "Startup-Profile",
           "Key": "x141",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "** MODALITÀ Combat HUD (CHUD) ** \r\n Per un CHUD standard, imposta Colore 2 RGB(0,0,0) e Intensità dissolvenza = 0\r\n Per un singolo colore CHUD Bird-of-Prey, imposta Color 2 RGB(0,0,0) e il tuo Fade Strength (intensità dissolvenza) preferito (0,7 è un buon equilibrio)\r\n Per un CHUD 'synthwave' (doppio colore), imposta Color 2 RGB secondo le tue preferenze e Fade Strenth = 1"
+          "Description": "** Kampf-HUD (CHUD) MODUS ** \r\n Für ein Standard-CHUD, Setze Farbe 2 RGB(0,0,0) und Fade Strength = 0\r\n Für ein einfarbiges Bird-of-Prey CHUD, Set Color 2 RGB (0,0,0) und Ihre bevorzugte Fade-Stärke (0,7 ist eine schöne Balance)\r\n Stellen Sie für ein Synthwave (zweifarbiges) CHUD die Farbe 2 RGB nach Ihren Wünschen ein und die Fade-Stärke = 1"
         },
         {
-          "Category": "HUD di combattimento",
-          "Title": "Colore 1",
+          "Category": "Kampf-HUD",
+          "Title": "Farbe 1",
           "File": "Advanced",
           "Key": "x55|y55|z55",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per HUD da combattimento - Colore 1 (colore superiore)."
+          "Description": "Benutzerdefinierte Farbe für Combat HUD - Farbe 1 (obere Farbe)."
         },
         {
-          "Category": "HUD di combattimento",
-          "Title": "Colore 1 - Luminosità",
+          "Category": "Kampf-HUD",
+          "Title": "Farbe 1 - Helligkeit",
           "File": "Advanced",
           "Key": "w55",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per Colore 1 (Colore superiore)."
+          "Description": "Helligkeit für Farbe 1 (oberste Farbe)."
         },
         {
-          "Category": "HUD di combattimento",
-          "Title": "Colore 2",
+          "Category": "Kampf-HUD",
+          "Title": "Farbe 2",
           "File": "Advanced",
           "Key": "x48|y48|z48",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per HUD da combattimento - Colore 2 (colore inferiore)."
+          "Description": "Benutzerdefinierte Farbe für Combat HUD – Farbe 2 (untere Farbe)."
         },
         {
-          "Category": "HUD di combattimento",
-          "Title": "Intensità dissolvenza",
+          "Category": "Kampf-HUD",
+          "Title": "Fade Strength",
           "File": "Advanced",
           "Key": "w48",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Intensità dissolvenza (o bilanciamento del colore Synthwave: > 1 = più secondo colore, < 1 = meno secondo colore)."
+          "Description": "Fade Strength (oder Synthwave-Farbbalance: > 1 = mehr Zweite Farbe, < 1 = weniger Zweite Farbe)."
         },
         {
-          "Category": "HUD di combattimento",
-          "Title": "Colore munizioni",
+          "Category": "Kampf-HUD",
+          "Title": "Munitionsfarbe",
           "File": "Advanced",
           "Key": "x45|y45|z45",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per HUD da combattimento - Munizioni."
+          "Description": "Benutzerdefinierte Farbe für Combat HUD - Munition."
         },
         {
-          "Category": "HUD di combattimento",
-          "Title": "Luminosità munizioni",
+          "Category": "Kampf-HUD",
+          "Title": "Munition Brightness",
           "File": "Advanced",
           "Key": "w45",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per le munizioni."
+          "Description": "Helligkeit für Munition."
         },
         {
-          "Category": "HUD di analisi",
-          "Title": "Modalità HUD di analisi",
+          "Category": "Analyse-HUD",
+          "Title": "Analyse-HUD-Modus",
           "File": "Startup-Profile",
           "Key": "w140",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità radar"
+          "Description": "Radar-Modus"
         },
         {
-          "Category": "HUD di analisi",
-          "Title": "HUD di analisi",
+          "Category": "Analyse HUD",
+          "Title": "Analyse HUD",
           "File": "Advanced",
           "Key": "x54|y54|z54|w54",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per HUD di analisi. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Analyse HUD. (*Alpha)"
         },
         {
-          "Category": "HUD di analisi",
-          "Title": "Reticolo di mira",
+          "Category": "Analyse-HUD",
+          "Title": "Zielabsehen",
           "File": "Advanced",
           "Key": "x63|y63|z63|w63",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il reticolo della modalità Analisi in modalità Combattimento. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für das Absehen im Analysemodus im Kampfmodus. (*Alpha)"
         },
         {
-          "Category": "HUD di analisi",
-          "Title": "Modalità testo HUD di analisi",
+          "Category": "Analyse HUD",
+          "Title": "AHUD Text Mode",
           "File": "Startup-Profile",
           "Key": "w87",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AHUDText",
-          "Description": "Modalità per i testi intorno al AHUD."
+          "Description": "Modus für Texte rund um AHUD."
         },
         {
-          "Category": "HUD di analisi",
-          "Title": "Colore del testo HUD di analisi",
+          "Category": "Analyse HUD",
+          "Title": "AHUD Textfarbe",
           "File": "Advanced",
           "Key": "x144|y144|z144|w144",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per i testi intorno al AHUD. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für Texte rund um AHUD. *Alpha*"
         }
       ]
     },
     {
       "Name": "Foot_HUD",
-      "Title": "HUD Tuta (On-Foot)",
+      "Title": "Zu Fuß HUD",
       "Elements": [
         {
-          "Category": "HUD Tuta - Pannello",
-          "Title": "Modalità pannello",
+          "Category": "Anzug HUD - Panel",
+          "Title": "Panel Mode",
           "File": "SuitHud",
           "Key": "x30",
           "Value": 199.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Nota: XML (simulerà una base arancione per abbinarlo all'HUD della astronave)."
+          "Description": "Hinweis: XML (wird eine orangefarbene Basis vortäuschen, die dem Schiffs-HUD entspricht)."
         },
         {
-          "Category": "HUD Tuta - Pannello",
-          "Title": "Colore pannello",
+          "Category": "Anzug HUD - Panel",
+          "Title": "Panelfarbe",
           "File": "SuitHud",
           "Key": "x31|y31|z31",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per pannello On-Foot."
+          "Description": "Benutzerdefinierte Farbe für On-Fuß-Panel."
         },
         {
-          "Category": "HUD Tuta - Pannello",
-          "Title": "Opacità del pannello",
+          "Category": "Anzug HUD - Panel",
+          "Title": "Panel-Opazität",
           "File": "SuitHud",
           "Key": "w31",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per il pannello On-Foot."
+          "Description": "Helligkeit für On-Fuß-Panel."
         },
         {
-          "Category": "HUD Tuta - Pannello",
-          "Title": "Pannelli laterali astronave",
+          "Category": "Anzug HUD - Panel",
+          "Title": "Ship Side Panels",
           "File": "SuitHud",
           "Key": "x93",
           "Value": 0.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Opzione per sostituire gli elementi CIANO sui pannelli laterali dell'astronave.\r\nL'attivazione di questa opzione colorerà le icone del rango ciano e parti delle icone sul pannello di navigazione con il tuo XML e ciano.\r\nCambierà anche il colore dei blocchi ciano nella scheda di archiviazione del pannello di spedizione con il colore XML del pannello."
+          "Description": "Option zum Ersetzen von CYAN-Elementen auf Schiffsseitenpanels.\r\nWenn Sie diese Option aktivieren, werden die Cyan-Rangsymbole und Teile der Symbole im Nav-Panel mit Ihrem XML und Cyan eingefärbt.\r\n Es ändert auch die Farbe der Cyan-Blöcke auf der Registerkarte \"Versand-Panel-Speicher\" mit Ihrer Panel-XML-Farbe."
         },
         {
-          "Category": "HUD Tuta - Scudo",
-          "Title": "Modalità scudo",
+          "Category": "Anzug HUD - Schild",
+          "Title": "Schildmodus",
           "File": "SuitHud",
           "Key": "y30",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità colore per scudi"
+          "Description": "Farbmodus für Schilde"
         },
         {
-          "Category": "HUD Tuta - Scudo",
-          "Title": "Anello interno",
+          "Category": "Anzug HUD - Schild",
+          "Title": "Innenring",
           "File": "SuitHud",
           "Key": "x32|y32|z32|w32",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per l'anello interno dello scudo On-Foot (*alpha)."
+          "Description": "Benutzerdefinierte Farbe für den Innenring des On-Fuß-Schilds (*alpha)."
         },
         {
-          "Category": "HUD Tuta - Scudo",
-          "Title": "Anello centrale",
+          "Category": "Anzug HUD - Schild",
+          "Title": "Mittlerer Ring",
           "File": "SuitHud",
           "Key": "x33|y33|z33|w33",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per l'anello centrale dello scudo On-Foot (*alpha)."
+          "Description": "Benutzerdefinierte Farbe für den Mittelring des On-Fuß-Schilds (*alpha)."
         },
         {
-          "Category": "HUD Tuta - Scudo",
-          "Title": "Anello esterno",
+          "Category": "Anzug HUD - Schild",
+          "Title": "Außenring",
           "File": "SuitHud",
           "Key": "x34|y34|z34|w34",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per l'anello esterno dello scudo On-Foot (*alpha)."
+          "Description": "Benutzerdefinierte Farbe für den Außenring des On-Fuß-Schilds (*alpha)."
         },
         {
-          "Category": "HUD Tuta - Scudo",
-          "Title": "Colore scudo abbassato",
+          "Category": "Anzug HUD - Shield",
+          "Title": "Shield Down Color",
           "File": "SuitHud",
           "Key": "x35|y35|z35|w35",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per lo scudo abbassato On-Foot (*alpha)."
+          "Description": "Benutzerdefinierte Farbe für On-Fuß-Shield Down (*Alpha)."
         },
         {
-          "Category": "HUD Tuta - Scudo",
-          "Title": "Ripristino dello scudo",
+          "Category": "Anzug HUD - Schild",
+          "Title": "Schildwiederherstellung",
           "File": "SuitHud",
           "Key": "x36|y36|z36|w36",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per l'animazione di ripristino dello scudo On-Foot (*alpha)."
+          "Description": "Benutzerdefinierte Farbe für die Animation zur Schildwiederherstellung zu Fuß (*alpha)."
         },
         {
-          "Category": "HUD Tuta - Testi",
-          "Title": "Modalità testi",
+          "Category": "Anzug HUD - Texte",
+          "Title": "Textmodus",
           "File": "SuitHud",
           "Key": "z30",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Nota: XML (simulerà una base arancione per abbinarlo all'HUD della astronave)."
+          "Description": "Hinweis: XML (wird eine orangefarbene Basis vortäuschen, die dem Schiffs-HUD entspricht)."
         },
         {
-          "Category": "HUD Tuta - Testi",
-          "Title": "Colore testi",
+          "Category": "Anzug HUD - Texte",
+          "Title": "Textfarbe",
           "File": "SuitHud",
           "Key": "x37|y37|z37|w37",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per testi On-Foot. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für On-Fuß-Texte. (*Alpha)"
         },
         {
-          "Category": "HUD Tuta - Testi",
-          "Title": "Modalità evidenziata",
+          "Category": "Anzug HUD - Texte",
+          "Title": "Hervorgehobener Modus",
           "File": "SuitHud",
           "Key": "w30",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Colore del testo e dell'icona evidenziato/invertito."
+          "Description": "Hervorgehobener / invertierter Text und Symbolfarbe."
         },
         {
-          "Category": "HUD Tuta - Testi",
-          "Title": "Colore evidenziato",
+          "Category": "Anzug HUD - Texte",
+          "Title": "Hervorgehobene Farbe",
           "File": "SuitHud",
           "Key": "x38|y38|z38|w38",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per testi evidenziati On-Foot. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für hervorgehobene Texte zu Fuß. (*Alpha)"
         }
       ]
     },
     {
       "Name": "ShieldsHolo",
-      "Title": "Scudo ed Ologramma Astronave",
+      "Title": "Schild & Holo-Schiff",
       "Elements": [
         {
-          "Category": "Scudi",
-          "Title": "Modalità Scudo",
+          "Category": "Schilde",
+          "Title": "Schildmodus",
           "File": "Startup-Profile",
           "Key": "z105",
           "Value": 101.0,
           "ValueType": "Preset",
           "Type": "ShieldColor",
-          "Description": "Nota: lo schermo multiplo funziona solo con risoluzioni >= 2560x1440, potrebbe funzionare a 1920x1080. Applicato a se stesso e al bersaglio."
+          "Description": "Hinweis: Multi-Schild funktioniert nur bei Auflösungen >= 2560 x 1440, möglicherweise bei 1920 x 1080. Auf Selbst und Ziel angewendet."
         },
         {
-          "Category": "Scudi",
-          "Title": "Percentuale scudo % - Colore",
+          "Category": "Schilde",
+          "Title": "Schildprozentsatz % Farbe",
           "File": "Advanced",
           "Key": "x88|y88|z88",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per percentuale scudo %"
+          "Description": "Benutzerdefinierte Farbe für Schildprozentsatz %"
         },
         {
-          "Category": "Scudi",
-          "Title": "Percentuale scudo - Luminosità",
+          "Category": "Schilde",
+          "Title": "Schildprozentsatz - Helligkeit",
           "File": "Advanced",
           "Key": "w88",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per il testo percentuale scudo"
+          "Description": "Helligkeit für Schildprozentsatz-Text"
         },
         {
-          "Category": "Scudo multiplo",
-          "Title": "Anello interno",
+          "Category": "Mehrfarbiger Schild",
+          "Title": "Innenring",
           "File": "Advanced",
           "Key": "x201|y201|z201|w201",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore anello interno, solo per Scudo multiplo. (Alpha)"
+          "Description": "Innenringfarbe, nur für Multi-Shield. (Alpha)"
         },
         {
-          "Category": "Scudo multiplo",
-          "Title": "Anello centrale",
+          "Category": "Mehrfarbiger Schild",
+          "Title": "Mittlerer Ring",
           "File": "Advanced",
           "Key": "x202|y202|z202|w202",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore anello centrale, solo per Scudo multiplo. (Alpha)"
+          "Description": "Mittlere Ringfarbe, Nur für Multi-Shield. (Alpha)"
         },
         {
-          "Category": "Scudo multiplo",
-          "Title": "Anello esterno",
+          "Category": "Mehrfarbiger Schild",
+          "Title": "Äußerer Ring",
           "File": "Advanced",
           "Key": "x203|y203|z203|w203",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore anello esterno, solo per Scudo multiplo. (Alpha)"
+          "Description": "Äußere Ringfarbe, nur für Multi-Shield. (Alpha)"
         },
         {
-          "Category": "Scudo singolo",
-          "Title": "Scudo abbassato",
+          "Category": "Einfarbiger Schild",
+          "Title": "Shields Down",
           "File": "Advanced",
           "Key": "x87",
           "Value": 0.0,
           "ValueType": "Preset",
           "Type": "ShieldsDown",
-          "Description": "Scudo monocolore - Colore scudo abbassato."
+          "Description": "Einfarbiges Schild - Shield Down Color ."
         },
         {
-          "Category": "Scudo singolo",
-          "Title": "Scudo alzato",
+          "Category": "Einfarbiger Schild",
+          "Title": "Shields Up",
           "File": "Advanced",
           "Key": "x228|y228|z228",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore scudo alzato (relativo al colore scudo abbassato)."
+          "Description": "Shield Up-Farbe (relativ zur Shield Down-Farbe)."
         },
         {
-          "Category": "Scudo singolo",
-          "Title": "Luminosità",
+          "Category": "Einfarbiger Schild",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w228",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità complessiva scudi/Alpha (modalità singola)"
+          "Description": "Gesamtschildhelligkeit/Alpha (Einzelmodus)"
         },
         {
-          "Category": "Scudo singolo",
-          "Title": "Spessore anello",
+          "Category": "Einfarbiger Schild",
+          "Title": "Ringstärke",
           "File": "Advanced",
           "Key": "y87",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "4X",
-          "Description": "Luminosità complessiva scudi/Alpha (modalità singola)"
+          "Description": "Helligkeit/Alpha der Gesamtschilde (Einzelmodus)"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl superiori - Modalità",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Obere Wirbel - Modus",
           "File": "Startup-Profile",
           "Key": "z133",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Swirl circolari sotto Hologrammi"
+          "Description": "Kreisförmige Wirbel unter Holos"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl superiori - Colore",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Top Wirbel - Farbe",
           "File": "Advanced",
           "Key": "x226|y226|z226",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Swirl circolari sotto ologrammi"
+          "Description": "Benutzerdefinierte Farbe für Kreiswirbel unter Holos"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl superiori - Luminosità",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Top Wirbel - Helligkeit",
           "File": "Advanced",
           "Key": "w226",
           "Value": 1.5,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per Swirl superiori"
+          "Description": "Helligkeit für Top Wirbel"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl centrali - Modalità",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Mittlere Wirbel - Modus",
           "File": "Startup-Profile",
           "Key": "x135",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Barre di stato sotto lo scudo"
+          "Description": "Statusleisten unter dem Schild"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl centrali - Colore",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Mitte Wirbel - Farbe",
           "File": "Advanced",
           "Key": "x215|y215|z215",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato barre di stato"
+          "Description": "Benutzerdefinierte Farbe für Statusleisten"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl centrali - Luminosità",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Mittlere Wirbel - Helligkeit",
           "File": "Advanced",
           "Key": "w215",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità barre di stato"
+          "Description": "Statusleisten-Helligkeit"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl inferiori - Modalità",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Untere Wirbel - Modus",
           "File": "Startup-Profile",
           "Key": "x134",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Semicerchi sottili nella parte inferiore dell'ologramma"
+          "Description": "Dünne Halbkreise am unteren Rand des Hologramms"
         },
         {
-          "Category": "Swirl circolari",
-          "Title": "Swirl inferiori - Colore",
+          "Category": "Kreisförmige Wirbel",
+          "Title": "Untere Wirbel - Farbe",
           "File": "Advanced",
           "Key": "x205|y205|z205|w205",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per semicerchi sottili nella parte inferiore dell'ologramma. *Alpha"
+          "Description": "Benutzerdefinierte Farbe für dünne Halbkreise am unteren Rand des Hologramms. *Alpha"
         },
         {
-          "Category": "Indicatore scafo",
-          "Title": "Modalità colore",
+          "Category": "Rumpfmesser",
+          "Title": "Farbmodus",
           "File": "Startup-Profile",
           "Key": "y134",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Blocchi per l'integrità dello scafo, incluso il bersaglio"
+          "Description": "Blöcke für Rumpfgesundheit, einschließlich Ziel"
         },
         {
-          "Category": "Indicatore scafo",
-          "Title": "Colore personalizzato",
+          "Category": "Rumpfmesser",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x212|y212|z212",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per i blocchi sotto lo scudo, incluso il bersaglio."
+          "Description": "Benutzerdefinierte Farbe für Blöcke unter dem Schild, einschließlich des Ziels."
         },
         {
-          "Category": "Indicatore scafo",
-          "Title": "Luminosità",
+          "Category": "Rumpfmesser",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w212",
           "Value": 1.5,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per i blocchi sotto lo scudo"
+          "Description": "Helligkeit für Blöcke unter dem Schild"
         },
         {
-          "Category": "Indicatore scafo",
-          "Title": "Indicatore scafo - Ombreggiatura",
+          "Category": "Rumpfmesser",
+          "Title": "Rumpfmesser - Schattierung",
           "File": "Advanced",
           "Key": "w213",
           "Value": 4.0,
           "ValueType": "Brightness",
           "Type": "4X_Min",
-          "Description": "Moltiplicatore dell'ombreggiatura (si applica solo alla modalità ombreggiata)"
+          "Description": "Schattierungsmultiplikator (gilt nur für den schattierten Modus)"
         },
         {
-          "Category": "Indicatore scafo",
-          "Title": "Scafo affetto da sostanze caustiche",
+          "Category": "Rumpfmesser",
+          "Title": "Ätzend betroffene Hülle",
           "File": "Startup-Profile",
           "Key": "w170",
           "Value": 0.0,
           "ValueType": "Preset",
           "Type": "CausticEffect",
-          "Description": "Blocchi per l'integrità dello scafo, incluso il bersaglio"
+          "Description": "Blockiert die Hüllengesundheit, einschließlich des Ziels"
         },
         {
-          "Category": "Indicatore scafo",
-          "Title": "Colore scafo affetto da sostanze caustiche",
+          "Category": "Rumpfmesser",
+          "Title": "Caustic Affected Hull Color",
           "File": "Advanced",
           "Key": "x170|y170|z170",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per barre dello scafo affette da sostanze caustiche."
+          "Description": "Benutzerdefinierte Farbe für Caustic Affected Hull Bars."
         },
         {
-          "Category": "Ologramma Astronave Propria",
-          "Title": "Modalità Ologramma",
+          "Category": "Hologramm des eigenen Schiffs",
+          "Title": "Hologramm - Modus",
           "File": "Startup-Profile",
           "Key": "y101",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità Ologramma Astronave Propria\r\nInclude anche ologramma di atterraggio, ologramma SRV, terreno SRV sul radar"
+          "Description": "OwnShip Hologramm-Modus\r\nUmfasst auch Landehologramm, SRV-Hologramm, SRV-Gelände auf Radar"
         },
         {
-          "Category": "Ologramma Astronave Propria",
-          "Title": "Colore Ologramma",
+          "Category": "Hologramm des eigenen Schiffs",
+          "Title": "Hologramm - Farbe",
           "File": "Advanced",
           "Key": "x248|y248|z248",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Ologramma Astronave Propria"
+          "Description": "Benutzerdefinierte Farbe für OwnShip Hologramm"
         },
         {
-          "Category": "Ologramma Astronave Propria",
-          "Title": "Luminosità Ologramma",
+          "Category": "Hologramm des eigenen Schiffs",
+          "Title": "Hologram - Helligkeitsstufe",
           "File": "Advanced",
           "Key": "x132",
           "Value": 0.5,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità Ologramma Astronave Propria\r\nPer Ultra-tron, imposta la luminosità dello scafo bassa (es. 0) e le linee esterne bloom alte (es. 0.5)"
+          "Description": "Hellness for Hologram's Hull\r\nSetzen Sie für Ultra-Tron die Helligkeit des Rumpfes niedrig (z. B. 0) und die Außenlinienblüte hoch (z. B. 0,5)"
         },
         {
-          "Category": "Ologramma Astronave Propria",
-          "Title": "Alone Ologramma",
+          "Category": "Hologramm des eigenen Schiffs",
+          "Title": "Hologramm - Bloom",
           "File": "Advanced",
           "Key": "y132",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Alone Ologramma / glow"
+          "Description": "Holo Bloom / glow"
         },
         {
-          "Category": "Ologramma Astronave Propria",
-          "Title": "Alone linee esterne",
+          "Category": "Hologramm des eigenen Schiffs",
+          "Title": "Outer Lines Bloom",
           "File": "Advanced",
           "Key": "z132",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Alone linee esterne / glow (default= 0) (Questo valore può essere negativo, ad esempio -0,5)"
+          "Description": "Outer Lines Bloom/Glow (Standard= 0) (Dieser Wert kann negativ sein, z. B. -0.5)"
         },
         {
-          "Category": "Ologramma Astronave Propria",
-          "Title": "Luminosità complessiva",
+          "Category": "Hologramm des eigenen Schiffs",
+          "Title": "Gesamthelligkeit",
           "File": "Advanced",
           "Key": "z101",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità complessiva ologramma"
+          "Description": "Gesamthelligkeit des Hologramms"
         },
         {
-          "Category": "Ologramma Astronave Propria",
-          "Title": "Linee luccicanti",
+          "Category": "Hologramm des eigenen Schiffs",
+          "Title": "Schimmernde Linien",
           "File": "Advanced",
           "Key": "z109",
           "Value": 1.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Passa a Ologramma Astronave Propria con Linee luccicanti"
+          "Description": "Schalter für OwnShip Hologramm Shimmer"
         },
         {
-          "Category": "Ologramma Astronave Bersaglio",
-          "Title": "Bersaglio neutro",
+          "Category": "Zielschiff-Hologramm",
+          "Title": "Neutrales Ziel",
           "File": "Advanced",
           "Key": "x72|y72|z72",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per ologramma astronave bersaglio"
+          "Description": "Benutzerdefinierte Farbe für OwnShip-Hologramm"
         },
         {
-          "Category": "Ologramma Astronave Bersaglio",
-          "Title": "Bersaglio neutro - Luminosità",
+          "Category": "Zielschiff-Hologramm",
+          "Title": "Neutrales Ziel - Helligkeit",
           "File": "Advanced",
           "Key": "x72",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per lo scafo dell'ologramma astronave bersaglio\r\nPer Ultra-tron, impostare la luminosità dello scafo bassa (es. 0) e le linee esterne bloom alte (es. 0,5)"
+          "Description": "Helligkeit für Hologramm-Rumpf\r\nSetzen Sie für Ultra-Tron die Rumpfhelligkeit niedrig (z. B. 0) und die Außenlinien blühen hoch (z. B. 0,5)"
         },
         {
-          "Category": "Ologramma Astronave Bersaglio",
-          "Title": "Luminosità complessiva",
+          "Category": "Zielschiff-Hologramm",
+          "Title": "Gesamthelligkeit",
           "File": "Advanced",
           "Key": "y73",
           "Value": 0.5,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per l'ologramma"
+          "Description": "Helligkeit für Hologramm"
         },
         {
-          "Category": "Ologramma Astronave Bersaglio",
-          "Title": "Luminosità bersaglio verde",
+          "Category": "Zielschiff-Hologramm",
+          "Title": "Grüne Ziel-Helligkeit",
           "File": "Advanced",
           "Key": "z73",
           "Value": 0.5,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità ologramma bersaglio verde brillante (alcuni ologrammi verdi hanno una luminosità eccessiva)"
+          "Description": "Hellgrüne Ziel-Holo-Helligkeit (einige grüne Hologramme haben übermäßige Helligkeit)"
         },
         {
-          "Category": "Ologramma Astronave Bersaglio",
-          "Title": "Linee luccicanti",
+          "Category": "Zielschiff-Hologramm",
+          "Title": "Schimmernde Linien",
           "File": "Advanced",
           "Key": "x73",
           "Value": 1.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Interruttore per l'ologramma dell'obiettivo luccicante"
+          "Description": "Schalter für Ziel-Hologramm-Schimmer"
         },
         {
-          "Category": "Ologramma di atterraggio",
-          "Title": "Lontano dal sito di atterraggio",
+          "Category": "Landungshologramm",
+          "Title": "OFF Landeplatz",
           "File": "Advanced",
           "Key": "x254|y254|z254",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per l'ologramma di atterraggio"
+          "Description": "Benutzerdefinierte Farbe für Landing Hologramm"
         },
         {
-          "Category": "Ologramma di atterraggio",
-          "Title": "Sul sito di atterraggio",
+          "Category": "Landungshologramm",
+          "Title": "ON-Landeplatz",
           "File": "Advanced",
           "Key": "x249|y249|z249",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato sul sito di atterraggio"
+          "Description": "Benutzerdefinierte Farbe für ON-Landeplatz"
         },
         {
-          "Category": "Ologramma di atterraggio",
-          "Title": "Luminosità",
+          "Category": "Landungshologramm",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w254",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per l'ologramma di atterraggio"
+          "Description": "Helligkeit für Landing Hologramm"
         },
         {
-          "Category": "Reticolo di atterraggio planetario",
-          "Title": "Modalità colore",
+          "Category": "Planetarisches Landeabsehen",
+          "Title": "Farbmodus",
           "File": "Startup-Profile",
           "Key": "z107",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Reticolo di atterraggio planetario - Barre angolari di rilevamento e discesa"
+          "Description": "Planetary Landing Absehen - Peil- und Sinkwinkelleisten"
         },
         {
-          "Category": "Reticolo di atterraggio planetario",
-          "Title": "Colore personalizzato",
+          "Category": "Planetarisches Landeabsehen",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x209|y209|z209|w209",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per reticolo di atterraggio planetario."
+          "Description": "Benutzerdefinierte Farbe für planetares Landeabsehen."
         },
         {
-          "Category": "Reticolo di atterraggio planetario",
-          "Title": "Linea di atterraggio e ausilii visivi",
+          "Category": "Planetarisches Landeabsehen",
+          "Title": "Landing Line und Coasters",
           "File": "Advanced",
           "Key": "x255|y255|z255|w255",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per linea di atterraggio e ausilii visivi (arancioni)*Alpha"
+          "Description": "Benutzerdefinierte Farbe für Landing Line und Coaster (orange)*Alpha"
         },
         {
-          "Category": "Reticolo di atterraggio planetario",
-          "Title": "Barra di altitudine",
+          "Category": "Planetarisches Landeabsehen",
+          "Title": "Höhenbalken",
           "File": "Advanced",
           "Key": "x96|y96|z96|w96",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per linea di atterraggio e ausilii visivi (arancioni)*Alpha"
+          "Description": "Benutzerdefinierte Farbe für Landing Line und Coaster (orange)*Alpha"
         },
         {
-          "Category": "Reticolo di atterraggio planetario",
-          "Title": "Colore testo",
+          "Category": "Planetarisches Landeabsehen",
+          "Title": "Textfarbe",
           "File": "Advanced",
           "Key": "x95|y95|z95|w95",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il testo nelle caselle del reticolo *Alpha"
+          "Description": "Benutzerdefinierte Farbe für Text in Absehenfeldern *Alpha"
         },
         {
-          "Category": "Reticolo di atterraggio planetario",
-          "Title": "Luminosità del testo",
+          "Category": "Planetarisches Landeabsehen",
+          "Title": "Texthelligkeit",
           "File": "Advanced",
           "Key": "x97",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità del testo lungo la barra dell'altitudine (tende ad essere troppo illuminato intorno al reticolo)"
+          "Description": "Texthelligkeit entlang des Höhenbalkens (wird um das Fadenkreuz herum ausgeblasen)"
         },
         {
-          "Category": "Reticolo di atterraggio planetario",
-          "Title": "Luminosità del testo",
+          "Category": "Planetarisches Landeabsehen",
+          "Title": "Texthelligkeit",
           "File": "Advanced",
           "Key": "y97",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità del testo per coordinate di longitudine/latitudine, gravità"
+          "Description": "Texthelligkeit für Längen-/Breitenkoordinaten, Schwerkraft"
         },
         {
-          "Category": "Ologramma SRV",
-          "Title": "Ologramma SRV - Principale",
+          "Category": "SRV-Hologramm",
+          "Title": "SRV-Hologramm - Main",
           "File": "Advanced",
           "Key": "x250|y250|z250|w250",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "**(DISABILITATO)** Colore personalizzato per ologramma SRV (*Alpha)"
+          "Description": "**(DEAKTIVIERT)** Benutzerdefinierte Farbe für SRV-Hologramm (*Alpha)"
         },
         {
-          "Category": "Ologramma SRV",
-          "Title": "Ologramma SRV - Piccolo",
+          "Category": "SRV-Hologramm",
+          "Title": "SRV-Hologramm - Klein",
           "File": "Advanced",
           "Key": "x251|y251|z251|w251",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per ologramma SRV.\r\nAlpha (è una % dell'ologramma principale alpha)"
+          "Description": "Benutzerdefinierte Farbe für SRV-Hologramm.\r\nAlpha (ist ein % des Haupthologramm-Alpha)"
         }
       ]
     },
     {
       "Name": "RadarHUD",
-      "Title": "Radar e Gruppo Comune",
+      "Title": "Radar & gemeinsame Gruppe",
       "Elements": [
         {
-          "Category": "Radar astronave",
-          "Title": "Modalità radar",
+          "Category": "Schiffsradar",
+          "Title": "Radarmodus",
           "File": "Startup-Profile",
           "Key": "y106",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità radar"
+          "Description": "Radarmodus"
         },
         {
-          "Category": "Radar astronave",
-          "Title": "Bordo esterno radar",
+          "Category": "Schiffsradar",
+          "Title": "Radaraußenrand",
           "File": "Advanced",
           "Key": "x236|y236|z236",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Componenti radar esterni Colore personalizzato."
+          "Description": "Außenradarkomponenten Benutzerdefinierte Farbe."
         },
         {
-          "Category": "Radar astronave",
-          "Title": "Luminosità bordo esterno",
+          "Category": "Schiffsradar",
+          "Title": "Außenrandhelligkeit",
           "File": "Advanced",
           "Key": "w236",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità bodo esterno radar (l'intervallo normale è compreso tra 0,3 e 1,0, ma è possibile aumentare)"
+          "Description": "Außenradarhelligkeit (normaler Bereich liegt zwischen 0,3 und 1,0, aber Sie können höher gehen)"
         },
         {
-          "Category": "Griglia radar",
-          "Title": "Colore",
+          "Category": "Radargitter",
+          "Title": "Farbe",
           "File": "Advanced",
           "Key": "x237|y237|z237",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per griglia radar."
+          "Description": "Benutzerdefinierte Farbe für Radargitter."
         },
         {
-          "Category": "Griglia radar",
-          "Title": "Luminosità",
+          "Category": "Radargitter",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w237",
           "Value": 0.8,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per griglia radar"
+          "Description": "Helligkeit für Radargitter"
         },
         {
-          "Category": "Widget triangolo radar",
-          "Title": "Modalità",
+          "Category": "Radar-Dreieck-Widget",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "x138",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità widget triangolo radar"
+          "Description": "Radar-Dreieck-Widget-Modus"
         },
         {
-          "Category": "Widget triangolo radar",
-          "Title": "Colore personalizzato",
+          "Category": "Radar-Dreieck-Widget",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x239|y239|z239|w239",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per widget triangolo radar. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für das Dreieck-Radar-Widget. (*Alpha)"
         },
         {
-          "Category": "Widget zoom radar",
-          "Title": "Modalità",
+          "Category": "Radar-Zoom-Widget",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "w136",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per linee di livello zoom radar"
+          "Description": "Modus für Radar-Zoom-Level-Linien"
         },
         {
-          "Category": "Widget zoom radar",
-          "Title": "Colore personalizzato",
+          "Category": "Radar-Zoom-Widget",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x240|y240|z240|w240",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per widget zoom radar. (*Alpha)"
+          "Description": "Benutzerdefinierte Farbe für das Radar-Zoom-Widget. (*Alpha)"
         },
         {
-          "Category": "Widget zoom radar",
-          "Title": "Linee di livello",
+          "Category": "Radar-Zoom-Widget",
+          "Title": "Level-Linien",
           "File": "Advanced",
           "Key": "x231|y231|z231",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per linee di livello zoom radar."
+          "Description": "Radar-Zoom-Level-Linien Benutzerdefinierte Farbe."
         },
         {
-          "Category": "Widget zoom radar",
-          "Title": "Luminosità linee di livello",
+          "Category": "Radar-Zoom-Widget",
+          "Title": "Helligkeit der Pegellinien",
           "File": "Advanced",
           "Key": "w231",
           "Value": 1.2,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità linee di livello zoom radar"
+          "Description": "Helligkeit der Radar-Zoompegellinien"
         },
         {
-          "Category": "Oggetti radar - Supercruise",
-          "Title": "Radar - Corpi celesti in Supercruise",
+          "Category": "Radarobjekte - Supercruice",
+          "Title": "Radarkörper in Supercruice",
           "File": "Startup-Profile",
           "Key": "z138",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per corpi celesti sul radar in Supercruise"
+          "Description": "Modus für Radarkörper in Supercruice"
         },
         {
-          "Category": "Oggetti radar - Supercruise",
-          "Title": "Radar - Pianeti",
+          "Category": "Radarobjekte - Supercruice",
+          "Title": "Radar - Planets",
           "File": "Advanced",
           "Key": "x241|y241|z241|w241",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per corpi celesti sul radar in Supercruise. (* Con Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Radarkörper in Supercruise. (* Mit Alpha)"
         },
         {
-          "Category": "Oggetti radar - Supercruise",
-          "Title": "Radar - Lune",
+          "Category": "Radarobjekte - Supercruice",
+          "Title": "Radar - Moons",
           "File": "Advanced",
           "Key": "x242|y242|z242|w242",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per corpi celesti sul radar in Supercruise. (* Con Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Radarkörper in Supercruise. (* Mit Alpha)"
         },
         {
-          "Category": "Oggetti radar - Supercruice",
-          "Title": "Radar - Stelle",
+          "Category": "Radarobjekte - Supercruise",
+          "Title": "Radar - Stars",
           "File": "Advanced",
           "Key": "x243|y243|z243|w243",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per corpi celesti sul radar in Supercruise. (* Con Alpha)"
+          "Description": "Benutzerdefinierte Farbe für Radarkörper in Supercruise. (* Mit Alpha)"
         },
         {
-          "Category": "Oggetti radar - Supercruise",
-          "Title": "Obiettivi neutri - Linee",
+          "Category": "Radarobjekte – Supercruice",
+          "Title": "Neutrale Ziele – Linien",
           "File": "Advanced",
           "Key": "x244|y244|z244|w244",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per linee di oggetti ed ausilii visivi in Supercruise."
+          "Description": "Benutzerdefinierte Farbe für Objektlinien und Achterbahnen in Supercruise."
         },
         {
-          "Category": "Oggetti radar",
-          "Title": "Oggetti radar",
+          "Category": "Radarobjekte",
+          "Title": "Radarobjekte",
           "File": "Startup-Profile",
           "Key": "y139",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per oggetti sul radar in volo normale"
+          "Description": "Modus für Radarobjekte im Normalflug"
         },
         {
-          "Category": "Oggetti radar",
-          "Title": "Rimuovi oggetti bianchi",
+          "Category": "Radarobjekte",
+          "Title": "Weiße Objekte entfernen",
           "File": "Startup-Profile",
           "Key": "x115",
           "Value": 0.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Attiva/disattiva la rimozione di oggetti bianchi sul radar (scie, materiali, recupero, ecc.) in volo standard (non supercrociera)"
+          "Description": "Schalter zum Entfernen weißer Objekte auf dem Radar (Wake, Materialien, Bergung usw.) im Standardflug (nicht Supercruise)"
         },
         {
-          "Category": "Oggetti radar",
-          "Title": "Radar - Bersagli neutri",
+          "Category": "Radarobjekte",
+          "Title": "Radar - Neutrale Ziele",
           "File": "Advanced",
           "Key": "x245|y245|z245|w245",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Quadrati ARANCIONI in entrambe le modalità di volo; Linee di oggetti e ausilii visivi ARANCIONI in volo normale.\r\n* Alpha"
+          "Description": "ORANGE Quadrate in beiden Flugmodi; Orangefarbene Objektlinien und Untersetzer im Normalflug.\r\n* Alpha"
         },
         {
-          "Category": "Oggetti radar",
-          "Title": "Radar - Bersagli amici",
+          "Category": "Radarobjekte",
+          "Title": "Radar - Freundliche Ziele",
           "File": "Advanced",
           "Key": "x246|y246|z246|w246",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Quadrati, linee e ausilii visivi VERDI in entrambe le modalità di volo.\r\n* Alpha"
+          "Description": "GRÜNE Quadrate, Linien und Untersetzer in beiden Flugmodi.\r\n* Alpha"
         },
         {
-          "Category": "Oggetti radar",
-          "Title": "Radar - Bersagli ostili",
+          "Category": "Radarobjekte",
+          "Title": "Radar - Feindliche Ziele",
           "File": "Advanced",
           "Key": "x247|y247|z247|w247",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Quadrati, linee e ausilii visivi ROSSI in entrambe le modalità di volo.\r\n* Alpha"
+          "Description": "ROTE Quadrate, Linien und Untersetzer in beiden Flugmodi.\r\n* Alpha"
         },
         {
-          "Category": "Componenti esterni radar",
-          "Title": "Modalità colore",
+          "Category": "Äußere Radar Komponenten",
+          "Title": "Farbmodus",
           "File": "Startup-Profile",
           "Key": "x136",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per barra di calore e barra della velocità"
+          "Description": "Modus für Heat Bar und Speed ​​Bar"
         },
         {
-          "Category": "Componenti esterni radar",
-          "Title": "Colore personalizzato",
+          "Category": "Äußere Radar Komponenten",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x221|y221|z221",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per componenti radar esterni."
+          "Description": "Benutzerdefinierte Farbe der äußeren Radarkomponenten."
         },
         {
-          "Category": "Componenti esterni radar",
+          "Category": "Äußere Radar Komponenten",
           "Title": "Bar Booster",
           "File": "Advanced",
           "Key": "w221",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Bar Booster (aumenta la luminosità dello sfondo delle barre principali di velocità e calore)"
+          "Description": "Bar Booster (erhöht die Helligkeit des Hintergrunds der Hauptgeschwindigkeits- und Heizbalken)"
         },
         {
-          "Category": "Componenti esterni radar",
-          "Title": "Luminosità",
+          "Category": "Äußere Radar Komponenten",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w222",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità complessiva (di tutti i componenti radar esterni)"
+          "Description": "Gesamthelligkeit (aller äußeren Radarkomponenten)"
         },
         {
-          "Category": "Barra velocità ottimale",
-          "Title": "Colore personalizzato",
+          "Category": "Optimale Geschwindigkeitsleiste",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x222|y222|z222",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore barra velocità ottimale (i valori sono relativi al colore principale; può essere negativo per sottrarre un colore dal colore principale)"
+          "Description": "Optimale Geschwindigkeitsleistenfarbe (Werte beziehen sich auf die Hauptfarbe; können negativ sein, um eine Farbe von der Hauptfarbe zu reduzieren)"
         },
         {
-          "Category": "Oggetti radar",
-          "Title": "Oggetti radar - Atterraggio",
+          "Category": "Radarobjekte",
+          "Title": "Radarobjekte - Landung",
           "File": "Startup-Profile",
           "Key": "x139",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per oggetti radar durante l'atterraggio, la linea e gli ausilii visivi"
+          "Description": "Modus für Radarobjekte bei Landung, Linie und Achterbahn"
         },
         {
-          "Category": "Oggetti radar",
-          "Title": "Oggetti radar - Atterraggio",
+          "Category": "Radarobjekte",
+          "Title": "Radarobjekte - Landung",
           "File": "Advanced",
           "Key": "x253|y253|z253|w253",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il terreno durante l'atterraggio su un pianeta."
+          "Description": "Benutzerdefinierte Farbe für das Gelände Bei der Landung auf einem Planeten."
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Scanner SRV",
+          "Category": "SRV-Scanner",
+          "Title": "SRV-Scanner",
           "File": "Startup-Profile",
           "Key": "w210",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Colore Scanner SRV"
+          "Description": "SRV-Scanner Farbe"
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Scanner SRV - Colore primario",
+          "Category": "SRV-Scanner",
+          "Title": "SRV-Scanner - Primärfarbe",
           "File": "Advanced",
           "Key": "x210|y210|z210",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore primario Scanner SRV, colore di rilevamento oggetto."
+          "Description": "SRV-Scanner Primärfarbe, Objekterkennungsfarbe."
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Scanner SRV - Colore secondario",
+          "Category": "SRV-Scanner",
+          "Title": "SRV-Scanner - Sekundärfarbe",
           "File": "Advanced",
           "Key": "x211|y211|z211",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore secondario Scanner SRV, colore del diagramma di scansione."
+          "Description": "SRV-Scanner Sekundärfarbe, Abtastfarbe des Scanners."
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Canale Alpha globale",
+          "Category": "SRV-Scanner",
+          "Title": "Gesamt-Alpha",
           "File": "Advanced",
           "Key": "w211",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Scanner SRV - Canale Alpha globale"
+          "Description": "SRV-Scanner – Gesamt-Alpha"
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Ologramma del terreno sul radar",
+          "Category": "SRV-Scanner",
+          "Title": "Geländehologramm auf Radar",
           "File": "Advanced",
           "Key": "x252|y252|z252|w252",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per l'ologramma del terreno sul radar (mentre in SRV)."
+          "Description": "Benutzerdefinierte Farbe für Geländehologramm auf Radar (während in SRV)."
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Elevazione dello scanner SRV",
+          "Category": "SRV Scanner",
+          "Title": "SRV Scanner Elevation",
           "File": "Startup-Profile",
           "Key": "z139",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per linee diagonali di elevazione radar SRV"
+          "Description": "Modus für SRV Radar Elevation diagonale Linien"
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Elevazione dello scanner SRV",
+          "Category": "SRV-Scanner",
+          "Title": "SRV-Scanner-Elevation",
           "File": "Advanced",
           "Key": "x50|y50|z50|w50",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per le linee diagonali dell'elevazione radar SRV. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für diagonale Linien der SRV-Radarhöhe. *Alpha*"
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Modalità torretta SRV",
+          "Category": "SRV-Scanner",
+          "Title": "SRV-Turmmodus",
           "File": "Startup-Profile",
           "Key": "w73",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Torretta SRV, piccola immagine di SRV sul radar, più elementi vari"
+          "Description": "SRV-Turm, kleines Bild von SRV auf dem Radar, plus verschiedene Elemente"
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Colore torretta SRV",
+          "Category": "SRV-Scanner",
+          "Title": "SRV-Turmfarbe",
           "File": "Advanced",
           "Key": "x147|y147|z147|w147",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per torretta SRV, piccola immagine di SRV sul radar, più elementi vari. *Alpha*"
+          "Description": "Benutzerdefinierte Farbe für SRV-Turm, kleines Bild von SRV auf dem Radar plus verschiedene Elemente. *Alpha*"
         },
         {
-          "Category": "Scanner SRV",
-          "Title": "Luminosità",
+          "Category": "SRV Scanner",
+          "Title": "Brightness",
           "File": "Advanced",
           "Key": "w70",
           "Value": 1.1,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Torretta SRV, incremento luminosità distributore.\r\nFDev applica un filtro di smorzamento del colore dispari alla schermata della torretta SRV.\r\nUtilizza questo valore per aumentare il colore del distributore (non sarà esattamente lo stesso come distributore astronave/SRV a causa del filtro)"
+          "Description": "SRV Turret, Distributor Brightness Boost.\r\nFDev wendet einen ungeraden Farbdämpfungsfilter auf den SRV Turret-Bildschirm an.\r\nVerwenden Sie diesen Wert, um die Farbe des Verteilers zu verstärken (er sieht nicht genau gleich aus als Schiffs-/SRV-Verteiler aufgrund des Filters)"
         },
         {
-          "Category": "Bussola",
-          "Title": "Modalità colore",
+          "Category": "Kompass",
+          "Title": "Farbmodus",
           "File": "Startup-Profile",
           "Key": "w135",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Colore bussola"
+          "Description": "Kompassfarbe"
         },
         {
-          "Category": "Bussola",
-          "Title": "Colore personalizzato",
+          "Category": "Kompass",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x219|y219|z219",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato bussola."
+          "Description": "Benutzerdefinierte Kompassfarbe."
         },
         {
-          "Category": "Bussola",
-          "Title": "Luminosità",
+          "Category": "Kompass",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w219",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Amplificatore sfondo bussola."
+          "Description": "Kompass-Hintergrund-Booster"
         },
         {
-          "Category": "Bussola",
-          "Title": "Punto su Bussola",
+          "Category": "Kompass",
+          "Title": "Kompasspunkt",
           "File": "Advanced",
           "Key": "x220|y220|z220",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato punto su bussola."
+          "Description": "Kompasspunkt Benutzerdefinierte Farbe."
         },
         {
-          "Category": "Bussola",
-          "Title": "Luminosità Punto su bussola",
+          "Category": "Kompass",
+          "Title": "Kompasspunkthelligkeit",
           "File": "Advanced",
           "Key": "w220",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità punto su bussola\r\n(Nota: questo elemento si comporta in modo leggermente diverso dagli altri. Il minimo consigliato è 0,7 luminosità)"
+          "Description": "Kompasspunkthelligkeit\r\n(Hinweis: Dieses Element verhält sich etwas anders als andere. Empfohlenes Minimum ist 0,7 Helligkeit)"
         }
       ]
     },
     {
       "Name": "Power_Distributor",
-      "Title": "Distributore di Potenza",
+      "Title": "Stromverteiler",
       "Elements": [
         {
-          "Category": "Distributore di Potenza",
-          "Title": "Modalità",
+          "Category": "Stromverteiler",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "y136",
           "Value": 101.0,
           "ValueType": "Preset",
           "Type": "PowerDistributor",
-          "Description": "Modalità Distributore di Potenza"
+          "Description": "Stromverteilermodus"
         },
         {
-          "Category": "Distributore di Potenza",
-          "Title": "Colore blocco superiore",
+          "Category": "Stromverteiler",
+          "Title": "Farbe des oberen Blocks",
           "File": "Advanced",
           "Key": "x223|y223|z223",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per il blocco superiore del distributore tricolore o Standard (colore singolo)"
+          "Description": "Benutzerdefinierte Farbe für den oberen Block des dreifarbigen Verteilers oder Standard (einfarbig)"
         },
         {
-          "Category": "Distributore di Potenza",
-          "Title": "Luminosità blocco superiore",
+          "Category": "Stromverteiler",
+          "Title": "Helligkeit des oberen Blocks",
           "File": "Advanced",
           "Key": "w223",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per blocco superiore del distributore tricolore o standard (colore singolo)"
+          "Description": "Helligkeit für den oberen Block des dreifarbigen Verteilers oder Standard (einfarbig)"
         },
         {
-          "Category": "Distributore tricolore",
-          "Title": "Colore blocco centrale",
+          "Category": "Dreifarbiger Verteiler",
+          "Title": "Farbe des mittleren Blocks",
           "File": "Advanced",
           "Key": "x224|y224|z224",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Valori colore personalizzati per il blocco centrale del distributore a tre colori."
+          "Description": "Benutzerdefinierte Farbwerte für den mittleren Block des Tri-Verteilers."
         },
         {
-          "Category": "Distributore tricolore",
-          "Title": "Luminosità blocco centrale",
+          "Category": "Dreifarbiger Verteiler",
+          "Title": "Mittelblock-Helligkeit",
           "File": "Advanced",
           "Key": "w224",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità (Alpha) per blocco centrale"
+          "Description": "Helligkeit (Alpha) für Mittelblock"
         },
         {
-          "Category": "Distributore tricolore",
-          "Title": "Colore blocco inferiore",
+          "Category": "Dreifarbiger Verteiler",
+          "Title": "Bottom Block Color",
           "File": "Advanced",
           "Key": "x225|y225|z225",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Valori di colore personalizzati per il blocco inferiore del distributore a tre colori."
+          "Description": "Benutzerdefinierte Farbwerte für den unteren Block des Tri-Distributors."
         },
         {
-          "Category": "Distributore tricolore",
-          "Title": "Luminosità blocco inferiore",
+          "Category": "Dreifarbiger Verteiler",
+          "Title": "Bottom Block Brightness",
           "File": "Advanced",
           "Key": "w225",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per blocco inferiore"
+          "Description": "Helligkeit für Bottom Block"
         },
         {
-          "Category": "Distributore gradiente",
-          "Title": "Colore 1",
+          "Category": "Farbverlaufsverteiler",
+          "Title": "Farbe 1",
           "File": "Advanced",
           "Key": "x47|y47|z47",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Colore 1: Colore superiore del distributore gradiente."
+          "Description": "Benutzerdefinierte Farbe für Farbe 1: Obere Farbe des Farbverlaufsverteilers."
         },
         {
-          "Category": "Distributore gradiente",
-          "Title": "Dominanza 1",
+          "Category": "Farbverlaufsverteiler",
+          "Title": "Dominanz 1",
           "File": "Advanced",
           "Key": "w47",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "4X",
-          "Description": "Dominanza colore 1 (valori > 1.0 aumenteranno la dominanza, valori < 1.0 diminuiranno la dominanza)"
+          "Description": "Farbe 1-Dominanz (Werte > 1,0 erhöhen die Dominanz, Werte < 1,0 verringern die Dominanz)"
         },
         {
-          "Category": "Distributore gradiente",
-          "Title": "Colore 2",
+          "Category": "Farbverlaufsverteiler",
+          "Title": "Farbe 2",
           "File": "Advanced",
           "Key": "x46|y46|z46",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Colore 2: Colore inferiore del distributore gradiente."
+          "Description": "Benutzerdefinierte Farbe für Farbe 2: Untere Farbe des Farbverlaufsverteilers."
         },
         {
-          "Category": "Distributore gradiente",
-          "Title": "Luminosità",
+          "Category": "Farbverlaufsverteiler",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w46",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità complessiva del distributore gradiente"
+          "Description": "Gesamthelligkeit des Farbverlaufsverteilers"
         },
         {
-          "Category": "Distributore di Potenza - Pips",
-          "Title": "Modalità Pips",
+          "Category": "Stromverteiler - Pips",
+          "Title": "Pips-Modus",
           "File": "Startup-Profile",
           "Key": "w134",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità Pips Distributore di Potenza"
+          "Description": "Stromverteiler Pips-Modus"
         },
         {
-          "Category": "Distributore di Potenza - Pips",
-          "Title": "Colore pips",
+          "Category": "Stromverteiler - Pips",
+          "Title": "Pips-Farbe",
           "File": "Advanced",
           "Key": "x214|y214|z214",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per Pips del distributore di Potenza."
+          "Description": "Benutzerdefinierte Farbe für Stromverteiler Pipsr."
         },
         {
-          "Category": "Distributore di Potenza - Pips",
-          "Title": "Luminosità",
+          "Category": "Stromverteiler - Pips",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w214",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per Pips del distributore di Potenza."
+          "Description": "Helligkeit für Stromverteiler Pips"
         },
         {
-          "Category": "Distributore di potenza - Pips",
-          "Title": "Amplificatore di Pip non attivo",
+          "Category": "Stromverteiler - Pips",
+          "Title": "Nicht aktiver Pip-Booster",
           "File": "Advanced",
           "Key": "z134",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per Pips inattivi."
+          "Description": "Helligkeit für inaktive Pips."
         },
         {
-          "Category": "Blocchi di selezione",
-          "Title": "Modalità",
+          "Category": "Auswahlblöcke",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "z136",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità blocchi di selezione distributore"
+          "Description": "Verteilerauswahlblockmodus"
         },
         {
-          "Category": "Blocchi selezione",
-          "Title": "Colore personalizzato",
+          "Category": "Auswahlblöcke",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x230|y230|z230",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per blocchi selezione distributore."
+          "Description": "Benutzerdefinierte Farbe für Verteilerauswahlblöcke."
         },
         {
-          "Category": "Blocchi di selezione",
-          "Title": "Luminosità",
+          "Category": "Auswahlblöcke",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w230",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per blocchi di selezione del distributore"
+          "Description": "Helligkeit für Verteilerauswahlblöcke"
         },
         {
-          "Category": "Barre RST (Reset)",
-          "Title": "Modalità",
+          "Category": "RST (Reset) Bars",
+          "Title": "Mode",
           "File": "Startup-Profile",
           "Key": "w133",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "RST bar [..] sotto distributore"
+          "Description": "RST Bars [..] unter Verteiler"
         },
         {
-          "Category": "Barre RST (Reset)",
-          "Title": "Colore personalizzato",
+          "Category": "RST (Reset) Bars",
+          "Title": "Custom Color",
           "File": "Advanced",
           "Key": "x227|y227|z227",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per barre RST sotto il distributore."
+          "Description": "Custom Farbe für RST Bars unter dem Verteiler."
         },
         {
-          "Category": "Barre RST (Reset)",
-          "Title": "Luminosità",
+          "Category": "RST (Reset) Balken",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w227",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per barre RST"
+          "Description": "Helligkeit für RST Balken"
         }
       ]
     },
     {
       "Name": "FuelBars",
-      "Title": "Traccia termica e barre del carburante",
+      "Title": "Signatur & Kraftstoffbars",
       "Elements": [
         {
-          "Category": "Barra della Traccia termica",
-          "Title": "Modalità",
+          "Category": "Signaturleiste",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "w106",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità barra della traccia termica"
+          "Description": "Unterschriftsleistenmodus"
         },
         {
-          "Category": "Barra della Traccia termica",
-          "Title": "Colore primario",
+          "Category": "Signaturleiste",
+          "Title": "Primärfarbe",
           "File": "Advanced",
           "Key": "x206|y206|z206",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore primario, parte esterna del segnale"
+          "Description": "Primärfarbe, äußerer Teil des Signals"
         },
         {
-          "Category": "Barra della Traccia termica",
-          "Title": "Colore secondario",
+          "Category": "Signaturleiste",
+          "Title": "Sekundärfarbe",
           "File": "Advanced",
           "Key": "x207|y207|z207",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore secondario, al centro del segnale (rispetto al colore primario)"
+          "Description": "Sekundärfarbe, Mitte des Signals (relativ zur Primärfarbe)"
         },
         {
-          "Category": "Barra della Traccia termica",
-          "Title": "Alpha generale",
+          "Category": "Signaturleiste",
+          "Title": "Overall Alpha",
           "File": "Advanced",
           "Key": "w207",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Alpha generale (trasparenza) per la barra della traccia termica"
+          "Description": "Overall Alpha (Transparenz) für die Signaturleiste"
         },
         {
-          "Category": "Barra del carburante",
-          "Title": "Modalità barra del carburante",
+          "Category": "Kraftstoffanzeige",
+          "Title": "Kraftstoffleisten-Modus",
           "File": "Startup-Profile",
           "Key": "y135",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità barra del carburante"
+          "Description": "Kraftstoffleisten-Modus"
         },
         {
-          "Category": "Barra del carburante",
-          "Title": "Colore personalizzato",
+          "Category": "Kraftstoffanzeige",
+          "Title": "Benutzerdefinierte Farbe",
           "File": "Advanced",
           "Key": "x216|y216|z216",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per barra del carburante"
+          "Description": "Benutzerdefinierte Farbe für Kraftstoffleiste"
         },
         {
-          "Category": "Barra del carburante",
-          "Title": "Luminosità",
+          "Category": "Kraftstoffanzeige",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w216",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per la barra del carburante"
+          "Description": "Helligkeit für Fuel Bar"
         },
         {
-          "Category": "Barra del carburante",
-          "Title": "Carburante per il prossimo salto",
+          "Category": "Kraftstoffanzeige",
+          "Title": "Kraftstoff für den nächsten Sprung",
           "File": "Advanced",
           "Key": "x94|y94|z94",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "(deve esserci un sistema programmato nel computer di navigazione per vedere questo elemento)"
+          "Description": "(muss ein in Ihrem Nav-Computer programmiertes System haben, um dieses Element zu sehen)"
         },
         {
-          "Category": "Barra del carburante",
-          "Title": "Luminosità per salto successivo",
+          "Category": "Kraftstoffanzeige",
+          "Title": "Nächster Sprung Helligkeit",
           "File": "Advanced",
           "Key": "w94",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per salto successivo (non può essere reso invisibile, diventa nero a 0.0)"
+          "Description": "Helligkeit für den nächsten Sprung, (kann nicht unsichtbar gemacht werden, wird bei 0.0 schwarz)"
         },
         {
-          "Category": "Barra del carburante",
-          "Title": "Modalità della raccolta del carburante",
+          "Category": "Kraftstoffanzeige",
+          "Title": "Fuel Scoop Mode",
           "File": "Startup-Profile",
           "Key": "x133",
           "Value": 200.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per la velocità di raccolta / quantità, non il livello di calore"
+          "Description": "Modus für Schöpfrate/Menge, nicht Heizstufe"
         },
         {
-          "Category": "Barra del carburante",
-          "Title": "Colore della raccolta del carburante",
+          "Category": "Kraftstoffanzeige",
+          "Title": "Kraftstoff-Schaufelfarbe",
           "File": "Advanced",
           "Key": "x145|y145|z145|w145",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per la raccolta del carburante *Alpha"
+          "Description": "Benutzerdefinierte Farbe für Kraftstoff-Schaufel *Alpha"
         },
         {
-          "Category": "Luci di stato",
-          "Title": "Modalità",
+          "Category": "Statuslichter",
+          "Title": "Modus",
           "File": "Startup-Profile",
           "Key": "z135",
           "Value": 100.0,
           "ValueType": "Preset",
           "Type": "AdvancedMode",
-          "Description": "Modalità per luci di stato (mass lock, carrello di atterraggio, raccolta di carico)."
+          "Description": "Modus für Statuslichter (Mass Lock, Fahrwerk, Cargo Scoop)."
         },
         {
-          "Category": "Spie di stato",
-          "Title": "Colore Spento",
+          "Category": "Statuslichter",
+          "Title": "Aus-Farbe",
           "File": "Advanced",
           "Key": "x217|y217|z217",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per lo stato Spento."
+          "Description": "Benutzerdefinierte Farbe für den Licht-Aus-Zustand."
         },
         {
-          "Category": "Spie di stato",
-          "Title": "Colore Acceso",
+          "Category": "Statuslichter",
+          "Title": "AN-Farbe",
           "File": "Advanced",
           "Key": "x218|y218|z218",
           "Value": -12490271.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Colore personalizzato per lo stato Acceso."
+          "Description": "Benutzerdefinierte Farbe für Licht-EIN-Zustand."
         },
         {
-          "Category": "Luci di stato",
-          "Title": "Luminosità",
+          "Category": "Statuslichter",
+          "Title": "Helligkeit",
           "File": "Advanced",
           "Key": "w217",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Luminosità per le luci di stato"
+          "Description": "Helligkeit für Statusleuchten"
         }
       ]
     },
     {
       "Name": "StationsPanels",
-      "Title": "Pannelli per Astronavi e Stazioni",
+      "Title": "Schiffs- und Stationstafeln",
       "Elements": [
 
       ]
@@ -2911,6 +2911,7 @@
       "Name": "Elite Default",
       "Index": 200.0
     },
+
     {
       "Type": "SC_SideLines",
       "Name": "Off",

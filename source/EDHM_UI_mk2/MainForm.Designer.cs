@@ -1756,7 +1756,7 @@
 			this.progressPanel1.AnimationToTextDistance = 12;
 			this.progressPanel1.Appearance.BackColor = System.Drawing.Color.Transparent;
 			this.progressPanel1.Appearance.Options.UseBackColor = true;
-			this.progressPanel1.Caption = "Un-Installing EDHM (ODISSEY)..";
+			this.progressPanel1.Caption = "Un-Installing EDHM (Odyssey)..";
 			this.progressPanel1.CaptionToDescriptionDistance = 1;
 			this.progressPanel1.ContentAlignment = System.Drawing.ContentAlignment.MiddleCenter;
 			this.progressPanel1.Description = ".";
