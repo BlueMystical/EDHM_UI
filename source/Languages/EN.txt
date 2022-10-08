@@ -45,7 +45,7 @@ Galaxy Map|Engineering Icon Mode|GalMap Engineering Icon Mode
 Galaxy Map|Engineering Icon Colour|Custom Color for GalMap Engineering Icon Colour. *Alpha*
 Galaxy Map|System Connector Lines|Mode for System Connector Lines.<p>Note: You can turn these off in GalMap Display Options (in-game) - Bottom left row of icons.
 Galaxy Map|System Connector Lines|Custom Color for System Connector Lines. *Alpha*
-Galaxy Map|System Hats|Toogle for GalMap System Hats (semi-circles on top of star images).
+Galaxy Map|System Hats|Toggle for GalMap System Hats (semi-circles on top of star images).
 Powers and GalNet|Background Colour Mode|Mode for Powers and GalNet Background Colour.
 Powers and GalNet|Galnet Image Filter Colour|Mode for Galnet Image Filter Colour.
 Powers and GalNet|Custom Colour|Custom Color for Powers and GalNet Background Colour. *Alpha*

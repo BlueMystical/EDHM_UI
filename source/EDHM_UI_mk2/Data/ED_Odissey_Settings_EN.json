@@ -1,6 +1,6 @@
 {
   "language": "en",
-  "game": "ED_Odissey",
+  "game": "ED_Odyssey",
   "version": "13.3",
   "author": "Blue Mystic",
   "ui_groups": [
@@ -1212,7 +1212,7 @@
           "Value": 1.0,
           "ValueType": "ONOFF",
           "Type": "ONOFF",
-          "Description": "Toogle for GalMap System Hats (semi-circles on top of star images)."
+          "Description": "Toggle for GalMap System Hats (semi-circles on top of star images)."
         },
 
         {
