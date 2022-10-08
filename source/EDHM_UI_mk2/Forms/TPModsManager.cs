@@ -503,20 +503,20 @@ namespace EDHM_UI_mk2.Forms
 																break;
 
 															case "toggle":
-																#region Muestra un Toogle Switch:
+																#region Muestra un Toggle Switch:
 
 																Invoke((MethodInvoker)(() =>
 																{
-																	RepositoryItemToggleSwitch _ToogleControl = new RepositoryItemToggleSwitch();
-																	_ToogleControl.Name = string.Format("{0}|{1}", _Section.ini_section, _key.name);
-																	_ToogleControl.EditValueChanged += PropertyGrid_EditValueChanged;
-																	_ToogleControl.EditValueChangedDelay = 500;
-																	_ToogleControl.Tag = _key;
+																	RepositoryItemToggleSwitch _ToggleControl = new RepositoryItemToggleSwitch();
+																	_ToggleControl.Name = string.Format("{0}|{1}", _Section.ini_section, _key.name);
+																	_ToggleControl.EditValueChanged += PropertyGrid_EditValueChanged;
+																	_ToggleControl.EditValueChangedDelay = 500;
+																	_ToggleControl.Tag = _key;
 
 																//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_key.key);
 																//_key.value = _KeyData != null ? _KeyData.Value : _key.value;
 
-																_Fila.Properties.RowEdit = _ToogleControl;
+																_Fila.Properties.RowEdit = _ToggleControl;
 																	_Fila.Properties.Value = Util.IntegerToBool(Util.ValidarNulo(_key.value, 0));
 																}));
 
@@ -855,20 +855,20 @@ namespace EDHM_UI_mk2.Forms
 															break;
 
 														case "toggle":
-															#region Muestra un Toogle Switch:
+															#region Muestra un Toggle Switch:
 
 															Invoke((MethodInvoker)(() =>
 															{
-																RepositoryItemToggleSwitch _ToogleControl = new RepositoryItemToggleSwitch();
-																_ToogleControl.Name = string.Format("{0}|{1}", _Section.ini_section, _key.name);
-																_ToogleControl.EditValueChanged += PropertyGrid_EditValueChanged;
-																_ToogleControl.EditValueChangedDelay = 500;
-																_ToogleControl.Tag = _key;
+																RepositoryItemToggleSwitch _ToggleControl = new RepositoryItemToggleSwitch();
+																_ToggleControl.Name = string.Format("{0}|{1}", _Section.ini_section, _key.name);
+																_ToggleControl.EditValueChanged += PropertyGrid_EditValueChanged;
+																_ToggleControl.EditValueChangedDelay = 500;
+																_ToggleControl.Tag = _key;
 
 																//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_key.key);
 																//_key.value = _KeyData != null ? _KeyData.Value : _key.value;
 
-																_Fila.Properties.RowEdit = _ToogleControl;
+																_Fila.Properties.RowEdit = _ToggleControl;
 																_Fila.Properties.Value = Util.IntegerToBool(Util.ValidarNulo(_key.value, 0));
 															}));
 
@@ -1894,12 +1894,12 @@ namespace EDHM_UI_mk2.Forms
 						}
 						break;
 					case "ToggleSwitch":
-						ToggleSwitch _ToogleControl = Element as ToggleSwitch;						
-						if (_ToogleControl.Properties.Tag != null)
+						ToggleSwitch _ToggleControl = Element as ToggleSwitch;						
+						if (_ToggleControl.Properties.Tag != null)
 						{
-							_ret = _ToogleControl.Properties.Tag as TPMod_Key;
-							_ret.value = Util.BoolToInteger(Util.ValidarNulo(_ToogleControl.EditValue, false)).ToString();
-							_ret.section_name = _ToogleControl.Properties.Name.Split(new char[] { '|' })[0];
+							_ret = _ToggleControl.Properties.Tag as TPMod_Key;
+							_ret.value = Util.BoolToInteger(Util.ValidarNulo(_ToggleControl.EditValue, false)).ToString();
+							_ret.section_name = _ToggleControl.Properties.Name.Split(new char[] { '|' })[0];
 						}
 						break;
 					case "LookUpEdit":

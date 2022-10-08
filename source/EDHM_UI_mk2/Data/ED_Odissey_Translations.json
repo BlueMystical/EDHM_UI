@@ -3431,7 +3431,7 @@
         "key": "en",
         "value": "System Hats",
         "category": "Galaxy Map",
-        "description": "Toogle for GalMap System Hats (semi-circles on top of star images)."
+        "description": "Toggle for GalMap System Hats (semi-circles on top of star images)."
       },
       {
         "key": "de",
@@ -3443,19 +3443,19 @@
         "key": "fr",
         "value": "System Hats",
         "category": "Galaxy Map",
-        "description": "Toogle pour GalMap System Hats (demi-cercles au-dessus des images d'étoiles)."
+        "description": "Toggle pour GalMap System Hats (demi-cercles au-dessus des images d'étoiles)."
       },
       {
         "key": "it",
         "value": "System Hats",
         "category": "Galaxy Map",
-        "description": "Toogle per GalMap System Hats (semicerchi sopra le immagini delle stelle)."
+        "description": "Toggle per GalMap System Hats (semicerchi sopra le immagini delle stelle)."
       },
       {
         "key": "ru",
         "value": "Системные шляпы",
         "category": "Карта Галактики",
-        "description": "Toogle для системных шляп GalMap (полукруги поверх изображений звезд)."
+        "description": "Toggle для системных шляп GalMap (полукруги поверх изображений звезд)."
       }
     ]
   },

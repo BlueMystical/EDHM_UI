@@ -149,7 +149,7 @@ namespace EDHM_UI_mk2
 			HideToTray = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "HideToTray").NVL("false"));
 			ShowTips = Convert.ToBoolean(Util.AppConfig_GetValue("ShowTips").NVL("true"));
 			chkTips_NoShow.Checked = !ShowTips;
-			cmdThemes_ShowFavorites.Checked = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "FavToogle").NVL("false"));
+			cmdThemes_ShowFavorites.Checked = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "FavToggle").NVL("false"));
 			SavesToRemember = Convert.ToInt32(Util.WinReg_ReadKey("EDHM", "SavesToRemember").NVL("10"));
 			AutoApplyTheme = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "AutoApplyTheme").NVL("false"));
 
@@ -1967,7 +1967,7 @@ namespace EDHM_UI_mk2
 											break;
 
 										case "ONOFF":
-											#region Muestra un Toogle Switch:
+											#region Muestra un Toggle Switch:
 
 											//"ValueType": "ONOFF",
 											//"Type": "ONOFF",
@@ -1975,13 +1975,13 @@ namespace EDHM_UI_mk2
 
 											Invoke((MethodInvoker)(() =>
 											{
-												RepositoryItemToggleSwitch _ToogleControl = new RepositoryItemToggleSwitch();
-												_ToogleControl.Name = string.Format("{0}|{1}", _UIGroup.Name, _Element.Title);
-												_ToogleControl.EditValueChanged += _ComboValue_EditValueChanged;
-												_ToogleControl.EditValueChangedDelay = 500;
-												_ToogleControl.Tag = _Element;
+												RepositoryItemToggleSwitch _ToggleControl = new RepositoryItemToggleSwitch();
+												_ToggleControl.Name = string.Format("{0}|{1}", _UIGroup.Name, _Element.Title);
+												_ToggleControl.EditValueChanged += _ComboValue_EditValueChanged;
+												_ToggleControl.EditValueChangedDelay = 500;
+												_ToggleControl.Tag = _Element;
 
-												_Fila.Properties.RowEdit = _ToogleControl;
+												_Fila.Properties.RowEdit = _ToggleControl;
 												_Fila.Properties.Value = Util.IntegerToBool(Util.ValidarNulo(_Element.Value, 0));
 											}));
 
@@ -4644,12 +4644,12 @@ namespace EDHM_UI_mk2
 				switch (T.Name)
 				{
 					case "ToggleSwitch":
-						ToggleSwitch _ToogleControl = sender as ToggleSwitch;
-						_GroupName = _ToogleControl.Properties.Name.Split(new char[] { '|' })[0];
-						if (_ToogleControl.Properties.Tag != null)
+						ToggleSwitch _ToggleControl = sender as ToggleSwitch;
+						_GroupName = _ToggleControl.Properties.Name.Split(new char[] { '|' })[0];
+						if (_ToggleControl.Properties.Tag != null)
 						{
-							_SelectedElement = _ToogleControl.Properties.Tag as element;
-							_SelectedElement.Value = Util.BoolToInteger(Util.ValidarNulo(_ToogleControl.EditValue, false));
+							_SelectedElement = _ToggleControl.Properties.Tag as element;
+							_SelectedElement.Value = Util.BoolToInteger(Util.ValidarNulo(_ToggleControl.EditValue, false));
 						}
 						break;
 
@@ -4928,8 +4928,8 @@ namespace EDHM_UI_mk2
 		private void cmdThemes_ShowFavorites_CheckedChanged(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			//Filtra mostrando solo los temas favoritos
-			BarToggleSwitchItem _Toogle = sender as BarToggleSwitchItem;
-			if (_Toogle.Checked)
+			BarToggleSwitchItem _Toggle = sender as BarToggleSwitchItem;
+			if (_Toggle.Checked)
 			{
 				//CriteriaOperator expr1 = new BinaryOperator("IsFavorite", true);
 				gridView1.ActiveFilterCriteria = new BinaryOperator("IsFavorite", true);
@@ -4938,7 +4938,7 @@ namespace EDHM_UI_mk2
 			{
 				gridView1.ActiveFilterCriteria = null;
 			}
-			Util.WinReg_WriteKey("EDHM", "FavToogle", _Toogle.Checked.ToString());
+			Util.WinReg_WriteKey("EDHM", "FavToggle", _Toggle.Checked.ToString());
 		}
 
 		private void repGridThemes_Favorite_EditValueChanged(object sender, EventArgs e)
@@ -5378,7 +5378,7 @@ namespace EDHM_UI_mk2
 											break;
 
 										case "ONOFF":
-											#region Muestra un Toogle Switch:
+											#region Muestra un Toggle Switch:
 
 											//"ValueType": "ONOFF",
 											//"Type": "ONOFF",
@@ -5386,13 +5386,13 @@ namespace EDHM_UI_mk2
 
 											Invoke((MethodInvoker)(() =>
 											{
-												RepositoryItemToggleSwitch _ToogleControl = new RepositoryItemToggleSwitch();
-												_ToogleControl.Name = string.Format("{0}|{1}", GlobalSettings.Name, _Element.Title);
-												_ToogleControl.EditValueChanged += _ComboValue_EditValueChanged;
-												_ToogleControl.EditValueChangedDelay = 500;
-												_ToogleControl.Tag = _Element;
+												RepositoryItemToggleSwitch _ToggleControl = new RepositoryItemToggleSwitch();
+												_ToggleControl.Name = string.Format("{0}|{1}", GlobalSettings.Name, _Element.Title);
+												_ToggleControl.EditValueChanged += _ComboValue_EditValueChanged;
+												_ToggleControl.EditValueChangedDelay = 500;
+												_ToggleControl.Tag = _Element;
 
-												_Fila.Properties.RowEdit = _ToogleControl;
+												_Fila.Properties.RowEdit = _ToggleControl;
 												_Fila.Properties.Value = Util.IntegerToBool(Util.ValidarNulo(_Element.Value, 0));
 											}));
 
