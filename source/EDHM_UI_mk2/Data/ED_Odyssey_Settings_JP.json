@@ -1,0 +1,2936 @@
+{
+  "language": "jp",
+  "game": "ED_Odyssey",
+  "author": "HunabKU",
+  "ui_groups": [
+    {
+      "Name": "Panel_UP",
+      "Title": "パネル（上）",
+      "Elements": [
+        {
+          "Category": "チャットパネル",
+          "Title": "チャットパネルライン",
+          "File": "Startup-Profile",
+          "Key": "x137",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "チャットパネルラインのモード（左上）\r\n注：元のエリートの色が異なるため、色は情報パネルのラインとは少し異なります。"
+        },
+        {
+          "Category": "チャットパネル",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x232|y232|z232|w232",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "チャットパネルラインのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "チャットパネル",
+          "Title": "チャットパネルアイコン",
+          "File": "Startup-Profile",
+          "Key": "y137",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "チャットパネルアイコンのモード。"
+        },
+        {
+          "Category": "チャットパネル",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x233|y233|z233|w233",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "チャットパネルアイコンのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "情報パネル",
+          "Title": "情報パネル行",
+          "File": "Startup-Profile",
+          "Key": "w206",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "情報パネル行のモード（右上）"
+        },
+        {
+          "Category": "情報パネル",
+          "Title": "情報パネル行",
+          "File": "Advanced",
+          "Key": "x208|y208|z208|w208",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "情報パネル行のカスタム色。 （*アルファ）"
+        },
+        {
+          "Category": "情報パネル",
+          "Title": "船名",
+          "File": "Startup-Profile",
+          "Key": "z137",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "船名のテキストの色。"
+        },
+        {
+          "Category": "情報パネル",
+          "Title": "船名",
+          "File": "Advanced",
+          "Key": "x235|y235|z235",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "船名のカスタムカラー。"
+        },
+        {
+          "Category": "情報パネル",
+          "Title": "船名の明るさ",
+          "File": "Advanced",
+          "Key": "w235",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "船名の明るさ"
+        },
+        {
+          "Category": "情報パネル",
+          "Title": "船名背景グロー",
+          "File": "Advanced",
+          "Key": "w137",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "船名背景グロー"
+        }
+      ]
+    },
+    {
+      "Name": "Reticle",
+      "Title": "ターゲティングレチクル",
+      "Elements": [
+        {
+          "Category": "ターゲティングレチクル",
+          "Title": "ターゲティングレチクル",
+          "File": "Startup-Profile",
+          "Key": "y141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ターゲティングレチクルのモード"
+        },
+        {
+          "Category": "ターゲティングレチクル",
+          "Title": "ランクアイコン",
+          "File": "Startup-Profile",
+          "Key": "w141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "RankIcon",
+          "Description": "ターゲット船の横に表示されるランクアイコン（ニュートラル/オレンジのみ）"
+        },
+        {
+          "Category": "ターゲティングレチクル-コンポーネント",
+          "Title": "大きなトライバー",
+          "File": "Advanced",
+          "Key": "x56|y56|z56|w56",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "大きなトライバーのカスタムカラー（上部に1つ、下部に2つの対角線）。 （*アルファ）"
+        },
+        {
+          "Category": "ターゲティングレチクル-コンポーネント",
+          "Title": "小さなトライバー",
+          "File": "Advanced",
+          "Key": "x57|y57|z57|w57",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "小さなトライバーのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "ターゲティングレチクル-コンポーネント",
+          "Title": "大円",
+          "File": "Advanced",
+          "Key": "x58|y58|z58|w58",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "大円のカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "ターゲティングレチクル-コンポーネント",
+          "Title": "リーディングサークル",
+          "File": "Advanced",
+          "Key": "x59|y59|z59|w59",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "リーディングサークルのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "ターゲティングレチクル-コンポーネント",
+          "Title": "武器ドット",
+          "File": "Advanced",
+          "Key": "x60|y60|z60|w60",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "武器ドットのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "ターゲティングレチクル-コンポーネント",
+          "Title": "マウスドット",
+          "File": "Advanced",
+          "Key": "x61|y61|z61|w61",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "マウスドットのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "ターゲティングレチクル-コンポーネント",
+          "Title": "ミサイルロック",
+          "File": "Advanced",
+          "Key": "x62|y62|z62|w62",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ミサイルロックのカスタムカラー（惑星アニメーションからもリフトオフ）*アルファ"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "z141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "環境および宛先（およびミサイルロック）ターゲットモード"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "可能な船のターゲット",
+          "File": "Advanced",
+          "Key": "x64|y64|z64|w64",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "可能な船のターゲットのカスタムカラー（選択されていない）。 （*アルファ）"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "可能な宛先ターゲット",
+          "File": "Advanced",
+          "Key": "x65|y65|z65|w65",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "可能な宛先ターゲットおよび相対的なマウス矢印のカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "可能なスーパークルーズのターゲットサークル",
+          "File": "Advanced",
+          "Key": "x66|y66|z66|w66",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "可能なスーパークルーズのターゲットサークルのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "宛先ターゲットサークル",
+          "File": "Advanced",
+          "Key": "x67|y67|z67|w67",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "宛先ターゲットサークルのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "テキストの明るさ",
+          "File": "Advanced",
+          "Key": "w68",
+          "Value": 0.4,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "宛先ターゲットテキストの明るさ（円の右側のテキスト）"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "灰色のひし形モード",
+          "File": "Startup-Profile",
+          "Key": "x107",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "灰色のひし形のモード（環境内の非生物学的な潜在的なターゲット）"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "灰色のひし形の色",
+          "File": "Advanced",
+          "Key": "x171|y171|z171|w171",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "灰色のひし形のカスタムカラー（環境内の非生物学的な潜在的なターゲット）。 （*アルファ）"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "SRVのグレーロンバスブースト",
+          "File": "Advanced",
+          "Key": "y107",
+          "Value": 1.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "不透明度ブースト"
+        },
+        {
+          "Category": "環境と目的地ターゲット",
+          "Title": "船の惑星着陸テキスト（青）",
+          "File": "Advanced",
+          "Key": "w107",
+          "Value": 0.4,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "デフォルトのエリートでは、着陸時の「船の安全」の青いテキストが吹き飛ばされます。\r\nここで、このテキストの明るさを下げることができます（0.4から0.6を推奨）"
+        }
+      ]
+    },
+    {
+      "Name": "Settings",
+      "Title": "HUD設定",
+      "Elements": [
+        {
+          "Category": "メインテキスト",
+          "Title": "テキストモード",
+          "File": "Startup-Profile",
+          "Key": "w75",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "オレンジテキストカラースワップ（テキストの大部分）。"
+        },
+        {
+          "Category": "メインテキスト",
+          "Title": "テキストの色",
+          "File": "Advanced",
+          "Key": "x77|y77|z77|w77",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "グローバルテキストのカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "メインテキスト",
+          "Title": "ハイライトテキストモード",
+          "File": "Startup-Profile",
+          "Key": "z87",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "すべてのパネルのハイライトテキストのモード。"
+        },
+        {
+          "Category": "メインテキスト",
+          "Title": "ハイライトされたテキストの色",
+          "File": "Advanced",
+          "Key": "x143|y143|z143|w143",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "すべてのパネルのハイライトされたテキストのカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "セカンダリテキスト",
+          "Title": "テキストモード",
+          "File": "Startup-Profile",
+          "Key": "y78",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ブルーテキストカラースワップ（特にAHUDとミッションテキストの周り）。"
+        },
+        {
+          "Category": "二次テキスト",
+          "Title": "テキストの色",
+          "File": "Advanced",
+          "Key": "x82|y82|z82|w82",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "二次テキストのカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "三次テキスト",
+          "Title": "テキストモード",
+          "File": "Startup-Profile",
+          "Key": "z78",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "黄色のテキストカラースワップ（マイキャリアハイライト、ランディングレチクルテキストなど）。"
+        },
+        {
+          "Category": "三次テキスト",
+          "Title": "テキストの色",
+          "File": "Advanced",
+          "Key": "x80|y80|z80|w80",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "三次テキストのカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "ギャラクシーマップ",
+          "Title": "アイコンモード",
+          "File": "Startup-Profile",
+          "Key": "y84",
+          "Value": 199.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "GalMap アイコンの色（エンジニアリングを除く）、およびトラベルラインの色。"
+        },
+        {
+          "Category": "ギャラクシーマップ",
+          "Title": "アイコンカラー",
+          "File": "Advanced",
+          "Key": "x85|y85|z85|w85",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "GalMapアイコンカラーのカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "ギャラクシーマップ",
+          "Title": "エンジニアリングアイコンモード",
+          "File": "Startup-Profile",
+          "Key": "z84",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "GalMapエンジニアリングアイコンモード"
+        },
+        {
+          "Category": "ギャラクシーマップ",
+          "Title": "エンジニアリングアイコンの色",
+          "File": "Advanced",
+          "Key": "x86|y86|z86|w86",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "GalMapエンジニアリングアイコンの色のカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "注意-スピード違反",
+          "Title": "カラーモード",
+          "File": "Startup-Profile",
+          "Key": "y104",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "スピード違反警告のモード（行のみ）"
+        },
+        {
+          "Category": "注意-スピード違反",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x172|y172|z172",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スピード違反警告のカスタムカラー（行のみ）"
+        },
+        {
+          "Category": "注意-スピード違反",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w172",
+          "Value": 1.1,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "スピード違反の警告の明るさ（行のみ）。"
+        },
+        {
+          "Category": "注意-リモートリリースFlac",
+          "Title": "カラーモード",
+          "File": "Startup-Profile",
+          "Key": "w174",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "リモートリリースフラク / フレシェットランチャーモード"
+        },
+        {
+          "Category": "注意-リモートリリースFlac",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x173|y173|z173",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "リモートリリースフラク / フレシェットランチャーのカスタムカラー。\r\n注：現時点では、赤いトリガー信号を変更することはできません。\r\n明るさのコントロールは、外側と近接の要素。明るさを下げるには、RGB値を同じ割合だけ減らします。"
+        },
+        {
+          "Category": "注意-リモートリリースフラック",
+          "Title": "ターゲット近接色",
+          "File": "Advanced",
+          "Key": "x174|y174|z1743",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "リモートリリースフラック/フレシェットランチャーのカスタムカラー。\r\n注：現時点では、赤いトリガー信号を変更することはできません。\r\n明るさのコントロールは、間にグリッチが発生するため使用できません。外側要素と近接要素。明るさを下げるには、RGB値を同じ割合だけ減らします。"
+        }
+      ]
+    },
+    {
+      "Name": "Panel_Lower",
+      "Title": "パネル（下）",
+      "Elements": [
+        {
+          "Category": "下のパネル",
+          "Title": "パネルの線（下）",
+          "File": "Startup-Profile",
+          "Key": "z104",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "お気に入りの下のパネルの線の色の値。"
+        },
+        {
+          "Category": "下のパネル",
+          "Title": "下のパネルの線",
+          "File": "Advanced",
+          "Key": "x204|y204|z204|w204",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "（* Alpha）**（カスタムカラーがオレンジに近い場合は、ターゲティングパネルの不具合を避けるために、少し青（0.1など）を追加します。ターゲティングパネルは、次のようなカラースワップ手法を使用します。青= 0を探します）。"
+        },
+        {
+          "Category": "スーパークルーズのターゲティングパネル",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "x140",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "速度/距離/配置。下のパネルラインとテキストの色を除く。\r\nスーパークルーズの速度/距離要素に選択した色がオレンジに近い場合（高赤、中緑）、グリッチを避けるために0.1青を追加します。"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "正しいターゲットの配置（ブロック）",
+          "File": "Advanced",
+          "Key": "x51|y51|z51",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ターゲットの配置（正しい）ブロック、バー、インジケーターライトのカスタムカラー（元のエリートの青いセクション）。"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w51",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ターゲット位置合わせの明るさ（正しい）"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "ディバイダーラインモード",
+          "File": "Startup-Profile",
+          "Key": "x78",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "スーパークルーズのターゲティングパネルのディバイダーライン"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "仕切り線の色",
+          "File": "Advanced",
+          "Key": "x79|y79|z79",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スーパークルーズのターゲティングパネルの仕切り線のカスタム色"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "分周器の線の明るさ",
+          "File": "Advanced",
+          "Key": "w79",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ナビゲーションパネルとターゲティングパネルのアイコンの明るさ"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "ターゲットの位置合わせが正しくない（ブロック）",
+          "File": "Advanced",
+          "Key": "x52|y52|z52",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ターゲットの位置合わせ（正しくない/位置合わせされていない）ブロックとインジケーターライト（元のエリートのオレンジ色のセクション）のカスタムカラー。"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w52",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ターゲット位置合わせの明るさ（正しくない）"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "ターゲットの位置合わせが正しくない（バー）",
+          "File": "Advanced",
+          "Key": "x53|y53|z53",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スーパークルーズのターゲットの位置合わせのカスタムカラー（正しくない）バー、分割線（距離/速度/位置合わせの間）、アイコン。これらはこれ以上分離できません。"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w53",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "スーパークルーズのターゲット位置合わせの明るさ（正しくない）バー"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "アイコンモード",
+          "File": "Startup-Profile",
+          "Key": "z75",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ナビゲーションパネルとターゲティングパネルのアイコン"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "アイコンの色",
+          "File": "Advanced",
+          "Key": "x53|y53|z53",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ナビゲーションパネルとターゲティングパネルのアイコンのカスタムカラー"
+        },
+        {
+          "Category": "ターゲティングパネル",
+          "Title": "アイコンの明るさ",
+          "File": "Advanced",
+          "Key": "w53",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ナビゲーションパネルとターゲティングパネルのアイコンの明るさ"
+        },
+        {
+          "Category": "ミドルパネル",
+          "Title": "ミドルパネルアバター",
+          "File": "Advanced",
+          "Key": "y157",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ミドルパネルのアバターの明るさ/透明度（3）"
+        },
+        {
+          "Category": "パネルハイライト",
+          "Title": "パネルハイライトモード",
+          "File": "Startup-Profile",
+          "Key": "z68",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "（注：これは、現在の速度インジケーター、スーパークルーズの位置合わせバー（位置合わせされていない場合）、燃料バーのアクティブな燃料にも色を付けます。残念ながら分離することはできませんが、色を選択できます。 XMLをお勧めします。"
+        },
+        {
+          "Category": "パネルハイライト",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x74|y74|z74",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ターゲットアライメント（正しい）ブロック、バー、インジケーターライト（元のエリートの青いセクション）のカスタムカラー。"
+        },
+        {
+          "Category": "パネルハイライト",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w74",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "パネルハイライトの明るさ。"
+        },
+        {
+          "Category": "サイドパネル",
+          "Title": "メインライン",
+          "File": "Startup-Profile",
+          "Key": "x75",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "（注：これは、現在の速度インジケーター、スーパークルーズのアライメントバー（アライメントされていない場合）、燃料バーのアクティブな燃料にも色を付けます。残念ながら、分離することはできませんが、色を選択できます。I XMLをお勧めします。"
+        },
+        {
+          "Category": "サイドパネル",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x76|y76|z76",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ターゲットアライメント（正しい）ブロック、バー、インジケーターライト（元のエリートの青いセクション）のカスタムカラー。"
+        },
+        {
+          "Category": "サイドパネル",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w76",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "サイドパネルの明るさメインライン。"
+        },
+        {
+          "Category": "ナビゲーションパネル",
+          "Title": "ナビゲーションパネルモード",
+          "File": "Startup-Profile",
+          "Key": "z97",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "NavPanel",
+          "Description": "現在の場所のピン/ウェッジ（現在の場所のピンのみをカスタムカラーに変更できます。宛先ピンは船のパネルの他の要素/ラインに接続されています）"
+        },
+        {
+          "Category": "ナビゲーションパネル",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x98|y98|z98|w98",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "GalMapエンジニアリングアイコンカラーのカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "ミッションパネル",
+          "Title": "ミッションパネルモード",
+          "File": "Startup-Profile",
+          "Key": "z89",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "NavPanel",
+          "Description": "ナビゲーションパネルのミッションパネルの色に影響し、さらにミッション選択画面のミッションアイコンに影響します）"
+        },
+        {
+          "Category": "ミッションパネル",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x91|y91|z91",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ナビゲーションパネルのミッションパネルのカスタムカラー、およびミッション選択画面のミッションアイコン。"
+        },
+        {
+          "Category": "メンテナンスパネル",
+          "Title": "シップのスケッチ",
+          "File": "Startup-Profile",
+          "Key": "w78",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "高度なメンテナンスパネル（ステーション/キャリア）のシップのスケッチ"
+        },
+        {
+          "Category": "メンテナンスパネル",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x146|y146|z146|w146",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "シップのスケッチのカスタムカラー。 *アルファ"
+        }
+      ]
+    },
+    {
+      "Name": "Lighting",
+      "Title": "キャビン照明",
+      "Elements": [
+        {
+          "Category": "キャビン-コックピット照明",
+          "Title": "カラーモード",
+          "File": "Startup-Profile",
+          "Key": "y68",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AmbientLights",
+          "Description": "キャビン/コックピット照明のモード"
+        },
+        {
+          "Category": "キャビン-コックピット照明",
+          "Title": "照明スタイル",
+          "File": "Advanced",
+          "Key": "x68",
+          "Value": 2.0,
+          "ValueType": "Preset",
+          "Type": "CabinLightingStyle",
+          "Description": "0 =制限付き（エリート標準に近く、キャビンライトはコックピット全体をカバーしません）\r\n 1 =フル（「制限付き」と比較してコックピットのより多くをカバーしますが、領域を除外します白色光の）\r\n 2 =完了（「フル」領域と白色光の一部の領域をカバーします。XMLモード（Startup-Profile.ini）を使用して、一部のシップ（オレンジ色の領域と白い領域はXMLに対して異なる反応を示します）\r\n 3 =スペースディスコ（皮膚の汚染を伴うフラッドライト、キャビン全体）。"
+        },
+        {
+          "Category": "キャビン-コックピット照明",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x69|y69|z69",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "キャビンのカスタムカラー-コックピット照明。"
+        },
+        {
+          "Category": "キャビン-コックピット照明",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w69",
+          "Value": 0.3,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "キャビンの明るさ-コックピット照明。"
+        },
+        {
+          "Category": "アンビエントライト-バイカラー",
+          "Title": "レフトカラー",
+          "File": "Advanced",
+          "Key": "x70|y70|z70",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "（実験的）-フルライティングモードで使用するのに最適です。"
+        },
+        {
+          "Category": "アンビエントライト-バイカラー",
+          "Title": "ライトカラー",
+          "File": "Advanced",
+          "Key": "x71|y71|z71",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "このカラーは、コックピットの右側のベースカラーに追加されます。"
+        },
+        {
+          "Category": "アンビエントライト-バイカラー",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w71",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "アンビエントライトの明るさ-バイカラー。"
+        },
+        {
+          "Category": "シップのパネル",
+          "Title": "シップのパネルの背景",
+          "File": "Startup-Profile",
+          "Key": "x89",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "ShipPanelOpacity",
+          "Description": "（Advanced.iniで不透明度のデフォルトレベルを設定し、すべてのカラーモードで機能します）"
+        },
+        {
+          "Category": "シップのパネル",
+          "Title": "シップのパネルの背景",
+          "File": "Advanced",
+          "Key": "x90|y90|z90",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "シップのパネルの背景のカスタムカラーと不透明度 '。 *アルファ*"
+        },
+        {
+          "Category": "シップのパネル",
+          "Title": "シップのパネルの背景の不透明度",
+          "File": "Advanced",
+          "Key": "w90",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "Brightness",
+          "Description": "シップのパネルの背景の不透明度（アルファ）。"
+        },
+        {
+          "Category": "ステーションパネル",
+          "Title": "パネル図面",
+          "File": "Startup-Profile",
+          "Key": "w89",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "パネル上のアートとスケッチ"
+        },
+        {
+          "Category": "ステーションパネル",
+          "Title": "パネル図面",
+          "File": "Advanced",
+          "Key": "x92|y92|z92|w92",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "パネル図面のカスタムカラー。 *アルファ*"
+        }
+      ]
+    },
+    {
+      "Name": "SpecialFX",
+      "Title": "特殊効果",
+      "Elements": [
+        {
+          "Category": "特殊効果",
+          "Title": "スーパークルーズサイドライン",
+          "File": "Startup-Profile",
+          "Key": "w120",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "SC_SideLines",
+          "Description": "スーパークルーズサイドラインを削除するためのスイッチ"
+        },
+        {
+          "Category": "特殊効果",
+          "Title": "SC_SideLines 色",
+          "File": "Advanced",
+          "Key": "x176|y176|z176",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スーパークルーザーのサイドラインの色。"
+        },
+        {
+          "Category": "特殊効果",
+          "Title": "SC_SideLines 輝度",
+          "File": "Advanced",
+          "Key": "w176",
+          "Value": 0.3,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "スーパークルーザーのサイドラインの光沢。"
+        },
+        {
+          "Category": "特殊効果",
+          "Title": "スーパークルーズスノー",
+          "File": "Startup-Profile",
+          "Key": "y121",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "スーパークルーズスノーを削除するためのスイッチ"
+        },
+        {
+          "Category": "特殊効果",
+          "Title": "スペースダスト",
+          "File": "Startup-Profile",
+          "Key": "z121",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "スペースダスト用スイッチ（通常の飛行では雪）"
+        },
+
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Orbital Lines Mode",
+          "File": "Startup-Profile",
+          "Key": "y75",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Orbital, Gravity and Exclusion zone Lines"
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Orbit Lines Color",
+          "File": "Advanced",
+          "Key": "x39|y39|z39",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Orbit Lines."
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Orbit Lines Brightness",
+          "File": "Advanced",
+          "Key": "w39",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Orbit Lines."
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Gravity Well Lines Color",
+          "File": "Advanced",
+          "Key": "x40|y40|z40",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Gravity Well Lines."
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Gravity Well Lines Brightness",
+          "File": "Advanced",
+          "Key": "w40",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Gravity Well Lines."
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Exclusion Zone Lines Color",
+          "File": "Advanced",
+          "Key": "x44|y44|z44",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Exclusion Zone Lines."
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Exclusion Zone Lines Brightness",
+          "File": "Advanced",
+          "Key": "w44",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Exclusion Zone Lines."
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Orbital Cruise Lines Color",
+          "File": "Advanced",
+          "Key": "x29|y29|z29",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Orbital Cruise Lines."
+        },
+        {
+          "Category": "Orbital / Gravity / Exclusion zone Lines",
+          "Title": "Orbital Cruise Lines Brightness",
+          "File": "Advanced",
+          "Key": "w29",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Orbital Cruise Lines."
+        },
+
+        {
+          "Category": "Night Vision",
+          "Title": "Night Vision Mode",
+          "File": "Startup-Profile",
+          "Key": "y93",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "Mode for Night Vision"
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "Night Vision Color",
+          "File": "Advanced",
+          "Key": "x43|y43|z43",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Night Vision."
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "Night Vision Brightness",
+          "File": "Advanced",
+          "Key": "w43",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Night Vision."
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "PWA Asteroid Glow Mode",
+          "File": "Startup-Profile",
+          "Key": "z93",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "Mode for Pulse Wave Analyser Asteroid Glow"
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "PWA Asteroid Glow Color",
+          "File": "Advanced",
+          "Key": "x41|y41|z41",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for PWA Asteroid Glow."
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "PWA Asteroid Glow Brightness",
+          "File": "Advanced",
+          "Key": "w41",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for PWA Asteroid Glow."
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "PWA Wavefront Mode",
+          "File": "Startup-Profile",
+          "Key": "w93",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShortMode",
+          "Description": "Mode for Pulse Wave Analyser Wavefront"
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "PWA Wavefront Color",
+          "File": "Advanced",
+          "Key": "x42|y42|z42",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for PWA Wavefront."
+        },
+        {
+          "Category": "Night Vision",
+          "Title": "PWA Wavefront Brightness",
+          "File": "Advanced",
+          "Key": "w42",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for PWA Wavefront."
+        }
+      ]
+    },
+    {
+      "Name": "CHUD_AHUD",
+      "Title": "戦闘と分析HUD",
+      "Elements": [
+        {
+          "Category": "戦闘HUD",
+          "Title": "戦闘HUDモード",
+          "File": "Startup-Profile",
+          "Key": "x141",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "**戦闘HUD（CHUD）モード** \r\n標準CHUDの場合、カラー2 RGB（0,0,0）およびフェード強度= 0 \r\nを設定します。単色の鳥の餌食CHUDの場合、カラーを設定します。 2 RGB（0,0,0）とお好みのフェード強度（0.7は良いバランスです）\r\nシンセウェーブ（デュアルカラー）CHUDの場合、カラー2 RGBをお好みに設定し、フェード強度= 1にします。"
+        },
+        {
+          "Category": "戦闘HUD",
+          "Title": "カラー1",
+          "File": "Advanced",
+          "Key": "x55|y55|z55",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "コンバットHUDのカスタムカラー-カラー1（トップカラー）。"
+        },
+        {
+          "Category": "戦闘HUD",
+          "Title": "色1-明るさ",
+          "File": "Advanced",
+          "Key": "w55",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "色1（トップカラー）の明るさ。"
+        },
+        {
+          "Category": "戦闘HUD",
+          "Title": "カラー2",
+          "File": "Advanced",
+          "Key": "x48|y48|z48",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "コンバットHUDのカスタムカラー-カラー2（ボトムカラー）。"
+        },
+        {
+          "Category": "戦闘HUD",
+          "Title": "フェードストレングス",
+          "File": "Advanced",
+          "Key": "w48",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "フェードストレングス（またはシンセウェーブカラーバランス：> 1 =セカンドカラーが多い、<1 =セカンドカラーが少ない）。"
+        },
+        {
+          "Category": "戦闘HUD",
+          "Title": "弾薬の色",
+          "File": "Advanced",
+          "Key": "x45|y45|z45",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "戦闘HUDのカスタムカラー-弾薬。"
+        },
+        {
+          "Category": "戦闘HUD",
+          "Title": "弾薬の明るさ",
+          "File": "Advanced",
+          "Key": "w45",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "弾薬の明るさ。"
+        },
+        {
+          "Category": "分析HUD",
+          "Title": "分析HUDモード",
+          "File": "Startup-Profile",
+          "Key": "w140",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "レーダーモード"
+        },
+        {
+          "Category": "分析HUD",
+          "Title": "分析HUD",
+          "File": "Advanced",
+          "Key": "x54|y54|z54|w54",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "分析HUDのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "分析HUD",
+          "Title": "ターゲティングパネル",
+          "File": "Advanced",
+          "Key": "x63|y63|z63|w63",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "戦闘モードでの分析モードレチクルのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "分析HUD",
+          "Title": "AHUDテキストモード",
+          "File": "Startup-Profile",
+          "Key": "w87",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AHUDText",
+          "Description": "AHUD周辺のテキストのモード。"
+        },
+        {
+          "Category": "分析HUD",
+          "Title": "AHUDテキストの色",
+          "File": "Advanced",
+          "Key": "x144|y144|z144|w144",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "AHUD周辺のテキストのカスタムカラー。 *アルファ*"
+        }
+      ]
+    },
+    {
+      "Name": "Foot_HUD",
+      "Title": "フットHUDについて",
+      "Elements": [
+        {
+          "Category": "スーツHUD-パネル",
+          "Title": "パネルモード",
+          "File": "SuitHud",
+          "Key": "x30",
+          "Value": 199.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "注：XML（シップのHUDに一致するようにオレンジ色のベースを偽造します）。"
+        },
+        {
+          "Category": "スーツHUD-パネル",
+          "Title": "パネルカラー",
+          "File": "SuitHud",
+          "Key": "x31|y31|z31",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "オンフットパネルのカスタムカラー。"
+        },
+        {
+          "Category": "スーツHUD-パネル",
+          "Title": "パネルの不透明度",
+          "File": "SuitHud",
+          "Key": "w31",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "オンフットパネルの明るさ。"
+        },
+        {
+          "Category": "スーツHUD-パネル",
+          "Title": "シップのサイドパネル",
+          "File": "SuitHud",
+          "Key": "x93",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "シップのサイドパネルのCYAN要素を置き換えるオプション。\r\nこれをオンにすると、シアンのランクアイコンとナビゲーションパネルのアイコンの一部がXMLとシアンに色付けされます。\r\nまた、Ship PanelStorageタブのシアンブロックの色をパネルのXML色に変更します。"
+        },
+        {
+          "Category": "スーツHUD-シールド",
+          "Title": "シールドモード",
+          "File": "SuitHud",
+          "Key": "y30",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "シールドのカラーモード"
+        },
+        {
+          "Category": "スーツHUD-シールド",
+          "Title": "インナーリング",
+          "File": "SuitHud",
+          "Key": "x32|y32|z32|w32",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "オンフットシールドインナーリングのカスタムカラー（*アルファ）。"
+        },
+        {
+          "Category": "スーツHUD-シールド",
+          "Title": "ミドルリング",
+          "File": "SuitHud",
+          "Key": "x33|y33|z33|w33",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "オンフットシールドミドルリングのカスタムカラー（*アルファ）。"
+        },
+        {
+          "Category": "スーツHUD-シールド",
+          "Title": "アウターリング",
+          "File": "SuitHud",
+          "Key": "x34|y34|z34|w34",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "オンフットシールドアウターリングのカスタムカラー（*アルファ）。"
+        },
+        {
+          "Category": "スーツHUD-シールド",
+          "Title": "シールドダウンカラー",
+          "File": "SuitHud",
+          "Key": "x35|y35|z35|w35",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "オンフットシールドダウンのカスタムカラー（*アルファ）。"
+        },
+        {
+          "Category": "スーツHUD-シールド",
+          "Title": "シールド復元",
+          "File": "SuitHud",
+          "Key": "x36|y36|z36|w36",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "オンフットシールド復元アニメーションのカスタムカラー（*アルファ）。"
+        },
+        {
+          "Category": "スーツHUD-テキスト",
+          "Title": "テキストモード",
+          "File": "SuitHud",
+          "Key": "z30",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "注：XML（シップのHUDと一致するようにオレンジ色のベースを偽造します）。"
+        },
+        {
+          "Category": "スーツHUD-テキスト",
+          "Title": "テキストの色",
+          "File": "SuitHud",
+          "Key": "x37|y37|z37|w37",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "オンフットテキストのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "スーツHUD-テキスト",
+          "Title": "ハイライトモード",
+          "File": "SuitHud",
+          "Key": "w30",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ハイライト/反転テキストとアイコンの色。"
+        },
+        {
+          "Category": "スーツHUD-テキスト",
+          "Title": "ハイライトされた色",
+          "File": "SuitHud",
+          "Key": "x38|y38|z38|w38",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "足元のハイライトされたテキストのカスタムカラー。 （*アルファ）"
+        }
+      ]
+    },
+    {
+      "Name": "ShieldsHolo",
+      "Title": "シールド＆ホロシップ",
+      "Elements": [
+        {
+          "Category": "シールド",
+          "Title": "シールドモード",
+          "File": "Startup-Profile",
+          "Key": "z105",
+          "Value": 101.0,
+          "ValueType": "Preset",
+          "Type": "ShieldColor",
+          "Description": "注：マルチシールドは、解像度> = 2560x1440でのみ機能し、1920x1080で機能する場合があります。自己とターゲットに適用されます。"
+        },
+        {
+          "Category": "シールド",
+          "Title": "シールドパーセンテージ％色",
+          "File": "Advanced",
+          "Key": "x88|y88|z88",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "シールドパーセンテージのカスタムカラー％"
+        },
+        {
+          "Category": "シールド",
+          "Title": "シールドパーセンテージ-明るさ",
+          "File": "Advanced",
+          "Key": "w88",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "シールドパーセンテージテキストの明るさ"
+        },
+        {
+          "Category": "マルチシールド",
+          "Title": "内輪",
+          "File": "Advanced",
+          "Key": "x201|y201|z201|w201",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "内輪の色、マルチシールドのみ。 （アルファ）"
+        },
+        {
+          "Category": "マルチシールド",
+          "Title": "中輪",
+          "File": "Advanced",
+          "Key": "x202|y202|z202|w202",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "内輪の色"
+        },
+        {
+          "Category": "マルチシールド",
+          "Title": "外輪",
+          "File": "Advanced",
+          "Key": "x203|y203|z203|w203",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "外輪の色、マルチシールドのみ。 （アルファ）"
+        },
+        {
+          "Category": "シングルシールド",
+          "Title": "シールドダウン",
+          "File": "Advanced",
+          "Key": "x87",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "ShieldsDown",
+          "Description": "シングルカラーシールド-シールドダウンカラー。"
+        },
+        {
+          "Category": "シングルシールド",
+          "Title": "シールドアップ",
+          "File": "Advanced",
+          "Key": "x228|y228|z228",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "シールドアップカラー（シールドダウンカラーと比較して）。"
+        },
+        {
+          "Category": "シングルシールド",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w228",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "全体的なシールドの明るさ/アルファ（シングルモード）"
+        },
+        {
+          "Category": "シングルシールド",
+          "Title": "リングの厚さ",
+          "File": "Advanced",
+          "Key": "y87",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "4X",
+          "Description": "全体的なシールドの明るさ/アルファ（シングルモード）"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "上部の渦巻き-モード",
+          "File": "Startup-Profile",
+          "Key": "z133",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ホロスの下のサーキュラースワール"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "上部の渦巻き-カラー",
+          "File": "Advanced",
+          "Key": "x226|y226|z226",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ホロスの下の円形スワールのカスタムカラー"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "上部の渦巻き-明るさ",
+          "File": "Advanced",
+          "Key": "w226",
+          "Value": 1.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "トップの渦巻きの明るさ"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "中部の渦巻き-モード",
+          "File": "Startup-Profile",
+          "Key": "x135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "シールド下のステータスバー"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "中部の渦巻き-色",
+          "File": "Advanced",
+          "Key": "x215|y215|z215",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ステータスバーのカスタム色"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "中部の渦巻き-明るさ",
+          "File": "Advanced",
+          "Key": "w215",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ステータスバーの明るさ"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "下部の渦巻き-モード",
+          "File": "Startup-Profile",
+          "Key": "x134",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ホログラムの下部にある薄い半円"
+        },
+        {
+          "Category": "円形の渦巻き",
+          "Title": "下部の渦巻き-ホログラムの下部にある薄い半円の色",
+          "File": "Advanced",
+          "Key": "x205|y205|z205|w205",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "カスタムカラー。 *アルファ"
+        },
+        {
+          "Category": "ハルゲージ",
+          "Title": "カラーモード",
+          "File": "Startup-Profile",
+          "Key": "y134",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ターゲットを含むハルヘルスのブロック"
+        },
+        {
+          "Category": "ハルゲージ",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x212|y212|z212",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ターゲットを含むシールド下のブロックのカスタムカラー。"
+        },
+        {
+          "Category": "ハルゲージ",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w212",
+          "Value": 1.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "シールド下のブロックの明るさ"
+        },
+        {
+          "Category": "ハルゲージ",
+          "Title": "ハルゲージ-シェーディング",
+          "File": "Advanced",
+          "Key": "w213",
+          "Value": 4.0,
+          "ValueType": "Brightness",
+          "Type": "4X_Min",
+          "Description": "シェーディング乗数（シェーディングモードにのみ適用されます）"
+        },
+        {
+          "Category": "ハルゲージ",
+          "Title": "腐食性の影響を受けるハル",
+          "File": "Startup-Profile",
+          "Key": "w170",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "CausticEffect",
+          "Description": "ターゲットを含むハルヘルスのブロック"
+        },
+        {
+          "Category": "ハルゲージ",
+          "Title": "腐食性の影響を受けるハルの色",
+          "File": "Advanced",
+          "Key": "x170|y170|z170",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "腐食性の影響を受けるハルバーのカスタムカラー。"
+        },
+        {
+          "Category": "マイシップホログラム",
+          "Title": "ホログラム-モード",
+          "File": "Startup-Profile",
+          "Key": "y101",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "マイシップホログラムモード\r\nレーダー上の着陸ホログラム、SRVホログラム、SRV地形も含まれます"
+        },
+        {
+          "Category": "マイシップホログラム",
+          "Title": "ホログラム-色",
+          "File": "Advanced",
+          "Key": "x248|y248|z248",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "マイシップホログラムのカスタムカラー"
+        },
+        {
+          "Category": "マイシップホログラム",
+          "Title": "ホログラム-明るさ",
+          "File": "Advanced",
+          "Key": "x132",
+          "Value": 0.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ホログラムのシップ体の明るさ\r\nウルトラトロンの場合、シップ体の明るさを低く（例：0）、外線を高く（例：0.5）設定します。"
+        },
+        {
+          "Category": "マイシップホログラム",
+          "Title": "ホログラム-ブルーム",
+          "File": "Advanced",
+          "Key": "y132",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ホロブルーム/グロー"
+        },
+        {
+          "Category": "マイシップホログラム",
+          "Title": "外側の線が咲く",
+          "File": "Advanced",
+          "Key": "z132",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "外側の線が咲く/光る（デフォルト= 0）（この値は-0.5などの負の値にすることができます）"
+        },
+        {
+          "Category": "マイシップホログラム",
+          "Title": "全体的な明るさ",
+          "File": "Advanced",
+          "Key": "z101",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ホログラムの全体的な明るさ"
+        },
+        {
+          "Category": "マイシップホログラム",
+          "Title": "きらめくライン",
+          "File": "Advanced",
+          "Key": "z109",
+          "Value": 1.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "マイシップホログラムきらめきのスイッチ"
+        },
+        {
+          "Category": "ターゲットシップのホログラム",
+          "Title": "ニュートラルターゲット",
+          "File": "Advanced",
+          "Key": "x72|y72|z72",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "マイシップホログラムのカスタムカラー"
+        },
+        {
+          "Category": "ターゲットシップのホログラム",
+          "Title": "ニュートラルターゲット-明るさ",
+          "File": "Advanced",
+          "Key": "x72",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ホログラムの船体の明るさ\r\nウルトラトロンの場合、船体の明るさを低く（例：0）、外線を高く（例：0.5）設定します。"
+        },
+        {
+          "Category": "ターゲットシップのホログラム",
+          "Title": "全体の明るさ",
+          "File": "Advanced",
+          "Key": "y73",
+          "Value": 0.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ホログラムの明るさ"
+        },
+        {
+          "Category": "ターゲットシップのホログラム",
+          "Title": "緑のターゲットの明るさ",
+          "File": "Advanced",
+          "Key": "z73",
+          "Value": 0.5,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "明るい緑のターゲットのホロの明るさ（一部の緑のホログラムは過度の明るさを持っています）"
+        },
+        {
+          "Category": "ターゲットシップのホログラム",
+          "Title": "きらめくライン",
+          "File": "Advanced",
+          "Key": "x73",
+          "Value": 1.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "ターゲットホログラムのきらめきのスイッチ"
+        },
+        {
+          "Category": "着陸ホログラム",
+          "Title": "OFF着陸地点",
+          "File": "Advanced",
+          "Key": "x254|y254|z254",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "着陸ホログラムのカスタムカラー"
+        },
+        {
+          "Category": "着陸ホログラム",
+          "Title": "ON着陸地点",
+          "File": "Advanced",
+          "Key": "x249|y249|z249",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ON着陸地点のカスタムカラー"
+        },
+        {
+          "Category": "着陸ホログラム",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w254",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "着陸ホログラムの明るさ"
+        },
+        {
+          "Category": "惑星着陸レチクル",
+          "Title": "カラーモード",
+          "File": "Startup-Profile",
+          "Key": "z107",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "惑星着陸レチクル-方位角バーと降下角バー"
+        },
+        {
+          "Category": "惑星着陸レチクル",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x209|y209|z209|w209",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "惑星着陸レチクルのカスタムカラー。"
+        },
+        {
+          "Category": "惑星着陸レチクル",
+          "Title": "着陸線とコースター",
+          "File": "Advanced",
+          "Key": "x255|y255|z255|w255",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "着陸線とコースターのカスタムカラー（オレンジ）*アルファ"
+        },
+        {
+          "Category": "惑星着陸レチクル",
+          "Title": "高度バー",
+          "File": "Advanced",
+          "Key": "x96|y96|z96|w96",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "着陸線とコースターのカスタムカラー（オレンジ）*アルファ"
+        },
+        {
+          "Category": "惑星着陸レチクル",
+          "Title": "テキストの色",
+          "File": "Advanced",
+          "Key": "x95|y95|z95|w95",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "レチクルボックス内のテキストのカスタムカラー*アルファ"
+        },
+        {
+          "Category": "惑星着陸レチクル",
+          "Title": "テキストの明るさ",
+          "File": "Advanced",
+          "Key": "x97",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "高度バーに沿ったテキストの明るさ（レチクルの周りに吹き飛ばされる傾向があります）"
+        },
+        {
+          "Category": "惑星着陸レチクル",
+          "Title": "テキストの明るさ",
+          "File": "Advanced",
+          "Key": "y97",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "経度/緯度座標のテキストの明るさ、重力"
+        },
+        {
+          "Category": "SRVホログラム",
+          "Title": "SRVホログラム-メイン",
+          "File": "Advanced",
+          "Key": "x250|y250|z250|w250",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "**（無効）** SRVホログラムのカスタムカラー（*アルファ）"
+        },
+        {
+          "Category": "SRVホログラム",
+          "Title": "SRVホログラム-小さい",
+          "File": "Advanced",
+          "Key": "x251|y251|z251|w251",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "SRVホログラムのカスタムカラー。\r\nアルファ（メインホログラムアルファの％）"
+        }
+      ]
+    },
+    {
+      "Name": "RadarHUD",
+      "Title": "レーダー＆コモングループ",
+      "Elements": [
+        {
+          "Category": "シップレーダー",
+          "Title": "レーダーモード",
+          "File": "Startup-Profile",
+          "Key": "y106",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "レーダーモード"
+        },
+        {
+          "Category": "シップレーダー",
+          "Title": "レーダーアウターリム",
+          "File": "Advanced",
+          "Key": "x236|y236|z236",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "アウターレーダーコンポーネントカスタムカラー。"
+        },
+        {
+          "Category": "シップレーダー",
+          "Title": "外側の縁の明るさ",
+          "File": "Advanced",
+          "Key": "w236",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "外側のレーダーの明るさ（通常の範囲は0.3から1.0の間ですが、もっと高くすることもできます）"
+        },
+        {
+          "Category": "レーダーグリッド",
+          "Title": "色",
+          "File": "Advanced",
+          "Key": "x237|y237|z237",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "レーダーグリッドのカスタムカラー。"
+        },
+        {
+          "Category": "レーダーグリッド",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w237",
+          "Value": 0.8,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "レーダーグリッドの明るさ"
+        },
+        {
+          "Category": "レーダートライアングルウィジェット",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "x138",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "レーダートライアングルウィジェットモード"
+        },
+        {
+          "Category": "レーダートライアングルウィジェット",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x239|y239|z239|w239",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "トライアングルレーダーウィジェットのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "レーダーズームウィジェット",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "w136",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "レーダーズームレベルラインのモード"
+        },
+        {
+          "Category": "レーダーズームウィジェット",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x240|y240|z240|w240",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "レーダーズームウィジェットのカスタムカラー。 （*アルファ）"
+        },
+        {
+          "Category": "レーダーズームウィジェット",
+          "Title": "レベルライン",
+          "File": "Advanced",
+          "Key": "x231|y231|z231",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "レーダーズームレベルラインカスタムカラー。"
+        },
+        {
+          "Category": "レーダーズームウィジェット",
+          "Title": "レベルラインの明るさ",
+          "File": "Advanced",
+          "Key": "w231",
+          "Value": 1.2,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "レーダーズームレベルラインの明るさ"
+        },
+        {
+          "Category": "レーダーオブジェクト-スーパークルーズ",
+          "Title": "スーパークルーズのレーダーボディ",
+          "File": "Startup-Profile",
+          "Key": "z138",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "スーパークルーズのレーダーボディのモード"
+        },
+        {
+          "Category": "レーダーオブジェクト-スーパークルーズ",
+          "Title": "レーダー-惑星",
+          "File": "Advanced",
+          "Key": "x241|y241|z241|w241",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スーパークルーズのレーダーボディのカスタムカラー。 （*アルファ付き）"
+        },
+        {
+          "Category": "レーダーオブジェクト-スーパークルーズ",
+          "Title": "レーダー-月",
+          "File": "Advanced",
+          "Key": "x242|y242|z242|w242",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スーパークルーズのレーダーボディのカスタムカラー。 （*アルファ付き）"
+        },
+        {
+          "Category": "レーダーオブジェクト-スーパークルーズ",
+          "Title": "レーダー-スター",
+          "File": "Advanced",
+          "Key": "x243|y243|z243|w243",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スーパークルーズのレーダーボディのカスタムカラー。 （*アルファ付き）"
+        },
+        {
+          "Category": "レーダーオブジェクト-スーパークルーズ",
+          "Title": "ニュートラルターゲット-ライン",
+          "File": "Advanced",
+          "Key": "x244|y244|z244|w244",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "スーパークルーズのオブジェクトラインとコースターのカスタムカラー。"
+        },
+        {
+          "Category": "レーダーオブジェクト",
+          "Title": "レーダーオブジェクト",
+          "File": "Startup-Profile",
+          "Key": "y139",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "通常飛行中のレーダーオブジェクトのモード"
+        },
+        {
+          "Category": "レーダーオブジェクト",
+          "Title": "白いオブジェクトの削除",
+          "File": "Startup-Profile",
+          "Key": "x115",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "標準飛行（スーパークルーズではない）でレーダー上の白いオブジェクト（航跡、材料、サルベージなど）を削除するためのスイッチ"
+        },
+        {
+          "Category": "レーダーオブジェクト",
+          "Title": "レーダー-ニュートラルターゲット",
+          "File": "Advanced",
+          "Key": "x245|y245|z245|w245",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "両方の飛行モードのオレンジ色の正方形。通常の飛行中のオレンジ色のオブジェクトラインとコースター。\r\n *アルファ"
+        },
+        {
+          "Category": "レーダーオブジェクト",
+          "Title": "レーダー-フレンドリーターゲット",
+          "File": "Advanced",
+          "Key": "x246|y246|z246|w246",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "両方の飛行モードの緑の正方形、線、コースター。\r\n *アルファ"
+        },
+        {
+          "Category": "レーダーオブジェクト",
+          "Title": "レーダー-敵対的なターゲット",
+          "File": "Advanced",
+          "Key": "x247|y247|z247|w247",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "両方の飛行モードの赤スクエア、ライン、コースター。\r\n *アルファ"
+        },
+        {
+          "Category": "レーダー外部コンポーネント",
+          "Title": "カラーモード",
+          "File": "Startup-Profile",
+          "Key": "x136",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ヒートバーとスピードバーのモード"
+        },
+        {
+          "Category": "レーダー外部コンポーネント",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x221|y221|z221",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "外部レーダーコンポーネントカスタムカラー。"
+        },
+        {
+          "Category": "レーダー外部コンポーネント",
+          "Title": "バーブースター",
+          "File": "Advanced",
+          "Key": "w221",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "バーブースター（メインのスピードバーとヒートバーの背景の明るさを上げます）"
+        },
+        {
+          "Category": "レーダー外部コンポーネント",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w222",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "全体的な明るさ（すべての外部レーダーコンポーネントの）"
+        },
+        {
+          "Category": "最適なスピードバー",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x222|y222|z222",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "最適なスピードバーの色（値はメインカラーを基準にしています。メインカラーから色を減らすために負の値にすることができます）"
+        },
+        {
+          "Category": "レーダーオブジェクト",
+          "Title": "レーダーオブジェクト-着陸",
+          "File": "Startup-Profile",
+          "Key": "x139",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "着陸中のレーダーオブジェクトのモード、ラインおよびコースター"
+        },
+        {
+          "Category": "レーダーオブジェクト",
+          "Title": "レーダーオブジェクト-着陸",
+          "File": "Advanced",
+          "Key": "x253|y253|z253|w253",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "惑星に着陸する際の地形のカスタムカラー。"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "SRVスキャナー",
+          "File": "Startup-Profile",
+          "Key": "w210",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "SRVスキャナーの色"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "SRVスキャナー-原色",
+          "File": "Advanced",
+          "Key": "x210|y210|z210",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "SRVスキャナー原色、物体検出色。"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "SRVスキャナー-二次色",
+          "File": "Advanced",
+          "Key": "x211|y211|z211",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "SRVスキャナー二次色、スキャナースイープカラー。"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "全体的なアルファ",
+          "File": "Advanced",
+          "Key": "w211",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "SRVスキャナー-全体的なアルファ"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "レーダー上の地形ホログラム",
+          "File": "Advanced",
+          "Key": "x252|y252|z252|w252",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "レーダー上の地形ホログラムのカスタムカラー（SRV中）。"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "SRVスキャナー標高",
+          "File": "Startup-Profile",
+          "Key": "z139",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "SRVレーダー標高対角線のモード"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "SRVスキャナーの高さ",
+          "File": "Advanced",
+          "Key": "x50|y50|z50|w50",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "SRVレーダーの高さの対角線のカスタムカラー。 *アルファ*"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "SRVタレットモード",
+          "File": "Startup-Profile",
+          "Key": "w73",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "SRVタレット、レーダー上のSRVの小さな画像、およびその他の要素"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "SRVタレットカラー",
+          "File": "Advanced",
+          "Key": "x147|y147|z147|w147",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "SRVタレットのカスタムカラー、レーダー上のSRVの小さな画像、およびその他の要素。 *アルファ*"
+        },
+        {
+          "Category": "SRVスキャナー",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w70",
+          "Value": 1.1,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "SRVタレット、ディストリビューターの明るさのブースト。\r\n FDevは、SRVタレット画面に奇数色の減衰フィルターを適用します。\r\nこの値を使用して、ディストリビューターの色をブーストします（まったく同じようには見えません）。フィルターによるシップ/ SRVディストリビューターとして）"
+        },
+        {
+          "Category": "コンパス",
+          "Title": "カラーモード",
+          "File": "Startup-Profile",
+          "Key": "w135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "コンパスカラー"
+        },
+        {
+          "Category": "コンパス",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x219|y219|z219",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "コンパスカスタムカラー。"
+        },
+        {
+          "Category": "コンパス",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w219",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "コンパス背景ブースター"
+        },
+        {
+          "Category": "コンパス",
+          "Title": "コンパスドット",
+          "File": "Advanced",
+          "Key": "x220|y220|z220",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "コンパスドットカスタムカラー。"
+        },
+        {
+          "Category": "コンパス",
+          "Title": "コンパスドットの明るさ",
+          "File": "Advanced",
+          "Key": "w220",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "コンパスドットの明るさ\r\n（注：この要素の動作は他の要素とは少し異なります。推奨される最小値は0.7の明るさです）"
+        }
+      ]
+    },
+    {
+      "Name": "Power_Distributor",
+      "Title": "配電装置",
+      "Elements": [
+        {
+          "Category": "配電器",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "y136",
+          "Value": 101.0,
+          "ValueType": "Preset",
+          "Type": "PowerDistributor",
+          "Description": "配電器モード"
+        },
+        {
+          "Category": "パワーディストリビューター",
+          "Title": "上部ブロックカラー",
+          "File": "Advanced",
+          "Key": "x223|y223|z223",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "トライカラーディストリビューターの上部ブロックのカスタムカラー、または標準（単色）"
+        },
+        {
+          "Category": "パワーディストリビューター",
+          "Title": "上部ブロックの明るさ",
+          "File": "Advanced",
+          "Key": "w223",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "トライカラーディストリビューターの上部ブロックの明るさ、または標準（単色）"
+        },
+        {
+          "Category": "トライカラーディストリビューター",
+          "Title": "中部ブロックカラー",
+          "File": "Advanced",
+          "Key": "x224|y224|z224",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "トライカラーディストリビューターの中部ブロックのカスタムカラー値。"
+        },
+        {
+          "Category": "トライカラーディストリビューター",
+          "Title": "中部ブロックの明るさ",
+          "File": "Advanced",
+          "Key": "w224",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "中部ブロックの明るさ（アルファ）"
+        },
+        {
+          "Category": "トライカラーディストリビューター",
+          "Title": "下部ブロックカラー",
+          "File": "Advanced",
+          "Key": "x225|y225|z225",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "トライカラーディストリビューターの下部ブロックのカスタムカラー値。"
+        },
+        {
+          "Category": "トライカラーディストリビューター",
+          "Title": "ボトムブロックの明るさ",
+          "File": "Advanced",
+          "Key": "w225",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ボトムブロックの明るさ"
+        },
+        {
+          "Category": "グラデーションディストリビューター",
+          "Title": "カラー1",
+          "File": "Advanced",
+          "Key": "x47|y47|z47",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "カラー1のカスタムカラー：グラデーションディストリビューターのトップカラー。"
+        },
+        {
+          "Category": "グラデーションディストリビューター",
+          "Title": "ドミナンス1",
+          "File": "Advanced",
+          "Key": "w47",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "4X",
+          "Description": "カラー1ドミナンス（値> 1.0はドミナンスを増加させ、値<1.0はドミナンスを減少させます）"
+        },
+        {
+          "Category": "グラデーションディストリビューター",
+          "Title": "カラー2",
+          "File": "Advanced",
+          "Key": "x46|y46|z46",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "カラー2のカスタムカラー：グラデーションディストリビューターの下部の色。"
+        },
+        {
+          "Category": "グラデーションディストリビューター",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w46",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "グラデーションディストリビューターの全体的な明るさ"
+        },
+        {
+          "Category": "パワーディストリビューター-ピップ",
+          "Title": "ピップモード",
+          "File": "Startup-Profile",
+          "Key": "w134",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "パワーディストリビューターピップモード"
+        },
+        {
+          "Category": "パワーディストリビューター-ピップ",
+          "Title": "ピップカラー",
+          "File": "Advanced",
+          "Key": "x214|y214|z214",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "パワーディストリビューターピップのカスタムカラー。"
+        },
+        {
+          "Category": "パワーディストリビューター-ピップ",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w214",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "パワーディストリビューターピップの明るさ"
+        },
+        {
+          "Category": "パワーディストリビューター-ピップ",
+          "Title": "非アクティブなピップブースター",
+          "File": "Advanced",
+          "Key": "z134",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "非アクティブなPipの明るさ。"
+        },
+        {
+          "Category": "選択ブロック",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "z136",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ディストリビューター選択ブロックモード"
+        },
+        {
+          "Category": "選択ブロック",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x230|y230|z230",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ディストリビューター選択ブロックのカスタムカラー。"
+        },
+        {
+          "Category": "選択ブロック",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w230",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ディストリビューター選択ブロックの明るさ"
+        },
+        {
+          "Category": "RST（リセット）バー",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "w133",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "RSTバー[..]ディストリビューターの下"
+        },
+        {
+          "Category": "RST（リセット）バー",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x227|y227|z227",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ディストリビューターの下のRSTバーのカスタムカラー。"
+        },
+        {
+          "Category": "RST（リセット）バー",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w227",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "RSTバーの明るさ"
+        }
+      ]
+    },
+    {
+      "Name": "FuelBars",
+      "Title": "シグネチャー＆フューエルバー",
+      "Elements": [
+        {
+          "Category": "シグネチャーバー",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "w106",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "シグネチャーバーモード"
+        },
+        {
+          "Category": "シグネチャーバー",
+          "Title": "原色",
+          "File": "Advanced",
+          "Key": "x206|y206|z206",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "原色、信号の外側部分"
+        },
+        {
+          "Category": "シグネチャーバー",
+          "Title": "セカンダリーカラー",
+          "File": "Advanced",
+          "Key": "x207|y207|z207",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "セカンダリーカラー、シグナルの中央（プライマリーカラーと比較して）"
+        },
+        {
+          "Category": "シグネチャーバー",
+          "Title": "全体的なアルファ",
+          "File": "Advanced",
+          "Key": "w207",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "署名バーの全体的なアルファ（透明度）"
+        },
+        {
+          "Category": "フューエルバー",
+          "Title": "フューエルバーモード",
+          "File": "Startup-Profile",
+          "Key": "y135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "フューエルバーモード"
+        },
+        {
+          "Category": "フューエルバー",
+          "Title": "カスタムカラー",
+          "File": "Advanced",
+          "Key": "x216|y216|z216",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "フューエルバーのカスタムカラー"
+        },
+        {
+          "Category": "フューエルバー",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w216",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "フューエルバーの明るさ"
+        },
+        {
+          "Category": "フューエルバー",
+          "Title": "次のジャンプのための燃料",
+          "File": "Advanced",
+          "Key": "x94|y94|z94",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "（この要素を表示するには、ナビコンピューターにシステムがプログラムされている必要があります）"
+        },
+        {
+          "Category": "フューエルバー",
+          "Title": "次のジャンプの明るさ",
+          "File": "Advanced",
+          "Key": "w94",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "次のジャンプの明るさ（非表示にすることはできません。0.0で黒くなります）"
+        },
+        {
+          "Category": "フューエルバー",
+          "Title": "燃料スクープモード",
+          "File": "Startup-Profile",
+          "Key": "x133",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "熱レベルではなく、スクープ速度/量のモード"
+        },
+        {
+          "Category": "フューエルバー",
+          "Title": "フューエルスクープカラー",
+          "File": "Advanced",
+          "Key": "x145|y145|z145|w145",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "フューエルスクープのカスタムカラー*アルファ"
+        },
+        {
+          "Category": "ステータスライト",
+          "Title": "モード",
+          "File": "Startup-Profile",
+          "Key": "z135",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "ステータスライトのモード（マスロック、着陸装置、貨物スクープ）。"
+        },
+        {
+          "Category": "ステータスライト",
+          "Title": "オフカラー",
+          "File": "Advanced",
+          "Key": "x217|y217|z217",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ライトオフ状態のカスタムカラー。"
+        },
+        {
+          "Category": "ステータスライト",
+          "Title": "オンカラー",
+          "File": "Advanced",
+          "Key": "x218|y218|z218",
+          "Value": -12490271.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "ライトオン状態のカスタムカラー。"
+        },
+        {
+          "Category": "ステータスライト",
+          "Title": "明るさ",
+          "File": "Advanced",
+          "Key": "w217",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "ステータスライトの明るさ"
+        }
+      ]
+    },
+    {
+      "Name": "StationsPanels",
+      "Title": "シップとステーションのパネル",
+      "Elements": [
+
+      ]
+    }
+  ],
+  "Presets": [
+    {
+      "Type": "AdvancedMode",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "AdvancedMode",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "AdvancedMode",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "ShortMode",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "ShortMode",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "NavPanel",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "NavPanel",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "Custom Single Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "Custom Bi-colour",
+      "Index": 101.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "AmbientLights",
+      "Name": "Elite default",
+      "Index": 200.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Restricted",
+      "Index": 0.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Full",
+      "Index": 1.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Complete",
+      "Index": 2.0
+    },
+    {
+      "Type": "CabinLightingStyle",
+      "Name": "Space Disco",
+      "Index": 3.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "Space Grey (dark)",
+      "Index": 101.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "ShipPanelOpacity",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "AHUDText",
+      "Name": "Use Main Text Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "AHUDText",
+      "Name": "Custom",
+      "Index": 101.0
+    },
+    {
+      "Type": "AHUDText",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "Custom Multi-Shield",
+      "Index": 100.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "Custom Single Color",
+      "Index": 101.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "ShieldColor",
+      "Name": "Elite default",
+      "Index": 200.0
+    },
+    {
+      "Type": "ShieldsDown",
+      "Name": "Red - Default Elite",
+      "Index": 0.0
+    },
+    {
+      "Type": "ShieldsDown",
+      "Name": "Black - Custom",
+      "Index": 1.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Custom Single Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Custom Gradient",
+      "Index": 101.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Custom Tri-colour",
+      "Index": 102.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Elite default",
+      "Index": 200.0
+    },
+    {
+      "Type": "CausticEffect",
+      "Name": "Original Elite yellow/green colour",
+      "Index": 0.0
+    },
+    {
+      "Type": "CausticEffect",
+      "Name": "Custom Color",
+      "Index": 1.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "Use Main Text Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "Neutral target holo colour",
+      "Index": 101.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "RankIcon",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+
+    {
+      "Type": "SC_SideLines",
+      "Name": "Off",
+      "Index": 0.0
+    },
+    {
+      "Type": "SC_SideLines",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "SC_SideLines",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "SC_SideLines",
+      "Name": "Elite Default",
+      "Index": 200.0
+    }
+  ]
+}
