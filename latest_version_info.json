@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.45.0",
-   "last_installer": "2.1.45.0",
+   "app_version": "2.1.46.0",
+   "last_installer": "2.1.46.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.11.20.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Global Settings can now be added to 'User Settings.\r\n- Restored White Objects on radar.\r\n- XML files now save beautified with Tab indenting and UTF8 no BOOM.",
+   "changelog": "- Minor bug fix.\r\n- 3 new themes.",
    "re_install": true,
    "run_hotfix": false
 }
