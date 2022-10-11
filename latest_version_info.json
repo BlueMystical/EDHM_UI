@@ -5,7 +5,7 @@
    "ED_Odissey":  "2.11.20.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Minor bug fix.\r\n- 3 new themes.",
+   "changelog": "- Minor bug fix.\r\n- Minor change in 3PM mods deployment.\r\n- 3 new themes.",
    "re_install": true,
    "run_hotfix": false
 }
