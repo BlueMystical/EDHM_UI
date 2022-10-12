@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.47.0",
-   "last_installer": "2.1.47.0",
+   "app_version": "2.1.48.0",
+   "last_installer": "2.1.48.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.11.20.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Minor bug fix.\r\n- Minor change in 3PM mods deployment.\r\n- 3 new themes.",
+   "changelog": "- Minor bug fixes on the 3PMods.\r\n- Introducing the Enhanced Biome Overlay (EBO) for Odyssey & Horizons 4.0",
    "re_install": true,
    "run_hotfix": false
 }
