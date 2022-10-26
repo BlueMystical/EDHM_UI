@@ -29,25 +29,25 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			DevExpress.Utils.SuperToolTip superToolTip6 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem6 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem9 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipItem toolTipItem10 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem2 = new DevExpress.Utils.ToolTipSeparatorItem();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem7 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipItem toolTipItem11 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.SuperToolTip superToolTip4 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem1 = new DevExpress.Utils.ToolTipSeparatorItem();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.ToolTipItem toolTipItem5 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipItem toolTipItem6 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SuperToolTip superToolTip4 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem4 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem7 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SuperToolTip superToolTip5 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem5 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem8 = new DevExpress.Utils.ToolTipItem();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThemeParametersForm));
 			this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
 			this.txtModName = new DevExpress.XtraEditors.TextEdit();
@@ -133,13 +133,13 @@
 			this.picThumb.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
 			this.picThumb.Size = new System.Drawing.Size(421, 82);
 			this.picThumb.StyleController = this.layoutControl1;
-			toolTipTitleItem6.Text = "Instructions:";
-			toolTipItem9.Text = "- Right click and save this image to open it with your favorite editor.";
-			toolTipItem10.Text = "- Then right click and Open the edited image.";
-			superToolTip6.Items.Add(toolTipTitleItem6);
-			superToolTip6.Items.Add(toolTipItem9);
-			superToolTip6.Items.Add(toolTipItem10);
-			this.picThumb.SuperTip = superToolTip6;
+			toolTipTitleItem1.Text = "Instructions:";
+			toolTipItem1.Text = "- Right click and save this image to open it with your favorite editor.";
+			toolTipItem2.Text = "- Then right click and Open the edited image.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			superToolTip1.Items.Add(toolTipItem2);
+			this.picThumb.SuperTip = superToolTip1;
 			this.picThumb.TabIndex = 10;
 			// 
 			// cmdCancel
@@ -168,6 +168,7 @@
 			// 
 			// separatorControl1
 			// 
+			this.defaultToolTipController1.SetAllowHtmlText(this.separatorControl1, DevExpress.Utils.DefaultBoolean.Default);
 			this.separatorControl1.Location = new System.Drawing.Point(12, 389);
 			this.separatorControl1.Name = "separatorControl1";
 			this.separatorControl1.Size = new System.Drawing.Size(421, 25);
@@ -179,38 +180,40 @@
 			this.txtAuthor.Name = "txtAuthor";
 			this.txtAuthor.Size = new System.Drawing.Size(340, 36);
 			this.txtAuthor.StyleController = this.layoutControl1;
-			toolTipTitleItem1.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipTitleItem1.Text = "Author\'s Name";
-			toolTipItem1.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipItem1.Text = "You can use <href=https://docs.devexpress.com/WindowsForms/4874/common-features/h" +
+			toolTipTitleItem2.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+			toolTipTitleItem2.Text = "Author\'s Name";
+			toolTipItem3.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+			toolTipItem3.Text = "You can use <href=https://docs.devexpress.com/WindowsForms/4874/common-features/h" +
     "tml-text-formatting>HTML Tags</href> to add a link to your Inara\'s Profile.\r\nOr " +
     "leave it as simple Text.\r\n";
-			toolTipTitleItem7.Text = "Example:";
-			toolTipItem2.Text = "<href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>";
-			toolTipItem11.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipItem11.Text = "<href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>";
-			superToolTip1.Items.Add(toolTipTitleItem1);
-			superToolTip1.Items.Add(toolTipItem1);
-			superToolTip1.Items.Add(toolTipSeparatorItem2);
-			superToolTip1.Items.Add(toolTipTitleItem7);
-			superToolTip1.Items.Add(toolTipItem2);
-			superToolTip1.Items.Add(toolTipItem11);
-			this.txtAuthor.SuperTip = superToolTip1;
+			toolTipTitleItem3.Text = "Example:";
+			toolTipItem4.Text = "<href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>";
+			toolTipItem5.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+			toolTipItem5.Text = "<href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>";
+			superToolTip2.Items.Add(toolTipTitleItem2);
+			superToolTip2.Items.Add(toolTipItem3);
+			superToolTip2.Items.Add(toolTipSeparatorItem1);
+			superToolTip2.Items.Add(toolTipTitleItem3);
+			superToolTip2.Items.Add(toolTipItem4);
+			superToolTip2.Items.Add(toolTipItem5);
+			this.txtAuthor.SuperTip = superToolTip2;
 			this.txtAuthor.TabIndex = 5;
 			// 
 			// txtName
 			// 
 			this.txtName.Location = new System.Drawing.Point(93, 52);
 			this.txtName.Name = "txtName";
+			this.txtName.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.txtName.Properties.Appearance.Options.UseBackColor = true;
 			this.txtName.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.RegExpMaskManager));
 			this.txtName.Properties.MaskSettings.Set("MaskManagerSignature", "isOptimistic=False");
 			this.txtName.Properties.MaskSettings.Set("mask", "[0-9a-zA-Z ()-]+");
 			this.txtName.Size = new System.Drawing.Size(340, 36);
 			this.txtName.StyleController = this.layoutControl1;
-			toolTipItem3.Text = "Here you input your Theme\'s Name.\r\nPlease dont make it too long.\r\nAnd avoid weird" +
+			toolTipItem6.Text = "Here you input your Theme\'s Name.\r\nPlease dont make it too long.\r\nAnd avoid weird" +
     " symbols:  @$%&/#?¿<>";
-			superToolTip2.Items.Add(toolTipItem3);
-			this.txtName.SuperTip = superToolTip2;
+			superToolTip3.Items.Add(toolTipItem6);
+			this.txtName.SuperTip = superToolTip3;
 			this.txtName.TabIndex = 4;
 			// 
 			// txtPreviewURL
@@ -219,12 +222,12 @@
 			this.txtPreviewURL.Name = "txtPreviewURL";
 			this.txtPreviewURL.Size = new System.Drawing.Size(340, 36);
 			this.txtPreviewURL.StyleController = this.layoutControl1;
-			toolTipTitleItem2.Text = "Big Preview";
-			toolTipItem4.Text = "Here you can paste a link to an Image that contains a big preview of your theme.\r" +
+			toolTipTitleItem4.Text = "Big Preview";
+			toolTipItem7.Text = "Here you can paste a link to an Image that contains a big preview of your theme.\r" +
     "\nYou can use Imgur or any other Image Hosting providers.";
-			superToolTip3.Items.Add(toolTipTitleItem2);
-			superToolTip3.Items.Add(toolTipItem4);
-			this.txtPreviewURL.SuperTip = superToolTip3;
+			superToolTip4.Items.Add(toolTipTitleItem4);
+			superToolTip4.Items.Add(toolTipItem7);
+			this.txtPreviewURL.SuperTip = superToolTip4;
 			this.txtPreviewURL.TabIndex = 12;
 			// 
 			// txtDescription
@@ -234,13 +237,13 @@
 			this.txtDescription.Name = "txtDescription";
 			this.txtDescription.Size = new System.Drawing.Size(340, 111);
 			this.txtDescription.StyleController = this.layoutControl1;
-			superToolTip4.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipTitleItem3.Text = "Theme\'s Description:";
-			toolTipItem5.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipItem5.Text = resources.GetString("toolTipItem5.Text");
-			superToolTip4.Items.Add(toolTipTitleItem3);
-			superToolTip4.Items.Add(toolTipItem5);
-			this.txtDescription.SuperTip = superToolTip4;
+			superToolTip5.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+			toolTipTitleItem5.Text = "Theme\'s Description:";
+			toolTipItem8.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+			toolTipItem8.Text = resources.GetString("toolTipItem8.Text");
+			superToolTip5.Items.Add(toolTipTitleItem5);
+			superToolTip5.Items.Add(toolTipItem8);
+			this.txtDescription.SuperTip = superToolTip5;
 			this.txtDescription.TabIndex = 6;
 			// 
 			// Root
@@ -357,6 +360,7 @@
 			// 
 			// ThemeParametersForm
 			// 
+			this.defaultToolTipController1.SetAllowHtmlText(this, DevExpress.Utils.DefaultBoolean.Default);
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(445, 472);

@@ -865,6 +865,116 @@
       }
     ]
   },
+
+  {
+    "id": "mnuUserSettings_Add",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Add to User Settings",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Zu den Benutzereinstellungen hinzufügen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Добавить в настройки пользователя",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Ajouter aux paramètres utilisateur",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Aggiungi a Impostazioni utente",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuGlobalToUserSettings",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Add to User Settings",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Zu den Benutzereinstellungen hinzufügen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Добавить в настройки пользователя",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Ajouter aux paramètres utilisateur",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Aggiungi a Impostazioni utente",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuRemoveUserSettings",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Remove from Global Settings",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Aus Benutzereinstellungen entfernen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Удалить из настроек пользователя",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Supprimer des paramètres utilisateur",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Rimuovi dalle Impostazioni utente",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+
   {
     "id": "cmdReloadThemes",
     "group": "BarMenus",

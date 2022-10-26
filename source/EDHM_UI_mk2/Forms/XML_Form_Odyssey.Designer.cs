@@ -80,6 +80,10 @@
 			this.bar3 = new DevExpress.XtraBars.Bar();
 			this.cmdOpenNO2O = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdSaveExit = new DevExpress.XtraBars.BarButtonItem();
+			this.trackGamma = new DevExpress.XtraBars.BarEditItem();
+			this.trackGammaRep = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
+			this.trackSaturation = new DevExpress.XtraBars.BarEditItem();
+			this.trackSaturationRep = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
 			this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
 			this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
 			this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
@@ -129,6 +133,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackGammaRep)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackSaturationRep)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// layoutControl2
@@ -636,8 +642,13 @@
 			this.barManager1.Form = this;
 			this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.cmdOpenNO2O,
-            this.cmdSaveExit});
-			this.barManager1.MaxItemId = 2;
+            this.cmdSaveExit,
+            this.trackGamma,
+            this.trackSaturation});
+			this.barManager1.MaxItemId = 4;
+			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.trackGammaRep,
+            this.trackSaturationRep});
 			this.barManager1.StatusBar = this.bar3;
 			// 
 			// bar3
@@ -649,7 +660,9 @@
 			this.bar3.DockStyle = DevExpress.XtraBars.BarDockStyle.Bottom;
 			this.bar3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenNO2O),
-            new DevExpress.XtraBars.LinkPersistInfo(this.cmdSaveExit)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdSaveExit),
+            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.trackGamma, "", false, true, true, 133, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.trackSaturation, "", false, true, true, 157, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
 			this.bar3.OptionsBar.AllowQuickCustomization = false;
 			this.bar3.OptionsBar.DrawDragBorder = false;
 			this.bar3.OptionsBar.UseWholeRow = true;
@@ -681,6 +694,42 @@
 			this.cmdSaveExit.ItemAppearance.Normal.Options.UseForeColor = true;
 			this.cmdSaveExit.Name = "cmdSaveExit";
 			this.cmdSaveExit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdSaveExit_ItemClick);
+			// 
+			// trackGamma
+			// 
+			this.trackGamma.Caption = "Gamma:";
+			this.trackGamma.Edit = this.trackGammaRep;
+			this.trackGamma.EditValue = 10;
+			this.trackGamma.Id = 2;
+			this.trackGamma.Name = "trackGamma";
+			// 
+			// trackGammaRep
+			// 
+			this.trackGammaRep.LabelAppearance.Options.UseTextOptions = true;
+			this.trackGammaRep.LabelAppearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.trackGammaRep.Maximum = 100;
+			this.trackGammaRep.Minimum = 10;
+			this.trackGammaRep.Name = "trackGammaRep";
+			this.trackGammaRep.ShowValueToolTip = true;
+			this.trackGammaRep.ValueChanged += new System.EventHandler(this.trackGammaRep_ValueChanged);
+			// 
+			// trackSaturation
+			// 
+			this.trackSaturation.Caption = "Saturation:";
+			this.trackSaturation.Edit = this.trackSaturationRep;
+			this.trackSaturation.EditValue = 0;
+			this.trackSaturation.Id = 3;
+			this.trackSaturation.Name = "trackSaturation";
+			// 
+			// trackSaturationRep
+			// 
+			this.trackSaturationRep.LabelAppearance.Options.UseTextOptions = true;
+			this.trackSaturationRep.LabelAppearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.trackSaturationRep.Maximum = 100;
+			this.trackSaturationRep.Minimum = -100;
+			this.trackSaturationRep.Name = "trackSaturationRep";
+			this.trackSaturationRep.ShowValueToolTip = true;
+			this.trackSaturationRep.ValueChanged += new System.EventHandler(this.trackSaturationRep_ValueChanged);
 			// 
 			// barDockControlTop
 			// 
@@ -775,6 +824,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackGammaRep)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackSaturationRep)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -828,5 +879,9 @@
 		private DevExpress.XtraBars.BarDockControl barDockControlRight;
 		private DevExpress.XtraBars.BarButtonItem cmdOpenNO2O;
 		private DevExpress.XtraBars.BarButtonItem cmdSaveExit;
+		private DevExpress.XtraBars.BarEditItem trackGamma;
+		private DevExpress.XtraEditors.Repository.RepositoryItemTrackBar trackGammaRep;
+		private DevExpress.XtraBars.BarEditItem trackSaturation;
+		private DevExpress.XtraEditors.Repository.RepositoryItemTrackBar trackSaturationRep;
 	}
 }

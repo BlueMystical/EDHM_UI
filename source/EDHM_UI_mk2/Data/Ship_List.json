@@ -1,259 +1,266 @@
 [
   {
     "ship_full_name": "Adder",
-    "ship_id": 34,
+    "ship_id": 1,
     "ed_short": "adder",
     "size": "Small",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Alliance Challenger",
-    "ship_id": 16,
+    "ship_id": 2,
     "ed_short": "typex_3",
     "size": "Medium",
     "role": "Combat "
   },
   {
     "ship_full_name": "Alliance Chieftain",
-    "ship_id": 14,
+    "ship_id": 3,
     "ed_short": "typex",
     "size": "Medium",
     "role": "Combat "
   },
   {
     "ship_full_name": "Alliance Crusader",
-    "ship_id": 15,
+    "ship_id": 4,
     "ed_short": "typex_2",
     "size": "Medium",
     "role": "Combat "
   },
   {
     "ship_full_name": "Anaconda",
-    "ship_id": 11,
+    "ship_id": 5,
     "ed_short": "anaconda",
     "size": "Large",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Asp Explorer",
-    "ship_id": 17,
+    "ship_id": 6,
     "ed_short": "asp",
     "size": "Medium",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Asp Scout",
-    "ship_id": 18,
+    "ship_id": 7,
     "ed_short": "asp_scout",
     "size": "Medium",
     "role": "Combat Explorer "
   },
   {
     "ship_full_name": "Beluga Liner",
-    "ship_id": 36,
+    "ship_id": 8,
     "ed_short": "belugaliner",
     "size": "Large",
     "role": "Passenger "
   },
   {
     "ship_full_name": "Cobra Mk 3",
-    "ship_id": 5,
+    "ship_id": 9,
+    "ed_short": "cobramkiii",
+    "size": "Small",
+    "role": "Multipurpose "
+  },
+  {
+    "ship_full_name": "Cobra Mk 4",
+    "ship_id": 10,
     "ed_short": "cobramkiii",
     "size": "Small",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Diamondback Explorer",
-    "ship_id": 20,
+    "ship_id": 11,
     "ed_short": "diamondbackxl",
     "size": "Small",
     "role": "Combat Explorer "
   },
   {
     "ship_full_name": "Diamondback Scout",
-    "ship_id": 19,
+    "ship_id": 12,
     "ed_short": "diamondback",
     "size": "Small",
     "role": "Combat Explorer "
   },
   {
     "ship_full_name": "Dolphin",
-    "ship_id": 37,
+    "ship_id": 13,
     "ed_short": "dolphin",
     "size": "Small",
     "role": "Passenger "
   },
   {
     "ship_full_name": "Eagle Mk 2",
-    "ship_id": 31,
+    "ship_id": 14,
     "ed_short": "eagle",
     "size": "Small",
     "role": "Combat "
   },
   {
     "ship_full_name": "Federal Assault Ship",
-    "ship_id": 29,
+    "ship_id": 15,
     "ed_short": "federation_dropship_mkii",
     "size": "Medium",
     "role": "Combat "
   },
   {
     "ship_full_name": "Federal Corvette",
-    "ship_id": 26,
+    "ship_id": 16,
     "ed_short": "federation_corvette",
     "size": "Large",
     "role": "Combat "
   },
   {
     "ship_full_name": "Federal Dropship",
-    "ship_id": 28,
+    "ship_id": 17,
     "ed_short": "federation_dropship",
     "size": "Medium",
     "role": "Multipurpose"
   },
   {
     "ship_full_name": "Federal Gunship",
-    "ship_id": 27,
+    "ship_id": 18,
     "ed_short": "federation_gunship",
     "size": "Medium",
     "role": "Combat "
   },
   {
     "ship_full_name": "Fer-de-lance",
-    "ship_id": 33,
+    "ship_id": 19,
     "ed_short": "ferdelance",
     "size": "Medium",
     "role": "Combat "
   },
   {
     "ship_full_name": "Hauler",
-    "ship_id": 35,
+    "ship_id": 20,
     "ed_short": "hauler",
     "size": "Small",
     "role": "Freighter "
   },
   {
     "ship_full_name": "Imperial Clipper",
-    "ship_id": 3,
+    "ship_id": 21,
     "ed_short": "empire_trader",
     "size": "Large",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Imperial Courier",
-    "ship_id": 2,
+    "ship_id": 22,
     "ed_short": "empire_courier",
     "size": "Small",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Imperial Cutter",
-    "ship_id": 4,
+    "ship_id": 23,
     "ed_short": "cutter",
     "size": "Large",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Imperial Eagle",
-    "ship_id": 1,
+    "ship_id": 24,
     "ed_short": "empire_eagle",
     "size": "Small",
     "role": "Combat "
   },
   {
     "ship_full_name": "Keelback",
-    "ship_id": 21,
+    "ship_id": 25,
     "ed_short": "independant_trader",
     "size": "Medium",
     "role": "Combat Freighter"
   },
   {
     "ship_full_name": "Krait Mk II",
-    "ship_id": 9,
+    "ship_id": 26,
     "ed_short": "krait_mkii",
     "size": "Medium",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Krait Phantom",
-    "ship_id": 10,
+    "ship_id": 27,
     "ed_short": "krait_light",
     "size": "Medium",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Mamba",
-    "ship_id": 32,
+    "ship_id": 28,
     "ed_short": "mamba",
     "size": "Medium",
     "role": "Combat "
   },
   {
     "ship_full_name": "Orca",
-    "ship_id": 38,
+    "ship_id": 29,
     "ed_short": "orca",
     "size": "Large",
     "role": "Passenger "
   },
   {
     "ship_full_name": "Python",
-    "ship_id": 13,
+    "ship_id": 30,
     "ed_short": "python",
     "size": "Medium",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Sidewinder Mk 1",
-    "ship_id": 12,
+    "ship_id": 31,
     "ed_short": "sidewinder",
     "size": "Small",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Type 6 Transporter",
-    "ship_id": 22,
+    "ship_id": 32,
     "ed_short": "type6",
     "size": "Medium",
     "role": "Freighter "
   },
   {
     "ship_full_name": "Type 7 Transporter",
-    "ship_id": 23,
+    "ship_id": 33,
     "ed_short": "type7",
     "size": "Large",
     "role": "Freighter "
   },
   {
     "ship_full_name": "Type 9 Heavy",
-    "ship_id": 24,
+    "ship_id": 34,
     "ed_short": "type9",
     "size": "Large",
     "role": "Freighter "
   },
   {
     "ship_full_name": "Type 10 Defender",
-    "ship_id": 25,
+    "ship_id": 35,
     "ed_short": "type9_military",
     "size": "Large",
     "role": "Combat Freighter"
   },
   {
     "ship_full_name": "Viper Mk 3",
-    "ship_id": 7,
+    "ship_id": 36,
     "ed_short": "viper",
     "size": "Small",
     "role": "Combat "
   },
   {
     "ship_full_name": "Viper Mk 4",
-    "ship_id": 8,
+    "ship_id": 37,
     "ed_short": "viper_mkiv",
     "size": "Small",
     "role": "Combat "
   },
   {
     "ship_full_name": "Vulture",
-    "ship_id": 30,
+    "ship_id": 38,
     "ed_short": "vulture",
     "size": "Small",
     "role": "Combat "

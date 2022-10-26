@@ -16,6 +16,7 @@ namespace EDHM_UI_mk2.Forms
 		public string ThemeName { get; set; }
 		public string Author { get; set; }
 		public string Description { get; set; }
+		public string PreviewURL { get; set; }
 		public Image Thumbnail { get; set; }
 
 		public bool ThisIsAMod { get; set; } = false;
@@ -85,7 +86,8 @@ namespace EDHM_UI_mk2.Forms
 				this.ModName = this.txtModName.EditValue.ToString().Trim();
 				this.ThemeName = this.txtName.EditValue.ToString().Trim();
 				this.Author = this.txtAuthor.EditValue.ToString().Trim();
-				this.Description = Util.NVL(this.txtDescription.EditValue, "").Trim();
+				this.Description = Util.NVL(this.txtDescription.EditValue, "").Trim();				
+				this.PreviewURL = Util.NVL(this.txtPreviewURL.EditValue, "").Trim();
 				this.Thumbnail = this.picThumb.Image;
 
 				this.DialogResult = DialogResult.OK;

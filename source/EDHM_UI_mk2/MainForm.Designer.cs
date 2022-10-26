@@ -178,6 +178,15 @@
 			this.editorRow1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
 			this.GlobalSettings_Description = new DevExpress.XtraEditors.LabelControl();
 			this.GlobalSettings_Title = new DevExpress.XtraEditors.LabelControl();
+			this.dockUserSettings = new DevExpress.XtraBars.Docking.DockPanel();
+			this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+			this.splitContainer_UserSettings = new DevExpress.XtraEditors.SplitContainerControl();
+			this.vGridUserSettings = new DevExpress.XtraVerticalGrid.VGridControl();
+			this.repositoryItemZoomTrackBar3 = new DevExpress.XtraEditors.Repository.RepositoryItemZoomTrackBar();
+			this.repositoryItemSpinEdit3 = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
+			this.editorRow2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.UserSettings_Description = new DevExpress.XtraEditors.LabelControl();
+			this.UserSettings_Title = new DevExpress.XtraEditors.LabelControl();
 			this.mnuGlobalSettings_Add = new DevExpress.XtraBars.BarButtonItem();
 			this.mnuGlobalSettings_Remove = new DevExpress.XtraBars.BarButtonItem();
 			this.mnuTheme_Rename = new DevExpress.XtraBars.BarButtonItem();
@@ -192,6 +201,9 @@
 			this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
 			this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
 			this.mnuTheme_Preview = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuUserSettings_Add = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuRemoveUserSettings = new DevExpress.XtraBars.BarButtonItem();
+			this.popupMenu_UserSettings = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.popupMenu_Detalles = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.popupMenu_GlobalSettings = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.tileGroup1 = new DevExpress.XtraEditors.TileGroup();
@@ -201,6 +213,7 @@
 			this.mnuTray_Exit = new System.Windows.Forms.ToolStripMenuItem();
 			this.progressPanel1 = new DevExpress.XtraWaitForm.ProgressPanel();
 			this.popupMenu_Themes = new DevExpress.XtraBars.PopupMenu(this.components);
+			this.mnuGlobalToUserSettings = new DevExpress.XtraBars.BarButtonItem();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repCboGameInstances)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repProgressBar)).BeginInit();
@@ -248,6 +261,18 @@
 			((System.ComponentModel.ISupportInitialize)(this.vGridGlobalSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit2)).BeginInit();
+			this.dockUserSettings.SuspendLayout();
+			this.dockPanel1_Container.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer_UserSettings)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer_UserSettings.Panel1)).BeginInit();
+			this.splitContainer_UserSettings.Panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer_UserSettings.Panel2)).BeginInit();
+			this.splitContainer_UserSettings.Panel2.SuspendLayout();
+			this.splitContainer_UserSettings.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.vGridUserSettings)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.popupMenu_UserSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).BeginInit();
 			this.contextMenuStrip1.SuspendLayout();
@@ -495,8 +520,11 @@
             this.MainMenu_Help,
             this.MainMenu_About,
             this.mnuTheme_Preview,
-            this.MainMenu_UpdateCheck});
-			this.barManager1.MaxItemId = 50;
+            this.MainMenu_UpdateCheck,
+            this.mnuUserSettings_Add,
+            this.mnuRemoveUserSettings,
+            this.mnuGlobalToUserSettings});
+			this.barManager1.MaxItemId = 53;
 			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repCboGameInstances,
             this.repProgressBar,
@@ -1221,6 +1249,7 @@
 			this.panelGlobalSettings.Controls.Add(this.dockThemes);
 			this.panelGlobalSettings.Controls.Add(this.dockDetalles);
 			this.panelGlobalSettings.Controls.Add(this.dockGlobalSettings);
+			this.panelGlobalSettings.Controls.Add(this.dockUserSettings);
 			this.panelGlobalSettings.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
 			this.panelGlobalSettings.ID = new System.Guid("869a47f1-0807-4de2-bb7a-81ac966145aa");
 			this.panelGlobalSettings.Location = new System.Drawing.Point(842, 42);
@@ -1416,7 +1445,6 @@
 			this.vGridDetalles.TabIndex = 0;
 			this.vGridDetalles.ToolTipController = this.toolTipController1;
 			this.vGridDetalles.FocusedRowChanged += new DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventHandler(this.vGridDetalles_FocusedRowChanged);
-			this.vGridDetalles.Click += new System.EventHandler(this.vGridDetalles_Click);
 			this.vGridDetalles.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vGridDetalles_MouseDown);
 			// 
 			// repositoryItemZoomTrackBar1
@@ -1542,7 +1570,7 @@
 			this.vGridGlobalSettings.Name = "vGridGlobalSettings";
 			this.vGridGlobalSettings.OptionsMenu.EnableContextMenu = false;
 			this.barManager1.SetPopupContextMenu(this.vGridGlobalSettings, this.popupMenu_GlobalSettings);
-			this.vGridGlobalSettings.RecordWidth = 151;
+			this.vGridGlobalSettings.RecordWidth = 245;
 			this.vGridGlobalSettings.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemZoomTrackBar2,
             this.repositoryItemSpinEdit2});
@@ -1596,6 +1624,123 @@
 			this.GlobalSettings_Title.Size = new System.Drawing.Size(487, 20);
 			this.GlobalSettings_Title.TabIndex = 1;
 			this.GlobalSettings_Title.Text = "Description";
+			// 
+			// dockUserSettings
+			// 
+			this.dockUserSettings.Controls.Add(this.dockPanel1_Container);
+			this.dockUserSettings.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
+			this.dockUserSettings.ID = new System.Guid("8431b80a-3b6f-43cf-b67f-6c5810e57089");
+			this.dockUserSettings.Location = new System.Drawing.Point(8, 44);
+			this.dockUserSettings.Name = "dockUserSettings";
+			this.dockUserSettings.OriginalSize = new System.Drawing.Size(200, 200);
+			this.dockUserSettings.Size = new System.Drawing.Size(487, 558);
+			this.dockUserSettings.Text = "User Settings";
+			// 
+			// dockPanel1_Container
+			// 
+			this.dockPanel1_Container.Controls.Add(this.splitContainer_UserSettings);
+			this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
+			this.dockPanel1_Container.Name = "dockPanel1_Container";
+			this.dockPanel1_Container.Size = new System.Drawing.Size(487, 558);
+			this.dockPanel1_Container.TabIndex = 0;
+			// 
+			// splitContainer_UserSettings
+			// 
+			this.splitContainer_UserSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer_UserSettings.Horizontal = false;
+			this.splitContainer_UserSettings.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer_UserSettings.Name = "splitContainer_UserSettings";
+			// 
+			// splitContainer_UserSettings.Panel1
+			// 
+			this.splitContainer_UserSettings.Panel1.Controls.Add(this.vGridUserSettings);
+			this.splitContainer_UserSettings.Panel1.Text = "Panel1";
+			// 
+			// splitContainer_UserSettings.Panel2
+			// 
+			this.splitContainer_UserSettings.Panel2.Controls.Add(this.UserSettings_Description);
+			this.splitContainer_UserSettings.Panel2.Controls.Add(this.UserSettings_Title);
+			this.splitContainer_UserSettings.Panel2.Text = "Panel2";
+			this.splitContainer_UserSettings.Size = new System.Drawing.Size(487, 558);
+			this.splitContainer_UserSettings.SplitterPosition = 395;
+			this.splitContainer_UserSettings.TabIndex = 0;
+			// 
+			// vGridUserSettings
+			// 
+			this.vGridUserSettings.Appearance.Category.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.vGridUserSettings.Appearance.Category.Options.UseForeColor = true;
+			this.vGridUserSettings.Appearance.FixedLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.vGridUserSettings.Appearance.FixedLine.Options.UseBackColor = true;
+			this.vGridUserSettings.Appearance.FocusedCell.ForeColor = System.Drawing.Color.White;
+			this.vGridUserSettings.Appearance.FocusedCell.Options.UseForeColor = true;
+			this.vGridUserSettings.Appearance.FocusedRecord.ForeColor = System.Drawing.Color.White;
+			this.vGridUserSettings.Appearance.FocusedRecord.Options.UseForeColor = true;
+			this.vGridUserSettings.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+			this.vGridUserSettings.Appearance.FocusedRow.Options.UseBackColor = true;
+			this.vGridUserSettings.Appearance.HorzLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.vGridUserSettings.Appearance.HorzLine.Options.UseBackColor = true;
+			this.vGridUserSettings.Appearance.VertLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.vGridUserSettings.Appearance.VertLine.Options.UseBackColor = true;
+			this.vGridUserSettings.Cursor = System.Windows.Forms.Cursors.Default;
+			this.vGridUserSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.vGridUserSettings.Location = new System.Drawing.Point(0, 0);
+			this.vGridUserSettings.Name = "vGridUserSettings";
+			this.vGridUserSettings.OptionsMenu.EnableContextMenu = false;
+			this.barManager1.SetPopupContextMenu(this.vGridUserSettings, this.popupMenu_UserSettings);
+			this.vGridUserSettings.RecordWidth = 232;
+			this.vGridUserSettings.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repositoryItemZoomTrackBar3,
+            this.repositoryItemSpinEdit3});
+			this.vGridUserSettings.RowHeaderWidth = 199;
+			this.vGridUserSettings.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
+            this.editorRow2});
+			this.vGridUserSettings.Size = new System.Drawing.Size(487, 395);
+			this.vGridUserSettings.TabIndex = 2;
+			this.vGridUserSettings.FocusedRowChanged += new DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventHandler(this.vGridUserSettings_FocusedRowChanged);
+			this.vGridUserSettings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vGridUserSettings_MouseDown);
+			// 
+			// repositoryItemZoomTrackBar3
+			// 
+			this.repositoryItemZoomTrackBar3.Name = "repositoryItemZoomTrackBar3";
+			// 
+			// repositoryItemSpinEdit3
+			// 
+			this.repositoryItemSpinEdit3.AutoHeight = false;
+			this.repositoryItemSpinEdit3.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+			this.repositoryItemSpinEdit3.Name = "repositoryItemSpinEdit3";
+			// 
+			// editorRow2
+			// 
+			this.editorRow2.Name = "editorRow2";
+			this.editorRow2.Properties.RowEdit = this.repositoryItemSpinEdit3;
+			// 
+			// UserSettings_Description
+			// 
+			this.UserSettings_Description.AllowHtmlString = true;
+			this.UserSettings_Description.Appearance.Options.UseTextOptions = true;
+			this.UserSettings_Description.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+			this.UserSettings_Description.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+			this.UserSettings_Description.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.UserSettings_Description.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.UserSettings_Description.Location = new System.Drawing.Point(0, 20);
+			this.UserSettings_Description.Name = "UserSettings_Description";
+			this.UserSettings_Description.Size = new System.Drawing.Size(487, 111);
+			this.UserSettings_Description.TabIndex = 3;
+			// 
+			// UserSettings_Title
+			// 
+			this.UserSettings_Title.Appearance.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.UserSettings_Title.Appearance.Options.UseFont = true;
+			this.UserSettings_Title.Appearance.Options.UseTextOptions = true;
+			this.UserSettings_Title.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
+			this.UserSettings_Title.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.UserSettings_Title.Dock = System.Windows.Forms.DockStyle.Top;
+			this.UserSettings_Title.Location = new System.Drawing.Point(0, 0);
+			this.UserSettings_Title.Name = "UserSettings_Title";
+			this.UserSettings_Title.Size = new System.Drawing.Size(487, 20);
+			this.UserSettings_Title.TabIndex = 2;
+			this.UserSettings_Title.Text = "Description";
 			// 
 			// mnuGlobalSettings_Add
 			// 
@@ -1703,17 +1848,42 @@
 			this.mnuTheme_Preview.Name = "mnuTheme_Preview";
 			this.mnuTheme_Preview.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_Preview_ItemClick);
 			// 
+			// mnuUserSettings_Add
+			// 
+			this.mnuUserSettings_Add.Caption = "Add to User Settings";
+			this.mnuUserSettings_Add.Id = 50;
+			this.mnuUserSettings_Add.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuUserSettings_Add.ImageOptions.SvgImage")));
+			this.mnuUserSettings_Add.Name = "mnuUserSettings_Add";
+			this.mnuUserSettings_Add.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuUserSettings_Add_ItemClick);
+			// 
+			// mnuRemoveUserSettings
+			// 
+			this.mnuRemoveUserSettings.Caption = "Remove Element";
+			this.mnuRemoveUserSettings.Id = 51;
+			this.mnuRemoveUserSettings.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuRemoveUserSettings.ImageOptions.SvgImage")));
+			this.mnuRemoveUserSettings.Name = "mnuRemoveUserSettings";
+			this.mnuRemoveUserSettings.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuRemoveUserSettings_ItemClick);
+			// 
+			// popupMenu_UserSettings
+			// 
+			this.popupMenu_UserSettings.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuRemoveUserSettings)});
+			this.popupMenu_UserSettings.Manager = this.barManager1;
+			this.popupMenu_UserSettings.Name = "popupMenu_UserSettings";
+			// 
 			// popupMenu_Detalles
 			// 
 			this.popupMenu_Detalles.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalSettings_Add)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalSettings_Add),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuUserSettings_Add)});
 			this.popupMenu_Detalles.Manager = this.barManager1;
 			this.popupMenu_Detalles.Name = "popupMenu_Detalles";
 			// 
 			// popupMenu_GlobalSettings
 			// 
 			this.popupMenu_GlobalSettings.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalSettings_Remove)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalSettings_Remove),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalToUserSettings)});
 			this.popupMenu_GlobalSettings.Manager = this.barManager1;
 			this.popupMenu_GlobalSettings.Name = "popupMenu_GlobalSettings";
 			// 
@@ -1766,7 +1936,6 @@
 			this.progressPanel1.TabIndex = 8;
 			this.progressPanel1.Visible = false;
 			this.progressPanel1.WaitAnimationType = DevExpress.Utils.Animation.WaitingAnimatorType.Line;
-			this.progressPanel1.Click += new System.EventHandler(this.progressPanel1_Click);
 			// 
 			// popupMenu_Themes
 			// 
@@ -1782,6 +1951,14 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Save)});
 			this.popupMenu_Themes.Manager = this.barManager1;
 			this.popupMenu_Themes.Name = "popupMenu_Themes";
+			// 
+			// mnuGlobalToUserSettings
+			// 
+			this.mnuGlobalToUserSettings.Caption = "Add to User Settings";
+			this.mnuGlobalToUserSettings.Id = 52;
+			this.mnuGlobalToUserSettings.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuGlobalToUserSettings.ImageOptions.SvgImage")));
+			this.mnuGlobalToUserSettings.Name = "mnuGlobalToUserSettings";
+			this.mnuGlobalToUserSettings.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuGlobalToUserSettings_ItemClick);
 			// 
 			// MainForm
 			// 
@@ -1854,6 +2031,18 @@
 			((System.ComponentModel.ISupportInitialize)(this.vGridGlobalSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit2)).EndInit();
+			this.dockUserSettings.ResumeLayout(false);
+			this.dockPanel1_Container.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer_UserSettings.Panel1)).EndInit();
+			this.splitContainer_UserSettings.Panel1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer_UserSettings.Panel2)).EndInit();
+			this.splitContainer_UserSettings.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer_UserSettings)).EndInit();
+			this.splitContainer_UserSettings.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.vGridUserSettings)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.popupMenu_UserSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).EndInit();
 			this.contextMenuStrip1.ResumeLayout(false);
@@ -1993,6 +2182,19 @@
 		private DevExpress.XtraBars.BarButtonItem mnuTheme_Preview;
 		private DevExpress.XtraBars.BarButtonItem MainMenu_UpdateCheck;
 		private DevExpress.Utils.ImageCollection ElementsImgCollection;
+		private DevExpress.XtraBars.Docking.DockPanel dockUserSettings;
+		private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
+		private DevExpress.XtraEditors.SplitContainerControl splitContainer_UserSettings;
+		private DevExpress.XtraVerticalGrid.VGridControl vGridUserSettings;
+		private DevExpress.XtraEditors.Repository.RepositoryItemZoomTrackBar repositoryItemZoomTrackBar3;
+		private DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit repositoryItemSpinEdit3;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow editorRow2;
+		private DevExpress.XtraEditors.LabelControl UserSettings_Description;
+		private DevExpress.XtraEditors.LabelControl UserSettings_Title;
+		private DevExpress.XtraBars.BarButtonItem mnuUserSettings_Add;
+		private DevExpress.XtraBars.PopupMenu popupMenu_UserSettings;
+		private DevExpress.XtraBars.BarButtonItem mnuRemoveUserSettings;
+		private DevExpress.XtraBars.BarButtonItem mnuGlobalToUserSettings;
 	}
 }
 

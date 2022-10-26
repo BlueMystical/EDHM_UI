@@ -342,7 +342,7 @@ namespace EDHM_UI_mk2
 		public List<string> dependencies { get; set; }
 	}
 	[Serializable]
-	public class TPMod_Section
+	public class TPMod_Section : ICloneable
 	{
 		public TPMod_Section() { }
 		public TPMod_Section(string _Name = "", string _Title = "")
@@ -353,12 +353,23 @@ namespace EDHM_UI_mk2
 
 		public string name { get; set; }
 		public string title { get; set; }
+
+		/// <summary>Secion name in the Config File (ini or xml)</summary>
 		public string ini_section { get; set; }
 
-		public List<TPMod_Key> keys { get; set; }		
+		/// <summary>Overrides the Mod File (ini or xml), only for this section.</summary>
+		public string file_override { get; set; } 
+
+		public List<TPMod_Key> keys { get; set; }
+
+		/// <summary>Permite Copiar por Valor el Objeto con todas sus propiedades y atributos.</summary>
+		public object Clone()
+		{
+			return (TPMod_Section)this.MemberwiseClone();
+		}
 	}
 	[Serializable]
-	public class TPMod_Key
+	public class TPMod_Key : ICloneable
 	{
 		public TPMod_Key() { }
 
@@ -369,7 +380,17 @@ namespace EDHM_UI_mk2
 		public bool visible { get; set; } = true;
 		public string description { get; set; }
 
+		/// <summary>Secion name in the Config File (ini or xml)</summary>
 		[Newtonsoft.Json.JsonIgnore] public string section_name { get; set; }
+
+		/// <summary>Name of the section who owns this key</summary>
+		[Newtonsoft.Json.JsonIgnore] public TPMod_Section root_section { get; set; }
+
+		/// <summary>Permite Copiar por Valor el Objeto con todas sus propiedades y atributos.</summary>
+		public object Clone()
+		{
+			return (TPMod_Key)this.MemberwiseClone();
+		}
 	}
 	[Serializable]
 	public class TPMod_Type

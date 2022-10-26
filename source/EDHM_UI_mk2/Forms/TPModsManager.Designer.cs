@@ -51,13 +51,13 @@
 			DevExpress.Utils.SuperToolTip superToolTip7 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem7 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem7 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem8 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem9 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip8 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem8 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem8 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem10 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip9 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem9 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem9 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipItem toolTipItem10 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.ToolTipItem toolTipItem11 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip10 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem10 = new DevExpress.Utils.ToolTipTitleItem();
@@ -73,8 +73,15 @@
 			this.cmdRefresh = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdImportMod = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdEdit_RemoveMod = new DevExpress.XtraBars.BarButtonItem();
+			this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
 			this.cmdOpenRawFile = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdOpenJsonFile = new DevExpress.XtraBars.BarButtonItem();
+			this.barSubItem2 = new DevExpress.XtraBars.BarSubItem();
+			this.cmdSectionsEditor = new DevExpress.XtraBars.BarButtonItem();
+			this.cmdSectionsNew = new DevExpress.XtraBars.BarButtonItem();
+			this.barSubItem3 = new DevExpress.XtraBars.BarSubItem();
+			this.cmdKeysEdit = new DevExpress.XtraBars.BarButtonItem();
+			this.cmdKeysAddNew = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdExport = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdImportTheme = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdFindMoreMods = new DevExpress.XtraBars.BarButtonItem();
@@ -97,18 +104,6 @@
 			this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.repGridThemes_Favorite = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
 			this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
-			this.dockSection = new DevExpress.XtraBars.Docking.DockPanel();
-			this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
-			this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-			this.DockSection_cmdApply = new DevExpress.XtraEditors.SimpleButton();
-			this.DockSection_txtTitle = new DevExpress.XtraEditors.TextEdit();
-			this.DockSection_txtName = new DevExpress.XtraEditors.TextEdit();
-			this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
-			this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-			this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-			this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-			this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
-			this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
 			this.dockCustomTypesEditor = new DevExpress.XtraBars.Docking.DockPanel();
 			this.controlContainer2 = new DevExpress.XtraBars.Docking.ControlContainer();
 			this.layoutControl3 = new DevExpress.XtraLayout.LayoutControl();
@@ -150,6 +145,25 @@
 			this.controlContainer4 = new DevExpress.XtraBars.Docking.ControlContainer();
 			this.lblReadMe = new DevExpress.XtraEditors.LabelControl();
 			this.ElementsImgCollection = new DevExpress.Utils.ImageCollection(this.components);
+			this.dockSection = new DevExpress.XtraBars.Docking.DockPanel();
+			this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+			this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+			this.gridSectionKeys = new DevExpress.XtraGrid.GridControl();
+			this.gridviewSectionKeys = new DevExpress.XtraGrid.Views.Grid.GridView();
+			this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+			this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+			this.DockSection_txtSection = new DevExpress.XtraEditors.TextEdit();
+			this.DockSection_cmdApply = new DevExpress.XtraEditors.SimpleButton();
+			this.DockSection_txtTitle = new DevExpress.XtraEditors.TextEdit();
+			this.DockSection_txtName = new DevExpress.XtraEditors.TextEdit();
+			this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
+			this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
+			this.layoutControlItem16 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
+			this.layoutControlItem19 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdEdit_AddSection = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdEdit_RemoveSection = new DevExpress.XtraBars.BarButtonItem();
@@ -174,6 +188,8 @@
 			this.lblMODdescription = new DevExpress.XtraEditors.LabelControl();
 			this.vGridDetalles = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.category = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
+			this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+			this.mnuThemes = new DevExpress.XtraBars.BarSubItem();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
 			this.hideContainerRight.SuspendLayout();
@@ -182,18 +198,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.gridThemes)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repGridThemes_Favorite)).BeginInit();
-			this.dockSection.SuspendLayout();
-			this.dockPanel1_Container.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
-			this.layoutControl1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtTitle.Properties)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtName.Properties)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
 			this.dockCustomTypesEditor.SuspendLayout();
 			this.controlContainer2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl3)).BeginInit();
@@ -233,6 +237,23 @@
 			this.dockReadMe.SuspendLayout();
 			this.controlContainer4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ElementsImgCollection)).BeginInit();
+			this.dockSection.SuspendLayout();
+			this.dockPanel1_Container.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
+			this.layoutControl1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.gridSectionKeys)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.gridviewSectionKeys)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtSection.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtTitle.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtName.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem19)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.cmdMoreMods_Link)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
@@ -288,8 +309,16 @@
             this.barLinkContainerItem2,
             this.cmdMoreMods,
             this.cmdFindMoreMods,
-            this.cmdReadMe});
-			this.barManager1.MaxItemId = 33;
+            this.cmdReadMe,
+            this.barSubItem1,
+            this.cmdSectionsEditor,
+            this.barSubItem2,
+            this.cmdSectionsNew,
+            this.barSubItem3,
+            this.cmdKeysEdit,
+            this.cmdKeysAddNew,
+            this.mnuThemes});
+			this.barManager1.MaxItemId = 41;
 			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemHyperLinkEdit1,
             this.cmdMoreMods_Link});
@@ -306,12 +335,10 @@
             new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdSaveChanges, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdReadMe),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdRefresh),
-            new DevExpress.XtraBars.LinkPersistInfo(this.cmdImportMod),
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdImportMod, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdEdit_RemoveMod),
-            new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenRawFile, true),
-            new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenJsonFile),
-            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdExport, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
-            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdImportTheme, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.barSubItem1, "", true, true, true, 0, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.mnuThemes, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdFindMoreMods)});
 			this.bar3.OptionsBar.AllowQuickCustomization = false;
 			this.bar3.OptionsBar.DrawDragBorder = false;
@@ -370,9 +397,21 @@
 			this.cmdEdit_RemoveMod.Name = "cmdEdit_RemoveMod";
 			this.cmdEdit_RemoveMod.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdEdit_RemoveMod_ItemClick);
 			// 
+			// barSubItem1
+			// 
+			this.barSubItem1.Caption = "Edit Mod";
+			this.barSubItem1.Id = 33;
+			this.barSubItem1.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barSubItem1.ImageOptions.SvgImage")));
+			this.barSubItem1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenRawFile),
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenJsonFile),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem2, true),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem3)});
+			this.barSubItem1.Name = "barSubItem1";
+			// 
 			// cmdOpenRawFile
 			// 
-			this.cmdOpenRawFile.Caption = "&Open Raw INI File";
+			this.cmdOpenRawFile.Caption = "&Open Raw Config File";
 			this.cmdOpenRawFile.Id = 4;
 			this.cmdOpenRawFile.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdOpenRawFile.ImageOptions.SvgImage")));
 			this.cmdOpenRawFile.Name = "cmdOpenRawFile";
@@ -380,11 +419,58 @@
 			// 
 			// cmdOpenJsonFile
 			// 
-			this.cmdOpenJsonFile.Caption = "Open JSON";
+			this.cmdOpenJsonFile.Caption = "Open Mod\'s JSON";
 			this.cmdOpenJsonFile.Id = 14;
 			this.cmdOpenJsonFile.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdOpenJsonFile.ImageOptions.SvgImage")));
 			this.cmdOpenJsonFile.Name = "cmdOpenJsonFile";
 			this.cmdOpenJsonFile.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdOpenJsonFile_ItemClick);
+			// 
+			// barSubItem2
+			// 
+			this.barSubItem2.Caption = "Sections";
+			this.barSubItem2.Enabled = false;
+			this.barSubItem2.Id = 35;
+			this.barSubItem2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdSectionsEditor),
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdSectionsNew)});
+			this.barSubItem2.Name = "barSubItem2";
+			// 
+			// cmdSectionsEditor
+			// 
+			this.cmdSectionsEditor.Caption = "Edit Section";
+			this.cmdSectionsEditor.Id = 34;
+			this.cmdSectionsEditor.Name = "cmdSectionsEditor";
+			this.cmdSectionsEditor.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdSectionsEditor_ItemClick);
+			// 
+			// cmdSectionsNew
+			// 
+			this.cmdSectionsNew.Caption = "Add Section..";
+			this.cmdSectionsNew.Id = 36;
+			this.cmdSectionsNew.Name = "cmdSectionsNew";
+			// 
+			// barSubItem3
+			// 
+			this.barSubItem3.Caption = "Keys";
+			this.barSubItem3.Enabled = false;
+			this.barSubItem3.Id = 37;
+			this.barSubItem3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdKeysEdit),
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdKeysAddNew)});
+			this.barSubItem3.Name = "barSubItem3";
+			// 
+			// cmdKeysEdit
+			// 
+			this.cmdKeysEdit.Caption = "Edit Selected Key";
+			this.cmdKeysEdit.Id = 38;
+			this.cmdKeysEdit.Name = "cmdKeysEdit";
+			this.cmdKeysEdit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdKeysEdit_ItemClick);
+			// 
+			// cmdKeysAddNew
+			// 
+			this.cmdKeysAddNew.Caption = "Add New Key..";
+			this.cmdKeysAddNew.Id = 39;
+			this.cmdKeysAddNew.Name = "cmdKeysAddNew";
+			this.cmdKeysAddNew.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdKeysAddNew_ItemClick);
 			// 
 			// cmdExport
 			// 
@@ -468,15 +554,15 @@
 			this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
 			this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlTop.Manager = this.barManager1;
-			this.barDockControlTop.Size = new System.Drawing.Size(930, 0);
+			this.barDockControlTop.Size = new System.Drawing.Size(988, 0);
 			// 
 			// barDockControlBottom
 			// 
 			this.barDockControlBottom.CausesValidation = false;
 			this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.barDockControlBottom.Location = new System.Drawing.Point(0, 661);
+			this.barDockControlBottom.Location = new System.Drawing.Point(0, 654);
 			this.barDockControlBottom.Manager = this.barManager1;
-			this.barDockControlBottom.Size = new System.Drawing.Size(930, 38);
+			this.barDockControlBottom.Size = new System.Drawing.Size(988, 38);
 			// 
 			// barDockControlLeft
 			// 
@@ -484,15 +570,15 @@
 			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
 			this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlLeft.Manager = this.barManager1;
-			this.barDockControlLeft.Size = new System.Drawing.Size(0, 661);
+			this.barDockControlLeft.Size = new System.Drawing.Size(0, 654);
 			// 
 			// barDockControlRight
 			// 
 			this.barDockControlRight.CausesValidation = false;
 			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.barDockControlRight.Location = new System.Drawing.Point(930, 0);
+			this.barDockControlRight.Location = new System.Drawing.Point(988, 0);
 			this.barDockControlRight.Manager = this.barManager1;
-			this.barDockControlRight.Size = new System.Drawing.Size(0, 661);
+			this.barDockControlRight.Size = new System.Drawing.Size(0, 654);
 			// 
 			// dockManager1
 			// 
@@ -500,12 +586,12 @@
             this.hideContainerRight});
 			this.dockManager1.Form = this;
 			this.dockManager1.HiddenPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
-            this.dockSection,
             this.dockCustomTypesEditor,
-            this.dockKeys});
+            this.dockKeys,
+            this.dockReadMe});
 			this.dockManager1.MenuManager = this.barManager1;
 			this.dockManager1.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
-            this.dockReadMe});
+            this.dockSection});
 			this.dockManager1.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
             "DevExpress.XtraBars.StandaloneBarDockControl",
@@ -525,9 +611,9 @@
 			this.hideContainerRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
 			this.hideContainerRight.Controls.Add(this.dock3PM_Themes);
 			this.hideContainerRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.hideContainerRight.Location = new System.Drawing.Point(899, 0);
+			this.hideContainerRight.Location = new System.Drawing.Point(957, 0);
 			this.hideContainerRight.Name = "hideContainerRight";
-			this.hideContainerRight.Size = new System.Drawing.Size(31, 661);
+			this.hideContainerRight.Size = new System.Drawing.Size(31, 654);
 			// 
 			// dock3PM_Themes
 			// 
@@ -536,10 +622,11 @@
 			this.dock3PM_Themes.ID = new System.Guid("4c4fb521-6c4d-46c9-a5fb-2158f7133acf");
 			this.dock3PM_Themes.Location = new System.Drawing.Point(0, 0);
 			this.dock3PM_Themes.Name = "dock3PM_Themes";
+			this.dock3PM_Themes.Options.ShowCloseButton = false;
 			this.dock3PM_Themes.OriginalSize = new System.Drawing.Size(329, 200);
 			this.dock3PM_Themes.SavedDock = DevExpress.XtraBars.Docking.DockingStyle.Right;
 			this.dock3PM_Themes.SavedIndex = 0;
-			this.dock3PM_Themes.Size = new System.Drawing.Size(329, 661);
+			this.dock3PM_Themes.Size = new System.Drawing.Size(329, 652);
 			this.dock3PM_Themes.Text = "Themes";
 			this.dock3PM_Themes.Visibility = DevExpress.XtraBars.Docking.DockVisibility.AutoHide;
 			// 
@@ -548,7 +635,7 @@
 			this.controlContainer3.Controls.Add(this.gridThemes);
 			this.controlContainer3.Location = new System.Drawing.Point(8, 44);
 			this.controlContainer3.Name = "controlContainer3";
-			this.controlContainer3.Size = new System.Drawing.Size(318, 614);
+			this.controlContainer3.Size = new System.Drawing.Size(318, 605);
 			this.controlContainer3.TabIndex = 0;
 			// 
 			// gridThemes
@@ -560,7 +647,7 @@
 			this.gridThemes.Name = "gridThemes";
 			this.gridThemes.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repGridThemes_Favorite});
-			this.gridThemes.Size = new System.Drawing.Size(318, 614);
+			this.gridThemes.Size = new System.Drawing.Size(318, 605);
 			this.gridThemes.TabIndex = 12;
 			this.gridThemes.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -613,142 +700,6 @@
 			this.gridColumn6.FieldName = "name";
 			this.gridColumn6.Name = "gridColumn6";
 			// 
-			// dockSection
-			// 
-			this.dockSection.Controls.Add(this.dockPanel1_Container);
-			this.dockSection.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
-			this.dockSection.FloatLocation = new System.Drawing.Point(257, 303);
-			this.dockSection.FloatSize = new System.Drawing.Size(341, 231);
-			this.dockSection.ID = new System.Guid("cfb268ab-c363-4c64-ae08-71f74322d2da");
-			this.dockSection.Location = new System.Drawing.Point(-32768, -32768);
-			this.dockSection.Name = "dockSection";
-			this.dockSection.Options.ShowMaximizeButton = false;
-			this.dockSection.Options.ShowMinimizeButton = false;
-			this.dockSection.OriginalSize = new System.Drawing.Size(200, 200);
-			this.dockSection.SavedIndex = 0;
-			this.dockSection.Size = new System.Drawing.Size(341, 231);
-			this.dockSection.Text = "Section:";
-			this.dockSection.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
-			// 
-			// dockPanel1_Container
-			// 
-			this.dockPanel1_Container.Controls.Add(this.layoutControl1);
-			this.dockPanel1_Container.Location = new System.Drawing.Point(8, 56);
-			this.dockPanel1_Container.Name = "dockPanel1_Container";
-			this.dockPanel1_Container.Size = new System.Drawing.Size(325, 167);
-			this.dockPanel1_Container.TabIndex = 0;
-			// 
-			// layoutControl1
-			// 
-			this.layoutControl1.Controls.Add(this.DockSection_cmdApply);
-			this.layoutControl1.Controls.Add(this.DockSection_txtTitle);
-			this.layoutControl1.Controls.Add(this.DockSection_txtName);
-			this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.layoutControl1.Location = new System.Drawing.Point(0, 0);
-			this.layoutControl1.Name = "layoutControl1";
-			this.layoutControl1.Root = this.Root;
-			this.layoutControl1.Size = new System.Drawing.Size(325, 167);
-			this.layoutControl1.TabIndex = 0;
-			this.layoutControl1.Text = "layoutControl1";
-			// 
-			// DockSection_cmdApply
-			// 
-			this.DockSection_cmdApply.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-			this.DockSection_cmdApply.Appearance.Options.UseBackColor = true;
-			this.DockSection_cmdApply.Location = new System.Drawing.Point(164, 113);
-			this.DockSection_cmdApply.Name = "DockSection_cmdApply";
-			this.DockSection_cmdApply.Size = new System.Drawing.Size(149, 42);
-			this.DockSection_cmdApply.StyleController = this.layoutControl1;
-			this.DockSection_cmdApply.TabIndex = 6;
-			this.DockSection_cmdApply.Text = "Apply";
-			// 
-			// DockSection_txtTitle
-			// 
-			this.DockSection_txtTitle.Location = new System.Drawing.Point(56, 52);
-			this.DockSection_txtTitle.MenuManager = this.barManager1;
-			this.DockSection_txtTitle.Name = "DockSection_txtTitle";
-			this.DockSection_txtTitle.Size = new System.Drawing.Size(257, 36);
-			this.DockSection_txtTitle.StyleController = this.layoutControl1;
-			toolTipTitleItem1.Text = "Title:";
-			toolTipItem1.Text = "This is the User friendly Caption shown in the UI.";
-			superToolTip1.Items.Add(toolTipTitleItem1);
-			superToolTip1.Items.Add(toolTipItem1);
-			this.DockSection_txtTitle.SuperTip = superToolTip1;
-			this.DockSection_txtTitle.TabIndex = 5;
-			// 
-			// DockSection_txtName
-			// 
-			this.DockSection_txtName.Location = new System.Drawing.Point(56, 12);
-			this.DockSection_txtName.MenuManager = this.barManager1;
-			this.DockSection_txtName.Name = "DockSection_txtName";
-			this.DockSection_txtName.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.RegExpMaskManager));
-			this.DockSection_txtName.Properties.MaskSettings.Set("mask", "\\p{L}+");
-			this.DockSection_txtName.Size = new System.Drawing.Size(257, 36);
-			this.DockSection_txtName.StyleController = this.layoutControl1;
-			toolTipTitleItem2.Text = "Section Name:";
-			toolTipItem2.Text = "This is the actual Name of the Section in the INI file.";
-			superToolTip2.Items.Add(toolTipTitleItem2);
-			superToolTip2.Items.Add(toolTipItem2);
-			this.DockSection_txtName.SuperTip = superToolTip2;
-			this.DockSection_txtName.TabIndex = 4;
-			// 
-			// Root
-			// 
-			this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
-			this.Root.GroupBordersVisible = false;
-			this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem1,
-            this.layoutControlItem2,
-            this.layoutControlItem3,
-            this.emptySpaceItem2,
-            this.emptySpaceItem1});
-			this.Root.Name = "Root";
-			this.Root.Size = new System.Drawing.Size(325, 167);
-			this.Root.TextVisible = false;
-			// 
-			// layoutControlItem1
-			// 
-			this.layoutControlItem1.Control = this.DockSection_txtName;
-			this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
-			this.layoutControlItem1.Name = "layoutControlItem1";
-			this.layoutControlItem1.Size = new System.Drawing.Size(305, 40);
-			this.layoutControlItem1.Text = "Name:";
-			this.layoutControlItem1.TextSize = new System.Drawing.Size(32, 13);
-			// 
-			// layoutControlItem2
-			// 
-			this.layoutControlItem2.Control = this.DockSection_txtTitle;
-			this.layoutControlItem2.Location = new System.Drawing.Point(0, 40);
-			this.layoutControlItem2.Name = "layoutControlItem2";
-			this.layoutControlItem2.Size = new System.Drawing.Size(305, 40);
-			this.layoutControlItem2.Text = "Title:";
-			this.layoutControlItem2.TextSize = new System.Drawing.Size(32, 13);
-			// 
-			// layoutControlItem3
-			// 
-			this.layoutControlItem3.Control = this.DockSection_cmdApply;
-			this.layoutControlItem3.Location = new System.Drawing.Point(152, 101);
-			this.layoutControlItem3.Name = "layoutControlItem3";
-			this.layoutControlItem3.Size = new System.Drawing.Size(153, 46);
-			this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-			this.layoutControlItem3.TextVisible = false;
-			// 
-			// emptySpaceItem2
-			// 
-			this.emptySpaceItem2.AllowHotTrack = false;
-			this.emptySpaceItem2.Location = new System.Drawing.Point(0, 101);
-			this.emptySpaceItem2.Name = "emptySpaceItem2";
-			this.emptySpaceItem2.Size = new System.Drawing.Size(152, 46);
-			this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
-			// 
-			// emptySpaceItem1
-			// 
-			this.emptySpaceItem1.AllowHotTrack = false;
-			this.emptySpaceItem1.Location = new System.Drawing.Point(0, 80);
-			this.emptySpaceItem1.Name = "emptySpaceItem1";
-			this.emptySpaceItem1.Size = new System.Drawing.Size(305, 21);
-			this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
-			// 
 			// dockCustomTypesEditor
 			// 
 			this.dockCustomTypesEditor.Controls.Add(this.controlContainer2);
@@ -800,6 +751,7 @@
 			this.DockCustomTypes_CmdApply.StyleController = this.layoutControl3;
 			this.DockCustomTypes_CmdApply.TabIndex = 11;
 			this.DockCustomTypes_CmdApply.Text = "&Apply";
+			this.DockCustomTypes_CmdApply.Click += new System.EventHandler(this.DockCustomTypes_CmdApply_Click);
 			// 
 			// DockCustomTypes_txtValue
 			// 
@@ -808,11 +760,11 @@
 			this.DockCustomTypes_txtValue.Name = "DockCustomTypes_txtValue";
 			this.DockCustomTypes_txtValue.Size = new System.Drawing.Size(291, 36);
 			this.DockCustomTypes_txtValue.StyleController = this.layoutControl3;
-			toolTipTitleItem3.Text = "Value:";
-			toolTipItem3.Text = "Internal Value for this Type.";
-			superToolTip3.Items.Add(toolTipTitleItem3);
-			superToolTip3.Items.Add(toolTipItem3);
-			this.DockCustomTypes_txtValue.SuperTip = superToolTip3;
+			toolTipTitleItem1.Text = "Value:";
+			toolTipItem1.Text = "Internal Value for this Type.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			this.DockCustomTypes_txtValue.SuperTip = superToolTip1;
 			this.DockCustomTypes_txtValue.TabIndex = 8;
 			// 
 			// DockCustomTypes_txtName
@@ -824,11 +776,11 @@
 			this.DockCustomTypes_txtName.Properties.Appearance.Options.UseBackColor = true;
 			this.DockCustomTypes_txtName.Size = new System.Drawing.Size(291, 36);
 			this.DockCustomTypes_txtName.StyleController = this.layoutControl3;
-			toolTipTitleItem4.Text = "Name:";
-			toolTipItem4.Text = "User Friendly Name shown in the UI.";
-			superToolTip4.Items.Add(toolTipTitleItem4);
-			superToolTip4.Items.Add(toolTipItem4);
-			this.DockCustomTypes_txtName.SuperTip = superToolTip4;
+			toolTipTitleItem2.Text = "Name:";
+			toolTipItem2.Text = "User Friendly Name shown in the UI.";
+			superToolTip2.Items.Add(toolTipTitleItem2);
+			superToolTip2.Items.Add(toolTipItem2);
+			this.DockCustomTypes_txtName.SuperTip = superToolTip2;
 			this.DockCustomTypes_txtName.TabIndex = 7;
 			// 
 			// DockCustomTypes_txtType
@@ -838,11 +790,11 @@
 			this.DockCustomTypes_txtType.Name = "DockCustomTypes_txtType";
 			this.DockCustomTypes_txtType.Size = new System.Drawing.Size(291, 36);
 			this.DockCustomTypes_txtType.StyleController = this.layoutControl3;
-			toolTipTitleItem5.Text = "Type:";
-			toolTipItem5.Text = "Internal Name for the Custom Type";
-			superToolTip5.Items.Add(toolTipTitleItem5);
-			superToolTip5.Items.Add(toolTipItem5);
-			this.DockCustomTypes_txtType.SuperTip = superToolTip5;
+			toolTipTitleItem3.Text = "Type:";
+			toolTipItem3.Text = "Internal Name for the Custom Type";
+			superToolTip3.Items.Add(toolTipTitleItem3);
+			superToolTip3.Items.Add(toolTipItem3);
+			this.DockCustomTypes_txtType.SuperTip = superToolTip3;
 			this.DockCustomTypes_txtType.TabIndex = 6;
 			// 
 			// DockCustomTypes_lstTypes
@@ -852,6 +804,7 @@
 			this.DockCustomTypes_lstTypes.Size = new System.Drawing.Size(174, 301);
 			this.DockCustomTypes_lstTypes.StyleController = this.layoutControl3;
 			this.DockCustomTypes_lstTypes.TabIndex = 5;
+			this.DockCustomTypes_lstTypes.SelectedIndexChanged += new System.EventHandler(this.DockCustomTypes_lstTypes_SelectedIndexChanged);
 			// 
 			// DockCustomTypes_lstGroupTypes
 			// 
@@ -860,6 +813,7 @@
 			this.DockCustomTypes_lstGroupTypes.Size = new System.Drawing.Size(186, 301);
 			this.DockCustomTypes_lstGroupTypes.StyleController = this.layoutControl3;
 			this.DockCustomTypes_lstGroupTypes.TabIndex = 4;
+			this.DockCustomTypes_lstGroupTypes.SelectedIndexChanged += new System.EventHandler(this.DockCustomTypes_lstGroupTypes_SelectedIndexChanged);
 			// 
 			// layoutControlGroup2
 			// 
@@ -953,14 +907,14 @@
 			// 
 			this.dockKeys.Controls.Add(this.controlContainer1);
 			this.dockKeys.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
-			this.dockKeys.FloatLocation = new System.Drawing.Point(620, 208);
+			this.dockKeys.FloatLocation = new System.Drawing.Point(84, 289);
 			this.dockKeys.FloatSize = new System.Drawing.Size(395, 396);
 			this.dockKeys.ID = new System.Guid("8595b65a-f51e-4446-8bd0-c9071b4f2be1");
 			this.dockKeys.Location = new System.Drawing.Point(-32768, -32768);
 			this.dockKeys.Name = "dockKeys";
 			this.dockKeys.Options.ShowMaximizeButton = false;
 			this.dockKeys.OriginalSize = new System.Drawing.Size(200, 200);
-			this.dockKeys.SavedIndex = 0;
+			this.dockKeys.SavedIndex = 1;
 			this.dockKeys.Size = new System.Drawing.Size(395, 396);
 			this.dockKeys.Text = "Key:";
 			this.dockKeys.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
@@ -997,13 +951,14 @@
 			this.DockKeys_cmdCustomTypes.Name = "DockKeys_cmdCustomTypes";
 			this.DockKeys_cmdCustomTypes.Size = new System.Drawing.Size(76, 42);
 			this.DockKeys_cmdCustomTypes.StyleController = this.layoutControl2;
-			toolTipTitleItem6.Text = "Custom Types";
-			toolTipItem6.Text = "List of Custom Types defined for this Mod.";
-			superToolTip6.Items.Add(toolTipTitleItem6);
-			superToolTip6.Items.Add(toolTipItem6);
-			this.DockKeys_cmdCustomTypes.SuperTip = superToolTip6;
+			toolTipTitleItem4.Text = "Custom Types";
+			toolTipItem4.Text = "List of Custom Types defined for this Mod.";
+			superToolTip4.Items.Add(toolTipTitleItem4);
+			superToolTip4.Items.Add(toolTipItem4);
+			this.DockKeys_cmdCustomTypes.SuperTip = superToolTip4;
 			this.DockKeys_cmdCustomTypes.TabIndex = 10;
 			this.DockKeys_cmdCustomTypes.ToolTip = "Custom Types";
+			this.DockKeys_cmdCustomTypes.Click += new System.EventHandler(this.DockKeys_cmdCustomTypes_Click);
 			// 
 			// DockKeys_cmdApply
 			// 
@@ -1015,6 +970,7 @@
 			this.DockKeys_cmdApply.StyleController = this.layoutControl2;
 			this.DockKeys_cmdApply.TabIndex = 9;
 			this.DockKeys_cmdApply.Text = "&Apply";
+			this.DockKeys_cmdApply.Click += new System.EventHandler(this.DockKeys_cmdApply_Click);
 			// 
 			// DockKeys_memoDescription
 			// 
@@ -1023,11 +979,11 @@
 			this.DockKeys_memoDescription.Name = "DockKeys_memoDescription";
 			this.DockKeys_memoDescription.Size = new System.Drawing.Size(281, 96);
 			this.DockKeys_memoDescription.StyleController = this.layoutControl2;
-			toolTipTitleItem7.Text = "Description:";
-			toolTipItem7.Text = "User friendly Description for this Key, it may be used for INI Comments.";
-			superToolTip7.Items.Add(toolTipTitleItem7);
-			superToolTip7.Items.Add(toolTipItem7);
-			this.DockKeys_memoDescription.SuperTip = superToolTip7;
+			toolTipTitleItem5.Text = "Description:";
+			toolTipItem5.Text = "User friendly Description for this Key, it may be used for INI Comments.";
+			superToolTip5.Items.Add(toolTipTitleItem5);
+			superToolTip5.Items.Add(toolTipItem5);
+			this.DockKeys_memoDescription.SuperTip = superToolTip5;
 			this.DockKeys_memoDescription.TabIndex = 8;
 			// 
 			// DockKeys_txtValue
@@ -1037,11 +993,11 @@
 			this.DockKeys_txtValue.Name = "DockKeys_txtValue";
 			this.DockKeys_txtValue.Size = new System.Drawing.Size(281, 36);
 			this.DockKeys_txtValue.StyleController = this.layoutControl2;
-			toolTipTitleItem8.Text = "Value:";
-			toolTipItem8.Text = "Value to be written in the INI Key.";
-			superToolTip8.Items.Add(toolTipTitleItem8);
-			superToolTip8.Items.Add(toolTipItem8);
-			this.DockKeys_txtValue.SuperTip = superToolTip8;
+			toolTipTitleItem6.Text = "Value:";
+			toolTipItem6.Text = "Value to be written in the INI Key.";
+			superToolTip6.Items.Add(toolTipTitleItem6);
+			superToolTip6.Items.Add(toolTipItem6);
+			this.DockKeys_txtValue.SuperTip = superToolTip6;
 			this.DockKeys_txtValue.TabIndex = 7;
 			// 
 			// DockKeys_txtKey
@@ -1051,15 +1007,15 @@
 			this.DockKeys_txtKey.Name = "DockKeys_txtKey";
 			this.DockKeys_txtKey.Size = new System.Drawing.Size(281, 36);
 			this.DockKeys_txtKey.StyleController = this.layoutControl2;
-			toolTipTitleItem9.Text = "Key:";
-			toolTipItem9.Text = "The key to be written in the INI file.";
-			toolTipItem10.Text = "Color type have up to 4 keys, one for each of the RGBA components.";
-			toolTipItem11.Text = "Color Keys example:  \'r99|g99|b99|a99\'";
-			superToolTip9.Items.Add(toolTipTitleItem9);
-			superToolTip9.Items.Add(toolTipItem9);
-			superToolTip9.Items.Add(toolTipItem10);
-			superToolTip9.Items.Add(toolTipItem11);
-			this.DockKeys_txtKey.SuperTip = superToolTip9;
+			toolTipTitleItem7.Text = "Key:";
+			toolTipItem7.Text = "The key to be written in the INI file.";
+			toolTipItem8.Text = "Color type have up to 4 keys, one for each of the RGBA components.";
+			toolTipItem9.Text = "Color Keys example:  \'r99|g99|b99|a99\'";
+			superToolTip7.Items.Add(toolTipTitleItem7);
+			superToolTip7.Items.Add(toolTipItem7);
+			superToolTip7.Items.Add(toolTipItem8);
+			superToolTip7.Items.Add(toolTipItem9);
+			this.DockKeys_txtKey.SuperTip = superToolTip7;
 			this.DockKeys_txtKey.TabIndex = 6;
 			// 
 			// DockKeys_cboType
@@ -1074,11 +1030,11 @@
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("name", "Name")});
 			this.DockKeys_cboType.Size = new System.Drawing.Size(201, 36);
 			this.DockKeys_cboType.StyleController = this.layoutControl2;
-			toolTipTitleItem10.Text = "Type:";
-			toolTipItem12.Text = "This Determine the kind of Edit Control to be used.";
-			superToolTip10.Items.Add(toolTipTitleItem10);
-			superToolTip10.Items.Add(toolTipItem12);
-			this.DockKeys_cboType.SuperTip = superToolTip10;
+			toolTipTitleItem8.Text = "Type:";
+			toolTipItem10.Text = "This Determine the kind of Edit Control to be used.";
+			superToolTip8.Items.Add(toolTipTitleItem8);
+			superToolTip8.Items.Add(toolTipItem10);
+			this.DockKeys_cboType.SuperTip = superToolTip8;
 			this.DockKeys_cboType.TabIndex = 5;
 			// 
 			// DockKeys_txtName
@@ -1090,11 +1046,11 @@
 			this.DockKeys_txtName.Properties.Appearance.Options.UseBackColor = true;
 			this.DockKeys_txtName.Size = new System.Drawing.Size(281, 36);
 			this.DockKeys_txtName.StyleController = this.layoutControl2;
-			toolTipTitleItem11.Text = "Name:";
-			toolTipItem13.Text = "The User Friendly Name shown in the UI";
-			superToolTip11.Items.Add(toolTipTitleItem11);
-			superToolTip11.Items.Add(toolTipItem13);
-			this.DockKeys_txtName.SuperTip = superToolTip11;
+			toolTipTitleItem9.Text = "Name:";
+			toolTipItem11.Text = "The User Friendly Name shown in the UI";
+			superToolTip9.Items.Add(toolTipTitleItem9);
+			superToolTip9.Items.Add(toolTipItem11);
+			this.DockKeys_txtName.SuperTip = superToolTip9;
 			this.DockKeys_txtName.TabIndex = 4;
 			// 
 			// layoutControlGroup1
@@ -1189,14 +1145,16 @@
 			// 
 			this.dockReadMe.Controls.Add(this.controlContainer4);
 			this.dockReadMe.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
-			this.dockReadMe.FloatLocation = new System.Drawing.Point(380, 236);
+			this.dockReadMe.FloatLocation = new System.Drawing.Point(170, 233);
 			this.dockReadMe.FloatSize = new System.Drawing.Size(566, 547);
 			this.dockReadMe.ID = new System.Guid("a771d759-08df-4fb0-87fd-ae29212b304b");
-			this.dockReadMe.Location = new System.Drawing.Point(0, 0);
+			this.dockReadMe.Location = new System.Drawing.Point(-32768, -32768);
 			this.dockReadMe.Name = "dockReadMe";
 			this.dockReadMe.OriginalSize = new System.Drawing.Size(200, 200);
+			this.dockReadMe.SavedIndex = 1;
 			this.dockReadMe.Size = new System.Drawing.Size(566, 547);
 			this.dockReadMe.Text = "Read Me";
+			this.dockReadMe.Visibility = DevExpress.XtraBars.Docking.DockVisibility.Hidden;
 			// 
 			// controlContainer4
 			// 
@@ -1223,6 +1181,212 @@
 			// ElementsImgCollection
 			// 
 			this.ElementsImgCollection.ImageStream = ((DevExpress.Utils.ImageCollectionStreamer)(resources.GetObject("ElementsImgCollection.ImageStream")));
+			// 
+			// dockSection
+			// 
+			this.dockSection.Controls.Add(this.dockPanel1_Container);
+			this.dockSection.Dock = DevExpress.XtraBars.Docking.DockingStyle.Float;
+			this.dockSection.FloatLocation = new System.Drawing.Point(887, 140);
+			this.dockSection.FloatSize = new System.Drawing.Size(395, 680);
+			this.dockSection.ID = new System.Guid("cfb268ab-c363-4c64-ae08-71f74322d2da");
+			this.dockSection.Location = new System.Drawing.Point(0, 0);
+			this.dockSection.Name = "dockSection";
+			this.dockSection.Options.ShowMaximizeButton = false;
+			this.dockSection.Options.ShowMinimizeButton = false;
+			this.dockSection.OriginalSize = new System.Drawing.Size(200, 200);
+			this.dockSection.Size = new System.Drawing.Size(395, 680);
+			this.dockSection.Text = "Section:";
+			// 
+			// dockPanel1_Container
+			// 
+			this.dockPanel1_Container.Controls.Add(this.layoutControl1);
+			this.dockPanel1_Container.Location = new System.Drawing.Point(8, 56);
+			this.dockPanel1_Container.Name = "dockPanel1_Container";
+			this.dockPanel1_Container.Size = new System.Drawing.Size(379, 616);
+			this.dockPanel1_Container.TabIndex = 0;
+			// 
+			// layoutControl1
+			// 
+			this.layoutControl1.Controls.Add(this.gridSectionKeys);
+			this.layoutControl1.Controls.Add(this.DockSection_txtSection);
+			this.layoutControl1.Controls.Add(this.DockSection_cmdApply);
+			this.layoutControl1.Controls.Add(this.DockSection_txtTitle);
+			this.layoutControl1.Controls.Add(this.DockSection_txtName);
+			this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.layoutControl1.Location = new System.Drawing.Point(0, 0);
+			this.layoutControl1.Name = "layoutControl1";
+			this.layoutControl1.Root = this.Root;
+			this.layoutControl1.Size = new System.Drawing.Size(379, 616);
+			this.layoutControl1.TabIndex = 0;
+			this.layoutControl1.Text = "layoutControl1";
+			// 
+			// gridSectionKeys
+			// 
+			this.gridSectionKeys.Location = new System.Drawing.Point(24, 169);
+			this.gridSectionKeys.MainView = this.gridviewSectionKeys;
+			this.gridSectionKeys.MenuManager = this.barManager1;
+			this.gridSectionKeys.Name = "gridSectionKeys";
+			this.gridSectionKeys.Size = new System.Drawing.Size(331, 377);
+			this.gridSectionKeys.TabIndex = 8;
+			this.gridSectionKeys.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridviewSectionKeys});
+			// 
+			// gridviewSectionKeys
+			// 
+			this.gridviewSectionKeys.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn1,
+            this.gridColumn2});
+			this.gridviewSectionKeys.GridControl = this.gridSectionKeys;
+			this.gridviewSectionKeys.Name = "gridviewSectionKeys";
+			this.gridviewSectionKeys.OptionsCustomization.AllowGroup = false;
+			this.gridviewSectionKeys.OptionsView.ShowGroupPanel = false;
+			this.gridviewSectionKeys.DoubleClick += new System.EventHandler(this.gridviewSectionKeys_DoubleClick);
+			// 
+			// gridColumn1
+			// 
+			this.gridColumn1.Caption = "Name";
+			this.gridColumn1.FieldName = "name";
+			this.gridColumn1.Name = "gridColumn1";
+			this.gridColumn1.OptionsColumn.AllowFocus = false;
+			this.gridColumn1.Visible = true;
+			this.gridColumn1.VisibleIndex = 0;
+			// 
+			// gridColumn2
+			// 
+			this.gridColumn2.Caption = "Key";
+			this.gridColumn2.FieldName = "key";
+			this.gridColumn2.Name = "gridColumn2";
+			this.gridColumn2.OptionsColumn.AllowFocus = false;
+			this.gridColumn2.Visible = true;
+			this.gridColumn2.VisibleIndex = 1;
+			// 
+			// DockSection_txtSection
+			// 
+			this.DockSection_txtSection.Location = new System.Drawing.Point(96, 92);
+			this.DockSection_txtSection.MenuManager = this.barManager1;
+			this.DockSection_txtSection.Name = "DockSection_txtSection";
+			this.DockSection_txtSection.Size = new System.Drawing.Size(271, 36);
+			this.DockSection_txtSection.StyleController = this.layoutControl1;
+			this.DockSection_txtSection.TabIndex = 7;
+			// 
+			// DockSection_cmdApply
+			// 
+			this.DockSection_cmdApply.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+			this.DockSection_cmdApply.Appearance.Options.UseBackColor = true;
+			this.DockSection_cmdApply.Location = new System.Drawing.Point(191, 562);
+			this.DockSection_cmdApply.Name = "DockSection_cmdApply";
+			this.DockSection_cmdApply.Size = new System.Drawing.Size(176, 42);
+			this.DockSection_cmdApply.StyleController = this.layoutControl1;
+			this.DockSection_cmdApply.TabIndex = 6;
+			this.DockSection_cmdApply.Text = "Apply";
+			this.DockSection_cmdApply.Click += new System.EventHandler(this.DockSection_cmdApply_Click);
+			// 
+			// DockSection_txtTitle
+			// 
+			this.DockSection_txtTitle.Location = new System.Drawing.Point(96, 52);
+			this.DockSection_txtTitle.MenuManager = this.barManager1;
+			this.DockSection_txtTitle.Name = "DockSection_txtTitle";
+			this.DockSection_txtTitle.Size = new System.Drawing.Size(271, 36);
+			this.DockSection_txtTitle.StyleController = this.layoutControl1;
+			toolTipTitleItem10.Text = "Title:";
+			toolTipItem12.Text = "This is the User friendly Caption shown in the UI.";
+			superToolTip10.Items.Add(toolTipTitleItem10);
+			superToolTip10.Items.Add(toolTipItem12);
+			this.DockSection_txtTitle.SuperTip = superToolTip10;
+			this.DockSection_txtTitle.TabIndex = 5;
+			// 
+			// DockSection_txtName
+			// 
+			this.DockSection_txtName.Location = new System.Drawing.Point(96, 12);
+			this.DockSection_txtName.MenuManager = this.barManager1;
+			this.DockSection_txtName.Name = "DockSection_txtName";
+			this.DockSection_txtName.Properties.MaskSettings.Set("MaskManagerType", typeof(DevExpress.Data.Mask.RegExpMaskManager));
+			this.DockSection_txtName.Properties.MaskSettings.Set("mask", "\\p{L}+");
+			this.DockSection_txtName.Size = new System.Drawing.Size(271, 36);
+			this.DockSection_txtName.StyleController = this.layoutControl1;
+			toolTipTitleItem11.Text = "Section Name:";
+			toolTipItem13.Text = "This is the actual Name of the Section in the INI file.";
+			superToolTip11.Items.Add(toolTipTitleItem11);
+			superToolTip11.Items.Add(toolTipItem13);
+			this.DockSection_txtName.SuperTip = superToolTip11;
+			this.DockSection_txtName.TabIndex = 4;
+			// 
+			// Root
+			// 
+			this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
+			this.Root.GroupBordersVisible = false;
+			this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem1,
+            this.layoutControlItem2,
+            this.layoutControlItem3,
+            this.emptySpaceItem2,
+            this.layoutControlItem16,
+            this.layoutControlGroup3});
+			this.Root.Name = "Root";
+			this.Root.Size = new System.Drawing.Size(379, 616);
+			this.Root.TextVisible = false;
+			// 
+			// layoutControlItem1
+			// 
+			this.layoutControlItem1.Control = this.DockSection_txtName;
+			this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
+			this.layoutControlItem1.Name = "layoutControlItem1";
+			this.layoutControlItem1.Size = new System.Drawing.Size(359, 40);
+			this.layoutControlItem1.Text = "Name:";
+			this.layoutControlItem1.TextSize = new System.Drawing.Size(72, 13);
+			// 
+			// layoutControlItem2
+			// 
+			this.layoutControlItem2.Control = this.DockSection_txtTitle;
+			this.layoutControlItem2.Location = new System.Drawing.Point(0, 40);
+			this.layoutControlItem2.Name = "layoutControlItem2";
+			this.layoutControlItem2.Size = new System.Drawing.Size(359, 40);
+			this.layoutControlItem2.Text = "Title:";
+			this.layoutControlItem2.TextSize = new System.Drawing.Size(72, 13);
+			// 
+			// layoutControlItem3
+			// 
+			this.layoutControlItem3.Control = this.DockSection_cmdApply;
+			this.layoutControlItem3.Location = new System.Drawing.Point(179, 550);
+			this.layoutControlItem3.Name = "layoutControlItem3";
+			this.layoutControlItem3.Size = new System.Drawing.Size(180, 46);
+			this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
+			this.layoutControlItem3.TextVisible = false;
+			// 
+			// emptySpaceItem2
+			// 
+			this.emptySpaceItem2.AllowHotTrack = false;
+			this.emptySpaceItem2.Location = new System.Drawing.Point(0, 550);
+			this.emptySpaceItem2.Name = "emptySpaceItem2";
+			this.emptySpaceItem2.Size = new System.Drawing.Size(179, 46);
+			this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
+			// 
+			// layoutControlItem16
+			// 
+			this.layoutControlItem16.Control = this.DockSection_txtSection;
+			this.layoutControlItem16.Location = new System.Drawing.Point(0, 80);
+			this.layoutControlItem16.Name = "layoutControlItem16";
+			this.layoutControlItem16.Size = new System.Drawing.Size(359, 40);
+			this.layoutControlItem16.Text = "Conf. Section:";
+			this.layoutControlItem16.TextSize = new System.Drawing.Size(72, 13);
+			// 
+			// layoutControlGroup3
+			// 
+			this.layoutControlGroup3.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
+            this.layoutControlItem19});
+			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 120);
+			this.layoutControlGroup3.Name = "layoutControlGroup3";
+			this.layoutControlGroup3.Size = new System.Drawing.Size(359, 430);
+			this.layoutControlGroup3.Text = "Elements";
+			// 
+			// layoutControlItem19
+			// 
+			this.layoutControlItem19.Control = this.gridSectionKeys;
+			this.layoutControlItem19.Location = new System.Drawing.Point(0, 0);
+			this.layoutControlItem19.Name = "layoutControlItem19";
+			this.layoutControlItem19.Size = new System.Drawing.Size(335, 381);
+			this.layoutControlItem19.TextSize = new System.Drawing.Size(0, 0);
+			this.layoutControlItem19.TextVisible = false;
 			// 
 			// barButtonItem1
 			// 
@@ -1357,7 +1521,7 @@
 			// 
 			this.splitContainerControl1.Panel2.Controls.Add(this.vGridDetalles);
 			this.splitContainerControl1.Panel2.Text = "Panel2";
-			this.splitContainerControl1.Size = new System.Drawing.Size(899, 661);
+			this.splitContainerControl1.Size = new System.Drawing.Size(957, 654);
 			this.splitContainerControl1.SplitterPosition = 247;
 			this.splitContainerControl1.TabIndex = 4;
 			// 
@@ -1368,7 +1532,7 @@
             this.accordionControlElement1});
 			this.lst3PMods.Location = new System.Drawing.Point(0, 0);
 			this.lst3PMods.Name = "lst3PMods";
-			this.lst3PMods.Size = new System.Drawing.Size(247, 561);
+			this.lst3PMods.Size = new System.Drawing.Size(247, 554);
 			this.lst3PMods.TabIndex = 0;
 			this.lst3PMods.ElementClick += new DevExpress.XtraBars.Navigation.ElementClickEventHandler(this.lst3PMods_ElementClick);
 			this.lst3PMods.CustomDrawElement += new DevExpress.XtraBars.Navigation.CustomDrawElementEventHandler(this.lst3PMods_CustomDrawElement);
@@ -1382,7 +1546,7 @@
 			// 
 			this.panelControl1.Controls.Add(this.lblMODdescription);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 561);
+			this.panelControl1.Location = new System.Drawing.Point(0, 554);
 			this.panelControl1.Name = "panelControl1";
 			this.panelControl1.Size = new System.Drawing.Size(247, 100);
 			this.panelControl1.TabIndex = 1;
@@ -1416,24 +1580,40 @@
 			this.vGridDetalles.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.vGridDetalles.Location = new System.Drawing.Point(0, 0);
 			this.vGridDetalles.Name = "vGridDetalles";
-			this.vGridDetalles.RecordWidth = 246;
-			this.vGridDetalles.RowHeaderWidth = 264;
+			this.vGridDetalles.RecordWidth = 321;
+			this.vGridDetalles.RowHeaderWidth = 329;
 			this.vGridDetalles.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.category});
-			this.vGridDetalles.Size = new System.Drawing.Size(620, 661);
+            this.category,
+            this.row});
+			this.vGridDetalles.Size = new System.Drawing.Size(678, 654);
 			this.vGridDetalles.TabIndex = 1;
 			this.vGridDetalles.DoubleClick += new System.EventHandler(this.vGridDetalles_DoubleClick);
 			// 
 			// category
 			// 
+			this.category.Height = 40;
 			this.category.Name = "category";
 			this.category.Properties.Caption = "category";
+			// 
+			// row
+			// 
+			this.row.Name = "row";
+			// 
+			// mnuThemes
+			// 
+			this.mnuThemes.Caption = "Themes";
+			this.mnuThemes.Id = 40;
+			this.mnuThemes.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuThemes.ImageOptions.SvgImage")));
+			this.mnuThemes.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdExport, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdImportTheme, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
+			this.mnuThemes.Name = "mnuThemes";
 			// 
 			// TPModsManager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(930, 699);
+			this.ClientSize = new System.Drawing.Size(988, 692);
 			this.Controls.Add(this.splitContainerControl1);
 			this.Controls.Add(this.hideContainerRight);
 			this.Controls.Add(this.barDockControlLeft);
@@ -1453,18 +1633,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.gridThemes)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repGridThemes_Favorite)).EndInit();
-			this.dockSection.ResumeLayout(false);
-			this.dockPanel1_Container.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
-			this.layoutControl1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtTitle.Properties)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtName.Properties)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
 			this.dockCustomTypesEditor.ResumeLayout(false);
 			this.controlContainer2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl3)).EndInit();
@@ -1504,6 +1672,23 @@
 			this.dockReadMe.ResumeLayout(false);
 			this.controlContainer4.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ElementsImgCollection)).EndInit();
+			this.dockSection.ResumeLayout(false);
+			this.dockPanel1_Container.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
+			this.layoutControl1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.gridSectionKeys)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.gridviewSectionKeys)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtSection.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtTitle.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.DockSection_txtName.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem19)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.cmdMoreMods_Link)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemHyperLinkEdit1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).EndInit();
@@ -1559,7 +1744,6 @@
 		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
 		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
 		private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
-		private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
 		private DevExpress.XtraBars.BarButtonItem cmdEdit_EditSection;
 		private DevExpress.XtraBars.BarButtonItem cmdEdit_EditKey;
 		private DevExpress.XtraBars.Docking.DockPanel dockKeys;
@@ -1632,5 +1816,22 @@
 		private DevExpress.XtraBars.Docking.ControlContainer controlContainer4;
 		private DevExpress.XtraEditors.LabelControl lblReadMe;
 		private DevExpress.Utils.ImageCollection ElementsImgCollection;
+		private DevExpress.XtraBars.BarSubItem barSubItem1;
+		private DevExpress.XtraBars.BarButtonItem cmdSectionsEditor;
+		private DevExpress.XtraEditors.TextEdit DockSection_txtSection;
+		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem16;
+		private DevExpress.XtraGrid.GridControl gridSectionKeys;
+		private DevExpress.XtraGrid.Views.Grid.GridView gridviewSectionKeys;
+		private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+		private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem19;
+		private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup3;
+		private DevExpress.XtraBars.BarSubItem barSubItem2;
+		private DevExpress.XtraBars.BarButtonItem cmdSectionsNew;
+		private DevExpress.XtraBars.BarSubItem barSubItem3;
+		private DevExpress.XtraBars.BarButtonItem cmdKeysEdit;
+		private DevExpress.XtraBars.BarButtonItem cmdKeysAddNew;
+		private DevExpress.XtraVerticalGrid.Rows.EditorRow row;
+		private DevExpress.XtraBars.BarSubItem mnuThemes;
 	}
 }

@@ -37,6 +37,7 @@ namespace EDHM_UI_mk2
 		public ui_preset_new SelectedTheme { get; set; }
 		public player_loadout Shipyard { get; set; }
 		public ui_group GlobalSettings { get; set; }
+		public ui_group UserSettings { get; set; }
 
 		#endregion
 
@@ -172,23 +173,7 @@ namespace EDHM_UI_mk2
 				GameInstancesEx = Util.DeSerialize_FromJSON_String<List<GameInstance>>(GameInstances_JSON);
 				if (GameInstancesEx != null && GameInstancesEx.Count > 0)
 				{
-					bool HayCambios = false;
-					foreach (var _instance in GameInstancesEx)
-					{
-						foreach (var _game in _instance.games)
-						{
-							if (_game.game_id.EmptyOrNull())
-							{
-								HayCambios = true;
-								_game.game_id = string.Format("{0}|{1}", _instance.instance, _game.key);
-							}
-						}
-					}
-					if (HayCambios)
-					{
-						GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
-						Util.WinReg_WriteKey("EDHM", "GameInstances", GameInstances_JSON);
-					}					
+					FixGameInstances();
 				}
 			}
 			else
@@ -219,30 +204,59 @@ namespace EDHM_UI_mk2
 
 				GameInstances_JSON = Util.Serialize_ToJSON(GameInstancesEx);
 				Util.WinReg_WriteKey("EDHM", "GameInstances", GameInstances_JSON);
-			}
 
-			//Carga los valores que se muestran en el Combo:
-			GameInstances = new List<game_instance>();
-			foreach (var _Instance in GameInstancesEx)
-			{
-				foreach (var _Game in _Instance.games)
+				//Carga los valores que se muestran en el Combo:
+				GameInstances = new List<game_instance>();
+				foreach (var _Instance in GameInstancesEx)
 				{
-					GameInstances.Add(new game_instance()
+					foreach (var _Game in _Instance.games)
 					{
-						instance = _Game.instance,
-						game_id = _Game.game_id,
-						key = _Game.key,
-						name = _Game.name,
-						path = _Game.path,
-						is_active = _Game.is_active,
-						themes_folder = _Game.themes_folder
-					});
+						GameInstances.Add(new game_instance()
+						{
+							instance = _Game.instance,
+							game_id = _Game.game_id,
+							key = _Game.key,
+							name = _Game.name,
+							path = _Game.path,
+							is_active = _Game.is_active,
+							themes_folder = _Game.themes_folder
+						});
+					}
 				}
-			}
+			}			
 
 			repCboGameInstances.ValueMember = "game_id";
 			repCboGameInstances.DisplayMember = "instance";
 			repCboGameInstances.DataSource = GameInstances;
+
+			#endregion
+
+			#region Seleccionar la Instancia Activa
+
+			string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
+			if (_ActiveGames != null && _ActiveGames.Length > 1)
+			{
+				ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
+			}
+			if (ActiveInstance == null)
+			{
+				ActiveInstance = (GameInstancesEx[0].games[1].key == "ED_Odissey") ?
+					GameInstancesEx[0].games[1] :
+					GameInstancesEx[0].games[0];
+
+				_RegActiveInstance = ActiveInstance.game_id;
+				Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
+			}
+
+			if (ActiveInstance != null)
+			{
+				CboGameInstances.EditValue = ActiveInstance.game_id;
+
+				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+
+				lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
+				lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
+			}
 
 			#endregion
 
@@ -256,32 +270,6 @@ namespace EDHM_UI_mk2
 			else
 			{
 				Shipyard = new player_loadout();
-			}
-
-			#endregion
-
-			#region Seleccionar la Instancia Activa
-
-			string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
-			if (_ActiveGames != null && _ActiveGames.Length > 1)
-			{
-				ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
-			}
-			else
-			{
-				_RegActiveInstance = string.Format("{0}|{1}", GameInstancesEx[0].instance, _RegActiveInstance.NVL("ED_Horizons"));
-				ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
-				Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
-			}
-
-			if (ActiveInstance != null)
-			{
-				CboGameInstances.EditValue = ActiveInstance.game_id;
-
-				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-
-				lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
-				lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
 			}
 
 			#endregion
@@ -333,6 +321,7 @@ namespace EDHM_UI_mk2
 				LoadMenus(LangShort);
 				LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
 				LoadGlobalSettings(ActiveInstance);
+				LoadUserSettings(ActiveInstance);
 				LoadShipList();
 
 
@@ -384,6 +373,14 @@ namespace EDHM_UI_mk2
 							string _File = Path.Combine(_TemplatesPath, ActiveInstance.key + "_Global_Settings.json");
 
 							Util.Serialize_ToJSON(_File, GlobalSettings);
+						}
+
+						//Guarda los User Settings:
+						if (UserSettings != null)
+						{
+							string _File = Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json");
+
+							Util.Serialize_ToJSON(_File, UserSettings);
 						}
 
 						//Aqui se cierra normalmente:
@@ -451,85 +448,128 @@ namespace EDHM_UI_mk2
 			/* AQUI SE CARGA LA CONFIGURACION ACTUAL */
 			try
 			{
-				if (LoadingGameInstance)
+				if (pGameInstance != null)
 				{
-					return;
-				}
-
-				LoadingGameInstance = true;
-
-				//Verificar si La instancia está Seteada:
-				if (ActiveInstance == null || ActiveInstance.path.EmptyOrNull() || ActiveInstance.path == "[NOT_FOUND]")
-				{
-					//La Ruta del Juego NO ha sido Establecida!
-					GameFolderForm _Form = new GameFolderForm(GameInstancesEx);
-					if (_Form.ShowDialog() == DialogResult.OK)
+					if (LoadingGameInstance)
 					{
-						GameInstancesEx = _Form.GameInstancesEx;
-						ActiveInstance = GameInstancesEx[0].games[0]; //<- Horizons de la Primera instancia
-						if (ActiveInstance != null)
-						{
-							CboGameInstances.EditValue = ActiveInstance.key;
-						}
+						return;
+					}
 
-						if (XtraMessageBox.Show("Would you like to Update your EDHM?", "UPDATE?",
-							MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					LoadingGameInstance = true;
+
+					//Verificar si La instancia está Seteada:
+					if (ActiveInstance == null || ActiveInstance.path.EmptyOrNull() || ActiveInstance.path == "[NOT_FOUND]")
+					{
+						//La Ruta del Juego NO ha sido Establecida!
+						GameFolderForm _Form = new GameFolderForm(GameInstancesEx);
+						if (_Form.ShowDialog() == DialogResult.OK)
 						{
+							this.GameInstancesEx = _Form.GameInstancesEx;
+
+							FixGameInstances();
+
+							repCboGameInstances.ValueMember = "game_id";
+							repCboGameInstances.DisplayMember = "instance";
+							repCboGameInstances.DataSource = GameInstances;
+
+							#region Seleccionar la Instancia Activa
+
+							string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
+							string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
+							if (_ActiveGames != null && _ActiveGames.Length > 1)
+							{
+								ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
+							}
+							if (ActiveInstance == null)
+							{
+								ActiveInstance = (GameInstancesEx[0].games[1].key == "ED_Odissey") ?
+									GameInstancesEx[0].games[1] :
+									GameInstancesEx[0].games[0];
+
+								_RegActiveInstance = ActiveInstance.game_id;
+								Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
+							}
+
+							if (ActiveInstance != null)
+							{
+								CboGameInstances.EditValue = ActiveInstance.game_id;
+
+								string searchX = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+								lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
+								lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", searchX)).NVL("v1.51"));
+
+								//Carga el Idioma del Usuario:
+								LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
+
+								LoadGameInstance(ActiveInstance, LangShort);  //<- Carga La Instancia Activa	
+								LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
+							}
+
+							#endregion
+
+							HideToTray = _Form.HideToTray;
+							GreetMe = _Form.GreetMe;
+							WatchMe = _Form.WatchMe;
+							SavesToRemember = _Form.SavesToRemember;
+							AutoApplyTheme = _Form.AutoApplyTheme;
+
+							LoadMenus(LangShort);
+							History_LoadElements(SavesToRemember);
 							InstallGameInstance(ActiveInstance);
 							LoadThemeList_EX();
 						}
 					}
-				}
 
-				//Verificar si el MOD está Instalado:
-				if (!ActiveInstance.path.EmptyOrNull())
-				{
-					string gamekey = Path.Combine(ActiveInstance.path, "d3dx.ini");
-					if (!File.Exists(gamekey))
+					//Verificar si el MOD está Instalado:
+					if (!ActiveInstance.path.EmptyOrNull())
 					{
-						//El MOD no está Instalado.
-						InstallGameInstance(ActiveInstance);
-						LoadThemeList_EX();
-					}
-				}
-
-			//Cargar Los Valores Base de La Instancia
-			Inicio:
-				string JsonSettings_path = Path.Combine(AppExePath, "Data", pGameInstance.key + string.Format("_Settings_EN.json"));
-				if (File.Exists(JsonSettings_path))
-				{
-					Settings = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
-
-					//Carga la Lista de Presets disponibles:
-					if (Settings != null && Settings.Presets.IsNotEmpty())
-					{
-						_ElementPresets = Settings.Presets;
+						string gamekey = Path.Combine(ActiveInstance.path, "d3dx.ini");
+						if (!File.Exists(gamekey))
+						{
+							//El MOD no está Instalado.
+							InstallGameInstance(ActiveInstance);
+							LoadThemeList_EX();
+						}
 					}
 
-					DefaultSettings = Load_DefaultTheme(pGameInstance, pLang);
+				//Cargar Los Valores Base de La Instancia
+				Inicio:
+					string JsonSettings_path = Path.Combine(AppExePath, "Data", pGameInstance.key + string.Format("_Settings_EN.json"));
+					if (File.Exists(JsonSettings_path))
+					{
+						Settings = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
 
-					//LoadMenus(pLang);
+						//Carga la Lista de Presets disponibles:
+						if (Settings != null && Settings.Presets.IsNotEmpty())
+						{
+							_ElementPresets = Settings.Presets;
+						}
+
+						DefaultSettings = Load_DefaultTheme(pGameInstance, pLang);
+
+						//LoadMenus(pLang);
+					}
+					else
+					{
+						XtraMessageBox.Show(string.Format("The language file '{0}' could not be found!\r\nDefault EN will be loaded.", JsonSettings_path),
+							"ERROR 404: NOT FOUND", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+						pLang = "en";
+						LangShort = "en";
+						goto Inicio;
+					}
+
+					if (ActiveInstance.key == "ED_Odissey" && PreviewForm != null && PreviewForm.Visible)
+					{
+						PreviewForm.Close();
+					}
+
+					LoadingGameInstance = false;
+
+					string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+					lblVersion_MOD.Caption = string.Format("Mod Version: {0}",
+						Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51")); 
 				}
-				else
-				{
-					XtraMessageBox.Show(string.Format("The language file '{0}' could not be found!\r\nDefault EN will be loaded.", JsonSettings_path),
-						"ERROR 404: NOT FOUND", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-					pLang = "en";
-					LangShort = "en";
-					goto Inicio;
-				}
-
-				if (ActiveInstance.key == "ED_Odissey" && PreviewForm != null && PreviewForm.Visible)
-				{
-					PreviewForm.Close();
-				}
-
-				LoadingGameInstance = false;
-
-				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-				lblVersion_MOD.Caption = string.Format("Mod Version: {0}",
-					Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
 			}
 			catch (Exception ex)
 			{
@@ -661,6 +701,71 @@ namespace EDHM_UI_mk2
 			}
 			return _ret;
 		}
+		private void FixGameInstances()
+		{
+			try
+			{
+				if (this.GameInstancesEx != null)
+				{
+					string OldValue = Util.Serialize_ToJSON(this.GameInstancesEx);
+					this.GameInstances = new List<game_instance>();
+
+					//Fixing the Instance Parameters:
+					foreach (var _Instance in this.GameInstancesEx)
+					{
+						foreach (var _Game in _Instance.games)
+						{
+							if (_Game.path.Contains("steamapps")) _Instance.instance = "Steam";
+							if (_Game.path.Contains("Epic Games")) _Instance.instance = "Epic Games";
+							if (_Game.path.Contains("Frontier")) _Instance.instance = "Frontier";
+
+							if (_Game.game_id.EmptyOrNull()) _Game.game_id = string.Format("{0}|{1}", _Instance.instance, _Game.key);
+
+							switch (Path.GetFileNameWithoutExtension(_Game.path))
+							{
+								case "elite-dangerous-64": _Game.name = "Horizons (3.8)"; _Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
+								case "FORC-FDEV-DO-38-IN-40": _Game.name = "Horizons (4.0)"; _Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64": _Game.name = "Odyssey (4.0)"; _Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
+								case "FORC-FDEV-DO-1000": _Game.name = "Odyssey (4.0)"; _Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
+								default: break;
+							}
+
+							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
+							_Game.game_id = string.Format("{0}|{1}", _Instance.instance, _Game.key);
+							_Game.themes_folder = (_Game.key == "ED_Horizons") ?
+								Path.Combine(UI_DOCUMENTS, "HORIZ", "Themes") :
+								Path.Combine(UI_DOCUMENTS, "ODYSS", "Themes");
+
+							//Carga los valores que se muestran en el Combo:
+							if (!_Game.path.EmptyOrNull())
+							{
+								GameInstances.Add(new game_instance()
+								{
+									instance = _Game.instance,
+									game_id = _Game.game_id,
+									key = _Game.key,
+									name = _Game.name,
+									path = _Game.path,
+									is_active = _Game.is_active,
+									themes_folder = _Game.themes_folder
+								});
+							}							
+						}
+					}
+
+					string NewValue = Util.Serialize_ToJSON(this.GameInstancesEx);
+					if (OldValue != NewValue)
+					{
+						Util.WinReg_WriteKey("EDHM", "GameInstances", NewValue);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
 
 		private void SetGraphicSettings()
 		{
@@ -672,10 +777,14 @@ namespace EDHM_UI_mk2
 				XDocument xmlFile;
 
 				#region Set the 'DisableGuiEffects'
-
+				/*
 				FilePath = Path.Combine(LocalAppData, @"Frontier Developments\Elite Dangerous\Options\Graphics\Settings.xml");
 				if (File.Exists(FilePath))
 				{
+					var _XmlReader = new System.Xml.XmlDocument();
+					_XmlReader.Load(FilePath);
+					Util.SetXMLValue(_XmlReader, @"/GraphicsOptions/DisableGuiEffects", "false");
+
 					xmlFile = System.Xml.Linq.XDocument.Load(FilePath);
 
 					var query = from c in xmlFile.Elements("GraphicsOptions").Elements("DisableGuiEffects")
@@ -694,7 +803,7 @@ namespace EDHM_UI_mk2
 					}
 
 					xmlFile.Save(FilePath);
-				}
+				}*/
 
 				#endregion
 
@@ -725,13 +834,14 @@ namespace EDHM_UI_mk2
 					{
 						var _XmlReader = new System.Xml.XmlDocument();
 						_XmlReader.Load(FilePath);
-						Util.SetXMLValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixRed", " 1, 0, 0 ");
-						Util.SetXMLValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixGreen", " 0, 1, 0 ");
-						Util.SetXMLValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixBlue", " 0, 0, 1 ");
+						Util.SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixRed", " 1, 0, 0 ");
+						Util.SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixGreen", " 0, 1, 0 ");
+						Util.SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixBlue", " 0, 0, 1 ");
 						_XmlReader.Save(FilePath);
 					}
 					catch 
 					{
+						//If we get here, the file is corrupt, gotta overwrite it:
 						StringBuilder _GP = new StringBuilder();
 						_GP.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 						_GP.AppendLine("<GraphicsConfig>");
@@ -747,52 +857,6 @@ namespace EDHM_UI_mk2
 
 						Util.SaveTextFile(FilePath, _GP.ToString(), Util.TextEncoding.UTF8);
 					}
-
-					/* try
-					{
-						xmlFile = System.Xml.Linq.XDocument.Load(FilePath);
-
-						var query = from c in xmlFile.Elements("GraphicsConfig").Elements("GUIColour").Elements("Default") select c;
-						if (query != null)
-						{
-							foreach (XElement element in query.Elements())
-							{
-								if (element.Name == "MatrixRed")
-								{
-									element.Value = "1, 0, 0";
-								}
-
-								if (element.Name == "MatrixGreen")
-								{
-									element.Value = "0, 1, 0";
-								}
-
-								if (element.Name == "MatrixBlue")
-								{
-									element.Value = "0, 0, 1";
-								}
-							}
-							xmlFile.Save(FilePath);
-						}
-					}
-					catch
-					{
-
-						StringBuilder _GP = new StringBuilder();
-						_GP.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-						_GP.AppendLine("<GraphicsConfig>");
-						_GP.AppendLine("  <GUIColour>");
-						_GP.AppendLine("    <Default>");
-						_GP.AppendLine("      <LocalisationName>Standard</LocalisationName>");
-						_GP.AppendLine("      <MatrixRed>1, 0, 0</MatrixRed>");
-						_GP.AppendLine("      <MatrixGreen>0, 1, 0</MatrixGreen>");
-						_GP.AppendLine("      <MatrixBlue>0, 0, 1</MatrixBlue>");
-						_GP.AppendLine("    </Default>");
-						_GP.AppendLine("  </GUIColour>");
-						_GP.AppendLine("</GraphicsConfig>");
-
-						Util.SaveTextFile(FilePath, _GP.ToString(), Util.TextEncoding.UTF8);
-					}*/
 				}
 
 				#endregion
@@ -1157,126 +1221,129 @@ namespace EDHM_UI_mk2
 			ui_setting _ret = null;
 			try
 			{
-				string _TemplatesPath = Path.Combine(AppExePath, "Data");
-
-				IniFile _StartupReader = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_Startup-Profile.ini"));
-				IniFile _ReaderAdvanced = null;
-				IniFile _ReaderSuitHud = null;
-				IniFile _ReaderCustom = null;
-
-				if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(_TemplatesPath, pGameInstance.key + "_Advanced.ini")))
+				if (pGameInstance != null)
 				{
-					_ReaderAdvanced = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_Advanced.ini"));
-					_ReaderSuitHud = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_SuitHud.ini"));
-				}
-				else
-				{
-					_ReaderCustom = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_Custom.ini"));
-				}
+					string _TemplatesPath = Path.Combine(AppExePath, "Data");
 
-				//string JsonSettings_path = Path.Combine(_TemplatesPath, string.Format("{0}_Settings_{1}.json", pGameInstance.key, pLang.ToUpper()));
-				string JsonSettings_path = Path.Combine(_TemplatesPath, string.Format("{0}_Settings_EN.json", pGameInstance.key));
-				if (File.Exists(JsonSettings_path))
-				{
-					_ret = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
-				}
+					IniFile _StartupReader = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_Startup-Profile.ini"));
+					IniFile _ReaderAdvanced = null;
+					IniFile _ReaderSuitHud = null;
+					IniFile _ReaderCustom = null;
 
-				if (_ret != null && _StartupReader != null && _ret.ui_groups.IsNotEmpty())
-				{
-					foreach (var _group in _ret.ui_groups)
+					if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(_TemplatesPath, pGameInstance.key + "_Advanced.ini")))
 					{
-						if (_group.Elements.IsNotEmpty())
+						_ReaderAdvanced = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_Advanced.ini"));
+						_ReaderSuitHud = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_SuitHud.ini"));
+					}
+					else
+					{
+						_ReaderCustom = new IniFile(Path.Combine(_TemplatesPath, pGameInstance.key + "_Custom.ini"));
+					}
+
+					//string JsonSettings_path = Path.Combine(_TemplatesPath, string.Format("{0}_Settings_{1}.json", pGameInstance.key, pLang.ToUpper()));
+					string JsonSettings_path = Path.Combine(_TemplatesPath, string.Format("{0}_Settings_EN.json", pGameInstance.key));
+					if (File.Exists(JsonSettings_path))
+					{
+						_ret = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
+					}
+
+					if (_ret != null && _StartupReader != null && _ret.ui_groups.IsNotEmpty())
+					{
+						foreach (var _group in _ret.ui_groups)
 						{
-							foreach (var _Element in _group.Elements)
+							if (_group.Elements.IsNotEmpty())
 							{
-								switch (_Element.ValueType)
+								foreach (var _Element in _group.Elements)
 								{
-									case "Color":
-										#region Es un Color
+									switch (_Element.ValueType)
+									{
+										case "Color":
+											#region Es un Color
 
-										//Key = 'x176|y176|z176'
-										string[] keys = _Element.Key.Split(new char[] { '|' });
-										if (keys != null && keys.Length > 0)
-										{
-											List<double> _RGBA = new List<double>();
-											foreach (string _Key in keys)
+											//Key = 'x176|y176|z176'
+											string[] keys = _Element.Key.Split(new char[] { '|' });
+											if (keys != null && keys.Length > 0)
 											{
-												switch (_Element.File)
+												List<double> _RGBA = new List<double>();
+												foreach (string _Key in keys)
 												{
-													case "Startup-Profile":
-														_RGBA.Add(Convert.ToDouble(_StartupReader.ReadKey(_Key, _Element.Section).NVL("-1")));
-														break;
+													switch (_Element.File)
+													{
+														case "Startup-Profile":
+															_RGBA.Add(Convert.ToDouble(_StartupReader.ReadKey(_Key, _Element.Section).NVL("-1")));
+															break;
 
-													case "Advanced":
-														_RGBA.Add(Convert.ToDouble(_ReaderAdvanced.ReadKey(_Key, _Element.Section).NVL("-1")));
-														break;
+														case "Advanced":
+															_RGBA.Add(Convert.ToDouble(_ReaderAdvanced.ReadKey(_Key, _Element.Section).NVL("-1")));
+															break;
 
-													case "Custom":
-														_RGBA.Add(Convert.ToDouble(_ReaderCustom.ReadKey(_Key, _Element.Section).NVL("-1")));
-														break;
+														case "Custom":
+															_RGBA.Add(Convert.ToDouble(_ReaderCustom.ReadKey(_Key, _Element.Section).NVL("-1")));
+															break;
 
-													case "SuitHud":
-														_RGBA.Add(Convert.ToDouble(_ReaderSuitHud.ReadKey(_Key, _Element.Section).NVL("-1")));
-														break;
+														case "SuitHud":
+															_RGBA.Add(Convert.ToDouble(_ReaderSuitHud.ReadKey(_Key, _Element.Section).NVL("-1")));
+															break;
 
-													default:
-														_RGBA.Add(Convert.ToDouble(_StartupReader.ReadKey(_Key, _Element.Section).NVL("-1")));
-														break;
+														default:
+															_RGBA.Add(Convert.ToDouble(_StartupReader.ReadKey(_Key, _Element.Section).NVL("-1")));
+															break;
+													}
+												}
+
+												//convertir de GammaCorrected -> sRGB -> RGB
+												if (IsColor(_RGBA))
+												{
+													_Element.Value = ReverseGammaCorrected(_RGBA).ToArgb();
+												}
+												else
+												{
+													//Si la Clave no existe en el Tema elejido, se carga el valor del tema plantilla:
+													_Element.Value = _Element.Value;
 												}
 											}
 
-											//convertir de GammaCorrected -> sRGB -> RGB
-											if (IsColor(_RGBA))
+											#endregion
+											break;
+
+										//case "Preset": break;
+										//case "Brightness": break;
+										//case "ONOFF": break;
+										//case "": break;
+										default:
+											decimal _defaultValue = _Element.Value;
+											switch (_Element.File)
 											{
-												_Element.Value = ReverseGammaCorrected(_RGBA).ToArgb();
+												case "Startup-Profile":
+													_Element.Value = Convert.ToDecimal(_StartupReader.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
+													break;
+
+												case "Advanced":
+													_Element.Value = Convert.ToDecimal(_ReaderAdvanced.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
+													break;
+
+												case "Custom":
+													_Element.Value = Convert.ToDecimal(_ReaderCustom.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
+													break;
+
+												case "SuitHud":
+													_Element.Value = Convert.ToDecimal(_ReaderSuitHud.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
+													break;
+
+												default:
+													_Element.Value = Convert.ToDecimal(_ReaderAdvanced.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
+													break;
 											}
-											else
+											if (_Element.Value < 0)
 											{
-												//Si la Clave no existe en el Tema elejido, se carga el valor del tema plantilla:
-												_Element.Value = _Element.Value;
+												_Element.Value = _defaultValue;
 											}
-										}
-
-										#endregion
-										break;
-
-									//case "Preset": break;
-									//case "Brightness": break;
-									//case "ONOFF": break;
-									//case "": break;
-									default:
-										decimal _defaultValue = _Element.Value;
-										switch (_Element.File)
-										{
-											case "Startup-Profile":
-												_Element.Value = Convert.ToDecimal(_StartupReader.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
-												break;
-
-											case "Advanced":
-												_Element.Value = Convert.ToDecimal(_ReaderAdvanced.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
-												break;
-
-											case "Custom":
-												_Element.Value = Convert.ToDecimal(_ReaderCustom.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
-												break;
-
-											case "SuitHud":
-												_Element.Value = Convert.ToDecimal(_ReaderSuitHud.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
-												break;
-
-											default:
-												_Element.Value = Convert.ToDecimal(_ReaderAdvanced.ReadKey(_Element.Key, _Element.Section).NVL("-1"));
-												break;
-										}
-										if (_Element.Value < 0)
-										{
-											_Element.Value = _defaultValue;
-										}
-										break;
+											break;
+									}
 								}
 							}
 						}
-					}
+					} 
 				}
 			}
 			catch (Exception ex)
@@ -2653,7 +2720,7 @@ namespace EDHM_UI_mk2
 			{
 				if (!LoadingTheme)
 				{
-					if (!ActiveInstance.path.EmptyOrNull())
+					if (Settings != null && ActiveInstance != null && !ActiveInstance.path.EmptyOrNull())
 					{
 						LoadingTheme = true;
 
@@ -2746,7 +2813,8 @@ namespace EDHM_UI_mk2
 							}
 						}
 
-						ApplyGlobalSettings();
+						ApplyGlobalSettings(); //<- Global Settings Overwrite the Theme Settings
+						ApplyUserSettings();	//<- User Settings Overwrite the Global Settings
 
 						//if (SaveIt) SaveTheme(true);
 
@@ -3665,7 +3733,7 @@ namespace EDHM_UI_mk2
 
 
 		/* HERE CHECKS FOR UPDATES  */
-		bool CheckingUpdates = false; //<- Previene que se llame este metodo varias veces a la vez.
+		private bool CheckingUpdates = false; //<- Previene que se llame este metodo varias veces a la vez.
 		private void CheckForModUpdates(bool QuietMode = true)
 		{
 			/* AQUI SE BUSCAN ACTUALIZACIONDES DEL PROGRAMA, DEL MOD Y ARCHIVOS VARIOS */
@@ -3765,7 +3833,7 @@ namespace EDHM_UI_mk2
 			}
 		}
 
-		public void GetUserIPData()
+		private void GetUserIPData()
 		{
 			try
 			{
@@ -3786,8 +3854,6 @@ namespace EDHM_UI_mk2
 				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-
-
 
 		private void Load_UITips(bool ForceShow = false)
 		{
@@ -4246,11 +4312,15 @@ namespace EDHM_UI_mk2
 
 
 					//Registrar el ID de la nave para el CPM:
-					if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini")))
+					string CPM_path = Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CockpitPaintMod\CPM-@Cockpit-Paint-Mod.ini");
+					if (ActiveInstance.key == "ED_Odissey" && File.Exists(CPM_path))
 					{
-						IniFile _CPM_Interior = null;
-						_CPM_Interior = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini"));
-						_CPM_Interior.WriteKey("w158", this.CurrentShip.ship_id.ToString(), "constants");
+						try
+						{
+							IniFile TPMod_CPM = new IniFile(CPM_path);
+							TPMod_CPM.WriteKey("w158", this.CurrentShip.ship_id.ToString(), "constants");
+						}
+						catch { }						
 					}
 				}
 
@@ -4925,6 +4995,22 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+		private void vGridDetalles_MouseDown(object sender, MouseEventArgs e)
+		{
+			//Selecciona la Fila al dar Click Derecho
+			if (e.Button == MouseButtons.Right)
+			{
+				DevExpress.XtraVerticalGrid.VGridHitInfo hInfo = vGridDetalles.CalcHitInfo(new Point(e.X, e.Y));
+				if (hInfo != null && hInfo.HitInfoType == DevExpress.XtraVerticalGrid.HitInfoTypeEnum.HeaderCell)
+				{
+					vGridDetalles.FocusedRow = hInfo.Row;
+					vGridDetalles.FocusedRecordCellIndex = hInfo.CellIndex;
+					vGridDetalles.FocusedRecord = hInfo.RecordIndex;
+					vGridDetalles.ShowEditor();
+				}
+			}
+		}
+
 		private void cmdThemes_ShowFavorites_CheckedChanged(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			//Filtra mostrando solo los temas favoritos
@@ -5335,43 +5421,143 @@ namespace EDHM_UI_mk2
 											{
 												//RepositoryItemColorEdit _ComboColor = new RepositoryItemColorEdit()
 												//{
-												//	Name = string.Format("{0}|{1}", this.GlobalSettings.Name, _Element.Title),
+												//	Name = string.Format("{0}|{1}", GlobalSettings.Name, _Element.Title),
 												//	ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Advanced,
 												//	ShowMoreColorsButton = true,
 												//	ShowCustomColors = true,
 												//	ShowSystemColors = false,
 												//	Tag = _Element
 												//};
-												RepositoryItemColorPickEdit _ComboColor = new RepositoryItemColorPickEdit
+												RepositoryItemMyColorPickEdit _ComboColor = new RepositoryItemMyColorPickEdit
 												{
 													Name = string.Format("{0}|{1}", GlobalSettings.Name, _Element.Title),
 													ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Simple,
 													AutomaticColor = Color.Orange,
 													ShowMoreColorsButton = true,
+													ShowColorDialog = true,
+													ShowWebColors = false,
 													ShowCustomColors = true,
 													ShowSystemColors = false,
-													ShowWebSafeColors = true,
-													ShowWebColors = true,
+													ShowWebSafeColors = false,
+													ShowMyCustomColors = true,
+													ShowMyPastelColors = false,
 													Tag = _Element
 												};
-												//_ComboColor.StandardColors
-												_ComboColor.EditValueChanged += _ComboValue_EditValueChanged;
+												//_ComboColor.EditValueChanged += _ComboValue_EditValueChanged;
+												List<Color> _GColors = null;
+												var _StandardColors = _ComboColor.MyStandardColors;
+
 												_ComboColor.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
 												_ComboColor.EditValueChangedDelay = 500;
 												_ComboColor.ColorDialogOptions.ShowTabs = ShowTabs.RGBModel;
+												_ComboColor.ColorDialogOptions.AllowTransparency = true;
 												_ComboColor.ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Advanced;
+												_ComboColor.EditValueChanged += (object Sender, EventArgs E) =>
+												{
+													//Crea un Gradiente a Blanco usando el color seleccionado, lo pone en la ultima columna
+													Color _E = (Sender as Util_Test.MyColorPickEdit).Color;
+													var _CustomColors = _ComboColor.MyStandardColors;
 
+													_GColors = Util.GetColorGradients(_E, Color.Black, 7).ToList();
+
+													_CustomColors[0, 9] = _GColors[0];
+													_CustomColors[0, 19] = _GColors[1];
+													_CustomColors[0, 29] = _GColors[2];
+													_CustomColors[0, 39] = _GColors[3];
+													_CustomColors[0, 49] = _GColors[4];
+													_CustomColors[0, 59] = _GColors[5];
+
+													_GColors = Util.GetColorGradients(_E, Color.White, 7).ToList();
+
+													_CustomColors[0, 8] = _GColors[0];
+													_CustomColors[0, 18] = _GColors[1];
+													_CustomColors[0, 28] = _GColors[2];
+													_CustomColors[0, 38] = _GColors[3];
+													_CustomColors[0, 48] = _GColors[4];
+													_CustomColors[0, 58] = _GColors[5];
+
+													_ComboValue_EditValueChanged(Sender, E);
+												};
+
+												//-------- LOAD THE THEME'S COLOR PALETTE 
 												if (_RecentColors != null)
 												{
-													//Carga los colores usados en el tema en el cuadro 'colores Recientes'
-													foreach (Color _Colour in _RecentColors)
+													List<Color> _RecColors = _RecentColors.ToList();
+													_RecColors.Sort(new XColorComparer());
+
+													var themeColors = _ComboColor.ThemeColors;
+													try
 													{
-														_ComboColor.RecentColors.InsertColor(_Colour);
+														int i = 0;
+														for (int _RowIndex = 0; _RowIndex < themeColors.RowCount; _RowIndex++) //<-Rows
+														{
+															for (int _ColumnIndex = 0; _ColumnIndex < themeColors.ColumnCount; _ColumnIndex++) //<-Columns
+															{
+																themeColors[_RowIndex, _ColumnIndex] = _RecColors[i]; // Color.FromArgb(0, 255, 0);
+																i++;
+																//green = green - greenDelta;
+															}
+														}
 													}
+													catch { }
 												}
 
+												//---- CAMBIA LA LISTA DE COLORES STANDARD --------------------
+												//var _StandardColors = _ComboColor.StandardColors;
+												//_StandardColors[0, 0] = Color.Black; 
+												//_StandardColors[0, 1] = Color.White; 
+												//_StandardColors[0, 2] = Color.Gray;
+												//_StandardColors[0, 3] = Color.Red;
+												//_StandardColors[0, 4] = Color.Orange; // Color.FromArgb(255, 85, 0);     //<- Orange
+												//_StandardColors[0, 5] = Color.Yellow;
+												//_StandardColors[0, 6] = Color.Green;
+												//_StandardColors[0, 7] = Color.Cyan;
+												//_StandardColors[0, 8] = Color.Blue;
+												//_StandardColors[0, 9] = Color.Purple;
+
+
+												//----- ASIGNA EL VALOR DEL CONTROL
+												if (DefaultSettings != null && _Element.Value == 0)
+												{
+													//SI NO ENCUENTRA LA CLAVE EN EL TEMA, CARGA VALOR X DEFECTO
+													var _Grupo = DefaultSettings.ui_groups.Find(x => x.Name == GlobalSettings.Name);
+													if (_Grupo != null)
+													{
+														var _Default = _Grupo.Elements.Find(x => x.Key == _Element.Key);
+														if (_Default != null)
+														{
+															_Fila.Properties.Value = Color.FromArgb((int)_Default.Value);
+														}
+													}
+												}
+												else
+												{
+													//- SET THE VALUE FROM THE THEME
+													_Fila.Properties.Value = Color.FromArgb(Util.ValidarNulo(_Element.Value, 0));
+												}
+												_ComboColor.AutomaticColor = (Color)_Fila.Properties.Value;
+
+												//----Crea un Gradiente a Blanco usando el color seleccionado, lo pone en la ultima columna												
+												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.Black, 7).ToList();
+
+												_StandardColors[0, 9] = _GColors[0];
+												_StandardColors[0, 19] = _GColors[1];
+												_StandardColors[0, 29] = _GColors[2];
+												_StandardColors[0, 39] = _GColors[3];
+												_StandardColors[0, 49] = _GColors[4];
+												_StandardColors[0, 59] = _GColors[5];
+
+												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.White, 7).ToList();
+
+												_StandardColors[0, 8] = _GColors[0];
+												_StandardColors[0, 18] = _GColors[1];
+												_StandardColors[0, 28] = _GColors[2];
+												_StandardColors[0, 38] = _GColors[3];
+												_StandardColors[0, 48] = _GColors[4];
+												_StandardColors[0, 58] = _GColors[5];
+
+												//--- SET THE COLORPICKER INTO THE PROPERTY GRID
 												_Fila.Properties.RowEdit = _ComboColor;
-												_Fila.Properties.Value = Color.FromArgb(Util.ValidarNulo(_Element.Value, 0));
 											}));
 
 											#endregion
@@ -5400,7 +5586,6 @@ namespace EDHM_UI_mk2
 											break;
 
 										case "Number":
-
 											#region Muestra un SpinEdit Numerico
 
 											//"ValueType": "Number",
@@ -5522,7 +5707,6 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message);
 			}
 		}
-
 		private void ApplyGlobalSettings()
 		{
 			try
@@ -5583,26 +5767,6 @@ namespace EDHM_UI_mk2
 			catch (Exception ex)
 			{
 				XtraMessageBox.Show(ex.Message);
-			}
-		}
-
-		private void vGridDetalles_Click(object sender, EventArgs e)
-		{
-
-		}
-		private void vGridDetalles_MouseDown(object sender, MouseEventArgs e)
-		{
-			//Selecciona la Fila al dar Click Derecho
-			if (e.Button == MouseButtons.Right)
-			{
-				DevExpress.XtraVerticalGrid.VGridHitInfo hInfo = vGridDetalles.CalcHitInfo(new Point(e.X, e.Y));
-				if (hInfo != null && hInfo.HitInfoType == DevExpress.XtraVerticalGrid.HitInfoTypeEnum.HeaderCell)
-				{
-					vGridDetalles.FocusedRow = hInfo.Row;
-					vGridDetalles.FocusedRecordCellIndex = hInfo.CellIndex;
-					vGridDetalles.FocusedRecord = hInfo.RecordIndex;
-					vGridDetalles.ShowEditor();
-				}
 			}
 		}
 
@@ -5691,6 +5855,61 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+		private void mnuGlobalToUserSettings_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			try
+			{
+				var _Selected = vGridGlobalSettings.FocusedRow;
+				if (_Selected != null)
+				{
+					element _Element = (element)_Selected.Tag;
+					if (_Element != null)
+					{
+						if (XtraMessageBox.Show(string.Format("You want to add '{0}' to the User Settings List?", _Element.Title),
+							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							if (this.UserSettings is null)
+							{
+								this.UserSettings = new ui_group("UserSettings", "User Settings");
+							}
+
+							element _Existe = null;
+							if (this.UserSettings.Elements.IsNotEmpty())
+							{
+								_Existe = this.UserSettings.Elements.Find(x => x.Key == _Element.Key);
+							}
+
+							if (_Existe is null)
+							{
+								if (this.UserSettings.Elements is null)
+								{
+									this.UserSettings.Elements = new List<element>();
+								}
+
+								this.UserSettings.Elements.Add(_Element);
+
+								//Guarda los datos en el JSON:
+								if (this.UserSettings != null)
+								{
+									Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), this.UserSettings);
+
+									LoadUserSettings(ActiveInstance);
+									dockManager1.ActivePanel = dockUserSettings;
+								}
+							}
+							else
+							{
+								XtraMessageBox.Show("That Element is already on the User Settings List", "Nope", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 
 		private void vGridGlobalSettings_FocusedRowChanged(object sender, DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventArgs e)
 		{
@@ -5726,6 +5945,624 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+		#endregion
+
+		#region User Settings
+
+		private void LoadUserSettings(game_instance pGameInstance)
+		{
+			try
+			{
+				if (pGameInstance != null)
+				{
+					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
+					{
+						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+						this.UserSettings = null;
+						string _File = Path.Combine(UI_DOCUMENTS, pGameInstance.key + "_User_Settings.json");
+
+						if (File.Exists(_File))
+						{
+							this.UserSettings = Util.DeSerialize_FromJSON<ui_group>(_File);
+						}
+
+						if (this.UserSettings != null)
+						{
+							//Cargar las propiedades
+							try
+							{
+								vGridUserSettings.BeginUpdate();
+								vGridUserSettings.Rows.Clear();
+
+								foreach (element _Element in this.UserSettings.Elements)
+								{
+									EditorRow _Fila = new DevExpress.XtraVerticalGrid.Rows.EditorRow(_Element.Title);
+									_Fila.Properties.ToolTip = _Element.Description;
+									_Fila.Properties.Caption = _Element.Title;
+									_Fila.Properties.FieldName = "Value";
+									_Fila.Tag = _Element;
+
+									//Valor x defecto para el brillo del texto en horizons:
+									if (ActiveInstance.key == "ED_Horizons" && _Element.Key == "w151")
+									{
+										if (_Element.Value <= 0)
+										{
+											_Element.Value = 1;
+										}
+									}
+
+									switch (_Element.ValueType)
+									{
+										case "Brightness":
+											#region Mostrar una TrackBar
+
+											//"ValueType": "Brightness",
+											//"Type": "2X", <- 1X, 2X, 4X, 4X_Min
+
+											Invoke((MethodInvoker)(() =>
+											{
+												RepositoryItemTrackBar _ComboValue = new RepositoryItemTrackBar
+												{
+													EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
+													Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+													EditValueChangedDelay = 500,
+													ShowValueToolTip = true,
+													Tag = _Element
+												};
+												_ComboValue.ValueChanged += _ComboValue_EditValueChanged;
+
+												switch (_Element.Type)
+												{
+													case "1X":
+														_ComboValue.Maximum = 10;
+														_ComboValue.Minimum = 0;
+														break;
+
+													case "2X":
+														_ComboValue.Maximum = 20;
+														_ComboValue.Minimum = 0;
+														break;
+
+													case "4X": //eXPANDED
+														_ComboValue.Maximum = 40;
+														_ComboValue.Minimum = 0;
+														break;
+
+													case "4X_Min": //sHADED
+														_ComboValue.Maximum = 40;
+														_ComboValue.Minimum = -40;
+														break;
+
+													default:
+														_ComboValue.Maximum = 20;
+														_ComboValue.Minimum = 0;
+														break;
+												}
+
+												_Fila.Properties.RowEdit = _ComboValue;
+												_Fila.Properties.Value = _Element.Value * 10;
+											}));
+
+											#endregion
+											break;
+
+										case "Preset":
+											#region Mostrar un Combo con los Presets
+
+											//"ValueType": "Preset",
+											//"Type": "AdvancedMode", <- "{Preset_Name}"
+
+											if (_ElementPresets.IsNotEmpty())
+											{
+												List<combo_item> _Presets = _ElementPresets.FindAll(x => x.Type == _Element.Type);
+												if (_Presets.IsNotEmpty())
+												{
+													Invoke((MethodInvoker)(() =>
+													{
+														RepositoryItemLookUpEdit _ComboPreset = new RepositoryItemLookUpEdit()
+														{
+															Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+															DisplayMember = "Name",
+															ValueMember = "Index",
+															DataSource = _Presets,
+															AllowFocused = true,
+															Tag = _Element
+														};
+														_ComboPreset.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Name"));
+														_ComboPreset.Columns.Add(new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Index"));
+														_ComboPreset.EditValueChanged += _ComboValue_EditValueChanged;
+														_ComboPreset.AppearanceFocused.ForeColor = Color.Orange;
+														_ComboPreset.BestFit();
+
+														_Fila.Properties.RowEdit = _ComboPreset;
+														_Fila.Properties.Value = _Element.Value;
+													}));
+												}
+											}
+
+											#endregion
+											break;
+
+										case "Color":
+											#region Muestra un selector de Color
+
+											//"ValueType": "Color",
+											//"Type": "CustomColor",
+
+											Invoke((MethodInvoker)(() =>
+											{
+												//RepositoryItemColorEdit _ComboColor = new RepositoryItemColorEdit()
+												//{
+												//	Name = string.Format("{0}|{1}", GlobalSettings.Name, _Element.Title),
+												//	ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Advanced,
+												//	ShowMoreColorsButton = true,
+												//	ShowCustomColors = true,
+												//	ShowSystemColors = false,
+												//	Tag = _Element
+												//};
+												RepositoryItemMyColorPickEdit _ComboColor = new RepositoryItemMyColorPickEdit
+												{
+													Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+													ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Simple,
+													AutomaticColor = Color.Orange,
+													ShowMoreColorsButton = true,
+													ShowColorDialog = true,
+													ShowWebColors = false,
+													ShowCustomColors = true,
+													ShowSystemColors = false,
+													ShowWebSafeColors = false,
+													ShowMyCustomColors = true,
+													ShowMyPastelColors = false,
+													Tag = _Element
+												};
+												//_ComboColor.EditValueChanged += _ComboValue_EditValueChanged;
+												List<Color> _GColors = null;
+												var _StandardColors = _ComboColor.MyStandardColors;
+
+												_ComboColor.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
+												_ComboColor.EditValueChangedDelay = 500;
+												_ComboColor.ColorDialogOptions.ShowTabs = ShowTabs.RGBModel;
+												_ComboColor.ColorDialogOptions.AllowTransparency = true;
+												_ComboColor.ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Advanced;
+												_ComboColor.EditValueChanged += (object Sender, EventArgs E) =>
+												{
+													//Crea un Gradiente a Blanco usando el color seleccionado, lo pone en la ultima columna
+													Color _E = (Sender as Util_Test.MyColorPickEdit).Color;
+													var _CustomColors = _ComboColor.MyStandardColors;
+
+													_GColors = Util.GetColorGradients(_E, Color.Black, 7).ToList();
+
+													_CustomColors[0, 9] = _GColors[0];
+													_CustomColors[0, 19] = _GColors[1];
+													_CustomColors[0, 29] = _GColors[2];
+													_CustomColors[0, 39] = _GColors[3];
+													_CustomColors[0, 49] = _GColors[4];
+													_CustomColors[0, 59] = _GColors[5];
+
+													_GColors = Util.GetColorGradients(_E, Color.White, 7).ToList();
+
+													_CustomColors[0, 8] = _GColors[0];
+													_CustomColors[0, 18] = _GColors[1];
+													_CustomColors[0, 28] = _GColors[2];
+													_CustomColors[0, 38] = _GColors[3];
+													_CustomColors[0, 48] = _GColors[4];
+													_CustomColors[0, 58] = _GColors[5];
+
+													_ComboValue_EditValueChanged(Sender, E);
+												};
+
+												//-------- LOAD THE THEME'S COLOR PALETTE 
+												if (_RecentColors != null)
+												{
+													List<Color> _RecColors = _RecentColors.ToList();
+													_RecColors.Sort(new XColorComparer());
+
+													var themeColors = _ComboColor.ThemeColors;
+													try
+													{
+														int i = 0;
+														for (int _RowIndex = 0; _RowIndex < themeColors.RowCount; _RowIndex++) //<-Rows
+														{
+															for (int _ColumnIndex = 0; _ColumnIndex < themeColors.ColumnCount; _ColumnIndex++) //<-Columns
+															{
+																themeColors[_RowIndex, _ColumnIndex] = _RecColors[i]; // Color.FromArgb(0, 255, 0);
+																i++;
+																//green = green - greenDelta;
+															}
+														}
+													}
+													catch { }
+												}
+
+												//---- CAMBIA LA LISTA DE COLORES STANDARD --------------------
+												//var _StandardColors = _ComboColor.StandardColors;
+												//_StandardColors[0, 0] = Color.Black; 
+												//_StandardColors[0, 1] = Color.White; 
+												//_StandardColors[0, 2] = Color.Gray;
+												//_StandardColors[0, 3] = Color.Red;
+												//_StandardColors[0, 4] = Color.Orange; // Color.FromArgb(255, 85, 0);     //<- Orange
+												//_StandardColors[0, 5] = Color.Yellow;
+												//_StandardColors[0, 6] = Color.Green;
+												//_StandardColors[0, 7] = Color.Cyan;
+												//_StandardColors[0, 8] = Color.Blue;
+												//_StandardColors[0, 9] = Color.Purple;
+
+
+												//----- ASIGNA EL VALOR DEL CONTROL
+												if (DefaultSettings != null && _Element.Value == 0)
+												{
+													//SI NO ENCUENTRA LA CLAVE EN EL TEMA, CARGA VALOR X DEFECTO
+													var _Grupo = DefaultSettings.ui_groups.Find(x => x.Name == GlobalSettings.Name);
+													if (_Grupo != null)
+													{
+														var _Default = _Grupo.Elements.Find(x => x.Key == _Element.Key);
+														if (_Default != null)
+														{
+															_Fila.Properties.Value = Color.FromArgb((int)_Default.Value);
+														}
+													}
+												}
+												else
+												{
+													//- SET THE VALUE FROM THE THEME
+													_Fila.Properties.Value = Color.FromArgb(Util.ValidarNulo(_Element.Value, 0));
+												}
+												_ComboColor.AutomaticColor = (Color)_Fila.Properties.Value;
+
+												//----Crea un Gradiente a Blanco usando el color seleccionado, lo pone en la ultima columna												
+												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.Black, 7).ToList();
+
+												_StandardColors[0, 9] = _GColors[0];
+												_StandardColors[0, 19] = _GColors[1];
+												_StandardColors[0, 29] = _GColors[2];
+												_StandardColors[0, 39] = _GColors[3];
+												_StandardColors[0, 49] = _GColors[4];
+												_StandardColors[0, 59] = _GColors[5];
+
+												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.White, 7).ToList();
+
+												_StandardColors[0, 8] = _GColors[0];
+												_StandardColors[0, 18] = _GColors[1];
+												_StandardColors[0, 28] = _GColors[2];
+												_StandardColors[0, 38] = _GColors[3];
+												_StandardColors[0, 48] = _GColors[4];
+												_StandardColors[0, 58] = _GColors[5];
+
+												//--- SET THE COLORPICKER INTO THE PROPERTY GRID
+												_Fila.Properties.RowEdit = _ComboColor;
+											}));
+
+											#endregion
+											break;
+
+										case "ONOFF":
+											#region Muestra un Toogle Switch:
+
+											//"ValueType": "ONOFF",
+											//"Type": "ONOFF",
+											//"Value": 0,  <- 0=Off, 1=On
+
+											Invoke((MethodInvoker)(() =>
+											{
+												RepositoryItemToggleSwitch _ToogleControl = new RepositoryItemToggleSwitch();
+												_ToogleControl.Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title);
+												_ToogleControl.EditValueChanged += _ComboValue_EditValueChanged;
+												_ToogleControl.EditValueChangedDelay = 500;
+												_ToogleControl.Tag = _Element;
+
+												_Fila.Properties.RowEdit = _ToogleControl;
+												_Fila.Properties.Value = Util.IntegerToBool(Util.ValidarNulo(_Element.Value, 0));
+											}));
+
+											#endregion
+											break;
+
+										case "Number":
+											#region Muestra un SpinEdit Numerico
+
+											//"ValueType": "Number",
+											//"Type": "INT|-10|1000|n0",   <- Type|Min|Max|Mask
+											//"Type": "DEC|0.0|1.0|n2",
+
+											RepositoryItemSpinEdit _NumberItem = new RepositoryItemSpinEdit()
+											{
+												Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+												EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
+												EditValueChangedDelay = 500,
+												AllowMouseWheel = true,
+												AllowFocused = true,
+												Tag = _Element
+											};
+											_NumberItem.EditValueChanged += _ComboValue_EditValueChanged;
+											_NumberItem.AppearanceFocused.ForeColor = Color.Orange;
+											if (!_Element.Type.EmptyOrNull())
+											{
+												string[] keys = _Element.Type.Split(new char[] { '|' });
+												if (keys != null && keys.Length > 0)
+												{
+													_NumberItem.IsFloatValue = (keys[0] == "INT" ? false : true);
+													_NumberItem.MinValue = Convert.ToDecimal(keys[1]);
+													_NumberItem.MaxValue = Convert.ToDecimal(keys[2]);
+													_NumberItem.Increment = (keys[0] == "INT" ? 1.0m : 0.01m);
+													_NumberItem.EditMask = keys[3];
+													_NumberItem.UseMaskAsDisplayFormat = true;
+												}
+											}
+
+											_Fila.Properties.RowEdit = _NumberItem;
+											_Fila.Properties.Value = _Element.Value;
+
+											#endregion
+											break;
+
+										default:
+											#region Muestra un TextBox
+
+											RepositoryItemTextEdit _TextItem = new RepositoryItemTextEdit()
+											{
+												Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+												EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
+												EditValueChangedDelay = 500,
+												AllowFocused = true,
+												Tag = _Element
+											};
+											_TextItem.EditValueChanged += _ComboValue_EditValueChanged;
+											_TextItem.AppearanceFocused.ForeColor = Color.Orange;
+
+											_Fila.Properties.RowEdit = _TextItem;
+											_Fila.Properties.Value = _Element.Value;
+
+											#endregion
+											break;
+									}
+
+									#region Categorias
+
+									//Agrega la Categoria del Elemento, si ya existe, usa esa, sino, la crea nueva:
+									if (!_Element.Category.EmptyOrNull())
+									{
+										CategoryRow Categoria = vGridUserSettings.Rows[_Element.Category] as CategoryRow;
+										if (Categoria == null)
+										{
+											Categoria = new CategoryRow(_Element.Category)
+											{
+												Name = _Element.Category
+											};
+											vGridUserSettings.Rows.Add(Categoria);
+										}
+										Categoria.ChildRows.Add(_Fila);
+									}
+									else
+									{
+										vGridUserSettings.Rows.Add(_Fila);
+									}
+
+									//if (_Fila != null && _Element.Title == SelectRowName)
+									//{
+									//	Invoke((MethodInvoker)(() =>
+									//	{
+									//		this.vGridUserSettings.FocusedRow = _Fila;
+									//	}));
+									//}
+
+									#endregion
+								}
+							}
+							catch (Exception ex)
+							{
+								XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							}
+							Invoke((MethodInvoker)(() =>
+							{
+								vGridUserSettings.EndUpdate();
+								panelGlobalSettings.Text = GlobalSettings.Title;
+							}));
+						}
+						else
+						{
+							Invoke((MethodInvoker)(() =>
+							{
+								vGridUserSettings.Rows.Clear();
+							}));
+						}
+
+						Invoke((MethodInvoker)(() =>
+						{
+							GlobalSettings_Title.Text = "Global Settings";
+							GlobalSettings_Description.Text = "Elements in this List will have priority over the same from themes, so you can 'force' this settings to be applied no mather what theme you choose.";
+						}));
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message);
+			}
+		}
+		private void ApplyUserSettings()
+		{
+			try
+			{
+				if (this.UserSettings != null && this.UserSettings.Elements.IsNotEmpty())
+				{
+					IniFile _StartupReader = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini"));
+					IniFile _ReaderAdvanced = null;
+					IniFile _ReaderOnfoot = null;
+
+					if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini")))
+					{
+						_ReaderAdvanced = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\Advanced.ini"));
+					}
+					if (ActiveInstance.key == "ED_Odissey" && File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini")))
+					{
+						_ReaderOnfoot = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini"));
+					}
+
+					foreach (var _Element in this.UserSettings.Elements)
+					{
+						if (_Element.ValueType == "Color")
+						{
+							string[] keys = _Element.Key.Split(new char[] { '|' });
+							if (keys != null && keys.Length > 0)
+							{
+								//Convertir Color RGB -> sRGB -> GammaCorrected
+								Color _Color = Color.FromArgb(Convert.ToInt32(_Element.Value));
+								List<double> _GammaColors = GetGammaCorrected_RGBA(_Color);
+
+								int i = 0;
+								foreach (string _Key in keys)
+								{
+									switch (_Element.File)
+									{
+										case "Advanced": _ReaderAdvanced.WriteKey(_Key, _GammaColors[i].ToString(), _Element.Section); break;
+										case "SuitHud": _ReaderOnfoot.WriteKey(_Key, _GammaColors[i].ToString(), _Element.Section); break;
+
+										default: _StartupReader.WriteKey(_Key, _GammaColors[i].ToString(), _Element.Section); break;
+									}
+									i++;
+								}
+							}
+						}
+						else //<- ValueType = 'Preset', 'Decimal', etc
+						{
+							switch (_Element.File)
+							{
+								case "Advanced": _ReaderAdvanced.WriteKey(_Element.Key, _Element.Value.ToString(), _Element.Section); break;
+								case "SuitHud": _ReaderOnfoot.WriteKey(_Element.Key, _Element.Value.ToString(), _Element.Section); break;
+
+								default: _StartupReader.WriteKey(_Element.Key, _Element.Value.NVL("0"), _Element.Section); break;
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message);
+			}
+		}
+
+		private void mnuUserSettings_Add_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			try
+			{
+				var _Selected = vGridDetalles.FocusedRow;
+				if (_Selected != null)
+				{
+					element _Element = (element)_Selected.Tag;
+					if (_Element != null)
+					{
+						if (XtraMessageBox.Show(string.Format("You want to add '{0}' to the User Settings List?", _Element.Title),
+							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							if (this.UserSettings is null)
+							{
+								this.UserSettings = new ui_group("UserSettings", "User Settings");
+							}
+
+							element _Existe = null;
+							if (this.UserSettings.Elements.IsNotEmpty())
+							{
+								_Existe = this.UserSettings.Elements.Find(x => x.Key == _Element.Key);
+							}
+
+							if (_Existe is null)
+							{
+								if (this.UserSettings.Elements is null)
+								{
+									this.UserSettings.Elements = new List<element>();
+								}
+
+								this.UserSettings.Elements.Add(_Element);
+
+								//Guarda los datos en el JSON:
+								if (this.UserSettings != null)
+								{
+									Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), this.UserSettings);
+
+									LoadUserSettings(ActiveInstance);
+									dockManager1.ActivePanel = dockUserSettings;
+								}
+							}
+							else
+							{
+								XtraMessageBox.Show("That Element is already on the User Settings List", "Nope", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		private void mnuRemoveUserSettings_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			try
+			{
+				var _Selected = vGridUserSettings.FocusedRow;
+				if (_Selected != null)
+				{
+					element _Element = (element)_Selected.Tag;
+					if (_Element != null)
+					{
+						if (XtraMessageBox.Show(string.Format("You want to Remove '{0}' from the User Settings List?", _Element.Title),
+							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+						{
+							if (this.UserSettings != null)
+							{
+								this.UserSettings.Elements.Remove(_Element);
+
+								Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), this.UserSettings);
+
+								LoadUserSettings(ActiveInstance);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		private void vGridUserSettings_MouseDown(object sender, MouseEventArgs e)
+		{
+			//Selecciona la Fila al dar Click Derecho
+			if (e.Button == MouseButtons.Right)
+			{
+				DevExpress.XtraVerticalGrid.VGridHitInfo hInfo = vGridUserSettings.CalcHitInfo(new Point(e.X, e.Y));
+				if (hInfo != null && hInfo.HitInfoType == DevExpress.XtraVerticalGrid.HitInfoTypeEnum.HeaderCell)
+				{
+					vGridUserSettings.FocusedRow = hInfo.Row;
+					vGridUserSettings.FocusedRecordCellIndex = hInfo.CellIndex;
+					vGridUserSettings.FocusedRecord = hInfo.RecordIndex;
+					vGridUserSettings.ShowEditor();
+				}
+			}
+		}
+		private void vGridUserSettings_FocusedRowChanged(object sender, DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventArgs e)
+		{
+			/* MUESTRA LA DESCRIPCION DEL ELEMENTO SELECCIONADO en las propiedades  */
+			if (e.Row != null && e.Row.Tag != null)
+			{
+				element _Element = e.Row.Tag as element;
+				if (_Element != null)
+				{
+					UserSettings_Title.Text = _Element.Title;
+					UserSettings_Description.Text = _Element.Description;
+				}
+				else
+				{
+					UserSettings_Title.Text = string.Empty;
+					UserSettings_Description.Text = string.Empty;
+				}
+			}
+		}
 
 		#endregion
 
@@ -5859,70 +6696,47 @@ namespace EDHM_UI_mk2
 				this.GameInstancesEx = _Form.GameInstancesEx;
 
 				string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
-				string GameInstances_JSON = Util.Serialize_ToJSON(_Form.GameInstancesEx); // Util.WinReg_ReadKey("EDHM", "GameInstances").NVL(string.Empty);
+				string GameInstances_JSON = Util.Serialize_ToJSON(_Form.GameInstancesEx);
 
-				if (GameInstancesEx != null && GameInstancesEx.Count > 0)
-				{
-					foreach (var _instance in GameInstancesEx)
-					{
-						foreach (var _game in _instance.games)
-						{
-							if (_game.game_id.EmptyOrNull())
-							{
-								_game.game_id = string.Format("{0}|{1}", _instance.instance, _game.key);
-							}
-						}
-					}
-				}
+				FixGameInstances();
 
-				//Carga los valores que se muestran en el Combo:
-				GameInstances = new List<game_instance>();
-				foreach (var _Instance in GameInstancesEx)
-				{
-					foreach (var _Game in _Instance.games)
-					{
-						GameInstances.Add(new game_instance()
-						{
-							instance = _Game.instance,
-							game_id = _Game.game_id,
-							key = _Game.key,
-							name = _Game.name,
-							path = _Game.path,
-							is_active = _Game.is_active,
-							themes_folder = _Game.themes_folder
-						});
-					}
-				}
+				repCboGameInstances.ValueMember = "game_id";
+				repCboGameInstances.DisplayMember = "instance";
+				repCboGameInstances.DataSource = GameInstances;
+
+				#region Seleccionar la Instancia Activa
 
 				string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
 				if (_ActiveGames != null && _ActiveGames.Length > 1)
 				{
 					ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
 				}
-				else
+				if (ActiveInstance == null)
 				{
-					_RegActiveInstance = string.Format("{0}|{1}", GameInstancesEx[0].instance, _RegActiveInstance.NVL("ED_Horizons"));
-					ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
+					ActiveInstance = (GameInstancesEx[0].games[1].key == "ED_Odissey") ?
+						GameInstancesEx[0].games[1] :
+						GameInstancesEx[0].games[0];
+
+					_RegActiveInstance = ActiveInstance.game_id;
 					Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
 				}
 
-				repCboGameInstances.ValueMember = "game_id";
-				repCboGameInstances.DisplayMember = "instance";
-				repCboGameInstances.DataSource = GameInstances;
-
-
-				//this.ActiveInstance = this.GameInstances.Find(x => x.key == _RegActiveInstance);
 				if (ActiveInstance != null)
 				{
 					CboGameInstances.EditValue = ActiveInstance.game_id;
+
+					string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+					lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
+					lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
 
 					//Carga el Idioma del Usuario:
 					LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
 
 					LoadGameInstance(ActiveInstance, LangShort);  //<- Carga La Instancia Activa	
 					LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
-										//ReadPlayerJournal();
 				}
+
+				#endregion
 
 				HideToTray = _Form.HideToTray;
 				GreetMe = _Form.GreetMe;
@@ -6034,13 +6848,6 @@ namespace EDHM_UI_mk2
 		}
 
 		#endregion
-
-		private void progressPanel1_Click(object sender, EventArgs e)
-		{
-
-		}
-
-
 	}
 
 	public class RedColorComparer : IComparer<Color>

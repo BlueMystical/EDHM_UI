@@ -58,6 +58,9 @@ namespace EDHM_UI_mk2.Forms
 			//this.PortraitMainImage = Image.FromFile(Path.Combine(ImagesPath, @"ColorMatrix_Preview_3a.png"));
 
 			this.picStationPanels.Image = this.StationOriginalImage;
+
+			this.trackGamma.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+			this.trackSaturation.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
 		}
 		private void XML_Form_Odyssey_Shown(object sender, EventArgs e)
 		{
@@ -266,7 +269,13 @@ namespace EDHM_UI_mk2.Forms
 					   height,      // height of source rectangle
 					   GraphicsUnit.Pixel,
 					   imageAttributes);
-				}				
+				}
+
+				float Gamma = (float)(Convert.ToInt32(trackGamma.EditValue) / 10);
+				image = Util.AdjustGamma(image, Gamma);
+
+				float saturation = 1f - (Convert.ToInt32(trackSaturation.EditValue) / 10f);
+				image = Util.SetSaturation(image, saturation);
 
 				Invoke((MethodInvoker)(() =>
 				{
@@ -519,6 +528,16 @@ namespace EDHM_UI_mk2.Forms
 			{
 				XtraMessageBox.Show(ex.Message);
 			}
+		}
+
+		private void trackGammaRep_ValueChanged(object sender, EventArgs e)
+		{
+			DrawPicture_STATION();
+		}
+
+		private void trackSaturationRep_ValueChanged(object sender, EventArgs e)
+		{
+			DrawPicture_STATION();
 		}
 	}
 }

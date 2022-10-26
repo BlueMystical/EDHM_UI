@@ -214,7 +214,7 @@ namespace EDHM_UI_mk2
 			{
 				if (this.GameInstancesEx.IsNotEmpty())
 				{
-					if (this.GameInstancesEx[0].games[0].path.EmptyOrNull())
+					if (this.GameInstancesEx[0].games[0].path.EmptyOrNull() && this.GameInstancesEx[0].games[1].path.EmptyOrNull())
 					{
 						XtraMessageBox.Show("Folder Path had not been set!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						return;
@@ -241,7 +241,7 @@ namespace EDHM_UI_mk2
 							}
 
 							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
-							_Game.game_id = string.Format("{0}|{1}", _Instance.instance, _Game.key);
+							_Game.game_id =  string.Format("{0}|{1}", _Instance.instance, _Game.key);
 							_Game.themes_folder = (_Game.key == "ED_Horizons") ?
 								Path.Combine(UI_DOCUMENTS, "HORIZ", "Themes") :
 								Path.Combine(UI_DOCUMENTS, "ODYSS", "Themes");
@@ -253,14 +253,10 @@ namespace EDHM_UI_mk2
 					if (this.IsFirstRun)
 					{
 						//si Odyssey tiene path entonces esa es la instancia Activa:
-						if (!this.GameInstancesEx[0].games[1].path.EmptyOrNull())
-						{
-							this.ActiveInstance = this.GameInstancesEx[0].games[1];
-						}
-						else
-						{
-							this.ActiveInstance = this.GameInstancesEx[0].games[0];
-						}
+						this.ActiveInstance = (this.GameInstancesEx[0].games[1].path.EmptyOrNull()) ? 
+							this.GameInstancesEx[0].games[0] : 
+							this.GameInstancesEx[0].games[1];
+
 						Util.WinReg_WriteKey("EDHM", "ActiveInstance", this.ActiveInstance.key);
 					}
 					else
@@ -387,7 +383,7 @@ namespace EDHM_UI_mk2
 								string Msg1 = !HORI_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[0].name) : string.Empty;
 								string Msg2 = !ODYS_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[1].name) : string.Empty;
 
-								if (!HORI_PATH.EmptyOrNull())
+								if (!HORI_PATH.EmptyOrNull() || !ODYS_PATH.EmptyOrNull())
 								{
 									//Establece los juegos encontrados en la Instancia Seleccionada
 									if (_Selected != null)
@@ -465,6 +461,36 @@ namespace EDHM_UI_mk2
 			{
 				ButtonEdit _Selector = sender as ButtonEdit;
 				string _path = _Selector.EditValue.NVL("");
+				int instance_index = -1;
+				int game_index = -1;
+				
+
+				if (this.gridControl1.FocusedView != null)
+				{
+					GameInstance Instance = this.gridView1.GetFocusedRow() as GameInstance;
+					if (Instance != null)
+					{
+						for (int i = 0; i <= this.GameInstancesEx.Count -1; i++)
+						{
+							if (this.GameInstancesEx[i].instance == Instance.instance)
+							{
+								instance_index = i; break;
+							}							
+						}
+					}
+					var detailView = this.gridControl1.FocusedView as GridView;
+					game_instance FR = detailView.GetFocusedRow() as game_instance;
+					if (FR != null)
+					{
+						for (int i = 0; i <= this.GameInstancesEx[instance_index].games.Count - 1; i++)
+						{
+							if (this.GameInstancesEx[instance_index].games[i].game_id == FR.game_id)
+							{
+								game_index = i; break;
+							}
+						}
+					}
+				}
 
 				OpenFileDialog OFDialog = new OpenFileDialog()
 				{
@@ -481,6 +507,9 @@ namespace EDHM_UI_mk2
 				if (OFDialog.ShowDialog() == DialogResult.OK)
 				{
 					_Selector.EditValue = System.IO.Path.GetDirectoryName(OFDialog.FileName);
+
+					this.GameInstancesEx[instance_index].games[game_index].path = System.IO.Path.GetDirectoryName(OFDialog.FileName);
+
 					this.gridView2.PostEditor(); //<- Actualiza el DataSource de la Grilla inmediatamente
 				}
 			}
@@ -595,6 +624,22 @@ namespace EDHM_UI_mk2
 		private void chkSettings_HideToTray_CheckedChanged(object sender, EventArgs e)
 		{
 
+		}
+
+		private void lblPi_MouseDown(object sender, MouseEventArgs e)
+		{			
+			if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				this.gridView2.Columns[0].OptionsColumn.AllowFocus = false;
+				this.gridView2.Columns[1].OptionsColumn.AllowFocus = true;
+			}
+		}
+
+		private void gridView1_MasterRowExpanded(object sender, CustomMasterRowEventArgs e)
+		{
+			GridView masterView = sender as GridView;
+			GridView detailView = masterView.GetDetailView(e.RowHandle, e.RelationIndex) as GridView;
+			detailView.Focus();
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using Microsoft.Win32;
 
 namespace EDHM_UI_mk2
 {
@@ -173,7 +173,7 @@ namespace EDHM_UI_mk2
 
 			return listToClone.Select(item => (T)item.Clone()).ToList();
 		}
-		
+
 		/// <summary>Devuelve 'true' si la lista de elementos NO está Vacia.</summary>
 		/// <param name="elements">Lista de Elementos</param>
 		public static bool IsNotEmpty(this System.Collections.ICollection elements)
@@ -258,7 +258,7 @@ namespace EDHM_UI_mk2
 		/// <param name="filePath">Ruta completa al archivo donde se guardará el JSON.</param>
 		/// <param name="objectToWrite">Instancia del Objeto a Serializar</param>
 		/// <param name="append">'false'=Sobre-Escribe el Archivo, 'true'=Añade datos al final del archivo.</param>
-		public static string Serialize_ToJSON<T>(string filePath, T objectToWrite, bool append = false) where T : new()
+		public static string Serialize_ToJSON<T>(string filePath, T objectToWrite, bool Prettyfied = false, bool append = false) where T : new()
 		{
 			/* EJEMPLO:  string _JsonString = Util.Serialize_ToJSON(System.IO.Path.Combine(file_path,_file_name), _Inventario);  */
 
@@ -267,7 +267,8 @@ namespace EDHM_UI_mk2
 			{
 				if (!filePath.EmptyOrNull())
 				{
-					_ret = Newtonsoft.Json.JsonConvert.SerializeObject(objectToWrite);
+					_ret = Newtonsoft.Json.JsonConvert.SerializeObject(objectToWrite, 
+						(Prettyfied ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None));
 					using (System.IO.TextWriter writer = new System.IO.StreamWriter(filePath, append))
 					{
 						writer.Write(_ret);
@@ -297,8 +298,14 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+		#region XML Files
 
-		public static string GetXMLValue(XmlDocument xmlFile, string Path, string Key, string DefaultValue = "")
+		/// <summary>Gets the value of an XML Element or Attribute using an XPath to identify it.</summary>
+		/// <param name="xmlFile">XML Document to write in</param>
+		/// <param name="Path">XPath string, ex: '/GraphicsConfig/GalaxyMap[@Something='Server']' /</param>
+		/// <param name="Key">Name of the Key which value we want</param>
+		/// <param name="DefaultValue">Default value to return if the key or value is missing.</param>
+		public static string GetValue(this XmlDocument xmlFile, string Path, string Key, string DefaultValue = "")
 		{
 			string _ret = DefaultValue;
 			try
@@ -306,7 +313,10 @@ namespace EDHM_UI_mk2
 				if (xmlFile != null && Path != string.Empty)
 				{
 					var a = xmlFile.SelectSingleNode(Path + "/" + Key);
-					if (a != null) _ret = a.InnerText;
+					if (a != null)
+					{
+						_ret = a.InnerText;
+					}
 				}
 
 				//string s = root.Attributes["success"].Value;
@@ -322,15 +332,50 @@ namespace EDHM_UI_mk2
 		/// <param name="xmlFile">XML Document to write in</param>
 		/// <param name="Path">XPath string, ex: '/GraphicsConfig/GalaxyMap[@Something='Server']' /</param>
 		/// <param name="Value">Value to Write</param>
-		public static void SetXMLValue(XmlDocument xmlFile, string Path, string Value)
+		public static void SetValue(this XmlDocument xmlFile, string Path, string Value)
 		{
-			if (xmlFile == null) throw new ArgumentNullException("doc");
-			if (string.IsNullOrEmpty(Path)) throw new ArgumentNullException("xpath");
+			if (xmlFile == null)
+			{
+				throw new ArgumentNullException("doc");
+			}
+
+			if (string.IsNullOrEmpty(Path))
+			{
+				throw new ArgumentNullException("xpath");
+			}
 
 			XmlNodeList nodes = xmlFile.SelectNodes(Path);
-			if (nodes.Count > 1) throw new Exception("Xpath '" + Path + "' was not found multiple times!");
-			else if (nodes.Count == 0) createXPath(xmlFile, Path).InnerText = Value;
-			else nodes[0].InnerText = Value;
+			if (nodes.Count > 1)
+			{
+				throw new Exception("Xpath '" + Path + "' was not found multiple times!");
+			}
+			else if (nodes.Count == 0)
+			{
+				createXPath(xmlFile, Path).InnerText = Value;
+			}
+			else
+			{
+				nodes[0].InnerText = Value;
+			}
+		}
+
+		/// <summary>Save the changes in the XML file, preserving indentation and Encoding.</summary>
+		/// <param name="doc">XML Document to SAve</param>
+		/// <param name="FilePath">Full File Path</param>
+		public static void SaveBeautify(this XmlDocument doc, string FilePath)
+		{
+			var settings = new XmlWriterSettings
+			{
+				Indent = true,                                      //<- Preserve Indentation
+				IndentChars = "\t",                                 //<- Uses TAB to indent
+				NewLineChars = Environment.NewLine,                 //<- Uses Windows linebreaks
+				NewLineHandling = NewLineHandling.Replace,			//<- Normalize Linebreaks
+				Encoding = new System.Text.UTF8Encoding(false)      //<- UTF8 no BOM
+			};
+			using (XmlWriter writer = XmlWriter.Create(FilePath, settings))
+			{
+				doc.Save(writer);
+			}
 		}
 
 		private static IEnumerable<XElement> GetXMLQuery(System.Xml.Linq.XDocument xmlFile, string[] sectionPath)
@@ -378,7 +423,10 @@ namespace EDHM_UI_mk2
 			foreach (string part in xpath.Substring(1).Split('/'))
 			{
 				XmlNodeList nodes = node.SelectNodes(part);
-				if (nodes.Count > 1) throw new Exception("Xpath '" + xpath + "' was not found multiple times!");
+				if (nodes.Count > 1)
+				{
+					throw new Exception("Xpath '" + xpath + "' was not found multiple times!");
+				}
 				else if (nodes.Count == 1) { node = nodes[0]; continue; }
 
 				if (part.StartsWith("@")) //<- es un Atributo
@@ -393,10 +441,17 @@ namespace EDHM_UI_mk2
 					if (part.Contains("["))
 					{
 						part.SplitOnce("[", out elName, out attrib);
-						if (!attrib.EndsWith("]")) throw new Exception("Unsupported XPath (missing ]): " + part);
+						if (!attrib.EndsWith("]"))
+						{
+							throw new Exception("Unsupported XPath (missing ]): " + part);
+						}
+
 						attrib = attrib.Substring(0, attrib.Length - 1);
 					}
-					else elName = part;
+					else
+					{
+						elName = part;
+					}
 
 					try
 					{
@@ -408,10 +463,18 @@ namespace EDHM_UI_mk2
 
 					if (attrib != null)
 					{
-						if (!attrib.StartsWith("@")) throw new Exception("Unsupported XPath attrib (missing @): " + part);
+						if (!attrib.StartsWith("@"))
+						{
+							throw new Exception("Unsupported XPath attrib (missing @): " + part);
+						}
+
 						string name, value;
 						attrib.Substring(1).SplitOnce("='", out name, out value);
-						if (string.IsNullOrEmpty(value) || !value.EndsWith("'")) throw new Exception("Unsupported XPath attrib: " + part);
+						if (string.IsNullOrEmpty(value) || !value.EndsWith("'"))
+						{
+							throw new Exception("Unsupported XPath attrib: " + part);
+						}
+
 						value = value.Substring(0, value.Length - 1);
 						var anode = doc.CreateAttribute(name);
 						anode.Value = value;
@@ -420,9 +483,9 @@ namespace EDHM_UI_mk2
 				}
 			}
 			return node;
-		}
-
-
+		} 
+		
+		#endregion
 
 		/// <summary>Lee un Archivo de Texto usando la Codificacion especificada.</summary>
 		/// <param name="FilePath">Ruta de acceso al Archivo. Si no existe se produce un Error.</param>
@@ -473,7 +536,10 @@ namespace EDHM_UI_mk2
 					System.Text.Encoding ENCODING = System.Text.Encoding.GetEncoding((int)CodePage); //<- Unicode Garantiza Maxima compatibilidad
 					using (System.IO.FileStream FILE = new System.IO.FileStream(FilePath, System.IO.FileMode.Create))
 					{
-						if (CodePage == TextEncoding.UTF8) ENCODING = new UTF8Encoding(false); //<- UTF8 sin BOM
+						if (CodePage == TextEncoding.UTF8)
+						{
+							ENCODING = new UTF8Encoding(false); //<- UTF8 sin BOM
+						}
 
 						using (System.IO.StreamWriter WRITER = new System.IO.StreamWriter(FILE, ENCODING))
 						{
@@ -481,7 +547,10 @@ namespace EDHM_UI_mk2
 							WRITER.Close();
 						}
 					}
-					if (System.IO.File.Exists(FilePath)) _ret = true;
+					if (System.IO.File.Exists(FilePath))
+					{
+						_ret = true;
+					}
 				}
 			}
 			catch (Exception ex) { throw ex; }
@@ -513,7 +582,7 @@ namespace EDHM_UI_mk2
 
 			return _ret;
 		}
-		
+
 
 		/// <summary>Devuelve la 'key' de la Instancia Activa.</summary>
 		/// <param name="elements"></param>
@@ -574,7 +643,11 @@ namespace EDHM_UI_mk2
 		}
 		public static bool In<T>(this T source, params T[] list)
 		{
-			if (null == source) throw new ArgumentNullException("source");
+			if (null == source)
+			{
+				throw new ArgumentNullException("source");
+			}
+
 			return list.Contains(source);
 		}
 
@@ -598,7 +671,9 @@ namespace EDHM_UI_mk2
 			try
 			{
 				if (pValor != null && pValor.ToString() != string.Empty && !pValor.ToString().Trim().Equals(""))
+				{
 					_ret = Convert.ToString(pValor);
+				}
 			}
 			catch { }
 			return _ret;
@@ -608,8 +683,15 @@ namespace EDHM_UI_mk2
 			int _ret = pDefault;
 			try
 			{
-				if (pValor != null) _ret = Convert.ToInt32(pValor);
-				if (_ret == int.MinValue) _ret = pDefault;
+				if (pValor != null)
+				{
+					_ret = Convert.ToInt32(pValor);
+				}
+
+				if (_ret == int.MinValue)
+				{
+					_ret = pDefault;
+				}
 			}
 			catch { }
 			return _ret;
@@ -619,8 +701,15 @@ namespace EDHM_UI_mk2
 			long _ret = pDefault;
 			try
 			{
-				if (pValor != null) _ret = Convert.ToInt64(pValor);
-				if (_ret == int.MinValue) _ret = pDefault;
+				if (pValor != null)
+				{
+					_ret = Convert.ToInt64(pValor);
+				}
+
+				if (_ret == int.MinValue)
+				{
+					_ret = pDefault;
+				}
 			}
 			catch { }
 			return _ret;
@@ -630,8 +719,15 @@ namespace EDHM_UI_mk2
 			decimal _ret = pDefault;
 			try
 			{
-				if (pValor != null) _ret = Convert.ToDecimal(pValor);
-				if (_ret == decimal.MinValue) _ret = pDefault;
+				if (pValor != null)
+				{
+					_ret = Convert.ToDecimal(pValor);
+				}
+
+				if (_ret == decimal.MinValue)
+				{
+					_ret = pDefault;
+				}
 			}
 			catch { }
 			return _ret;
@@ -641,7 +737,10 @@ namespace EDHM_UI_mk2
 			DateTime _ret = pDefault ?? DateTime.MinValue;
 			try
 			{
-				if (pValor != null) _ret = Convert.ToDateTime(pValor);
+				if (pValor != null)
+				{
+					_ret = Convert.ToDateTime(pValor);
+				}
 			}
 			catch { }
 			return _ret;
@@ -651,7 +750,10 @@ namespace EDHM_UI_mk2
 			bool _ret = pDefault;
 			try
 			{
-				if (pValor != null) _ret = Convert.ToBoolean(pValor);
+				if (pValor != null)
+				{
+					_ret = Convert.ToBoolean(pValor);
+				}
 			}
 			catch { }
 			return _ret;
@@ -662,7 +764,10 @@ namespace EDHM_UI_mk2
 			bool _ret = pDefault;
 			try
 			{
-				if (pValor == 1) _ret = true;
+				if (pValor == 1)
+				{
+					_ret = true;
+				}
 			}
 			catch { }
 			return _ret;
@@ -672,7 +777,10 @@ namespace EDHM_UI_mk2
 			int _ret = pDefault;
 			try
 			{
-				if (pValor) _ret = 1;
+				if (pValor)
+				{
+					_ret = 1;
+				}
 			}
 			catch { }
 			return _ret;
@@ -978,7 +1086,27 @@ namespace EDHM_UI_mk2
 			}
 			return _ret;
 		}
-		
+
+		public static void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
+		{
+			Directory.CreateDirectory(target.FullName);
+
+			// Copy each file into the new directory.
+			foreach (FileInfo fi in source.GetFiles())
+			{
+				Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+				fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+			}
+
+			// Copy each subdirectory using recursion.
+			foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+			{
+				DirectoryInfo nextTargetSubDir =
+					target.CreateSubdirectory(diSourceSubDir.Name);
+				CopyDirectory(diSourceSubDir, nextTargetSubDir);
+			}
+		}
+
 		#region Random Numbers
 
 		/// <summary>Generador de numeros aleatorios.
@@ -1170,12 +1298,20 @@ namespace EDHM_UI_mk2
 			{
 				_ret = (B_MaxValue - B_MinValue) / (A_MaxValue - A_MinValue) * (_Value - A_MaxValue) + B_MaxValue;
 			}
-			if (_ret < B_MinValue) _ret = B_MinValue;
-			if (_ret > B_MaxValue) _ret = B_MaxValue;
+			if (_ret < B_MinValue)
+			{
+				_ret = B_MinValue;
+			}
+
+			if (_ret > B_MaxValue)
+			{
+				_ret = B_MaxValue;
+			}
+
 			return _ret;
 		}
 
-		
+
 
 		/// <summary>Convierte un color RGBA (0 -> 255) a la escala indicada, por defecto 0.0 -> 1.0</summary>
 		/// <param name="_Color"></param>
@@ -1449,6 +1585,7 @@ namespace EDHM_UI_mk2
 			Graphics G = Graphics.FromImage(outputImage);
 			G.DrawImage(inputImage, 0, 0);
 			for (Int32 y = 0; y < outputImage.Height; y++)
+			{
 				for (Int32 x = 0; x < outputImage.Width; x++)
 				{
 					Color PixelColor = outputImage.GetPixel(x, y);
@@ -1458,22 +1595,68 @@ namespace EDHM_UI_mk2
 						int GColorDiff = oldColor.G - PixelColor.G;
 						int BColorDiff = oldColor.B - PixelColor.B;
 
-						if (PixelColor.R > oldColor.R) RColorDiff = NewColor.R + RColorDiff;
-						else RColorDiff = NewColor.R - RColorDiff;
-						if (RColorDiff > 255) RColorDiff = 255;
-						if (RColorDiff < 0) RColorDiff = 0;
-						if (PixelColor.G > oldColor.G) GColorDiff = NewColor.G + GColorDiff;
-						else GColorDiff = NewColor.G - GColorDiff;
-						if (GColorDiff > 255) GColorDiff = 255;
-						if (GColorDiff < 0) GColorDiff = 0;
-						if (PixelColor.B > oldColor.B) BColorDiff = NewColor.B + BColorDiff;
-						else BColorDiff = NewColor.B - BColorDiff;
-						if (BColorDiff > 255) BColorDiff = 255;
-						if (BColorDiff < 0) BColorDiff = 0;
+						if (PixelColor.R > oldColor.R)
+						{
+							RColorDiff = NewColor.R + RColorDiff;
+						}
+						else
+						{
+							RColorDiff = NewColor.R - RColorDiff;
+						}
+
+						if (RColorDiff > 255)
+						{
+							RColorDiff = 255;
+						}
+
+						if (RColorDiff < 0)
+						{
+							RColorDiff = 0;
+						}
+
+						if (PixelColor.G > oldColor.G)
+						{
+							GColorDiff = NewColor.G + GColorDiff;
+						}
+						else
+						{
+							GColorDiff = NewColor.G - GColorDiff;
+						}
+
+						if (GColorDiff > 255)
+						{
+							GColorDiff = 255;
+						}
+
+						if (GColorDiff < 0)
+						{
+							GColorDiff = 0;
+						}
+
+						if (PixelColor.B > oldColor.B)
+						{
+							BColorDiff = NewColor.B + BColorDiff;
+						}
+						else
+						{
+							BColorDiff = NewColor.B - BColorDiff;
+						}
+
+						if (BColorDiff > 255)
+						{
+							BColorDiff = 255;
+						}
+
+						if (BColorDiff < 0)
+						{
+							BColorDiff = 0;
+						}
 
 						outputImage.SetPixel(x, y, Color.FromArgb(RColorDiff, GColorDiff, BColorDiff));
 					}
 				}
+			}
+
 			return outputImage;
 		}
 
@@ -1537,7 +1720,10 @@ namespace EDHM_UI_mk2
 			var bmp = new Bitmap(width, height);
 			using (var brush = new System.Drawing.Drawing2D.LinearGradientBrush(r, color1, color2, angle, true))
 			using (var g = Graphics.FromImage(bmp))
+			{
 				g.FillRectangle(brush, r);
+			}
+
 			return bmp;
 		}
 
@@ -1695,6 +1881,43 @@ namespace EDHM_UI_mk2
 			return bm;
 		}
 
+		public static Image SetSaturation(Image image, float Saturation = 1.0f)
+		{
+			//saturation = 1f - (saturationTrackBar.Value / 100f);
+			Bitmap output = new Bitmap(image.Width, image.Height);
+
+			// Luminance vector for linear RGB
+			const float rwgt = 0.3086f;
+			const float gwgt = 0.6094f;
+			const float bwgt = 0.0820f;
+
+			float baseSat = 1.0f - Saturation;
+
+			ColorMatrix colorMatrix = new ColorMatrix();
+
+			colorMatrix[0, 0] = baseSat * rwgt + Saturation;
+			colorMatrix[0, 1] = baseSat * rwgt;
+			colorMatrix[0, 2] = baseSat * rwgt;
+			colorMatrix[1, 0] = baseSat * gwgt;
+			colorMatrix[1, 1] = baseSat * gwgt + Saturation;
+			colorMatrix[1, 2] = baseSat * gwgt;
+			colorMatrix[2, 0] = baseSat * bwgt;
+			colorMatrix[2, 1] = baseSat * bwgt;
+			colorMatrix[2, 2] = baseSat * bwgt + Saturation;
+
+			System.Drawing.Imaging.ImageAttributes imageAttributes = new System.Drawing.Imaging.ImageAttributes();
+			imageAttributes.ClearColorMatrix();
+			imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+			using (Graphics g = Graphics.FromImage(output))
+			{
+				g.DrawImage(image, new Rectangle(0, 0, output.Width, output.Height),
+					0, 0, image.Width, image.Height, GraphicsUnit.Pixel, imageAttributes);
+			}
+			return output;
+		}
+
+
 		public static IEnumerable<Color> GetColorGradients(Color start, Color end, int steps)
 		{
 			int stepA = ((end.A - start.A) / (steps - 1));
@@ -1708,6 +1931,95 @@ namespace EDHM_UI_mk2
 											start.R + (stepR * i),
 											start.G + (stepG * i),
 											start.B + (stepB * i));
+			}
+		}
+
+		/// <summary>
+		/// Creates a Color from alpha, hue, saturation and brightness.
+		/// </summary>
+		/// <param name="alpha">The alpha channel value.</param>
+		/// <param name="hue">The hue value.</param>
+		/// <param name="saturation">The saturation value.</param>
+		/// <param name="brightness">The brightness value.</param>
+		/// <returns>A Color with the given values.</returns>
+		public static Color FromAhsb(int alpha, float hue, float saturation, float brightness)
+		{
+
+			if (0 > alpha || 255 < alpha)
+			{
+				throw new ArgumentOutOfRangeException("alpha", alpha,
+				  "Value must be within a range of 0 - 255.");
+			}
+			if (0f > hue || 360f < hue)
+			{
+				throw new ArgumentOutOfRangeException("hue", hue,
+				  "Value must be within a range of 0 - 360.");
+			}
+			if (0f > saturation || 1f < saturation)
+			{
+				throw new ArgumentOutOfRangeException("saturation", saturation,
+				  "Value must be within a range of 0 - 1.");
+			}
+			if (0f > brightness || 1f < brightness)
+			{
+				throw new ArgumentOutOfRangeException("brightness", brightness,
+				  "Value must be within a range of 0 - 1.");
+			}
+
+			if (0 == saturation)
+			{
+				return Color.FromArgb(alpha, Convert.ToInt32(brightness * 255),
+				  Convert.ToInt32(brightness * 255), Convert.ToInt32(brightness * 255));
+			}
+
+			float fMax, fMid, fMin;
+			int iSextant, iMax, iMid, iMin;
+
+			if (0.5 < brightness)
+			{
+				fMax = brightness - (brightness * saturation) + saturation;
+				fMin = brightness + (brightness * saturation) - saturation;
+			}
+			else
+			{
+				fMax = brightness + (brightness * saturation);
+				fMin = brightness - (brightness * saturation);
+			}
+
+			iSextant = (int)Math.Floor(hue / 60f);
+			if (300f <= hue)
+			{
+				hue -= 360f;
+			}
+			hue /= 60f;
+			hue -= 2f * (float)Math.Floor(((iSextant + 1f) % 6f) / 2f);
+			if (0 == iSextant % 2)
+			{
+				fMid = hue * (fMax - fMin) + fMin;
+			}
+			else
+			{
+				fMid = fMin - hue * (fMax - fMin);
+			}
+
+			iMax = Convert.ToInt32(fMax * 255);
+			iMid = Convert.ToInt32(fMid * 255);
+			iMin = Convert.ToInt32(fMin * 255);
+
+			switch (iSextant)
+			{
+				case 1:
+					return Color.FromArgb(alpha, iMid, iMax, iMin);
+				case 2:
+					return Color.FromArgb(alpha, iMin, iMax, iMid);
+				case 3:
+					return Color.FromArgb(alpha, iMin, iMid, iMax);
+				case 4:
+					return Color.FromArgb(alpha, iMid, iMin, iMax);
+				case 5:
+					return Color.FromArgb(alpha, iMax, iMin, iMid);
+				default:
+					return Color.FromArgb(alpha, iMax, iMid, iMin);
 			}
 		}
 
@@ -1767,7 +2079,10 @@ namespace EDHM_UI_mk2
 			{
 				if (File.Exists(ZIPfilePath))
 				{
-					if (!Directory.Exists(DestinationFolder)) Directory.CreateDirectory(DestinationFolder);
+					if (!Directory.Exists(DestinationFolder))
+					{
+						Directory.CreateDirectory(DestinationFolder);
+					}
 
 					using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(ZIPfilePath))
 					{
@@ -1836,7 +2151,10 @@ namespace EDHM_UI_mk2
 		{
 			double[][] result = new double[rows][];
 			for (int i = 0; i < rows; ++i)
+			{
 				result[i] = new double[cols];
+			}
+
 			return result;
 		}
 		public static double[][] MatrixIdentity(int n)
@@ -1844,7 +2162,9 @@ namespace EDHM_UI_mk2
 			// return an n x n Identity matrix
 			double[][] result = MatrixCreate(n, n);
 			for (int i = 0; i < n; ++i)
+			{
 				result[i][i] = 1.0;
+			}
 
 			return result;
 		}
@@ -1853,14 +2173,22 @@ namespace EDHM_UI_mk2
 			int aRows = matrixA.Length; int aCols = matrixA[0].Length;
 			int bRows = matrixB.Length; int bCols = matrixB[0].Length;
 			if (aCols != bRows)
+			{
 				throw new Exception("Non-conformable matrices in MatrixProduct");
+			}
 
 			double[][] result = MatrixCreate(aRows, bCols);
 
 			for (int i = 0; i < aRows; ++i) // each row of A
+			{
 				for (int j = 0; j < bCols; ++j) // each col of B
+				{
 					for (int k = 0; k < aCols; ++k) // could use k less-than bRows
+					{
 						result[i][j] += matrixA[i][k] * matrixB[k][j];
+					}
+				}
+			}
 
 			return result;
 		}
@@ -1874,7 +2202,9 @@ namespace EDHM_UI_mk2
 			double[][] lum = MatrixDecompose(matrix, out perm,
 			  out toggle);
 			if (lum == null)
+			{
 				throw new Exception("Unable to compute inverse");
+			}
 
 			double[] b = new double[n];
 			for (int i = 0; i < n; ++i)
@@ -1882,15 +2212,21 @@ namespace EDHM_UI_mk2
 				for (int j = 0; j < n; ++j)
 				{
 					if (i == perm[j])
+					{
 						b[j] = 1.0;
+					}
 					else
+					{
 						b[j] = 0.0;
+					}
 				}
 
 				double[] x = HelperSolve(lum, b);
 
 				for (int j = 0; j < n; ++j)
+				{
 					result[j][i] = x[j];
+				}
 			}
 			return result;
 		}
@@ -1899,8 +2235,13 @@ namespace EDHM_UI_mk2
 			// allocates/creates a duplicate of a matrix.
 			double[][] result = MatrixCreate(matrix.Length, matrix[0].Length);
 			for (int i = 0; i < matrix.Length; ++i) // copy the values
+			{
 				for (int j = 0; j < matrix[i].Length; ++j)
+				{
 					result[i][j] = matrix[i][j];
+				}
+			}
+
 			return result;
 		}
 		public static double[] HelperSolve(double[][] luMatrix, double[] b)
@@ -1915,7 +2256,10 @@ namespace EDHM_UI_mk2
 			{
 				double sum = x[i];
 				for (int j = 0; j < i; ++j)
+				{
 					sum -= luMatrix[i][j] * x[j];
+				}
+
 				x[i] = sum;
 			}
 
@@ -1924,7 +2268,10 @@ namespace EDHM_UI_mk2
 			{
 				double sum = x[i];
 				for (int j = i + 1; j < n; ++j)
+				{
 					sum -= luMatrix[i][j] * x[j];
+				}
+
 				x[i] = sum / luMatrix[i][i];
 			}
 
@@ -1938,7 +2285,9 @@ namespace EDHM_UI_mk2
 			int rows = matrix.Length;
 			int cols = matrix[0].Length; // assume square
 			if (rows != cols)
+			{
 				throw new Exception("Attempt to decompose a non-square m");
+			}
 
 			int n = rows; // convenience
 
@@ -2002,11 +2351,15 @@ namespace EDHM_UI_mk2
 					for (int row = j + 1; row < n; ++row)
 					{
 						if (result[row][j] != 0.0)
+						{
 							goodRow = row;
+						}
 					}
 
 					if (goodRow == -1)
+					{
 						throw new Exception("Cannot use Doolittle's method");
+					}
 
 					// swap rows so 0.0 no longer on diagonal
 					double[] rowPtr = result[goodRow];
@@ -2196,8 +2549,8 @@ namespace EDHM_UI_mk2
 			{
 				return await reader.ReadToEndAsync();
 			}
-		} 
-		
+		}
+
 		#endregion
 	}
 
@@ -2207,8 +2560,8 @@ namespace EDHM_UI_mk2
 		public key_value() { }
 		public key_value(int _Key, decimal _Value)
 		{
-			this.key = _Key;
-			this.value = _Value;
+			key = _Key;
+			value = _Value;
 		}
 
 		public int key { get; set; }
@@ -2221,7 +2574,7 @@ namespace EDHM_UI_mk2
 
 		public override string ToString()
 		{
-			return string.Format("{0}: {1}", this.key, this.value);
+			return string.Format("{0}: {1}", key, value);
 		}
 	}
 
@@ -2231,8 +2584,8 @@ namespace EDHM_UI_mk2
 		public key_value_ex() { }
 		public key_value_ex(string _Key, string _Value)
 		{
-			this.key = _Key;
-			this.value = _Value;
+			key = _Key;
+			value = _Value;
 		}
 
 		public string key { get; set; }
@@ -2247,7 +2600,7 @@ namespace EDHM_UI_mk2
 
 		public override string ToString()
 		{
-			return string.Format("{0}: {1}", this.key, this.value);
+			return string.Format("{0}: {1}", key, value);
 		}
 	}
 
@@ -2257,8 +2610,8 @@ namespace EDHM_UI_mk2
 		public value_key() { }
 		public value_key(string _Key, decimal _Value)
 		{
-			this.key = _Key;
-			this.value = _Value;
+			key = _Key;
+			value = _Value;
 		}
 
 		public string key { get; set; }
@@ -2270,7 +2623,7 @@ namespace EDHM_UI_mk2
 		}
 		public override string ToString()
 		{
-			return string.Format("{0}: {1}", this.key, this.value);
+			return string.Format("{0}: {1}", key, value);
 		}
 	}
 
@@ -2281,8 +2634,8 @@ namespace EDHM_UI_mk2
 		public Codiguera() { }
 		public Codiguera(int _code, string _description)
 		{
-			this.code = _code;
-			this.description = _description;
+			code = _code;
+			description = _description;
 		}
 
 		public int code { get; set; }
