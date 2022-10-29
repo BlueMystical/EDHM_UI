@@ -36,6 +36,7 @@ namespace EDHM_UI_mk2
 		public ui_setting DefaultSettings { get; set; }
 		public ui_preset_new SelectedTheme { get; set; }
 		public player_loadout Shipyard { get; set; }
+
 		public ui_group GlobalSettings { get; set; }
 		public ui_group UserSettings { get; set; }
 
@@ -1747,9 +1748,12 @@ namespace EDHM_UI_mk2
 							//Cargar las propiedades
 							try
 							{
-								vGridDetalles.BeginUpdate();
-								vGridDetalles.Rows.Clear();
-
+								Invoke((MethodInvoker)(() =>
+								{
+									vGridDetalles.BeginUpdate();
+									vGridDetalles.Rows.Clear();
+								}));
+								
 								foreach (element _Element in _UIGroup.Elements)
 								{
 									//Aqui Busca la Traduccion para el Elemento indicado (x Clave) y el Idioma Seleccionado:
@@ -1757,10 +1761,12 @@ namespace EDHM_UI_mk2
 									if (_TileTrans != null)
 									{
 										var _Translation = _TileTrans.lang.FirstOrDefault(x => x.key == LangShort);
-
-										_Element.Category = _Translation.category;
-										_Element.Title = _Translation.value;
-										_Element.Description = _Translation.description;
+										if (_Translation != null)
+										{
+											_Element.Category = _Translation.category.NVL(_Element.Category);
+											_Element.Title = _Translation.value.NVL(_Element.Title);
+											_Element.Description = _Translation.description.NVL(_Element.Description);
+										}
 									}
 
 									EditorRow _Fila = new DevExpress.XtraVerticalGrid.Rows.EditorRow(_Element.Title);
@@ -2134,7 +2140,10 @@ namespace EDHM_UI_mk2
 									}
 									else
 									{
-										vGridDetalles.Rows.Add(_Fila);
+										Invoke((MethodInvoker)(() =>
+										{
+											vGridDetalles.Rows.Add(_Fila);
+										}));										
 									}
 
 									if (_Fila != null && _Element.Title == SelectRowName)
@@ -5109,7 +5118,7 @@ namespace EDHM_UI_mk2
 
 		#endregion
 
-		#region Search
+		#region Search Box
 
 		private void SearchElement(string _NameFilter)
 		{
@@ -5124,6 +5133,8 @@ namespace EDHM_UI_mk2
 
 						try
 						{
+							#region Buscar Elementos del HUD
+														
 							foreach (ui_group _UIGroup in Settings.ui_groups)
 							{
 								//Busca en los nombres de los grupos (Categorias)
@@ -5144,6 +5155,10 @@ namespace EDHM_UI_mk2
 								}
 							}
 
+							#endregion
+
+							#region Buscar Themas y Autores
+														
 							//Busca tambien en la lista de temas:
 							if (UI_Themes.IsNotEmpty())
 							{
@@ -5163,6 +5178,25 @@ namespace EDHM_UI_mk2
 									}
 								}
 							}
+
+							#endregion
+
+							#region Busca el las Global Settings
+														
+							if (this.GlobalSettings != null && GlobalSettings.Elements.IsNotEmpty())
+							{
+								var _ret = GlobalSettings.Elements.FindAll(x => x.Title.ToUpper().Contains(_NameFilter.ToUpper()) );
+								if (_ret != null)
+								{
+									foreach (var _Element in _ret)
+									{
+										_Element.Parent = "Global Settings";
+									}
+									_Results.AddRange(_ret);
+								}
+							}
+
+							#endregion
 						}
 						catch (Exception ex)
 						{
@@ -5189,6 +5223,60 @@ namespace EDHM_UI_mk2
 			catch (Exception ex)
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
+		private void ShowSearchedElement(element _Element)
+		{
+			try
+			{
+				if (_Element != null)
+				{
+					if (_Element.Parent == "Global Settings")
+					{
+						Invoke((MethodInvoker)(() =>
+						{
+							if (vGridGlobalSettings.Rows != null && vGridGlobalSettings.Rows.Count > 0)
+							{
+								dockManager1.ActivePanel = dockGlobalSettings;
+
+								foreach (var Category_Row in vGridGlobalSettings.Rows)
+								{
+									if (Category_Row.Name == _Element.Category)
+									{
+										foreach (var Element_Row in Category_Row.ChildRows)
+										{
+											if (Element_Row.Properties.Caption == _Element.Title)
+											{
+												vGridGlobalSettings.FocusedRow = Element_Row; break;
+											}
+										}
+									}
+								}
+							}
+						}));
+					}
+					else if (_Element.Parent == "Themes")
+					{
+						Invoke((MethodInvoker)(() =>
+						{
+							int rowHandle = gridView1.LocateByValue("name", _Element.File);
+							if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+							{
+								gridView1.FocusedRowHandle = rowHandle;
+								dockManager1.ActivePanel = dockThemes;
+							}
+						}));
+					}
+					else
+					{
+						//UI Details:
+						LoadGroupSettings(_Element.Parent, _Element.Title);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -5244,23 +5332,7 @@ namespace EDHM_UI_mk2
 				DevExpress.XtraGrid.Views.Grid.GridView View = sender as DevExpress.XtraGrid.Views.Grid.GridView;
 				if (View != null)
 				{
-					element _Element = (element)View.GetFocusedRow();
-					if (_Element != null)
-					{
-						if (_Element.Category == "Theme")
-						{
-							int rowHandle = gridView1.LocateByValue("name", _Element.File);
-							if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
-							{
-								gridView1.FocusedRowHandle = rowHandle;
-								dockManager1.ActivePanel = dockThemes;
-							}
-						}
-						else
-						{
-							LoadGroupSettings(_Element.Parent, _Element.Title);
-						}
-					}
+					ShowSearchedElement((element)View.GetFocusedRow());					
 				}
 			}
 			catch (Exception ex)
@@ -5664,14 +5736,6 @@ namespace EDHM_UI_mk2
 									{
 										vGridGlobalSettings.Rows.Add(_Fila);
 									}
-
-									//if (_Fila != null && _Element.Title == SelectRowName)
-									//{
-									//	Invoke((MethodInvoker)(() =>
-									//	{
-									//		this.vGridGlobalSettings.FocusedRow = _Fila;
-									//	}));
-									//}
 
 									#endregion
 								}

@@ -203,9 +203,10 @@
 			this.mnuTheme_Preview = new DevExpress.XtraBars.BarButtonItem();
 			this.mnuUserSettings_Add = new DevExpress.XtraBars.BarButtonItem();
 			this.mnuRemoveUserSettings = new DevExpress.XtraBars.BarButtonItem();
-			this.popupMenu_UserSettings = new DevExpress.XtraBars.PopupMenu(this.components);
+			this.mnuGlobalToUserSettings = new DevExpress.XtraBars.BarButtonItem();
 			this.popupMenu_Detalles = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.popupMenu_GlobalSettings = new DevExpress.XtraBars.PopupMenu(this.components);
+			this.popupMenu_UserSettings = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.tileGroup1 = new DevExpress.XtraEditors.TileGroup();
 			this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -213,7 +214,6 @@
 			this.mnuTray_Exit = new System.Windows.Forms.ToolStripMenuItem();
 			this.progressPanel1 = new DevExpress.XtraWaitForm.ProgressPanel();
 			this.popupMenu_Themes = new DevExpress.XtraBars.PopupMenu(this.components);
-			this.mnuGlobalToUserSettings = new DevExpress.XtraBars.BarButtonItem();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repCboGameInstances)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repProgressBar)).BeginInit();
@@ -272,9 +272,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.vGridUserSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.popupMenu_UserSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.popupMenu_UserSettings)).BeginInit();
 			this.contextMenuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Themes)).BeginInit();
 			this.SuspendLayout();
@@ -1545,7 +1545,7 @@
 			this.splitContainerControl1.Panel2.Controls.Add(this.GlobalSettings_Title);
 			this.splitContainerControl1.Panel2.Text = "Panel2";
 			this.splitContainerControl1.Size = new System.Drawing.Size(487, 558);
-			this.splitContainerControl1.SplitterPosition = 368;
+			this.splitContainerControl1.SplitterPosition = 443;
 			this.splitContainerControl1.TabIndex = 0;
 			// 
 			// vGridGlobalSettings
@@ -1577,7 +1577,7 @@
 			this.vGridGlobalSettings.RowHeaderWidth = 199;
 			this.vGridGlobalSettings.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.editorRow1});
-			this.vGridGlobalSettings.Size = new System.Drawing.Size(487, 368);
+			this.vGridGlobalSettings.Size = new System.Drawing.Size(487, 443);
 			this.vGridGlobalSettings.TabIndex = 1;
 			this.vGridGlobalSettings.FocusedRowChanged += new DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventHandler(this.vGridGlobalSettings_FocusedRowChanged);
 			this.vGridGlobalSettings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vGridGlobalSettings_MouseDown);
@@ -1608,7 +1608,7 @@
 			this.GlobalSettings_Description.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GlobalSettings_Description.Location = new System.Drawing.Point(0, 20);
 			this.GlobalSettings_Description.Name = "GlobalSettings_Description";
-			this.GlobalSettings_Description.Size = new System.Drawing.Size(487, 138);
+			this.GlobalSettings_Description.Size = new System.Drawing.Size(487, 63);
 			this.GlobalSettings_Description.TabIndex = 2;
 			// 
 			// GlobalSettings_Title
@@ -1662,7 +1662,7 @@
 			this.splitContainer_UserSettings.Panel2.Controls.Add(this.UserSettings_Title);
 			this.splitContainer_UserSettings.Panel2.Text = "Panel2";
 			this.splitContainer_UserSettings.Size = new System.Drawing.Size(487, 558);
-			this.splitContainer_UserSettings.SplitterPosition = 395;
+			this.splitContainer_UserSettings.SplitterPosition = 446;
 			this.splitContainer_UserSettings.TabIndex = 0;
 			// 
 			// vGridUserSettings
@@ -1694,7 +1694,7 @@
 			this.vGridUserSettings.RowHeaderWidth = 199;
 			this.vGridUserSettings.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.editorRow2});
-			this.vGridUserSettings.Size = new System.Drawing.Size(487, 395);
+			this.vGridUserSettings.Size = new System.Drawing.Size(487, 446);
 			this.vGridUserSettings.TabIndex = 2;
 			this.vGridUserSettings.FocusedRowChanged += new DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventHandler(this.vGridUserSettings_FocusedRowChanged);
 			this.vGridUserSettings.MouseDown += new System.Windows.Forms.MouseEventHandler(this.vGridUserSettings_MouseDown);
@@ -1725,7 +1725,7 @@
 			this.UserSettings_Description.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.UserSettings_Description.Location = new System.Drawing.Point(0, 20);
 			this.UserSettings_Description.Name = "UserSettings_Description";
-			this.UserSettings_Description.Size = new System.Drawing.Size(487, 111);
+			this.UserSettings_Description.Size = new System.Drawing.Size(487, 60);
 			this.UserSettings_Description.TabIndex = 3;
 			// 
 			// UserSettings_Title
@@ -1864,12 +1864,13 @@
 			this.mnuRemoveUserSettings.Name = "mnuRemoveUserSettings";
 			this.mnuRemoveUserSettings.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuRemoveUserSettings_ItemClick);
 			// 
-			// popupMenu_UserSettings
+			// mnuGlobalToUserSettings
 			// 
-			this.popupMenu_UserSettings.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.mnuRemoveUserSettings)});
-			this.popupMenu_UserSettings.Manager = this.barManager1;
-			this.popupMenu_UserSettings.Name = "popupMenu_UserSettings";
+			this.mnuGlobalToUserSettings.Caption = "Add to User Settings";
+			this.mnuGlobalToUserSettings.Id = 52;
+			this.mnuGlobalToUserSettings.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuGlobalToUserSettings.ImageOptions.SvgImage")));
+			this.mnuGlobalToUserSettings.Name = "mnuGlobalToUserSettings";
+			this.mnuGlobalToUserSettings.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuGlobalToUserSettings_ItemClick);
 			// 
 			// popupMenu_Detalles
 			// 
@@ -1886,6 +1887,13 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuGlobalToUserSettings)});
 			this.popupMenu_GlobalSettings.Manager = this.barManager1;
 			this.popupMenu_GlobalSettings.Name = "popupMenu_GlobalSettings";
+			// 
+			// popupMenu_UserSettings
+			// 
+			this.popupMenu_UserSettings.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuRemoveUserSettings)});
+			this.popupMenu_UserSettings.Manager = this.barManager1;
+			this.popupMenu_UserSettings.Name = "popupMenu_UserSettings";
 			// 
 			// tileGroup1
 			// 
@@ -1951,14 +1959,6 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Save)});
 			this.popupMenu_Themes.Manager = this.barManager1;
 			this.popupMenu_Themes.Name = "popupMenu_Themes";
-			// 
-			// mnuGlobalToUserSettings
-			// 
-			this.mnuGlobalToUserSettings.Caption = "Add to User Settings";
-			this.mnuGlobalToUserSettings.Id = 52;
-			this.mnuGlobalToUserSettings.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuGlobalToUserSettings.ImageOptions.SvgImage")));
-			this.mnuGlobalToUserSettings.Name = "mnuGlobalToUserSettings";
-			this.mnuGlobalToUserSettings.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuGlobalToUserSettings_ItemClick);
 			// 
 			// MainForm
 			// 
@@ -2042,9 +2042,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.vGridUserSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemZoomTrackBar3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repositoryItemSpinEdit3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.popupMenu_UserSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Detalles)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_GlobalSettings)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.popupMenu_UserSettings)).EndInit();
 			this.contextMenuStrip1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.popupMenu_Themes)).EndInit();
 			this.ResumeLayout(false);
