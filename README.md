@@ -21,7 +21,7 @@ Current features include:
 * Bundled with the latest EDHM version - no need to install EDHM separately.
 * Bundled with lots of pre-made, community-contributed themes.
 * Fully compatible with both Horizons and Odyssey!
-* Translated to 5 languages: EN, RU, DE, FR, IT.
+* Translated to 6 languages: EN, RU, DE, FR, IT, PT.
 
 ## Requirements
 
