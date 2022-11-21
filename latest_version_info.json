@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.61.0",
-   "last_installer": "2.1.61.0",
+   "app_version": "2.1.62.0",
+   "last_installer": "2.1.62.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.11.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- You can now change the UI program skin.",
+   "changelog": "- Only theme Thanges.",
    "re_install": true,
    "run_hotfix": false
 }
