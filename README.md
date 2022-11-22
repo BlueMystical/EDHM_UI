@@ -46,7 +46,8 @@ indicate the default locations used by ED for various services.
 
 ## Further reading
 
-* [EDHM_UI Web](https://edhm-ui.herokuapp.com)
+* [EDHM_UI Web](https://bluemystical.github.io/edhm-api/)
+
 * [EDHM_UI Wiki](https://github.com/BlueMystical/EDHM_UI/wiki)
 * [EDHM (GitHub)](https://github.com/psychicEgg/EDHM)
 * [EDHM (Reddit)](https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_dangerous_hud_mod_edhm_custom_huds_without/)
