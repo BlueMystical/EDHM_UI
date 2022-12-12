@@ -40,14 +40,12 @@ can get it [here](https://dotnet.microsoft.com/download/dotnet-framework/net452)
 
 The first time EDHM_UI runs, it will prompt you for the Elite Dangerous game
 folder. This determines where the EDHM core mod will be installed. The location
-varies depending on which version of ED you have installed. The following
-indicate the default locations used by ED for various services.
+varies depending on which version of ED you have installed. Simply click the Green Button and do as the Assistant says.
 
 
 ## Further reading
 
-* [EDHM_UI Website](https://bluemystical.github.io/edhm-api/)
-
+* [EDHM Website](https://bluemystical.github.io/edhm-api/)
 * [EDHM (GitHub)](https://github.com/psychicEgg/EDHM)
 * [EDHM (Reddit)](https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_dangerous_hud_mod_edhm_custom_huds_without/)
 
