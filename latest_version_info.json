@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.67.0",
-   "last_installer": "2.1.67.0",
+   "app_version": "2.1.69.0",
+   "last_installer": "2.1.69.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.11.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Small update to fix the Custom colour % on the multi-ring shield, that's all!",
+   "changelog": "- Added the possibility of having more than 2 games per instance in the Settings.\r\n- Fixed a bug while Saving Themes.\r\n- Your changes in the Key bindings will now be preserved between updates.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
