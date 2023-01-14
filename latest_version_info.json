@@ -1,12 +1,12 @@
 {
-   "app_version": "2.1.71.0",
-   "last_installer": "2.1.71.0",
+   "app_version": "2.1.72.0",
+   "last_installer": "2.1.72.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.11.2.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Added the SRVs to the Shipyard, so now they can have their own color themes.",
-   "notification": "",
+   "changelog": "- Fixed Theme's panel visibility on 3PM manager.",
+   "notification": "You can now Color all the Ship's Interior with our CPM !",
    "re_install": true,
    "run_hotfix": true
 }
