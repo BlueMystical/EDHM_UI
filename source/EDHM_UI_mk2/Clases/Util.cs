@@ -305,17 +305,28 @@ namespace EDHM_UI_mk2
 		/// <param name="Path">XPath string, ex: '/GraphicsConfig/GalaxyMap[@Something='Server']' /</param>
 		/// <param name="Key">Name of the Key which value we want</param>
 		/// <param name="DefaultValue">Default value to return if the key or value is missing.</param>
-		public static string GetValue(this XmlDocument xmlFile, string Path, string Key, string DefaultValue = "")
+		public static string XML_GetValue(this XmlDocument xmlFile, string Path, string Key, string DefaultValue = "")
 		{
 			string _ret = DefaultValue;
 			try
 			{
 				if (xmlFile != null && Path != string.Empty)
 				{
-					var a = xmlFile.SelectSingleNode(Path + "/" + Key);
-					if (a != null)
+					if (Key != null && Key != string.Empty)
 					{
-						_ret = a.InnerText;
+						var a = xmlFile.SelectSingleNode(Path + "/" + Key);
+						if (a != null)
+						{
+							_ret = a.InnerText;
+						}
+					}
+					else
+					{
+						var a = xmlFile.SelectSingleNode(Path);
+						if (a != null)
+						{
+							_ret = a.InnerText;
+						}
 					}
 				}
 
@@ -332,7 +343,7 @@ namespace EDHM_UI_mk2
 		/// <param name="xmlFile">XML Document to write in</param>
 		/// <param name="Path">XPath string, ex: '/GraphicsConfig/GalaxyMap[@Something='Server']' /</param>
 		/// <param name="Value">Value to Write</param>
-		public static void SetValue(this XmlDocument xmlFile, string Path, string Value)
+		public static void XML_SetValue(this XmlDocument xmlFile, string Path, string Value)
 		{
 			if (xmlFile == null)
 			{
@@ -362,7 +373,7 @@ namespace EDHM_UI_mk2
 		/// <summary>Save the changes in the XML file, preserving indentation and Encoding.</summary>
 		/// <param name="doc">XML Document to SAve</param>
 		/// <param name="FilePath">Full File Path</param>
-		public static void SaveBeautify(this XmlDocument doc, string FilePath)
+		public static void XML_SaveBeautify(this XmlDocument doc, string FilePath)
 		{
 			var settings = new XmlWriterSettings
 			{
@@ -2079,10 +2090,7 @@ namespace EDHM_UI_mk2
 			{
 				if (File.Exists(ZIPfilePath))
 				{
-					if (!Directory.Exists(DestinationFolder))
-					{
-						Directory.CreateDirectory(DestinationFolder);
-					}
+					if (!Directory.Exists(DestinationFolder)) Directory.CreateDirectory(DestinationFolder);
 
 					using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(ZIPfilePath))
 					{
@@ -2130,7 +2138,11 @@ namespace EDHM_UI_mk2
 					System.Configuration.ConfigurationManager.OpenExeConfiguration(
 						System.Configuration.ConfigurationUserLevel.None);
 
-				config.AppSettings.Settings[Key].Value = Value;
+				if (config.AppSettings.Settings[Key] == null)
+					config.AppSettings.Settings.Add(Key,	 Value.ToString());
+				else
+					config.AppSettings.Settings[Key].Value = Value.ToString();
+
 				config.Save(System.Configuration.ConfigurationSaveMode.Modified);
 
 				System.Configuration.ConfigurationManager.RefreshSection("appSettings");

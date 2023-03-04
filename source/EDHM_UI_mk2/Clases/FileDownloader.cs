@@ -424,6 +424,7 @@ namespace EDHM_UI_mk2.Clases
 		public string install_url { get; set; }
 
 		public string changelog { get; set; }
+		public string notification { get; set; }
 
 		public bool re_install { get; set; }
 		public bool run_hotfix { get; set; }

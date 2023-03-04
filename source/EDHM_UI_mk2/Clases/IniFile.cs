@@ -32,6 +32,7 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+
 		public string ReadKey(string Key, string Section = null)
 		{
 			string _ret = string.Empty;

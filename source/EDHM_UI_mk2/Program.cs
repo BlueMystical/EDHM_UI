@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
-using DevExpress.UserSkins;
-using DevExpress.Skins;
-using DevExpress.LookAndFeel;
 
 namespace EDHM_UI_mk2
 {
@@ -18,6 +14,18 @@ namespace EDHM_UI_mk2
 		{
 			try
 			{
+				//Matar Otras Instancias de esta Aplicacion:
+				Process[] tbPro = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
+				foreach (Process p in tbPro)
+				{
+					if (p.Id != Process.GetCurrentProcess().Id)
+					{
+						p.Kill();
+					}
+				}
+
+				DevExpress.UserSkins.BonusSkins.Register();
+
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
 				Application.Run(new MainForm(args));

@@ -3780,6 +3780,48 @@
     ]
   },
   {
+    "id": "y108",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "XML Text Override",
+        "category": "Main Text",
+        "description": "This will override ALL text with your XML colour matrix."
+      },
+      {
+        "key": "de",
+        "value": "XML-Textüberschreibung",
+        "category": "Haupttext",
+        "description": "Dadurch wird ALLER Text mit Ihrer XML-Farbmatrix überschrieben."
+      },
+      {
+        "key": "fr",
+        "value": "Remplacement de texte XML",
+        "category": "Texte principal",
+        "description": "Cela remplacera TOUT le texte par votre matrice de couleurs XML."
+      },
+      {
+        "key": "it",
+        "value": "Sostituzione del testo XML",
+        "category": "Testo principale",
+        "description": "Questo sovrascriverà TUTTO il testo con la tua matrice di colori XML."
+      },
+      {
+        "key": "ru",
+        "value": "Переопределение текста XML",
+        "category": "Основной текст",
+        "description": "Это переопределит ВЕСЬ текст вашей цветовой матрицей XML."
+      },
+      {
+        "key": "pt",
+        "value": "Substituição de Texto XMLo",
+        "category": "Texto principal",
+        "description": "Isso substituirá TODO o texto pela sua matriz de cores XML."
+      }
+    ]
+  },
+  {
     "id": "y78",
     "group": "Element",
     "lang": [
@@ -3864,6 +3906,48 @@
     ]
   },
   {
+    "id": "z108",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Glitching HUD mode",
+        "category": "HUD Effects",
+        "description": "The HUD will sometimes glitch when taking damage, and by default is orange."
+      },
+      {
+        "key": "de",
+        "value": "Fehlerhafter HUD-Modus",
+        "category": "HUD-Effekte",
+        "description": "Das HUD zeigt manchmal Störungen, wenn es Schaden erleidet, und ist standardmäßig orange."
+      },
+      {
+        "key": "fr",
+        "value": "Mode HUD glitch",
+        "category": "Effets HUD",
+        "description": "Le HUD se bloque parfois lorsqu'il subit des dégâts et est orange par défaut."
+      },
+      {
+        "key": "it",
+        "value": "Modalità HUD glitch",
+        "category": "Effetti HUD",
+        "description": "L'HUD a volte si guasta quando subisce danni e per impostazione predefinita è arancione."
+      },
+      {
+        "key": "ru",
+        "value": "Глючит режим HUD",
+        "category": "HUD-эффекты",
+        "description": "HUD иногда дает сбои при получении урона и по умолчанию оранжевый."
+      },
+      {
+        "key": "pt",
+        "value": "Modo HUD com falha",
+        "category": "Efeitos HUD",
+        "description": "O HUD às vezes falha ao receber dano e, por padrão, é laranja."
+      }
+    ]
+  },
+  {
     "id": "z78",
     "group": "Element",
     "lang": [
@@ -3905,7 +3989,7 @@
     "lang": [
       {
         "key": "en",
-        "value": "Icon Mode",
+        "value": "Icons & Travel lines Mode",
         "category": "Galaxy Map",
         "description": "GalMap Icon Colour (excluding Engineering), and Travel Line colour."
       },
@@ -3947,37 +4031,79 @@
     "lang": [
       {
         "key": "en",
-        "value": "Icon Colour",
+        "value": "Icons & Travel lines Colour",
         "category": "Galaxy Map",
-        "description": "Custom Color for GalMap Icon Colour. *Alpha*"
+        "description": "Custom Color for Icons & Travel lines on GalMap. *Alpha*"
       },
       {
         "key": "de",
         "value": "Symbolfarbe",
         "category": "Galaxiekarte",
-        "description": "Benutzerdefinierte Farbe für Galaxiekartensymbole. *Alpha*"
+        "description": "Benutzerdefinierte Farbe für Symbole und Reiselinien auf GalMap. *Alpha*"
       },
       {
         "key": "fr",
         "value": "Couleur de l'icône",
         "category": "Carte de la galaxie",
-        "description": "Couleur personnalisée pour la couleur de l'icône GalMap. *Alpha*"
+        "description": "Couleur personnalisée pour les icônes et les lignes de voyage sur GalMap. *Alpha*"
       },
       {
         "key": "it",
         "value": "Colore icona",
         "category": "Mappa Galaxy",
-        "description": "Colore personalizzato per il colore icona GalMap. *Alfa*"
+        "description": "Colore personalizzato per icone e linee di viaggio su GalMap. *Alfa*"
       },
       {
         "key": "ru",
         "value": "Цвет значка",
         "category": "Карта Галактики",
-        "description": "Пользовательский цвет для цвета значка GalMap. *Альфа*"
+        "description": "Пользовательский цвет для значков и линий путешествий на GalMap. *Альфа*"
       },
       {
         "key": "pt",
         "value": "Icon Color",
+        "category": "Mapa da Galáxia",
+        "description": "Cor personalizada para linhas de ícones e viagens no GalMap. *Alfa*"
+      }
+    ]
+  },
+  {
+    "id": "x110|y110|z110|w110",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Repair / Damaged Stations",
+        "category": "Galaxy Map",
+        "description": "Custom Color for GalMap Repair / Damaged Stations Icon Colour. *Alpha*\r\n(this doesn't have a separate mode, only active if GalMap Icons set to Custom)."
+      },
+      {
+        "key": "de",
+        "value": "Reparatur / Beschädigte Stationen",
+        "category": "Galaxiekarte",
+        "description": "Benutzerdefinierte Farbe für Galaxiekartensymbole. *Alpha*"
+      },
+      {
+        "key": "fr",
+        "value": "Réparation / Stations endommagées",
+        "category": "Carte de la galaxie",
+        "description": "Couleur personnalisée pour la couleur de l'icône GalMap. *Alpha*"
+      },
+      {
+        "key": "it",
+        "value": "Riparazione / Stazioni danneggiate",
+        "category": "Mappa Galaxy",
+        "description": "Colore personalizzato per il colore icona GalMap. *Alfa*"
+      },
+      {
+        "key": "ru",
+        "value": "Ремонт / Поврежденные станции",
+        "category": "Карта Галактики",
+        "description": "Пользовательский цвет для цвета значка GalMap. *Альфа*"
+      },
+      {
+        "key": "pt",
+        "value": "Estações Reparadas / Danificadas",
         "category": "Mapa da Galáxia",
         "description": "Custom Color for GalMap Icon Color. *Alfa*"
       }
@@ -4064,6 +4190,48 @@
         "value": "Cor do ícone de engenharia",
         "category": "Mapa da Galáxia",
         "description": "Cor personalizada para a cor do ícone de engenharia GalMap. *Alfa*"
+      }
+    ]
+  },
+  {
+    "id": "x111",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Repair / Damaged Stations Icon Mode",
+        "category": "Galaxy Map",
+        "description": "GalMap Repair / Damaged Stations Icon Mode"
+      },
+      {
+        "key": "de",
+        "value": "Modus für Ingenieure",
+        "category": "Galaxiekarte",
+        "description": "Symbolmodus Reparieren / Beschädigte Stationen."
+      },
+      {
+        "key": "fr",
+        "value": "Mode icône d'ingénierie",
+        "category": "Carte de la galaxie",
+        "description": "Réparation / Mode icône des stations endommagées"
+      },
+      {
+        "key": "it",
+        "value": "Modalità icona ingegneria",
+        "category": "Mappa della galassia",
+        "description": "Modalità icona riparazione/stazioni danneggiate"
+      },
+      {
+        "key": "ru",
+        "value": "Инженерный режим значка",
+        "category": "Карта Галактики",
+        "description": "Режим значков ремонтных / поврежденных станций"
+      },
+      {
+        "key": "pt",
+        "value": "Modo de ícone de engenharia",
+        "category": "Mapa da Galáxia",
+        "description": "Reparar / Modo de ícone de estações danificadas"
       }
     ]
   },
@@ -4661,37 +4829,37 @@
     "lang": [
       {
         "key": "en",
-        "value": "Powers Panel Portrait",
+        "value": "CQC Rank Mode",
         "category": "CQC Rank on Ship Panel",
         "description": "Mode for CQC Rank on Ship Panel."
       },
       {
         "key": "de",
-        "value": "Powers-Panel-Portrait",
+        "value": "CQC-Rangmodus",
         "category": "Kräfte und GalNet",
         "description": "Modus für den CQC-Rang auf dem Schiffspanel."
       },
       {
         "key": "fr",
-        "value": "Portrait du panneau des pouvoirs",
+        "value": "Mode de classement CQC",
         "category": "Pouvoirs et GalNet",
         "description": "Mode pour le rang CQC sur le panneau du navire."
       },
       {
         "key": "it",
-        "value": "Ritratto del pannello dei poteri",
+        "value": "Modalità classifica CQC",
         "category": "Powers e GalNet",
         "description": "Modalità per il grado CQC sul pannello della nave."
       },
       {
         "key": "ru",
-        "value": "Полномочия Панели Портрет",
+        "value": "Режим ранга CQC",
         "category": "Пауэрс и галактическая сеть",
         "description": "Режим для ранга CQC на панели корабля."
       },
       {
         "key": "pt",
-        "value": "Retrato do painel de poderes",
+        "value": "Modo de Classificação CQC",
         "category": "Poderes e Rede Galaxy",
         "description": "Modo para CQC Rank no Painel de Navio."
       }
@@ -4736,6 +4904,48 @@
         "value": "Cor customizada",
         "category": "Classificação CQC no Painel de Navios",
         "description": "Cor personalizada para classificação CQC no painel do navio. *Alfa*"
+      }
+    ]
+  },
+  {
+    "id": "x119",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Brightness for Rank Text",
+        "category": "CQC Rank on Ship Panel",
+        "description": "Brightness of CQC Rank Text (0 = OFF)"
+      },
+      {
+        "key": "de",
+        "value": "Helligkeit für Rangtext",
+        "category": "CQC-Rang im Schiffsfenster",
+        "description": "Helligkeit des CQC-Rangtextes (0 = AUS)"
+      },
+      {
+        "key": "fr",
+        "value": "Luminosité du texte de classement",
+        "category": "Classement CQC sur le panneau des navires",
+        "description": "Luminosité du texte de classement CQC (0 = OFF)"
+      },
+      {
+        "key": "it",
+        "value": "Luminosità per classificare il testo",
+        "category": "Classifica CQC sul pannello della nave",
+        "description": "Luminosità del testo rango CQC (0 = OFF)"
+      },
+      {
+        "key": "ru",
+        "value": "Яркость для рангового текста",
+        "category": "Ранг CQC на панели кораблей",
+        "description": "Яркость текста ранга CQC (0 = ВЫКЛ.)"
+      },
+      {
+        "key": "pt",
+        "value": "Brilho para texto de classificação",
+        "category": "Classificação CQC no Painel de Navios",
+        "description": "Brilho do texto de classificação CQC (0 = OFF)"
       }
     ]
   },
@@ -4820,6 +5030,90 @@
         "value": "Caixas de classificação no painel do navio",
         "category": "Poderes e Rede Galaxy",
         "description": "Modo para Caixas de Classificação no Painel de Navios."
+      }
+    ]
+  },
+  {
+    "id": "w123",
+    "group": "Element",
+    "lang": [
+      {
+        "category": "Combat Zone (CZ) Panel",
+        "key": "en",
+        "value": "Target Ship Subcomponents",
+        "description": "Mode for  Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents."
+      },
+      {
+        "key": "de",
+        "value": "Schiffsunterkomponenten anvisieren",
+        "category": "Panel Kampfzone (CZ).",
+        "description": "Modus für das Combat Zone (CZ) Panel und Targeting Panel Target Ship Subcomponents."
+      },
+      {
+        "key": "fr",
+        "value": "Sous-composants du navire cible",
+        "category": "Panneau Zone de combat (CZ)",
+        "description": "Panneau Mode pour la zone de combat (CZ) et panneau de ciblage Sous-composants du navire cible."
+      },
+      {
+        "key": "it",
+        "value": "Sottocomponenti della nave bersaglio",
+        "category": "Pannello della zona di combattimento (CZ).",
+        "description": "Pannello modalità per zona di combattimento (CZ) e pannello di puntamento Sottocomponenti della nave bersaglio."
+      },
+      {
+        "key": "ru",
+        "value": "Подкомпоненты целевого корабля",
+        "category": "Панель зоны боевых действий (CZ)",
+        "description": "Режим для панели «Зона боевых действий» (CZ) и панели «Нацеливание» на субкомпоненты кораблей-мишеней."
+      },
+      {
+        "key": "pt",
+        "value": "Subcomponentes do navio de destino",
+        "category": "Painel Zona de Combate (CZ)",
+        "description": "MModo para Painel de Zona de Combate (CZ) e Painel de Alvo Subcomponentes da Nave Alvo."
+      }
+    ]
+  },
+  {
+    "id": "x125|y125|z125|w125",
+    "group": "Element",
+    "lang": [
+      {
+        "category": "Combat Zone (CZ) Panel",
+        "key": "en",
+        "value": "Target Ship Subcomponents",
+        "description": "Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents."
+      },
+      {
+        "key": "de",
+        "value": "Schiffsunterkomponenten anvisieren",
+        "category": "Panel Kampfzone (CZ).",
+        "description": "Combat Zone (CZ) Panel und Targeting Panel Target Ship Subcomponents."
+      },
+      {
+        "key": "fr",
+        "value": "Sous-composants du navire cible",
+        "category": "Panneau Zone de combat (CZ)",
+        "description": "la zone de combat (CZ) et panneau de ciblage Sous-composants du navire cible."
+      },
+      {
+        "key": "it",
+        "value": "Sottocomponenti della nave bersaglio",
+        "category": "Pannello della zona di combattimento (CZ).",
+        "description": "zona di combattimento (CZ) e pannello di puntamento Sottocomponenti della nave bersaglio."
+      },
+      {
+        "key": "ru",
+        "value": "Подкомпоненты целевого корабля",
+        "category": "Панель зоны боевых действий (CZ)",
+        "description": "Режим для панели «Зона боевых действий» (CZ) и панели «Нацеливание» на субкомпоненты кораблей-мишеней."
+      },
+      {
+        "key": "pt",
+        "value": "Subcomponentes do navio de destino",
+        "category": "Painel Zona de Combate (CZ)",
+        "description": "Painel de Zona de Combate (CZ) e Painel de Alvo Subcomponentes da Nave Alvo."
       }
     ]
   },
@@ -5166,7 +5460,7 @@
       {
         "key": "en",
         "value": "FSD Charging Bar",
-        "category": "Warnings - SuperCruice",
+        "category": "Warnings - SuperCruise",
         "description": "Mode for FSD Charging Bar."
       },
       {
@@ -5178,25 +5472,25 @@
       {
         "key": "fr",
         "value": "Barre de chargement FSD",
-        "category": "Avertissements - SuperCruice",
+        "category": "Avertissements - SuperCruise",
         "description": "Mode pour la barre de chargement FSD."
       },
       {
         "key": "it",
         "value": "Barra di ricarica FSD",
-        "category": "Avvertenze - SuperCruice",
+        "category": "Avvertenze - SuperCruise",
         "description": "Modalità per barra di ricarica FSD."
       },
       {
         "key": "ru",
         "value": "Панель зарядки FSD",
-        "category": "Предупреждения — SuperCruice",
+        "category": "Предупреждения — SuperCruise",
         "description": "Режим для панели зарядки FSD."
       },
       {
         "key": "pt",
         "value": "FSD Charging Bar",
-        "category": "Avisos - SuperCruice",
+        "category": "Avisos - SuperCruise",
         "description": "Mode for FSD Charging Bar."
       }
     ]
@@ -5208,7 +5502,7 @@
       {
         "key": "en",
         "value": "FSD Charging Bar",
-        "category": "Warnings - SuperCruice",
+        "category": "Warnings - SuperCruise",
         "description": "Custom Color for FSD Charging Bar (*Alpha)."
       },
       {
@@ -5220,25 +5514,25 @@
       {
         "key": "fr",
         "value": "Barre de chargement FSD",
-        "category": "Avertissements - SuperCruice",
+        "category": "Avertissements - SuperCruise",
         "description": "Couleur personnalisée pour la barre de chargement FSD (*Alpha)."
       },
       {
         "key": "it",
         "value": "Barra di ricarica FSD",
-        "category": "Avvertenze - SuperCruice",
+        "category": "Avvertenze - SuperCruise",
         "description": "Colore personalizzato per barra di ricarica FSD (*Alpha)."
       },
       {
         "key": "ru",
         "value": "Полоса зарядки FSD",
-        "category": "Предупреждения — SuperCruice",
+        "category": "Предупреждения — SuperCruise",
         "description": "Пользовательский цвет для полосы зарядки FSD (*Alpha)."
       },
       {
         "key": "pt",
         "value": "FSD",
-        "category": "Avisos - Barra de carregamento SuperCruice",
+        "category": "Avisos - Barra de carregamento SuperCruise",
         "description": "Cor personalizada para barra de carregamento FSD (*Alpha)."
       }
     ]
@@ -6133,37 +6427,37 @@
         "key": "en",
         "value": "Custom Color",
         "category": "Nav Panel",
-        "description": "Custom Color for GalMap Engineering Icon Colour. *Alpha*"
+        "description": "Custom Color for Nav Panel, Current Location Pin/wedge. *Alpha*"
       },
       {
         "key": "de",
         "value": "Benutzerdefinierte Farbe",
         "category": "Navigationsbereich",
-        "description": "Benutzerdefinierte Farbe für GalMap Engineering Icon Farbe. *Alpha*"
+        "description": "Benutzerdefinierte Farbe für Nav Panel, Stift/Keil für aktuelle Position. *Alpha*"
       },
       {
         "key": "fr",
         "value": "Couleur personnalisée",
         "category": "Panneau de navigation",
-        "description": "Couleur personnalisée pour la couleur de l'icône GalMap Engineering. *Alpha*"
+        "description": "Couleur personnalisée pour le panneau de navigation, emplacement actuel Pin/coin. *Alpha*"
       },
       {
         "key": "it",
         "value": "Colore personalizzato",
         "category": "Pannello di navigazione",
-        "description": "Colore personalizzato per GalMap Engineering Icon Colore. *Alfa*"
+        "description": "Colore personalizzato per pannello di navigazione, pin/cuneo posizione corrente. *Alfa*"
       },
       {
         "key": "ru",
         "value": "Пользовательский цвет",
         "category": "Панель навигации",
-        "description": "Пользовательский цвет для цвета значка GalMap Engineering. *Альфа*"
+        "description": "Пользовательский цвет для панели навигации, булавка/клин текущего местоположения. *Альфа*"
       },
       {
         "key": "pt",
         "value": "Cor Personalizada",
         "category": "Painel de navegação",
-        "description": "Cor Personalizada para Cor do Ícone de Engenharia GalMap. *Alfa*"
+        "description": "Cor personalizada para painel de navegação, pino/cunha de localização atual. *Alfa*"
       }
     ]
   },
@@ -10476,37 +10770,37 @@
       {
         "key": "en",
         "value": "Brightness",
-        "category": "Single-Shield",
-        "description": "Overall Shields Brightness/Alpha (Single Mode)"
+        "category": "Shields",
+        "description": "Overall Brightness of shield area (set to 0.0 for shieldless / invisible shield)."
       },
       {
         "key": "de",
         "value": "Helligkeit",
-        "category": "Single-Schild",
+        "category": "Schilde",
         "description": "Gesamtschildhelligkeit/Alpha (Einzelmodus)"
       },
       {
         "key": "fr",
         "value": "Luminosité",
-        "category": "Bouclier unique",
+        "category": "Boucliers",
         "description": "Luminosité globale des boucliers/Alpha (mode unique)"
       },
       {
         "key": "it",
         "value": "Luminosità",
-        "category": "Schermo singolo",
+        "category": "Scudi",
         "description": "Luminosità/Alfa scudi complessivi (modalità singola)"
       },
       {
         "key": "ru",
         "value": "Яркость",
-        "category": "Одиночный экран",
+        "category": "Щиты",
         "description": "Общая яркость экранов/альфа-канал (одиночный режим)"
       },
       {
         "key": "pt",
         "value": "Brilho",
-        "category": "Escudo Único",
+        "category": "Escudos",
         "description": "Brilho do Escudo Geral/Alfa (Modo Único)"
       }
     ]
@@ -13399,6 +13693,7 @@
       }
     ]
   },
+
   {
     "id": "x136",
     "group": "Element",
@@ -13406,37 +13701,37 @@
       {
         "key": "en",
         "value": "Color Mode",
-        "category": "Radar Outer Components",
+        "category": "Heat Bar and Speed Bar",
         "description": "Mode for Heat Bar and Speed Bar"
       },
       {
         "key": "de",
         "value": "Farbmodus",
-        "category": "Äußere Radarkomponenten",
+        "category": "Heat-Bar und Speed-Bar",
         "description": "Modus für Hitze- und Geschwindigkeitsanzeige"
       },
       {
         "key": "fr",
         "value": "Mode couleur",
-        "category": "Composants externes du radar",
+        "category": "Barre de chaleur et barre de vitesse",
         "description": "Mode pour la barre de chaleur et la barre de vitesse"
       },
       {
         "key": "it",
         "value": "Modalità colore",
-        "category": "Componenti esterni radar",
+        "category": "Barra di calore e barra di velocità",
         "description": "Modalità per barra di calore e barra di velocità"
       },
       {
         "key": "ru",
         "value": "Цветовой режим",
-        "category": "Внешние компоненты радара",
+        "category": "бар нагрева и бар скорости",
         "description": "Режим для шкалы нагрева и полосы скорости"
       },
       {
         "key": "pt",
         "value": "Modo de Cor",
-        "category": "Componentes Externos do Radar",
+        "category": "barra de calor e barra de velocidade",
         "description": "Modo para Barra de Calor e Barra de Velocidade"
       }
     ]
@@ -13448,37 +13743,37 @@
       {
         "key": "en",
         "value": "Custom Color",
-        "category": "Radar Outer Components",
+        "category": "Heat Bar and Speed Bar",
         "description": "Outer Radar Components Custom Color."
       },
       {
         "key": "de",
         "value": "Benutzerdefinierte Farbe",
-        "category": "Äußere Radarkomponenten",
+        "category": "Wärmeleiste und Geschwindigkeitsleiste",
         "description": "Äußere Radarkomponenten Benutzerdefinierte Farbe."
       },
       {
         "key": "fr",
         "value": "Couleur personnalisée",
-        "category": "Composants externes du radar",
+        "category": "barre de chaleur et barre de vitesse",
         "description": "Couleur personnalisée des composants du radar externe."
       },
       {
         "key": "it",
         "value": "Colore personalizzato",
-        "category": "Componenti radar esterni",
+        "category": "barra di calore e barra di velocità",
         "description": "Colore personalizzato componenti radar esterni."
       },
       {
         "key": "ru",
         "value": "Пользовательский цвет",
-        "category": "Внешние компоненты радара",
+        "category": "бар нагрева и бар скорости",
         "description": "Пользовательский цвет внешних компонентов радара."
       },
       {
         "key": "pt",
         "value": "Cor Personalizada",
-        "category": "Componentes Externos do Radar",
+        "category": "barra de calor e barra de velocidade",
         "description": "Cor Personalizada dos Componentes Externos do Radar."
       }
     ]
@@ -13490,37 +13785,37 @@
       {
         "key": "en",
         "value": "Brightness",
-        "category": "Radar Outer Components",
+        "category": "Heat Bar and Speed Bar",
         "description": "Brightness (Range 0 to 2)"
       },
       {
         "key": "de",
-        "value": "Balkenverstärker",
-        "category": "Äußere Radarkomponenten",
+        "value": "Helligkeit",
+        "category": "Wärmeleiste und Geschwindigkeitsleiste",
         "description": "Balkenverstärker (erhöht die Helligkeit des Hintergrunds der Hitze- und Geschwindigkeitsanzeige)"
       },
       {
         "key": "fr",
-        "value": "Bar Booster",
-        "category": "Composants externes du radar",
+        "value": "Luminosité",
+        "category": "Barre de chaleur et barre de vitesse",
         "description": "Bar Booster (augmente la luminosité de l'arrière-plan des barres de vitesse et de chaleur principales)"
       },
       {
         "key": "it",
-        "value": "Bar Booster",
-        "category": "Componenti esterni radar",
+        "value": "Luminosità",
+        "category": "barra di calore e barra di velocità",
         "description": "Bar Booster (aumenta la luminosità dello sfondo principale delle barre di velocità e calore)"
       },
       {
         "key": "ru",
-        "value": "Bar Booster",
-        "category": "Внешние компоненты радара",
+        "value": "Яркость",
+        "category": "бар нагрева и бар скорости",
         "description": "Bar Booster (увеличивает яркость основного фона полос скорости и тепла)"
       },
       {
         "key": "pt",
-        "value": "Bar Booster",
-        "category": "Componentes Externos do Radar",
+        "value": "brilho",
+        "category": "barra de calor e barra de velocidade",
         "description": "Bar Booster (aumenta o brilho do mano fundo das barras de velocidade e calor)"
       }
     ]
@@ -13532,37 +13827,37 @@
       {
         "key": "en",
         "value": "Brightness",
-        "category": "Radar Outer Components",
+        "category": "Optimal Speed Bar",
         "description": "Overall Brightness (of all Outer Radar Components)"
       },
       {
         "key": "de",
         "value": "Helligkeit",
-        "category": "Äußere Radarkomponenten",
+        "category": "Optimale Geschwindigkeitsstange",
         "description": "Gesamthelligkeit (aller äußeren Radarkomponenten)"
       },
       {
         "key": "fr",
         "value": "Luminosité",
-        "category": "Composants externes du radar",
+        "category": "Barre de vitesse optimale",
         "description": "Luminosité globale (de tous les composants externes du radar)"
       },
       {
         "key": "it",
         "value": "Luminosità",
-        "category": "Componenti radar esterni",
+        "category": "Barra di velocità ottimale",
         "description": "Luminosità complessiva (di tutti i componenti radar esterni)"
       },
       {
         "key": "ru",
         "value": "Яркость",
-        "category": "Внешние компоненты радара",
+        "category": "Панель оптимальной скорости",
         "description": "Общая яркость (всех внешних компонентов радара)"
       },
       {
         "key": "pt",
         "value": "Brilho",
-        "category": "Componentes Externos do Radar",
+        "category": "Barra de velocidade ideal",
         "description": "Brilho Geral (de todos os Componentes Externos do Radar)"
       }
     ]

@@ -1,9 +1,9 @@
 {
    "language":"en",
    "game":"ED_Odissey",
-   "version":"13.3",
-   "name":"Elite Default - ORANGE",
-   "author":"Blue Mystic",
+   "version":"14.02",
+   "name":"",
+   "author":"BlueMystic",
    "ui_groups":[
       {
          "Name":"Panel_UP",
@@ -498,102 +498,105 @@
             "ValueType": "ONOFF",
             "Type": "ONOFF",
             "Description": "Opacity Boost in SRV\r\nA booster for the SRV has been added as the grey rhombus on a planetary surface is very weak."
-          },
-          {
-            "Category": "Ship Planetary Landing",
-            "Title": "Text Mode",
-            "File": "Startup-Profile",
-            "Section": "Constants",
-            "Key": "w229",
-            "Value": 200.0,
-            "ValueType": "Preset",
-            "Type": "PlanetaryLandingMode",
-            "Description": "Mode for Landed Text (usually blue)"
-          },
-          {
-            "Category": "Ship Planetary Landing",
-            "Title": "Text Brightness",
-            "File": "Advanced",
-            "Section": "Constants",
-            "Key": "w107",
-            "Value": 1.0,
-            "ValueType": "Brightness",
-            "Type": "2X",
-            "Description": "In default Elite, the 'Ship Secured' blue text when landing is blown out.\r\nHere you can reduce the brightness of this text (recommended 0.4 to 0.6)"
           }
+
         ]
       },
       {
          "Name":"Settings",
          "Title":"HUD Settings",
-         "Elements":[
-            {
-               "Category":"Main Text",
-               "Title":"Text Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"w75",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"Orange Text Colour Swap (the majority of text)."
-            },
-            {
-               "Category":"Main Text",
-               "Title":"Text Colour",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x77|y77|z77|w77",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColour",
-               "Description":"Custom Color for Global Text. *Alpha*"
-            },
-            {
-               "Category":"Main Text",
-               "Title":"Highlighted Text Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"z87",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"ShortMode",
-               "Description":"Mode for Highlighted Text in all Panels."
-            },
-            {
-               "Category":"Main Text",
-               "Title":"Highlighted Text Colour",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x143|y143|z143|w143",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColour",
-               "Description":"Custom Color for Highlighted Text in all Panels. *Alpha*"
-            },
-            {
-               "Category":"Secondary Texts",
-               "Title":"Text Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"y78",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"Blue Text Colour Swap (around the AHUD and mission text, among others)."
-            },
-            {
-               "Category":"Secondary Texts",
-               "Title":"Text Colour",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x82|y82|z82|w82",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColour",
-               "Description":"Custom Color for Secondary Texts. *Alpha*"
-            }
-         ]
+        "Elements": [
+          {
+            "Category": "Main Text",
+            "Title": "Text Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "w75",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Orange Text Colour Swap (the majority of text)."
+          },
+          {
+            "Category": "Main Text",
+            "Title": "Text Colour",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x77|y77|z77|w77",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColour",
+            "Description": "Custom Color for Global Text. *Alpha*"
+          },
+          {
+            "Category": "Main Text",
+            "Title": "Highlighted Text Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "z87",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "ShortMode",
+            "Description": "Mode for Highlighted Text in all Panels."
+          },
+          {
+            "Category": "Main Text",
+            "Title": "Highlighted Text Colour",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x143|y143|z143|w143",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColour",
+            "Description": "Custom Color for Highlighted Text in all Panels. *Alpha*"
+          },
+          {
+            "Category": "Main Text",
+            "Title": "XML Text Override",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "y108",
+            "Value": 0.0,
+            "ValueType": "ONOFF",
+            "Type": "ONOFF",
+            "Description": "This will override ALL text with your XML colour matrix."
+          },
+
+          {
+            "Category": "Secondary Texts",
+            "Title": "Text Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "y78",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Blue Text Colour Swap (around the AHUD and mission text, among others)."
+          },
+          {
+            "Category": "Secondary Texts",
+            "Title": "Text Colour",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x82|y82|z82|w82",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColour",
+            "Description": "Custom Color for Secondary Texts. *Alpha*"
+          },
+
+          {
+            "Category": "HUD Effects",
+            "Title": "Glitching HUD mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "z108",
+            "Value": 0.0,
+            "ValueType": "Preset",
+            "Type": "GlitchingHUDmode",
+            "Description": "The HUD will sometimes glitch when taking damage, and by default is orange."
+          }
+        ]
       },
       {
          "Name":"Panel_Lower",
@@ -775,17 +778,17 @@
                "Type":"ShortMode",
                "Description":"Current Location Pin/wedge (only the Current Location Pin can be modded to a custom colour. The Destination Pin is connected to other elements/lines on the Ship Panel)"
             },
-            {
-               "Category":"Nav Panel",
-               "Title":"Custom Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x98|y98|z98|w98",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom Color for GalMap Engineering Icon Colour. *Alpha*"
-            },
+          {
+            "Category": "Nav Panel",
+            "Title": "Custom Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x98|y98|z98|w98",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for Nav Panel, Current Location Pin/wedge. *Alpha*"
+          },
             {
                "Category":"Middle Panel",
                "Title":"Middle Panel Avatar",
@@ -1161,6 +1164,7 @@
             "Type": "2X",
             "Description": "Brightness for Supercruise SideLines."
           },
+
           {
             "Category": "Orbital / Gravity / Exclusion zone Lines",
             "Title": "Orbital Lines Mode",
@@ -1260,9 +1264,10 @@
             "Type": "2X",
             "Description": "Brightness for Orbital Cruise Lines."
           },
+
           {
             "Category": "Galaxy Map",
-            "Title": "Icon Mode",
+            "Title": "Icons & Travel lines Mode",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "y84",
@@ -1273,7 +1278,7 @@
           },
           {
             "Category": "Galaxy Map",
-            "Title": "Icon Colour",
+            "Title": "Icons & Travel lines Colour",
             "File": "Advanced",
             "Section": "Constants",
             "Key": "x85|y85|z85|w85",
@@ -1281,6 +1286,28 @@
             "ValueType": "Color",
             "Type": "CustomColor",
             "Description": "Custom Color for GalMap Icon Colour. *Alpha*"
+          },
+          {
+            "Category": "Galaxy Map",
+            "Title": "Repair / Damaged Stations Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "x111",
+            "Value": 100.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Repair / Damaged Stations Mode"
+          },
+          {
+            "Category": "Galaxy Map",
+            "Title": "Repair / Damaged Stations",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x110|y110|z110|w110",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for GalMap Repair / Damaged Stations Icon Colour. *Alpha*"
           },
           {
             "Category": "Galaxy Map",
@@ -1403,6 +1430,7 @@
             "Type": "GalaxyMapMode",
             "Description": "Mode for Powers and GalNet Background Colour."
           },
+
           {
             "Category": "Powers and GalNet",
             "Title": "Galnet Image Filter Colour",
@@ -1458,9 +1486,10 @@
             "Type": "PowersMode",
             "Description": "Mode for Powers Panel Portrait filter & Galnet image filter.\r\nNote: When changing modes you need to move your cursor around the screen (in-game) to update.\r\nNote: If 'True powers colours' is selected for the Powers Panel filter, the Galnet filter will use the Custom colour."
           },
+
           {
-            "Category": "Powers and GalNet",
-            "Title": "CQC Rank on Ship Panel",
+            "Category": "CQC Rank on Ship Panel",
+            "Title": "CQC Rank Mode",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "y119",
@@ -1470,7 +1499,7 @@
             "Description": "Mode for CQC Rank on Ship Panel."
           },
           {
-            "Category": "Powers and GalNet",
+            "Category": "CQC Rank on Ship Panel",
             "Title": "CQC Rank on Ship Panel",
             "File": "Advanced",
             "Section": "Constants",
@@ -1481,7 +1510,18 @@
             "Description": "Custom Color for CQC Rank on Ship Panel. *Alpha*"
           },
           {
-            "Category": "Powers and GalNet",
+            "Category": "CQC Rank on Ship Panel",
+            "Title": "Brightness for CQC Rank Text",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x119",
+            "Value": 0.5,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness of CQC Rank Text (0 = OFF)"
+          },
+          {
+            "Category": "CQC Rank on Ship Panel",
             "Title": "Rank Boxes on Ship Panel",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -1502,6 +1542,30 @@
             "Type": "CustomColor",
             "Description": "Custom Color for Rank Boxes on Ship Panel. *Alpha*"
           },
+
+          {
+            "Category": "Combat Zone (CZ) Panel",
+            "Title": "Target Ship Subcomponents",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "w123",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Mode for  Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents."
+          },
+          {
+            "Category": "Combat Zone (CZ) Panel",
+            "Title": "Target Ship Subcomponents",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x125|y125|z125|w125",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents. *Alpha*"
+          },
+
           {
             "Category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
             "Title": "Mode",
@@ -1909,569 +1973,570 @@
       {
          "Name":"ShieldsHolo",
          "Title":"Shield & Holo Ship",
-         "Elements":[
-            {
-               "Category":"Shields",
-               "Title":"Shield Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"z105",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"ShieldColor",
-               "Description":"Note: Multi-shield only works at resolutions >= 2560x1440, may work at 1920x1080. Applied to self and target."
-            },
-            {
-               "Category":"Shields",
-               "Title":"Shield Percentage % Colour",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x88|y88|z88",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom Color for Shield Percentage %"
-            },
-            {
-               "Category":"Multi-Shield",
-               "Title":"Inner Ring",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x201|y201|z201|w201",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Inner Ring Color, Only for Multi-Shield. (Alpha)"
-            },
-            {
-               "Category":"Multi-Shield",
-               "Title":"Middle Ring",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x202|y202|z202|w202",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Middle Ring Color, Only for Multi-Shield. (Alpha)"
-            },
-            {
-               "Category":"Multi-Shield",
-               "Title":"Outer Ring",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x203|y203|z203|w203",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Outer Ring Color, Only for Multi-Shield. (Alpha)"
-            },
-            {
-               "Category":"Single-Shield",
-               "Title":"Shields Down",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x87",
-               "Value":0.0,
-               "ValueType":"Preset",
-               "Type":"ShieldsDown",
-               "Description":"Single Color Shield - Shield Down Color ."
-            },
-            {
-               "Category":"Single-Shield",
-               "Title":"Shields Up",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x228|y228|z228",
-               "Value":-16711681.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Shield Up Colour (relative to Shield Down colour)."
-            },
-            {
-               "Category":"Single-Shield",
-               "Title":"Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w228",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Overall Shields Brightness/Alpha (Single Mode)"
-            },
-            {
-               "Category":"Single-Shield",
-               "Title":"Ring Thickness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"y87",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"4X",
-               "Description":"Overall Shields Brightness/Alpha (Single Mode)"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Top Swirls - Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"z133",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"Circular Swirls under Holos"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Top Swirls - Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x226|y226|z226",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom Color for Circular Swirls under Holos"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Top Swirls - Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w226",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Brightness for Top Swirls"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Middle Swirls - Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"x135",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"Status bars under shield"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Middle Swirls - Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x215|y215|z215",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Status Bars"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Middle Swirls - Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w215",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Status Bars Brightness"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Bottom Swirls - Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"x134",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"Thin semi-circles at bottom of hologram"
-            },
-            {
-               "Category":"Circular Swirls",
-               "Title":"Bottom Swirls - Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x205|y205|z205|w205",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom Color for Thin semi-circles at bottom of hologram. *Alpha"
-            },
-            {
-               "Category":"Hull Gauge",
-               "Title":"Color Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"y134",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"HullGaugeMode",
-               "Description":"Blocks for Hull Health, including target"
-            },
-            {
-               "Category":"Hull Gauge",
-               "Title":"Custom Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x212|y212|z212",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Blocks under shield, including target."
-            },
-            {
-               "Category":"Hull Gauge",
-               "Title":"Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w212",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Brightness for Blocks under shield"
-            },
-            {
-               "Category":"Hull Gauge",
-               "Title":"Hull Gauge - Shading",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w213",
-               "Value":4.0,
-               "ValueType":"Brightness",
-               "Type":"4X_Min",
-               "Description":"Shading multiplier (Only aplies to the shaded mode)"
-            },
-            {
-               "Category":"Hull Gauge",
-               "Title":"Caustic Affected Hull",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"w170",
-               "Value":0.0,
-               "ValueType":"Preset",
-               "Type":"CausticEffect",
-               "Description":"Blocks for Hull Health, including target"
-            },
-            {
-               "Category":"Hull Gauge",
-               "Title":"Caustic Affected Hull Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x170|y170|z170",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Caustic Affected Hull Bars."
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Hologram - Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"y101",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"OwnShip Hologram Mode\r\nAlso includes landing hologram, SRV hologram, SRV terrain on radar"
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Hologram - Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x248|y248|z248",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for OwnShip Hologram"
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Hologram - Alpha/Opacity",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w248",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Alpha (mainly affects the opacity of the hull in bright light)\r\nSet to approximately 1.0 to prevent fade in bright external light.\r\nYou can set this value higher than 1 to make the hologram very opaque"
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Hologram - Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x132",
-               "Value":0.5,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Brightness for Hologram's Hull\r\nFor Ultra-tron, set Hull brightness low (eg. 0), and Outer Lines bloom high (eg. 0.5)"
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Hologram - Bloom",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"y132",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Holo bloom / glow"
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Outer Lines bloom",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"z132",
-               "Value":0.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Outer Lines bloom / glow (default= 0) (This value can be negative, such as -0.5)"
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Overall Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"z101",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Overall brightness of hologram"
-            },
-            {
-               "Category":"OwnShip Hologram",
-               "Title":"Shimmering lines",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"z109",
-               "Value":0.0,
-               "ValueType":"ONOFF",
-               "Type":"ONOFF",
-               "Description":"Switch for OwnShip Hologram Shimmer"
-            },
-            {
-               "Category":"Target Ship Hologram",
-               "Title":"Neutral Target",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x72|y72|z72",
-               "Value":-5987072.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for OwnShip Hologram"
-            },
-            {
-               "Category":"Target Ship Hologram",
-               "Title":"Neutral Target - Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w72",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Brightness for Hologram's Hull\r\nFor Ultra-tron, set Hull brightness low (eg. 0), and Outer Lines bloom high (eg. 0.5)"
-            },
-            {
-               "Category":"Target Ship Hologram",
-               "Title":"Overall Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"y73",
-               "Value":0.5,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Brightness for Hologram"
-            },
-            {
-               "Category":"Target Ship Hologram",
-               "Title":"Green Target Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"z73",
-               "Value":0.5,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Bright Green Target Holo Brightness (some green holograms have excessive brightness)"
-            },
-            {
-               "Category":"Target Ship Hologram",
-               "Title":"Shimmering lines",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x73",
-               "Value":0.0,
-               "ValueType":"ONOFF",
-               "Type":"ONOFF",
-               "Description":"Switch for Target Hologram Shimmer"
-            },
-            {
-               "Category":"Landing Hologram",
-               "Title":"OFF landing site",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x254|y254|z254",
-               "Value":-16733485.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Landing Hologram"
-            },
-            {
-               "Category":"Landing Hologram",
-               "Title":"ON landing site",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x249|y249|z249",
-               "Value":-16711936.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for ON landing site"
-            },
-            {
-               "Category":"Landing Hologram",
-               "Title":"Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w254",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Brightness for Landing Hologram"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Color Mode",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"z107",
-               "Value":200.0,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"Planetary Landing Reticle - Bearing and descent angle bars, plus text"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Custom Color",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x209|y209|z209|w209",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom Color for Planetary Landing Reticle. *Alpha"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Landing line and coasters",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x255|y255|z255|w255",
-               "Value":-7012352.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Landing line and coaster (orange)*Alpha"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Altitude Bar",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x96|y96|z96|w96",
-               "Value":-23296.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Altitude Bar *Alpha"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Text in Reticle boxes",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x95|y95|z95|w95",
-               "Value":-1.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Text in Reticle boxes *Alpha"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Text Along the Altitude Bars",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"w101",
-               "Value":101.0,
-               "ValueType":"Preset",
-               "Type":"AltitudeBarText",
-               "Description":"Custom color for Text Along the Altitude Bar"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Altitude Bar Text Brightness",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x97",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Brightness for Altitude Bar Text"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Coordinates & Gravity Text Colour",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x185|y185|z185|w185",
-               "Value":-8602369.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for Latitude / Longitude Coordinates, & Gravity Text Colour *Alpha"
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Text Background: Shadows / Glow",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"y109",
-               "Value":0.0,
-               "ValueType":"Preset",
-               "Type":"TextBackgroundShadowsGlow",
-               "Description":"Mode for Text Background: Shadows / Glow \r\nIs applied to:  Text in reticle boxes, Text on the altitude bar, Lat / Long & Gravity text."
-            },
-            {
-               "Category":"Planetary Landing Reticle",
-               "Title":"Text Background Shadow / Glow Boost",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"y97",
-               "Value":1.0,
-               "ValueType":"Brightness",
-               "Type":"2X",
-               "Description":"Text Background Shadow / Glow Boost\r\nNote: For Text colour 'Glow mode', recommended  0.5"
-            },
-            {
-               "Category":"SRV Hologram",
-               "Title":"SRV Hologram - Main",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x250|y250|z250|w250",
-               "Value":-65536.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"**(DISABLED)** Custom color for SRV Hologram (*Alpha)"
-            },
-            {
-               "Category":"SRV Hologram",
-               "Title":"SRV Hologram - Small",
-               "File":"Advanced",
-               "Section":"Constants",
-               "Key":"x251|y251|z251|w251",
-               "Value":-475359851.0,
-               "ValueType":"Color",
-               "Type":"CustomColor",
-               "Description":"Custom color for SRV Hologram.\r\nAlpha (is a % of the Main Hologram alpha)"
-            }
-         ]
+        "Elements": [
+          {
+            "Category": "Shields",
+            "Title": "Shield Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "z105",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "ShieldColor",
+            "Description": "Note: Multi-shield only works at resolutions >= 2560x1440, may work at 1920x1080. Applied to self and target."
+          },
+          {
+            "Category": "Shields",
+            "Title": "Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w228",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Overall Brightness of shield area (set to 0.0 for shieldless / invisible shield)"
+          },
+          {
+            "Category": "Shields",
+            "Title": "Shield Percentage % Colour",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x88|y88|z88",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for Shield Percentage %"
+          },
+          {
+            "Category": "Multi-Shield",
+            "Title": "Inner Ring",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x201|y201|z201|w201",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Inner Ring Color, Only for Multi-Shield. (Alpha)"
+          },
+          {
+            "Category": "Multi-Shield",
+            "Title": "Middle Ring",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x202|y202|z202|w202",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Middle Ring Color, Only for Multi-Shield. (Alpha)"
+          },
+          {
+            "Category": "Multi-Shield",
+            "Title": "Outer Ring",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x203|y203|z203|w203",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Outer Ring Color, Only for Multi-Shield. (Alpha)"
+          },
+          {
+            "Category": "Single-Shield",
+            "Title": "Shields Down",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x87",
+            "Value": 0.0,
+            "ValueType": "Preset",
+            "Type": "ShieldsDown",
+            "Description": "Single Color Shield - Shield Down Color ."
+          },
+          {
+            "Category": "Single-Shield",
+            "Title": "Shields Up",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x228|y228|z228",
+            "Value": -16711681.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Shield Up Colour (relative to Shield Down colour)."
+          },
+
+          {
+            "Category": "Single-Shield",
+            "Title": "Ring Thickness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "y87",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "4X",
+            "Description": "Overall Shields Brightness/Alpha (Single Mode)"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Top Swirls - Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "z133",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Circular Swirls under Holos"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Top Swirls - Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x226|y226|z226",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for Circular Swirls under Holos"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Top Swirls - Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w226",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Top Swirls"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Middle Swirls - Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "x135",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Status bars under shield"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Middle Swirls - Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x215|y215|z215",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Status Bars"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Middle Swirls - Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w215",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Status Bars Brightness"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Bottom Swirls - Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "x134",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Thin semi-circles at bottom of hologram"
+          },
+          {
+            "Category": "Circular Swirls",
+            "Title": "Bottom Swirls - Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x205|y205|z205|w205",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for Thin semi-circles at bottom of hologram. *Alpha"
+          },
+          {
+            "Category": "Hull Gauge",
+            "Title": "Color Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "y134",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "HullGaugeMode",
+            "Description": "Blocks for Hull Health, including target"
+          },
+          {
+            "Category": "Hull Gauge",
+            "Title": "Custom Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x212|y212|z212",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Blocks under shield, including target."
+          },
+          {
+            "Category": "Hull Gauge",
+            "Title": "Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w212",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Blocks under shield"
+          },
+          {
+            "Category": "Hull Gauge",
+            "Title": "Hull Gauge - Shading",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w213",
+            "Value": 4.0,
+            "ValueType": "Brightness",
+            "Type": "4X_Min",
+            "Description": "Shading multiplier (Only aplies to the shaded mode)"
+          },
+          {
+            "Category": "Hull Gauge",
+            "Title": "Caustic Affected Hull",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "w170",
+            "Value": 0.0,
+            "ValueType": "Preset",
+            "Type": "CausticEffect",
+            "Description": "Blocks for Hull Health, including target"
+          },
+          {
+            "Category": "Hull Gauge",
+            "Title": "Caustic Affected Hull Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x170|y170|z170",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Caustic Affected Hull Bars."
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Hologram - Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "y101",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "OwnShip Hologram Mode\r\nAlso includes landing hologram, SRV hologram, SRV terrain on radar"
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Hologram - Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x248|y248|z248",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for OwnShip Hologram"
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Hologram - Alpha/Opacity",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w248",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Alpha (mainly affects the opacity of the hull in bright light)\r\nSet to approximately 1.0 to prevent fade in bright external light.\r\nYou can set this value higher than 1 to make the hologram very opaque"
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Hologram - Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x132",
+            "Value": 0.5,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Hologram's Hull\r\nFor Ultra-tron, set Hull brightness low (eg. 0), and Outer Lines bloom high (eg. 0.5)"
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Hologram - Bloom",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "y132",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Holo bloom / glow"
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Outer Lines bloom",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "z132",
+            "Value": 0.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Outer Lines bloom / glow (default= 0) (This value can be negative, such as -0.5)"
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Overall Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "z101",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Overall brightness of hologram"
+          },
+          {
+            "Category": "OwnShip Hologram",
+            "Title": "Shimmering lines",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "z109",
+            "Value": 0.0,
+            "ValueType": "ONOFF",
+            "Type": "ONOFF",
+            "Description": "Switch for OwnShip Hologram Shimmer"
+          },
+          {
+            "Category": "Target Ship Hologram",
+            "Title": "Neutral Target",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x72|y72|z72",
+            "Value": -5987072.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for OwnShip Hologram"
+          },
+          {
+            "Category": "Target Ship Hologram",
+            "Title": "Neutral Target - Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w72",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Hologram's Hull\r\nFor Ultra-tron, set Hull brightness low (eg. 0), and Outer Lines bloom high (eg. 0.5)"
+          },
+          {
+            "Category": "Target Ship Hologram",
+            "Title": "Overall Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "y73",
+            "Value": 0.5,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Hologram"
+          },
+          {
+            "Category": "Target Ship Hologram",
+            "Title": "Green Target Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "z73",
+            "Value": 0.5,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Bright Green Target Holo Brightness (some green holograms have excessive brightness)"
+          },
+          {
+            "Category": "Target Ship Hologram",
+            "Title": "Shimmering lines",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x73",
+            "Value": 0.0,
+            "ValueType": "ONOFF",
+            "Type": "ONOFF",
+            "Description": "Switch for Target Hologram Shimmer"
+          },
+          {
+            "Category": "Landing Hologram",
+            "Title": "OFF landing site",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x254|y254|z254",
+            "Value": -16733485.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Landing Hologram"
+          },
+          {
+            "Category": "Landing Hologram",
+            "Title": "ON landing site",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x249|y249|z249",
+            "Value": -16711936.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for ON landing site"
+          },
+          {
+            "Category": "Landing Hologram",
+            "Title": "Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w254",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Landing Hologram"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Color Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "z107",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "AdvancedMode",
+            "Description": "Planetary Landing Reticle - Bearing and descent angle bars, plus text"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Custom Color",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x209|y209|z209|w209",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for Planetary Landing Reticle. *Alpha"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Landing line and coasters",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x255|y255|z255|w255",
+            "Value": -7012352.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Landing line and coaster (orange)*Alpha"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Altitude Bar",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x96|y96|z96|w96",
+            "Value": -23296.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Altitude Bar *Alpha"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Text in Reticle boxes",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x95|y95|z95|w95",
+            "Value": -1.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Text in Reticle boxes *Alpha"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Text Along the Altitude Bars",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w101",
+            "Value": 101.0,
+            "ValueType": "Preset",
+            "Type": "AltitudeBarText",
+            "Description": "Custom color for Text Along the Altitude Bar"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Altitude Bar Text Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x97",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Altitude Bar Text"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Coordinates & Gravity Text Colour",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x185|y185|z185|w185",
+            "Value": -8602369.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for Latitude / Longitude Coordinates, & Gravity Text Colour *Alpha"
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Text Background: Shadows / Glow",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "y109",
+            "Value": 0.0,
+            "ValueType": "Preset",
+            "Type": "TextBackgroundShadowsGlow",
+            "Description": "Mode for Text Background: Shadows / Glow \r\nIs applied to:  Text in reticle boxes, Text on the altitude bar, Lat / Long & Gravity text."
+          },
+          {
+            "Category": "Planetary Landing Reticle",
+            "Title": "Text Background Shadow / Glow Boost",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "y97",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Text Background Shadow / Glow Boost\r\nNote: For Text colour 'Glow mode', recommended  0.5"
+          },
+          {
+            "Category": "SRV Hologram",
+            "Title": "SRV Hologram - Main",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x250|y250|z250|w250",
+            "Value": -65536.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "**(DISABLED)** Custom color for SRV Hologram (*Alpha)"
+          },
+          {
+            "Category": "SRV Hologram",
+            "Title": "SRV Hologram - Small",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "x251|y251|z251|w251",
+            "Value": -475359851.0,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom color for SRV Hologram.\r\nAlpha (is a % of the Main Hologram alpha)"
+          }
+        ]
       },
       {
          "Name":"RadarHUD",
@@ -2776,8 +2841,9 @@
             "Type": "CustomColor",
             "Description": "Custom Color for Terrain While landing on a planet."
           },
-          {
-            "Category": "Radar Outer Components",
+
+	{
+            "Category": "Heat Bar and Speed Bar",
             "Title": "Color Mode",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -2788,7 +2854,7 @@
             "Description": "Mode for Heat Bar and Speed Bar"
           },
           {
-            "Category": "Radar Outer Components",
+            "Category": "Heat Bar and Speed Bar",
             "Title": "Custom Color",
             "File": "Advanced",
             "Section": "Constants",
@@ -2796,30 +2862,20 @@
             "Value": -23296.0,
             "ValueType": "Color",
             "Type": "CustomColor",
-            "Description": "Outer Radar Components Custom Color."
+            "Description": "Custom Color for Heat Bar and Speed Bar."
           },
           {
-            "Category": "Radar Outer Components",
-            "Title": "Bar Booster",
+            "Category": "Heat Bar and Speed Bar",
+            "Title": "Brightness",
             "File": "Advanced",
             "Section": "Constants",
             "Key": "w221",
             "Value": 1.0,
             "ValueType": "Brightness",
             "Type": "2X",
-            "Description": "Bar Booster (increases the brightness of the main Speed and Heat bars background)"
+            "Description": "Brightness for Heat Bar and Speed Bar"
           },
-          {
-            "Category": "Radar Outer Components",
-            "Title": "Brightness",
-            "File": "Advanced",
-            "Section": "Constants",
-            "Key": "w222",
-            "Value": 1.0,
-            "ValueType": "Brightness",
-            "Type": "2X",
-            "Description": "Overall Brightness (of all Outer Radar Components)"
-          },
+
           {
             "Category": "Optimal Speed Bar",
             "Title": "Custom Color",
@@ -2832,6 +2888,18 @@
             "Description": "Optimal Speed Bar Colour (values are relative to Main Colour; can be negative to reduce a colour from the Main Colour)"
           },
           {
+            "Category": "Optimal Speed Bar",
+            "Title": "Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w222",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Overall Brightness (of all Outer Radar Components)"
+          },
+
+          {
             "Category": "SRV Scanner",
             "Title": "SRV Scanner",
             "File": "Startup-Profile",
@@ -2842,6 +2910,7 @@
             "Type": "AdvancedMode",
             "Description": "SRV Scanner Colour"
           },
+
           {
             "Category": "SRV Scanner",
             "Title": "SRV Scanner - Primary Colour",
@@ -3039,6 +3108,28 @@
             "ValueType": "Brightness",
             "Type": "2X",
             "Description": "Middle screen Popup Messages (Ship Scan Detected, etc) Background Opacity, behind Text and symbols (cloud-shaped background)"
+          },
+          {
+            "Category": "Ship Planetary Landing",
+            "Title": "Text Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "w229",
+            "Value": 200.0,
+            "ValueType": "Preset",
+            "Type": "PlanetaryLandingMode",
+            "Description": "Mode for Landed Text (usually blue)"
+          },
+          {
+            "Category": "Ship Planetary Landing",
+            "Title": "Text Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w107",
+            "Value": 1.0,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "In default Elite, the 'Ship Secured' blue text when landing is blown out.\r\nHere you can reduce the brightness of this text (recommended 0.4 to 0.6)"
           },
           {
             "Category": "Warnings - Speeding",
@@ -3738,6 +3829,17 @@
       }
    ],
   "Presets": [
+    {
+      "Type": "GlitchingHUDmode",
+      "Name": "Default ELite",
+      "Index": 0.0
+    },
+    {
+      "Type": "GlitchingHUDmode",
+      "Name": "Random colours",
+      "Index": 1.0
+    },
+
     {
       "Type": "AmbientLightingMode",
       "Name": "Extended Lighting (Elite Default)",

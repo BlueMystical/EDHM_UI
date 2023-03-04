@@ -81,6 +81,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -88,6 +89,7 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Security" />
@@ -100,6 +102,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases\FileDownloader.cs" />
@@ -143,6 +147,12 @@
     </Compile>
     <Compile Include="Forms\ShipyardForm.Designer.cs">
       <DependentUpon>ShipyardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ThemeColors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ThemeColors.Designer.cs">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ThemeParametersForm.cs">
       <SubType>Form</SubType>
@@ -195,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ShipyardForm.resx">
       <DependentUpon>ShipyardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ThemeColors.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ThemeParametersForm.resx">
       <DependentUpon>ThemeParametersForm.cs</DependentUpon>

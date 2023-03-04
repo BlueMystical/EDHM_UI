@@ -1,4 +1,6 @@
 using DevExpress.Data.Filtering;
+using DevExpress.LookAndFeel;
+using DevExpress.Skins;
 using DevExpress.Utils;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Navigation;
@@ -107,6 +109,25 @@ namespace EDHM_UI_mk2
 		{
 			InitializeComponent();
 			DoubleBuffered = true;
+
+			#region DevExpress Theme Config
+
+			var xmlDoc = new System.Xml.XmlDocument();
+			xmlDoc.Load(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+
+			string skinName = Util.XML_GetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultAppSkin']", string.Empty);
+			string paletteName = Util.XML_GetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultPalette']", string.Empty);
+
+			if (!string.IsNullOrEmpty(paletteName))
+			{
+				DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle(skinName, paletteName);
+			}
+			else
+			{
+				DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle(skinName);
+			}
+
+			#endregion
 		}
 		public MainForm(string[] args)
 		{
@@ -126,6 +147,13 @@ namespace EDHM_UI_mk2
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			#region DevExpress Theme Saving
+
+			UserLookAndFeel.Default.StyleChanged += Default_StyleChanged;
+			Apply_DXSkinColors();
+
+			#endregion
+
 			#region Opciones Regionales y de Idioma
 
 			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -224,9 +252,9 @@ namespace EDHM_UI_mk2
 						});
 					}
 				}
-			}			
+			}
 
-			repCboGameInstances.ValueMember = "game_id";
+			repCboGameInstances.ValueMember = "instance";
 			repCboGameInstances.DisplayMember = "instance";
 			repCboGameInstances.DataSource = GameInstances;
 
@@ -234,24 +262,25 @@ namespace EDHM_UI_mk2
 
 			#region Seleccionar la Instancia Activa
 
-			string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
-			if (_ActiveGames != null && _ActiveGames.Length > 1)
-			{
-				ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
-			}
+			//string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
+			//if (_ActiveGames != null && _ActiveGames.Length > 1)
+			//{
+			//	ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
+			//}
+			ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
 			if (ActiveInstance == null)
 			{
 				ActiveInstance = (GameInstancesEx[0].games[1].key == "ED_Odissey") ?
 					GameInstancesEx[0].games[1] :
 					GameInstancesEx[0].games[0];
 
-				_RegActiveInstance = ActiveInstance.game_id;
+				_RegActiveInstance = ActiveInstance.instance;
 				Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
 			}
 
 			if (ActiveInstance != null)
 			{
-				CboGameInstances.EditValue = ActiveInstance.game_id;
+				CboGameInstances.EditValue = ActiveInstance.instance;
 
 				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 
@@ -277,6 +306,26 @@ namespace EDHM_UI_mk2
 
 			//this.Location = new Point(0, 0);
 		}
+
+		private void Default_StyleChanged(object sender, EventArgs e)
+		{
+			var SkinName = UserLookAndFeel.Default.ActiveSkinName; //Skin/The Bezier
+			var Pallette = UserLookAndFeel.Default.ActiveSvgPaletteName; // Fireball
+
+			var xmlDoc = new System.Xml.XmlDocument();
+			xmlDoc.Load(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+
+			Util.XML_SetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultAppSkin']/value", SkinName);
+			Util.XML_SetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultPalette']/value", Pallette);
+
+			xmlDoc.XML_SaveBeautify(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+
+			Util.WinReg_WriteKey("EDHM", "SkinName", SkinName);
+			Util.WinReg_WriteKey("EDHM", "Pallette", Pallette);
+
+			Apply_DXSkinColors();
+		}
+
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
 			Cursor = Cursors.WaitCursor;
@@ -303,6 +352,9 @@ namespace EDHM_UI_mk2
 					MainMenu_ApplyTheme.Enabled = false;
 					gridControl1.Cursor = Cursors.WaitCursor;
 
+					//Task.Factory.StartNew(() => { Run_HotFix(); });
+					Run_HotFix();
+
 					if (GameInstances != null)
 					{
 						foreach (var _Instance in GameInstances)
@@ -314,7 +366,6 @@ namespace EDHM_UI_mk2
 						}
 					}
 					Util.AppConfig_SetValue("FirstRun", "false");
-					Task.Factory.StartNew(() => { Run_HotFix(); });
 				}
 
 				CheckForModUpdates();
@@ -384,6 +435,10 @@ namespace EDHM_UI_mk2
 							Util.Serialize_ToJSON(_File, UserSettings);
 						}
 
+
+						//Properties.Settings.Default["DefaultAppSkin"] = DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinName;
+						//Properties.Settings.Default.Save();
+
 						//Aqui se cierra normalmente:
 						if (notifyIcon1 != null)
 						{
@@ -439,6 +494,106 @@ namespace EDHM_UI_mk2
 
 		#region Metodos
 
+		public void Apply_DXSkinColors()
+		{
+			try
+			{
+				//1. Busca el Skin en el Registro:
+				string SkinName = Util.WinReg_ReadKey("EDHM", "SkinName").NVL(string.Empty);
+				string Pallette = Util.WinReg_ReadKey("EDHM", "Pallette").NVL(string.Empty);
+
+				if (SkinName.EmptyOrNull())
+				{
+					//2. Si no esta en el registro, lo busca en el AppConfig:
+					var xmlDoc = new System.Xml.XmlDocument();
+					xmlDoc.Load(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+
+					SkinName = Util.XML_GetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultAppSkin']", "value");
+					Pallette = Util.XML_GetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultPalette']", "value");
+
+					//3. Lo guarga en el Registro para la proxima vez:
+					Util.WinReg_WriteKey("EDHM", "SkinName", SkinName);
+					Util.WinReg_WriteKey("EDHM", "Pallette", Pallette);
+				}
+
+				//4. Aplica el Skin y Paleta Seleccionados:
+				if (!string.IsNullOrEmpty(Pallette))
+				{
+					DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle(SkinName, Pallette);
+				}
+				else
+				{
+					DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle(SkinName);
+				}
+
+				Skin currentSkin = DevExpress.Skins.CommonSkins.GetSkin(UserLookAndFeel.Default);
+
+
+				var Bar_Back = currentSkin.Colors["Primary"];
+				var Bar_Fore = currentSkin.Colors["Info"];
+				var Bar_Hover = currentSkin.Colors["Danger"];
+				var Bar_HText = currentSkin.Colors["InfoText"];
+
+				var Button_Back = currentSkin.Colors["Danger"];
+				var Button_Fore = currentSkin.Colors["ControlText"];
+				var Button_Hover = currentSkin.Colors["Highlight"];
+				var Button_HText = currentSkin.Colors["HighlightText"];
+
+				var Menu_Back = currentSkin.Colors["Highlight"];
+				var Menu_Fore = currentSkin.Colors["HighlightText"];
+				var Menu_Hover = currentSkin.Colors["Primary"];
+				var Menu_HText = currentSkin.Colors["InfoText"];
+
+				MainMenuBar.BarAppearance.Normal.BackColor = Bar_Back;
+				MainMenuBar.BarAppearance.Normal.ForeColor = Bar_Fore;
+				MainMenuBar.BarAppearance.Hovered.BackColor = Bar_Hover;
+				MainMenuBar.BarAppearance.Hovered.ForeColor = Bar_HText;
+				MainMenuBar_BodyItem.ItemAppearance.Normal.BackColor = Bar_Back;
+				MainMenuBar_BodyItem.ItemAppearance.Hovered.BackColor = Bar_Back;
+
+				MainMenu_Menu.ItemAppearance.Normal.BackColor = Button_Back;
+				MainMenu_Menu.ItemAppearance.Normal.ForeColor = Bar_Fore;
+				MainMenu_Menu.ItemAppearance.Hovered.BackColor = Menu_Hover;
+				MainMenu_Menu.ItemAppearance.Hovered.ForeColor = Menu_HText;
+
+				MainMenu_Menu.MenuAppearance.AppearanceMenu.Normal.BackColor = Menu_Back;
+				MainMenu_Menu.MenuAppearance.AppearanceMenu.Normal.ForeColor = Menu_Fore;
+				MainMenu_Menu.MenuAppearance.AppearanceMenu.Hovered.BackColor = Menu_Hover;
+				MainMenu_Menu.MenuAppearance.AppearanceMenu.Hovered.ForeColor = Menu_HText;
+
+				repMainMenu_SearchBox.Appearance.BackColor = Menu_Back;
+				repMainMenu_SearchBox.Appearance.ForeColor = Menu_Fore;
+
+				MainMenu_ApplyTheme.ItemAppearance.Normal.BackColor = Button_Back;
+				MainMenu_ApplyTheme.ItemAppearance.Normal.ForeColor = Button_Fore;
+				MainMenu_ApplyTheme.ItemAppearance.Hovered.BackColor = Button_Hover;
+				MainMenu_ApplyTheme.ItemAppearance.Hovered.ForeColor = Button_HText;
+
+				repCboGameInstances.Appearance.BackColor = Bar_Back;
+				repCboGameInstances.Appearance.ForeColor = Bar_Fore;
+
+				vGridDetalles.Appearance.Category.ForeColor = Bar_Back;
+				vGridDetalles.Appearance.FocusedCell.ForeColor = Bar_HText;
+				vGridDetalles.Appearance.FocusedRecord.ForeColor = Bar_HText;
+
+				vGridDetalles.Appearance.FixedLine.BackColor = Bar_Back;
+				vGridDetalles.Appearance.FocusedRow.BackColor = Bar_Back;
+				vGridDetalles.Appearance.HorzLine.BackColor = Bar_Hover;
+				vGridDetalles.Appearance.VertLine.BackColor = Bar_Hover;
+
+				//this.tileControl1.AppearanceItem.Normal.BackColor = currentSkin.Colors["Control"];
+				tileControl1.AppearanceItem.Normal.BorderColor = Bar_Back;
+				tileControl1.AppearanceItem.Hovered.BackColor = Bar_Back;
+
+				//ThemeColors Form = new ThemeColors(currentSkin.Colors);
+				//Form.Show();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
 		bool LoadingThemes = false; //<- Previene que se llame este metodo varias veces a la vez.
 		bool LoadingTheme = false; //<- Previene que se llame este metodo varias veces a la vez.
 		Stopwatch _Stopwatch = new Stopwatch();
@@ -465,7 +620,7 @@ namespace EDHM_UI_mk2
 						GameFolderForm _Form = new GameFolderForm(GameInstancesEx);
 						if (_Form.ShowDialog() == DialogResult.OK)
 						{
-							this.GameInstancesEx = _Form.GameInstancesEx;
+							GameInstancesEx = _Form.GameInstancesEx;
 
 							FixGameInstances();
 
@@ -479,7 +634,7 @@ namespace EDHM_UI_mk2
 							string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
 							if (_ActiveGames != null && _ActiveGames.Length > 1)
 							{
-								ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
+								ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
 							}
 							if (ActiveInstance == null)
 							{
@@ -487,13 +642,13 @@ namespace EDHM_UI_mk2
 									GameInstancesEx[0].games[1] :
 									GameInstancesEx[0].games[0];
 
-								_RegActiveInstance = ActiveInstance.game_id;
+								_RegActiveInstance = ActiveInstance.instance;
 								Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
 							}
 
 							if (ActiveInstance != null)
 							{
-								CboGameInstances.EditValue = ActiveInstance.game_id;
+								CboGameInstances.EditValue = ActiveInstance.instance;
 
 								string searchX = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 								lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
@@ -569,7 +724,41 @@ namespace EDHM_UI_mk2
 
 					string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 					lblVersion_MOD.Caption = string.Format("Mod Version: {0}",
-						Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51")); 
+						Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
+
+					#region Key-Bindings
+
+					//Leo los Bindings desde el Registro, si existen:
+					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
+					{
+						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+						string RegValue = Util.WinReg_ReadKey("EDHM", "KeyBindings").NVL(string.Empty);
+						if (!RegValue.EmptyOrNull())
+						{
+							string KBM_path = Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\Keybindings.ini");
+							if (ActiveInstance.key == "ED_Odissey" && File.Exists(KBM_path))
+							{
+								try
+								{
+									IniFile KeyBindings_INI = new IniFile(KBM_path);
+									var KeyBindings_Sections = Util.DeSerialize_FromJSON_String<List<TPMod_Section>>(RegValue);
+
+									foreach (var _Section in KeyBindings_Sections)
+									{
+										foreach (var _Key in _Section.keys)
+										{
+											KeyBindings_INI.WriteKey(_Key.key, _Key.value, _Section.ini_section);
+										}
+									}
+								}
+								catch { }
+							}
+						}
+					});
+
+					#endregion
 				}
 			}
 			catch (Exception ex)
@@ -602,32 +791,10 @@ namespace EDHM_UI_mk2
 						string[] _Parts = UpdateFile.Name.Split(new char[] { '-' });
 						string _Version = _Parts[1].Remove(_Parts[1].Length - 4); //<- 'v1.51'
 
+						//Backup Current Settings:
 						if (Backup)
 						{
-							//Backup Current Settings:
-							if (!Directory.Exists(@"C:\Temp"))
-							{
-								Directory.CreateDirectory(@"C:\Temp");
-							}
-
-							if (File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini")))
-							{
-								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"),
-											   Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini"), true);
-
-								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "XML-Profile.ini"),
-											   Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"), true);
-							}
-							if (File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini")))
-							{
-								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini"),
-											   Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini"), true);
-							}
-							if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini")))
-							{
-								File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"),
-											   Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"), true);
-							}
+							BackUp_CurrentSettings(pGameInstance);
 						}
 
 						//Descomprime el ZIP de EDHM en el Directorio del Juego:
@@ -656,32 +823,10 @@ namespace EDHM_UI_mk2
 							pGameInstance.themes_folder = Path.Combine(destino, "Themes");
 						}
 
-						if (Backup) //<- Restore User's Settings:
+						// Restore User's Settings:
+						if (Backup)
 						{
-							try
-							{
-								if (File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini")))
-								{
-									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini"),
-										Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"), true);
-								}
-								if (File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini")))
-								{
-									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"),
-										Path.Combine(pGameInstance.path, "EDHM-ini", "XML-Profile.ini"), true);
-								}
-								if (pGameInstance.key == "ED_Horizons" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini")))
-								{
-									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini"),
-										Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini"), true);
-								}
-								if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini")))
-								{
-									File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"),
-										Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"), true);
-								}
-							}
-							catch { }
+							Restore_CurrentSettings(pGameInstance);
 						}
 
 						XtraMessageBoxArgs args = new XtraMessageBoxArgs()
@@ -706,29 +851,43 @@ namespace EDHM_UI_mk2
 		{
 			try
 			{
-				if (this.GameInstancesEx != null)
+				if (GameInstancesEx != null)
 				{
-					string OldValue = Util.Serialize_ToJSON(this.GameInstancesEx);
-					this.GameInstances = new List<game_instance>();
+					string OldValue = Util.Serialize_ToJSON(GameInstancesEx);
+					GameInstances = new List<game_instance>();
 
 					//Fixing the Instance Parameters:
-					foreach (var _Instance in this.GameInstancesEx)
+					foreach (var _Instance in GameInstancesEx)
 					{
 						foreach (var _Game in _Instance.games)
 						{
-							if (_Game.path.Contains("steamapps")) _Instance.instance = "Steam";
-							if (_Game.path.Contains("Epic Games")) _Instance.instance = "Epic Games";
-							if (_Game.path.Contains("Frontier")) _Instance.instance = "Frontier";
+							if (_Game.path.Contains("steamapps"))
+							{
+								_Instance.instance = "Steam";
+							}
 
-							if (_Game.game_id.EmptyOrNull()) _Game.game_id = string.Format("{0}|{1}", _Instance.instance, _Game.key);
+							if (_Game.path.Contains("Epic Games"))
+							{
+								_Instance.instance = "Epic Games";
+							}
+
+							if (_Game.path.Contains("Frontier"))
+							{
+								_Instance.instance = "Frontier";
+							}
+
+							if (_Game.game_id.EmptyOrNull())
+							{
+								_Game.game_id = string.Format("{0}|{1}", _Instance.instance, _Game.key);
+							}
 
 							switch (Path.GetFileNameWithoutExtension(_Game.path))
 							{
-								case "elite-dangerous-64": _Game.name = "Horizons (3.8)"; _Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
-								case "FORC-FDEV-DO-38-IN-40": _Game.name = "Horizons (4.0)"; _Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64": _Game.name = "Odyssey (4.0)"; _Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
-								case "FORC-FDEV-DO-1000": _Game.name = "Odyssey (4.0)"; _Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
-								default: break;
+								case "elite-dangerous-64": _Game.name = "Horizons (Legacy)"; _Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
+								case "FORC-FDEV-DO-38-IN-40": _Game.name = "Horizons (Live)"; _Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64": _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
+								case "FORC-FDEV-DO-1000": _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
+								default: _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
 							}
 
 							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
@@ -750,11 +909,11 @@ namespace EDHM_UI_mk2
 									is_active = _Game.is_active,
 									themes_folder = _Game.themes_folder
 								});
-							}							
+							}
 						}
 					}
 
-					string NewValue = Util.Serialize_ToJSON(this.GameInstancesEx);
+					string NewValue = Util.Serialize_ToJSON(GameInstancesEx);
 					if (OldValue != NewValue)
 					{
 						Util.WinReg_WriteKey("EDHM", "GameInstances", NewValue);
@@ -835,12 +994,12 @@ namespace EDHM_UI_mk2
 					{
 						var _XmlReader = new System.Xml.XmlDocument();
 						_XmlReader.Load(FilePath);
-						Util.SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixRed", " 1, 0, 0 ");
-						Util.SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixGreen", " 0, 1, 0 ");
-						Util.SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixBlue", " 0, 0, 1 ");
+						Util.XML_SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixRed", " 1, 0, 0 ");
+						Util.XML_SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixGreen", " 0, 1, 0 ");
+						Util.XML_SetValue(_XmlReader, @"/GraphicsConfig/GUIColour/Default/MatrixBlue", " 0, 0, 1 ");
 						_XmlReader.Save(FilePath);
 					}
-					catch 
+					catch
 					{
 						//If we get here, the file is corrupt, gotta overwrite it:
 						StringBuilder _GP = new StringBuilder();
@@ -1344,7 +1503,7 @@ namespace EDHM_UI_mk2
 								}
 							}
 						}
-					} 
+					}
 				}
 			}
 			catch (Exception ex)
@@ -1753,7 +1912,7 @@ namespace EDHM_UI_mk2
 									vGridDetalles.BeginUpdate();
 									vGridDetalles.Rows.Clear();
 								}));
-								
+
 								foreach (element _Element in _UIGroup.Elements)
 								{
 									//Aqui Busca la Traduccion para el Elemento indicado (x Clave) y el Idioma Seleccionado:
@@ -1771,9 +1930,11 @@ namespace EDHM_UI_mk2
 
 									EditorRow _Fila = new DevExpress.XtraVerticalGrid.Rows.EditorRow(_Element.Title);
 									//Muestra en el ToolTip los detalles del Elemento:
-									_Fila.Properties.ToolTip = string.Format("<u><b>{0}</b></u><br><p>{1}<p><br><image={2}>",
+									_Fila.Properties.ToolTip = string.Format("<u><b>{0}</b></u><br><p>{1}<p><br><p>{2}<p><br><image={3}>",
 										_Element.Title, _Element.Description,
+										_Element.Key,
 										_Element.Key.NVL("").Replace('|', '_')); //<- La imagen se obiene de 'this.ElementsImgCollection' usando la 'key' del elemento
+
 									_Fila.Properties.Caption = _Element.Title;
 									_Fila.Properties.FieldName = "Value";
 									_Fila.Tag = _Element;
@@ -2143,7 +2304,7 @@ namespace EDHM_UI_mk2
 										Invoke((MethodInvoker)(() =>
 										{
 											vGridDetalles.Rows.Add(_Fila);
-										}));										
+										}));
 									}
 
 									if (_Fila != null && _Element.Title == SelectRowName)
@@ -2823,7 +2984,7 @@ namespace EDHM_UI_mk2
 						}
 
 						ApplyGlobalSettings(); //<- Global Settings Overwrite the Theme Settings
-						ApplyUserSettings();	//<- User Settings Overwrite the Global Settings
+						ApplyUserSettings();    //<- User Settings Overwrite the Global Settings
 
 						//if (SaveIt) SaveTheme(true);
 
@@ -2998,8 +3159,17 @@ namespace EDHM_UI_mk2
 					{
 						string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
-						string NewProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+						string NewProfileFolder = string.Empty;
+
+						if (!SelectedTheme.folder.EmptyOrNull() && Directory.Exists(SelectedTheme.folder))
+						{
+							NewProfileFolder = SelectedTheme.folder;
+						}
+						else
+						{
+							NewProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
 												   @"Elite Dangerous\EDHM_UI", search, "Themes", SelectedTheme.name);
+						}
 
 						//1. Crear la Carpeta para el Nuevo Perfil, si ya Existe, se Sobreescribe:
 						DirectoryInfo _ProfileDir = System.IO.Directory.CreateDirectory(NewProfileFolder);
@@ -3010,7 +3180,7 @@ namespace EDHM_UI_mk2
 							{
 								//Copiar los Archivos del Tema Actual: // existing files will be overwritten
 								File.Copy(Path.Combine(GameFolder, @"Startup-Profile.ini"),
-										Path.Combine(NewProfileFolder, @"Startup-Profile.ini"), true);
+									Path.Combine(NewProfileFolder, @"Startup-Profile.ini"), true);
 
 								File.Copy(Path.Combine(GameFolder, "XML-Profile.ini"),
 									Path.Combine(NewProfileFolder, @"XML-Profile.ini"), true);
@@ -3020,12 +3190,12 @@ namespace EDHM_UI_mk2
 									if (File.Exists(Path.Combine(GameFolder, @"Advanced.ini")))
 									{
 										File.Copy(Path.Combine(GameFolder, @"Advanced.ini"),
-										Path.Combine(NewProfileFolder, @"Advanced.ini"), true);
+											Path.Combine(NewProfileFolder, @"Advanced.ini"), true);
 									}
 									if (File.Exists(Path.Combine(GameFolder, @"SuitHud.ini")))
 									{
 										File.Copy(Path.Combine(GameFolder, @"SuitHud.ini"),
-										Path.Combine(NewProfileFolder, @"SuitHud.ini"), true);
+											Path.Combine(NewProfileFolder, @"SuitHud.ini"), true);
 									}
 								}
 
@@ -3052,7 +3222,7 @@ namespace EDHM_UI_mk2
 									}
 								}
 							};
-							ApplyTheme(true, true); //<- Aplica los cambios Actuales 
+							ApplyTheme(true, true, true); //<- Aplica los cambios Actuales 
 						}
 					}
 					else
@@ -3066,6 +3236,66 @@ namespace EDHM_UI_mk2
 			{
 				XtraMessageBox.Show(ex.Message);
 			}
+		}
+
+		public void BackUp_CurrentSettings(game_instance pGameInstance)
+		{
+			try
+			{
+				//Backup Current Settings:
+				if (!Directory.Exists(@"C:\Temp"))
+				{
+					Directory.CreateDirectory(@"C:\Temp");
+				}
+
+				if (File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini")))
+				{
+					File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"),
+								   Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini"), true);
+
+					File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "XML-Profile.ini"),
+								   Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"), true);
+				}
+				if (File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini")))
+				{
+					File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini"),
+								   Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini"), true);
+				}
+				if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini")))
+				{
+					File.Copy(Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"),
+								   Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"), true);
+				}
+			}
+			catch { }
+		}
+		public void Restore_CurrentSettings(game_instance pGameInstance)
+		{
+			//Restores User's Current Settings from the backup copy
+			try
+			{
+				if (File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini")))
+				{
+					File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Startup-Profile.ini"),
+						Path.Combine(pGameInstance.path, "EDHM-ini", "Startup-Profile.ini"), true);
+				}
+				if (File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini")))
+				{
+					File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_XML-Profile.ini"),
+						Path.Combine(pGameInstance.path, "EDHM-ini", "XML-Profile.ini"), true);
+				}
+				if (pGameInstance.key == "ED_Horizons" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini")))
+				{
+					File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Custom.ini"),
+						Path.Combine(pGameInstance.path, "EDHM-ini", "Custom.ini"), true);
+				}
+				if (pGameInstance.key == "ED_Odissey" && File.Exists(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini")))
+				{
+					File.Copy(Path.Combine(@"C:\Temp", pGameInstance.key + "_Advanced.ini"),
+						Path.Combine(pGameInstance.path, "EDHM-ini", "Advanced.ini"), true);
+				}
+			}
+			catch { }
 		}
 
 		private bool ImportTheme()
@@ -3790,6 +4020,15 @@ namespace EDHM_UI_mk2
 									VI.cur_version = App_Version.ToString();
 									Util.Serialize_ToJSON(TempFilePath, VI);
 
+									//Check if there is a Notification to show, displays it up to 3 times.
+									int EDHM_Notif_Count = Convert.ToInt32(Util.AppConfig_GetValue("EDHM_Notif_Count").NVL("1"));
+									if (!VI.notification.EmptyOrNull() && EDHM_Notif_Count <= 3)
+									{
+										EDHM_Notif_Count++;
+										ShowSystemNotificacion("EDHM Notification:", VI.notification);
+										Util.AppConfig_SetValue("EDHM_Notif_Count", EDHM_Notif_Count.ToString());
+									}
+
 									if (HayActualizacion)
 									{
 										//Hay Actualizacion!
@@ -3800,7 +4039,7 @@ namespace EDHM_UI_mk2
 											{
 												PreviewForm.Close();
 											}
-
+											Util.AppConfig_SetValue("EDHM_Notif_Count", "0");
 											System.Diagnostics.ProcessStartInfo StartInfo = new System.Diagnostics.ProcessStartInfo
 											{
 												UseShellExecute = true,
@@ -4069,6 +4308,7 @@ namespace EDHM_UI_mk2
 		#region Shipyard
 
 		private bool ApplyingShip = false;
+		private string OldShip = string.Empty;
 
 		private void ReadPlayerJournal()
 		{
@@ -4230,7 +4470,17 @@ namespace EDHM_UI_mk2
 												 { "Name":"The Hive", "FactionState":"Boom", "Government":"Cooperative", "Influence":0.645000, "Allegiance":"Independent",  
 															"Happiness_Localised":"Happy", "MyReputation":96.040001, 
 															"RecoveringStates":[ { "State":"PublicHoliday", "Trend":0 } ], "ActiveStates":[ { "State":"Boom" } ] }
-				 */
+				
+				"event":"LaunchFighter", "Loadout":"one", "ID":163, "PlayerControlled":true }	//<-  when launching a fighter
+				"event":"Dockfighter
+
+				"event":"LaunchSRV", "SRVType":"testbuggy", "SRVType_Localised":"SRV Scarab", "Loadout":"starter", "ID":220, "PlayerControlled":true } //<- deploying the SRV from a ship onto planet surface
+				"event":"LaunchSRV", "SRVType":"combat_multicrew_srv_01", "SRVType_Localised":"SRV Scorpion", "Loadout":"default", "ID":204, "PlayerControlled":true }
+
+				"event":"DockSRV", "SRVType":"testbuggy", "SRVType_Localised":"SRV Scarab", "ID":220 }		//<- when docking an SRV with the ship
+				"event":"Embark", "SRV": false, "Taxi": false, "Multicrew": false, "ID": 36					//<- when a player (on foot) gets into a ship or SRV
+				
+				 * */
 
 				//1. Buscar el Nombre del Jugador:
 				int index = 0;
@@ -4297,6 +4547,58 @@ namespace EDHM_UI_mk2
 						}
 					}
 				}
+
+				//3. Detectar cuando se lanza el SRV:
+				index = 0;
+				index = JsonLine.IndexOf("\"event\":\"LaunchSRV\"", index);
+				if (index != -1)
+				{
+					//Evento Detectado!
+					dynamic data = Newtonsoft.Json.Linq.JObject.Parse(JsonLine);
+					{
+						/*	*/
+						if (data != null)
+						{
+							if (ED_Ships.IsNotEmpty())
+							{
+								OldShip = CurrentShip.ship_full_name;
+
+								if (this.CurrentShip.NaveCambiada(Convert.ToString(data.SRVType_Localised)))
+								{
+									CurrentShip = ED_Ships.Find(x => x.ed_short == Convert.ToString(data.SRVType));
+									if (CurrentShip != null)
+									{
+										BackUp_CurrentSettings(ActiveInstance);
+
+										ShipIDName = string.Format("{0} ({1})", Util.NVL(CurrentShip.ship_full_name, string.Empty), data.ID);
+										PlayerJournal_ShipChanged(new ship_loadout
+										{
+											ship_short_type = data.SRVType,
+											ship_name = data.SRVType_Localised,
+											ship_id = CurrentShip.ship_id.ToString()
+										});
+									}
+								}
+							}
+						}
+					}
+				}
+
+				//4. Detectar cuando Vuelve a la nave desde el SRV:
+				index = 0;
+				index = JsonLine.IndexOf("\"event\":\"DockSRV\"", index);
+				if (index != -1)
+				{
+					Restore_CurrentSettings(ActiveInstance);
+
+					if (CurrentShip != null)
+					{
+						Invoke((MethodInvoker)(() =>
+						{
+							lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), OldShip);
+						}));
+					}
+				}
 			}
 			catch (Exception ex)
 			{
@@ -4329,7 +4631,7 @@ namespace EDHM_UI_mk2
 							IniFile TPMod_CPM = new IniFile(CPM_path);
 							TPMod_CPM.WriteKey("w158", this.CurrentShip.ship_id.ToString(), "constants");
 						}
-						catch { }						
+						catch { }
 					}
 				}
 
@@ -4642,13 +4944,12 @@ namespace EDHM_UI_mk2
 				var _Selected = (game_instance)(CboGameInstances.Edit as RepositoryItemLookUpEdit)
 					.GetDataSourceRowByKeyValue(CboGameInstances.EditValue);
 
-				ActiveInstance = GameInstances.Find(x => x.game_id == _Selected.game_id);
+				ActiveInstance = GameInstances.Find(x => x.instance == _Selected.instance);
 
 				vGridDetalles.Rows.Clear();
-				//this.accordionControl1.Elements.Clear();
 				Application.DoEvents();
 
-				Util.WinReg_WriteKey("EDHM", "ActiveInstance", ActiveInstance.game_id);
+				Util.WinReg_WriteKey("EDHM", "ActiveInstance", ActiveInstance.instance);
 
 				LoadGameInstance(ActiveInstance, LangShort);  //<- Carga La Instancia Activa	
 				LoadMenus(LangShort);
@@ -5134,7 +5435,7 @@ namespace EDHM_UI_mk2
 						try
 						{
 							#region Buscar Elementos del HUD
-														
+
 							foreach (ui_group _UIGroup in Settings.ui_groups)
 							{
 								//Busca en los nombres de los grupos (Categorias)
@@ -5158,12 +5459,17 @@ namespace EDHM_UI_mk2
 							#endregion
 
 							#region Buscar Themas y Autores
-														
+
+							if (_NameFilter.ToUpper() == "CUTIE")
+							{
+								_NameFilter = "Rico";
+							}
+
 							//Busca tambien en la lista de temas:
 							if (UI_Themes.IsNotEmpty())
 							{
 								var _ret = UI_Themes.FindAll(x => x.name.ToUpper().Contains(_NameFilter.ToUpper()) ||
-																	   x.author.ToUpper().Contains(_NameFilter.ToUpper()));
+																  x.author.ToUpper().Contains(_NameFilter.ToUpper()));
 								if (_ret != null)
 								{
 									foreach (var item in _ret)
@@ -5182,10 +5488,10 @@ namespace EDHM_UI_mk2
 							#endregion
 
 							#region Busca el las Global Settings
-														
-							if (this.GlobalSettings != null && GlobalSettings.Elements.IsNotEmpty())
+
+							if (GlobalSettings != null && GlobalSettings.Elements.IsNotEmpty())
 							{
-								var _ret = GlobalSettings.Elements.FindAll(x => x.Title.ToUpper().Contains(_NameFilter.ToUpper()) );
+								var _ret = GlobalSettings.Elements.FindAll(x => x.Title.ToUpper().Contains(_NameFilter.ToUpper()));
 								if (_ret != null)
 								{
 									foreach (var _Element in _ret)
@@ -5332,7 +5638,7 @@ namespace EDHM_UI_mk2
 				DevExpress.XtraGrid.Views.Grid.GridView View = sender as DevExpress.XtraGrid.Views.Grid.GridView;
 				if (View != null)
 				{
-					ShowSearchedElement((element)View.GetFocusedRow());					
+					ShowSearchedElement((element)View.GetFocusedRow());
 				}
 			}
 			catch (Exception ex)
@@ -5932,30 +6238,30 @@ namespace EDHM_UI_mk2
 						if (XtraMessageBox.Show(string.Format("You want to add '{0}' to the User Settings List?", _Element.Title),
 							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 						{
-							if (this.UserSettings is null)
+							if (UserSettings is null)
 							{
-								this.UserSettings = new ui_group("UserSettings", "User Settings");
+								UserSettings = new ui_group("UserSettings", "User Settings");
 							}
 
 							element _Existe = null;
-							if (this.UserSettings.Elements.IsNotEmpty())
+							if (UserSettings.Elements.IsNotEmpty())
 							{
-								_Existe = this.UserSettings.Elements.Find(x => x.Key == _Element.Key);
+								_Existe = UserSettings.Elements.Find(x => x.Key == _Element.Key);
 							}
 
 							if (_Existe is null)
 							{
-								if (this.UserSettings.Elements is null)
+								if (UserSettings.Elements is null)
 								{
-									this.UserSettings.Elements = new List<element>();
+									UserSettings.Elements = new List<element>();
 								}
 
-								this.UserSettings.Elements.Add(_Element);
+								UserSettings.Elements.Add(_Element);
 
 								//Guarda los datos en el JSON:
-								if (this.UserSettings != null)
+								if (UserSettings != null)
 								{
-									Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), this.UserSettings);
+									Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), UserSettings);
 
 									LoadUserSettings(ActiveInstance);
 									dockManager1.ActivePanel = dockUserSettings;
@@ -6024,15 +6330,15 @@ namespace EDHM_UI_mk2
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-						this.UserSettings = null;
+						UserSettings = null;
 						string _File = Path.Combine(UI_DOCUMENTS, pGameInstance.key + "_User_Settings.json");
 
 						if (File.Exists(_File))
 						{
-							this.UserSettings = Util.DeSerialize_FromJSON<ui_group>(_File);
+							UserSettings = Util.DeSerialize_FromJSON<ui_group>(_File);
 						}
 
-						if (this.UserSettings != null)
+						if (UserSettings != null)
 						{
 							//Cargar las propiedades
 							try
@@ -6040,7 +6346,7 @@ namespace EDHM_UI_mk2
 								vGridUserSettings.BeginUpdate();
 								vGridUserSettings.Rows.Clear();
 
-								foreach (element _Element in this.UserSettings.Elements)
+								foreach (element _Element in UserSettings.Elements)
 								{
 									EditorRow _Fila = new DevExpress.XtraVerticalGrid.Rows.EditorRow(_Element.Title);
 									_Fila.Properties.ToolTip = _Element.Description;
@@ -6070,7 +6376,7 @@ namespace EDHM_UI_mk2
 												RepositoryItemTrackBar _ComboValue = new RepositoryItemTrackBar
 												{
 													EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
-													Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+													Name = string.Format("{0}|{1}", UserSettings.Name, _Element.Title),
 													EditValueChangedDelay = 500,
 													ShowValueToolTip = true,
 													Tag = _Element
@@ -6127,7 +6433,7 @@ namespace EDHM_UI_mk2
 													{
 														RepositoryItemLookUpEdit _ComboPreset = new RepositoryItemLookUpEdit()
 														{
-															Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+															Name = string.Format("{0}|{1}", UserSettings.Name, _Element.Title),
 															DisplayMember = "Name",
 															ValueMember = "Index",
 															DataSource = _Presets,
@@ -6168,7 +6474,7 @@ namespace EDHM_UI_mk2
 												//};
 												RepositoryItemMyColorPickEdit _ComboColor = new RepositoryItemMyColorPickEdit
 												{
-													Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+													Name = string.Format("{0}|{1}", UserSettings.Name, _Element.Title),
 													ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Simple,
 													AutomaticColor = Color.Orange,
 													ShowMoreColorsButton = true,
@@ -6311,7 +6617,7 @@ namespace EDHM_UI_mk2
 											Invoke((MethodInvoker)(() =>
 											{
 												RepositoryItemToggleSwitch _ToogleControl = new RepositoryItemToggleSwitch();
-												_ToogleControl.Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title);
+												_ToogleControl.Name = string.Format("{0}|{1}", UserSettings.Name, _Element.Title);
 												_ToogleControl.EditValueChanged += _ComboValue_EditValueChanged;
 												_ToogleControl.EditValueChangedDelay = 500;
 												_ToogleControl.Tag = _Element;
@@ -6332,7 +6638,7 @@ namespace EDHM_UI_mk2
 
 											RepositoryItemSpinEdit _NumberItem = new RepositoryItemSpinEdit()
 											{
-												Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+												Name = string.Format("{0}|{1}", UserSettings.Name, _Element.Title),
 												EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
 												EditValueChangedDelay = 500,
 												AllowMouseWheel = true,
@@ -6366,7 +6672,7 @@ namespace EDHM_UI_mk2
 
 											RepositoryItemTextEdit _TextItem = new RepositoryItemTextEdit()
 											{
-												Name = string.Format("{0}|{1}", this.UserSettings.Name, _Element.Title),
+												Name = string.Format("{0}|{1}", UserSettings.Name, _Element.Title),
 												EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered,
 												EditValueChangedDelay = 500,
 												AllowFocused = true,
@@ -6449,7 +6755,7 @@ namespace EDHM_UI_mk2
 		{
 			try
 			{
-				if (this.UserSettings != null && this.UserSettings.Elements.IsNotEmpty())
+				if (UserSettings != null && UserSettings.Elements.IsNotEmpty())
 				{
 					IniFile _StartupReader = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\Startup-Profile.ini"));
 					IniFile _ReaderAdvanced = null;
@@ -6464,7 +6770,7 @@ namespace EDHM_UI_mk2
 						_ReaderOnfoot = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\SuitHud.ini"));
 					}
 
-					foreach (var _Element in this.UserSettings.Elements)
+					foreach (var _Element in UserSettings.Elements)
 					{
 						if (_Element.ValueType == "Color")
 						{
@@ -6521,30 +6827,30 @@ namespace EDHM_UI_mk2
 						if (XtraMessageBox.Show(string.Format("You want to add '{0}' to the User Settings List?", _Element.Title),
 							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 						{
-							if (this.UserSettings is null)
+							if (UserSettings is null)
 							{
-								this.UserSettings = new ui_group("UserSettings", "User Settings");
+								UserSettings = new ui_group("UserSettings", "User Settings");
 							}
 
 							element _Existe = null;
-							if (this.UserSettings.Elements.IsNotEmpty())
+							if (UserSettings.Elements.IsNotEmpty())
 							{
-								_Existe = this.UserSettings.Elements.Find(x => x.Key == _Element.Key);
+								_Existe = UserSettings.Elements.Find(x => x.Key == _Element.Key);
 							}
 
 							if (_Existe is null)
 							{
-								if (this.UserSettings.Elements is null)
+								if (UserSettings.Elements is null)
 								{
-									this.UserSettings.Elements = new List<element>();
+									UserSettings.Elements = new List<element>();
 								}
 
-								this.UserSettings.Elements.Add(_Element);
+								UserSettings.Elements.Add(_Element);
 
 								//Guarda los datos en el JSON:
-								if (this.UserSettings != null)
+								if (UserSettings != null)
 								{
-									Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), this.UserSettings);
+									Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), UserSettings);
 
 									LoadUserSettings(ActiveInstance);
 									dockManager1.ActivePanel = dockUserSettings;
@@ -6576,11 +6882,11 @@ namespace EDHM_UI_mk2
 						if (XtraMessageBox.Show(string.Format("You want to Remove '{0}' from the User Settings List?", _Element.Title),
 							"Confirm?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 						{
-							if (this.UserSettings != null)
+							if (UserSettings != null)
 							{
-								this.UserSettings.Elements.Remove(_Element);
+								UserSettings.Elements.Remove(_Element);
 
-								Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), this.UserSettings);
+								Util.Serialize_ToJSON(Path.Combine(UI_DOCUMENTS, ActiveInstance.key + "_User_Settings.json"), UserSettings);
 
 								LoadUserSettings(ActiveInstance);
 							}
@@ -6757,7 +7063,7 @@ namespace EDHM_UI_mk2
 			GameFolderForm _Form = new GameFolderForm(GameInstancesEx);
 			if (_Form.ShowDialog() == DialogResult.OK)
 			{
-				this.GameInstancesEx = _Form.GameInstancesEx;
+				GameInstancesEx = _Form.GameInstancesEx;
 
 				string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
 				string GameInstances_JSON = Util.Serialize_ToJSON(_Form.GameInstancesEx);
@@ -6773,7 +7079,7 @@ namespace EDHM_UI_mk2
 				string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
 				if (_ActiveGames != null && _ActiveGames.Length > 1)
 				{
-					ActiveInstance = GameInstances.Find(x => x.game_id == _RegActiveInstance);
+					ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
 				}
 				if (ActiveInstance == null)
 				{
@@ -6781,7 +7087,7 @@ namespace EDHM_UI_mk2
 						GameInstancesEx[0].games[1] :
 						GameInstancesEx[0].games[0];
 
-					_RegActiveInstance = ActiveInstance.game_id;
+					_RegActiveInstance = ActiveInstance.instance;
 					Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
 				}
 

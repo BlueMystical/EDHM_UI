@@ -233,11 +233,11 @@ namespace EDHM_UI_mk2
 
 							switch (Path.GetFileNameWithoutExtension(_Game.path))
 							{
-								case "elite-dangerous-64":			_Game.name = "Horizons (3.8)";	_Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
-								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (4.0)";	_Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
-								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (4.0)";	_Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
-								default: break;
+								case "elite-dangerous-64":			_Game.name = "Horizons (Legacy)";	_Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
+								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (Live)";	_Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey (Live)";	_Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
+								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (Live)";	_Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
+								default: _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;   
 							}
 
 							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
@@ -300,10 +300,10 @@ namespace EDHM_UI_mk2
 			/*  ASISTENTE PARA LOCALIZAR EL JUEGO */
 			try
 			{
-				GameInstance _Selected = (GameInstance)this.gridView1.GetFocusedRow();
-				if (_Selected != null)
+				GameInstance Instancia = (GameInstance)this.gridView1.GetFocusedRow();
+				if (Instancia != null)
 				{
-					if (XtraMessageBox.Show(string.Format("Do you Need Help Finding the Locations for Elite Dangerous Game?\r\nFor the '{0}' Instance.", _Selected.instance),
+					if (XtraMessageBox.Show(string.Format("Do you Need Help Finding the Locations for Elite Dangerous Game?\r\nFor the '{0}' Instance.", Instancia.instance),
 										"Need a Hand?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
 						if (XtraMessageBox.Show("First go and Start the Game Client.\r\nLeave this window open while you go,\r\n or open it again after game is running.\r\n\r\nClick Yes when the Game is Running.",
@@ -331,13 +331,9 @@ namespace EDHM_UI_mk2
 
 							if (GameProcess != null)
 							{
-								string ODYS_PATH = string.Empty;
-								string HORI_PATH = string.Empty;
-
-								string GameFolder = System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName); //Obtiene el Path: (Sin archivo ni extension:							
-								string ProductsFolder = System.IO.Directory.GetParent(GameFolder).FullName; //<- Obtiene la Carpeta Anterior 
-								string RootFolder = new System.IO.DirectoryInfo(System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName)).Name; //<- Nombre de la Ultima Carpeta en la Ruta
-
+								string GameProcess_Folder = System.IO.Path.GetDirectoryName(GameProcess.MainModule.FileName); //Obtiene el Path: (Sin archivo ni extension:							
+								string ProductsFolder = System.IO.Directory.GetParent(GameProcess_Folder).FullName; //<- Obtiene la Carpeta Anterior 
+								
 								#region Close the Game
 
 								try
@@ -350,54 +346,69 @@ namespace EDHM_UI_mk2
 
 								#endregion
 
-								switch (RootFolder)
+								Instancia.games = new List<game_instance>();
+
+								foreach (string d in System.IO.Directory.GetDirectories(ProductsFolder))
 								{
-									case "elite-dangerous-64":			HORI_PATH = GameFolder; _Selected.games[0].name = "Horizons (3.8)";	_Selected.games[0].key = "ED_Horizons"; break;		//<- Horizons 3.8
-									case "FORC-FDEV-DO-38-IN-40":		ODYS_PATH = GameFolder; _Selected.games[1].name = "Horizons (4.0)";	_Selected.games[1].key = "ED_Odissey"; break;		//<- Horizons 4.0
-									case "elite-dangerous-odyssey-64":	ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey (4.0)";	_Selected.games[1].key = "ED_Odissey"; break;		//<- Odyssey 4.0
-									case "FORC-FDEV-DO-1000":			ODYS_PATH = GameFolder; _Selected.games[1].name = "Odyssey";		_Selected.games[1].key = "ED_Odissey"; break;		//<- Odyssey 4.0 alt								
-									default: break;
+									game_instance Game = new game_instance() { path = d };
+
+									switch (new System.IO.DirectoryInfo(d).Name) 
+									{
+										case "elite-dangerous-64":			//<- Horizons 3.8											
+											Game.instance = "Horizons (3.8)";
+											Game.name = "Horizons (Legacy)";
+											Game.key = "ED_Horizons";											
+											break;      
+
+										case "FORC-FDEV-DO-38-IN-40":       //<- Horizons 4.0
+											Game.instance = "Horizons (4.0)";
+											Game.name = "Horizons (Live)";
+											Game.key = "ED_Odissey";
+											break;     
+											
+										case "elite-dangerous-odyssey-64": //<- Odyssey 4.0;
+											Game.instance = "Odyssey (4.0)";
+											Game.name = "Odyssey (Live)";
+											Game.key = "ED_Odissey";
+											break;       
+
+										case "FORC-FDEV-DO-1000":       //<- Odyssey 4.0 alt	
+											Game.instance = "Odyssey (4.0)";
+											Game.name = "Odyssey (Live)";
+											Game.key = "ED_Odissey";
+											break;    
+											
+										default:
+											Game.instance = "Odyssey (4.0)";
+											Game.name = "Odyssey (Live)";
+											Game.key = "ED_Odissey";
+											break;
+									}
+
+									if (File.Exists(Path.Combine(Game.path, "EliteDangerous64.exe")))
+									{
+										Instancia.games.Add(Game);
+									}									
 								}
 
-								if (HORI_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "elite-dangerous-64")))
+								string Mensaje = string.Empty;
+								foreach (var game in Instancia.games)
 								{
-									HORI_PATH = Path.Combine(ProductsFolder, "elite-dangerous-64");
-									_Selected.games[0].instance = "Horizons (3.8)";
-								}
-								if (ODYS_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "FORC-FDEV-DO-38-IN-40")))
-								{
-									ODYS_PATH = Path.Combine(ProductsFolder, "FORC-FDEV-DO-38-IN-40");
-									_Selected.games[1].instance = "Horizons (4.0)";
-								}
-								if (ODYS_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "elite-dangerous-odyssey-64")))
-								{
-									ODYS_PATH = Path.Combine(ProductsFolder, "elite-dangerous-odyssey-64");
-									_Selected.games[1].instance = "Odyssey (4.0)";
-								}
-								if (ODYS_PATH.EmptyOrNull() && Directory.Exists(Path.Combine(ProductsFolder, "FORC-FDEV-DO-1000")))
-								{
-									ODYS_PATH = Path.Combine(ProductsFolder, "FORC-FDEV-DO-1000");
-									_Selected.games[1].instance = "Odyssey";
-								}
+									Mensaje += string.Format("{0} had been Detected\r\n", game.name);
+								}							
 
-								string Msg1 = !HORI_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[0].name) : string.Empty;
-								string Msg2 = !ODYS_PATH.EmptyOrNull() ? string.Format("{0} had been Detected", _Selected.games[1].name) : string.Empty;
-
-								if (!HORI_PATH.EmptyOrNull() || !ODYS_PATH.EmptyOrNull())
+								if (!Mensaje.EmptyOrNull())
 								{
 									//Establece los juegos encontrados en la Instancia Seleccionada
-									if (_Selected != null)
+									if (Instancia != null)
 									{
-										if (XtraMessageBox.Show(string.Format("{0}\r\n{1}\r\n\r\nWould you like to Apply the Found Locations to the Instance '{2}'?", Msg1, Msg2, _Selected.instance),
+										if (XtraMessageBox.Show(string.Format("{0}\r\n\r\nWould you like to Apply the Found Locations to the Instance '{1}'?", Mensaje, Instancia.instance),
 																	"GAME HAD BEEN FOUND!",
 																	MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 										{
-											_Selected.games[0].path = HORI_PATH;
-											_Selected.games[1].path = ODYS_PATH;
-
-											if (HORI_PATH.Contains("steamapps"))	_Selected.instance = "Steam";
-											if (HORI_PATH.Contains("Epic Games"))	_Selected.instance = "Epic Games";
-											if (HORI_PATH.Contains("Frontier"))		_Selected.instance = "Frontier";
+											if (Instancia.games[0].path.Contains("steamapps"))	Instancia.instance = "Steam";
+											if (Instancia.games[0].path.Contains("Epic Games"))	Instancia.instance = "Epic Games";
+											if (Instancia.games[0].path.Contains("Frontier"))	Instancia.instance = "Frontier";
 
 											this.gridControl1.RefreshDataSource();
 											ExpandAllRows(this.gridView1);

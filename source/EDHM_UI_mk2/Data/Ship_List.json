@@ -264,5 +264,20 @@
     "ed_short": "vulture",
     "size": "Small",
     "role": "Combat "
+  },
+
+  {
+    "ship_full_name": "SRV Scarab",
+    "ship_id": 39,
+    "ed_short": "testbuggy",
+    "size": "Small",
+    "role": "Explorer "
+  },
+  {
+    "ship_full_name": "SRV Scorpion",
+    "ship_id": 40,
+    "ed_short": "combat_multicrew_srv_01",
+    "size": "Small",
+    "role": "Combat "
   }
 ]
