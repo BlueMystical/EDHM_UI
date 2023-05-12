@@ -6,7 +6,7 @@
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
    "changelog": "- Implemented EDHM v14.05",
-   "notification": "",
+   "notification": "FDev U15 broke EDHM functionality, our team is already working on it, a fix will be published as soon as we can.",
    "re_install": true,
    "run_hotfix": true
 }
