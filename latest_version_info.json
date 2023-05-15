@@ -1,12 +1,12 @@
 {
-   "app_version": "2.1.74.0",
-   "last_installer": "2.1.74.0",
+   "app_version": "2.1.75.0",
+   "last_installer": "2.1.75.0",
    "ED_Horizons": "1.52.1.0",
-   "ED_Odissey":  "2.11.2.0",   
+   "ED_Odissey":  "2.15.1.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Implemented EDHM v14.05",
-   "notification": "FDev U15 broke EDHM functionality, our team is already working on it, a fix will be published as soon as we can.",
+   "changelog": "- ORANGE KILLER PATCH for FDev's U15.\r\nSorry for the late.",
+   "notification": "",
    "re_install": true,
    "run_hotfix": true
 }
