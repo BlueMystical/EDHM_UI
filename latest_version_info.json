@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.75.0",
-   "last_installer": "2.1.75.0",
+   "app_version": "2.1.78.0",
+   "last_installer": "2.1.78.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.15.1.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- ORANGE KILLER PATCH for FDev's U15.\r\nSorry for the late.",
+   "changelog": "- Small patch to fix a known incompatibility with MS-OneDrive.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
