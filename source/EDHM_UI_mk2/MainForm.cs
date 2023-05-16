@@ -81,9 +81,8 @@ namespace EDHM_UI_mk2
 		private string LangShort = "en"; //<- Idioma x Defecto
 		private string ThemeWord = "Themes"; //<- para una Etiqueta que muestra la cantidad de temas, se traduce a diferentes idiomas
 
-		private string UI_DOCUMENTS = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
-
-
+		/// <summary>Folder where all Themes and User's preferences get saved.</summary>
+		private string UI_DOCUMENTS = @"%USERPROFILE%\EDHM_UI"; // Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
 
 		private event EventHandler OnThemeApply;//<- Ocurre al Aplicar un tema
 
@@ -182,6 +181,8 @@ namespace EDHM_UI_mk2
 			cmdThemes_ShowFavorites.Checked = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "FavToogle").NVL("false"));
 			SavesToRemember = Convert.ToInt32(Util.WinReg_ReadKey("EDHM", "SavesToRemember").NVL("10"));
 			AutoApplyTheme = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "AutoApplyTheme").NVL("false"));
+			UI_DOCUMENTS = GetUIDocumentsDir(); //<- @"%USERPROFILE%\EDHM_UI"
+			
 
 			var EDJournalDir = Util.WinReg_ReadKey("EDHM", "PlayerJournal");
 			if (EDJournalDir is null)
@@ -598,6 +599,29 @@ namespace EDHM_UI_mk2
 		bool LoadingTheme = false; //<- Previene que se llame este metodo varias veces a la vez.
 		Stopwatch _Stopwatch = new Stopwatch();
 
+
+		public string GetUIDocumentsDir(bool MakeDir = true)
+		{
+			string _ret = @"%USERPROFILE%\EDHM_UI";
+			try
+			{
+				_ret = Util.AppConfig_GetValue("EDHM_DOCS").NVL(@"%USERPROFILE%\EDHM_UI"); //<- @"%USERPROFILE%\EDHM_UI"
+				_ret = Environment.ExpandEnvironmentVariables(_ret); //<- Permite usar cualquier variable de Windows
+
+				// https://pureinfotech.com/list-environment-variables-windows-10/   <- Windows's Enviroment Variables List
+
+				if (MakeDir && !Directory.Exists(_ret))
+				{
+					Directory.CreateDirectory(_ret);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			return _ret;
+		}
+
 		private bool LoadingGameInstance = false;
 		private void LoadGameInstance(game_instance pGameInstance, string pLang = "en")
 		{
@@ -772,7 +796,7 @@ namespace EDHM_UI_mk2
 			try
 			{
 				string update_path = Path.Combine(AppExePath, "Updates");
-				string search = pGameInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+				string GameVersion = pGameInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 
 				KillGameProcces();
 
@@ -782,7 +806,7 @@ namespace EDHM_UI_mk2
 					DirectoryInfo di = new DirectoryInfo(update_path);
 
 					//Busca el Archivo ZIP mas reciente:
-					var UpdateFile = di.GetFiles(string.Format("{0}_EDHM-*.zip", search))
+					var UpdateFile = di.GetFiles(string.Format("{0}_EDHM-*.zip", GameVersion))
 						.OrderByDescending(f => f.LastWriteTime).First();
 
 					if (UpdateFile != null)
@@ -803,22 +827,23 @@ namespace EDHM_UI_mk2
 							_ret = true;
 
 							//Store Imported Version:
-							Util.WinReg_WriteKey("EDHM", string.Format("Version_{0}", search), _Version);
+							Util.WinReg_WriteKey("EDHM", string.Format("Version_{0}", GameVersion), _Version);
 
 							SetGraphicSettings();
 						}
 
-						// Unzip the Themes: D:\Documentos\Elite Dangerous\EDHM_UI\ODYSS\Themes
-						string origen = Path.Combine(update_path, string.Format("Themes_EDHM_{0}.zip", search));
+						// Unzip the Themes: %USERPROFILE%\EDHM_UI\ODYSS\Themes
+						string origen = Path.Combine(update_path, string.Format("Themes_EDHM_{0}.zip", GameVersion));
 						if (File.Exists(origen))
 						{
-							string destino = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI\", search);
-							if (!Directory.Exists(destino))
-							{
-								Directory.CreateDirectory(destino);
-							}
+							string destino = Path.Combine(UI_DOCUMENTS, GameVersion); 
+							if (!Directory.Exists(destino)) Directory.CreateDirectory(destino); //<- %USERPROFILE%\EDHM_UI\ODYSS\
 
-							Util.DoNetZIP_UnCompressFile(origen, destino);
+							//Mueve los Themas del Lugar anterior:
+							MoveUIDocuments(destino, GameVersion);
+
+							//Ahora descomprimimos el ZIP con los Temas Nuevos:
+							Util.DoNetZIP_UnCompressFile(origen, destino); //<- La carpeta "Themes" ya viene dentro del ZIP
 
 							pGameInstance.themes_folder = Path.Combine(destino, "Themes");
 						}
@@ -1232,8 +1257,8 @@ namespace EDHM_UI_mk2
 						ThemeListLoaded = false;
 						UI_Themes = new List<ui_preset_new>();
 
-						string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-						ActiveInstance.themes_folder = Path.Combine(UI_DOCUMENTS, search, "Themes");
+						string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+						ActiveInstance.themes_folder = Path.Combine(UI_DOCUMENTS, GameVersion, "Themes");
 
 						if (Directory.Exists(ActiveInstance.themes_folder))
 						{
@@ -2077,13 +2102,12 @@ namespace EDHM_UI_mk2
 													ShowSystemColors = false,
 													ShowWebSafeColors = false,
 													ShowMyCustomColors = true,
-													ShowMyPastelColors = false,
+													ShowMyPastelColors = false,													
 													Tag = _Element
 												};
 												//_ComboColor.EditValueChanged += _ComboValue_EditValueChanged;
 												List<Color> _GColors = null;
 												var _StandardColors = _ComboColor.MyStandardColors;
-
 												_ComboColor.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
 												_ComboColor.EditValueChangedDelay = 500;
 												_ComboColor.ColorDialogOptions.ShowTabs = ShowTabs.RGBModel;
@@ -2424,9 +2448,8 @@ namespace EDHM_UI_mk2
 						SelectedTheme.Preview = _Form.Thumbnail;
 
 						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
-						string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-						string NewProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-												   @"Elite Dangerous\EDHM_UI", search, "Themes", SelectedTheme.name);
+						string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+						string NewProfileFolder = Path.Combine(UI_DOCUMENTS, GameVersion, "Themes", SelectedTheme.name);
 						SelectedTheme.folder = NewProfileFolder;
 
 						//Agregar el Identificador del Autor:
@@ -2619,9 +2642,8 @@ namespace EDHM_UI_mk2
 						SelectedTheme.Preview = _Form.Thumbnail;
 
 						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
-						string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-						string NewProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-												   @"Elite Dangerous\EDHM_UI", search, "Themes", SelectedTheme.name);
+						string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+						string NewProfileFolder = Path.Combine(UI_DOCUMENTS, GameVersion, "Themes", SelectedTheme.name);
 
 						SelectedTheme.folder = NewProfileFolder;
 						_ret = NewProfileFolder; //<- Devuelve la Ruta del Nuevo tema
@@ -3040,8 +3062,7 @@ namespace EDHM_UI_mk2
 				{
 					//Get the History folder for the Current Instance
 					string GameInstanceID = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-					string HistoryFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-											   @"Elite Dangerous\EDHM_UI", GameInstanceID, "History");
+					string HistoryFolder = Path.Combine(UI_DOCUMENTS, GameInstanceID, "History");
 
 					if (!Directory.Exists(HistoryFolder))
 					{
@@ -3066,8 +3087,7 @@ namespace EDHM_UI_mk2
 			{
 				//Obtiene la ruta de la carpeta con el historial, para la instancia actual
 				string GameInstanceID = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-				string HistoryFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-										   @"Elite Dangerous\EDHM_UI", GameInstanceID, "History");
+				string HistoryFolder = Path.Combine(UI_DOCUMENTS, GameInstanceID, "History");
 
 				if (Directory.Exists(HistoryFolder))
 				{
@@ -3157,7 +3177,7 @@ namespace EDHM_UI_mk2
 					SavingTheme = true;
 					if (SelectedTheme != null && SelectedTheme.name != "Current Settings")
 					{
-						string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+						string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
 						string NewProfileFolder = string.Empty;
 
@@ -3167,8 +3187,7 @@ namespace EDHM_UI_mk2
 						}
 						else
 						{
-							NewProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-												   @"Elite Dangerous\EDHM_UI", search, "Themes", SelectedTheme.name);
+							NewProfileFolder = Path.Combine(UI_DOCUMENTS, GameVersion, "Themes", SelectedTheme.name);
 						}
 
 						//1. Crear la Carpeta para el Nuevo Perfil, si ya Existe, se Sobreescribe:
@@ -3297,6 +3316,61 @@ namespace EDHM_UI_mk2
 			}
 			catch { }
 		}
+		public void MoveUIDocuments(string destino, string GameVersion)
+		{
+			try
+			{
+				//destino = %USERPROFILE%\EDHM_UI\ODYSS\
+				//GameVersion = ODYSS, HORIZ
+
+				//Mueve los Themas del Lugar anterior:
+				string oldDocs = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI", GameVersion, "Themes");
+				if (Directory.Exists(oldDocs))
+				{
+					Util.CopyDirectory(new DirectoryInfo(oldDocs), new DirectoryInfo(Path.Combine(destino, "Themes")));
+					Directory.Delete(oldDocs, true);
+				}
+
+				//Mover la Historia:
+				string HistoryDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI", GameVersion, "History");
+				if (Directory.Exists(HistoryDir))
+				{
+					Util.CopyDirectory(new DirectoryInfo(HistoryDir), new DirectoryInfo(Path.Combine(destino, "History")));
+					Directory.Delete(HistoryDir, true);
+				}
+
+				//Mueve los UserSettings:
+				try
+				{
+					oldDocs = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
+					if (File.Exists(Path.Combine(oldDocs, "ED_Horizons_User_Settings.json")))
+					{
+						File.Move(Path.Combine(oldDocs, "ED_Horizons_User_Settings.json"), Path.Combine(UI_DOCUMENTS, "ED_Horizons_User_Settings.json"));
+					}
+					if (File.Exists(Path.Combine(oldDocs, "ED_Odissey_User_Settings.json")))
+					{
+						File.Move(Path.Combine(oldDocs, "ED_Odissey_User_Settings.json"), Path.Combine(UI_DOCUMENTS, "ED_Odissey_User_Settings.json"));
+					}
+				}
+				catch { }				
+
+				if (GameVersion == "ODYSS")
+				{
+					//Mover los Temas de los 3Pmods:   %USERPROFILE%\Documents\Elite Dangerous\EDHM_UI\ODYSS\3PMods
+					if (Directory.Exists(Path.Combine(oldDocs, GameVersion, "3PMods")))
+					{
+						Util.CopyDirectory(new DirectoryInfo(Path.Combine(oldDocs, GameVersion, "3PMods")),
+										   new DirectoryInfo(Path.Combine(destino, "3PMods")));
+						Directory.Delete(Path.Combine(oldDocs, GameVersion, "3PMods"), true);
+					}
+					//if (Directory.Exists(oldDocs)) Directory.Delete(oldDocs, true);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 
 		private bool ImportTheme()
 		{
@@ -3321,9 +3395,8 @@ namespace EDHM_UI_mk2
 					Cursor = Cursors.WaitCursor;
 
 					string FileName = System.IO.Path.GetFileNameWithoutExtension(XOFD.FileName); //<- Nombre sin Extension ni Path
-					string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-					string ThemesFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-											   @"Elite Dangerous\EDHM_UI", search, "Themes");
+					string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+					string ThemesFolder = Path.Combine(UI_DOCUMENTS, GameVersion, "Themes");
 
 					if (Directory.Exists(ThemesFolder))
 					{
@@ -3742,7 +3815,6 @@ namespace EDHM_UI_mk2
 							{
 								string HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);
 								string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
-								string UI_Documents = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
 
 								foreach (file_job _job in _Jobs)
 								{
@@ -3751,7 +3823,7 @@ namespace EDHM_UI_mk2
 
 									_job.file_path = _job.file_path.Replace("%GAME_PATH%", GamePath);
 									_job.file_path = _job.file_path.Replace("%UI_PATH%", AppExePath);
-									_job.file_path = _job.file_path.Replace("%UI_DOCS%", UI_Documents);
+									_job.file_path = _job.file_path.Replace("%UI_DOCS%", UI_DOCUMENTS);
 
 									if (_job.destination != null && _job.destination != string.Empty)
 									{
@@ -3853,7 +3925,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace);
+				//MessageBox.Show(ex.Message + ex.StackTrace);
 			}
 			return _ret;
 		}
