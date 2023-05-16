@@ -28,8 +28,10 @@ namespace EDHM_UI_mk2.Forms
 
 		private IniFile _IniReader_OLD = null;
 		private XmlDocument _XmlReader = null;
-
-		private string UI_DOCUMENTS = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
+		
+		/// <summary>Folder where all Themes and User's preferences get saved.</summary>
+		private string UI_DOCUMENTS = @"%USERPROFILE%\EDHM_UI";
+		//private string UI_DOCUMENTS = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
 
 		#endregion
 
@@ -65,6 +67,7 @@ namespace EDHM_UI_mk2.Forms
 				OnSectionChanged += TPModsManager_OnSectionChanged;
 				OnKeyChanged += TPModsManager_OnKeyChanged;
 
+				UI_DOCUMENTS = GetUIDocumentsDir(); //<- @"%USERPROFILE%\EDHM_UI"
 				LoadModList();
 			}
 			catch (Exception ex)
@@ -1554,7 +1557,7 @@ namespace EDHM_UI_mk2.Forms
 									{
 										string _File = _Dependency.Replace("ShaderFixes", Path.Combine(ActiveInstance.path, "ShaderFixes"));
 										_File = _File.Replace("%USER_DOCUMENTS%", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-										_File = _File.Replace("%EDUI_DOCUMENTS%", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI"));
+										_File = _File.Replace("%EDUI_DOCUMENTS%", UI_DOCUMENTS);
 										_File = _File.Replace("%ACTIVE_GAME%", ActiveInstance.path);
 
 										string file_name = System.IO.Path.GetFileName(_File);
@@ -1576,10 +1579,7 @@ namespace EDHM_UI_mk2.Forms
 										}
 										else
 										{
-											if (File.Exists(_File))
-											{
-												File.Delete(_File);
-											}
+											if (File.Exists(_File)) File.Delete(_File);
 										}
 									}
 								}
@@ -2301,6 +2301,28 @@ namespace EDHM_UI_mk2.Forms
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+		}
+
+		public string GetUIDocumentsDir(bool MakeDir = true)
+		{
+			string _ret = @"%USERPROFILE%\EDHM_UI";
+			try
+			{
+				_ret = Util.AppConfig_GetValue("EDHM_DOCS").NVL(@"%USERPROFILE%\EDHM_UI"); //<- @"%USERPROFILE%\EDHM_UI"
+				_ret = Environment.ExpandEnvironmentVariables(_ret); //<- Permite usar cualquier variable de Windows
+
+				// https://pureinfotech.com/list-environment-variables-windows-10/   <- Windows's Enviroment Variables List
+
+				if (MakeDir && !Directory.Exists(_ret))
+				{
+					Directory.CreateDirectory(_ret);
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			return _ret;
 		}
 
 		#endregion
