@@ -4118,6 +4118,7 @@ namespace EDHM_UI_mk2
 						//if (Game_Proc != null && Game_Proc.HasExited == false) Game_Proc.Kill();
 						Game_Proc.Kill();
 					}
+					System.Threading.Thread.Sleep(3000); //<- Espera 3 segundos
 					_ret = (Game_Proc != null && Game_Proc.HasExited) ? true : false;
 				}
 			}
