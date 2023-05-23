@@ -10,6 +10,7 @@ using DevExpress.XtraEditors.Registrator;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
 using DevExpress.XtraTab;
+using EDHM_UI_mk2;
 
 namespace Util_Test
 {
@@ -227,7 +228,7 @@ namespace Util_Test
 	{
 		public MyColorPickEditPopupForm(MyColorPickEdit ownerEdit) : base(ownerEdit)
 		{
-
+			
 		}
 
 		protected override PopupColorBuilder CreatePopupColorEditBuilder()
@@ -240,6 +241,7 @@ namespace Util_Test
 		{
 			public MyPopupColorBuilder(IPopupColorEdit owner) : base(owner)
 			{
+				this.Properties.Buttons[0].Caption = "xxxx";
 			}
 
 			// Your custom control inside tab page (created similar to the control inside custom tab)
@@ -266,6 +268,12 @@ namespace Util_Test
 					}
 					return this.myCustomTabInnerControl2;
 				}
+			}
+
+			protected override void RaiseColorPickDialogShowing(XtraForm frm)
+			{
+				if (frm.Controls.Count > 0) { }
+				base.RaiseColorPickDialogShowing(frm);
 			}
 
 			protected override bool FindEditColor(Color color)
@@ -365,6 +373,7 @@ namespace Util_Test
 			}
 
 			#region Event handlers from parent class
+
 			protected override void OnSelectedColorChanged(object sender, InnerColorPickControlSelectedColorChangedEventArgs e)
 			{
 				base.OnSelectedColorChanged(sender, e);
@@ -372,7 +381,23 @@ namespace Util_Test
 
 			void OnMoreButtonClick(object sender, EventArgs e)
 			{
-				DoShowColorDialog();
+				//DoShowColorDialog();
+				DXColorPicker MyColorPicker = new DXColorPicker((Color)this.ResultColor);
+				if (Mensajero.ShowFormHTML(MyColorPicker, "Pick a Color", DarkMode: true) == DialogResult.OK)
+				{
+					var CP = sender as InnerColorPickControl;
+					CP.SelectedColor = MyColorPicker.SelectedColor;
+					CP.SetColor(MyColorPicker.SelectedColor, true);
+					CP.AutomaticColor = MyColorPicker.SelectedColor;
+
+					FindEditColor(MyColorPicker.SelectedColor);
+					this.Owner.OwnerEdit.EditValue = MyColorPicker.SelectedColor;
+				}
+			}
+
+			void OnBeforeShowPopup(object sender, EventArgs e)
+			{
+				OnBeforeShowPopup();
 			}
 			void OnAutomaticButtonClick(object sender, EventArgs e)
 			{

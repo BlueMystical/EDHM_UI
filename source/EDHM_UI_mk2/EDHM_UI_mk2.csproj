@@ -55,6 +55,7 @@
     <Reference Include="DevExpress.Drawing.v22.2" />
     <Reference Include="DevExpress.Data.v22.2" />
     <Reference Include="DevExpress.DataAccess.v22.2, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Images.v22.2, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v22.2" />
     <Reference Include="DevExpress.Sparkline.v22.2.Core" />
     <Reference Include="DevExpress.XtraBars.v22.2, Version=22.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -107,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases\FileDownloader.cs" />
+    <Compile Include="Clases\Mensajero.cs" />
     <Compile Include="Clases\MyColorPickEdit.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -116,6 +118,12 @@
     </Compile>
     <Compile Include="Forms\AboutForm.designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DXColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\DXColorPicker.Designer.cs">
+      <DependentUpon>DXColorPicker.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\GameFolderForm.cs">
       <SubType>Form</SubType>
@@ -190,6 +198,9 @@
     <Compile Include="Clases\VO.cs" />
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DXColorPicker.resx">
+      <DependentUpon>DXColorPicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GameFolderForm.resx">
       <DependentUpon>GameFolderForm.cs</DependentUpon>
@@ -292,6 +303,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Forms\ColorPicker.png" />
     <None Include="bin\Debug\Images\3PM_Default.png" />
     <None Include="bin\Debug\Images\3PM_Default_2.png" />
     <Content Include="ED_TripleElite.ico" />

@@ -82,7 +82,7 @@ namespace EDHM_UI_mk2
 		private string ThemeWord = "Themes"; //<- para una Etiqueta que muestra la cantidad de temas, se traduce a diferentes idiomas
 
 		/// <summary>Folder where all Themes and User's preferences get saved.</summary>
-		private string UI_DOCUMENTS = @"%USERPROFILE%\EDHM_UI"; // Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
+		private string UI_DOCUMENTS = @"%USERPROFILE%\EDHM_UI"; //<- Moved from %MyDocuments%\Elite Dangerous\EDHM_UI
 
 		private event EventHandler OnThemeApply;//<- Ocurre al Aplicar un tema
 
@@ -94,7 +94,7 @@ namespace EDHM_UI_mk2
 		private HashSet<Color> _RecentColors = new HashSet<Color>();            //<- Guarda los Colores del Tema, no admite repetidos
 		private List<combo_item> _ElementPresets = new List<combo_item>();
 
-
+		private System.Globalization.CultureInfo customCulture;
 
 		//Srv_HighBeam = 2147483648
 		//https://elite-journal.readthedocs.io/en/latest/Status%20File/
@@ -108,6 +108,7 @@ namespace EDHM_UI_mk2
 		{
 			InitializeComponent();
 			DoubleBuffered = true;
+			LoadSystemCulture();
 
 			#region DevExpress Theme Config
 
@@ -132,6 +133,7 @@ namespace EDHM_UI_mk2
 		{
 			InitializeComponent();
 			DoubleBuffered = true;
+			LoadSystemCulture();
 
 			//Leer los argumentos pasados por linea de comandos:
 			if (args != null && args.Length > 0)
@@ -153,25 +155,7 @@ namespace EDHM_UI_mk2
 
 			#endregion
 
-			#region Opciones Regionales y de Idioma
-
-			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-			customCulture.NumberFormat.NumberDecimalSeparator = ".";
-			customCulture.NumberFormat.NumberGroupSeparator = ",";
-			customCulture.NumberFormat.CurrencyDecimalSeparator = ".";
-			customCulture.NumberFormat.CurrencyGroupSeparator = ",";
-			customCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
-			customCulture.DateTimeFormat.LongDatePattern = "dddd, MMMM d, yyyy";
-
-			System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
-			//Carga el Idioma del Usuario:
-			LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
-			string _AvailableLanguages = Util.AppConfig_GetValue("Languages");
-			if (!_AvailableLanguages.Contains(LangShort))
-			{
-				LangShort = "en";
-			}
+			#region Opciones del Usuario
 
 			WatchMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "WatchMe").NVL("true"));
 			GreetMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "GreetMe").NVL("true"));
@@ -183,7 +167,6 @@ namespace EDHM_UI_mk2
 			AutoApplyTheme = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "AutoApplyTheme").NVL("false"));
 			UI_DOCUMENTS = GetUIDocumentsDir(); //<- @"%USERPROFILE%\EDHM_UI"
 			
-
 			var EDJournalDir = Util.WinReg_ReadKey("EDHM", "PlayerJournal");
 			if (EDJournalDir is null)
 			{
@@ -358,15 +341,18 @@ namespace EDHM_UI_mk2
 
 					if (GameInstances != null)
 					{
-						foreach (var _Instance in GameInstances)
+						if (KillGameProcces())
 						{
-							if (!_Instance.path.EmptyOrNull())
+							foreach (var _Instance in GameInstances)
 							{
-								InstallGameInstance(_Instance);
+								if (!_Instance.path.EmptyOrNull())
+								{
+									InstallGameInstance(_Instance);
+								}
 							}
-						}
-					}
-					Util.AppConfig_SetValue("FirstRun", "false");
+							Util.AppConfig_SetValue("FirstRun", "false");
+						}					
+					}					
 				}
 
 				CheckForModUpdates();
@@ -599,6 +585,54 @@ namespace EDHM_UI_mk2
 		bool LoadingTheme = false; //<- Previene que se llame este metodo varias veces a la vez.
 		Stopwatch _Stopwatch = new Stopwatch();
 
+		private void LoadSystemCulture()
+		{
+			try
+			{
+				//Carga el Idioma elejido x el Usuario:
+				string LangInfo = string.Empty;
+				this.LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
+
+				string _AvailableLanguages = Util.AppConfig_GetValue("Languages");
+				if (!_AvailableLanguages.Contains(LangShort))
+				{
+					LangShort = "en"; //<- Si el lenguaje no esta en la lista, se usa el Ingles x defecto
+				}
+
+				switch (LangShort)
+				{
+					case "en": LangInfo = "en-US"; break;
+					case "es": LangInfo = "es-ES"; break;
+					case "de": LangInfo = "de-DE"; break;
+					case "it": LangInfo = "it-IT"; break;
+					case "fr": LangInfo = "fr-FR"; break;
+					case "pt": LangInfo = "pt-BR"; break;
+					case "ru": LangInfo = "ru-RU"; break;
+					default: LangInfo = "en-US"; break;
+				}
+
+				//customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+				customCulture = System.Globalization.CultureInfo.CreateSpecificCulture(LangInfo); //es-ES, en-US, fr-FR, de-DE, it-IT, pt-BR, ru-RU
+			
+				customCulture.NumberFormat.NumberDecimalSeparator = ".";
+				customCulture.NumberFormat.NumberGroupSeparator = ",";
+				customCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+				customCulture.NumberFormat.CurrencyGroupSeparator = ",";
+
+				// The following line provides localization for Data formats. 
+				System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+				// The following line provides localization for the application's user interface. 
+				System.Threading.Thread.CurrentThread.CurrentUICulture = customCulture;
+
+				// Set this culture as the default culture for all threads in this application. 
+				System.Globalization.CultureInfo.DefaultThreadCurrentCulture = customCulture;
+				System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = customCulture;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 
 		public string GetUIDocumentsDir(bool MakeDir = true)
 		{
@@ -695,7 +729,7 @@ namespace EDHM_UI_mk2
 
 							LoadMenus(LangShort);
 							History_LoadElements(SavesToRemember);
-							InstallGameInstance(ActiveInstance);
+							//InstallGameInstance(ActiveInstance);
 							LoadThemeList_EX();
 						}
 					}
@@ -753,7 +787,6 @@ namespace EDHM_UI_mk2
 					#region Key-Bindings
 
 					//Leo los Bindings desde el Registro, si existen:
-					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -798,9 +831,7 @@ namespace EDHM_UI_mk2
 				string update_path = Path.Combine(AppExePath, "Updates");
 				string GameVersion = pGameInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 
-				KillGameProcces();
-
-				if (Directory.Exists(update_path))
+				if (KillGameProcces() && Directory.Exists(update_path))
 				{
 					bool Backup = true; //<- Determina si se Respaldan los 'Current Settings' del Usuario
 					DirectoryInfo di = new DirectoryInfo(update_path);
@@ -1199,7 +1230,7 @@ namespace EDHM_UI_mk2
 			string _FilePath = Path.Combine(AppExePath, @"Data\Ship_List.json");
 			if (File.Exists(_FilePath))
 			{
-				System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+				
 				var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 				{
 					System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -1219,7 +1250,7 @@ namespace EDHM_UI_mk2
 				{
 					ElementsImgCollection.Images.Clear();
 
-					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+					
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -2105,9 +2136,10 @@ namespace EDHM_UI_mk2
 													ShowMyPastelColors = false,													
 													Tag = _Element
 												};
-												//_ComboColor.EditValueChanged += _ComboValue_EditValueChanged;
+
 												List<Color> _GColors = null;
 												var _StandardColors = _ComboColor.MyStandardColors;
+
 												_ComboColor.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
 												_ComboColor.EditValueChangedDelay = 500;
 												_ComboColor.ColorDialogOptions.ShowTabs = ShowTabs.RGBModel;
@@ -2137,8 +2169,20 @@ namespace EDHM_UI_mk2
 													_CustomColors[0, 48] = _GColors[4];
 													_CustomColors[0, 58] = _GColors[5];
 
+													_ComboColor.AutomaticColor = _E;
+
 													_ComboValue_EditValueChanged(Sender, E);
 												};
+
+												_ComboColor.ColorPickDialogShowing += (object sender, ColorPickDialogShowingEventArgs e) =>
+												{
+													if (e.Form != null)
+													{
+														//e.Form.AcceptButton.
+														//e.Form.Appearance.
+													}
+												};
+												
 
 												//-------- LOAD THE THEME'S COLOR PALETTE 
 												if (_RecentColors != null)
@@ -2156,7 +2200,6 @@ namespace EDHM_UI_mk2
 															{
 																themeColors[_RowIndex, _ColumnIndex] = _RecColors[i]; // Color.FromArgb(0, 255, 0);
 																i++;
-																//green = green - greenDelta;
 															}
 														}
 													}
@@ -2198,7 +2241,7 @@ namespace EDHM_UI_mk2
 												}
 												_ComboColor.AutomaticColor = (Color)_Fila.Properties.Value;
 
-												//----Crea un Gradiente a Blanco usando el color seleccionado, lo pone en la ultima columna												
+												//----Crea un Gradiente a Negro usando el color seleccionado, lo pone en la ultima columna												
 												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.Black, 7).ToList();
 
 												_StandardColors[0, 9] = _GColors[0];
@@ -2208,6 +2251,7 @@ namespace EDHM_UI_mk2
 												_StandardColors[0, 49] = _GColors[4];
 												_StandardColors[0, 59] = _GColors[5];
 
+												//----Crea un Gradiente a Blanco usando el color seleccionado
 												_GColors = Util.GetColorGradients((Color)_Fila.Properties.Value, Color.White, 7).ToList();
 
 												_StandardColors[0, 8] = _GColors[0];
@@ -2377,6 +2421,7 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 
 		private void PreviewTheme(bool XMLchanged = false)
 		{
@@ -2830,7 +2875,7 @@ namespace EDHM_UI_mk2
 
 			if (Async)
 			{
-				System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+				
 				var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 				{
 					System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -3518,8 +3563,7 @@ namespace EDHM_UI_mk2
 						if (Continuar)
 						{
 							Cursor = Cursors.WaitCursor;
-
-							System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+							
 							var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 							{
 								System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -3998,8 +4042,14 @@ namespace EDHM_UI_mk2
 			}
 			return UI_Proc != null ? true : false;
 		}
+
+		/// <summary>Detecta si el juego esta Corriendo y Pregunta si lo debe Cerrar automaticamente.
+		/// <para>Devuelve 'true' si el Juego No estaba corriendo o si fue Cerrado correctamente.</para>
+		/// </summary>
 		private bool KillGameProcces()
 		{
+			bool _ret = true;
+
 			//Busca un Proceso x Nombre de Ventana:
 			string GameTitle = Util.AppConfig_GetValue("GameProcessID");
 			System.Diagnostics.Process[] processlist = System.Diagnostics.Process.GetProcesses();
@@ -4011,35 +4061,67 @@ namespace EDHM_UI_mk2
 				{
 					if (process.MainWindowTitle == GameTitle)
 					{
-						Game_Proc = process;
+						Game_Proc = process; //<- El juego está corriendo
+						_ret = false;
 						break;
 					}
 				}
 			}
 			if (Game_Proc != null)
 			{
-				//Game_Proc.CloseMainWindow();
-				//Game_Proc.WaitForExit(5000);
-				//if (Game_Proc != null && Game_Proc.HasExited == false) Game_Proc.Kill();
+				string MSG_Title = string.Empty;
+				string MSG_Body = string.Empty;
 
-				XtraMessageBoxArgs args = new XtraMessageBoxArgs()
+				switch (this.LangShort)
 				{
-					Caption = "Game is Running!",
-					Text = "Game needs to be closed in order to install any MODS\r\nClosing it in..",
-					Buttons = new DialogResult[] { DialogResult.OK }
-					//,Icon = new Icon(MessageBoxIcon.Information)
-				};
-				args.AutoCloseOptions.Delay = 5000;
-				args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-				if (XtraMessageBox.Show(args) == DialogResult.OK)
+					case "en":
+						MSG_Title = "The Game is Running!";
+						MSG_Body = "The Game needs to be closed in order to install any MODS.\r\nClick OK to close it now.";
+						break;
+					case "de":
+						MSG_Title = "Das Spiel läuft!";
+						MSG_Body = "Das Spiel muss geschlossen werden, um MODS zu installieren.\r\nKlicken Sie auf „Akzeptieren“, um es jetzt zu schließen.";
+						break;
+					case "fr":
+						MSG_Title = "Le jeu tourne !";
+						MSG_Body = "Le jeu doit être fermé pour pouvoir installer des MODS.\r\nCliquez sur Accepter pour le fermer maintenant.";
+						break;
+					case "ru":
+						MSG_Title = "Игра запущена!";
+						MSG_Body = "Игру необходимо закрыть, чтобы установить любые МОДЫ.\r\nНажмите «Принять», чтобы закрыть ее сейчас.";
+						break;
+					case "pt":
+						MSG_Title = "O jogo está rodando!";
+						MSG_Body = "O Jogo precisa ser fechado para instalar qualquer MODS.\r\nClique em Aceitar para fechá-lo agora.";
+						break;
+					case "it":
+						MSG_Title = "Il gioco è in esecuzione!";
+						MSG_Body = "Il gioco deve essere chiuso per poter installare eventuali MODS.\r\nFai clic su Accetta per chiuderlo ora.";
+						break;
+					case "es":
+						MSG_Title = "¡El juego está en marcha!";
+						MSG_Body = "El juego debe estar cerrado para poder instalar cualquier MOD.\r\nHaz clic en Aceptar para cerrarlo ahora.";
+						break;
+					default:
+						MSG_Title = "Game is Running!";
+						MSG_Body = "Game needs to be closed in order to install any MODS";
+						break;
+				}
+
+				if (Mensajero.ShowDialogDark(MSG_Title, MSG_Body, 
+					MessageBoxButtons.OKCancel, MessageBoxIcon.Information, Language: this.LangShort) == DialogResult.OK)
 				{
 					if (Game_Proc != null && Game_Proc.HasExited == false)
 					{
+						//Game_Proc.CloseMainWindow();
+						//Game_Proc.WaitForExit(5000);
+						//if (Game_Proc != null && Game_Proc.HasExited == false) Game_Proc.Kill();
 						Game_Proc.Kill();
 					}
+					_ret = (Game_Proc != null && Game_Proc.HasExited) ? true : false;
 				}
 			}
-			return Game_Proc != null ? true : false;
+			return _ret;
 		}
 
 
@@ -4181,7 +4263,6 @@ namespace EDHM_UI_mk2
 			{
 				if (true)
 				{
-					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -4402,7 +4483,6 @@ namespace EDHM_UI_mk2
 					string EDJournalDir = Util.WinReg_ReadKey("EDHM", "PlayerJournal").NVL("");
 					if (Directory.Exists(EDJournalDir))
 					{
-						System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 						var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 						{
 							System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -4461,7 +4541,6 @@ namespace EDHM_UI_mk2
 		private void PlayerJournal_WatchFile(string pFilePath)
 		{
 			/* LEE EL ARCHIVO DE LOG DEL JORNAL Y LO MANTIENE ABIERTO REACCIONANDO A SUS CAMBIOS  */
-			System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 			var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 			{
 				System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -4859,7 +4938,6 @@ namespace EDHM_UI_mk2
 				string EDJournalDir = Util.WinReg_ReadKey("EDHM", "PlayerJournal").NVL("");
 				if (Directory.Exists(EDJournalDir))
 				{
-					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -5731,7 +5809,6 @@ namespace EDHM_UI_mk2
 			{
 				if (pGameInstance != null)
 				{
-					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -6397,7 +6474,6 @@ namespace EDHM_UI_mk2
 			{
 				if (pGameInstance != null)
 				{
-					System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -7218,29 +7294,31 @@ namespace EDHM_UI_mk2
 		{
 			SilentUpdate = false;
 
-			KillGameProcces();
-			InstallGameInstance(ActiveInstance);
-
-			//Cargar Los Valores Base de La Instancia:
-			string JsonSettings_path = Path.Combine(AppExePath, "Data", ActiveInstance.key + string.Format("_Settings_{0}.json", LangShort.ToUpper()));
-			if (File.Exists(JsonSettings_path))
+			if (KillGameProcces())
 			{
-				Settings = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
-			}
+				InstallGameInstance(ActiveInstance);
 
-			//Carga la Lista de Presets disponibles:
-			if (Settings != null && Settings.Presets.IsNotEmpty())
-			{
-				_ElementPresets = Settings.Presets;
-			}
-			DefaultSettings = Load_DefaultTheme(ActiveInstance, LangShort);
+				//Cargar Los Valores Base de La Instancia:
+				string JsonSettings_path = Path.Combine(AppExePath, "Data", ActiveInstance.key + string.Format("_Settings_{0}.json", LangShort.ToUpper()));
+				if (File.Exists(JsonSettings_path))
+				{
+					Settings = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
+				}
 
-			//Carga la Lista de Temas
-			LoadThemeList_EX();
+				//Carga la Lista de Presets disponibles:
+				if (Settings != null && Settings.Presets.IsNotEmpty())
+				{
+					_ElementPresets = Settings.Presets;
+				}
+				DefaultSettings = Load_DefaultTheme(ActiveInstance, LangShort);
 
-			string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-			lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
-			lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
+				//Carga la Lista de Temas
+				LoadThemeList_EX();
+
+				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+				lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
+				lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
+			}			
 		}
 		private void MainMenu_UninstallMod_ItemClick(object sender, ItemClickEventArgs e)
 		{

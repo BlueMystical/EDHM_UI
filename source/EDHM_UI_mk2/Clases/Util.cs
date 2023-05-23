@@ -1725,6 +1725,12 @@ namespace EDHM_UI_mk2
 			return bmp2;
 		}
 
+		/// <summary>Crea un Gradiente de Color Lineal entre dos colores.</summary>
+		/// <param name="width">Ancho en Pixeles</param>
+		/// <param name="height">Alto en Pixeles</param>
+		/// <param name="color1">Primer Color</param>
+		/// <param name="color2">Color Final</param>
+		/// <param name="angle">Angulo para la Orientacion del Gradiente: 0-360º</param>
 		public static Bitmap GradientImage(int width, int height, Color color1, Color color2, float angle)
 		{
 			var r = new Rectangle(0, 0, width, height);
@@ -1734,7 +1740,7 @@ namespace EDHM_UI_mk2
 			{
 				g.FillRectangle(brush, r);
 			}
-
+			//bmp.Save(@"C:\Users\Jhollman\Desktop\EDHM_DEPLOY\gradient.bmp", ImageFormat.Bmp);
 			return bmp;
 		}
 

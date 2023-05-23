@@ -148,9 +148,6 @@
   <data name="TargetReticle_0a" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TargetReticle_0a.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="devexpress" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\devexpress.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="3PM_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Images\3PM_Default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -163,6 +160,9 @@
   <data name="CHUD_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CHUD_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ShieldHolo_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ShieldHolo_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="FuelBars_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FuelBars_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -172,8 +172,8 @@
   <data name="About" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\About.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ShieldHolo_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShieldHolo_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="devexpress" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\devexpress.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="triple-elite_250" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\triple-elite_250.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -183,5 +183,8 @@
   </data>
   <data name="3PM_Default_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Images\3PM_Default_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ColorPicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Forms\ColorPicker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
