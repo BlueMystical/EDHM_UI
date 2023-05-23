@@ -235,6 +235,53 @@ namespace EDHM_UI_Patcher
 			readable = System.Math.Round((readable / 1024), 2);
 			return string.Format("{0:n1} {1}", readable, suffix);
 		}
+		public static string GetFileSize(long pFileBytes, out double ConvertedSize)
+		{
+			// Get absolute value
+			long absolute_i = (pFileBytes < 0 ? -pFileBytes : pFileBytes);
+			ConvertedSize = 0;
+
+			// Determine the suffix and readable value
+			string suffix;
+			//double readable;
+			if (absolute_i >= 0x1000000000000000) // Exabyte
+			{
+				suffix = "EB";
+				ConvertedSize = (pFileBytes >> 50);
+			}
+			else if (absolute_i >= 0x4000000000000) // Petabyte
+			{
+				suffix = "PB";
+				ConvertedSize = (pFileBytes >> 40);
+			}
+			else if (absolute_i >= 0x10000000000) // Terabyte
+			{
+				suffix = "TB";
+				ConvertedSize = (pFileBytes >> 30);
+			}
+			else if (absolute_i >= 0x40000000) // Gigabyte
+			{
+				suffix = "GB";
+				ConvertedSize = (pFileBytes >> 20);
+			}
+			else if (absolute_i >= 0x100000) // Megabyte
+			{
+				suffix = "MB";
+				ConvertedSize = (pFileBytes >> 10);
+			}
+			else if (absolute_i >= 0x400) // Kilobyte
+			{
+				suffix = "KB";
+				ConvertedSize = pFileBytes;
+			}
+			else
+			{
+				return pFileBytes.ToString("0 B"); // Byte
+			}
+
+			ConvertedSize = System.Math.Round((ConvertedSize / 1024), 2);
+			return string.Format("{0:n2} {1}", ConvertedSize, suffix);
+		}
 
 		/// <summary>OBTIENE LA LISTA DE TODOS LOS ARCHIVOS Y SUB-DIRECTORIOS DENTRO DE LA RUTA ESPECIFICADA.
 		/// Cada resultado incluye la ruta completa de cada archivo. </summary>
@@ -498,7 +545,7 @@ namespace EDHM_UI_Patcher
 		#region Eventos Publicos
 
 		/// <summary>Progreso de la descarga:
-		/// long[] _Data = sender as long[];  [0]ProgressPercentage, [1]BytesReceived, [2]BytesTotal
+		/// OnDownload_Progress(new long[] { percentage, bytesReceived, contentLength }, null); contentLength = Speed kb/s
 		/// </summary>
 		public event EventHandler OnDownload_Progress; //<- Progreso de la descarga
 

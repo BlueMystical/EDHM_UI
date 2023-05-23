@@ -29,11 +29,16 @@
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.Button cmdUpdate;
+			Chart_Test.ChartPen chartPen1 = new Chart_Test.ChartPen();
+			Chart_Test.ChartPen chartPen2 = new Chart_Test.ChartPen();
+			Chart_Test.ChartPen chartPen3 = new Chart_Test.ChartPen();
+			Chart_Test.ChartPen chartPen4 = new Chart_Test.ChartPen();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.label1 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.lblInfo = new System.Windows.Forms.Label();
+			this.performanceChart1 = new Chart_Test.PerformanceChart();
 			this.circularProgressBar1 = new EDHM_UI_Patcher.CircularProgressBar();
 			cmdUpdate = new System.Windows.Forms.Button();
 			this.SuspendLayout();
@@ -99,6 +104,42 @@
 			this.lblInfo.TabIndex = 5;
 			this.lblInfo.Text = "An Update is Available, Click to start -->";
 			// 
+			// performanceChart1
+			// 
+			this.performanceChart1.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
+			this.performanceChart1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.performanceChart1.ForeColor = System.Drawing.Color.Lime;
+			this.performanceChart1.Location = new System.Drawing.Point(178, 118);
+			this.performanceChart1.Name = "performanceChart1";
+			this.performanceChart1.PerfChartStyle.AntiAliasing = true;
+			chartPen1.Color = System.Drawing.Color.Lime;
+			chartPen1.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			chartPen1.Width = 1F;
+			this.performanceChart1.PerfChartStyle.AvgLinePen = chartPen1;
+			this.performanceChart1.PerfChartStyle.BackgroundColorBottom = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
+			this.performanceChart1.PerfChartStyle.BackgroundColorTop = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
+			chartPen2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			chartPen2.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			chartPen2.Width = 1F;
+			this.performanceChart1.PerfChartStyle.ChartLinePen = chartPen2;
+			chartPen3.Color = System.Drawing.Color.Gray;
+			chartPen3.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			chartPen3.Width = 1F;
+			this.performanceChart1.PerfChartStyle.HorizontalGridPen = chartPen3;
+			this.performanceChart1.PerfChartStyle.ShowAverageLine = true;
+			this.performanceChart1.PerfChartStyle.ShowHorizontalGridLines = false;
+			this.performanceChart1.PerfChartStyle.ShowVerticalGridLines = true;
+			chartPen4.Color = System.Drawing.Color.Black;
+			chartPen4.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+			chartPen4.Width = 1F;
+			this.performanceChart1.PerfChartStyle.VerticalGridPen = chartPen4;
+			this.performanceChart1.ScaleMode = Chart_Test.ScaleMode.Relative;
+			this.performanceChart1.Size = new System.Drawing.Size(338, 29);
+			this.performanceChart1.TabIndex = 6;
+			this.performanceChart1.TimerInterval = 100;
+			this.performanceChart1.TimerMode = Chart_Test.TimerMode.Disabled;
+			this.performanceChart1.Visible = false;
+			// 
 			// circularProgressBar1
 			// 
 			this.circularProgressBar1.BackgroundImage = global::EDHM_UI_Patcher.Properties.Resources.triple_elite_250;
@@ -128,7 +169,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
-			this.ClientSize = new System.Drawing.Size(523, 176);
+			this.ClientSize = new System.Drawing.Size(523, 174);
+			this.Controls.Add(this.performanceChart1);
 			this.Controls.Add(this.lblInfo);
 			this.Controls.Add(this.circularProgressBar1);
 			this.Controls.Add(cmdUpdate);
@@ -155,6 +197,7 @@
 		private System.Windows.Forms.Label label2;
 		private CircularProgressBar circularProgressBar1;
 		private System.Windows.Forms.Label lblInfo;
+		private Chart_Test.PerformanceChart performanceChart1;
 	}
 }
 

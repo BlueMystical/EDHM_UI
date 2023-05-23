@@ -99,15 +99,17 @@ namespace EDHM_UI_Patcher
                         this.InstallerIsDownloading = true;
                         string FileToDownload = vErsion.install_url + "?" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
                         string TempFilePath = Path.Combine(Path.GetTempPath(), "EDHM_UI", "EDHM_UI_Setup.msi");
+						DateTime _startedAt = DateTime.MinValue; //<- Inicio de la Descarga
 
-                        FileDownloader FD = new FileDownloader(FileToDownload, TempFilePath);
+						FileDownloader FD = new FileDownloader(FileToDownload, TempFilePath);
                         FD.OnDownload_Progress += (sender, eventArgs) =>
-                        {
-                            //Muestra el Progreso de la Descarga:
-                            Invoke((MethodInvoker)(() =>
+                        {					
+
+							//Muestra el Progreso de la Descarga:
+							Invoke((MethodInvoker)(() =>
                             {
-                                if (sender is double[] _Data) //<- ProgressPercentage, BytesReceived, BytesTotal, Speed
-                                {
+                                if (sender is double[] _Data) //<- Data[] = [0]:ProgressPercentage, [1]:BytesReceived, [2]:BytesTotal, [3]:Speed kb/s
+								{
                                     if (this._Instalar && this._Parchear)
                                     {
                                         this.circularProgressBar1.Value_Inner = Convert.ToInt32(_Data[0]);
@@ -117,10 +119,31 @@ namespace EDHM_UI_Patcher
                                         this.circularProgressBar1.Value = Convert.ToInt32(_Data[0]);
                                     }
 
-                                    this.lblInfo.Text = string.Format("Downloading {0} of {1} | {2:n0} kb/s",
-                                                        Util.GetFileSize(Convert.ToInt64(_Data[1])),
-                                                        Util.GetFileSize(Convert.ToInt64(_Data[2])),
-                                                        _Data[3]);
+									//Aqui se calcula la Velocidad de la Descarga:
+									double bytesPerSecond = 0;
+									if (_startedAt == default(DateTime))
+									{
+										_startedAt = DateTime.Now;
+									}
+									else
+									{
+										var timeSpan = DateTime.Now - _startedAt;										
+										if (timeSpan.TotalSeconds > 0)
+										{
+											bytesPerSecond = _Data[1] / timeSpan.TotalSeconds;
+										}
+									}
+
+									//Convierte los Bytes a la unidad más adecuada:
+									string DSpeedReadable = Util.GetFileSize(Convert.ToInt64(bytesPerSecond), out double DSpeed);
+									//Muestra la Velocidad de descarga en la Grafica:
+									performanceChart1.AddValue(Convert.ToDecimal(DSpeed));
+									//Muestra el Progreso de la descarga en la Etiqueta:
+									this.lblInfo.Text = string.Format("Downloading {0} of {1} | {2}/s",
+                                                        Util.GetFileSize(Convert.ToInt64(_Data[1])), //<- BytesReceived
+														Util.GetFileSize(Convert.ToInt64(_Data[2])), //<- BytesTotal
+														DSpeedReadable //_Data[3]    //<- Speed
+														);
                                 }
                             }));
                         };
@@ -218,7 +241,10 @@ namespace EDHM_UI_Patcher
                             }));
                         };
                         FD.StartDownload(); //<- Aqui se Inicia la Descarga
-                    }
+
+						performanceChart1.Visible = true;
+
+					}
 
                     Application.DoEvents();
 
