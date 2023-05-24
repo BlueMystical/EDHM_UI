@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDHM_UI_mk2;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -10,8 +11,12 @@ namespace EDHM_UI_Patcher
     {
         private string AppExePath = AppDomain.CurrentDomain.BaseDirectory;
         private string InfoJsonPath = string.Empty;
+		private string LangShort = string.Empty;
 
-        private VersionInfo _VersionInfo = null;    //<- Version Publicada
+		private const string ProcessName = "EDHM_UI_mk2";
+		private const string WindowTitle = "Elite - Dangerous (CLIENT)";
+
+		private VersionInfo _VersionInfo = null;    //<- Version Publicada
         private Version Curr_Version = null;        //<- Version en la PC local
         private Version Last_Version = null;        //<- Ultima Version Disponible	
         private Version Inst_Version = null;        //<- Ultimo Instalador
@@ -170,13 +175,10 @@ namespace EDHM_UI_Patcher
                                 {
                                     if (File.Exists(TempFilePath))
                                     {
-                                        #region Update is Ready to Install, need to Exit the UI program now.
+										#region Update is Ready to Install, need to Exit the UI program now.
 
-                                        //Busca un Proceso x Nombre de Ventana:
-                                        string ProcessName = "EDHM_UI_mk2";
-                                        string WindowTitle = "Elite - Dangerous (CLIENT)";
-
-                                        System.Diagnostics.Process[] processlist = System.Diagnostics.Process.GetProcesses();
+										//Busca un Proceso x Nombre de Ventana:
+										System.Diagnostics.Process[] processlist = System.Diagnostics.Process.GetProcesses();
                                         System.Diagnostics.Process UI_Proc = null;
                                         System.Diagnostics.Process Game_Proc = null;
 
@@ -184,10 +186,12 @@ namespace EDHM_UI_Patcher
                                         {
                                             if (!String.IsNullOrEmpty(process.ProcessName))
                                             {
+												//Busca el proceso del UI app
                                                 if (process.ProcessName == ProcessName)
                                                 {
                                                     UI_Proc = process;
                                                 }
+												//Busca el proceso del Juego
                                                 if (process.MainWindowTitle == WindowTitle)
                                                 {
                                                     Game_Proc = process;
@@ -195,6 +199,7 @@ namespace EDHM_UI_Patcher
                                                 if (UI_Proc != null && Game_Proc != null) break;
                                             }
                                         }
+										//Si la UI está abierta:
                                         if (UI_Proc != null)
                                         {
                                             this.lblInfo.Text = "Closing UI Program.."; Application.DoEvents();
@@ -206,11 +211,8 @@ namespace EDHM_UI_Patcher
                                             };
                                             UI_Proc.CloseMainWindow();
                                         }
-                                        else  //<- UI IS NOT RUNNING
-                                        {
-                                            //DoPatch(vErsion, TempFilePath);
-                                        }
 
+										//Si el Juego esta Corriendo:
                                         if (Game_Proc != null)
                                         {
                                             this.lblInfo.Text = "Closing Game Client.."; Application.DoEvents();
@@ -222,7 +224,7 @@ namespace EDHM_UI_Patcher
                                             };
                                             Game_Proc.CloseMainWindow();
                                         }
-                                        else  //<- UI IS NOT RUNNING
+                                        else  //<- GAME IS NOT RUNNING
                                         {
                                             DoPatch(vErsion, TempFilePath);
                                         }
@@ -674,11 +676,107 @@ namespace EDHM_UI_Patcher
             return _ret;
         }
 
-        private void cmdUpdate_Click(object sender, EventArgs e)
-        {
-            var Boton = sender as Button;
-            Boton.Enabled = false;
-            DescargarActualizacion_MOD(this._VersionInfo);
+		/// <summary>Detecta si el juego esta Corriendo y Pregunta si lo debe Cerrar automaticamente.
+		/// <para>Devuelve 'true' si el Juego No estaba corriendo o si fue Cerrado correctamente.</para>
+		/// </summary>
+		private bool KillGameProcces()
+		{
+			bool _ret = true;
+
+			//Busca un Proceso x Nombre de Ventana:
+			//string GameTitle = Util.AppConfig_GetValue("GameProcessID");
+			System.Diagnostics.Process[] processlist = System.Diagnostics.Process.GetProcesses();
+			System.Diagnostics.Process Game_Proc = null;
+
+			foreach (System.Diagnostics.Process process in processlist)
+			{
+				if (!String.IsNullOrEmpty(process.MainWindowTitle))
+				{
+					if (process.MainWindowTitle == WindowTitle)
+					{
+						Game_Proc = process; //<- El juego está corriendo
+						_ret = false;
+						break;
+					}
+				}
+			}
+			if (Game_Proc != null)
+			{
+				string MSG_Title = string.Empty;
+				string MSG_Body = string.Empty;
+
+				LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
+
+				switch (LangShort)
+				{
+					case "en":
+						MSG_Title = "The Game is Running!";
+						MSG_Body = "The Game needs to be closed in order to install any MODS.\r\nClick OK to close it now.";
+						break;
+					case "de":
+						MSG_Title = "Das Spiel läuft!";
+						MSG_Body = "Das Spiel muss geschlossen werden, um MODS zu installieren.\r\nKlicken Sie auf „Akzeptieren“, um es jetzt zu schließen.";
+						break;
+					case "fr":
+						MSG_Title = "Le jeu tourne !";
+						MSG_Body = "Le jeu doit être fermé pour pouvoir installer des MODS.\r\nCliquez sur Accepter pour le fermer maintenant.";
+						break;
+					case "ru":
+						MSG_Title = "Игра запущена!";
+						MSG_Body = "Игру необходимо закрыть, чтобы установить любые МОДЫ.\r\nНажмите «Принять», чтобы закрыть ее сейчас.";
+						break;
+					case "pt":
+						MSG_Title = "O jogo está rodando!";
+						MSG_Body = "O Jogo precisa ser fechado para instalar qualquer MODS.\r\nClique em Aceitar para fechá-lo agora.";
+						break;
+					case "it":
+						MSG_Title = "Il gioco è in esecuzione!";
+						MSG_Body = "Il gioco deve essere chiuso per poter installare eventuali MODS.\r\nFai clic su Accetta per chiuderlo ora.";
+						break;
+					case "es":
+						MSG_Title = "¡El juego está en marcha!";
+						MSG_Body = "El juego debe estar cerrado para poder instalar cualquier MOD.\r\nHaz clic en Aceptar para cerrarlo ahora.";
+						break;
+					default:
+						MSG_Title = "Game is Running!";
+						MSG_Body = "Game needs to be closed in order to install any MODS";
+						break;
+				}
+
+				if (Mensajero.ShowDialogDark(MSG_Title, MSG_Body,
+					MessageBoxButtons.OKCancel, MessageBoxIcon.Information, Language: this.LangShort) == DialogResult.OK)
+				{
+					if (Game_Proc != null && Game_Proc.HasExited == false)
+					{
+						//Game_Proc.CloseMainWindow();
+						//Game_Proc.WaitForExit(5000);
+						//if (Game_Proc != null && Game_Proc.HasExited == false) Game_Proc.Kill();
+						Game_Proc.Kill();
+					}
+					System.Threading.Thread.Sleep(3000); //<- Espera 3 segundos
+					_ret = (Game_Proc != null && Game_Proc.HasExited) ? true : false;
+				}
+			}
+			return _ret;
+		}
+
+
+		private void cmdUpdate_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				this.Cursor = Cursors.WaitCursor;
+				Application.DoEvents();
+
+				if (KillGameProcces())
+				{
+					var Boton = sender as Button;
+					Boton.Enabled = false;
+					DescargarActualizacion_MOD(this._VersionInfo);
+				}
+			}
+			catch { }
+			finally { this.Cursor = Cursors.Default; }			           
         }
     }
 
