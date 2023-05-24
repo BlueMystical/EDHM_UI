@@ -60,6 +60,7 @@ namespace EDHM_UI_mk2
 			this.AutoApplyTheme = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "AutoApplyTheme").NVL("false"));
 
 			this.txtPlayerJournal.EditValue = Util.WinReg_ReadKey("EDHM", "PlayerJournal").NVL(string.Empty);
+			this.txtUserDataFolder.EditValue = Util.WinReg_ReadKey("EDHM", "EDHM_DOCS").NVL(string.Empty);
 			this.txtSavesToRememberRep.Value = this.SavesToRemember;
 
 			#region Carga los Idiomas Disponibles
@@ -234,10 +235,10 @@ namespace EDHM_UI_mk2
 							switch (Path.GetFileNameWithoutExtension(_Game.path))
 							{
 								case "elite-dangerous-64":			_Game.name = "Horizons (Legacy)";	_Game.key = "ED_Horizons"; break;   //<- Horizons 3.8
-								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (Live)";	_Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey (Live)";	_Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0 and Horizons 4.0
-								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (Live)";	_Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
-								default: _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;   
+								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (Live)";		_Game.key = "ED_Odissey"; break;    //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey & Horizons";	_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 and Horizons 4.0
+								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (Live)";		_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 alt
+								default:							_Game.name = "Odyssey (Live)";		_Game.key = "ED_Odissey"; break;   
 							}
 
 							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
@@ -271,13 +272,14 @@ namespace EDHM_UI_mk2
 					this.AutoApplyTheme = this.chkAutoApplyTheme.Checked;
 					this.SavesToRemember = Convert.ToInt32(this.txtSavesToRememberRep.Value);
 
-					Util.WinReg_WriteKey("EDHM", "HideToTray", this.HideToTray);
-					Util.WinReg_WriteKey("EDHM", "GreetMe", this.GreetMe);
-					Util.WinReg_WriteKey("EDHM", "WatchMe", this.WatchMe);
-					Util.WinReg_WriteKey("EDHM", "Language", this.cboLanguages.EditValue.ToString());
-					Util.WinReg_WriteKey("EDHM", "PlayerJournal", this.txtPlayerJournal.EditValue.ToString());
+					Util.WinReg_WriteKey("EDHM", "HideToTray",		this.HideToTray);
+					Util.WinReg_WriteKey("EDHM", "GreetMe",			this.GreetMe);
+					Util.WinReg_WriteKey("EDHM", "WatchMe",			this.WatchMe);
+					Util.WinReg_WriteKey("EDHM", "Language",		this.cboLanguages.EditValue.ToString());
+					Util.WinReg_WriteKey("EDHM", "PlayerJournal",	this.txtPlayerJournal.EditValue.ToString());
+					Util.WinReg_WriteKey("EDHM", "EDHM_DOCS",		this.txtUserDataFolder.EditValue.ToString());
 					Util.WinReg_WriteKey("EDHM", "SavesToRemember", this.SavesToRemember);
-					Util.WinReg_WriteKey("EDHM", "AutoApplyTheme", this.AutoApplyTheme);
+					Util.WinReg_WriteKey("EDHM", "AutoApplyTheme",	this.AutoApplyTheme);
 
 					XtraMessageBox.Show("Settings Saved.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					this.DialogResult = DialogResult.OK;
@@ -626,6 +628,31 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+		private void txtUserDataFolder_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+		{
+			try
+			{
+				ButtonEdit _Selector = sender as ButtonEdit;
+				string _path = _Selector.EditValue.NVL("");
+
+				//Muestra el Cuadro de Dialogo 'Buscar Carpeta':
+				FolderBrowserDialog Dir = new FolderBrowserDialog
+				{
+					Description = "Select the Folder...",
+					ShowNewFolderButton = true,
+					SelectedPath = _path
+				};
+
+				if (Dir.ShowDialog() == DialogResult.OK)
+				{
+					_Selector.EditValue = Dir.SelectedPath;
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
 
 		private void chkAutoApplyTheme_CheckedChanged(object sender, EventArgs e)
 		{
@@ -652,5 +679,7 @@ namespace EDHM_UI_mk2
 			GridView detailView = masterView.GetDetailView(e.RowHandle, e.RelationIndex) as GridView;
 			detailView.Focus();
 		}
+
+		
 	}
 }

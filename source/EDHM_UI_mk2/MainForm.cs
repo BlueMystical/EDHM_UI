@@ -246,11 +246,6 @@ namespace EDHM_UI_mk2
 
 			#region Seleccionar la Instancia Activa
 
-			//string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
-			//if (_ActiveGames != null && _ActiveGames.Length > 1)
-			//{
-			//	ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
-			//}
 			ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
 			if (ActiveInstance == null)
 			{
@@ -634,12 +629,15 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+		/// <summary>Obtiene la ruta donde se guardan los Temas y datos del usuario.</summary>
+		/// <param name="MakeDir">[Opcional] Si la carpeta no existe, la crea.</param>
 		public string GetUIDocumentsDir(bool MakeDir = true)
 		{
 			string _ret = @"%USERPROFILE%\EDHM_UI";
 			try
 			{
-				_ret = Util.AppConfig_GetValue("EDHM_DOCS").NVL(@"%USERPROFILE%\EDHM_UI"); //<- @"%USERPROFILE%\EDHM_UI"
+				_ret = Util.WinReg_ReadKey( "EDHM", "EDHM_DOCS").NVL(@"%USERPROFILE%\EDHM_UI"); //<- @"%USERPROFILE%\EDHM_UI"
+					   Util.WinReg_WriteKey("EDHM", "EDHM_DOCS", _ret);
 				_ret = Environment.ExpandEnvironmentVariables(_ret); //<- Permite usar cualquier variable de Windows
 
 				// https://pureinfotech.com/list-environment-variables-windows-10/   <- Windows's Enviroment Variables List
@@ -7217,6 +7215,8 @@ namespace EDHM_UI_mk2
 				string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
 				string GameInstances_JSON = Util.Serialize_ToJSON(_Form.GameInstancesEx);
 
+				UI_DOCUMENTS = GetUIDocumentsDir();
+
 				FixGameInstances();
 
 				repCboGameInstances.ValueMember = "game_id";
@@ -7262,6 +7262,7 @@ namespace EDHM_UI_mk2
 				WatchMe = _Form.WatchMe;
 				SavesToRemember = _Form.SavesToRemember;
 				AutoApplyTheme = _Form.AutoApplyTheme;
+				
 
 				LoadMenus(LangShort);
 
