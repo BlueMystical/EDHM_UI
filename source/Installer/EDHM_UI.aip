@@ -2,12 +2,13 @@
 <DOCUMENT Type="Advanced Installer" CreateVersion="18.5" version="18.8.1" Modules="professional" RootPath="." Language="en" Id="{305C5696-0D09-4FD3-AC00-C5F2E9C1A1D0}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
-    <ROW Property="AI_CURRENT_YEAR" Value="2022" ValueLocId="-"/>
+    <ROW Property="AI_CURRENT_YEAR" Value="2023" ValueLocId="-"/>
     <ROW Property="AI_EXTERNALUIUNINSTALLERNAME" MultiBuildValue="DefaultBuild:aiui"/>
     <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_DOTNET_VERSION;AI_DETECTED_INTERNET_CONNECTION"/>
     <ROW Property="AI_PRODUCTNAME_ARP" Value="EDHM_UI"/>
     <ROW Property="AI_REQUIRED_DOTNET_DISPLAY" MultiBuildValue="DefaultBuild:4.5.2" ValueLocId="-"/>
     <ROW Property="AI_REQUIRED_DOTNET_VERSION" MultiBuildValue="DefaultBuild:4.5.2" ValueLocId="-"/>
+    <ROW Property="AI_SHORTCUTSREG" Value="0|0|0|0|"/>
     <ROW Property="AI_UNINSTALLER" Value="msiexec.exe"/>
     <ROW Property="ALLUSERS" Value="1" MultiBuildValue="DefaultBuild:2"/>
     <ROW Property="ARPCOMMENTS" Value="This installer contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
@@ -19,10 +20,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{A1009CC5-798E-4DDF-B9FF-13AC6E57AD9B} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{2A129A1B-67E2-4AF1-80DD-44064C4B51AE} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM_UI"/>
-    <ROW Property="ProductVersion" Value="2.1.249.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.1.284.0" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{2949570F-AF20-4990-B258-006A1649A388}"/>
@@ -41,7 +42,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
-    <ROW Directory="Data_Dir" Directory_Parent="APPDIR" DefaultDir="Data"/>
+    <ROW Directory="Data_Dir" Directory_Parent="APPDIR" DefaultDir="Data" DirectoryOptions="3"/>
     <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
     <ROW Directory="ED_Horizons_Dir" Directory_Parent="Images_Dir" DefaultDir="ED_HOR~1|ED_Horizons"/>
     <ROW Directory="ED_Odissey_Dir" Directory_Parent="Images_Dir" DefaultDir="ED_ODI~1|ED_Odissey"/>
@@ -52,36 +53,38 @@
     <ROW Directory="Updates_Dir" Directory_Parent="APPDIR" DefaultDir="Updates" DirectoryOptions="3"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_CustomARPName" ComponentId="{4AFA0C36-FA6C-4A6C-BB0F-81F7BA69F329}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AIShRegAnswer" ComponentId="{2D8D79A9-F005-4936-95B1-DD31BB7F3851}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{216CDAAB-BD79-471F-9CD9-D30C5030403A}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="APPDIR" ComponentId="{1428F5F3-0E71-45A1-AC93-1D376C7F0DC2}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="AmbientLights_0.png" ComponentId="{52A436C9-3EAA-4B92-958A-344A6537B298}" Directory_="ED_Horizons_Dir" Attributes="0" KeyPath="AmbientLights_0.png" Type="0"/>
     <ROW Component="AutoUpdater.NET.dll" ComponentId="{37D487B5-A4F8-4EEF-BFBA-0544FD775E35}" Directory_="APPDIR" Attributes="0" KeyPath="AutoUpdater.NET.dll"/>
     <ROW Component="ColorManagment.dll" ComponentId="{35162133-6069-4C8C-A522-8283866B1CAE}" Directory_="APPDIR" Attributes="0" KeyPath="ColorManagment.dll"/>
     <ROW Component="ColorMatrix_Preview_1a.png" ComponentId="{D96405A6-090B-455D-879D-1FD8CE4E5153}" Directory_="ED_Odissey_Dir" Attributes="0" KeyPath="ColorMatrix_Preview_1a.png_2" Type="0"/>
-    <ROW Component="DevExpress.BonusSkins.v22.1.dll" ComponentId="{99626310-A6F5-4479-94ED-61FC2DCFE72A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.BonusSkins.v22.1.dll"/>
-    <ROW Component="DevExpress.CodeParser.v22.1.dll" ComponentId="{43BE880F-3AAA-4FB4-BCEB-9F8333FA5BAE}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.CodeParser.v22.1.dll"/>
-    <ROW Component="DevExpress.Data.Desktop.v22.1.dll" ComponentId="{4BDA1629-44F2-4B95-A88F-FC34AC2ECA8C}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.Desktop.v22.1.dll"/>
-    <ROW Component="DevExpress.Data.v22.1.dll" ComponentId="{55C26263-09DE-4019-8620-DFEA9BD43F8D}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.v22.1.dll"/>
-    <ROW Component="DevExpress.DataAccess.v22.1.dll" ComponentId="{5EDD3BB0-E4B2-4620-9B55-E0220EA73993}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.DataAccess.v22.1.dll"/>
-    <ROW Component="DevExpress.Dialogs.v22.1.Core.dll" ComponentId="{5AC05F03-8E4B-44A7-A141-0096A546E80A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Dialogs.v22.1.Core.dll"/>
-    <ROW Component="DevExpress.Drawing.v22.1.dll" ComponentId="{A29A1B7D-D517-41DA-BECD-51C03976EE20}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Drawing.v22.1.dll"/>
-    <ROW Component="DevExpress.Office.v22.1.Core.dll" ComponentId="{B109999A-7018-4B80-A2DE-7D8D25E080EF}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Office.v22.1.Core.dll"/>
-    <ROW Component="DevExpress.Pdf.v22.1.Core.dll" ComponentId="{73455BB5-12D9-4F47-84B6-095400F5EA7A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v22.1.Core.dll"/>
-    <ROW Component="DevExpress.Pdf.v22.1.Drawing.dll" ComponentId="{FF87C86F-F8C9-4F01-8146-BF40D71E9FAF}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v22.1.Drawing.dll"/>
-    <ROW Component="DevExpress.Printing.v22.1.Core.dll" ComponentId="{AEDB7570-E71F-43CD-ADE8-F2E35FA216AD}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Printing.v22.1.Core.dll"/>
-    <ROW Component="DevExpress.RichEdit.v22.1.Core.dll" ComponentId="{4B022703-73B8-4A89-9E13-DB97F7996F42}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.RichEdit.v22.1.Core.dll"/>
-    <ROW Component="DevExpress.Sparkline.v22.1.Core.dll" ComponentId="{75245E89-4822-4499-A0B7-9A0E71ABE29B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Sparkline.v22.1.Core.dll"/>
-    <ROW Component="DevExpress.Utils.v22.1.dll" ComponentId="{7D74FE66-618E-4264-AC59-77F2606639D3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Utils.v22.1.dll"/>
-    <ROW Component="DevExpress.Xpo.v22.1.dll" ComponentId="{452D926C-ABA9-45D5-9A63-1A45E3FD2DCC}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Xpo.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraBars.v22.1.dll" ComponentId="{19BBA202-2FB0-4A6D-AFFF-081026BBDC5E}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraBars.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraDialogs.v22.1.dll" ComponentId="{1F3E318B-8D82-448F-92B6-732348593820}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraDialogs.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraEditors.v22.1.dll" ComponentId="{801B1C93-6798-4091-96B3-0A8304724548}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraEditors.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraGrid.v22.1.dll" ComponentId="{B7AC2252-9820-4E49-8120-2A91D08D3D5E}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraGrid.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraLayout.v22.1.dll" ComponentId="{C792FF38-42D1-4C05-8E37-722E15202276}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraLayout.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraNavBar.v22.1.dll" ComponentId="{F5ADD362-77CE-46F2-8FE8-731136B55228}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraNavBar.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraPrinting.v22.1.dll" ComponentId="{617C6C91-9D77-4E6B-AF45-AB08D277F2D8}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraPrinting.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraTreeList.v22.1.dll" ComponentId="{E6A921EF-92C1-4E28-929F-8A2F02603FAE}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraTreeList.v22.1.dll"/>
-    <ROW Component="DevExpress.XtraVerticalGrid.v22.1.dll" ComponentId="{E84A35CC-E5D1-4212-8B33-2899DE55634C}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraVerticalGrid.v22.1.dll"/>
+    <ROW Component="DevExpress.BonusSkins.v22.2.dll" ComponentId="{22422EBE-1BBF-4266-AF18-0873A30A115C}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.BonusSkins.v22.2.dll"/>
+    <ROW Component="DevExpress.CodeParser.v22.2.dll" ComponentId="{3D73242C-ED9E-443E-96A3-32027B322F6D}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.CodeParser.v22.2.dll"/>
+    <ROW Component="DevExpress.Data.Desktop.v22.2.dll" ComponentId="{30472097-9918-4A2E-8C55-D4E65C97B9BB}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.Desktop.v22.2.dll"/>
+    <ROW Component="DevExpress.Data.v22.2.dll" ComponentId="{9C9C40CA-9EF2-4220-9043-2FC52209F869}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.v22.2.dll"/>
+    <ROW Component="DevExpress.DataAccess.v22.2.dll" ComponentId="{05723035-E519-46DD-A21B-E9197E44F71A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.DataAccess.v22.2.dll"/>
+    <ROW Component="DevExpress.Dialogs.v22.2.Core.dll" ComponentId="{8FF34CC3-2048-4153-B1F1-A300E50C93DE}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Dialogs.v22.2.Core.dll"/>
+    <ROW Component="DevExpress.Drawing.v22.2.dll" ComponentId="{E3C484A0-5356-4E88-BBBC-AE29C79F9ED1}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Drawing.v22.2.dll"/>
+    <ROW Component="DevExpress.Images.v22.2.dll" ComponentId="{721479EB-C236-447D-AA2B-55BC2A4AC52E}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Images.v22.2.dll"/>
+    <ROW Component="DevExpress.Office.v22.2.Core.dll" ComponentId="{5EEE026D-4E24-4A2B-9AA8-438FDEC6A9EA}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Office.v22.2.Core.dll"/>
+    <ROW Component="DevExpress.Pdf.v22.2.Core.dll" ComponentId="{B7D7CF91-B676-4646-B166-1668EFA00DDE}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v22.2.Core.dll"/>
+    <ROW Component="DevExpress.Pdf.v22.2.Drawing.dll" ComponentId="{33FC7885-B028-4D08-90E4-F2F425C057D0}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v22.2.Drawing.dll"/>
+    <ROW Component="DevExpress.Printing.v22.2.Core.dll" ComponentId="{8A29FB09-0294-4724-8BD9-0A5F85BA0A87}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Printing.v22.2.Core.dll"/>
+    <ROW Component="DevExpress.RichEdit.v22.2.Core.dll" ComponentId="{3EA6191B-7B13-4AB9-A8DB-17C9744102BC}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.RichEdit.v22.2.Core.dll"/>
+    <ROW Component="DevExpress.Sparkline.v22.2.Core.dll" ComponentId="{A3A26F88-999C-4F3C-9ACB-F24385C2F40D}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Sparkline.v22.2.Core.dll"/>
+    <ROW Component="DevExpress.Utils.v22.2.dll" ComponentId="{F3B5EC08-7F49-4563-98FE-37927FA6BCE7}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Utils.v22.2.dll"/>
+    <ROW Component="DevExpress.Xpo.v22.2.dll" ComponentId="{8D5E36BA-1063-401D-A343-13E6C4FCC631}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Xpo.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraBars.v22.2.dll" ComponentId="{8E065E19-051E-412B-AB7B-4219772235B6}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraBars.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraDialogs.v22.2.dll" ComponentId="{A1F74B50-9B61-4570-B2D9-76720A519EAB}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraDialogs.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraEditors.v22.2.dll" ComponentId="{9E1D7A96-F3DF-427A-8BBE-66DA686128B1}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraEditors.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraGrid.v22.2.dll" ComponentId="{261BCA4C-1A29-4EA5-8700-65121535DCC8}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraGrid.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraLayout.v22.2.dll" ComponentId="{A5B57440-399D-4115-9F52-4082B394D382}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraLayout.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraNavBar.v22.2.dll" ComponentId="{9F0A6CC6-E979-4D0D-A696-E0EA36790292}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraNavBar.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraPrinting.v22.2.dll" ComponentId="{EE0AB63A-4F02-4A7C-BBB0-66DCBA712D2B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraPrinting.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraTreeList.v22.2.dll" ComponentId="{57A172DB-CEE9-45EC-8A08-3F6C1262CE97}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraTreeList.v22.2.dll"/>
+    <ROW Component="DevExpress.XtraVerticalGrid.v22.2.dll" ComponentId="{B2D91483-2F61-476C-913B-2E6C6BEB985B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraVerticalGrid.v22.2.dll"/>
     <ROW Component="EDHM_UI_Guide.pdf" ComponentId="{B6C93243-E42F-4572-9E06-C8F0AD605DA4}" Directory_="Data_Dir" Attributes="0" KeyPath="ED_Horizons_XMLProfile.ini" Type="0"/>
     <ROW Component="EDHM_UI_Patcher.exe" ComponentId="{986622D2-1826-479C-953F-5C8C000CC8D9}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_Patcher.exe"/>
     <ROW Component="EDHM_UI_Thumbnail_Maker.exe" ComponentId="{5E6A1F3F-DD88-4C11-8984-0DB6AF037EDC}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_Thumbnail_Maker.exe"/>
@@ -106,14 +109,14 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
     <ROW File="EDHM_UI_mk2.exe" Component_="EDHM_UI_mk2.exe" FileName="EDHM_U~1.EXE|EDHM_UI_mk2.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_mk2.exe" SelfReg="false" DigSign="true"/>
     <ROW File="EDHM_UI_mk2.exe.Config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~1.CON|EDHM_UI_mk2.exe.Config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_mk2.exe.Config" SelfReg="false"/>
-    <ROW File="AutoUpdater.NET.dll" Component_="AutoUpdater.NET.dll" FileName="AUTOUP~1.DLL|AutoUpdater.NET.dll" Attributes="0" SourcePath="..\bin\Debug\AutoUpdater.NET.dll" SelfReg="false"/>
-    <ROW File="ColorManagment.dll" Component_="ColorManagment.dll" FileName="COLORM~1.DLL|ColorManagment.dll" Attributes="0" SourcePath="..\bin\Debug\ColorManagment.dll" SelfReg="false"/>
-    <ROW File="ICCReader.dll" Component_="ICCReader.dll" FileName="ICCREA~1.DLL|ICCReader.dll" Attributes="0" SourcePath="..\bin\Debug\ICCReader.dll" SelfReg="false"/>
-    <ROW File="INIFileParser.dll" Component_="INIFileParser.dll" FileName="INIFIL~1.DLL|INIFileParser.dll" Attributes="0" SourcePath="..\bin\Debug\INIFileParser.dll" SelfReg="false"/>
-    <ROW File="Ionic.Zip.dll" Component_="Ionic.Zip.dll" FileName="IONICZ~1.DLL|Ionic.Zip.dll" Attributes="0" SourcePath="..\bin\Debug\Ionic.Zip.dll" SelfReg="false"/>
-    <ROW File="MathNet.Numerics.dll" Component_="MathNet.Numerics.dll" FileName="MATHNE~1.DLL|MathNet.Numerics.dll" Attributes="0" SourcePath="..\bin\Debug\MathNet.Numerics.dll" SelfReg="false"/>
-    <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\bin\Debug\Newtonsoft.Json.dll" SelfReg="false"/>
-    <ROW File="ED_Horizons_XMLProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~1.INI|ED_Horizons_XML-Profile.ini" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_XML-Profile.ini" SelfReg="false"/>
+    <ROW File="AutoUpdater.NET.dll" Component_="AutoUpdater.NET.dll" FileName="AUTOUP~1.DLL|AutoUpdater.NET.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\AutoUpdater.NET.dll" SelfReg="false"/>
+    <ROW File="ColorManagment.dll" Component_="ColorManagment.dll" FileName="COLORM~1.DLL|ColorManagment.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\ColorManagment.dll" SelfReg="false"/>
+    <ROW File="ICCReader.dll" Component_="ICCReader.dll" FileName="ICCREA~1.DLL|ICCReader.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\ICCReader.dll" SelfReg="false"/>
+    <ROW File="INIFileParser.dll" Component_="INIFileParser.dll" FileName="INIFIL~1.DLL|INIFileParser.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\INIFileParser.dll" SelfReg="false"/>
+    <ROW File="Ionic.Zip.dll" Component_="Ionic.Zip.dll" FileName="IONICZ~1.DLL|Ionic.Zip.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Ionic.Zip.dll" SelfReg="false"/>
+    <ROW File="MathNet.Numerics.dll" Component_="MathNet.Numerics.dll" FileName="MATHNE~1.DLL|MathNet.Numerics.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\MathNet.Numerics.dll" SelfReg="false"/>
+    <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Newtonsoft.Json.dll" SelfReg="false"/>
+    <ROW File="ED_Horizons_XMLProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~1.INI|ED_Horizons_XML-Profile.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_XML-Profile.ini" SelfReg="false"/>
     <ROW File="ED_Odissey_XMLProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~1.INI|ED_Odissey_XML-Profile.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_XML-Profile.ini" SelfReg="false"/>
     <ROW File="AmbientLights_0.png" Component_="AmbientLights_0.png" FileName="AMBIEN~1.PNG|AmbientLights_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_0.png" SelfReg="false"/>
     <ROW File="AmbientLights_0p.png" Component_="AmbientLights_0.png" FileName="AMBIEN~2.PNG|AmbientLights_0p.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_0p.png" SelfReg="false"/>
@@ -405,27 +408,27 @@
     <ROW File="SWIRLS_Middle.png" Component_="ColorMatrix_Preview_1a.png" FileName="SWIRLS~2.PNG|SWIRLS_Middle.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SWIRLS_Middle.png" SelfReg="false"/>
     <ROW File="SWIRLS_Top.png" Component_="ColorMatrix_Preview_1a.png" FileName="SWIRLS~3.PNG|SWIRLS_Top.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SWIRLS_Top.png" SelfReg="false"/>
     <ROW File="UI_Tips.json" Component_="EDHM_UI_Guide.pdf" FileName="UI_TIP~1.JSO|UI_Tips.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\UI_Tips.json" SelfReg="false"/>
-    <ROW File="EDHM_UI_Patcher.exe" Component_="EDHM_UI_Patcher.exe" FileName="EDHM_U~2.EXE|EDHM_UI_Patcher.exe" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Patcher.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="EDHM_UI_Patcher.exe.config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~2.CON|EDHM_UI_Patcher.exe.config" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Patcher.exe.config" SelfReg="false"/>
-    <ROW File="ED_Horizons_StartupProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~2.INI|ED_Horizons_Startup-Profile.ini" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Startup-Profile.ini" SelfReg="false"/>
-    <ROW File="EDHM_HOTFIX.json" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_H~1.JSO|EDHM_HOTFIX.json" Attributes="0" SourcePath="..\bin\Debug\EDHM_HOTFIX.json" SelfReg="false"/>
-    <ROW File="EDHM_UNINSTALL.bat" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~1.BAT|EDHM_UNINSTALL.bat" Attributes="0" SourcePath="..\bin\Debug\EDHM_UNINSTALL.bat" SelfReg="false"/>
+    <ROW File="EDHM_UI_Patcher.exe" Component_="EDHM_UI_Patcher.exe" FileName="EDHM_U~2.EXE|EDHM_UI_Patcher.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Patcher.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="EDHM_UI_Patcher.exe.config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~2.CON|EDHM_UI_Patcher.exe.config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Patcher.exe.config" SelfReg="false"/>
+    <ROW File="ED_Horizons_StartupProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~2.INI|ED_Horizons_Startup-Profile.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Startup-Profile.ini" SelfReg="false"/>
+    <ROW File="EDHM_HOTFIX.json" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_H~1.JSO|EDHM_HOTFIX.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_HOTFIX.json" SelfReg="false"/>
+    <ROW File="EDHM_UNINSTALL.bat" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~1.BAT|EDHM_UNINSTALL.bat" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UNINSTALL.bat" SelfReg="false"/>
     <ROW File="ED_Odissey_SuitHud.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~4.INI|ED_Odissey_SuitHud.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_SuitHud.ini" SelfReg="false"/>
     <ROW File="ED_Odissey_Settings_EN.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~4.JSO|ED_Odissey_Settings_EN.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Settings_EN.json" SelfReg="false"/>
-    <ROW File="ED_Horizons_Settings_EN.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~1.JSO|ED_Horizons_Settings_EN.json" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Settings_EN.json" SelfReg="false"/>
+    <ROW File="ED_Horizons_Settings_EN.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~1.JSO|ED_Horizons_Settings_EN.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Settings_EN.json" SelfReg="false"/>
     <ROW File="ED_Odissey_Advanced.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~2.INI|ED_Odissey_Advanced.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Advanced.ini" SelfReg="false"/>
     <ROW File="HORIZ_EDHMv1.52.b.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="HORIZ_~1.ZIP|HORIZ_EDHM-v1.52.b.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\HORIZ_EDHM-v1.52.b.zip" SelfReg="false"/>
-    <ROW File="ED_Horizons_Custom.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.INI|ED_Horizons_Custom.ini" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Custom.ini" SelfReg="false"/>
-    <ROW File="EDHM_UI_Guide.pdf" Component_="EDHM_UI_Guide.pdf" FileName="EDHM_U~1.PDF|EDHM_UI_Guide.pdf" Attributes="0" SourcePath="..\bin\Debug\Data\EDHM_UI_Guide.pdf" SelfReg="false"/>
+    <ROW File="ED_Horizons_Custom.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.INI|ED_Horizons_Custom.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Custom.ini" SelfReg="false"/>
+    <ROW File="EDHM_UI_Guide.pdf" Component_="EDHM_UI_Guide.pdf" FileName="EDHM_U~1.PDF|EDHM_UI_Guide.pdf" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\EDHM_UI_Guide.pdf" SelfReg="false"/>
     <ROW File="Themes_EDHM_HORIZ.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="THEMES~1.ZIP|Themes_EDHM_HORIZ.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\Themes_EDHM_HORIZ.zip" SelfReg="false"/>
     <ROW File="Themes_EDHM_ODYSS.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="THEMES~2.ZIP|Themes_EDHM_ODYSS.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\Themes_EDHM_ODYSS.zip" SelfReg="false"/>
     <ROW File="ED_Odissey_Global_Settings.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~9.JSO|ED_Odissey_Global_Settings.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Global_Settings.json" SelfReg="false"/>
-    <ROW File="EDHM_UI_Thumbnail_Maker.exe" Component_="EDHM_UI_Thumbnail_Maker.exe" FileName="EDHM_U~3.EXE|EDHM_UI_Thumbnail_Maker.exe" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="EDHM_UI_Thumbnail_Maker.exe.config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~3.CON|EDHM_UI_Thumbnail_Maker.exe.config" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe.config" SelfReg="false"/>
-    <ROW File="ED_Horizons_Global_Settings.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~2.JSO|ED_Horizons_Global_Settings.json" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Global_Settings.json" SelfReg="false"/>
-    <ROW File="ED_Horizons_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.JSO|ED_Horizons_Translations.json" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Translations.json" SelfReg="false"/>
+    <ROW File="EDHM_UI_Thumbnail_Maker.exe" Component_="EDHM_UI_Thumbnail_Maker.exe" FileName="EDHM_U~3.EXE|EDHM_UI_Thumbnail_Maker.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="EDHM_UI_Thumbnail_Maker.exe.config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~3.CON|EDHM_UI_Thumbnail_Maker.exe.config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe.config" SelfReg="false"/>
+    <ROW File="ED_Horizons_Global_Settings.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~2.JSO|ED_Horizons_Global_Settings.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Global_Settings.json" SelfReg="false"/>
+    <ROW File="ED_Horizons_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.JSO|ED_Horizons_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Translations.json" SelfReg="false"/>
     <ROW File="ED_Odissey_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~1.JSO|ED_Odissey_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Translations.json" SelfReg="false"/>
-    <ROW File="EDHM_UI_mk2.VisualElementsManifest.xml" Component_="EDHM_UI_mk2.VisualElementsManifest.xml" FileName="EDHM_U~1.XML|EDHM_UI_mk2.VisualElementsManifest.xml" Attributes="0" SourcePath="&lt;AI_RES&gt;app.VisualElementsManifest.xml" SelfReg="false"/>
+    <ROW File="EDHM_UI_mk2.VisualElementsManifest.xml" Component_="EDHM_UI_mk2.VisualElementsManifest.xml" FileName="EDHM_U~1.XML|EDHM_UI_mk2.VisualElementsManifest.xml" Version="65535.65535.65535.65535" Attributes="0" SourcePath="&lt;AI_RES&gt;app.VisualElementsManifest.xml" SelfReg="false"/>
     <ROW File="w97.png" Component_="w97.png" FileName="w97.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w97.png" SelfReg="false"/>
     <ROW File="x122_y122_z122_w122.png" Component_="w97.png" FileName="X122_Y~1.PNG|x122_y122_z122_w122.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x122_y122_z122_w122.png" SelfReg="false"/>
     <ROW File="x128_y128_z128_w128.png" Component_="w97.png" FileName="X128_Y~1.PNG|x128_y128_z128_w128.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x128_y128_z128_w128.png" SelfReg="false"/>
@@ -564,36 +567,35 @@
     <ROW File="w190.png" Component_="w97.png" FileName="w190.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w190.png" SelfReg="false"/>
     <ROW File="x191_y191_z191.png" Component_="w97.png" FileName="X191_Y~1.PNG|x191_y191_z191.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x191_y191_z191.png" SelfReg="false"/>
     <ROW File="x192_y192_z192.png" Component_="w97.png" FileName="X192_Y~1.PNG|x192_y192_z192.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x192_y192_z192.png" SelfReg="false"/>
-    <ROW File="DevExpress.BonusSkins.v22.1.dll" Component_="DevExpress.BonusSkins.v22.1.dll" FileName="DEVEXP~1.DLL|DevExpress.BonusSkins.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.BonusSkins.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.CodeParser.v22.1.dll" Component_="DevExpress.CodeParser.v22.1.dll" FileName="DEVEXP~2.DLL|DevExpress.CodeParser.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.CodeParser.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Data.Desktop.v22.1.dll" Component_="DevExpress.Data.Desktop.v22.1.dll" FileName="DEVEXP~3.DLL|DevExpress.Data.Desktop.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.Desktop.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Data.v22.1.dll" Component_="DevExpress.Data.v22.1.dll" FileName="DEVEXP~4.DLL|DevExpress.Data.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.DataAccess.v22.1.dll" Component_="DevExpress.DataAccess.v22.1.dll" FileName="DEVEXP~5.DLL|DevExpress.DataAccess.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.DataAccess.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Dialogs.v22.1.Core.dll" Component_="DevExpress.Dialogs.v22.1.Core.dll" FileName="DEVEXP~6.DLL|DevExpress.Dialogs.v22.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Dialogs.v22.1.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Drawing.v22.1.dll" Component_="DevExpress.Drawing.v22.1.dll" FileName="DEVEXP~7.DLL|DevExpress.Drawing.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Drawing.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Office.v22.1.Core.dll" Component_="DevExpress.Office.v22.1.Core.dll" FileName="DEVEXP~8.DLL|DevExpress.Office.v22.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Office.v22.1.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Pdf.v22.1.Core.dll" Component_="DevExpress.Pdf.v22.1.Core.dll" FileName="DEVEXP~9.DLL|DevExpress.Pdf.v22.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v22.1.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Pdf.v22.1.Drawing.dll" Component_="DevExpress.Pdf.v22.1.Drawing.dll" FileName="DEVEX~10.DLL|DevExpress.Pdf.v22.1.Drawing.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v22.1.Drawing.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Printing.v22.1.Core.dll" Component_="DevExpress.Printing.v22.1.Core.dll" FileName="DEVEX~11.DLL|DevExpress.Printing.v22.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Printing.v22.1.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.RichEdit.v22.1.Core.dll" Component_="DevExpress.RichEdit.v22.1.Core.dll" FileName="DEVEX~12.DLL|DevExpress.RichEdit.v22.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.RichEdit.v22.1.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Sparkline.v22.1.Core.dll" Component_="DevExpress.Sparkline.v22.1.Core.dll" FileName="DEVEX~13.DLL|DevExpress.Sparkline.v22.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Sparkline.v22.1.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Utils.v22.1.dll" Component_="DevExpress.Utils.v22.1.dll" FileName="DEVEX~14.DLL|DevExpress.Utils.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Utils.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Xpo.v22.1.dll" Component_="DevExpress.Xpo.v22.1.dll" FileName="DEVEX~15.DLL|DevExpress.Xpo.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Xpo.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraBars.v22.1.dll" Component_="DevExpress.XtraBars.v22.1.dll" FileName="DEVEX~16.DLL|DevExpress.XtraBars.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraBars.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraDialogs.v22.1.dll" Component_="DevExpress.XtraDialogs.v22.1.dll" FileName="DEVEX~17.DLL|DevExpress.XtraDialogs.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraDialogs.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraEditors.v22.1.dll" Component_="DevExpress.XtraEditors.v22.1.dll" FileName="DEVEX~18.DLL|DevExpress.XtraEditors.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraGrid.v22.1.dll" Component_="DevExpress.XtraGrid.v22.1.dll" FileName="DEVEX~19.DLL|DevExpress.XtraGrid.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraGrid.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraLayout.v22.1.dll" Component_="DevExpress.XtraLayout.v22.1.dll" FileName="DEVEX~20.DLL|DevExpress.XtraLayout.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraLayout.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraNavBar.v22.1.dll" Component_="DevExpress.XtraNavBar.v22.1.dll" FileName="DEVEX~21.DLL|DevExpress.XtraNavBar.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraNavBar.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraPrinting.v22.1.dll" Component_="DevExpress.XtraPrinting.v22.1.dll" FileName="DEVEX~22.DLL|DevExpress.XtraPrinting.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraPrinting.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraTreeList.v22.1.dll" Component_="DevExpress.XtraTreeList.v22.1.dll" FileName="DEVEX~23.DLL|DevExpress.XtraTreeList.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraTreeList.v22.1.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraVerticalGrid.v22.1.dll" Component_="DevExpress.XtraVerticalGrid.v22.1.dll" FileName="DEVEX~24.DLL|DevExpress.XtraVerticalGrid.v22.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraVerticalGrid.v22.1.dll" SelfReg="false"/>
     <ROW File="x195y_195z_195.png" Component_="w97.png" FileName="X195Y_~1.PNG|x195y_195z_195.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x195y_195z_195.png" SelfReg="false"/>
     <ROW File="w234.png" Component_="w97.png" FileName="w234.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w234.png" SelfReg="false"/>
-    <ROW File="ODYSS_EDHMv13.4_Beta.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v13.4_Beta.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v13.4_Beta.zip" SelfReg="false"/>
-  </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentDataComponent">
-    <ROW PersistentRow="ED_Horizons_Global_Settings.json" Type="0" Condition="1"/>
+    <ROW File="DevExpress.BonusSkins.v22.2.dll" Component_="DevExpress.BonusSkins.v22.2.dll" FileName="DEVEXP~1.DLL|DevExpress.BonusSkins.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.BonusSkins.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.CodeParser.v22.2.dll" Component_="DevExpress.CodeParser.v22.2.dll" FileName="DEVEXP~2.DLL|DevExpress.CodeParser.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.CodeParser.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Data.Desktop.v22.2.dll" Component_="DevExpress.Data.Desktop.v22.2.dll" FileName="DEVEXP~3.DLL|DevExpress.Data.Desktop.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.Desktop.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Data.v22.2.dll" Component_="DevExpress.Data.v22.2.dll" FileName="DEVEXP~4.DLL|DevExpress.Data.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.DataAccess.v22.2.dll" Component_="DevExpress.DataAccess.v22.2.dll" FileName="DEVEXP~5.DLL|DevExpress.DataAccess.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.DataAccess.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Dialogs.v22.2.Core.dll" Component_="DevExpress.Dialogs.v22.2.Core.dll" FileName="DEVEXP~6.DLL|DevExpress.Dialogs.v22.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Dialogs.v22.2.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Drawing.v22.2.dll" Component_="DevExpress.Drawing.v22.2.dll" FileName="DEVEXP~7.DLL|DevExpress.Drawing.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Drawing.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Office.v22.2.Core.dll" Component_="DevExpress.Office.v22.2.Core.dll" FileName="DEVEXP~8.DLL|DevExpress.Office.v22.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Office.v22.2.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Pdf.v22.2.Core.dll" Component_="DevExpress.Pdf.v22.2.Core.dll" FileName="DEVEXP~9.DLL|DevExpress.Pdf.v22.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v22.2.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Pdf.v22.2.Drawing.dll" Component_="DevExpress.Pdf.v22.2.Drawing.dll" FileName="DEVEX~10.DLL|DevExpress.Pdf.v22.2.Drawing.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v22.2.Drawing.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Printing.v22.2.Core.dll" Component_="DevExpress.Printing.v22.2.Core.dll" FileName="DEVEX~11.DLL|DevExpress.Printing.v22.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Printing.v22.2.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.RichEdit.v22.2.Core.dll" Component_="DevExpress.RichEdit.v22.2.Core.dll" FileName="DEVEX~12.DLL|DevExpress.RichEdit.v22.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.RichEdit.v22.2.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Sparkline.v22.2.Core.dll" Component_="DevExpress.Sparkline.v22.2.Core.dll" FileName="DEVEX~13.DLL|DevExpress.Sparkline.v22.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Sparkline.v22.2.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Utils.v22.2.dll" Component_="DevExpress.Utils.v22.2.dll" FileName="DEVEX~14.DLL|DevExpress.Utils.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Utils.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Xpo.v22.2.dll" Component_="DevExpress.Xpo.v22.2.dll" FileName="DEVEX~15.DLL|DevExpress.Xpo.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Xpo.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraBars.v22.2.dll" Component_="DevExpress.XtraBars.v22.2.dll" FileName="DEVEX~16.DLL|DevExpress.XtraBars.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraBars.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraDialogs.v22.2.dll" Component_="DevExpress.XtraDialogs.v22.2.dll" FileName="DEVEX~17.DLL|DevExpress.XtraDialogs.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraDialogs.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraEditors.v22.2.dll" Component_="DevExpress.XtraEditors.v22.2.dll" FileName="DEVEX~18.DLL|DevExpress.XtraEditors.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraGrid.v22.2.dll" Component_="DevExpress.XtraGrid.v22.2.dll" FileName="DEVEX~19.DLL|DevExpress.XtraGrid.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraGrid.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraLayout.v22.2.dll" Component_="DevExpress.XtraLayout.v22.2.dll" FileName="DEVEX~20.DLL|DevExpress.XtraLayout.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraLayout.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraNavBar.v22.2.dll" Component_="DevExpress.XtraNavBar.v22.2.dll" FileName="DEVEX~21.DLL|DevExpress.XtraNavBar.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraNavBar.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraPrinting.v22.2.dll" Component_="DevExpress.XtraPrinting.v22.2.dll" FileName="DEVEX~22.DLL|DevExpress.XtraPrinting.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraPrinting.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraTreeList.v22.2.dll" Component_="DevExpress.XtraTreeList.v22.2.dll" FileName="DEVEX~23.DLL|DevExpress.XtraTreeList.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraTreeList.v22.2.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraVerticalGrid.v22.2.dll" Component_="DevExpress.XtraVerticalGrid.v22.2.dll" FileName="DEVEX~24.DLL|DevExpress.XtraVerticalGrid.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraVerticalGrid.v22.2.dll" SelfReg="false"/>
+    <ROW File="EDHM_UI_mk2.pdb" Component_="EDHM_UI_mk2.exe" FileName="EDHM_U~1.PDB|EDHM_UI_mk2.pdb" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_mk2.pdb" SelfReg="false"/>
+    <ROW File="ODYSS_EDHMv15.03.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v15.03.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v15.03.zip" SelfReg="false"/>
+    <ROW File="DevExpress.Images.v22.2.dll" Component_="DevExpress.Images.v22.2.dll" FileName="DEVEX~25.DLL|DevExpress.Images.v22.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Images.v22.2.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -617,6 +619,7 @@
     <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceWelcomeDlg.aip"/>
     <ROW Fragment="SequenceDialogs.aip" Path="&lt;AI_THEMES&gt;classic\fragments\SequenceDialogs.aip"/>
     <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
+    <ROW Fragment="ShortcutsDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\ShortcutsDlg.aip"/>
     <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
     <ROW Fragment="UI.aip" Path="&lt;AI_THEMES&gt;classic\fragments\UI.aip"/>
     <ROW Fragment="Validation.aip" Path="&lt;AI_FRAGS&gt;Validation.aip"/>
@@ -638,17 +641,13 @@
   <COMPONENT cid="caphyon.advinst.msicomp.GenericXmlFileComponent">
     <ROW XmlFile="EDHM_UI_mk2.VisualElementsManifest." FileName="EDHM_UI_mk2.VisualElementsManifest.xml" RootElement="Application" Flags="89" Version="1.0" Encoding="UTF-8" IndentUnits="2"/>
   </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
-    <ROW Action="AI_AiBackupImmediate" Description="Preparing backup operation" DescriptionLocId="ActionText.Description.AI_AiBackupImmediate" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiBackupImmediate"/>
-    <ROW Action="AI_AiBackupRollback" Description="Rollback backup" DescriptionLocId="ActionText.Description.AI_AiBackupRollback" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiBackupRollback"/>
-    <ROW Action="AI_AiBackupRollbackImpersonate" Description="Rollback backup" DescriptionLocId="ActionText.Description.AI_AiBackupRollback" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiBackupRollback"/>
-    <ROW Action="AI_AiRestoreDeferred" Description="Executing restore operation" DescriptionLocId="ActionText.Description.AI_AiRestoreDeferred" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiRestoreDeferred"/>
-    <ROW Action="AI_AiRestoreDeferredImpersonate" Description="Executing restore operation" DescriptionLocId="ActionText.Description.AI_AiRestoreDeferred" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiRestoreDeferred"/>
-    <ROW Action="AI_AiRestoreRollback" Description="Rollback restore" DescriptionLocId="ActionText.Description.AI_AiRestoreRollback" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiRestoreRollback"/>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
+    <ROW Property="AI_SHORTCUTSREG" Signature_="AI_ShRegOptionUser"/>
+    <ROW Property="AI_SHORTCUTSREG" Signature_="AI_ShRegOptionMachine"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
     <ROW Name="ExternalUICleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ExternalUICleaner.dll"/>
-    <ROW Name="ResourceCleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ResourceCleaner.dll"/>
+    <ROW Name="ShortcutFlags.dll" SourcePath="&lt;AI_CUSTACTS&gt;ShortcutFlags.dll"/>
     <ROW Name="SoftwareDetector.dll" SourcePath="&lt;AI_CUSTACTS&gt;SoftwareDetector.dll"/>
     <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
     <ROW Name="viewer.exe" SourcePath="&lt;AI_CUSTACTS&gt;viewer.exe"/>
@@ -656,10 +655,14 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiConditionComponent">
     <ROW Feature_="TileAssets_DefaultBuild" Level="4" Condition="VersionNT &lt; 603"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlConditionComponent">
+    <ROW Dialog_="ShortcutsDlg" Control_="QuickLaunchShorcutsCheckBox" Action="Hide" Condition="(Not Installed) AND (VersionNT&lt;&quot;601&quot;)"/>
+    <ATTRIBUTE name="DeletedRows" value="ShortcutsDlg#QuickLaunchShorcutsCheckBox#Show#(Not Installed) AND (VersionNT&lt;&quot;601&quot;)"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
-    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="ShortcutsDlg" Condition="AI_INSTALL" Ordering="1"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_INSTALL" Ordering="197"/>
-    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="ShortcutsDlg" Condition="AI_INSTALL" Ordering="201"/>
     <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
     <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
     <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
@@ -677,21 +680,18 @@
     <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
     <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
-    <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_AiBackupCleanup" Condition="1" Ordering="102"/>
-    <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_AiBackupCleanup" Condition="1" Ordering="101"/>
+    <ROW Dialog_="ShortcutsDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="ShortcutsDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
-    <ROW Action="AI_AiBackupCleanup" Type="1" Source="ResourceCleaner.dll" Target="OnAiBackupCleanup" WithoutSeq="true"/>
-    <ROW Action="AI_AiBackupImmediate" Type="1" Source="ResourceCleaner.dll" Target="OnAiBackupImmediate"/>
-    <ROW Action="AI_AiBackupRollback" Type="11521" Source="ResourceCleaner.dll" Target="OnAiBackupRollback"/>
-    <ROW Action="AI_AiBackupRollbackImpersonate" Type="9473" Source="ResourceCleaner.dll" Target="OnAiBackupRollbackImpersonate"/>
-    <ROW Action="AI_AiRestoreDeferred" Type="11265" Source="ResourceCleaner.dll" Target="OnAiRestoreDeferred"/>
-    <ROW Action="AI_AiRestoreDeferredImpersonate" Type="9217" Source="ResourceCleaner.dll" Target="OnAiRestoreDeferredImpersonate"/>
-    <ROW Action="AI_AiRestoreRollback" Type="11521" Source="ResourceCleaner.dll" Target="OnAiRestoreRollback" WithoutSeq="true"/>
+    <ROW Action="AI_ApplyShortcutFlags" Type="3073" Source="ShortcutFlags.dll" Target="UpdateShortcutFlags" WithoutSeq="true"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_DEL_EMPTY_SHORTCUTDIR" Target="[SHORTCUTDIR]"/>
+    <ROW Action="AI_DELETE_SHORTCUTS" Type="1" Source="aicustact.dll" Target="DeleteShortcuts"/>
+    <ROW Action="AI_DEL_EMPTY_SHORTCUTDIR" Type="3073" Source="aicustact.dll" Target="DeleteEmptyDirectory" AdditionalSeq="AI_DATA_SETTER"/>
     <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
     <ROW Action="AI_DetectSoftware" Type="257" Source="SoftwareDetector.dll" Target="OnDetectSoftware"/>
     <ROW Action="AI_DoRemoveExternalUIStub" Type="3585" Source="ExternalUICleaner.dll" Target="DoRemoveExternalUIStub" WithoutSeq="true"/>
@@ -701,6 +701,10 @@
     <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
     <ROW Action="AI_LaunchApp" Type="1" Source="aicustact.dll" Target="[#EDHM_UI_mk2.exe]"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_PinShortcuts" Type="1" Source="ShortcutFlags.dll" Target="PinShortcuts"/>
+    <ROW Action="AI_PinToStartScreen" Type="1025" Source="ShortcutFlags.dll" Target="PinToStartScreen" WithoutSeq="true"/>
+    <ROW Action="AI_PinToTaskbar" Type="1025" Source="ShortcutFlags.dll" Target="PinToTaskbar" WithoutSeq="true"/>
+    <ROW Action="AI_PrepareShortcutFlags" Type="1" Source="ShortcutFlags.dll" Target="PrepareActionData"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
     <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
     <ROW Action="AI_RemoveExternalUIStub" Type="1" Source="ExternalUICleaner.dll" Target="RemoveExternalUIStub"/>
@@ -708,6 +712,9 @@
     <ROW Action="AI_SETMIXINSTLOCATION" Type="1" Source="aicustact.dll" Target="MixedAllUsersInstallLocation"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="AI_UnpinFromStartScreen" Type="1025" Source="ShortcutFlags.dll" Target="UnpinFromStartScreen" WithoutSeq="true"/>
+    <ROW Action="AI_UnpinFromTaskbar" Type="1025" Source="ShortcutFlags.dll" Target="UnpinFromTaskbar" WithoutSeq="true"/>
+    <ROW Action="AI_UnpinShortcuts" Type="1" Source="ShortcutFlags.dll" Target="UnpinShortcuts"/>
     <ROW Action="LaunchFile" Type="2" Source="viewer.exe" Target="&quot;[#EDHM_UNINSTALL.bat]&quot;" Options="1"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[LocalAppDataFolder][ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
@@ -735,30 +742,32 @@
     <ROW Feature_="MainFeature" Component_="EDHM_UI_Thumbnail_Maker.exe"/>
     <ROW Feature_="TileAssets_DefaultBuild" Component_="EDHM_UI_mk2.VisualElementsManifest.xml"/>
     <ROW Feature_="MainFeature" Component_="w97.png"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.BonusSkins.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.CodeParser.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Data.Desktop.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Data.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.DataAccess.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Dialogs.v22.1.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Drawing.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Office.v22.1.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v22.1.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v22.1.Drawing.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Printing.v22.1.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.RichEdit.v22.1.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Sparkline.v22.1.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Utils.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Xpo.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraBars.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraDialogs.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraEditors.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraGrid.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraLayout.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraNavBar.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraPrinting.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraTreeList.v22.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraVerticalGrid.v22.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.BonusSkins.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.CodeParser.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Data.Desktop.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Data.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.DataAccess.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Dialogs.v22.2.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Drawing.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Office.v22.2.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v22.2.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v22.2.Drawing.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Printing.v22.2.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.RichEdit.v22.2.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Sparkline.v22.2.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Utils.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Xpo.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraBars.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraDialogs.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraEditors.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraGrid.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraLayout.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraNavBar.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraPrinting.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraTreeList.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="AIShRegAnswer"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraVerticalGrid.v22.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Images.v22.2.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="ED_TripleElite.exe" SourcePath="..\ED_TripleElite.ico" Index="0"/>
@@ -766,21 +775,22 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
-    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1504"/>
+    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1502"/>
     <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1397"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_EnableDebugLog" Sequence="51"/>
     <ROW Action="AI_SETMIXINSTLOCATION" Sequence="748"/>
     <ROW Action="AI_DetectSoftware" Sequence="101"/>
-    <ROW Action="AI_GetArpIconPath" Sequence="1402"/>
-    <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1503"/>
+    <ROW Action="AI_GetArpIconPath" Sequence="1403"/>
+    <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1501"/>
     <ROW Action="LaunchFile" Condition="( Installed AND ( REMOVE = &quot;ALL&quot; OR AI_INSTALL_MODE = &quot;Remove&quot; ) AND NOT UPGRADINGPRODUCTCODE )" Sequence="1601"/>
-    <ROW Action="RemoveExistingProducts" Condition="AI_UPGRADE&lt;&gt;&quot;No&quot;" Sequence="6501" SeqType="0" MsiKey="RemoveExistingProducts"/>
-    <ROW Action="AI_AiBackupImmediate" Sequence="1401"/>
-    <ROW Action="AI_AiBackupRollback" Sequence="1502"/>
-    <ROW Action="AI_AiBackupRollbackImpersonate" Sequence="1501"/>
-    <ROW Action="AI_AiRestoreDeferredImpersonate" Sequence="6598"/>
-    <ROW Action="AI_AiRestoreDeferred" Sequence="6599"/>
+    <ROW Action="RemoveExistingProducts" Condition="AI_UPGRADE&lt;&gt;&quot;No&quot;" Sequence="1402" SeqType="0" MsiKey="RemoveExistingProducts"/>
+    <ROW Action="AI_PrepareShortcutFlags" Condition="(VersionNT &gt; 501) AND ((NOT Installed) OR (Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;)))" Sequence="4501"/>
+    <ROW Action="AI_PinShortcuts" Condition="(VersionNT &gt; 600) AND ((NOT Installed) OR (Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;)))" Sequence="6499"/>
+    <ROW Action="AI_UnpinShortcuts" Condition="(VersionNT &gt; 600) AND (REMOVE = &quot;ALL&quot;)" Sequence="3199"/>
+    <ROW Action="AI_DELETE_SHORTCUTS" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="1401"/>
+    <ROW Action="AI_DEL_EMPTY_SHORTCUTDIR" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6402"/>
+    <ROW Action="AI_DATA_SETTER" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6401"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
@@ -802,7 +812,12 @@
     <ROW Condition="AI_DETECTED_INTERNET_CONNECTION" Description="[ProductName] requires an active Internet connection for installation. Please check your network configuration and proxy settings." DescriptionLocId="AI.LaunchCondition.Internet" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
+    <ROW Signature_="AI_ShRegOptionMachine" Root="2" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Type="2"/>
+    <ROW Signature_="AI_ShRegOptionUser" Root="1" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Type="2"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
+    <ROW Registry="AIShRegAnswer" Root="-1" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Value="[AI_SHORTCUTSREG]" Component_="AIShRegAnswer"/>
     <ROW Registry="Comments" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Comments" Value="[ARPCOMMENTS]" Component_="AI_CustomARPName"/>
     <ROW Registry="Contact" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Contact" Value="[ARPCONTACT]" Component_="AI_CustomARPName"/>
     <ROW Registry="DisplayIcon" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="DisplayIcon" Value="[ARP_ICON_PATH]" Component_="AI_CustomARPName"/>
@@ -827,7 +842,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
     <ROW Shortcut="EDHMUI" Directory_="DesktopFolder" Name="EDHMUI~1|EDHM UI" Component_="EDHM_UI_mk2.exe" Target="[#EDHM_UI_mk2.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
-    <ROW Shortcut="EDHM_UI" Directory_="ProgramMenuFolder" Name="EDHM_UI" Component_="EDHM_UI_mk2.exe" Target="[#EDHM_UI_mk2.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="EDHM_UI" Directory_="ProgramMenuFolder" Name="EDHM_UI" Component_="EDHM_UI_mk2.exe" Target="[#EDHM_UI_mk2.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR" CustomFlags="4"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
