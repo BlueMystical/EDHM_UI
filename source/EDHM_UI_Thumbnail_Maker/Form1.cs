@@ -107,33 +107,45 @@ namespace EDHM_UI_Thumbnail_Maker
 		{
 			try
 			{
-				Rectangle _REC = this.SelectionBox.rect;
-
-				Image _DisplayPIC = Util.ScaleImage(this.picImagen.Image, this.picImagen.Height);
-				Image _ScaledImage_A = Util.CropImage(_DisplayPIC, _REC.X, _REC.Y, _REC.Width, _REC.Height);
-				Image _ScaledImage_B = Util.ScaleImage(_ScaledImage_A, 71);
-
-				if (_ScaledImage_B != null)
+				if (this.SelectionBox != null && this.picImagen.Image != null)
 				{
-					this.picImagen.Image = _ScaledImage_B;
-					this.picImagen.SizeMode = PictureBoxSizeMode.CenterImage;
+					//1. Obtiene el Area Seleccionada del Screenshot
+					Rectangle _REC = this.SelectionBox.rect;
 
-					SaveFileDialog SFDialog = new SaveFileDialog()
+					//2. Ajusta la Imagen a la pantalla:
+					Image _DisplayPIC = Util.ScaleImage(this.picImagen.Image, this.picImagen.Height);
+
+					//3. Recorta el Area Seleccionada:
+					Image _ScaledImage_A = Util.CropImage(_DisplayPIC, _REC.X, _REC.Y, _REC.Width, _REC.Height);
+
+					//4. Ajusta la Imagen obtenida hasta 71px de alto
+					Image _ScaledImage_B = Util.ScaleImage(_ScaledImage_A, 71);
+
+					if (_ScaledImage_B != null)
 					{
-						Filter = "Image JPG|*.jpg",
-						FilterIndex = 0,
-						DefaultExt = "jpg",
-						AddExtension = true,
-						CheckPathExists = true,
-						OverwritePrompt = true,
-						FileName = "PREVIEW",
-						InitialDirectory = (this.ThemeFolder != null && ThemeFolder != string.Empty) ? ThemeFolder : Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-					};
-					if (SFDialog.ShowDialog() == DialogResult.OK)
-					{
-						Util.SaveJpegWithCompression(_ScaledImage_B, SFDialog.FileName, 100);
+						//5. Muestra la Imagen Obtenida en la pantalla
+						this.picImagen.Image = _ScaledImage_B;
+						this.picImagen.SizeMode = PictureBoxSizeMode.CenterImage;
+
+						//La Imagen se guarda en la Carpeta del Tema:
+						SaveFileDialog SFDialog = new SaveFileDialog()
+						{
+							Filter = "Image JPG|*.jpg",
+							FilterIndex = 0,
+							DefaultExt = "jpg",
+							AddExtension = true,
+							CheckPathExists = true,
+							OverwritePrompt = true,
+							FileName = "PREVIEW",
+							InitialDirectory = !string.IsNullOrEmpty(this.ThemeFolder) ? ThemeFolder : Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+						};
+						if (SFDialog.ShowDialog() == DialogResult.OK)
+						{
+							//6. Guarda la Imagen en JPG al 100% de Calidad:
+							Util.SaveJpegWithCompression(_ScaledImage_B, SFDialog.FileName, 100);
+						}
 					}
-				}
+				}				
 			}
 			catch (Exception ex)
 			{
