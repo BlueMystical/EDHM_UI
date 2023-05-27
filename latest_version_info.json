@@ -5,7 +5,7 @@
    "ED_Odissey":  "2.15.1.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- The user will be prompted to close the game (if it is running) whenever the mod needs to be installed or updated.\r\n- You can now change the location of all EDHM user files, they default to %USERPROFILE%\EDHM_UI.\r\n- In an effort to resolve permissions issues some users are having, the UI program will now require elevated permissions to run, a Windows UAC popup will appear.",
+   "changelog": "- The user will be prompted to close the game (if it is running) whenever the mod needs to be installed or updated.\r\n- You can now change the location of all EDHM user files, they default to %USERPROFILE%\EDHM_UI.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
