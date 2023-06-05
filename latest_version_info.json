@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.85.0",
-   "last_installer": "2.1.85.0",
+   "app_version": "2.1.86.0",
+   "last_installer": "2.1.86.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.15.1.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- The user will be prompted to close the game (if it is running) whenever the mod needs to be installed or updated.\r\n- You can now change the location of all EDHM user files.",
+   "changelog": "- Fix for FDev U15.02",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
