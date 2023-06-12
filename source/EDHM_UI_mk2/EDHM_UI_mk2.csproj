@@ -42,6 +42,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>edhm_ui.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="AutoUpdater.NET">
@@ -113,6 +116,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Clases\Retry.cs" />
+    <Compile Include="Clases\SymLinks.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -247,6 +251,10 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="app.manifest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
     <None Include="Data\ED_Horizons_Custom.ini">

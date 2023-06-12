@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using Util_Test;
 
 namespace EDHM_UI_mk2.Forms
 {
@@ -928,6 +929,7 @@ namespace EDHM_UI_mk2.Forms
 
 																Invoke((MethodInvoker)(() =>
 																{
+																	/*
 																	RepositoryItemColorPickEdit _ComboColor = new RepositoryItemColorPickEdit
 																	{
 																		Tag = _key,
@@ -942,7 +944,61 @@ namespace EDHM_UI_mk2.Forms
 																		EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered
 																	};
 																	_ComboColor.EditValueChanged += PropertyGrid_EditValueChanged;
+																	_ComboColor.ColorDialogOptions.ShowTabs = ShowTabs.RGBModel;*/
+
+																	RepositoryItemMyColorPickEdit _ComboColor = new RepositoryItemMyColorPickEdit
+																	{
+																		Name = string.Format("{0}|{1}", _Section.ini_section, _key.name),
+																		ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Simple,
+																		AutomaticColor = Color.Orange,
+																		ShowMoreColorsButton = true,
+																		ShowColorDialog = true,
+																		ShowWebColors = false,
+																		ShowCustomColors = true,
+																		ShowSystemColors = false,
+																		ShowWebSafeColors = false,
+																		ShowMyCustomColors = true,
+																		ShowMyPastelColors = false,
+																		Tag = _key,
+																	};
+
+																	List<Color> _GColors = null;
+																	var _StandardColors = _ComboColor.MyStandardColors;
+
+																	_ComboColor.EditValueChangedFiringMode = DevExpress.XtraEditors.Controls.EditValueChangedFiringMode.Buffered;
+																	_ComboColor.EditValueChangedDelay = 500;
 																	_ComboColor.ColorDialogOptions.ShowTabs = ShowTabs.RGBModel;
+																	_ComboColor.ColorDialogOptions.AllowTransparency = true;
+																	_ComboColor.ColorDialogType = DevExpress.XtraEditors.Popup.ColorDialogType.Advanced;
+																	//_ComboColor.EditValueChanged += PropertyGrid_EditValueChanged;
+																	_ComboColor.EditValueChanged += (object Sender, EventArgs E) =>
+																	{
+																		//Crea un Gradiente a Blanco usando el color seleccionado, lo pone en la ultima columna
+																		Color _E = (Sender as Util_Test.MyColorPickEdit).Color;
+																		var _CustomColors = _ComboColor.MyStandardColors;
+
+																		_GColors = Util.GetColorGradients(_E, Color.Black, 7).ToList();
+
+																		_CustomColors[0, 9] =  _GColors[0];
+																		_CustomColors[0, 19] = _GColors[1];
+																		_CustomColors[0, 29] = _GColors[2];
+																		_CustomColors[0, 39] = _GColors[3];
+																		_CustomColors[0, 49] = _GColors[4];
+																		_CustomColors[0, 59] = _GColors[5];
+
+																		_GColors = Util.GetColorGradients(_E, Color.White, 7).ToList();
+
+																		_CustomColors[0, 8] =  _GColors[0];
+																		_CustomColors[0, 18] = _GColors[1];
+																		_CustomColors[0, 28] = _GColors[2];
+																		_CustomColors[0, 38] = _GColors[3];
+																		_CustomColors[0, 48] = _GColors[4];
+																		_CustomColors[0, 58] = _GColors[5];
+
+																		_ComboColor.AutomaticColor = _E;
+
+																		PropertyGrid_EditValueChanged(Sender, E);
+																	};
 
 																	//Lee el Color del INI:
 																	//_KeyData = this._IniData.Sections[_Section.ini_section].GetKeyData(_key.key);
@@ -2506,8 +2562,20 @@ namespace EDHM_UI_mk2.Forms
 							_ret.section_name = _TrackBar.Properties.Name.Split(new char[] { '|' })[0];
 						}
 						break;
-					case "ColorPickEdit":
-						ColorPickEdit _ColorEd = Element as ColorPickEdit;
+					//case "ColorPickEdit": 
+					//	ColorPickEdit _ColorEd = Element as ColorPickEdit;
+					//	if (_ColorEd.Properties.Tag != null)
+					//	{
+					//		_ret = _ColorEd.Properties.Tag as TPMod_Key;
+					//		if (_ColorEd.EditValue != null)
+					//		{
+					//			_ret.value = _ColorEd.Color.ToArgb().ToString();
+					//			_ret.section_name = _ColorEd.Properties.Name.Split(new char[] { '|' })[0];
+					//		}
+					//	}
+					//	break;
+					case "MyColorPickEdit":
+						MyColorPickEdit _ColorEd = Element as MyColorPickEdit;
 						if (_ColorEd.Properties.Tag != null)
 						{
 							_ret = _ColorEd.Properties.Tag as TPMod_Key;

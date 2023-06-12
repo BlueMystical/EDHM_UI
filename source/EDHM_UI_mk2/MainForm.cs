@@ -850,6 +850,9 @@ namespace EDHM_UI_mk2
 							BackUp_CurrentSettings(pGameInstance);
 						}
 
+						// Mover las Carpetas de EDHM:
+						MoveEDHMfolders(pGameInstance);
+
 						//Descomprime el ZIP de EDHM en el Directorio del Juego:
 						if (Util.DoNetZIP_UnCompressFile(UpdateFile.FullName, pGameInstance.path))
 						{
@@ -2500,8 +2503,8 @@ namespace EDHM_UI_mk2
 						{
 							author = SelectedTheme.author,
 							theme = SelectedTheme.name,
-							description = string.Format("** THIS THEME WAS MADE BY {0} **", _Form.Author.ToUpper()),
-							preview = string.Empty
+							description = SelectedTheme.description.NVL(string.Format("** THIS THEME WAS MADE BY {0} **", _Form.Author.ToUpper())),
+							preview = _Form.PreviewURL // string.Empty
 						};
 
 						//1. Crear la Carpeta para el Nuevo Perfil, si ya Existe, se Sobreescribe:
@@ -2512,6 +2515,8 @@ namespace EDHM_UI_mk2
 							OnThemeApply += (object _Sender, EventArgs _E) =>
 							{
 								//Copiar los Archivos del Tema Actual: // existing files will be overwritten
+
+								foreach (FileInfo f in new DirectoryInfo(NewProfileFolder).GetFiles("*.credits")) { f.Delete(); }								
 								Util.Serialize_ToJSON(Path.Combine(NewProfileFolder, string.Format("{0}.credits", _Form.Author)), ThemeDetails);
 
 								File.Copy(Path.Combine(GameFolder, @"Startup-Profile.ini"),
@@ -2554,96 +2559,22 @@ namespace EDHM_UI_mk2
 								args.AutoCloseOptions.Delay = 3000;
 								args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
 								XtraMessageBox.Show(args).ToString();
+
+								Invoke((MethodInvoker)(() =>
+								{
+									int rowHandle = gridView1.LocateByValue("name", ThemeDetails.theme);
+									if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+									{
+										gridView1.FocusedRowHandle = rowHandle;
+										dockManager1.ActivePanel = dockThemes;
+									}
+								}));
 							};
 							ApplyTheme(false, true); //<- Aplica los cambios Actuales  
+
+							
 						}
 					}
-
-					//Comentar todo aqui abajo
-					/*
-					string _ProfileName = XtraInputBox.Show("Type a Name for your Custom Theme:\r\n** If Exists, it will be Overwritten!",
-						"Create New Theme", SelectedTheme.name);
-
-					string _AuthorName = XtraInputBox.Show("Who's the Author of this theme?",
-						"Create New Theme", SelectedTheme.author);
-
-					if (!_ProfileName.EmptyOrNull())
-					{
-						SelectedTheme.name = _ProfileName;
-						SelectedTheme.author = _AuthorName;
-
-						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
-						string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-						string NewProfileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-												   @"Elite Dangerous\EDHM_UI", search, "Themes", _ProfileName);
-						SelectedTheme.folder = NewProfileFolder;
-
-						//1. Crear la Carpeta para el Nuevo Perfil, si ya Existe, se Sobreescribe:
-						var _ProfileDir = System.IO.Directory.CreateDirectory(NewProfileFolder);
-						if (_ProfileDir != null)
-						{
-							//Cuando se termina de Aplicar el tema se produce este evento:
-							OnThemeApply += (object _Sender, EventArgs _E) =>
-							{
-								//Copiar los Archivos del Tema Actual: // existing files will be overwritten
-								File.Copy(Path.Combine(GameFolder, @"Startup-Profile.ini"),
-									Path.Combine(NewProfileFolder, @"Startup-Profile.ini"), true);
-
-								File.Copy(Path.Combine(GameFolder, "XML-Profile.ini"),
-									Path.Combine(NewProfileFolder, @"XML-Profile.ini"), true);
-
-								if (ActiveInstance.key == "ED_Odissey")
-								{
-									if (File.Exists(Path.Combine(GameFolder, @"Advanced.ini")))
-									{
-										File.Copy(Path.Combine(GameFolder, @"Advanced.ini"),
-										Path.Combine(NewProfileFolder, @"Advanced.ini"), true);
-									}
-									if (File.Exists(Path.Combine(GameFolder, @"SuitHud.ini")))
-									{
-										File.Copy(Path.Combine(GameFolder, @"SuitHud.ini"),
-										Path.Combine(NewProfileFolder, @"SuitHud.ini"), true);
-									}
-								}
-
-								//Agregar el Identificador del Autor:
-								theme_details ThemeDetails = new theme_details
-								{
-									author = _AuthorName,
-									theme = _ProfileName,
-									description = string.Format("** THIS THEME WAS MADE BY {0} **", _AuthorName.ToUpper()),
-									preview = string.Empty
-								};
-								Util.Serialize_ToJSON(Path.Combine(NewProfileFolder, string.Format("{0}.credits", _AuthorName)), ThemeDetails);
-								//Util.SaveTextFile(Path.Combine(NewProfileFolder, string.Format("{0}.credits", _AuthorName)),
-								//	string.Format("** THIS THEME WAS MADE BY {0} **", _AuthorName.ToUpper()),
-								//	Util.TextEncoding.UTF8);
-
-								// Agregar una Imagen de Preview :
-								if (ActiveInstance.key == "ED_Horizons")
-								{
-									Image _Preview = PreviewForm.GetPreviewThumbnail();
-									Bitmap bitmapImage = new Bitmap(_Preview);
-									bitmapImage.Save(Path.Combine(NewProfileFolder, "PREVIEW.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
-								}
-
-								LoadThemeList_EX();
-								_ret = NewProfileFolder; //<- Devuelve la Ruta del Nuevo tema
-
-								//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:
-								XtraMessageBoxArgs args = new XtraMessageBoxArgs()
-								{
-									Caption = "Done",
-									Text = string.Format("The theme '{0}' has successfully been Created.", SelectedTheme.name),
-									Buttons = new DialogResult[] { DialogResult.OK }
-								};
-								args.AutoCloseOptions.Delay = 3000;
-								args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-								XtraMessageBox.Show(args).ToString();
-							};
-							ApplyTheme(false, true); //<- Aplica los cambios Actuales  
-						}
-					}*/
 				}
 			}
 			catch (Exception ex)
@@ -2933,7 +2864,10 @@ namespace EDHM_UI_mk2
 				int rowHandle = gridView1.LocateByValue("name", SelectedTheme.name);
 				if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
 				{
-					gridView1.FocusedRowHandle = rowHandle;
+					Invoke((MethodInvoker)(() =>
+					{
+						gridView1.FocusedRowHandle = rowHandle;
+					}));
 				}
 			}
 			if (AutoApplyTheme)
@@ -3359,6 +3293,7 @@ namespace EDHM_UI_mk2
 			}
 			catch { }
 		}
+
 		public void MoveUIDocuments(string destino, string GameVersion)
 		{
 			try
@@ -3408,6 +3343,51 @@ namespace EDHM_UI_mk2
 					}
 					//if (Directory.Exists(oldDocs)) Directory.Delete(oldDocs, true);
 				}
+				
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		public void MoveEDHMfolders(game_instance pGameInstance)
+		{
+			try
+			{
+				//Mueve las Carpetas de EDHM usando SymLinks:
+				string GameVersion = pGameInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+				string destinoRoot = Path.Combine(UI_DOCUMENTS, GameVersion, "EDHM");  //<- %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM
+
+				List<string> EDHM_Folders = new List<string>
+				{
+					Path.Combine(pGameInstance.path, "EDHM-ini"),
+					Path.Combine(pGameInstance.path, "ShaderFixes")
+				};
+
+				foreach (string folder in EDHM_Folders)
+				{
+					string RootFolder = System.IO.Path.GetFileName(folder);  //<- Nombre de la Ultima Carpeta en la Ruta: [EDHM-ini]
+					string _Destino = Path.Combine(destinoRoot, RootFolder); //<- %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM\[EDHM-ini]\
+
+					bool IsSymbolic = SymLink.IsSymbolicDirectory(folder); 
+
+					if (Directory.Exists(folder))
+					{
+						//Si la migracion todavia no se ha hecho, se hace aqui:
+						if (!IsSymbolic)
+						{
+							Util.CopyDirectory(new DirectoryInfo(folder), new DirectoryInfo(_Destino));
+							Directory.Delete(folder, true);
+							SymLink.CreateLinkToDirectory(folder, _Destino);
+						}
+					}
+					else //<- La Carpeta NO Existe:
+					{
+						//Directory.CreateDirectory(folder); //<- NO, el origen es ahora el SymLink
+						Directory.CreateDirectory(_Destino); //<- El 'Target' para el SymLink
+						SymLink.CreateLinkToDirectory(folder, _Destino);
+					}
+				}				
 			}
 			catch (Exception ex)
 			{

@@ -7289,37 +7289,37 @@
     "lang": [
       {
         "key": "en",
-        "value": "Text Color",
+        "value": "Custom Color",
         "category": "OwnCarrier Nav Panel",
         "description": "Custom Color for Mission Panels on Nav Panel, plus mission icon on the Mission Selection screen."
       },
       {
         "key": "de",
-        "value": "Textfarbe",
+        "value": "Freiwählbare Farbe",
         "category": "OwnCarrier-Navigationsfeld",
         "description": "Benutzerdefinierte Farbe für Missionsfelder im Navigationsfeld sowie Missionssymbol auf dem Missionsauswahlbildschirm."
       },
       {
         "key": "fr",
-        "value": "Couleur du texte",
+        "value": "Couleur personnalisée",
         "category": "Panneau de navigation OwnCarrier",
         "description": "Couleur personnalisée pour les panneaux de mission sur le panneau de navigation, plus l'icône de mission sur l'écran de sélection de mission."
       },
       {
         "key": "it",
-        "value": "Colore del testo",
+        "value": "Colore personalizzato",
         "category": "Pannello di navigazione di OwnCarrier",
         "description": "Colore personalizzato per i pannelli delle missioni sul pannello di navigazione, più l'icona della missione nella schermata di selezione della missione."
       },
       {
         "key": "ru",
-        "value": "Цвет текста",
+        "value": "Пользовательский цвет",
         "category": "Панель навигации собственного перевозчика",
         "description": "Пользовательский цвет для панелей миссий на панели навигации, а также значок миссии на экране выбора миссии."
       },
       {
         "key": "pt",
-        "value": "Cor do Texto",
+        "value": "Cor customizada",
         "category": "Painel de Navegação da Operadora Própria",
         "description": "Cor Personalizada para Painéis de Missão no Painel de Navegação, além do ícone de missão na tela de Seleção de Missão."
       }
@@ -7375,37 +7375,37 @@
         "key": "en",
         "value": "Text Mode",
         "category": "OwnCarrier Nav Panel",
-        "description": "Note: This will also change the colour of the 'Confirm items transfer' on the Ship Panel Inventory tab."
+        "description": "Own Carrier Nav Panel TEXT Colour."
       },
       {
         "key": "de",
         "value": "Textmodus",
-        "category": "OwnCarrier Nav Panel",
-        "description": "Hinweis: Dadurch ändert sich auch die Farbe von „Gegenstandsübertragung bestätigen“ auf der Registerkarte „Inventar“ des Schiffspanels."
+        "category": "Eigenes Carrier-Navigationspanel",
+        "description": "Eigene Träger-Navigationstafel, TEXTfarbe."
       },
       {
         "key": "fr",
         "value": "Mode texte",
         "category": "Panneau de navigation OwnCarrier",
-        "description": "Remarque : Cela changera également la couleur de la \"Confirmation du transfert d'articles\" dans l'onglet Inventaire du panneau d'expédition."
+        "description": "Couleur du texte du panneau de navigation OwnCarrier."
       },
       {
         "key": "it",
         "value": "Modalità testo",
         "category": "Pannello di navigazione OwnCarrier",
-        "description": "Nota: questo cambierà anche il colore di \"Conferma trasferimento articoli\" nella scheda Inventario del pannello di spedizione."
+        "description": "Proprio pannello di navigazione dell'operatore."
       },
       {
         "key": "ru",
         "value": "Текстовый режим",
         "category": "Панель навигации собственного перевозчика",
-        "description": "Примечание: это также изменит цвет кнопки «Подтвердить передачу предметов» на вкладке «Инвентарь панели корабля»."
+        "description": "Собственная навигационная панель оператора связи."
       },
       {
         "key": "pt",
         "value": "Modo de texto",
         "category": "Painel de Navegação da Operadora Própria",
-        "description": "Nota: Isso também mudará a cor de 'Confirmar transferência de itens' na guia Inventário do Painel de envio."
+        "description": "Painel de Navegação da Própria Operadora."
       }
     ]
   },
@@ -10687,31 +10687,31 @@
         "key": "en",
         "value": "Shields Down",
         "category": "Single-Shield",
-        "description": "Single Color Shield - Shield Down Color ."
+        "description": "Single Color Shield - Shield Down Color.\r\nBlack Shield Down Colour has limitations that can make less bright colours."
       },
       {
         "key": "de",
         "value": "Schild inaktiv",
         "category": "Single-Schild",
-        "description": "Schild aktiv Farbe."
+        "description": "Schild aktiv Farbe. \r\nBlack Shield Down Color weist Einschränkungen auf, die zu weniger leuchtenden Farben führen können."
       },
       {
         "key": "fr",
         "value": "Boucliers vers le bas",
         "category": "Bouclier unique",
-        "description": "Bouclier à une seule couleur - Couleur du bouclier vers le bas ."
+        "description": "Bouclier à une seule couleur - Couleur du bouclier vers le bas.\r\nLa couleur Black Shield Down a des limites qui peuvent rendre les couleurs moins vives."
       },
       {
         "key": "it",
         "value": "Scudo basso",
         "category": "Scudo singolo",
-        "description": "Scudo monocolore - Scudo basso colore ."
+        "description": "Scudo monocolore - Scudo basso colore.\r\nBlack Shield Down Color ha delle limitazioni che possono rendere i colori meno brillanti."
       },
       {
         "key": "ru",
         "value": "Щиты опущены",
         "category": "Одинарный щит",
-        "description": "Одноцветный щит — Цвет опущенного щита ."
+        "description": "Одноцветный щит — Цвет опущенного щита.\r\nBlack Shield Down Color имеет ограничения, которые могут сделать цвета менее яркими."
       },
       {
         "key": "pt",
@@ -13481,7 +13481,6 @@
       }
     ]
   },
-
   {
     "id": "x114",
     "group": "Element",
@@ -13608,7 +13607,6 @@
       }
     ]
   },
-
   {
     "id": "w150",
     "group": "Element",
@@ -13693,7 +13691,6 @@
       }
     ]
   },
-
   {
     "id": "x136",
     "group": "Element",
@@ -17081,6 +17078,132 @@
         "value": "ON Color",
         "category": "Luzes de status",
         "description": "Custom Color para Light ON State. **ALFA"
+      }
+    ]
+  },
+  {
+    "id": "x229",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Canopy Scratches",
+        "category": "Canopy Effects",
+        "description": "Hide the canopy scratches when the ship is very damaged."
+      },
+      {
+        "key": "de",
+        "value": "Kratzer im Baldachin",
+        "category": "Überdachungseffekte",
+        "description": "Verstecken Sie die Kratzer an der Kabinenhaube, wenn das Schiff stark beschädigt ist."
+      },
+      {
+        "key": "fr",
+        "value": "Rayures de la canopée",
+        "category": "Effets de canopée",
+        "description": "Masquez les rayures de la verrière lorsque le navire est très endommagé."
+      },
+      {
+        "key": "it",
+        "value": "Graffi sul baldacchino",
+        "category": "Effetti del baldacchino",
+        "description": "Nascondi i graffi del baldacchino quando la nave è molto danneggiata."
+      },
+      {
+        "key": "ru",
+        "value": "Навес Царапины",
+        "category": "Эффекты навеса",
+        "description": "Скройте царапины на куполе, когда корабль сильно поврежден."
+      },
+      {
+        "key": "pt",
+        "value": "Arranhões na capota",
+        "category": "Efeitos de Dossel",
+        "description": "Esconda os arranhões do velame quando o navio estiver muito danificado."
+      }
+    ]
+  },
+  {
+    "id": "y229",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Canopy Ice",
+        "category": "Canopy Effects",
+        "description": "Hide the canopy ice when the ship is very cold."
+      },
+      {
+        "key": "de",
+        "value": "Baldachin-Eis",
+        "category": "Überdachungseffekte",
+        "description": "Verstecken Sie das Eis der Kabinenhaube, wenn das Schiff sehr kalt ist."
+      },
+      {
+        "key": "fr",
+        "value": "Glace de la canopée",
+        "category": "Effets de canopée",
+        "description": "Cachez la glace de la verrière lorsque le navire est très froid."
+      },
+      {
+        "key": "it",
+        "value": "Ghiaccio a baldacchino",
+        "category": "Effetti del baldacchino",
+        "description": "Nascondi il ghiaccio del baldacchino quando la nave è molto fredda."
+      },
+      {
+        "key": "ru",
+        "value": "Ледяной навес",
+        "category": "Эффекты навеса",
+        "description": "Прячьте купол льда, когда на корабле очень холодно."
+      },
+      {
+        "key": "pt",
+        "value": "Dossel de Gelo",
+        "category": "Efeitos de Dossel",
+        "description": "Esconda o gelo do dossel quando o navio estiver muito frio."
+      }
+    ]
+  },
+  {
+    "id": "z229",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Canopy Condensation",
+        "category": "Canopy Effects",
+        "description": "Hide the canopy condensation when the ship is very hot."
+      },
+      {
+        "key": "de",
+        "value": "Kondensation im Baldachin",
+        "category": "Überdachungseffekte",
+        "description": "Verstecken Sie die Kondenswasserbildung in der Kabinenhaube, wenn das Schiff sehr heiß ist."
+      },
+      {
+        "key": "fr",
+        "value": "Condensation de la canopée",
+        "category": "Effets de canopée",
+        "description": "Cachez la condensation de la verrière lorsque le navire est très chaud."
+      },
+      {
+        "key": "it",
+        "value": "Condensazione del baldacchino",
+        "category": "Effetti del baldacchino",
+        "description": "Nascondi la condensa del tettuccio quando la nave è molto calda."
+      },
+      {
+        "key": "ru",
+        "value": "Конденсация навеса",
+        "category": "Эффекты навеса",
+        "description": "Прячьте фонарь от конденсата, когда на корабле очень жарко."
+      },
+      {
+        "key": "pt",
+        "value": "Condensação Dossel",
+        "category": "Efeitos de Dossel",
+        "description": "Esconda a condensação do velame quando o navio estiver muito quente."
       }
     ]
   }

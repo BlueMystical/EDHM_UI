@@ -188,6 +188,41 @@
       "ValueType": "Brightness",
       "Type": "2X",
       "Description": "Brightness for Supercruise Snow, set this to 0 to disable SC Snow."
-    }
+    },
+
+    {
+      "Category": "Canopy Effects",
+      "Title": "Canopy Scratches",
+         "File":"Startup-Profile",
+         "Section":"Constants",
+         "Key":"x229",
+         "Value":0.0,
+         "ValueType":"ONOFF",
+         "Type":"ONOFF",
+         "Description":"Hide the canopy scratches when the ship is very damaged."
+      },
+    {
+      "Category": "Canopy Effects",
+      "Title": "Canopy Ice",
+         "File":"Startup-Profile",
+         "Section":"Constants",
+         "Key":"y229",
+         "Value":0.0,
+         "ValueType":"ONOFF",
+         "Type":"ONOFF",
+         "Description":"Hide the canopy ice when the ship is very cold."
+      },
+    {
+      "Category": "Canopy Effects",
+      "Title": "Canopy Condensation",
+         "File":"Startup-Profile",
+         "Section":"Constants",
+         "Key":"z229",
+         "Value":0.0,
+         "ValueType":"ONOFF",
+         "Type":"ONOFF",
+         "Description":"Hide the canopy condensation when the ship is very hot."
+      },
+
    ]
 }

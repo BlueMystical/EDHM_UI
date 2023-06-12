@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Microsoft.Win32.SafeHandles;
 
 namespace EDHM_UI_mk2
 {
@@ -30,6 +31,18 @@ namespace EDHM_UI_mk2
 
 		[DllImport("User32.dll")]
 		static extern int SetForegroundWindow(IntPtr point);
+
+		//--------------------------------------------------SYMBOLIC LINKS-------------------------------------------------------------------------------------------------
+		[DllImport("kernel32.dll", SetLastError = true)]
+		static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, SymbolicLink dwFlags);
+
+		//Constantes para SymLinks:		
+		private enum SymbolicLink
+		{
+			File = 0,
+			Directory = 1
+		}
+		//---------------------------------------------------------------------------------------------
 
 		private enum MSIINSTALLCONTEXT
 		{
@@ -267,7 +280,7 @@ namespace EDHM_UI_mk2
 			{
 				if (!filePath.EmptyOrNull())
 				{
-					_ret = Newtonsoft.Json.JsonConvert.SerializeObject(objectToWrite, 
+					_ret = Newtonsoft.Json.JsonConvert.SerializeObject(objectToWrite,
 						(Prettyfied ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None));
 					using (System.IO.TextWriter writer = new System.IO.StreamWriter(filePath, append))
 					{
@@ -380,7 +393,7 @@ namespace EDHM_UI_mk2
 				Indent = true,                                      //<- Preserve Indentation
 				IndentChars = "\t",                                 //<- Uses TAB to indent
 				NewLineChars = Environment.NewLine,                 //<- Uses Windows linebreaks
-				NewLineHandling = NewLineHandling.Replace,			//<- Normalize Linebreaks
+				NewLineHandling = NewLineHandling.Replace,          //<- Normalize Linebreaks
 				Encoding = new System.Text.UTF8Encoding(false)      //<- UTF8 no BOM
 			};
 			using (XmlWriter writer = XmlWriter.Create(FilePath, settings))
@@ -494,8 +507,8 @@ namespace EDHM_UI_mk2
 				}
 			}
 			return node;
-		} 
-		
+		}
+
 		#endregion
 
 		/// <summary>Lee un Archivo de Texto usando la Codificacion especificada.</summary>
@@ -2096,7 +2109,10 @@ namespace EDHM_UI_mk2
 			{
 				if (File.Exists(ZIPfilePath))
 				{
-					if (!Directory.Exists(DestinationFolder)) Directory.CreateDirectory(DestinationFolder);
+					if (!Directory.Exists(DestinationFolder))
+					{
+						Directory.CreateDirectory(DestinationFolder);
+					}
 
 					using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(ZIPfilePath))
 					{
@@ -2145,9 +2161,13 @@ namespace EDHM_UI_mk2
 						System.Configuration.ConfigurationUserLevel.None);
 
 				if (config.AppSettings.Settings[Key] == null)
-					config.AppSettings.Settings.Add(Key,	 Value.ToString());
+				{
+					config.AppSettings.Settings.Add(Key, Value.ToString());
+				}
 				else
+				{
 					config.AppSettings.Settings[Key].Value = Value.ToString();
+				}
 
 				config.Save(System.Configuration.ConfigurationSaveMode.Modified);
 
@@ -2492,6 +2512,21 @@ namespace EDHM_UI_mk2
 				return d.ToString();
 			}
 			return null;
+		}
+
+		/// <summary>Check if the program is running as Administrator</summary>
+		public static bool IsUserAdministrator()
+		{
+			try
+			{
+				System.Security.Principal.WindowsIdentity user = System.Security.Principal.WindowsIdentity.GetCurrent();
+				System.Security.Principal.WindowsPrincipal principal = new System.Security.Principal.WindowsPrincipal(user);
+				return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		#region Web
