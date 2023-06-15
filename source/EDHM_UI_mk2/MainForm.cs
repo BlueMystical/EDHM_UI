@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -67,6 +68,7 @@ namespace EDHM_UI_mk2
 		private bool GreetMe = true; //<- Determina si Saluda al Jugador al Inicio
 		private bool HideToTray = false; //<- Determina si se Oculta en el Tray al Cerrar la ventana
 		private bool StartHidden = false; //<- Se recibe x linea de Comandos, si es true el programa inicia oculto en el Tray.
+		private bool StartMinimized = false; //<- Se recibe x linea de Comandos, si es true el programa inicia oculto en el Tray.
 		private bool SavingTheme = false;
 		private bool AutoApplyTheme = false; //<- If true, tries to send the F11 key to the game
 		private int SavesToRemember = 10; //<- Cantidad de Guardados a mostrar en el combo
@@ -139,6 +141,7 @@ namespace EDHM_UI_mk2
 			if (args != null && args.Length > 0)
 			{
 				StartHidden = args[0] == "-hidden" ? true : false;
+				StartMinimized = args[0] == "-min" ? true : false;
 				if (args[0] == "-update")
 				{
 					DoUpdate = true;
@@ -321,6 +324,10 @@ namespace EDHM_UI_mk2
 					Hide();
 					notifyIcon1.Visible = true;
 				}
+				if (StartMinimized)
+				{
+					this.WindowState = FormWindowState.Minimized;
+				}
 
 				bool FirstRun = Convert.ToBoolean(Util.AppConfig_GetValue("FirstRun"));
 				if (FirstRun || DoUpdate)
@@ -358,7 +365,6 @@ namespace EDHM_UI_mk2
 				LoadUserSettings(ActiveInstance);
 				LoadShipList();
 
-
 				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 				lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
 				lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
@@ -370,7 +376,6 @@ namespace EDHM_UI_mk2
 				ReadPlayerJournal();
 
 				progressPanel1.Visible = false;
-
 			}
 			catch (Exception ex)
 			{
@@ -1883,17 +1888,18 @@ namespace EDHM_UI_mk2
 												{
 													_Element.Value = -1; //<- lo pongo negativo para buscarlo en la plantilla aqui abajo
 												}
-												if (_Element.ValueType != "Color" && _Element.Value < 0)
+												if (_Element.Key == "x87" && _Element.Value <= 0)
 												{
-													if (_Element.Key == "w248")
-													{
-
-													}
+													_Element.Value = -1; //<- lo pongo negativo para buscarlo en la plantilla aqui abajo
+												}
+												if (_Element.ValueType != "Color" && _Element.Value < 0)
+												{													
 													//Si la Clave no existe en el Tema elejido, se carga el valor del tema plantilla:
 													var _DefaultElement = DefaultSettings.ui_groups.Find(x => x.Name == _group.Name).
 														Elements.Find(x => x.Key == _Element.Key);
 													_Element.Value = _DefaultElement.Value;
 												}
+												
 											}
 										}
 									}
@@ -1947,6 +1953,7 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+		//*** AQUI SE CARGAN LAS PROPIEDADES MOSTRADAS
 		private void LoadGroupSettings(string pUIGroupName, string SelectRowName = "")
 		{
 			/* AQUI CARGAMOS TODOS LOS ELEMENTOS DEL GRUPO INDICADO Y LOS MOSTRAMOS EN LA VENTANA DE PROPIEDADES  */
@@ -2804,16 +2811,28 @@ namespace EDHM_UI_mk2
 
 			if (Async)
 			{
-				
-				var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
+				var handle = Mensajero.ShowOverlayForm(this);
+				var t = Task.Factory.StartNew(delegate
 				{
-					System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-					ApplyThemeSync(SaveIt, KeepItQuiet);
+					try
+					{
+						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+						ApplyThemeSync(SaveIt, KeepItQuiet);
+					}
+					catch (ThreadAbortException) { Thread.CurrentThread.Join(); }
+					catch (Exception) { }
+					finally
+					{
+						Invoke((MethodInvoker)(() => handle.Close()));
+					}
 				});
 			}
 			else
 			{
-				ApplyThemeSync(SaveIt, KeepItQuiet);
+				using (var handle = Mensajero.ShowOverlayForm(this))
+				{
+					ApplyThemeSync(SaveIt, KeepItQuiet);
+				}				
 			}
 		}
 		private void ApplyThemeSync(bool SaveIt = true, bool KeepItQuiet = false)
@@ -2849,10 +2868,7 @@ namespace EDHM_UI_mk2
 			/*   APPLY THE THEME INTO THE GAME FILES      */
 			ApplyTheme_Files(KeepItQuiet);
 
-			if (SaveIt)
-			{
-				SaveTheme(true); //<- Save the changes in the JSON
-			}
+			if (SaveIt) SaveTheme(true); //<- Save the changes in the JSON
 
 			//Save the Settings into the History:
 			History_AddSettings(Settings);
@@ -2873,6 +2889,7 @@ namespace EDHM_UI_mk2
 			if (AutoApplyTheme)
 			{
 				//If set and Game is running, attepms to send the F11 key to refresh the colors in game:
+				Thread.Sleep(2000); //<- Espera 3 segundos
 				Process[] targetProcess = Process.GetProcessesByName("EliteDangerous64");
 				if (targetProcess.Length > 0)
 				{
@@ -2988,7 +3005,7 @@ namespace EDHM_UI_mk2
 						//if (SaveIt) SaveTheme(true);
 
 						//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:
-						if (KeepItQuiet == false)
+						/*if (KeepItQuiet == false)
 						{
 							XtraMessageBoxArgs args = new XtraMessageBoxArgs()
 							{
@@ -3000,7 +3017,7 @@ namespace EDHM_UI_mk2
 							args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
 
 							XtraMessageBox.Show(args).ToString();
-						}
+						}*/
 					}
 					else
 					{
@@ -3402,6 +3419,8 @@ namespace EDHM_UI_mk2
 			/* IMPORTA UN ZIP DESCARGADO CON UN TEMA NUEVO Y LO INSTALA EN LA CARPETA DE LOS TEMAS */
 			try
 			{
+				string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+
 				/* SOLO FUNCIONA CON ARCHIVOS .ZIP  */
 				OpenFileDialog XOFD = new OpenFileDialog()
 				{
@@ -3411,7 +3430,7 @@ namespace EDHM_UI_mk2
 					AddExtension = true,
 					CheckPathExists = true,
 					CheckFileExists = true,
-					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+					InitialDirectory = LastFolderUsed
 				};
 				if (XOFD.ShowDialog() == DialogResult.OK)
 				{
@@ -3424,6 +3443,7 @@ namespace EDHM_UI_mk2
 					if (Directory.Exists(ThemesFolder))
 					{
 						Util.DoNetZIP_UnCompressFile(XOFD.FileName, ThemesFolder);
+						Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(XOFD.FileName));
 
 						_ret = true;
 						XtraMessageBox.Show(string.Format("The theme file '{0}' had been Installed!", FileName), "Success!",
@@ -3451,6 +3471,7 @@ namespace EDHM_UI_mk2
 				if (!NewThemePath.EmptyOrNull() && Directory.Exists(NewThemePath))
 				{
 					string ThemeName = new DirectoryInfo(NewThemePath).Name;
+					string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
 
 					SaveFileDialog XSFD = new SaveFileDialog()
 					{
@@ -3461,7 +3482,7 @@ namespace EDHM_UI_mk2
 						CheckPathExists = true,
 						OverwritePrompt = true,
 						FileName = string.Format(ThemeName),
-						InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+						InitialDirectory = LastFolderUsed
 					};
 
 					if (XSFD.ShowDialog() == DialogResult.OK)
@@ -3476,6 +3497,7 @@ namespace EDHM_UI_mk2
 						}
 
 						Util.DoNetZIP_CompressFolder(NewThemePath, XSFD.FileName);
+						Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(XSFD.FileName));
 
 						if (_IsFavorite)
 						{

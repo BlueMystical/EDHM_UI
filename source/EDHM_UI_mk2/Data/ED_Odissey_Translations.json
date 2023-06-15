@@ -7859,6 +7859,176 @@
       }
     ]
   },
+
+  {
+    "id": "z234",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Surface Scanner",
+        "value": "Probe Trail Mode",
+        "description": "Classic & XML modes only replaces the color of the trail.\r\nBoosted mode replaces the color and gives a very luminous effect to the trail."
+      },
+      {
+        "key": "de",
+        "category": "Oberflächenscanner",
+        "value": "Sonden-Trail-Modus",
+        "description": "Die Modi „Klassisch“ und „XML“ ersetzen nur die Farbe der Spur.\r\nDer verstärkte Modus ersetzt die Farbe und verleiht der Spur einen sehr leuchtenden Effekt."
+      },
+      {
+        "key": "fr",
+        "category": "Analyseur de surface",
+        "value": "Mode piste de sonde",
+        "description": "Les modes Classic & XML ne remplacent que la couleur du tracé.\r\nLe mode boosté remplace la couleur et donne un effet très lumineux au tracé."
+      },
+      {
+        "key": "it",
+        "category": "Scanner di superficie",
+        "value": "Modalità Sonda Trail",
+        "description": "Le modalità classica e XML sostituiscono solo il colore del sentiero.\r\nLa modalità potenziata sostituisce il colore e dona un effetto molto luminoso al sentiero."
+      },
+      {
+        "key": "ru",
+        "category": "Сканер поверхности",
+        "value": "Режим следа зонда",
+        "description": "Режимы Classic и XML заменяют только цвет следа.\r\nУсиленный режим заменяет цвет и придает следу очень яркий эффект."
+      },
+      {
+        "key": "pt",
+        "category": "Scanner de superfície",
+        "value": "Modo de Trilha da Sonda",
+        "description": "Os modos Classic & XML apenas substituem a cor da trilha.\r\nO modo Boosted substitui a cor e dá um efeito muito luminoso à trilha."
+      }
+    ]
+  },
+  {
+    "id": "w173",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Surface Scanner",
+        "value": "Trail Variation Modes",
+        "description": "This option reduces the color variations of the probes trail, it allows to have a more uniform color.\r\nThis option works in Classic and Boosted modes."
+      },
+      {
+        "key": "de",
+        "category": "Oberflächenscanner",
+        "value": "Trail-Variationsmodi",
+        "description": "Diese Option reduziert die Farbvariationen der Sondenspur und ermöglicht eine einheitlichere Farbe.\r\nDiese Option funktioniert im klassischen und verstärkten Modus."
+      },
+      {
+        "key": "fr",
+        "category": "Analyseur de surface",
+        "value": "Modes de variation de piste",
+        "description": "Cette option réduit les variations de couleur de la piste des sondes, elle permet d'avoir une couleur plus uniforme.\r\nCette option fonctionne en modes Classic et Boosted."
+      },
+      {
+        "key": "it",
+        "category": "Scanner di superficie",
+        "value": "Modalità di variazione del sentiero",
+        "description": "Questa opzione riduce le variazioni di colore della scia delle sonde, consente di avere un colore più uniforme.\r\nQuesta opzione funziona in modalità Classica e Potenziata."
+      },
+      {
+        "key": "ru",
+        "category": "Сканер поверхности",
+        "value": "Режимы изменения следа",
+        "description": "Эта опция уменьшает цветовые вариации следа зондов, позволяет получить более равномерный цвет.\r\nЭта опция работает в классическом и усиленном режимах."
+      },
+      {
+        "key": "pt",
+        "category": "Scanner de superfície",
+        "value": "Modos de variação de trilha",
+        "description": "Esta opção reduz as variações de cores do rastro das sondas, permite ter uma cor mais uniforme.\r\nEsta opção funciona nos modos Classic e Boosted."
+      }
+    ]
+  },
+  {
+    "id": "x256|y256|z256",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Surface Scanner",
+        "value": "Probe Trail Colour",
+        "description": "Custom Colour (Classic & Boosted Modes)"
+      },
+      {
+        "key": "de",
+        "category": "Oberflächenscanner",
+        "value": "Sondenspurfarbe",
+        "description": ""
+      },
+      {
+        "key": "fr",
+        "category": "Analyseur de surface",
+        "value": "Couleur du sentier de la sonde",
+        "description": ""
+      },
+      {
+        "key": "it",
+        "category": "Scanner di superficie",
+        "value": "Colore della traccia della sonda",
+        "description": ""
+      },
+      {
+        "key": "ru",
+        "category": "Сканер поверхности",
+        "value": "Цвет следа зонда",
+        "description": ""
+      },
+      {
+        "key": "pt",
+        "category": "Scanner de superfície",
+        "value": "Cor da Trilha da Sonda",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": "w256",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Surface Scanner",
+        "value": "Probe Trail Brightness",
+        "description": "Custom Probe Trail Brigthness."
+      },
+      {
+        "key": "de",
+        "category": "Oberflächenscanner",
+        "value": "Helligkeit der Sondenspur",
+        "description": "Benutzerdefinierte Helligkeit der Sondenspur."
+      },
+      {
+        "key": "fr",
+        "category": "Analyseur de surface",
+        "value": "Luminosité du sentier de la sonde",
+        "description": "Luminosité personnalisée du sentier de la sonde."
+      },
+      {
+        "key": "it",
+        "category": "Scanner di superficie",
+        "value": "Luminosità traccia sonda",
+        "description": "Luminosità della traccia della sonda personalizzata."
+      },
+      {
+        "key": "ru",
+        "category": "Сканер поверхности",
+        "value": "Яркость следа зонда",
+        "description": "Пользовательская яркость следа зонда."
+      },
+      {
+        "key": "pt",
+        "category": "Scanner de superfície",
+        "value": "Brilho da Trilha da Sonda",
+        "description": "Brilho de trilha de sonda personalizado."
+      }
+    ]
+  },
+
   {
     "id": "w120",
     "group": "Element",
@@ -10218,6 +10388,48 @@
     ]
   },
   {
+    "id": "w109",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "HUD Central Dot while on a station concourse",
+        "category": "Suit HUD - Panel",
+        "description": "Option to Turn off HUD Elements on station concourse."
+      },
+      {
+        "key": "de",
+        "value": "HUD-Mittelpunkt in einer Bahnhofshalle",
+        "category": "Anzug HUD - Panel",
+        "description": "Option zum Ausschalten des Punkts in der Mitte des Bildschirms in der Bahnhofshalle.\r\nHinweis: In einer Bahnhofshalle müssen auch Fuß-HUD-Elemente deaktiviert werden."
+      },
+      {
+        "key": "fr",
+        "value": "Point central du HUD dans un hall de gare",
+        "category": "Combinaison HUD - Panneau",
+        "description": "Option pour désactiver le point au milieu de l'écran dans le hall de la gare.\r\nRemarque : Vous devez également désactiver les éléments Foot HUD dans le hall de la gare."
+      },
+      {
+        "key": "it",
+        "value": "Punto centrale dell'HUD nell'atrio di una stazione",
+        "category": "Tuta HUD - Pannello",
+        "description": "Opzione per disattivare il punto al centro dello schermo nell'atrio della stazione.\r\nNota: è necessario disabilitare anche gli elementi HUD del piede durante l'atrio della stazione."
+      },
+      {
+        "key": "ru",
+        "value": "Центральная точка HUD в вестибюле станции",
+        "category": "Костюм HUD - Панель",
+        "description": "Возможность отключить точку в середине экрана в вестибюле станции.\r\nПримечание. Необходимо также отключить элементы Foot HUD в вестибюле станции."
+      },
+      {
+        "key": "pt",
+        "value": "Ponto central do HUD em um saguão de estação",
+        "category": "Terno HUD - Painel",
+        "description": "Opção para desativar o ponto no meio da tela no saguão da estação.\r\nObservação: Também é necessário desativar os elementos Foot HUD enquanto estiver em um saguão da estação."
+      }
+    ]
+  },
+  {
     "id": "x38|y38|z38|w38",
     "group": "Element",
     "lang": [
@@ -10477,7 +10689,7 @@
         "key": "en",
         "value": "Shield Mode",
         "category": "Shields",
-        "description": "Note: Multi-shield only works at resolutions >= 2560x1440, may work at 1920x1080. Applied to self and target."
+        "description": "Note: Multi-shield only works at resolutions >= 1920x1080. Applied to self and target."
       },
       {
         "key": "de",
@@ -10511,48 +10723,7 @@
       }
     ]
   },
-  {
-    "id": "x88|y88|z88",
-    "group": "Element",
-    "lang": [
-      {
-        "key": "en",
-        "value": "Shield Percentage % Colour",
-        "category": "Shields",
-        "description": "Custom Color for Shield Percentage %"
-      },
-      {
-        "key": "de",
-        "value": "Schildprozentsatz % Farbe",
-        "category": "Schilde",
-        "description": "Benutzerdefinierte Farbe für Schildprozentsatz %"
-      },
-      {
-        "key": "fr",
-        "value": "Shield Pourcentage % Couleur",
-        "category": "Boucliers",
-        "description": "Couleur personnalisée pour Shield Pourcentage %"
-      },
-      {
-        "key": "it",
-        "value": "Percentuale scudo % Colore",
-        "category": "Scudi",
-        "description": "Colore personalizzato per percentuale scudo %"
-      },
-      {
-        "key": "ru",
-        "value": "Процент экрана % Цвет",
-        "category": "Щиты",
-        "description": "Пользовательский цвет для процента экрана %"
-      },
-      {
-        "key": "pt",
-        "value": "Porcentagem de Escudo % Cor",
-        "category": "Escudos",
-        "description": "Cor Personalizada para Porcentagem de Escudo %"
-      }
-    ]
-  },
+
   {
     "id": "x201|y201|z201|w201",
     "group": "Element",
@@ -10679,48 +10850,7 @@
       }
     ]
   },
-  {
-    "id": "x87",
-    "group": "Element",
-    "lang": [
-      {
-        "key": "en",
-        "value": "Shields Down",
-        "category": "Single-Shield",
-        "description": "Single Color Shield - Shield Down Color.\r\nBlack Shield Down Colour has limitations that can make less bright colours."
-      },
-      {
-        "key": "de",
-        "value": "Schild inaktiv",
-        "category": "Single-Schild",
-        "description": "Schild aktiv Farbe. \r\nBlack Shield Down Color weist Einschränkungen auf, die zu weniger leuchtenden Farben führen können."
-      },
-      {
-        "key": "fr",
-        "value": "Boucliers vers le bas",
-        "category": "Bouclier unique",
-        "description": "Bouclier à une seule couleur - Couleur du bouclier vers le bas.\r\nLa couleur Black Shield Down a des limites qui peuvent rendre les couleurs moins vives."
-      },
-      {
-        "key": "it",
-        "value": "Scudo basso",
-        "category": "Scudo singolo",
-        "description": "Scudo monocolore - Scudo basso colore.\r\nBlack Shield Down Color ha delle limitazioni che possono rendere i colori meno brillanti."
-      },
-      {
-        "key": "ru",
-        "value": "Щиты опущены",
-        "category": "Одинарный щит",
-        "description": "Одноцветный щит — Цвет опущенного щита.\r\nBlack Shield Down Color имеет ограничения, которые могут сделать цвета менее яркими."
-      },
-      {
-        "key": "pt",
-        "value": "Shields Down",
-        "category": "Escudo Único",
-        "description": "Single Color Shield - Shield Down Color ."
-      }
-    ]
-  },
+
   {
     "id": "x228|y228|z228",
     "group": "Element",
@@ -10769,9 +10899,9 @@
     "lang": [
       {
         "key": "en",
-        "value": "Brightness",
+        "value": "Own Shield Brightness",
         "category": "Shields",
-        "description": "Overall Brightness of shield area (set to 0.0 for shieldless / invisible shield)."
+        "description": "Overall Brightness of Own Shield area.\r\n Note: Also works on Default Elite and XML mode."
       },
       {
         "key": "de",
@@ -10802,6 +10932,132 @@
         "value": "Brilho",
         "category": "Escudos",
         "description": "Brilho do Escudo Geral/Alfa (Modo Único)"
+      }
+    ]
+  },
+  {
+    "id": "x121",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Brightness of Target Shield",
+        "category": "Shields",
+        "description": "Overall Brightness of Target Shield area.\r\n Note: Also works on Default Elite and XML mode."
+      },
+      {
+        "key": "de",
+        "value": "Helligkeit des Zielschildes",
+        "category": "Schilde",
+        "description": "Gesamthelligkeit des Zielschildbereichs.\r\n Hinweis: Funktioniert auch im Standard-Elite- und XML-Modus."
+      },
+      {
+        "key": "fr",
+        "value": "Luminosité du bouclier cible",
+        "category": "Boucliers",
+        "description": "Luminosité globale de la zone Target Shield.\r\n Remarque : Fonctionne également en mode Elite et XML par défaut."
+      },
+      {
+        "key": "it",
+        "value": "Luminosità dello scudo bersaglio",
+        "category": "Scudi",
+        "description": "Luminosità complessiva dell'area Target Shield.\r\n Nota: funziona anche in modalità Elite predefinita e XML."
+      },
+      {
+        "key": "ru",
+        "value": "Яркость целевого щита",
+        "category": "Щиты",
+        "description": "Общая яркость области целевого щита.\r\n Примечание. Также работает в элитном режиме по умолчанию и режиме XML."
+      },
+      {
+        "key": "pt",
+        "value": "Brilho do Escudo Alvo",
+        "category": "Escudos",
+        "description": "Brilho geral da área do escudo de destino.\r\n Observação: também funciona no modo Elite padrão e XML."
+      }
+    ]
+  },
+  {
+    "id": "w152",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Shields",
+        "value": "Shield Depleted Mode",
+        "description": "Mode When Shield is depleted, double-rings."
+      },
+      {
+        "key": "de",
+        "category": "Schilde",
+        "value": "Schilderschöpfter Modus",
+        "description": "Modus Wenn der Schild erschöpft ist, klingelt es doppelt."
+      },
+      {
+        "key": "fr",
+        "category": "Boucliers",
+        "value": "Mode bouclier épuisé",
+        "description": "Mode Lorsque le bouclier est épuisé, double sonnerie."
+      },
+      {
+        "key": "it",
+        "category": "Scudi",
+        "value": "Modalità scudo esaurito",
+        "description": "Modalità Quando lo scudo è esaurito, doppio squillo."
+      },
+      {
+        "key": "ru",
+        "category": "Щиты",
+        "value": "Режим истощения щита",
+        "description": "Режим Когда щит исчерпан, двойное кольцо."
+      },
+      {
+        "key": "pt",
+        "category": "Escudos",
+        "value": "Modo de escudo esgotado",
+        "description": "Modo Quando o escudo está esgotado, anéis duplos."
+      }
+    ]
+  },
+  {
+    "id": "x87",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Shields",
+        "value": "Shield Dissolving Mode",
+        "description": "Shield fades to invisible when damaged.\r\nNote: Dissolving mode is not available for XML shield mode."
+      },
+      {
+        "key": "de",
+        "category": "Schilde",
+        "value": "Schildauflösungsmodus",
+        "description": "Der Schild wird bei Beschädigung unsichtbar.\r\nHinweis: Der Auflösungsmodus ist für den XML-Schutzmodus nicht verfügbar."
+      },
+      {
+        "key": "fr",
+        "category": "Boucliers",
+        "value": "Mode de dissolution du bouclier",
+        "description": "Le bouclier devient invisible lorsqu'il est endommagé.\r\nRemarque : le mode de dissolution n'est pas disponible pour le mode bouclier XML."
+      },
+      {
+        "key": "it",
+        "category": "Scudi",
+        "value": "Modalità di dissolvenza dello scudo",
+        "description": "Lo scudo diventa invisibile se danneggiato.\r\nNota: la modalità Dissolvenza non è disponibile per la modalità scudo XML."
+      },
+      {
+        "key": "ru",
+        "category": "Щиты",
+        "value": "Режим растворения щита",
+        "description": "При повреждении щит становится невидимым.\r\nПримечание. Режим растворения недоступен для режима щита XML."
+      },
+      {
+        "key": "pt",
+        "category": "Escudos",
+        "value": "Modo de Dissolução de Escudo",
+        "description": "O escudo fica invisível quando danificado.\r\nObservação: o modo de dissolução não está disponível para o modo de escudo XML."
       }
     ]
   },
@@ -10847,6 +11103,176 @@
       }
     ]
   },
+  {
+    "id": "x88|y88|z88",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Shield Percentage % Colour",
+        "category": "Shields",
+        "description": "Shield Percentage % Colour for OwnShield & Target Shield."
+      },
+      {
+        "key": "de",
+        "value": "Schildprozentsatz % Farbe",
+        "category": "Schilde",
+        "description": "Benutzerdefinierte Farbe für Schildprozentsatz %"
+      },
+      {
+        "key": "fr",
+        "value": "Shield Pourcentage % Couleur",
+        "category": "Boucliers",
+        "description": "Couleur personnalisée pour Shield Pourcentage %"
+      },
+      {
+        "key": "it",
+        "value": "Percentuale scudo % Colore",
+        "category": "Scudi",
+        "description": "Colore personalizzato per percentuale scudo %"
+      },
+      {
+        "key": "ru",
+        "value": "Процент экрана % Цвет",
+        "category": "Щиты",
+        "description": "Пользовательский цвет для процента экрана %"
+      },
+      {
+        "key": "pt",
+        "value": "Porcentagem de Escudo % Cor",
+        "category": "Escudos",
+        "description": "Cor Personalizada para Porcentagem de Escudo %"
+      }
+    ]
+  },
+  {
+    "id": "x159|y159|z159",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Shields",
+        "value": "Shield Down Colour",
+        "description": "Not available for XML shield mode"
+      },
+      {
+        "key": "de",
+        "category": "Schilde",
+        "value": "Farbe nach unten abschirmen",
+        "description": "Nicht verfügbar für den XML-Shield-Modus"
+      },
+      {
+        "key": "fr",
+        "category": "Boucliers",
+        "value": "Couleur du bouclier vers le bas",
+        "description": "Non disponible pour le mode bouclier XML"
+      },
+      {
+        "key": "it",
+        "category": "Scudi",
+        "value": "Scudo giù colore",
+        "description": "Non disponibile per la modalità scudo XML"
+      },
+      {
+        "key": "ru",
+        "category": "Щиты",
+        "value": "Цвет щита вниз",
+        "description": "Недоступно для режима защиты XML"
+      },
+      {
+        "key": "pt",
+        "category": "Escudos",
+        "value": "Cor do escudo",
+        "description": "Não disponível para o modo de escudo XML"
+      }
+    ]
+  },
+  {
+    "id": "w88",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Shields",
+        "value": "OwnShield Percentage Brightness",
+        "description": "OwnShield Percentage Brightness"
+      },
+      {
+        "key": "de",
+        "category": "Schilde",
+        "value": "Prozentuale Helligkeit von OwnShield",
+        "description": "Prozentuale Helligkeit von OwnShield"
+      },
+      {
+        "key": "fr",
+        "category": "Boucliers",
+        "value": "Pourcentage de luminosité OwnShield",
+        "description": "Pourcentage de luminosité OwnShield"
+      },
+      {
+        "key": "it",
+        "category": "Scudi",
+        "value": "Luminosità percentuale OwnShield",
+        "description": "Luminosità percentuale OwnShield"
+      },
+      {
+        "key": "ru",
+        "category": "Щиты",
+        "value": "Процент яркости OwnShield",
+        "description": "Процент яркости OwnShield"
+      },
+      {
+        "key": "pt",
+        "category": "Escudos",
+        "value": "Porcentagem de Brilho OwnShield",
+        "description": "Porcentagem de Brilho OwnShield"
+      }
+    ]
+  },
+  {
+    "id": "z120",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Shields",
+        "value": "Target Shield Percentage Brightness",
+        "description": "Target Shield Percentage Brightness"
+      },
+      {
+        "key": "de",
+        "category": "Schilde",
+        "value": "Zielhelligkeit des Schildes in Prozent",
+        "description": "Zielhelligkeit des Schildes in Prozent"
+      },
+      {
+        "key": "fr",
+        "category": "Boucliers",
+        "value": "Pourcentage de luminosité du bouclier cible",
+        "description": "Pourcentage de luminosité du bouclier cible"
+      },
+      {
+        "key": "it",
+        "category": "Scudi",
+        "value": "Luminosità percentuale scudo bersaglio",
+        "description": "Luminosità percentuale scudo bersaglio"
+      },
+      {
+        "key": "ru",
+        "category": "Щиты",
+        "value": "Яркость целевого щита в процентах",
+        "description": "Яркость целевого щита в процентах"
+      },
+      {
+        "key": "pt",
+        "category": "Escudos",
+        "value": "Porcentagem de brilho do escudo alvo",
+        "description": "Porcentagem de brilho do escudo alvo"
+      }
+    ]
+  },
+
+
   {
     "id": "z133",
     "group": "Element",

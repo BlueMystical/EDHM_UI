@@ -273,7 +273,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Data\ED_Odissey_Advanced.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\ED_Odissey_Global_Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -1422,6 +1422,7 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
+				string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
 				OpenFileDialog OFDialog = new OpenFileDialog()
 				{
 					Filter = "ZIP Files|*.zip",
@@ -1430,7 +1431,7 @@ namespace EDHM_UI_mk2.Forms
 					AddExtension = true,
 					CheckPathExists = true,
 					CheckFileExists = true,
-					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+					InitialDirectory = LastFolderUsed
 				};
 
 				if (OFDialog.ShowDialog() == DialogResult.OK)
@@ -1482,6 +1483,7 @@ namespace EDHM_UI_mk2.Forms
 					if (Directory.Exists(TempPath))  //<- %Temp%\EDHM_UI\%ZIP_NAME%
 					{
 						Util.DoNetZIP_UnCompressFile(OFDialog.FileName, TempPath);
+						Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(OFDialog.FileName));
 
 						CheckPreExisting(TempPath);						
 
@@ -1676,6 +1678,7 @@ namespace EDHM_UI_mk2.Forms
 			try
 			{
 				//1. Preguntar donde se Guarda el ZIP:
+				string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
 				SaveFileDialog XSFD = new SaveFileDialog()
 				{
 					Filter = "ZIP file|*.zip",
@@ -1685,7 +1688,7 @@ namespace EDHM_UI_mk2.Forms
 					CheckPathExists = true,
 					OverwritePrompt = true,
 					FileName = _Mod.theme_name,
-					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+					InitialDirectory = LastFolderUsed
 				};
 
 				if (XSFD.ShowDialog() == DialogResult.OK)
@@ -1721,6 +1724,8 @@ namespace EDHM_UI_mk2.Forms
 						//3. Crea la Estructura de Directorios necesaria: %TEMP_FOLDER%\%MOD_NAME%\%ThemeName%    
 						string ThemeFolder = Path.Combine(TempPath, ModName, ThemeName);
 						Directory.CreateDirectory(ThemeFolder);
+
+						Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(XSFD.FileName));
 
 						if (Directory.Exists(ThemeFolder))
 						{
@@ -1836,6 +1841,7 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
+				string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
 				OpenFileDialog OFDialog = new OpenFileDialog()
 				{
 					Filter = "ZIP Files|*.zip",
@@ -1844,7 +1850,7 @@ namespace EDHM_UI_mk2.Forms
 					AddExtension = true,
 					CheckPathExists = true,
 					CheckFileExists = true,
-					InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+					InitialDirectory = LastFolderUsed
 				};
 				//1. Ask for the ZIP to Import
 				if (OFDialog.ShowDialog() == DialogResult.OK)
@@ -1868,6 +1874,8 @@ namespace EDHM_UI_mk2.Forms
 					string ThemeName = Path.GetFileNameWithoutExtension(OFDialog.FileName);
 					string TempPath = Path.Combine(Path.GetTempPath(), "EDHM_UI", ThemeName);
 					int[] _ret = new int[] { 0, 0 };
+
+					Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(OFDialog.FileName));
 
 					//2. Crear una Carpeta Temporal para los Archivos del Tema:
 					if (Directory.Exists(TempPath))

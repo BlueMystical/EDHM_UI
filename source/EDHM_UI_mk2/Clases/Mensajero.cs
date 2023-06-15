@@ -8,6 +8,7 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.ButtonsPanelControl;
 using DevExpress.XtraEditors.DXErrorProvider;
 using DevExpress.XtraLayout;
+using DevExpress.XtraSplashScreen;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -487,6 +488,44 @@ namespace EDHM_UI_mk2
 			Contenido.ForeColor = colors.WindowForeColor;
 			
 			return XtraDialog.Show(msArgs);
+		}
+
+
+		/*  MODO DE USO:
+		 *  -------------------------------------------------------------------
+			var handle = Mensajero.ShowOverlayForm(this);
+			var t = Task.Factory.StartNew(delegate
+			{
+				try
+				{
+					Thread.Sleep(5000);  //<- Hacer algo aqui
+				}
+				catch (ThreadAbortException) { Thread.CurrentThread.Join(); }
+				catch (Exception) { }
+				finally
+				{
+					Invoke((MethodInvoker)(() => handle.Close() ));
+				}
+			});
+		* -------------------------------------------------------------------
+			// Tambien se puede usar sin Procesos:
+            using (var handle = Mensajero.ShowOverlayForm(this))
+            {				
+				Thread.Sleep(5000); //<- Hacer algo aqui
+			}
+		* ------------------------------------------------------------------- */
+		/// <summary>Cubre la Ventana del 'pOwner' con una sombra mostrando una animacion de progreso.</summary>
+		/// <param name="pOwner">Formulario dueño de esta ventana</param>
+		public static IOverlaySplashScreenHandle ShowOverlayForm(Form pOwner)
+		{
+			OverlayWindowOptions options = new OverlayWindowOptions(
+				backColor: Color.Black,
+				opacity: 0.8,
+				fadeIn: true,
+				fadeOut: true,
+				imageSize: new Size(64, 64)
+			);
+			return SplashScreenManager.ShowOverlayForm(pOwner, options);
 		}
 
 		/* ---------------------FlyoutDialog--------------------------------------------------------------------------------------------------------------  */
