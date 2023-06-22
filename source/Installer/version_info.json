@@ -1,0 +1,5 @@
+{
+   "app_version": "3.1.0.0",  
+   "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
+   "changelog": "- Fix for galmap panels taking highlighted text color.\r\n- Fix for FSS/DSS Info Panel using the wrong color.\r\n- 'More Colors' dialog picker re-designed.",
+}

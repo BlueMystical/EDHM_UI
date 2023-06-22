@@ -1,0 +1,3350 @@
+[
+  {
+    "id": "mnuTheme_Preview",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Theme Preview",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Themenvorschau",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Предварительный просмотр темы",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Aperçu du thème",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Anteprima del tema",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_Menu",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Main Menu",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Главное меню",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Hauptmenü",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Menu principal",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Menu principale",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_UpdateCheck",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Check for Updates..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Проверить наличие обновлений..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Auf Updates prüfen..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Vérifiez les mises à jour..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Controlla gli aggiornamenti..",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_Settings",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Settings",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Настройки",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Einstellungen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Paramètres",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Impostazioni",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_GameFolder",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Open Game Folder..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Откройте папку с игрой..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Spielordner öffnen..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Ouvrir le dossier du jeu..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Apri cartella di gioco..",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_Sipyard",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Shipyard",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Верфь",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Werft",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Chantier naval",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Cantiere ",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_InstallMod",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Install EDHM Mod",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Установить мод EDHM",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Installieren Sie EDHM Mod",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Installer le module EDHM",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Installa EDHM Mod",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_UninstallMod",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Uninstall Mod",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Удалить мод",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Mod deinstallieren",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Désinstaller le mod",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Disinstalla Mod",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_Plugins",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "3PMods (Plugins)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "3PMods (Plugins)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "3PMods (плагины)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "3PMods (Plug-ins)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "3PMods (plugin)",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_Help",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Help",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Hilfe",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Помощь",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Aide",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Aiuto",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_About",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "About..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Über..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "О..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "À propos..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Circa..",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_Themes",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Themes 🡻",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Themen 🡻",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Темы 🡻",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Thèmes 🡻",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Temi 🡻",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_ApplyTheme",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Apply Theme",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Design anwenden",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Применить тему",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Appliquer le thème",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Applica tema",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "MainMenu_SearchBox",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Search:",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Suche",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Поиск",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Rechercher",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Cerca",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_Apply",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Apply Theme",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Design anwenden",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Appliquer le thème",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Renommer le thème",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Applica tema",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_Rename",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Rename Theme",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Design umbenennen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Переименовать тему",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Renommer le thème",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Rinomina tema",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_Delete",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Delete Theme",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Design löschen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Удалить тему",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Supprimer le thème",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Elimina tema",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_Export",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Export Theme",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Design exportieren",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Экспорт темы",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Thème d'exportation",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Esporta tema",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_MakeNew",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Duplicate Theme",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Design duplizieren",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Дублировать тему",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Thème dupliqué",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Tema duplicato",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_Thumbnail",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Create Thumbnail Image..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Miniaturbild erstellen..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Создать эскиз изображения..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Créer une image miniature..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Crea immagine miniatura..",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_OpenFolder",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Open Theme's Folder..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Öffnen Sie den Ordner des Themas..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Откройте папку с темой..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Ouvrir le dossier du thème..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Apri la cartella del tema..",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuTheme_Save",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Save Theme Changes..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Designänderungen speichern..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Сохранить изменения темы..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Enregistrer les changements de thème..",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Salva modifiche al tema..",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuGlobalSettings_Add",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Add to Global Settings",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Zu globalen Einstellungen hinzufügen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Добавить в глобальные настройки",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Ajouter aux paramètres globaux",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Aggiungi a Impostazioni globali",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "mnuGlobalSettings_Remove",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Remove from Global Settings",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Aus globalen Einstellungen entfernen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Удалить из глобальных настроек",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Supprimer des paramètres globaux",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Rimuovi da Impostazioni globali",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "cmdReloadThemes",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Reload Theme List",
+        "category": null,
+        "description": "Reload Themes/Search any changes in the 'Demo-Profiles' folder and re-load all themes found."
+      },
+      {
+        "key": "de",
+        "value": "Themenliste neu laden",
+        "category": null,
+        "description": "Themen neu laden/Änderungen im Ordner „Demo-Profile“ suchen und alle gefundenen Themen neu laden."
+      },
+      {
+        "key": "ru",
+        "value": "Перезагрузить список тем",
+        "category": null,
+        "description": "Перезагрузить темы/Поиск любых изменений в папке «Демо-профили» и перезагрузить все найденные темы."
+      },
+      {
+        "key": "fr",
+        "value": "Recharger la liste des thèmes",
+        "category": null,
+        "description": "Recharger les thèmes/Rechercher tout changement dans le dossier 'Demo-Profiles' et recharger tous les thèmes trouvés."
+      },
+      {
+        "key": "it",
+        "value": "Ricarica elenco temi",
+        "category": null,
+        "description": "Ricarica temi/Cerca eventuali modifiche nella cartella \"Profili demo\" e ricarica tutti i temi trovati."
+      }
+    ]
+  },
+  {
+    "id": "cmdMakeNewTheme",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "New Theme",
+        "category": null,
+        "description": "Make New Theme/This will Create a New Theme using the Current Settings as Base."
+      },
+      {
+        "key": "de",
+        "value": "Neues Design",
+        "category": null,
+        "description": "Neues Design erstellen/Dies erstellt ein neues Design mit den aktuellen Einstellungen als Basis."
+      },
+      {
+        "key": "ru",
+        "value": "Новая тема",
+        "category": null,
+        "description": "Создать новую тему/Это создаст новую тему, используя текущие настройки в качестве основы."
+      },
+      {
+        "key": "fr",
+        "value": "Nouveau thème",
+        "category": null,
+        "description": "Créer un nouveau thème/Ceci créera un nouveau thème en utilisant les paramètres actuels comme base."
+      },
+      {
+        "key": "it",
+        "value": "Nuovo tema",
+        "category": null,
+        "description": "Crea nuovo tema/Questo creerà un nuovo tema usando le impostazioni correnti come base."
+      }
+    ]
+  },
+  {
+    "id": "cmdDeletetheme",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Delete Theme",
+        "category": null,
+        "description": "Delete Theme/Deletes the Selected theme and all its files."
+      },
+      {
+        "key": "de",
+        "value": "Design löschen",
+        "category": null,
+        "description": "Design löschen/Löscht das ausgewählte Design und alle seine Dateien."
+      },
+      {
+        "key": "ru",
+        "value": "Удалить тему",
+        "category": null,
+        "description": "Удалить тему/Удаляет выбранную тему и все ее файлы."
+      },
+      {
+        "key": "fr",
+        "value": "Supprimer le thème",
+        "category": null,
+        "description": "Supprimer le thème/Supprime le thème sélectionné et tous ses fichiers."
+      },
+      {
+        "key": "it",
+        "value": "Elimina tema",
+        "category": null,
+        "description": "Elimina tema/Elimina il tema selezionato e tutti i suoi file."
+      }
+    ]
+  },
+  {
+    "id": "cmdSaveTheme",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Save Theme",
+        "category": null,
+        "description": "Save Theme:/Save the Current Changes into the Selected Theme./NOTE: Your Changes in other people's Themes may get Overwritten by future updates."
+      },
+      {
+        "key": "de",
+        "value": "Design speichern",
+        "category": null,
+        "description": "Design speichern:/Aktuelle Änderungen im ausgewählten Design speichern./HINWEIS: Ihre Änderungen in den Designs anderer Personen können durch zukünftige Updates überschrieben werden."
+      },
+      {
+        "key": "ru",
+        "value": "Сохранить тему",
+        "category": null,
+        "description": "Сохранить тему:/Сохранить текущие изменения в выбранной теме./ПРИМЕЧАНИЕ. Ваши изменения в темах других людей могут быть перезаписаны будущими обновлениями."
+      },
+      {
+        "key": "fr",
+        "value": "Enregistrer le thème",
+        "category": null,
+        "description": "Enregistrer le thème :/Enregistrer les modifications actuelles dans le thème sélectionné./REMARQUE : Vos modifications dans les thèmes d'autres personnes peuvent être écrasées par les futures mises à jour."
+      },
+      {
+        "key": "it",
+        "value": "Salva tema",
+        "category": null,
+        "description": "Salva tema:/Salva le modifiche correnti nel tema selezionato./NOTA: le modifiche apportate ai temi di altre persone potrebbero essere sovrascritte da futuri aggiornamenti."
+      }
+    ]
+  },
+  {
+    "id": "cmdImportTheme",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Import Theme",
+        "category": null,
+        "description": "Import Theme/Import a ZIP file containing a downloaded theme."
+      },
+      {
+        "key": "de",
+        "value": "Design importieren",
+        "category": null,
+        "description": "Design importieren/ZIP-Datei importieren, die ein heruntergeladenes Design enthält."
+      },
+      {
+        "key": "ru",
+        "value": "Импортировать тему",
+        "category": null,
+        "description": "Импортировать тему/Импортировать ZIP-файл, содержащий загруженную тему."
+      },
+      {
+        "key": "fr",
+        "value": "Importer un thème",
+        "category": null,
+        "description": "Importer un thème/Importer un fichier ZIP contenant un thème téléchargé."
+      },
+      {
+        "key": "it",
+        "value": "Importa tema",
+        "category": null,
+        "description": "Importa tema/Importa un file ZIP contenente un tema scaricato."
+      }
+    ]
+  },
+  {
+    "id": "cmdExportTheme",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Export Theme",
+        "category": null,
+        "description": "Export Theme/Export the current settings into a New Theme and Packs it into a ZIP file, ready for Upload or sharing."
+      },
+      {
+        "key": "de",
+        "value": "Design exportieren",
+        "category": null,
+        "description": "Design exportieren/Exportieren Sie die aktuellen Einstellungen in ein neues Design und packt es in eine ZIP-Datei, bereit zum Hochladen oder Teilen."
+      },
+      {
+        "key": "ru",
+        "value": "Экспортировать тему ",
+        "category": null,
+        "description": " Экспортировать тему / Экспортировать текущие настройки в новую тему и упаковывать их в ZIP-файл, готовый для загрузки или обмена."
+      },
+      {
+        "key": "fr",
+        "value": "Exporter le thème",
+        "category": null,
+        "description": "Exporter le thème/Exporter les paramètres actuels dans un nouveau thème et le regrouper dans un fichier ZIP, prêt à être téléchargé ou partagé."
+      },
+      {
+        "key": "it",
+        "value": "Esporta tema",
+        "category": null,
+        "description": "Esporta tema/Esporta le impostazioni correnti in un nuovo tema e lo impacchetta in un file ZIP, pronto per il caricamento o la condivisione."
+      }
+    ]
+  },
+  {
+    "id": "cmdOpenThemeFolder",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Open Selected Theme Folder",
+        "category": null,
+        "description": "Open Selected Theme Folder/Opens the Folder where this Theme is located."
+      },
+      {
+        "key": "de",
+        "value": "Ausgewählten Themenordner öffnen",
+        "category": null,
+        "description": "Ausgewählten Themenordner öffnen/Öffnet den Ordner, in dem sich dieses Thema befindet."
+      },
+      {
+        "key": "ru",
+        "value": "Открыть папку с выбранной темой",
+        "category": null,
+        "description": "Открыть папку с выбранной темой/Открывает папку, в которой находится эта тема."
+      },
+      {
+        "key": "fr",
+        "value": "Ouvrir le dossier du thème sélectionné",
+        "category": null,
+        "description": "Ouvrir le dossier du thème sélectionné/Ouvre le dossier où se trouve ce thème."
+      },
+      {
+        "key": "it",
+        "value": "Apri la cartella del tema selezionata",
+        "category": null,
+        "description": "Apri la cartella del tema selezionata/Apre la cartella in cui si trova questo tema."
+      }
+    ]
+  },
+  {
+    "id": "cmdThemes_ShowFavorites",
+    "group": "BarMenus",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Favorites",
+        "category": null,
+        "description": "Favorites/Shows or Hides your Favorite Themes."
+      },
+      {
+        "key": "de",
+        "value": "Favoriten",
+        "category": null,
+        "description": "Favoriten/Zeigt oder verbirgt Ihre Lieblingsthemen."
+      },
+      {
+        "key": "ru",
+        "value": "Избранное",
+        "category": null,
+        "description": "Избранное/Показывает или скрывает ваши любимые темы."
+      },
+      {
+        "key": "fr",
+        "value": "Favoris",
+        "category": null,
+        "description": "Favoris/Affiche ou masque vos thèmes favoris."
+      },
+      {
+        "key": "it",
+        "value": "Preferiti",
+        "category": null,
+        "description": "Preferiti/Mostra o nasconde i tuoi temi preferiti."
+      }
+    ]
+  },
+  {
+    "id": "Panel_UP",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Panel (Upper)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Панель (верхняя)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Platte (oben)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Platte (oben)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Pannello (superiore)",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "Reticle",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Targeting Reticle",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Прицельная сетка",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Zielabsehen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Zielabsehen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Reticolo di puntamento",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "Settings",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "HUD Settings",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Настройки HUD",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "HUD-Einstellungen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "HUD-Einstellungen",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Impostazioni dell'HUD",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "Panel_Lower",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Panel (Lower)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Панель (нижняя)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Platte (unten)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Platte (unten)",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Pannello (inferiore)",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "Lighting",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Cabin Lighting",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Освещение кабины",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Kabinenbeleuchtung",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Kabinenbeleuchtung",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Illuminazione della cabina",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "SpecialFX",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Special Efects",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Специальные эффекты",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Spezialeffekte",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Spezialeffekte",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Effetti speciali",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "CHUD_AHUD",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Combat & Analysis HUD",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "HUD боя и анализа",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Kampf- und Analyse-HUD",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Kampf- und Analyse-HUD",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Combattimento e analisi HUD",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "Foot_HUD",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "On Foot HUD",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "HUD пешком",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "HUD zu Fuß",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "HUD zu Fuß",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "A piedi HUD",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "ShieldsHolo",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Shield & Holo Ship",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Щит и голографический корабль",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Schild & Holo-Schiff",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Schild & Holo-Schiff",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Scudo e nave olografica",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "RadarHUD",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Radar & Common Group",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Радар и общая группа",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Radar & gemeinsame Gruppe",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Radar & gemeinsame Gruppe",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Radar e gruppo comune",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "Power_Distributor",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Power Distributor",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Распределитель питания",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Stromverteiler",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Stromverteiler",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Distributore di potenza",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "FuelBars",
+    "group": "TileGroup",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Signature & Fuel Bars",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "ru",
+        "value": "Фирменные и топливные бары",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "de",
+        "value": "Signature & Fuel Bars",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "fr",
+        "value": "Signature & Fuel Bars",
+        "category": null,
+        "description": null
+      },
+      {
+        "key": "it",
+        "value": "Firma e barre del carburante",
+        "category": null,
+        "description": null
+      }
+    ]
+  },
+  {
+    "id": "y104",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Panel Lines (upper)",
+        "category": "Panel Lines",
+        "description": "[CTRL]+[F4]"
+      },
+      {
+        "key": "ru",
+        "value": "Линии панелей (верхние)",
+        "category": "Линии панелей",
+        "description": "[CTRL]+[F4]"
+      },
+      {
+        "key": "it",
+        "value": "Righe pannello (superiore)",
+        "category": "Righe pannello",
+        "description": "[CTRL]+[F4]"
+      },
+      {
+        "key": "de",
+        "value": "Panellinien (oben)",
+        "category": "Panellinien",
+        "description": "[STRG]+[F4]"
+      },
+      {
+        "key": "fr",
+        "value": "Panellinien (oben)",
+        "category": "Panellinien",
+        "description": "[STRG]+[F4]"
+      }
+    ]
+  },
+  {
+    "id": "x107",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Targeting Reticle",
+        "category": "Targeting Reticle",
+        "description": "Cycle through reticle colours with [F7]"
+      },
+      {
+        "key": "ru",
+        "value": "Прицельная сетка",
+        "category": "Прицельная сетка",
+        "description": "Переключение между цветами прицельной сетки с помощью [F7]"
+      },
+      {
+        "key": "it",
+        "value": "Reticolo di puntamento",
+        "category": "Reticolo di puntamento",
+        "description": "Scorri i colori del reticolo con [F7]"
+      },
+      {
+        "key": "de",
+        "value": "Ziel-Fadenkreuz",
+        "category": "Ziel-Fadenkreuz",
+        "description": "Zwischen den Fadenkreuz-Farben mit [F7]"
+      },
+      {
+        "key": "fr",
+        "value": "Ziel-Fadenkreuz",
+        "category": "Ziel-Fadenkreuz",
+        "description": "Zwischen den Fadenkreuz-Farben mit [F7]"
+      }
+    ]
+  },
+  {
+    "id": "y107",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Environment Target Colour",
+        "category": "Targeting Reticle",
+        "description": "Indicates current and possible destination targets, such as planets, stations.\r\nCycle through Environment target Colours with [CTRL]+[F7]"
+      },
+      {
+        "key": "ru",
+        "value": "Цвет окружающей среды",
+        "category": "Прицельная сетка",
+        "description": "Обозначает текущие и возможные цели назначения, такие как планеты, станции.\r\nПереключайтесь между цветами цели окружающей среды с помощью [CTRL]+[F7]"
+      },
+      {
+        "key": "it",
+        "value": "Colore target ambiente",
+        "category": "Reticolo di puntamento",
+        "description": "Indica i target di destinazione attuali e possibili, come pianeti, stazioni.\r\nScorri i colori target dell'ambiente con [CTRL]+[F7]"
+      },
+      {
+        "key": "de",
+        "value": "Umgebungszielfarbe",
+        "category": "Zielfadenkreuz",
+        "description": "Zeigt aktuelle und mögliche Zielziele an, z. B. Planeten, Stationen.\r\nDurchlaufen Sie die Umgebungszielfarben mit [STRG]+[F7]"
+      },
+      {
+        "key": "fr",
+        "value": "Umgebungszielfarbe",
+        "category": "Zielfadenkreuz",
+        "description": "Zeigt aktuelle und mögliche Zielziele an, z. B. Planeten, Stationen.\r\nDurchlaufen Sie die Umgebungszielfarben mit [STRG]+[F7]"
+      }
+    ]
+  },
+  {
+    "id": "y100",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Hud Dimmer",
+        "category": "Visuals",
+        "description": "Cycle with [F5].\r\nThere are 6 levels of brightness (5,4,3,2,1,0)."
+      },
+      {
+        "key": "ru",
+        "value": "Hud Dimmer",
+        "category": "Визуальные эффекты",
+        "description": "Выберите цикл с помощью [F5].\r\nЕсть 6 уровней яркости (5,4,3,2,1,0)."
+      },
+      {
+        "key": "it",
+        "value": "Dimmer Hud",
+        "category": "Visuals",
+        "description": "Cicla con [F5].\r\nCi sono 6 livelli di luminosità (5,4,3,2,1,0)."
+      },
+      {
+        "key": "de",
+        "value": "Hud Dimmer",
+        "category": "Visuals",
+        "description": "Zyklus mit [F5].\r\nEs gibt 6 Helligkeitsstufen (5,4,3,2,1,0)."
+      },
+      {
+        "key": "fr",
+        "value": "Hud Dimmer",
+        "category": "Visuals",
+        "description": "Zyklus mit [F5].\r\nEs gibt 6 Helligkeitsstufen (5,4,3,2,1,0)."
+      }
+    ]
+  },
+  {
+    "id": "z111",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "HUD and Panel Opacity Layer",
+        "category": "Visuals",
+        "description": "The colour of the background behind the panels"
+      },
+      {
+        "key": "ru",
+        "value": "HUD и Panel Opacity Layer",
+        "category": "Visuals",
+        "description": "Цвет фона за панелями"
+      },
+      {
+        "key": "it",
+        "value": "HUD e livello di opacità del pannello",
+        "category": "Elementi visivi",
+        "description": "Il colore dello sfondo dietro i pannelli"
+      },
+      {
+        "key": "de",
+        "value": "HUD and Panel Opacity Layer",
+        "category": "Visuals",
+        "description": "Die Farbe des Hintergrunds hinter den Panels"
+      },
+      {
+        "key": "fr",
+        "value": "HUD and Panel Opacity Layer",
+        "category": "Visuals",
+        "description": "Die Farbe des Hintergrunds hinter den Panels"
+      }
+    ]
+  },
+  {
+    "id": "w116",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Text Colour",
+        "category": "Texts",
+        "description": "If Text Colour is set to 4 then you can choose your own text colour."
+      },
+      {
+        "key": "ru",
+        "value": "Цвет текста",
+        "category": "Тексты",
+        "description": "Если цвет текста установлен на 4, вы можете выбрать свой собственный цвет текста."
+      },
+      {
+        "key": "it",
+        "value": "Colore testo",
+        "category": "Testi",
+        "description": "Se il colore del testo è impostato su 4, puoi scegliere il tuo colore del testo."
+      },
+      {
+        "key": "de",
+        "value": "Textfarbe",
+        "category": "Texte",
+        "description": "Wenn die Textfarbe auf 4 eingestellt ist, können Sie Ihre eigene Textfarbe wählen."
+      },
+      {
+        "key": "fr",
+        "value": "Textfarbe",
+        "category": "Texte",
+        "description": "Wenn die Textfarbe auf 4 eingestellt ist, können Sie Ihre eigene Textfarbe wählen."
+      }
+    ]
+  },
+  {
+    "id": "x116|y116|z116",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Text Custom Color",
+        "category": "Texts",
+        "description": "Please note, the XML shader will overlay the text and modify the text colour. There is no way to prevent this from happening."
+      },
+      {
+        "key": "ru",
+        "value": "Пользовательский цвет текста",
+        "category": "Тексты",
+        "description": "Обратите внимание, что шейдер XML наложит текст и изменит цвет текста. Невозможно предотвратить это."
+      },
+      {
+        "key": "it",
+        "value": "Colore personalizzato del testo",
+        "category": "Testi",
+        "description": "Nota, lo shader XML sovrapporrà il testo e modificherà il colore del testo. Non c'è modo di impedire che ciò accada."
+      },
+      {
+        "key": "de",
+        "value": "Benutzerdefinierte Textfarbe",
+        "category": "Texte",
+        "description": "Bitte beachten Sie, dass der XML-Shader den Text überlagert und die Textfarbe ändert. Es gibt keine Möglichkeit, dies zu verhindern."
+      },
+      {
+        "key": "fr",
+        "value": "Benutzerdefinierte Textfarbe",
+        "category": "Texte",
+        "description": "Bitte beachten Sie, dass der XML-Shader den Text überlagert und die Textfarbe ändert. Es gibt keine Möglichkeit, dies zu verhindern."
+      }
+    ]
+  },
+  {
+    "id": "w151",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Text Brightness",
+        "category": "Texts",
+        "description": "Brightness for Texts"
+      },
+      {
+        "key": "ru",
+        "value": "Яркость текста",
+        "category": "Тексты",
+        "description": "Яркость текстов"
+      },
+      {
+        "key": "it",
+        "value": "Luminosità del testo",
+        "category": "Testi",
+        "description": "Luminosità per i testi"
+      },
+      {
+        "key": "de",
+        "value": "Texthelligkeit",
+        "category": "Texte",
+        "description": "Helligkeit für Texte"
+      },
+      {
+        "key": "fr",
+        "value": "Texthelligkeit",
+        "category": "Texte",
+        "description": "Helligkeit für Texte"
+      }
+    ]
+  },
+  {
+    "id": "z104",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Panel Lines (lower)",
+        "category": "Visuals",
+        "description": "[ALT]+[F4]"
+      },
+      {
+        "key": "ru",
+        "value": "Линии панели (нижняя)",
+        "category": "Визуальные эффекты",
+        "description": "[ALT]+[F4]"
+      },
+      {
+        "key": "it",
+        "value": "Righe del pannello (inferiori)",
+        "category": "Elementi visivi",
+        "description": "[ALT]+[F4]"
+      },
+      {
+        "key": "de",
+        "value": "Panel Lines (unten)",
+        "category": "Visuals",
+        "description": "[ALT]+[F4]"
+      },
+      {
+        "key": "fr",
+        "value": "Panel Lines (unten)",
+        "category": "Visuals",
+        "description": "[ALT]+[F4]"
+      }
+    ]
+  },
+  {
+    "id": "x111",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Panel Opacity Boost",
+        "category": "Visuals",
+        "description": "Transparency of the Shadows behind Panels and HUD elements."
+      },
+      {
+        "key": "ru",
+        "value": "Повышение непрозрачности панели",
+        "category": "Визуальные эффекты",
+        "description": "Прозрачность теней за панелями и элементами HUD."
+      },
+      {
+        "key": "it",
+        "value": "Aumento opacità del pannello",
+        "category": "Grafica",
+        "description": "Trasparenza delle ombre dietro i pannelli e gli elementi dell'HUD."
+      },
+      {
+        "key": "de",
+        "value": "Panel Opacity Boost",
+        "category": "Visuals",
+        "description": "Transparenz der Schatten hinter Panels und HUD-Elementen."
+      },
+      {
+        "key": "fr",
+        "value": "Panel Opacity Boost",
+        "category": "Visuals",
+        "description": "Transparenz der Schatten hinter Panels und HUD-Elementen."
+      }
+    ]
+  },
+  {
+    "id": "x103",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Ambient Cabin Lights",
+        "category": "Cabin Lighting",
+        "description": "Cycle with [CTRL]+[F6]."
+      },
+      {
+        "key": "ru",
+        "value": "Внешнее освещение салона",
+        "category": "Освещение салона",
+        "description": "Выполните цикл с помощью [CTRL]+[F6]."
+      },
+      {
+        "key": "it",
+        "value": "Luci ambiente cabina",
+        "category": "Illuminazione cabina",
+        "description": "Cicla con [CTRL]+[F6]."
+      },
+      {
+        "key": "de",
+        "value": "Ambient Cabin Lights",
+        "category": "Cabin Lighting",
+        "description": "Zyklus mit [CTRL]+[F6]."
+      },
+      {
+        "key": "fr",
+        "value": "Ambient Cabin Lights",
+        "category": "Cabin Lighting",
+        "description": "Zyklus mit [CTRL]+[F6]."
+      }
+    ]
+  },
+  {
+    "id": "z115",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Cabin Lighting Style",
+        "category": "Cabin Lighting",
+        "description": "Restricted (Elite standard, cabin light doesn't cover whole cockpit)"
+      },
+      {
+        "key": "ru",
+        "value": "Стиль освещения кабины",
+        "category": "Освещение кабины",
+        "description": "Ограниченный (стандарт Elite, освещение кабины не охватывает всю кабину)"
+      },
+      {
+        "key": "it",
+        "value": "Stile di illuminazione della cabina",
+        "category": "Illuminazione della cabina",
+        "description": "Limitata (standard Elite, la luce della cabina non copre l'intera cabina di pilotaggio)"
+      },
+      {
+        "key": "de",
+        "value": "Kabinenbeleuchtungsstil",
+        "category": "Kabinenbeleuchtung",
+        "description": "Eingeschränkt (Elite-Standard, Kabinenlicht deckt nicht das gesamte Cockpit ab)"
+      },
+      {
+        "key": "fr",
+        "value": "Kabinenbeleuchtungsstil",
+        "category": "Kabinenbeleuchtung",
+        "description": "Eingeschränkt (Elite-Standard, Kabinenlicht deckt nicht das gesamte Cockpit ab)"
+      }
+    ]
+  },
+  {
+    "id": "x112",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Night Vision",
+        "category": "Cabin Lighting",
+        "description": "Night Vision"
+      },
+      {
+        "key": "ru",
+        "value": "Ночное видение",
+        "category": "Освещение кабины",
+        "description": "Ночное видение"
+      },
+      {
+        "key": "it",
+        "value": "Visione notturna",
+        "category": "Illuminazione cabina",
+        "description": "Visione notturna"
+      },
+      {
+        "key": "de",
+        "value": "Nachtsicht",
+        "category": "Kabinenbeleuchtung",
+        "description": "Nachtsicht"
+      },
+      {
+        "key": "fr",
+        "value": "Nachtsicht",
+        "category": "Kabinenbeleuchtung",
+        "description": "Nachtsicht"
+      }
+    ]
+  },
+  {
+    "id": "w103",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Lighting Dimmer",
+        "category": "Cabin Lighting",
+        "description": "Cycle with [F6]. Each press of F6 reduces the cabin lighting brightness by 0.2 (20%)"
+      },
+      {
+        "key": "ru",
+        "value": "Диммер освещения",
+        "category": "Освещение салона",
+        "description": "Выберите цикл с помощью [F6]. Каждое нажатие F6 уменьшает яркость освещения салона на 0,2 (20%)."
+      },
+      {
+        "key": "it",
+        "value": "Dimmer illuminazione",
+        "category": "Illuminazione cabina",
+        "description": "Ciclare con [F6]. Ogni pressione di F6 riduce la luminosità dell'illuminazione della cabina di 0,2 (20%)"
+      },
+      {
+        "key": "de",
+        "value": "Beleuchtung Dimmer",
+        "category": "Kabinenbeleuchtung",
+        "description": "Zyklus mit [F6]. Jedes Drücken von F6 reduziert die Helligkeit der Kabinenbeleuchtung um 0,2 (20 %)."
+      },
+      {
+        "key": "fr",
+        "value": "Beleuchtung Dimmer",
+        "category": "Kabinenbeleuchtung",
+        "description": "Zyklus mit [F6]. Jedes Drücken von F6 reduziert die Helligkeit der Kabinenbeleuchtung um 0,2 (20 %)."
+      }
+    ]
+  },
+  {
+    "id": "y122",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "OwnCarrier Highlight",
+        "category": "Special Efects",
+        "description": "OwnCarrier Highlight on Nav panel (also highlights the current planetary bearing indicator on the landing reticle/SRV).\r\n(OFF will show the XML matrix colour)"
+      },
+      {
+        "key": "ru",
+        "value": "Подсветка собственной несущей",
+        "category": "Специальные эффекты",
+        "description": "Подсветка собственной несущей на панели навигации (также подсвечивает текущий индикатор планетарного пеленга на посадочной сетке/SRV).\r\n(ВЫКЛ. показывает цвет матрицы XML)"
+      },
+      {
+        "key": "it",
+        "value": "Evidenziazione proprio portante",
+        "category": "Effetti speciali",
+        "description": "Evidenziazione proprio portante sul pannello Nav (evidenzia anche l'indicatore di rilevamento planetario corrente sul reticolo di atterraggio/SRV).\r\n(OFF mostrerà il colore della matrice XML)"
+      },
+      {
+        "key": "de",
+        "value": "OwnCarrier-Hervorhebung",
+        "category": "Spezialeffekte",
+        "description": "OwnCarrier-Hervorhebung auf dem Nav-Panel (hebt auch die aktuelle Planetenpeilungsanzeige auf dem Lande-Fadenkreuz/SRV hervor).\r\n(OFF zeigt die Farbe der XML-Matrix)"
+      },
+      {
+        "key": "fr",
+        "value": "OwnCarrier-Hervorhebung",
+        "category": "Spezialeffekte",
+        "description": "OwnCarrier-Hervorhebung auf dem Nav-Panel (hebt auch die aktuelle Planetenpeilungsanzeige auf dem Lande-Fadenkreuz/SRV hervor).\r\n(OFF zeigt die Farbe der XML-Matrix)"
+      }
+    ]
+  },
+  {
+    "id": "z122",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "OwnCarrier Highlight Color",
+        "category": "Special Efects",
+        "description": "Note: A custom XML will modify this colour. Base colour refers to the colour on orange Elite panels."
+      },
+      {
+        "key": "ru",
+        "value": "Цвет подсветки собственного перевозчика",
+        "category": "Специальные эффекты",
+        "description": "Примечание. Пользовательский XML изменит этот цвет. Базовый цвет относится к цвету оранжевых панелей Elite."
+      },
+      {
+        "key": "it",
+        "value": "OwnCarrier Highlight Color",
+        "category": "Effetti speciali",
+        "description": "Nota: un XML personalizzato modificherà questo colore. Il colore di base si riferisce al colore dei pannelli Elite arancioni."
+      },
+      {
+        "key": "de",
+        "value": "OwnCarrier Hervorhebungsfarbe",
+        "category": "Spezialeffekte",
+        "description": "Hinweis: Ein benutzerdefiniertes XML ändert diese Farbe. Die Grundfarbe bezieht sich auf die Farbe auf orangefarbenen Elite-Panels."
+      },
+      {
+        "key": "fr",
+        "value": "OwnCarrier Hervorhebungsfarbe",
+        "category": "Spezialeffekte",
+        "description": "Hinweis: Ein benutzerdefiniertes XML ändert diese Farbe. Die Grundfarbe bezieht sich auf die Farbe auf orangefarbenen Elite-Panels."
+      }
+    ]
+  },
+  {
+    "id": "x117",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Orbit Lines",
+        "category": "Special Efects",
+        "description": "Orbit Lines (and Exclusion Zone Lines) & Gravity Well Lines ** (Supercruise only)"
+      },
+      {
+        "key": "ru",
+        "value": "Линии орбиты",
+        "category": "Специальные эффекты",
+        "description": "Линии орбиты (и линии зоны отчуждения) и линии гравитационного колодца ** (только для суперкруиза)"
+      },
+      {
+        "key": "it",
+        "value": "Linee dell'orbita",
+        "category": "Effetti speciali",
+        "description": "Linee dell'orbita (e linee della zona di esclusione) e linee del pozzo gravitazionale ** (solo Supercruise)"
+      },
+      {
+        "key": "de",
+        "value": "Orbitlinien",
+        "category": "Spezialeffekte",
+        "description": "Orbitlinien (und Sperrzonenlinien) & Gravitationsbrunnenlinien ** (nur Supercruise)"
+      },
+      {
+        "key": "fr",
+        "value": "Orbitlinien",
+        "category": "Spezialeffekte",
+        "description": "Orbitlinien (und Sperrzonenlinien) & Gravitationsbrunnenlinien ** (nur Supercruise)"
+      }
+    ]
+  },
+  {
+    "id": "y117",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Orbit Lines Brightness",
+        "category": "Special Efects",
+        "description": "Orbit Lines Brightness. Try 0.05 or 0.1 for very dim lines. Turn off with 0.0"
+      },
+      {
+        "key": "ru",
+        "value": "Яркость линий орбиты",
+        "category": "Специальные эффекты",
+        "description": "Яркость линий орбиты. Попробуйте 0,05 или 0,1 для очень тусклых линий. Выключить с 0.0"
+      },
+      {
+        "key": "it",
+        "value": "Luminosità delle linee orbitali",
+        "category": "Effetti speciali",
+        "description": "Luminosità delle linee orbitali. Prova 0,05 o 0,1 per linee molto deboli. Spegni con 0.0"
+      },
+      {
+        "key": "de",
+        "value": "Helligkeit der Orbitlinien",
+        "category": "Spezialeffekte",
+        "description": "Helligkeit der Orbitlinien. Probieren Sie 0,05 oder 0,1 für sehr schwache Linien aus. Ausschalten mit 0.0"
+      },
+      {
+        "key": "fr",
+        "value": "Helligkeit der Orbitlinien",
+        "category": "Spezialeffekte",
+        "description": "Helligkeit der Orbitlinien. Probieren Sie 0,05 oder 0,1 für sehr schwache Linien aus. Ausschalten mit 0.0"
+      }
+    ]
+  },
+  {
+    "id": "z117",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Gravity Well Lines",
+        "category": "Special Efects",
+        "description": "Gravity Well Lines colour"
+      },
+      {
+        "key": "ru",
+        "value": "Линии гравитационного колодца",
+        "category": "Спецэффекты",
+        "description": "Цвет линий гравитационного колодца"
+      },
+      {
+        "key": "it",
+        "value": "Gravity Well Lines",
+        "category": "Effetti speciali",
+        "description": "Gravity Well Lines colore"
+      },
+      {
+        "key": "de",
+        "value": "Schwerkraftbrunnenlinien",
+        "category": "Spezialeffekte",
+        "description": "Farbe der Schwerkraftbrunnenlinien"
+      },
+      {
+        "key": "fr",
+        "value": "Schwerkraftbrunnenlinien",
+        "category": "Spezialeffekte",
+        "description": "Farbe der Schwerkraftbrunnenlinien"
+      }
+    ]
+  },
+  {
+    "id": "w117",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Gravity Well Brightness",
+        "category": "Special Efects",
+        "description": "Gravity Well Lines Brightness"
+      },
+      {
+        "key": "ru",
+        "value": "Яркость гравитационного колодца",
+        "category": "Специальные эффекты",
+        "description": "Яркость линий гравитационного колодца"
+      },
+      {
+        "key": "it",
+        "value": "Luminosità del pozzo di gravità",
+        "category": "Effetti speciali",
+        "description": "Luminosità del pozzo di gravità"
+      },
+      {
+        "key": "de",
+        "value": "Schwerkraftbrunnen-Helligkeit",
+        "category": "Spezialeffekte",
+        "description": "Schwerkraftbrunnen-Linien-Helligkeit"
+      },
+      {
+        "key": "fr",
+        "value": "Schwerkraftbrunnen-Helligkeit",
+        "category": "Spezialeffekte",
+        "description": "Schwerkraftbrunnen-Linien-Helligkeit"
+      }
+    ]
+  },
+  {
+    "id": "z107",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Planetary Landing Reticle",
+        "category": "Special Efects",
+        "description": "Planetary Landing Reticle ** Bearing and descent angle bars"
+      },
+      {
+        "key": "ru",
+        "value": "Планетарная прицельная сетка",
+        "category": "Специальные эффекты",
+        "description": "Планетарная прицельная сетка ** Направление и углы снижения"
+      },
+      {
+        "key": "it",
+        "value": "Reticolo di atterraggio planetario",
+        "category": "Effetti speciali",
+        "description": "Reticolo di atterraggio planetario **Barre angolari di rilevamento e discesa"
+      },
+      {
+        "key": "de",
+        "value": "Planetenlande-Fadenkreuz",
+        "category": "Spezialeffekte",
+        "description": "Planetenlande-Fadenkreuz ** Peil- und Abstiegswinkelstangen"
+      },
+      {
+        "key": "fr",
+        "value": "Planetenlande-Fadenkreuz",
+        "category": "Spezialeffekte",
+        "description": "Planetenlande-Fadenkreuz ** Peil- und Abstiegswinkelstangen"
+      }
+    ]
+  },
+  {
+    "id": "z120",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Supercruise Speed Lines",
+        "category": "Supercruise",
+        "description": "supercruise speed lines colour"
+      },
+      {
+        "key": "ru",
+        "value": "Линии скорости суперкруиза",
+        "category": "Суперкруиз",
+        "description": "Цвет линий скорости суперкруиза"
+      },
+      {
+        "key": "it",
+        "value": "Linee di velocità Supercruise",
+        "category": "Supercruise",
+        "description": "colore delle linee di velocità Supercruise"
+      },
+      {
+        "key": "de",
+        "value": "Supercruise-Geschwindigkeitslinien",
+        "category": "Supercruise",
+        "description": "Farbe der Supercruise-Geschwindigkeitslinien"
+      },
+      {
+        "key": "fr",
+        "value": "Supercruise-Geschwindigkeitslinien",
+        "category": "Supercruise",
+        "description": "Farbe der Supercruise-Geschwindigkeitslinien"
+      }
+    ]
+  },
+  {
+    "id": "w120",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Supercruise Speed Lines Brightness",
+        "category": "Supercruise",
+        "description": "Supercruise Speed Lines Brightness ** (range 0 to 1) (0 = OFF)"
+      },
+      {
+        "key": "ru",
+        "value": "Яркость линий скорости Supercruise",
+        "category": "Supercruise",
+        "description": "Яркость линий скорости Supercruise ** (диапазон от 0 до 1) (0 = ВЫКЛ.)"
+      },
+      {
+        "key": "it",
+        "value": "Luminosità delle linee di velocità Supercruise",
+        "category": "Supercruise",
+        "description": "Luminosità delle linee di velocità Supercruise** (intervallo da 0 a 1) (0 = OFF)"
+      },
+      {
+        "key": "de",
+        "value": "Helligkeit der Supercruise-Geschwindigkeitslinien",
+        "category": "Supercruise",
+        "description": "Helligkeit der Supercruise-Geschwindigkeitslinien ** (Bereich 0 bis 1) (0 = AUS)"
+      },
+      {
+        "key": "fr",
+        "value": "Helligkeit der Supercruise-Geschwindigkeitslinien",
+        "category": "Supercruise",
+        "description": "Helligkeit der Supercruise-Geschwindigkeitslinien ** (Bereich 0 bis 1) (0 = AUS)"
+      }
+    ]
+  },
+  {
+    "id": "x121",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Supercruise Dust",
+        "category": "Supercruise",
+        "description": "Supercruise Snow / Convergent white lines"
+      },
+      {
+        "key": "ru",
+        "value": "Суперкруиз Пыль",
+        "category": "Суперкруиз",
+        "description": "Суперкруиз Снег/Сходящиеся белые линии"
+      },
+      {
+        "key": "it",
+        "value": "Supercruise Dust",
+        "category": "Supercruise",
+        "description": "Supercruise Snow / Linee bianche convergenti"
+      },
+      {
+        "key": "de",
+        "value": "Supercruise Dust",
+        "category": "Supercruise",
+        "description": "Supercruise Snow / Konvergierende weiße Linien"
+      },
+      {
+        "key": "fr",
+        "value": "Supercruise Dust",
+        "category": "Supercruise",
+        "description": "Supercruise Snow / Konvergierende weiße Linien"
+      }
+    ]
+  },
+  {
+    "id": "y121",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Supercruise Dust Brightness",
+        "category": "Supercruise",
+        "description": ""
+      },
+      {
+        "key": "ru",
+        "value": "Supercruise Яркость пыли",
+        "category": "Supercruise",
+        "description": ""
+      },
+      {
+        "key": "it",
+        "value": "Luminosità della polvere da supercrociera",
+        "category": "Supercrociera",
+        "description": ""
+      },
+      {
+        "key": "de",
+        "value": "Supercruise Staubhelligkeit",
+        "category": "Supercruise",
+        "description": ""
+      },
+      {
+        "key": "fr",
+        "value": "Supercruise Staubhelligkeit",
+        "category": "Supercruise",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": "z121",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Space Dust",
+        "category": "Special Efects",
+        "description": "Space Dust (in normal flight)"
+      },
+      {
+        "key": "ru",
+        "value": "Космическая пыль",
+        "category": "Спецэффекты",
+        "description": "Космическая пыль (в обычном полете)"
+      },
+      {
+        "key": "it",
+        "value": "Polvere spaziale",
+        "category": "Effetti speciali",
+        "description": "Polvere spaziale (in volo normale)"
+      },
+      {
+        "key": "de",
+        "value": "Weltraumstaub",
+        "category": "Spezialeffekte",
+        "description": "Weltraumstaub (im Normalflug)"
+      },
+      {
+        "key": "fr",
+        "value": "Weltraumstaub",
+        "category": "Spezialeffekte",
+        "description": "Weltraumstaub (im Normalflug)"
+      }
+    ]
+  },
+  {
+    "id": "w123",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "DSS Overlay",
+        "category": "Special Efects",
+        "description": "Setting to OFF will remove the green / blue overlay while the DSS is not active"
+      },
+      {
+        "key": "ru",
+        "value": "Наложение DSS",
+        "category": "Специальные эффекты",
+        "description": "Установка в положение OFF приведет к удалению зелено-синего наложения, когда DSS не активен."
+      },
+      {
+        "key": "it",
+        "value": "Sovrapposizione DSS",
+        "category": "Effetti speciali",
+        "description": "L'impostazione su OFF rimuoverà la sovrapposizione verde/blu mentre il DSS non è attivo"
+      },
+      {
+        "key": "de",
+        "value": "DSS-Überlagerung",
+        "category": "Spezialeffekte",
+        "description": "Einstellung auf AUS entfernt die grüne/blaue Überlagerung, während DSS nicht aktiv ist"
+      },
+      {
+        "key": "fr",
+        "value": "DSS-Überlagerung",
+        "category": "Spezialeffekte",
+        "description": "Einstellung auf AUS entfernt die grüne/blaue Überlagerung, während DSS nicht aktiv ist"
+      }
+    ]
+  },
+  {
+    "id": "y112",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Dirty streaks on canopy windows",
+        "category": "Special Efects",
+        "description": "You can turn off the dirty streaks on the canopy windows if you prefer a 'cleaner' look :)"
+      },
+      {
+        "key": "ru",
+        "value": "Грязные полосы на окнах навеса",
+        "category": "Специальные эффекты",
+        "description": "Вы можете отключить грязные полосы на окнах навеса, если предпочитаете более «чистый» вид :)"
+      },
+      {
+        "key": "it",
+        "value": "Striature sporche sui finestrini del baldacchino",
+        "category": "Effetti speciali",
+        "description": "Puoi disattivare le strisce sporche sui finestrini del baldacchino se preferisci un aspetto \"più pulito\" :)"
+      },
+      {
+        "key": "de",
+        "value": "Schmutzige Streifen auf den Baldachinfenstern",
+        "category": "Spezialeffekte",
+        "description": "Du kannst die schmutzigen Streifen auf den Baldachinfenstern ausschalten, wenn du einen „saubereren“ Look bevorzugst :)"
+      },
+      {
+        "key": "fr",
+        "value": "Schmutzige Streifen auf den Baldachinfenstern",
+        "category": "Spezialeffekte",
+        "description": "Du kannst die schmutzigen Streifen auf den Baldachinfenstern ausschalten, wenn du einen „saubereren“ Look bevorzugst :)"
+      }
+    ]
+  },
+  {
+    "id": "w113",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Use XML",
+        "category": "Combat & Analysis HUD",
+        "description": "Toggle XML for CHUD & A-HUD ** [CTRL ALT X]\r\nFor technical reasons we cannot mix EDHM CHUD/A-HUD colours with XML CHUD/A-HUD colours (it causes glitches with some combinations)"
+      },
+      {
+        "key": "ru",
+        "value": "Использовать XML",
+        "category": "HUD боя и анализа",
+        "description": "Переключить XML для CHUD и A-HUD ** [CTRL ALT X]\r\nПо техническим причинам мы не можем смешивать цвета EDHM CHUD/A-HUD с цветами XML CHUD/A-HUD (это приводит к глюки с некоторыми комбинациями)"
+      },
+      {
+        "key": "it",
+        "value": "Usa XML",
+        "category": "Combat & Analysis HUD",
+        "description": "Attiva/disattiva XML per CHUD e A-HUD ** [CTRL ALT X]\r\nPer motivi tecnici non possiamo mescolare i colori EDHM CHUD/A-HUD con i colori XML CHUD/A-HUD (causa problemi con alcune combinazioni)"
+      },
+      {
+        "key": "de",
+        "value": "XML verwenden",
+        "category": "Kampf- und Analyse-HUD",
+        "description": "XML für CHUD & A-HUD umschalten ** [CTRL ALT X]\r\nAus technischen Gründen können wir EDHM-CHUD/A-HUD-Farben nicht mit XML-CHUD/A-HUD-Farben mischen (es verursacht Störungen bei einigen Kombinationen)"
+      },
+      {
+        "key": "fr",
+        "value": "XML verwenden",
+        "category": "Kampf- und Analyse-HUD",
+        "description": "XML für CHUD & A-HUD umschalten ** [CTRL ALT X]\r\nAus technischen Gründen können wir EDHM-CHUD/A-HUD-Farben nicht mit XML-CHUD/A-HUD-Farben mischen (es verursacht Störungen bei einigen Kombinationen)"
+      }
+    ]
+  },
+  {
+    "id": "x122",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Brightness",
+        "category": "Combat & Analysis HUD",
+        "description": "AHUD & CHUD Brightness"
+      },
+      {
+        "key": "ru",
+        "value": "Яркость",
+        "category": "Бой и анализ HUD",
+        "description": "Яркость AHUD и CHUD"
+      },
+      {
+        "key": "it",
+        "value": "Luminosità",
+        "category": "Combattimento e analisi HUD",
+        "description": "AHUD & CHUD Luminosità"
+      },
+      {
+        "key": "de",
+        "value": "Helligkeit",
+        "category": "Kampf & Analyse HUD",
+        "description": "AHUD & CHUD Helligkeit"
+      },
+      {
+        "key": "fr",
+        "value": "Helligkeit",
+        "category": "Kampf & Analyse HUD",
+        "description": "AHUD & CHUD Helligkeit"
+      }
+    ]
+  },
+  {
+    "id": "x105",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "CHud Color",
+        "category": "Combat HUD",
+        "description": "Cycle through CHUD colours with [CTRL]+[F2]"
+      },
+      {
+        "key": "ru",
+        "value": "Цвет CHud",
+        "category": "Combat HUD",
+        "description": "Переключение между цветами CHUD с помощью [CTRL]+[F2]"
+      },
+      {
+        "key": "it",
+        "value": "CHud Color",
+        "category": "Combat HUD",
+        "description": "Scorri i colori CHUD con [CTRL]+[F2]"
+      },
+      {
+        "key": "de",
+        "value": "CHud-Farbe",
+        "category": "Kampf-HUD",
+        "description": "Schalten Sie mit [STRG]+[F2] durch die CHUD-Farben"
+      },
+      {
+        "key": "fr",
+        "value": "CHud-Farbe",
+        "category": "Kampf-HUD",
+        "description": "Schalten Sie mit [STRG]+[F2] durch die CHUD-Farben"
+      }
+    ]
+  },
+  {
+    "id": "y105",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "CHud Mode",
+        "category": "Combat HUD",
+        "description": "[SHIFT]+[F2] to swap between modes"
+      },
+      {
+        "key": "ru",
+        "value": "CHud Mode",
+        "category": "Combat HUD",
+        "description": "[SHIFT]+[F2] для переключения между режимами"
+      },
+      {
+        "key": "it",
+        "value": "Modalità CHud",
+        "category": "Combat HUD",
+        "description": "[SHIFT]+[F2] per passare da una modalità all'altra"
+      },
+      {
+        "key": "de",
+        "value": "CHud Mode",
+        "category": "Combat HUD",
+        "description": "[SHIFT]+[F2], um zwischen den Modi zu wechseln"
+      },
+      {
+        "key": "fr",
+        "value": "CHud Mode",
+        "category": "Combat HUD",
+        "description": "[SHIFT]+[F2], um zwischen den Modi zu wechseln"
+      }
+    ]
+  },
+  {
+    "id": "y113",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "AHud Inner Lines",
+        "category": "Analysis HUD",
+        "description": "Cycle through A-HUD colours with [ALT]+[F2]."
+      },
+      {
+        "key": "ru",
+        "value": "Внутренние линии AHud",
+        "category": "Анализ HUD",
+        "description": "Переключение между цветами A-HUD с помощью [ALT]+[F2]."
+      },
+      {
+        "key": "it",
+        "value": "AHud Inner Lines",
+        "category": "Analisi HUD",
+        "description": "Scorri i colori A-HUD con [ALT]+[F2]."
+      },
+      {
+        "key": "de",
+        "value": "AHud Inner Lines",
+        "category": "Analyse-HUD",
+        "description": "Schalten Sie mit [ALT]+[F2] durch die A-HUD-Farben."
+      },
+      {
+        "key": "fr",
+        "value": "AHud Inner Lines",
+        "category": "Analyse-HUD",
+        "description": "Schalten Sie mit [ALT]+[F2] durch die A-HUD-Farben."
+      }
+    ]
+  },
+  {
+    "id": "z113",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "AHud Outer Lines",
+        "category": "Analysis HUD",
+        "description": "Cycling through colours will change both the inner lines and the outer lines together."
+      },
+      {
+        "key": "ru",
+        "value": "AHud Outer Lines",
+        "category": "Анализ HUD",
+        "description": "Циклическое переключение цветов изменит как внутренние, так и внешние линии вместе."
+      },
+      {
+        "key": "it",
+        "value": "AHud Linee esterne",
+        "category": "Analisi HUD",
+        "description": "Il ciclo dei colori cambierà sia le linee interne che le linee esterne insieme."
+      },
+      {
+        "key": "de",
+        "value": "AHud Äußere Linien",
+        "category": "Analyse-HUD",
+        "description": "Das Durchlaufen von Farben ändert sowohl die inneren Linien als auch die äußeren Linien zusammen."
+      },
+      {
+        "key": "fr",
+        "value": "AHud Äußere Linien",
+        "category": "Analyse-HUD",
+        "description": "Das Durchlaufen von Farben ändert sowohl die inneren Linien als auch die äußeren Linien zusammen."
+      }
+    ]
+  },
+  {
+    "id": "x104",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "HUD Common Group",
+        "category": "Common Group",
+        "description": "[CTRL]+[F5]. The Common Group comprises the fuel bar, indicator lights, hologram swirls, ship status bar, hull bar, and outer radar elements"
+      },
+      {
+        "key": "ru",
+        "value": "Общая группа HUD",
+        "category": "Общая группа",
+        "description": "[CTRL]+[F5]. Общая группа включает полосу топлива, световые индикаторы, завитки голограмм, полосу состояния корабля, полосу корпуса и внешние элементы радара."
+      },
+      {
+        "key": "it",
+        "value": "Gruppo comune HUD",
+        "category": "Gruppo comune",
+        "description": "[CTRL]+[F5]. Il gruppo comune comprende la barra del carburante, le spie luminose, i vortici dell'ologramma, la barra di stato della nave, la barra dello scafo e gli elementi radar esterni"
+      },
+      {
+        "key": "de",
+        "value": "Gemeinsame HUD-Gruppe",
+        "category": "Gemeinsame Gruppe",
+        "description": "[STRG]+[F5]. Die gemeinsame Gruppe umfasst die Kraftstoffleiste, Anzeigeleuchten, Hologrammstrudel, Schiffsstatusleiste, Rumpfleiste und äußere Radarelemente"
+      },
+      {
+        "key": "fr",
+        "value": "Gemeinsame HUD-Gruppe",
+        "category": "Gemeinsame Gruppe",
+        "description": "[STRG]+[F5]. Die gemeinsame Gruppe umfasst die Kraftstoffleiste, Anzeigeleuchten, Hologrammstrudel, Schiffsstatusleiste, Rumpfleiste und äußere Radarelemente"
+      }
+    ]
+  },
+  {
+    "id": "y106",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Radar Colour",
+        "category": "Radar",
+        "description": "Cycle through radar colours with [F4]"
+      },
+      {
+        "key": "ru",
+        "value": "Цвет радара",
+        "category": "Радар",
+        "description": "Переключение между цветами радара с помощью [F4]"
+      },
+      {
+        "key": "it",
+        "value": "Colore radar",
+        "category": "Radar",
+        "description": "Scorri i colori del radar con [F4]"
+      },
+      {
+        "key": "de",
+        "value": "Radarfarbe",
+        "category": "Radar",
+        "description": "Durchlaufen der Radarfarben mit [F4]"
+      },
+      {
+        "key": "fr",
+        "value": "Radarfarbe",
+        "category": "Radar",
+        "description": "Durchlaufen der Radarfarben mit [F4]"
+      }
+    ]
+  },
+  {
+    "id": "w152",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Inner Radar Brightness",
+        "category": "Radar",
+        "description": ""
+      },
+      {
+        "key": "ru",
+        "value": "Внутренняя яркость радара",
+        "category": "Радар",
+        "description": ""
+      },
+      {
+        "key": "it",
+        "value": "Luminosità radar interna",
+        "category": "Radar",
+        "description": ""
+      },
+      {
+        "key": "de",
+        "value": "Innere Radarhelligkeit",
+        "category": "Radar",
+        "description": ""
+      },
+      {
+        "key": "fr",
+        "value": "Innere Radarhelligkeit",
+        "category": "Radar",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": "x106",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Outer Radar Brightness",
+        "category": "Radar",
+        "description": ""
+      },
+      {
+        "key": "ru",
+        "value": "Яркость внешнего радара",
+        "category": "Радар",
+        "description": ""
+      },
+      {
+        "key": "it",
+        "value": "Luminosità radar esterna",
+        "category": "Radar",
+        "description": ""
+      },
+      {
+        "key": "de",
+        "value": "Äußere Radarhelligkeit",
+        "category": "Radar",
+        "description": ""
+      },
+      {
+        "key": "fr",
+        "value": "Äußere Radarhelligkeit",
+        "category": "Radar",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": "x115",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Radar White-coloured Objects",
+        "category": "Radar",
+        "description": "Turn off white-coloured objects on the radar (materials, wakes, etc). Toggle with [CTRL]+[ALT]+[W]"
+      },
+      {
+        "key": "ru",
+        "value": "Радар Объекты белого цвета",
+        "category": "Радар",
+        "description": "Отключить объекты белого цвета на радаре (материалы, следы и т. д.). Переключить с помощью [CTRL]+[ALT]+[W]"
+      },
+      {
+        "key": "it",
+        "value": "Radar Oggetti di colore bianco",
+        "category": "Radar",
+        "description": "Disattiva gli oggetti di colore bianco sul radar (materiali, scie, ecc.). Alternare con [CTRL]+[ALT]+[W]"
+      },
+      {
+        "key": "de",
+        "value": "Weiße Radarobjekte",
+        "category": "Radar",
+        "description": "Schalten Sie weiße Objekte auf dem Radar aus (Materialien, Kielwasser usw.). Umschalten mit [STRG]+[ALT]+[W]"
+      },
+      {
+        "key": "fr",
+        "value": "Weiße Radarobjekte",
+        "category": "Radar",
+        "description": "Schalten Sie weiße Objekte auf dem Radar aus (Materialien, Kielwasser usw.). Umschalten mit [STRG]+[ALT]+[W]"
+      }
+    ]
+  },
+  {
+    "id": "z105",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Shield Color",
+        "category": "Shields",
+        "description": "Cycle with [F2]"
+      },
+      {
+        "key": "ru",
+        "value": "Цвет щита",
+        "category": "Щиты",
+        "description": "Выполнить цикл нажатием [F2]"
+      },
+      {
+        "key": "it",
+        "value": "Colore scudo",
+        "category": "Scudi",
+        "description": "Cicla con [F2]"
+      },
+      {
+        "key": "de",
+        "value": "Schildfarbe",
+        "category": "Schilde",
+        "description": "Zyklus mit [F2]"
+      },
+      {
+        "key": "fr",
+        "value": "Schildfarbe",
+        "category": "Schilde",
+        "description": "Zyklus mit [F2]"
+      }
+    ]
+  },
+  {
+    "id": "x101",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Hologram Mode",
+        "category": "Own Ship Hologram",
+        "description": "Ship only, not SRV [CTRL]+[F3]"
+      },
+      {
+        "key": "ru",
+        "value": "Режим голограммы",
+        "category": "Голограмма собственного корабля",
+        "description": "Только корабль, не SRV [CTRL]+[F3]"
+      },
+      {
+        "key": "it",
+        "value": "Modalità ologramma",
+        "category": "Ologramma della propria nave",
+        "description": "Solo nave, non SRV [CTRL]+[F3]"
+      },
+      {
+        "key": "de",
+        "value": "Hologrammmodus",
+        "category": "Eigenes Schiffshologramm",
+        "description": "Nur Schiff, nicht SRV [STRG]+[F3]"
+      },
+      {
+        "key": "fr",
+        "value": "Hologrammmodus",
+        "category": "Eigenes Schiffshologramm",
+        "description": "Nur Schiff, nicht SRV [STRG]+[F3]"
+      }
+    ]
+  },
+  {
+    "id": "y101",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Holo Color",
+        "category": "Own Ship Hologram",
+        "description": "Cycle through OwnShip hologram colours with [F3]"
+      },
+      {
+        "key": "ru",
+        "value": "Цвет голограммы",
+        "category": "Голограмма собственного корабля",
+        "description": "Переключение между цветами голограммы собственного корабля с помощью [F3]"
+      },
+      {
+        "key": "it",
+        "value": "Colore ologramma",
+        "category": "Ologramma della propria nave",
+        "description": "Scorrere i colori dell'ologramma della propria nave con [F3]"
+      },
+      {
+        "key": "de",
+        "value": "Holo-Farbe",
+        "category": "Hologramm des eigenen Schiffes",
+        "description": "Mit [F3] zwischen den Hologrammfarben des eigenen Schiffes wechseln"
+      },
+      {
+        "key": "fr",
+        "value": "Holo-Farbe",
+        "category": "Hologramm des eigenen Schiffes",
+        "description": "Mit [F3] zwischen den Hologrammfarben des eigenen Schiffes wechseln"
+      }
+    ]
+  },
+  {
+    "id": "z101",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Hologram Dimmer",
+        "category": "Own Ship Hologram",
+        "description": "Each press of [ALT]+[F3] dims the hologram by 10% (1.0, 0.9, 0.8, 0.7, etc)"
+      },
+      {
+        "key": "ru",
+        "value": "Затемнение голограммы",
+        "category": "Голограмма собственного корабля",
+        "description": "Каждое нажатие [ALT]+[F3] затемняет голограмму на 10% (1,0, 0,9, 0,8, 0,7 и т. д.)"
+      },
+      {
+        "key": "it",
+        "value": "Dimmer ologramma",
+        "category": "Ologramma della propria nave",
+        "description": "Ogni pressione di [ALT]+[F3] riduce l'ologramma del 10% (1.0, 0.9, 0.8, 0.7, ecc.)"
+      },
+      {
+        "key": "de",
+        "value": "Hologramm-Dimmer",
+        "category": "Hologramm des eigenen Schiffes",
+        "description": "Jedes Drücken von [ALT]+[F3] dimmt das Hologramm um 10 % (1,0, 0,9, 0,8, 0,7 usw.)"
+      },
+      {
+        "key": "fr",
+        "value": "Hologramm-Dimmer",
+        "category": "Hologramm des eigenen Schiffes",
+        "description": "Jedes Drücken von [ALT]+[F3] dimmt das Hologramm um 10 % (1,0, 0,9, 0,8, 0,7 usw.)"
+      }
+    ]
+  },
+  {
+    "id": "z109",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Hologram Shimmer",
+        "category": "Own Ship Hologram",
+        "description": "shimmering lines on the Holo"
+      },
+      {
+        "key": "ru",
+        "value": "Мерцающая голограмма",
+        "category": "Голограмма собственного корабля",
+        "description": "мерцающие линии на голограмме"
+      },
+      {
+        "key": "it",
+        "value": "Ologramma Shimmer",
+        "category": "Ologramma della propria nave",
+        "description": "linee scintillanti sull'Holo"
+      },
+      {
+        "key": "de",
+        "value": "Hologrammschimmer",
+        "category": "Eigenes Schiffshologramm",
+        "description": "schimmernde Linien auf dem Holo"
+      },
+      {
+        "key": "fr",
+        "value": "Hologrammschimmer",
+        "category": "Eigenes Schiffshologramm",
+        "description": "schimmernde Linien auf dem Holo"
+      }
+    ]
+  },
+  {
+    "id": "x72|y72|z72",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Target Hologram Custom Color",
+        "category": "Target Ship Hologram",
+        "description": "Custom Color for Target Hologram - Neutral Colour."
+      },
+      {
+        "key": "ru",
+        "value": "Пользовательский цвет голограммы-мишени",
+        "category": "Голограмма корабля-мишени",
+        "description": "Пользовательский цвет для голограммы-мишени — нейтральный цвет."
+      },
+      {
+        "key": "it",
+        "value": "Colore personalizzato ologramma target",
+        "category": "Ologramma nave target",
+        "description": "Colore personalizzato per ologramma target - Colore neutro."
+      },
+      {
+        "key": "de",
+        "value": "Benutzerdefinierte Farbe des Ziel-Hologramms",
+        "category": "Ziel-Schiffshologramm",
+        "description": "Benutzerdefinierte Farbe für das Ziel-Hologramm - neutrale Farbe."
+      },
+      {
+        "key": "fr",
+        "value": "Benutzerdefinierte Farbe des Ziel-Hologramms",
+        "category": "Ziel-Schiffshologramm",
+        "description": "Benutzerdefinierte Farbe für das Ziel-Hologramm - neutrale Farbe."
+      }
+    ]
+  },
+  {
+    "id": "w72",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Target Hologram Brightness",
+        "category": "Target Ship Hologram",
+        "description": "Brightness for Target Hologram - Neutral Colour."
+      },
+      {
+        "key": "ru",
+        "value": "Яркость голограммы-мишени",
+        "category": "Голограмма корабля-мишени",
+        "description": "Яркость голограммы-мишени — нейтральный цвет."
+      },
+      {
+        "key": "it",
+        "value": "Luminosità ologramma bersaglio",
+        "category": "Ologramma nave bersaglio",
+        "description": "Luminosità per ologramma bersaglio - Colore neutro."
+      },
+      {
+        "key": "de",
+        "value": "Helligkeit des Zielhologramms",
+        "category": "Hologramm des Zielschiffs",
+        "description": "Helligkeit für das Zielhologramm – neutrale Farbe."
+      },
+      {
+        "key": "fr",
+        "value": "Helligkeit des Zielhologramms",
+        "category": "Hologramm des Zielschiffs",
+        "description": "Helligkeit für das Zielhologramm – neutrale Farbe."
+      }
+    ]
+  },
+  {
+    "id": "w109",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Target Hologram Shimmer",
+        "category": "Target Ship Hologram",
+        "description": "shimmering lines on the Holo"
+      },
+      {
+        "key": "ru",
+        "value": "Мерцающая голограмма-мишень",
+        "category": "Голограмма корабля-мишени",
+        "description": "мерцающие линии на голограмме"
+      },
+      {
+        "key": "it",
+        "value": "Ologramma bersaglio luccicante",
+        "category": "Ologramma della nave bersaglio",
+        "description": "linee scintillanti sull'Holo"
+      },
+      {
+        "key": "de",
+        "value": "Ziel-Hologramm-Schimmer",
+        "category": "Zielschiff-Hologramm",
+        "description": "schimmernde Linien auf dem Holo"
+      },
+      {
+        "key": "fr",
+        "value": "Ziel-Hologramm-Schimmer",
+        "category": "Zielschiff-Hologramm",
+        "description": "schimmernde Linien auf dem Holo"
+      }
+    ]
+  },
+  {
+    "id": "y108",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Power Distributor",
+        "category": "Distributor",
+        "description": "[ALT]+[F5]"
+      },
+      {
+        "key": "ru",
+        "value": "Распределитель питания",
+        "category": "Распределитель",
+        "description": "[ALT]+[F5]"
+      },
+      {
+        "key": "it",
+        "value": "Distributore di potenza",
+        "category": "Distributore",
+        "description": "[ALT]+[F5]"
+      },
+      {
+        "key": "de",
+        "value": "Stromverteiler",
+        "category": "Verteiler",
+        "description": "[ALT]+[F5]"
+      },
+      {
+        "key": "fr",
+        "value": "Stromverteiler",
+        "category": "Verteiler",
+        "description": "[ALT]+[F5]"
+      }
+    ]
+  },
+  {
+    "id": "w106",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Signature Bar Colour",
+        "category": "Signature Bar",
+        "description": "Cycle through Signature Bar colours (looks like a radio signal) colours with [SHIFT]+[F4]"
+      },
+      {
+        "key": "ru",
+        "value": "Цвет полосы подписи",
+        "category": "Полоса подписи",
+        "description": "Переключение между цветами полосы подписи (выглядит как радиосигнал) с помощью [SHIFT]+[F4]"
+      },
+      {
+        "key": "it",
+        "value": "Colore della barra della firma",
+        "category": "Barra della firma",
+        "description": "Scorri i colori della barra della firma (sembra un segnale radio) con [MAIUSC]+[F4]"
+      },
+      {
+        "key": "de",
+        "value": "Signaturleistenfarbe",
+        "category": "Signaturleiste",
+        "description": "Durchlaufen der Signaturleistenfarben (sieht aus wie ein Funksignal) mit [SHIFT]+[F4]"
+      },
+      {
+        "key": "fr",
+        "value": "Signaturleistenfarbe",
+        "category": "Signaturleiste",
+        "description": "Durchlaufen der Signaturleistenfarben (sieht aus wie ein Funksignal) mit [SHIFT]+[F4]"
+      }
+    ]
+  }
+]

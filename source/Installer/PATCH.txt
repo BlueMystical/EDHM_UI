@@ -1,4 +1,87 @@
 @everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.91 ✦✦ is now available.  
+Change Log:
+- EDHM v15.07 implemented:
+- Few fixes and improvements on the Theme Creation process.
+- When applying a theme, you now get a fading Loading screen instead of the old annoying Messagebox.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1119011315470577734
+-------------------------------------------------------
+  ✦✦  The CPM (Cockpit Paint Mod) is back on duty!!  ✦✦
+	 updated and fixed by @psychicEgg 
+	 https://discord.com/channels/773552741632180224/897503811944460388/1120820821481488515
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Azure Sky by @CMDR Fred89210 ✦ UPDATED ✦
+  ✦ Blue and White by @CMDR Fred89210 ✦ UPDATED ✦
+  ✦ Fantastic Journey by @At0m ✦ UPDATED ✦
+  ✦ Taneth Green by @Taneth ✦ UPDATED ✦
+  ✦ XQs Custom Green by @Xeno Queen ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.89 ✦✦ is now available.  
+Change Log:
+- EDHM v15.06 implemented:
+- Several new options for Shields.
+- Surface scanner probe trails can be customized.
+- Dot in the middle of the screen can be hidden in the stations.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1118262453273366649
+
+- Themes Added / Updated:
+  ✦ REDandBLUEthem by @CMDR InfernalxLegion ✦ NEW ✦
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.86 ✦✦ is now available.  
+Change Log:
+- EDHM v15.05 implemented:
+- Fix for FDev U15.02
+- Fix for some orange icons in Ship Panels & Galmap
+- Fix for OnFoot Background Galmap Panels (wrong color was applied)
+
+  ✦ Enhanced Biome Overlay is now back, thanks to @CMDR Fred89210: https://discord.com/channels/773552741632180224/897503811944460388/1115327307083694121
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1115326319429947392
+
+- Themes Added / Updated:
+  ✦ Blue and White by @CMDR Fred89210 ✦ NEW ✦
+  ✦ Cornflower Blue by @Mystler
+  ✦ EliteNautica by @Sky (Skyles)
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.85 ✦✦ is now available.  
+Change Log:
+- The user will be prompted to close the game (if it is running) whenever the mod needs to be installed or updated.
+- You can now change the location of all EDHM user files, they default to %USERPROFILE%\EDHM_UI
+- In an effort to resolve permissions issues some users are having, the UI program will now require elevated permissions to run, a Windows UAC popup will appear.
+
+- EDHM v15.04 implemented:
+- Added the Following new Customizable HUD Effects under 'Global Settings':
+  ✦ Canopy Effects - Canopy Scratches:  Hide the canopy scratches when the ship is very damaged.
+  ✦ Canopy Effects - Canopy Ice: Hide the canopy ice when the ship is very cold.
+  ✦ Canopy Effects - Canopy Condensation: Hide the canopy condensation when the ship is very hot.
+
+- Themes Added / Updated:
+  ✦ Taneth Yellow" a.k 'Taxi Cab' by @Taneth ✦ NEW ✦
+  ✦ Taneth Green by @Taneth ✦ NEW ✦
+  ✦ Cyberpunk by @Chris Joule [TRCG] (PeeCee) ✦ NEW ✦
+  ✦ Janus Core by @Evertiro
+  ✦ Janus Legacy by @Evertiro   ✦ NEW ✦
+  ✦ EliteNautica by @Sky  ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
 ✦✦ EDHM_UI v2.1.80 ✦✦ is now available.  
 Change Log:
 - Patch for FDev's U15.01
