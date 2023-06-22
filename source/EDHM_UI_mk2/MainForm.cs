@@ -751,7 +751,6 @@ namespace EDHM_UI_mk2
 
 							LoadMenus(LangShort);
 							History_LoadElements(SavesToRemember);
-							//InstallGameInstance(ActiveInstance);
 							LoadThemeList_EX();
 						}
 					}
@@ -759,6 +758,9 @@ namespace EDHM_UI_mk2
 					//Verificar si el MOD está Instalado:
 					if (!ActiveInstance.path.EmptyOrNull())
 					{
+						//Ruta de la instancia Activa, necesaria para la Des-instalacion:
+						Util.WinReg_WriteKey("EDHM", ActiveInstance.key, ActiveInstance.path);
+
 						string gamekey = Path.Combine(ActiveInstance.path, "d3dx.ini");
 						if (!File.Exists(gamekey))
 						{
