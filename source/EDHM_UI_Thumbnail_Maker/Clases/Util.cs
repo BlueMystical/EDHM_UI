@@ -115,5 +115,39 @@ namespace EDHM_UI_Thumbnail_Maker
 			SaveJpegWithCompressionSetting(image, fileName, compression);
 		}
 
+
+		/// <summary>Devuelve una cadena que contiene un número especificado de caracteres desde el lado izquierdo de una cadena.</summary>
+		/// <param name="str">Cadena de texto Original.</param>
+		/// <param name="length">Indica cuántos caracteres se van a devolver. Si es 0, se devuelve una cadena de longitud cero (""). 
+		/// Si es mayor o igual que el número de caracteres en 'text', se devuelve toda la cadena.</param>
+		public static string Left(this String text, int length)
+		{
+			if (length < 0) return "";
+			else if (length == 0 || text.Length == 0) return "";
+			else if (text.Length <= length) return text;
+			else return text.Substring(0, length);
+		}
+
+		/// <summary>Devuelve una cadena que contiene un número especificado de caracteres desde el lado derecho de una cadena.</summary>
+		/// <param name="text">Cadena de texto Original.</param>
+		/// <param name="length">Indica cuántos caracteres se van a devolver. Si es 0, se devuelve una cadena de longitud cero (""). 
+		/// Si es mayor o igual que el número de caracteres en 'text', se devuelve toda la cadena.</param>
+		public static string Right(this String text, int length)
+		{
+			if (length < 0) { return ""; }
+			else if (length == 0 || text.Length == 0) { return ""; }
+			else if (text.Length <= length) { return text; }
+			else { return text.Substring(text.Length - length, length); }
+		}
+
+		/// <summary>Devuelve una porcion de texto dentro de una cadena.</summary>
+		/// <param name="text">Cadena de texto Original.</param>
+		/// <param name="startIndex">Posicion de inicio.</param>
+		/// <param name="length">Cantidad de carácteres que se quieren extraer.</param>
+		public static string Mid(this String text, int startIndex, int length)
+		{
+			string result = text.Substring(startIndex, length);
+			return result;
+		}
 	}
 }

@@ -6,6 +6,7 @@ namespace EDHM_UI_Thumbnail_Maker
 {
 	public partial class Form1 : Form
 	{
+		private bool AutoClose = false;
 		private UserRect SelectionBox = null;   //<- Caja de Seleccion sobre la Imagen
 		private Image _LoadedImage = null;      //<- Imagen Cargada
 		public string ThemeFolder { get; set; } //<- Carpeta donde está el Thema
@@ -20,7 +21,30 @@ namespace EDHM_UI_Thumbnail_Maker
 			//Leer los argumentos pasados por linea de comandos:
 			if (args != null && args.Length > 0)
 			{
-				this.ThemeFolder = args[0];
+				/*
+					 /P:"C:\Users\Jhollman\EDHM_UI\ODYSS\Themes\@Elite Default - ORANGE"		<- /P: (con comillas) Indica el Directorio donde se crea la imagen
+					 /AC		<- 'AutoClose' Indica que esta ventana se cierre despues de guardar la imagen
+					 /AC[AutoClose] /P:"[FolderPath]"
+				*/
+
+				foreach (string Argumento in args)
+				{
+					if (Argumento.Left(3) == "/P:")
+					{
+						try
+						{
+							this.ThemeFolder = Argumento.Mid(3, Argumento.Length-3);
+						}
+						catch (Exception ex)
+						{
+							MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+					if (Argumento.Left(3) == "/AC")
+					{
+						AutoClose = true;
+					}
+				}
 			}
 		}
 
@@ -113,7 +137,7 @@ namespace EDHM_UI_Thumbnail_Maker
 					Rectangle _REC = this.SelectionBox.rect;
 
 					//2. Ajusta la Imagen a la pantalla:
-					Image _DisplayPIC = Util.ScaleImage(this.picImagen.Image, this.picImagen.Height);
+					Image _DisplayPIC =  Util.ScaleImage(this.picImagen.Image, this.picImagen.Height);
 
 					//3. Recorta el Area Seleccionada:
 					Image _ScaledImage_A = Util.CropImage(_DisplayPIC, _REC.X, _REC.Y, _REC.Width, _REC.Height);
@@ -143,6 +167,11 @@ namespace EDHM_UI_Thumbnail_Maker
 						{
 							//6. Guarda la Imagen en JPG al 100% de Calidad:
 							Util.SaveJpegWithCompression(_ScaledImage_B, SFDialog.FileName, 100);
+
+							if (AutoClose)
+							{
+								System.Windows.Forms.Application.Exit();
+							}
 						}
 					}
 				}				

@@ -48,7 +48,8 @@
 			this.picImagen.Image = global::EDHM_UI_Thumbnail_Maker.Properties.Resources.Instructions;
 			this.picImagen.Location = new System.Drawing.Point(0, 0);
 			this.picImagen.Name = "picImagen";
-			this.picImagen.Size = new System.Drawing.Size(1134, 638);
+			this.picImagen.Size = new System.Drawing.Size(1134, 616);
+			this.picImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.picImagen.TabIndex = 1;
 			this.picImagen.TabStop = false;
 			// 
@@ -129,8 +130,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
 			this.ClientSize = new System.Drawing.Size(1134, 638);
-			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.picImagen);
+			this.Controls.Add(this.statusStrip1);
 			this.ForeColor = System.Drawing.Color.White;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(1000, 39);
