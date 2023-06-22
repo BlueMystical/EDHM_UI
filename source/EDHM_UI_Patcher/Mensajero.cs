@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace EDHM_UI_mk2
+namespace EDHM_UI_Patcher
 {
 	/* MODO DE USO:
 	-------------------------------------------------------------------------------
