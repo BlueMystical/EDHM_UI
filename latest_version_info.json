@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.92.0",
-   "last_installer": "2.1.92.0",
+   "app_version": "2.1.93.0",
+   "last_installer": "2.1.93.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.15.1.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Few fixes and improvements on the Theme Creation process.\r\n- When applying a theme, you now get a fading Loading screen instead of the old annoying Messagebox.",
+   "changelog": "- Fixed an 'Index out of range' bug.\r\n- Fixed a 'generic error occurred in GDI+' bug.\r\n- Added Update Checking on 3PMods. ",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
