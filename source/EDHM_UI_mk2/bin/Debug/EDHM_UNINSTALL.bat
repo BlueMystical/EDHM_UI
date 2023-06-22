@@ -5,7 +5,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 COLOR 70
 
 SET MOD_Name=UNINSTALLER
-SET KEY_NAME="HKEY_CURRENT_USER\SOFTWARE\Elte Dangerous\Mods\EDHM"
+SET KEY_NAME="HKEY_CURRENT_USER\Software\Elte Dangerous\Mods\EDHM"
 SET VALUE_NAME=ED_Odissey
 
 TITLE EDHM %MOD_Name%
@@ -24,26 +24,28 @@ FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (`REG QUERY %KEY_NAME% /v ED_Horizon
     set ValueType=%%B
     set HORIS_PATH=%%C
 )
-IF DEFINED ODYS_PATH (
-  @echo Elite Dangerous Odissey path: 
-  @echo '%ODYS_PATH%'
-) else (
-  REM Not everyone has Odyssey, so this is ok, but still will inform it:
-  @echo ERROR 404, '%KEY_NAME%\ED_Odissey' not found.
-)
+
 IF DEFINED HORIS_PATH (
   @echo Elite Dangerous Horizons path: 
-  @echo '%HORIS_PATH%'
+  @echo "%HORIS_PATH%"
 ) else (
-  REM If Horizons path doesnt exits then we dont have nothing to do
-  @echo ERROR 404, '%KEY_NAME%\ED_Horizons' not found.
+  REM This was for Horizons Legacy (but it is no more, still here for compatibility)
+  @echo ERROR 404, '%KEY_NAME%\ED_Horizons' not found. 
+)
+
+IF DEFINED ODYS_PATH (
+  @echo Elite Dangerous Odissey path: 
+  @echo "%ODYS_PATH%"
+) else (
+  REM Horizons Live and Odyssey got merged, same thing for program
+  @echo ERROR 404, '%KEY_NAME%\ED_Odissey' not found.
   goto :thehell
 )
-ECHO -------------------------------------------------------------------
-ECHO UN-INSTALLING HORIZONS MOD..
+
 IF DEFINED HORIS_PATH (
- ECHO %HORIS_PATH%
- CD %HORIS_PATH%
+ ECHO -------------------------------------------------------------------
+ ECHO UN-INSTALLING HORIZONS MOD..
+ CD "%HORIS_PATH%"
 
  DEL "%HORIS_PATH%\d3d11.dll"
  DEL "%HORIS_PATH%\d3d11_log.txt"
@@ -70,10 +72,10 @@ IF DEFINED HORIS_PATH (
  RMDIR /s /q "%HORIS_PATH%\EDHM-ini"
  RMDIR /s /q "%HORIS_PATH%\ShaderCache"
 )
-ECHO -------------------------------------------------------------------
-ECHO UN-INSTALLING ODISSEY MOD..
 IF DEFINED ODYS_PATH (
- CD %ODYS_PATH%
+ ECHO -------------------------------------------------------------------
+ ECHO UN-INSTALLING ODISSEY MOD..
+ CD "%ODYS_PATH%"
 
  DEL "%ODYS_PATH%\d3d11.dll"
  DEL "%ODYS_PATH%\d3d11_log.txt"
@@ -147,5 +149,5 @@ ECHO  Thanks for trying our mod! Good hunting CMDR o7
 :thehell 
 ECHO -------------------------------------------------------------------
 REM IF YOU WANT TO RUN THIS BATCH MANUALLY THEN UNCOMMENT THE LINE BELOW:
-REM PAUSE
+rem PAUSE
 EXIT %ERRORLEVEL%
