@@ -1465,10 +1465,7 @@ namespace EDHM_UI_mk2
 					}
 				}
 			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
+			catch { }
 			return _ret;
 		}
 

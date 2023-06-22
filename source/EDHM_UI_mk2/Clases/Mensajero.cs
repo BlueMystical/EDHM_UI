@@ -139,7 +139,7 @@ namespace EDHM_UI_mk2
 		/// <param name="AutoCloseTime">[Opcional] Tiempo (milisegundos) que Espera antes de Cerrarse, defecto 7s. 0=NoAutoClose</param>
 		/// <param name="Location">[Opcional] Si se pasa 'Point.Empty' La Alerta se muestra en la Esquina Inferior Derecha de la Pantalla,
 		/// De lo contrario se muestra en las coordenadas indicadas. Usar 'PointToScreen' para coordenadas correctas.</param>
-		public static void ShowMessage(Form pOwner, TipoAlerta pTipoAlerta, string pTitulo, string pMensaje, bool DarkMode = false, int AutoCloseTime = 7000, Point Location = default(Point))
+		public static void ShowNotification(Form pOwner, TipoAlerta pTipoAlerta, string pTitulo, string pMensaje, bool DarkMode = false, int AutoCloseTime = 7000, Point Location = default(Point))
 		{
 			try
 			{
@@ -184,7 +184,7 @@ namespace EDHM_UI_mk2
 		/// <param name="pTitulo">Texto para el Titulo</param>
 		/// <param name="pMensaje">Texto del Mensaje</param>
 		/// <param name="DarkMode">[Opcional] Usar Tema Oscuro, Defecto = false</param>
-		public static void ShowMessage(Form pOwner, string pTitulo, string pMensaje, bool DarkMode = true)
+		public static void ShowNotification(Form pOwner, string pTitulo, string pMensaje, bool DarkMode = true)
 		{
 			int AlertaWidth = 600;
 			int AlertaHeight = 400;
@@ -193,7 +193,7 @@ namespace EDHM_UI_mk2
 			Point Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - AlertaWidth) / 2,
 									   (Screen.PrimaryScreen.WorkingArea.Height - AlertaHeight) / 2);
 
-			ShowMessage(pOwner, TipoAlerta.Exito, pTitulo, pMensaje, DarkMode);
+			ShowNotification(pOwner, TipoAlerta.Exito, pTitulo, pMensaje, DarkMode);
 		}
 
 		/* ---------------------MessageBox--------------------------------------------------------------------------------------------------------------  */
@@ -201,14 +201,14 @@ namespace EDHM_UI_mk2
 		 * Exactamente igual que un MessageBox normal 
 		 */
 
-		/// <summary>Muestra un Cuadro de Dialogo con estilo HTML.</summary>
+		/// <summary>Muestra un Dialogo MessageBox con estilo HTML.</summary>
 		/// <param name="pTitulo">Texto para el Titulo</param>
 		/// <param name="pMensaje">Texto del Mensaje</param>
 		/// <param name="pButtons">[Opcional] Boton(es) mostrados en el Mensaje. Determina el valor de Retorno.</param>
 		/// <param name="pIcon">[Opcional] Icono del Mensaje</param>
 		/// <param name="DarkMode">[Opcional] Usar Tema Oscuro, Defecto = false</param>
 		/// <param name="AutoCloseTime">[Opcional] Tiempo (milisegundos) que Espera antes de Cerrarse, defecto 20s. 0=NoAutoClose</param>
-		public static DialogResult ShowDialog(string pTitulo, string pMensaje, MessageBoxButtons pButtons = MessageBoxButtons.OK, MessageBoxIcon pIcon = MessageBoxIcon.None, bool DarkMode = false, int AutoCloseTime = 0, string Language = "en")
+		public static DialogResult ShowMessage(string pTitulo, string pMensaje, MessageBoxButtons pButtons = MessageBoxButtons.OK, MessageBoxIcon pIcon = MessageBoxIcon.None, bool DarkMode = false, int AutoCloseTime = 0, string Language = "en")
 		{
 			XtraMessageBoxArgs msgArgs = new XtraMessageBoxArgs()
 			{
@@ -237,9 +237,9 @@ namespace EDHM_UI_mk2
 		/// <param name="pMensaje">Texto del Mensaje</param>
 		/// <param name="pButtons">[Opcional] Boton(es) mostrados en el Mensaje. Determina el valor de Retorno.</param>
 		/// <param name="pIcon">[Opcional] Icono del Mensaje</param>
-		public static DialogResult ShowDialogDark(string pTitulo, string pMensaje, MessageBoxButtons pButtons = MessageBoxButtons.OK, MessageBoxIcon pIcon = MessageBoxIcon.None, string Language = "en")
+		public static DialogResult ShowMessageDark(string pTitulo, string pMensaje, MessageBoxButtons pButtons = MessageBoxButtons.OK, MessageBoxIcon pIcon = MessageBoxIcon.None, string Language = "en")
 		{
-			return ShowDialog(pTitulo, pMensaje, pButtons, pIcon, true, Language: Language);
+			return ShowMessage(pTitulo, pMensaje, pButtons, pIcon, true, Language: Language);
 		}
 
 
@@ -2004,11 +2004,11 @@ namespace EDHM_UI_mk2
 		{
 			this.DarkMode = pDarkMode;
 
-			this.WindowBackColor = DarkMode ? ColorTranslator.FromHtml("#121212") : Color.FromKnownColor(KnownColor.Window);		//<- Dark Theme Back Color, Recomendado por 'Material Design' https://m2.material.io/design/color/dark-theme.html
-			this.WindowForeColor = DarkMode ? ColorTranslator.FromHtml("#DDFFFFFF") : Color.FromKnownColor(KnownColor.WindowText);	//<- Dark Theme Text Color (Blanco al 87%), Recomendado por 'Material Design'
+			this.WindowBackColor = DarkMode ? ColorTranslator.FromHtml("#121212") : Color.White;		//<- Dark Theme Back Color, Recomendado por 'Material Design' https://m2.material.io/design/color/dark-theme.html
+			this.WindowForeColor = DarkMode ? ColorTranslator.FromHtml("#DDFFFFFF") : Color.Black;		//<- Dark Theme Text Color (Blanco al 87%), Recomendado por 'Material Design'
 
-			this.ControlBackColor = DarkMode ? ColorTranslator.FromHtml("#141414") : Color.FromKnownColor(KnownColor.Control);      //<- Un Negro un poco mas claro para los Botones
-			this.ControlForeColor = DarkMode ? Color.FromKnownColor(KnownColor.DimGray) : Color.FromKnownColor(KnownColor.ControlText);
+			this.ControlBackColor = DarkMode ? ColorTranslator.FromHtml("#141414") : Color.WhiteSmoke;      //<- Un Negro un poco mas claro para los Botones
+			this.ControlForeColor = DarkMode ? Color.FromKnownColor(KnownColor.DimGray) : Color.Black;
 		}
 		
 		public Color WindowBackColor { get; set; }

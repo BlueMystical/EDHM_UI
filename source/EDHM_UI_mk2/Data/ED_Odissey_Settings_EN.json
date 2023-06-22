@@ -1,7 +1,7 @@
 {
   "language": "en",
   "game": "ED_Odissey",
-  "version": "15.06",
+  "version": "15.07",
   "name": "ThemeTemplate",
   "author": "BlueMystic",
   "ui_groups": [
@@ -499,7 +499,6 @@
           "Type": "ONOFF",
           "Description": "Opacity Boost in SRV\r\nA booster for the SRV has been added as the grey rhombus on a planetary surface is very weak."
         }
-
       ]
     },
     {
@@ -561,7 +560,6 @@
           "Type": "ONOFF",
           "Description": "This will override ALL text with your XML colour matrix."
         },
-
         {
           "Category": "Secondary Texts",
           "Title": "Text Mode",
@@ -584,7 +582,6 @@
           "Type": "CustomColour",
           "Description": "Custom Color for Secondary Texts. *Alpha*"
         },
-
         {
           "Category": "HUD Effects",
           "Title": "Glitching HUD mode",
@@ -596,8 +593,6 @@
           "Type": "GlitchingHUDmode",
           "Description": "The HUD will sometimes glitch when taking damage, and by default is orange."
         }
-
-
       ]
     },
     {
@@ -1011,7 +1006,6 @@
           "Type": "2X",
           "Description": "Brightness for the Side Panels Main lines."
         }
-
       ]
     },
     {
@@ -1123,7 +1117,6 @@
       "Name": "SpecialFX",
       "Title": "Special Efects",
       "Elements": [
-
         {
           "Category": "Surface Scanner",
           "Title": "Probe Trail Mode",
@@ -1168,7 +1161,6 @@
           "Type": "1X",
           "Description": "Custom Probe Trail Brigthness."
         },
-
         {
           "Category": "Space FX",
           "Title": "Supercruise SideLines",
@@ -1202,7 +1194,6 @@
           "Type": "2X",
           "Description": "Brightness for Supercruise SideLines."
         },
-
         {
           "Category": "Orbital / Gravity / Exclusion zone Lines",
           "Title": "Orbital Lines Mode",
@@ -1302,7 +1293,6 @@
           "Type": "2X",
           "Description": "Brightness for Orbital Cruise Lines."
         },
-
         {
           "Category": "Galaxy Map",
           "Title": "Icons & Travel lines Mode",
@@ -1468,7 +1458,6 @@
           "Type": "GalaxyMapMode",
           "Description": "Mode for Powers and GalNet Background Colour."
         },
-
         {
           "Category": "Powers and GalNet",
           "Title": "Galnet Image Filter Colour",
@@ -1524,7 +1513,6 @@
           "Type": "PowersMode",
           "Description": "Mode for Powers Panel Portrait filter & Galnet image filter.\r\nNote: When changing modes you need to move your cursor around the screen (in-game) to update.\r\nNote: If 'True powers colours' is selected for the Powers Panel filter, the Galnet filter will use the Custom colour."
         },
-
         {
           "Category": "CQC Rank on Ship Panel",
           "Title": "CQC Rank Mode",
@@ -1580,7 +1568,6 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Rank Boxes on Ship Panel. *Alpha*"
         },
-
         {
           "Category": "Combat Zone (CZ) Panel",
           "Title": "Target Ship Subcomponents",
@@ -1603,7 +1590,6 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents. *Alpha*"
         },
-
         {
           "Category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
           "Title": "Mode",
@@ -2144,7 +2130,6 @@
           "Type": "CustomColor",
           "Description": "Outer Ring Color, Only for Multi-Shield. (Alpha)"
         },
-
         {
           "Category": "Single-Shield",
           "Title": "Shields Up",
@@ -2156,7 +2141,6 @@
           "Type": "CustomColor",
           "Description": "Shield Up Colour (relative to Shield Down colour)."
         },
-
         {
           "Category": "Single-Shield",
           "Title": "Ring Thickness",
@@ -2856,7 +2840,6 @@
           "Type": "CustomColor",
           "Description": "RED Squares, Lines, and Coasters in both flight modes.\r\n* Alpha"
         },
-
         {
           "Category": "Radar Objects",
           "Title": "Squares Overall Brightness",
@@ -2890,7 +2873,6 @@
           "Type": "2X",
           "Description": "Radar Object Coaster Overall Brightness"
         },
-
         {
           "Category": "Radar Objects",
           "Title": "Radar - Asteroids",
@@ -2935,7 +2917,6 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Terrain While landing on a planet."
         },
-
         {
           "Category": "Heat Bar and Speed Bar",
           "Title": "Color Mode",
@@ -2969,7 +2950,6 @@
           "Type": "2X",
           "Description": "Brightness for Heat Bar and Speed Bar"
         },
-
         {
           "Category": "Optimal Speed Bar",
           "Title": "Custom Color",
@@ -2992,7 +2972,6 @@
           "Type": "2X",
           "Description": "Overall Brightness (of all Outer Radar Components)"
         },
-
         {
           "Category": "SRV Scanner",
           "Title": "SRV Scanner",
@@ -3004,7 +2983,6 @@
           "Type": "AdvancedMode",
           "Description": "SRV Scanner Colour"
         },
-
         {
           "Category": "SRV Scanner",
           "Title": "SRV Scanner - Primary Colour",
@@ -3934,7 +3912,6 @@
     }
   ],
   "Presets": [
-
     {
       "Type": "ProbeTrailMode",
       "Name": "Elite Default",
@@ -3955,7 +3932,6 @@
       "Name": "XML (User Defined)",
       "Index": 199.0
     },
-
     {
       "Type": "ProbeVariationMode",
       "Name": "Elite Default",
@@ -3966,7 +3942,6 @@
       "Name": "Reduced Color Variations",
       "Index": 1.0
     },
-
     {
       "Type": "ShieldDepletedMode",
       "Name": "Invisible",
@@ -3987,7 +3962,6 @@
       "Name": "Elite Default",
       "Index": 200.0
     },
-
     {
       "Type": "GlitchingHUDmode",
       "Name": "Default ELite",
@@ -3998,7 +3972,6 @@
       "Name": "Random colours",
       "Index": 1.0
     },
-
     {
       "Type": "AmbientLightingMode",
       "Name": "Extended Lighting (Elite Default)",
@@ -4009,7 +3982,6 @@
       "Name": "Old style (Primary Colour less dominant)",
       "Index": 1.0
     },
-
     {
       "Type": "RankBoxesMode",
       "Name": "Custom CQC rank box only",
@@ -4025,7 +3997,6 @@
       "Name": "Standard (Orange becomes XML)",
       "Index": 200.0
     },
-
     {
       "Type": "AdvancedMode",
       "Name": "Custom Color",
@@ -4356,7 +4327,6 @@
       "Name": "Elite Default",
       "Index": 200.0
     },
-
     {
       "Type": "ShieldColor",
       "Name": "Custom Multi-Color",
@@ -4377,7 +4347,6 @@
       "Name": "Elite default",
       "Index": 200.0
     },
-
     {
       "Type": "ShieldsDown",
       "Name": "Red - Default Elite",
@@ -4478,7 +4447,6 @@
       "Name": "MultiColour Mode",
       "Index": 2.0
     },
-
     {
       "Type": "HullGaugeMode",
       "Name": "Custom Color",

@@ -54,7 +54,7 @@ namespace EDHM_UI_mk2
 			this.RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
 
 			this.WatchMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "WatchMe").NVL("true"));
-			this.GreetMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "GreetMe").NVL("true"));
+			this.GreetMe = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "GreetMe").NVL("false"));
 			this.HideToTray = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "HideToTray").NVL("false"));
 			this.SavesToRemember = Convert.ToInt32(Util.WinReg_ReadKey("EDHM", "SavesToRemember").NVL("10"));
 			this.AutoApplyTheme = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "AutoApplyTheme").NVL("false"));
@@ -236,8 +236,8 @@ namespace EDHM_UI_mk2
 							{
 								case "elite-dangerous-64":			_Game.name = "Horizons (Legacy)";	_Game.key = "ED_Horizons"; break;   //<- Horizons 3.8
 								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (Live)";		_Game.key = "ED_Odissey"; break;    //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey & Horizons";	_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 and Horizons 4.0
-								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey (Live)";		_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 alt
+								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey & Horizons (Live)";	_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 and Horizons 4.0
+								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey & Horizons (Live)";	_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 alt
 								default:							_Game.name = "Odyssey (Live)";		_Game.key = "ED_Odissey"; break;   
 							}
 

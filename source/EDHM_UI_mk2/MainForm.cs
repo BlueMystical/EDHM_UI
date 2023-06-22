@@ -45,10 +45,29 @@ namespace EDHM_UI_mk2
 
 		#endregion
 
-		#region Declaraciones Privadas
+		#region Declaraciones Win32 API
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr SetActiveWindow(IntPtr hWnd);
 
 		[DllImport("User32.dll")]
 		private static extern int SetForegroundWindow(IntPtr point);
+
+		[DllImport("user32.dll", EntryPoint = "FindWindowEx")]
+		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+		[DllImport("user32.dll")]
+		public static extern int SendMessage(IntPtr hWnd, int Msg, uint wParam, uint lParam);
+
+		//Constantes para el envio de Teclas:
+		private const UInt32 WM_SYSKEYDOWN = 0x0104;
+		private const UInt32 WM_SYSKEYUP = 0x0105;
+		private const UInt32 WM_KEYDOWN = 0x0100;
+		private const UInt32 WM_KEYUP = 0x0101;
+
+		#endregion
+
+		#region Declaraciones Privadas
 
 		private PreviewForm PreviewForm = null;
 		private PreviewOdysseyForm PreviewFormODY = null;
@@ -86,7 +105,8 @@ namespace EDHM_UI_mk2
 		/// <summary>Folder where all Themes and User's preferences get saved.</summary>
 		private string UI_DOCUMENTS = @"%USERPROFILE%\EDHM_UI"; //<- Moved from %MyDocuments%\Elite Dangerous\EDHM_UI
 
-		private event EventHandler OnThemeApply;//<- Ocurre al Aplicar un tema
+		private event EventHandler OnThemeApply; //<- Ocurre al Aplicar un tema
+		private event EventHandler OnRowIsFound; //<- Ocurre al encontrar una fila buscada
 
 		private List<ui_preset_new> UI_Themes = null;
 		private ui_setting Settings = new ui_setting();
@@ -250,11 +270,10 @@ namespace EDHM_UI_mk2
 			#region Seleccionar la Instancia Activa
 
 			ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
-			if (ActiveInstance == null)
+
+			if (ActiveInstance == null && GameInstancesEx != null)
 			{
-				ActiveInstance = (GameInstancesEx[0].games[1].key == "ED_Odissey") ?
-					GameInstancesEx[0].games[1] :
-					GameInstancesEx[0].games[0];
+				ActiveInstance = GameInstancesEx[0].games.Find(x => x.key == "ED_Odissey");
 
 				_RegActiveInstance = ActiveInstance.instance;
 				Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
@@ -636,7 +655,7 @@ namespace EDHM_UI_mk2
 
 		/// <summary>Obtiene la ruta donde se guardan los Temas y datos del usuario.</summary>
 		/// <param name="MakeDir">[Opcional] Si la carpeta no existe, la crea.</param>
-		public string GetUIDocumentsDir(bool MakeDir = true)
+		public string GetUIDocumentsDir(bool MakeDir = true)	
 		{
 			string _ret = @"%USERPROFILE%\EDHM_UI";
 			try
@@ -923,20 +942,9 @@ namespace EDHM_UI_mk2
 					{
 						foreach (var _Game in _Instance.games)
 						{
-							if (_Game.path.Contains("steamapps"))
-							{
-								_Instance.instance = "Steam";
-							}
-
-							if (_Game.path.Contains("Epic Games"))
-							{
-								_Instance.instance = "Epic Games";
-							}
-
-							if (_Game.path.Contains("Frontier"))
-							{
-								_Instance.instance = "Frontier";
-							}
+							if (_Game.path.Contains("steamapps")) _Instance.instance = "Steam";
+							if (_Game.path.Contains("Epic Games")) _Instance.instance = "Epic Games";
+							if (_Game.path.Contains("Frontier")) _Instance.instance = "Frontier";
 
 							if (_Game.game_id.EmptyOrNull())
 							{
@@ -945,11 +953,11 @@ namespace EDHM_UI_mk2
 
 							switch (Path.GetFileNameWithoutExtension(_Game.path))
 							{
-								case "elite-dangerous-64": _Game.name = "Horizons (Legacy)"; _Game.key = "ED_Horizons"; break;       //<- Horizons 3.8
-								case "FORC-FDEV-DO-38-IN-40": _Game.name = "Horizons (Live)"; _Game.key = "ED_Odissey"; break;        //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64": _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;        //<- Odyssey 4.0
-								case "FORC-FDEV-DO-1000": _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
-								default: _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;       //<- Odyssey 4.0 alt
+								case "elite-dangerous-64":			_Game.name = "Horizons (Legacy)"; _Game.key = "ED_Horizons"; break;   //<- Horizons 3.8
+								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (Live)"; _Game.key = "ED_Odissey"; break;    //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey & Horizons (Live)"; _Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 and Horizons 4.0
+								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey & Horizons (Live)"; _Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 alt
+								default: _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;
 							}
 
 							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
@@ -1358,13 +1366,17 @@ namespace EDHM_UI_mk2
 								//Buscar el archivo del Thumbnail:
 								if (File.Exists(Path.Combine(_theme.folder, "PREVIEW.jpg")))
 								{
-									//Carga la Imagen sin dejara 'en uso':
-									using (Stream stream = File.OpenRead(Path.Combine(_theme.folder, "PREVIEW.jpg")))
+									try
 									{
-										_theme.Preview = System.Drawing.Image.FromStream(stream);
-										_theme.HasPreview = true;
+										//Carga la Imagen sin dejara 'en uso':
+										using (Stream stream = File.OpenRead(Path.Combine(_theme.folder, "PREVIEW.jpg")))
+										{
+											_theme.Preview = System.Drawing.Image.FromStream(stream);
+											_theme.HasPreview = true;
+										}
+										_theme.Preview = Util.ResizeImage((Bitmap)_theme.Preview, 360, 71, false);
 									}
-									_theme.Preview = Util.ResizeImage((Bitmap)_theme.Preview, 360, 71, false);
+									catch { }									
 								}
 								else
 								{
@@ -1438,6 +1450,9 @@ namespace EDHM_UI_mk2
 			finally { Cursor = Cursors.Default; }
 		}
 
+		/// <summary>Carga la Plantilla (con valores x defecto) sobre la cual se aplica el tema seleccionado.</summary>
+		/// <param name="pGameInstance">Instancia del juego</param>
+		/// <param name="pLang">[deprecated]</param>
 		private ui_setting Load_DefaultTheme(game_instance pGameInstance, string pLang = "en")
 		{
 			ui_setting _ret = null;
@@ -1954,9 +1969,10 @@ namespace EDHM_UI_mk2
 		}
 
 		//*** AQUI SE CARGAN LAS PROPIEDADES MOSTRADAS
-		private void LoadGroupSettings(string pUIGroupName, string SelectRowName = "")
+		private BaseRow LoadGroupSettings(string pUIGroupName, string FindRowKey = "")
 		{
 			/* AQUI CARGAMOS TODOS LOS ELEMENTOS DEL GRUPO INDICADO Y LOS MOSTRAMOS EN LA VENTANA DE PROPIEDADES  */
+			BaseRow _ret = null;
 			try
 			{
 				if (Settings != null && Settings.ui_groups.IsNotEmpty())
@@ -2383,11 +2399,13 @@ namespace EDHM_UI_mk2
 										}));
 									}
 
-									if (_Fila != null && _Element.Title == SelectRowName)
+									if (_Fila != null && _Element.Key == FindRowKey)
 									{
+										_ret = _Fila;										
 										Invoke((MethodInvoker)(() =>
 										{
 											vGridDetalles.FocusedRow = _Fila;
+											OnRowIsFound(_Fila, null);
 										}));
 									}
 
@@ -2428,6 +2446,7 @@ namespace EDHM_UI_mk2
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+			return _ret;
 		}
 
 
@@ -2472,133 +2491,16 @@ namespace EDHM_UI_mk2
 
 		private string CreateNewTheme()
 		{
-			string _ret = string.Empty;
-			try
-			{
-				if (XtraMessageBox.Show("This will Create a New Profile using the Current Settings, would you like to Continue?",
-					"Create New Profile?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-				{
-					Cursor = Cursors.WaitCursor;
-					if (SelectedTheme.name == "Current Settings")
-					{
-						SelectedTheme.name = "MyTheme";
-					}
-
-					ThemeParametersForm _Form = new ThemeParametersForm
-					{
-						ThisIsAMod = false,
-						ModName = SelectedTheme.name,
-						ThemeName = SelectedTheme.name,
-						Author = SelectedTheme.author,
-						Description = SelectedTheme.description,
-						Thumbnail = SelectedTheme.Preview
-					};
-					if (_Form.ShowDialog() == DialogResult.OK)
-					{
-						SelectedTheme.name = _Form.ThemeName;
-						SelectedTheme.author = _Form.Author;
-						SelectedTheme.description = _Form.Description;
-						SelectedTheme.Preview = _Form.Thumbnail;
-
-						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
-						string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-						string NewProfileFolder = Path.Combine(UI_DOCUMENTS, GameVersion, "Themes", SelectedTheme.name);
-						SelectedTheme.folder = NewProfileFolder;
-
-						//Agregar el Identificador del Autor:
-						theme_details ThemeDetails = new theme_details
-						{
-							author = SelectedTheme.author,
-							theme = SelectedTheme.name,
-							description = SelectedTheme.description.NVL(string.Format("** THIS THEME WAS MADE BY {0} **", _Form.Author.ToUpper())),
-							preview = _Form.PreviewURL // string.Empty
-						};
-
-						//1. Crear la Carpeta para el Nuevo Perfil, si ya Existe, se Sobreescribe:
-						var _ProfileDir = System.IO.Directory.CreateDirectory(NewProfileFolder);
-						if (_ProfileDir != null)
-						{
-							//Cuando se termina de Aplicar el tema se produce este evento:
-							OnThemeApply += (object _Sender, EventArgs _E) =>
-							{
-								//Copiar los Archivos del Tema Actual: // existing files will be overwritten
-
-								foreach (FileInfo f in new DirectoryInfo(NewProfileFolder).GetFiles("*.credits")) { f.Delete(); }								
-								Util.Serialize_ToJSON(Path.Combine(NewProfileFolder, string.Format("{0}.credits", _Form.Author)), ThemeDetails);
-
-								File.Copy(Path.Combine(GameFolder, @"Startup-Profile.ini"),
-									Path.Combine(NewProfileFolder, @"Startup-Profile.ini"), true);
-
-								File.Copy(Path.Combine(GameFolder, "XML-Profile.ini"),
-									Path.Combine(NewProfileFolder, @"XML-Profile.ini"), true);
-
-								if (ActiveInstance.key == "ED_Odissey")
-								{
-									if (File.Exists(Path.Combine(GameFolder, @"Advanced.ini")))
-									{
-										File.Copy(Path.Combine(GameFolder, @"Advanced.ini"),
-										Path.Combine(NewProfileFolder, @"Advanced.ini"), true);
-									}
-									if (File.Exists(Path.Combine(GameFolder, @"SuitHud.ini")))
-									{
-										File.Copy(Path.Combine(GameFolder, @"SuitHud.ini"),
-										Path.Combine(NewProfileFolder, @"SuitHud.ini"), true);
-									}
-								}
-
-								// Agregar una Imagen de Thumbnail :
-								if (SelectedTheme.Preview != null)
-								{
-									//Save the Image as JPG:
-									SelectedTheme.Preview.Save(Path.Combine(NewProfileFolder, "PREVIEW.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
-								}
-
-								LoadThemeList_EX();
-								_ret = NewProfileFolder; //<- Devuelve la Ruta del Nuevo tema
-
-								//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:
-								XtraMessageBoxArgs args = new XtraMessageBoxArgs()
-								{
-									Caption = "Done",
-									Text = string.Format("The theme '{0}' has successfully been Created.", SelectedTheme.name),
-									Buttons = new DialogResult[] { DialogResult.OK }
-								};
-								args.AutoCloseOptions.Delay = 3000;
-								args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-								XtraMessageBox.Show(args).ToString();
-
-								Invoke((MethodInvoker)(() =>
-								{
-									int rowHandle = gridView1.LocateByValue("name", ThemeDetails.theme);
-									if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
-									{
-										gridView1.FocusedRowHandle = rowHandle;
-										dockManager1.ActivePanel = dockThemes;
-									}
-								}));
-							};
-							ApplyTheme(false, true); //<- Aplica los cambios Actuales  
-
-							
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-			finally { Cursor = Cursors.Default; }
-			return _ret;
+			return CreateNewThemeSync();
 		}
 		private string CreateNewThemeSync()
 		{
 			string _ret = string.Empty;
 			try
 			{
-				if (XtraMessageBox.Show("This will Create a New Profile using the Current Settings, would you like to Continue?",
-					"Create New Profile?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				if (Mensajero.ShowMessage("Create New Theme?",
+					string.Format("This will Create a New Theme using the [{0}] as base.\r\nWould you like to Continue?)", SelectedTheme.name),
+					pIcon: MessageBoxIcon.Question, DarkMode: true, pButtons: MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					Cursor = Cursors.WaitCursor;
 					if (SelectedTheme.name == "Current Settings")
@@ -2625,7 +2527,6 @@ namespace EDHM_UI_mk2
 						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
 						string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 						string NewProfileFolder = Path.Combine(UI_DOCUMENTS, GameVersion, "Themes", SelectedTheme.name);
-
 						SelectedTheme.folder = NewProfileFolder;
 						_ret = NewProfileFolder; //<- Devuelve la Ruta del Nuevo tema
 
@@ -2634,18 +2535,22 @@ namespace EDHM_UI_mk2
 						{
 							author = SelectedTheme.author,
 							theme = SelectedTheme.name,
-							description = string.Format("** THIS THEME WAS MADE BY {0} **", _Form.Author.ToUpper()),
-							preview = string.Empty
+							description = SelectedTheme.description.NVL(string.Format("** THIS THEME WAS MADE BY {0} **", _Form.Author.ToUpper())),
+							preview = _Form.PreviewURL
 						};
 
 						//1. Crear la Carpeta para el Nuevo Perfil, si ya Existe, se Sobreescribe:
 						var _ProfileDir = System.IO.Directory.CreateDirectory(NewProfileFolder);
 						if (_ProfileDir != null)
 						{
-							//Cuando se termina de Aplicar el tema se produce este evento:
+							//Aplica los cambios Actuales:
+							//	Cuando se termina de Aplicar el tema se produce este evento:
 							OnThemeApply += (object _Sender, EventArgs _E) =>
 							{
 								//Copiar los Archivos del Tema Actual: // existing files will be overwritten
+								string NewThemeName = SelectedTheme.name;
+
+								foreach (FileInfo f in new DirectoryInfo(NewProfileFolder).GetFiles("*.credits")) { f.Delete(); }
 								Util.Serialize_ToJSON(Path.Combine(NewProfileFolder, string.Format("{0}.credits", _Form.Author)), ThemeDetails);
 
 								File.Copy(Path.Combine(GameFolder, @"Startup-Profile.ini"),
@@ -2677,17 +2582,21 @@ namespace EDHM_UI_mk2
 
 								LoadThemeList_EX();
 								_ret = NewProfileFolder; //<- Devuelve la Ruta del Nuevo tema
+								OnThemeApply = null; //<- Reinicia el Evento
 
-								//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:
-								XtraMessageBoxArgs args = new XtraMessageBoxArgs()
+								//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:								
+								Mensajero.ShowMessage("Done!", string.Format("The theme '{0}' has successfully been Created.", NewThemeName),
+									AutoCloseTime: 3000, DarkMode: true);
+
+								Invoke((MethodInvoker)(() =>
 								{
-									Caption = "Done",
-									Text = string.Format("The theme '{0}' has successfully been Created.", SelectedTheme.name),
-									Buttons = new DialogResult[] { DialogResult.OK }
-								};
-								args.AutoCloseOptions.Delay = 3000;
-								args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-								XtraMessageBox.Show(args).ToString();
+									int rowHandle = gridView1.LocateByValue("name", NewThemeName);
+									if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+									{
+										dockManager1.ActivePanel = dockThemes;
+										gridView1.FocusedRowHandle = rowHandle;
+									}
+								}));
 							};
 							ApplyTheme(false, true); //<- Aplica los cambios Actuales  
 						}
@@ -2814,16 +2723,21 @@ namespace EDHM_UI_mk2
 				var handle = Mensajero.ShowOverlayForm(this);
 				var t = Task.Factory.StartNew(delegate
 				{
+					Thread.CurrentThread.CurrentCulture = customCulture;
 					try
-					{
-						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+					{						
 						ApplyThemeSync(SaveIt, KeepItQuiet);
 					}
 					catch (ThreadAbortException) { Thread.CurrentThread.Join(); }
-					catch (Exception) { }
+					catch (Exception ex) { Mensajero.ShowMessage(ex.Message + ex.StackTrace, "ERROR:", pIcon: MessageBoxIcon.Error ); }
 					finally
 					{
-						Invoke((MethodInvoker)(() => handle.Close()));
+						Invoke((MethodInvoker)(() =>
+						{
+							handle.Close();
+							Cursor = Cursors.Default;
+							gridControl1.Cursor = Cursors.Default;
+						}));
 					}
 				});
 			}
@@ -2832,6 +2746,11 @@ namespace EDHM_UI_mk2
 				using (var handle = Mensajero.ShowOverlayForm(this))
 				{
 					ApplyThemeSync(SaveIt, KeepItQuiet);
+					Invoke((MethodInvoker)(() =>
+					{
+						Cursor = Cursors.Default;
+						gridControl1.Cursor = Cursors.Default;
+					}));
 				}				
 			}
 		}
@@ -2888,15 +2807,7 @@ namespace EDHM_UI_mk2
 			}
 			if (AutoApplyTheme)
 			{
-				//If set and Game is running, attepms to send the F11 key to refresh the colors in game:
-				Thread.Sleep(2000); //<- Espera 3 segundos
-				Process[] targetProcess = Process.GetProcessesByName("EliteDangerous64");
-				if (targetProcess.Length > 0)
-				{
-					IntPtr h = targetProcess[0].MainWindowHandle;
-					SetForegroundWindow(h);
-					SendKeys.SendWait("{F11}");
-				}
+				SendF11toGame();
 			}
 		}
 		private void ApplyTheme_Files(bool KeepItQuiet = false)
@@ -3003,21 +2914,6 @@ namespace EDHM_UI_mk2
 						ApplyUserSettings();    //<- User Settings Overwrite the Global Settings
 
 						//if (SaveIt) SaveTheme(true);
-
-						//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:
-						/*if (KeepItQuiet == false)
-						{
-							XtraMessageBoxArgs args = new XtraMessageBoxArgs()
-							{
-								Caption = "Visual Theme Applied Succesfully!.",
-								Text = string.Format("{0} by {1}\r\n{2}", Settings.name, Settings.author, ActiveInstance.instance),
-								Buttons = new DialogResult[] { DialogResult.OK }
-							};
-							args.AutoCloseOptions.Delay = 2000;
-							args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-
-							XtraMessageBox.Show(args).ToString();
-						}*/
 					}
 					else
 					{
@@ -3041,9 +2937,45 @@ namespace EDHM_UI_mk2
 
 					if (OnThemeApply != null)
 					{
-						OnThemeApply(null, null); //<-Se ha Aplicado un Tema
+						OnThemeApply(null, null); //<- Se ha Aplicado un Tema
 					}
 				}));
+			}
+		}
+
+		private void SendF11toGame()
+		{
+			try
+			{
+				//If set and Game is running, attepms to send the F11 key to refresh the colors in game:
+				// https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.sendkeys.send?view=netframework-4.5.2
+
+				//Thread.Sleep(1500); //<- Espera 3 segundos
+				//string GameTitle = Util.AppConfig_GetValue("GameProcessID");
+
+				Process[] targetProcess = Process.GetProcessesByName("EliteDangerous64");
+				if (targetProcess.Length > 0)
+				{
+					foreach (Process proc in targetProcess)
+					{
+						Thread.Sleep(1500);
+						//SendKeys.SendWait("{F11}");
+
+						// activate the window and send F11 simulating a 'KeyDown' event;
+						ushort action = (ushort)WM_SYSKEYDOWN;
+						ushort key = (ushort)System.Windows.Forms.Keys.F11;
+						uint lparam = (0x01 << 28);
+
+						SetActiveWindow(proc.MainWindowHandle);
+						Thread.Sleep(2000);
+						SendMessage(proc.MainWindowHandle, action, key, lparam);
+						Thread.Sleep(1500);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -3213,15 +3145,8 @@ namespace EDHM_UI_mk2
 								}
 
 								//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:
-								XtraMessageBoxArgs args = new XtraMessageBoxArgs()
-								{
-									Caption = "Done",
-									Text = string.Format("The profile '{0}' has successfully been Saved.", SelectedTheme.name),
-									Buttons = new DialogResult[] { DialogResult.OK }
-								};
-								args.AutoCloseOptions.Delay = 2000;
-								args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-								XtraMessageBox.Show(args).ToString();
+								Mensajero.ShowMessage("Done!", string.Format("The '{0}' theme has successfully been Saved.", SelectedTheme.name),
+									AutoCloseTime: 3000, DarkMode: true );
 
 								SavingTheme = false;
 								OnThemeApply = null;
@@ -4108,7 +4033,7 @@ namespace EDHM_UI_mk2
 						break;
 				}
 
-				if (Mensajero.ShowDialogDark(MSG_Title, MSG_Body, 
+				if (Mensajero.ShowMessageDark(MSG_Title, MSG_Body, 
 					MessageBoxButtons.OKCancel, MessageBoxIcon.Information, Language: this.LangShort) == DialogResult.OK)
 				{
 					if (Game_Proc != null && Game_Proc.HasExited == false)
@@ -5688,7 +5613,7 @@ namespace EDHM_UI_mk2
 			{
 				if (_Element != null)
 				{
-					if (_Element.Parent == "Global Settings")
+					if (_Element.Parent.In("Global Settings"))
 					{
 						Invoke((MethodInvoker)(() =>
 						{
@@ -5704,7 +5629,9 @@ namespace EDHM_UI_mk2
 										{
 											if (Element_Row.Properties.Caption == _Element.Title)
 											{
-												vGridGlobalSettings.FocusedRow = Element_Row; break;
+												vGridGlobalSettings.FocusedRow = Element_Row;
+												vGridGlobalSettings.VertScroll(Element_Row.VisibleIndex);
+												break;
 											}
 										}
 									}
@@ -5724,10 +5651,16 @@ namespace EDHM_UI_mk2
 							}
 						}));
 					}
-					else
-					{
-						//UI Details:
-						LoadGroupSettings(_Element.Parent, _Element.Title);
+					else    //<- Group Details:
+					{						
+						this.OnRowIsFound += (object Sender, EventArgs E) =>
+						{
+							var Fila = Sender as BaseRow;
+							vGridDetalles.Focus();
+							vGridDetalles.VertScroll(Fila.VisibleIndex);
+							OnRowIsFound = null;
+						};
+						LoadGroupSettings(_Element.Parent, _Element.Key);
 					}
 				}
 			}
@@ -7186,9 +7119,26 @@ namespace EDHM_UI_mk2
 		{
 			if (SelectedTheme != null && SelectedTheme.name != "Current Settings")
 			{
-				System.Diagnostics.Process.Start(
-															Path.Combine(AppExePath, "EDHM_UI_Thumbnail_Maker.exe"),
-															"\"" + SelectedTheme.folder + "\"");
+				System.Diagnostics.Process process = new System.Diagnostics.Process();
+				process.StartInfo.FileName = "EDHM_UI_Thumbnail_Maker.exe";
+				process.StartInfo.Arguments = "/AC /P:" + "\"" + SelectedTheme.folder + "\""; //<- /AC [Autoclose] /P:"[Directorio para guardar la imagen]"
+				process.StartInfo.ErrorDialog = true;
+				process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+				process.EnableRaisingEvents = true;
+				process.Exited += (Sender, eventArgs) =>
+				{
+					if (File.Exists(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
+					{
+						//Invoke necesario xq esto ocurre en otro porceso:
+						Invoke((MethodInvoker)(() =>
+						{
+							SelectedTheme.Preview = Util.GetElementImage(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")); ; // Image.FromFile(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")); // 
+							SelectedTheme.HasPreview = true;
+							//TODO:  Refresh
+						}));
+					}
+				};
+				process.Start();
 			}
 		}
 		private void mnuTheme_Preview_ItemClick(object sender, ItemClickEventArgs e)

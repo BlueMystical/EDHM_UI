@@ -312,6 +312,12 @@ namespace EDHM_UI_mk2
 		public string author { get; set; }
 		public string description { get; set; }
 
+		/// <summary>Version of the 3PMod</summary>
+		public string version { get; set; } = "1.0.0.0";
+
+		/// <summary>URL of a JSON file having the latest version info.</summary>
+		public string update_url { get; set; } = string.Empty;
+
 		/// <summary>Configuration File (Ini or XML) that this Mod edits.</summary>
 		public string file { get; set; }
 
@@ -321,6 +327,7 @@ namespace EDHM_UI_mk2
 		/// <summary></summary>
 		public string read_me { get; set; }
 
+		/// <summary>Managed by the UI (has a JSON) or not.</summary>
 		public bool managed { get; set; }
 
 		/// <summary>INIConfig, XMLConfig</summary>
@@ -338,7 +345,8 @@ namespace EDHM_UI_mk2
 		public List<TPMod_Type> types { get; set; }
 		public List<TPMod_Type> custom_types { get; set; }
 
-		/// <summary>List of files, besides the basic ones, dependant of this mod. ejem: ShaderFixes</summary>
+		/// <summary>List of files, besides the basic ones, dependant of this mod. ejem: ShaderFixes. 
+		/// <para>Files on this list will be removed when uninstall.</para></summary>
 		public List<string> dependencies { get; set; }
 	}
 	[Serializable]
