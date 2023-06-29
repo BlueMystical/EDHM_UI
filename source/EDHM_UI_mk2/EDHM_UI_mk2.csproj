@@ -47,9 +47,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="AutoUpdater.NET">
-      <HintPath>lib\AutoUpdater.NET.dll</HintPath>
-    </Reference>
     <Reference Include="ColorManagment">
       <HintPath>lib\ColorManagment.dll</HintPath>
     </Reference>
@@ -349,6 +346,10 @@
     <ProjectReference Include="..\EDHM_UI_Patcher\EDHM_UI_Patcher.csproj">
       <Project>{a17c4b8f-96d0-4da8-bc46-7ceca0d580ab}</Project>
       <Name>EDHM_UI_Patcher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EDHM_UI_Thumbnail_Maker\EDHM_UI_Thumbnail_Maker.csproj">
+      <Project>{11206202-0cfc-4f11-974b-9c3a4fefddd5}</Project>
+      <Name>EDHM_UI_Thumbnail_Maker</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

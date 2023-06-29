@@ -1335,6 +1335,131 @@ namespace EDHM_UI_mk2
 			return _ret;
 		}
 
+		public static Image byteArrayToImage(byte[] byteArrayIn)
+		{
+			Image returnImage = null;
+			using (MemoryStream ms = new MemoryStream(byteArrayIn))
+			{
+				returnImage = Image.FromStream(ms);
+			}
+			return returnImage;
+		}
+
+		/// <summary>
+		/// Retrieves the Encoder Information for a given MimeType
+		/// </summary>
+		/// <param name="mimeType">String: Mimetype</param>
+		/// <returns>ImageCodecInfo: Mime info or null if not found</returns>
+		private static ImageCodecInfo GetEncoderInfo(String mimeType)
+		{
+			var encoders = ImageCodecInfo.GetImageEncoders();
+			return encoders.FirstOrDefault(t => t.MimeType == mimeType);
+		}
+
+		/// <summary>Save an Image as a JPeg with a given compression.
+		/// <para>Note: Filename suffix will not affect mime type which will be Jpeg.</para></summary>
+		/// <param name="image">Image: Image to save</param>
+		/// <param name="fileName">String: File name to save the image as. Note: suffix will not affect mime type which will be Jpeg.</param>
+		/// <param name="compression">Long: Value between 0 and 100. [Default=100]</param>
+		public static void SaveJpeg(Image image, string fileName, long compression = 100)
+		{
+			/* Todo esto es para prevenir el error: 'A generic error occurred in GDI+'  */
+
+			if (image is null || string.IsNullOrEmpty(fileName)) return;
+
+			var _Encoder = GetEncoderInfo("image/jpeg");
+			var _QualityParams = new EncoderParameters(1);
+				_QualityParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, compression);
+
+			try
+			{
+				using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
+				{
+					using (System.IO.FileStream fs = new System.IO.FileStream(fileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
+					{					
+						image.Save(memory, _Encoder, _QualityParams);
+
+						byte[] bytes = memory.ToArray();
+						fs.Write(bytes, 0, bytes.Length);
+					}
+				}
+			}
+			catch
+			{
+				Bitmap bitmap = new Bitmap(image.Width, image.Height, image.PixelFormat);
+				Graphics g = Graphics.FromImage(bitmap);
+						g.DrawImage(image, new Point(0, 0));
+						g.Dispose();
+				image.Dispose();
+				bitmap.Save(fileName, _Encoder, _QualityParams);
+				image = bitmap; // preserve clone        
+			}
+		}
+
+		/// <summary>Abre la Imagen indicada (si existe) sin dejarla 'en uso'.</summary>
+		/// <param name="_ImagePath">Ruta Completa al Archivo</param>
+		public static Image GetElementImage(string _ImagePath, string _DefaultImage = "")
+		{
+			//Abre una Imagen sin dejarla 'en uso':
+			Image _ret = null;
+			try
+			{
+				if (File.Exists(_ImagePath))
+				{
+					using (var s = new System.IO.FileStream(_ImagePath, System.IO.FileMode.Open))
+					{
+						_ret = Image.FromStream(s);
+					}
+				}
+				else
+				{
+					if (_DefaultImage != string.Empty && File.Exists(_DefaultImage))
+					{
+						using (var s = new System.IO.FileStream(_DefaultImage, System.IO.FileMode.Open))
+						{
+							_ret = Image.FromStream(s);
+						}
+					}
+				}
+			}
+			catch { }
+			return _ret;
+		}
+
+		/// <summary>Abre la Imagen indicada (si existe) sin dejarla 'en uso'.</summary>
+		/// <param name="_ImagePath">Ruta Completa al Archivo</param>
+		public static Bitmap GetElementBitmap(string _ImagePath, string _DefaultImage = "")
+		{
+			//Abre una Imagen sin dejarla 'en uso':
+			Image _ret = null;
+			try
+			{
+				if (File.Exists(_ImagePath))
+				{
+					_ret = Bitmap.FromFile(_ImagePath);
+					//using (var s = new System.IO.FileStream(_ImagePath, System.IO.FileMode.Open))
+					//{
+					//	_ret = Bitmap.FromStream(s);
+					//}
+				}
+				else
+				{
+					if (_DefaultImage != string.Empty && File.Exists(_DefaultImage))
+					{
+						_ret = Bitmap.FromFile(_DefaultImage);
+						//using (var s = new System.IO.FileStream(_DefaultImage, System.IO.FileMode.Open))
+						//{
+						//	_ret = Bitmap.FromStream(s);
+						//}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+			return (Bitmap)_ret;
+		}
 
 
 		/// <summary>Convierte un color RGBA (0 -> 255) a la escala indicada, por defecto 0.0 -> 1.0</summary>
@@ -1439,70 +1564,7 @@ namespace EDHM_UI_mk2
 		}
 
 
-		/// <summary>Abre la Imagen indicada (si existe) sin dejarla 'en uso'.</summary>
-		/// <param name="_ImagePath">Ruta Completa al Archivo</param>
-		public static Image GetElementImage(string _ImagePath, string _DefaultImage = "")
-		{
-			//Abre una Imagen sin dejarla 'en uso':
-			Image _ret = null;
-			try
-			{
-				if (File.Exists(_ImagePath))
-				{
-					using (var s = new System.IO.FileStream(_ImagePath, System.IO.FileMode.Open))
-					{
-						_ret = Image.FromStream(s);
-					}
-				}
-				else
-				{
-					if (_DefaultImage != string.Empty && File.Exists(_DefaultImage))
-					{
-						using (var s = new System.IO.FileStream(_DefaultImage, System.IO.FileMode.Open))
-						{
-							_ret = Image.FromStream(s);
-						}
-					}
-				}
-			}
-			catch { }
-			return _ret;
-		}
-
-		/// <summary>Abre la Imagen indicada (si existe) sin dejarla 'en uso'.</summary>
-		/// <param name="_ImagePath">Ruta Completa al Archivo</param>
-		public static Image GetElementBitmap(string _ImagePath, string _DefaultImage = "")
-		{
-			//Abre una Imagen sin dejarla 'en uso':
-			Image _ret = null;
-			try
-			{
-				if (File.Exists(_ImagePath))
-				{
-					_ret = Bitmap.FromFile(_ImagePath);
-					//using (var s = new System.IO.FileStream(_ImagePath, System.IO.FileMode.Open))
-					//{
-					//	_ret = Bitmap.FromStream(s);
-					//}
-				}
-				else
-				{
-					if (_DefaultImage != string.Empty && File.Exists(_DefaultImage))
-					{
-						_ret = Bitmap.FromFile(_DefaultImage);
-						//using (var s = new System.IO.FileStream(_DefaultImage, System.IO.FileMode.Open))
-						//{
-						//	_ret = Bitmap.FromStream(s);
-						//}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
-			return _ret;
-		}
+		
 
 		public static Bitmap ResizeImage(Bitmap originalBitmap, int newWidth, int maxHeight, bool onlyResizeIfWider)
 		{
@@ -1876,6 +1938,42 @@ namespace EDHM_UI_mk2
 					0, 0, image.Width, image.Height, GraphicsUnit.Pixel, imageAttributes);
 			}
 			return output;
+		}
+
+		public static Bitmap MakeGrayscale3(Bitmap original)
+		{
+			//create a blank bitmap the same size as original
+			Bitmap newBitmap = new Bitmap(original.Width, original.Height);
+
+			//get a graphics object from the new image
+			using (Graphics g = Graphics.FromImage(newBitmap))
+			{
+
+				//create the grayscale ColorMatrix
+				ColorMatrix colorMatrix = new ColorMatrix(
+				   new float[][]
+				   {
+					 new float[] {.3f, .3f, .3f, 0, 0},
+					 new float[] {.59f, .59f, .59f, 0, 0},
+					 new float[] {.11f, .11f, .11f, 0, 0},
+					 new float[] {0, 0, 0, 1, 0},
+					 new float[] {0, 0, 0, 0, 1}
+				   });
+
+				//create some image attributes
+				using (ImageAttributes attributes = new ImageAttributes())
+				{
+
+					//set the color matrix attribute
+					attributes.SetColorMatrix(colorMatrix);
+
+					//draw the original image on the new image
+					//using the grayscale color matrix
+					g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
+								0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
+				}
+			}
+			return newBitmap;
 		}
 
 		// Perform gamma correction on the image.

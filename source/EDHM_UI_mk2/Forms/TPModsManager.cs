@@ -3,6 +3,7 @@ using DevExpress.XtraBars.Navigation;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraVerticalGrid.Rows;
+using EDHM_UI_mk2.Clases;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -32,7 +33,9 @@ namespace EDHM_UI_mk2.Forms
 		
 		/// <summary>Folder where all Themes and User's preferences get saved.</summary>
 		private string UI_DOCUMENTS = @"%USERPROFILE%\EDHM_UI";
-		//private string UI_DOCUMENTS = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI");
+
+		/// <summary>If in this list, it wont ask to update until the next re-load.</summary>
+		List<string> NoUpdateMods = null;
 
 		#endregion
 
@@ -281,6 +284,8 @@ namespace EDHM_UI_mk2.Forms
 							lblStatus.Caption = string.Format("{0} Mods detected.", TPMods.Count);
 							SelectedThemeElement = lst3PMods.Elements[0];
 							LoadMod(TPMods[0]);
+
+							System.Threading.Tasks.Task.Factory.StartNew(() => { CheckModUpdates(); });
 						}
 						else
 						{
@@ -312,6 +317,44 @@ namespace EDHM_UI_mk2.Forms
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 						string LocalAppData = Environment.GetEnvironmentVariable("LocalAppData");
 
+						if (_Mod.update_info != null)
+						{
+							if (_Mod.update_info.is_update)
+							{
+								Invoke((MethodInvoker)(() =>
+								{
+									Mensajero.ButtonClick += (object _Sender, MensajeroEventArgs _E) => {
+										if (_E.EditValue.ToString() == "Yes")
+										{
+											DonwloadMod(_Mod.update_info.info.download_url);
+										}
+										else
+										{
+											if (NoUpdateMods == null) NoUpdateMods = new List<string>();
+											NoUpdateMods.Add(_Mod.mod_name);
+										}										
+									};
+									Mensajero.ShowFlyoutPanel(vGridDetalles, Mensajero.TipoAlerta.Info, "Update Available!",
+										string.Format("There is an Update Available for '{0}' v{1}: \r\nChange Log:\r\n{2}\r\n\r\nDo you want to Download it?",
+													_Mod.mod_name, _Mod.update_info.info.mod_version, _Mod.update_info.info.changelog), MessageBoxButtons.YesNo);
+								}));								
+							}
+							if (_Mod.update_info.not_installed)
+							{
+								Invoke((MethodInvoker)(() =>
+								{
+									Mensajero.ButtonClick += (object _Sender, MensajeroEventArgs _E) => {
+										if (_E.EditValue.ToString() == "Yes")
+										{
+											DonwloadMod(_Mod.update_info.info.download_url);
+										}
+									};
+									Mensajero.ShowFlyoutPanel(vGridDetalles, Mensajero.TipoAlerta.Advertencia, "Mod Available!",
+										string.Format("The mod '{0}' is currently NOT installed.\r\n\r\n{1}\r\n\r\nDo you want to Download it?",
+												_Mod.mod_name, _Mod.description), MessageBoxButtons.YesNo);
+								}));
+							}
+						}
 
 						#region XMLConfig
 
@@ -708,7 +751,7 @@ namespace EDHM_UI_mk2.Forms
 
 						#region INIConfig
 
-						if (_Mod.mod_type == "INIConfig")
+						if (_Mod.mod_type == "INIConfig" && !string.IsNullOrEmpty(_Mod.file))
 						{
 							/* READS THE VALUES FROM THE INI FILES */
 							ModFullPath = Path.Combine(_Mod.root_folder, _Mod.file);
@@ -1151,75 +1194,78 @@ namespace EDHM_UI_mk2.Forms
 
 						/** CHECK IF THE 3PMOD HAS THEMES AND SHOW THEM IN THE SIDE LIST  */
 						List<ui_preset_new> UI_Themes = null;
-						string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods", Path.GetFileNameWithoutExtension(_Mod.file));
-						if (Directory.Exists(ThemesFolder))
-						{
-							List<string> directories = new List<string>(Directory.GetDirectories(ThemesFolder));
-							if (directories != null && directories.Count > 0)
+						if (!string.IsNullOrEmpty(_Mod.file))
+						{							
+							string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods", Path.GetFileNameWithoutExtension(_Mod.file));
+							if (Directory.Exists(ThemesFolder))
 							{
-								UI_Themes = new List<ui_preset_new>();
-								foreach (string _Folder in directories)
+								List<string> directories = new List<string>(Directory.GetDirectories(ThemesFolder));
+								if (directories != null && directories.Count > 0)
 								{
-									//Buscar el Archivo que identifica al Autor del Tema:	
-									theme_details ThemeCredits = null;
-									string CreditsFile = new DirectoryInfo(_Folder).GetFiles("*.credits").Select(fi => fi.Name).FirstOrDefault().NVL("Unknown.credits");
-									if (!CreditsFile.EmptyOrNull())
+									UI_Themes = new List<ui_preset_new>();
+									foreach (string _Folder in directories)
 									{
-										try
+										//Buscar el Archivo que identifica al Autor del Tema:	
+										theme_details ThemeCredits = null;
+										string CreditsFile = new DirectoryInfo(_Folder).GetFiles("*.credits").Select(fi => fi.Name).FirstOrDefault().NVL("Unknown.credits");
+										if (!CreditsFile.EmptyOrNull())
 										{
-											ThemeCredits = Util.DeSerialize_FromJSON<theme_details>(Path.Combine(_Folder, CreditsFile));
+											try
+											{
+												ThemeCredits = Util.DeSerialize_FromJSON<theme_details>(Path.Combine(_Folder, CreditsFile));
+											}
+											catch { }
 										}
-										catch { }
+
+										string RootFolder = System.IO.Path.GetFileNameWithoutExtension(_Folder);
+										var Theme = new DirectoryInfo(_Folder).GetFiles("*.json");
+										if (Theme != null && Theme.Length > 0)
+										{
+											var ThemeDetails = Util.DeSerialize_FromJSON<TPMod_Config>(Theme[0].FullName);
+											ui_preset_new _theme = new ui_preset_new(Util.NVL(ThemeDetails.theme_name, RootFolder), Theme[0].FullName)
+											{
+												author = ThemeDetails.author,
+												description = ThemeDetails.description
+											};
+
+											//Buscar el archivo del Thumbnail:
+											if (File.Exists(Path.Combine(_Folder, System.IO.Path.GetFileNameWithoutExtension(ThemeDetails.file) + ".png")))
+											{
+												//Carga la Imagen sin dejara 'en uso':
+												using (Stream stream = File.OpenRead(Path.Combine(_Folder, Path.GetFileNameWithoutExtension(ThemeDetails.file) + ".png")))
+												{
+													_theme.Preview = System.Drawing.Image.FromStream(stream);
+													_theme.HasPreview = true;
+												}
+											}
+											else
+											{
+												//sI EL TEMA NO TIENE PREVIEW, USA UNA IMAGEN X DEFECTO;
+												using (Stream stream = File.OpenRead(Path.Combine(AppExePath, "Images", "PREVIEW_DEFAULT.PNG")))
+												{
+													_theme.Preview = System.Drawing.Image.FromStream(stream);
+													_theme.HasPreview = false;
+												}
+											}
+
+											//Escribe el Nombre del Mod Sobre la Imagen Thumbnail:
+											if (_theme.Preview != null)
+											{
+												Bitmap bm = new Bitmap(_theme.Preview.Width, _theme.Preview.Height);
+												using (Graphics e = Graphics.FromImage(bm))
+												{
+													e.DrawImage(_theme.Preview, new Rectangle(new Point(0, 0), new Size(_theme.Preview.Width, _theme.Preview.Height)));
+													e.DrawString(Util.NVL(_theme.name, RootFolder), new System.Drawing.Font("Tahoma", 8, FontStyle.Bold),
+															Brushes.White, 10, _theme.Preview.Height - 20);
+												}
+												_theme.Preview = bm;
+											}
+
+											UI_Themes.Add(_theme);
+										}
 									}
 
-									string RootFolder = System.IO.Path.GetFileNameWithoutExtension(_Folder);
-									var Theme = new DirectoryInfo(_Folder).GetFiles("*.json");
-									if (Theme != null && Theme.Length > 0)
-									{
-										var ThemeDetails = Util.DeSerialize_FromJSON<TPMod_Config>(Theme[0].FullName);
-										ui_preset_new _theme = new ui_preset_new(Util.NVL(ThemeDetails.theme_name, RootFolder), Theme[0].FullName)
-										{
-											author = ThemeDetails.author,
-											description = ThemeDetails.description
-										};
-
-										//Buscar el archivo del Thumbnail:
-										if (File.Exists(Path.Combine(_Folder, System.IO.Path.GetFileNameWithoutExtension(ThemeDetails.file) + ".png")))
-										{
-											//Carga la Imagen sin dejara 'en uso':
-											using (Stream stream = File.OpenRead(Path.Combine(_Folder, Path.GetFileNameWithoutExtension(ThemeDetails.file) + ".png")))
-											{
-												_theme.Preview = System.Drawing.Image.FromStream(stream);
-												_theme.HasPreview = true;
-											}
-										}
-										else
-										{
-											//sI EL TEMA NO TIENE PREVIEW, USA UNA IMAGEN X DEFECTO;
-											using (Stream stream = File.OpenRead(Path.Combine(AppExePath, "Images", "PREVIEW_DEFAULT.PNG")))
-											{
-												_theme.Preview = System.Drawing.Image.FromStream(stream);
-												_theme.HasPreview = false;
-											}
-										}
-
-										//Escribe el Nombre del Mod Sobre la Imagen Thumbnail:
-										if (_theme.Preview != null)
-										{
-											Bitmap bm = new Bitmap(_theme.Preview.Width, _theme.Preview.Height);
-											using (Graphics e = Graphics.FromImage(bm))
-											{
-												e.DrawImage(_theme.Preview, new Rectangle(new Point(0, 0), new Size(_theme.Preview.Width, _theme.Preview.Height)));
-												e.DrawString(Util.NVL(_theme.name, RootFolder), new System.Drawing.Font("Tahoma", 8, FontStyle.Bold),
-														Brushes.White, 10, _theme.Preview.Height - 20);
-											}
-											_theme.Preview = bm;
-										}
-
-										UI_Themes.Add(_theme);
-									}
 								}
-
 							}
 						}
 
@@ -1272,6 +1318,229 @@ namespace EDHM_UI_mk2.Forms
 							}
 						}));
 					});
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		private void DonwloadMod(string update_url)
+		{
+			try
+			{
+				if (!CheckingUpdates)
+				{
+					CheckingUpdates = true;
+					string file_name = System.IO.Path.GetFileName(update_url); //<- Nombre del Archivo con Extension (Sin Ruta)
+					string TempFilePath = Path.Combine(Path.GetTempPath(), "EDHM_UI", file_name); //<- %LOCALAPPDATA%\Temp\EDHM_UI\[MOD_NAME].zip
+					if (File.Exists(TempFilePath)) File.Delete(TempFilePath);
+
+					var handle = Mensajero.ShowOverlayForm(this);
+					FileDownloader FD = new FileDownloader(update_url, TempFilePath);
+					FD.OnDownload_Complete += (sender, eventArgs) =>
+					{
+						if (sender is long[] _Data)
+						{							
+							if (File.Exists(TempFilePath))
+							{
+								Invoke((MethodInvoker)(() =>
+								{
+									ImportMod(TempFilePath);
+									handle.Close();
+									CheckingUpdates = false;
+								}));
+							}
+						}
+					};
+					FD.StartDownload(); //<- Aqui se Inicia la Descarga
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		private bool CheckingUpdates = false; //<- Previene que se llame este metodo varias veces a la vez.
+		public void CheckModUpdates()
+		{
+			try
+			{
+				string update_url = Util.AppConfig_GetValue("TPModsURL");
+
+				/*  Obtiene la lista de todos los mods desde Github, revisa cuales estan instalados y busca actualizaciones */
+				if (!CheckingUpdates)
+				{
+					CheckingUpdates = true;
+					string file_name = System.IO.Path.GetFileName(update_url); //<- Nombre del Archivo con Extension (Sin Ruta)
+					string TempFilePath = Path.Combine(Path.GetTempPath(), "EDHM_UI", file_name); //<- %LOCALAPPDATA%\Temp\EDHM_UI\[MOD_NAME].json
+
+					if (File.Exists(TempFilePath)) File.Delete(TempFilePath);
+
+					FileDownloader FD = new FileDownloader(update_url, TempFilePath);
+					FD.OnDownload_Complete += (sender, eventArgs) =>
+					{
+						if (sender is long[] _Data)
+						{
+							CheckingUpdates = false;
+							if (File.Exists(TempFilePath))
+							{
+								// Obtiene la lista de todos los Mods disponibles desde el Servidor de Github:
+								List<TPMVersionInfo> ModsList = Util.DeSerialize_FromJSON<List<TPMVersionInfo>>(TempFilePath);
+								if (ModsList != null && ModsList.Count > 0)
+								{
+									bool HayActualizacion = false;
+
+									foreach (TPMVersionInfo ServerMod in ModsList)
+									{
+										if (TPMods.IsNotEmpty())
+										{
+											// Revisar que el Mod esté instalado:
+											var InstalledMod = TPMods.Find(x => x.mod_name == ServerMod.mod_name);
+											if (InstalledMod != null)
+											{
+												//Compara las Versiones Actuales con la Descargada:
+												if (!string.IsNullOrEmpty(InstalledMod.version))
+												{
+													HayActualizacion = (new Version(InstalledMod.version) < new Version(ServerMod.mod_version));
+												}
+												else
+												{
+													//El Mod instalado es viejo y no tiene informacion de Version
+													HayActualizacion = true;
+												}
+
+												//Si le dijimos que NO a la actualizacion, no vuelve a preguntar hasta el proximo re-inicio:
+												if (NoUpdateMods.IsNotEmpty())
+												{
+													string Found = NoUpdateMods.Find(x => x == ServerMod.mod_name);
+													if (!string.IsNullOrEmpty(Found))
+													{
+														HayActualizacion = false;
+													}
+												}
+
+												if (HayActualizacion)
+												{
+													Invoke((MethodInvoker)(() =>
+													{
+														InstalledMod.update_info = new TPMod_UpdateInfo(ServerMod);
+														InstalledMod.update_info.is_update = true;														
+													}));													
+												}
+											}
+											else
+											{
+												// El Mod No está Instalado
+												// Lo agregamos como fantasma
+
+												TPMod_Config _ManagedMod = new TPMod_Config
+												{
+													mod_name = ServerMod.mod_name,
+													description = ServerMod.description,
+													author = ServerMod.author,
+													version = ServerMod.mod_version,
+													update_url = ServerMod.download_url,
+													root_folder = @"C:\Temp",
+													managed = true,
+													IsRootMod = true,
+													read_me = "Mod Not Installed!"
+												};
+												_ManagedMod.update_info = new TPMod_UpdateInfo(ServerMod);
+												_ManagedMod.update_info.not_installed = true;
+
+												if (_ManagedMod != null)
+												{
+													#region Load Mod's Image
+
+													//Si Tiene una Imagen:
+													if (!string.IsNullOrEmpty(ServerMod.thumbnail_url))
+													{
+														byte[] _RawImage = FD.DownloadFile( ServerMod.thumbnail_url, 
+															Path.Combine(_ManagedMod.root_folder, _ManagedMod.mod_name + ".png"));
+
+														if (_RawImage != null && _RawImage.Length > 0)
+														{
+															_ManagedMod.Thumbnail = Util.MakeGrayscale3( (Bitmap)Util.byteArrayToImage(_RawImage) );
+														}
+														else
+														{
+															if (File.Exists(Path.Combine(AppExePath, @"Images\3PM_Default.png")))
+															{
+																//Carga la Imagen sin dejara 'en uso':
+																using (Stream stream = File.OpenRead(Path.Combine(AppExePath, @"Images\3PM_Default.png")))
+																{
+																	_ManagedMod.Thumbnail = System.Drawing.Image.FromStream(stream);
+																}
+															}
+														}
+													}												
+
+													#endregion
+
+													#region Write Mod's Name
+
+													//Escribe el Nombre del Mod Sobre la Imagen Thumbnail:
+													if (_ManagedMod.Thumbnail != null)
+													{
+														Bitmap bm = new Bitmap(_ManagedMod.Thumbnail.Width, _ManagedMod.Thumbnail.Height);
+														using (Graphics e = Graphics.FromImage(bm))
+														{
+															e.DrawImage(_ManagedMod.Thumbnail, new Rectangle(new Point(0, 0), new Size(_ManagedMod.Thumbnail.Width, _ManagedMod.Thumbnail.Height)));
+															e.DrawString(_ManagedMod.mod_name, new System.Drawing.Font("Tahoma", 9, FontStyle.Bold),
+																	Brushes.White, 10, _ManagedMod.Thumbnail.Height - 20);
+														}
+														_ManagedMod.Thumbnail = bm;
+														//TODO: Poner la imagen en escala de grises
+													}
+
+													#endregion
+
+													#region Add Mod to the List
+
+													TPMods.Add(_ManagedMod);
+
+													Invoke((MethodInvoker)(() =>
+													{
+														SuperToolTipSetupArgs args = new SuperToolTipSetupArgs();
+														args.Title.Text = string.Format("{0} ({1})", _ManagedMod.mod_name, _ManagedMod.managed ? "Managed" : "Unmanaged");
+														args.Contents.Text = string.Format("    By {0}\r\n\r\nDescription:\r\n{1}", _ManagedMod.author, _ManagedMod.description);
+														SuperToolTip sTooltip2 = new SuperToolTip();
+														sTooltip2.Setup(args);
+														
+														//Agrega el Componente Root:
+														_ManagedMod.IsRootMod = true;
+														var _ModElement = new AccordionControlElement()
+														{
+															Expanded = false,
+															Name = _ManagedMod.mod_name,
+															Text = _ManagedMod.Thumbnail != null ? "" : _ManagedMod.mod_name,
+															Style = ElementStyle.Item,
+															SuperTip = sTooltip2,
+															Tag = _ManagedMod,
+															Image = _ManagedMod.Thumbnail,
+															ImageLayoutMode = ImageLayoutMode.OriginalSize,
+														};
+														lst3PMods.Elements.Add(_ModElement);														
+
+													}));
+
+													#endregion
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							//MessageBox.Show(Ev.Error.Message + Ev.Error.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					};
+					FD.StartDownload(); //<- Aqui se Inicia la Descarga
 				}
 			}
 			catch (Exception ex)
@@ -1418,6 +1687,7 @@ namespace EDHM_UI_mk2.Forms
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
 		private void ImportMod()
 		{
 			try
@@ -1436,24 +1706,36 @@ namespace EDHM_UI_mk2.Forms
 
 				if (OFDialog.ShowDialog() == DialogResult.OK)
 				{
-					/* ZIP Estructure:					 
-					   ├── [AUTHOR_NAME].credits
-					   ├── ShaderFixes							<- [Optional]
-					   |	└── [Optional Shader Files]			
-					   ├── EDHM-ini
-					   |	└── 3rdPartyMods					<- Files can either be in the root or in a subfolder
-					   |		└── [MOD_NAME]					<- ie: 'CockpitPaintMod'
-					   |				├── [MOD_NAME].ini		
-					   |				├── [MOD_NAME].json
-					   |				├── [MOD_NAME].bat		<- [Optional]
-					   |				└── [MOD_NAME].png	
-					   |				....
-					   |				├──[SUB_MOD_NAME].ini	<- [Optional] Sub-Mods, ie: 'CPM-Anaconda', 'CPM-Courier', etc.
-					   |				├──[SUB_MOD_NAME].json
-					   |				└──[SUB_MOD_NAME].png
-					   └── Themes								<- [Optional]
+					ImportMod(OFDialog.FileName);
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
+		private void ImportMod(string ZIPfilePath)
+		{
+			try
+			{
+				/* ``` ZIP Estructure:					 
+						├── [AUTHOR_NAME].credits
+						├── ShaderFixes							<- [Optional]
+						|	└── [Optional Shader Files]			
+						├── EDHM-ini
+						|	└── 3rdPartyMods					<- Files can either be in the root or in a subfolder
+						|		└── [MOD_NAME]					<- ie: 'CockpitPaintMod'
+						|				├── [MOD_NAME].ini		
+						|				├── [MOD_NAME].json
+						|				├── [MOD_NAME].bat		<- [Optional]
+						|				└── [MOD_NAME].png	
+						|				....
+						|				├──[SUB_MOD_NAME].ini	<- [Optional] Sub-Mods, ie: 'CPM-Anaconda', 'CPM-Courier', etc.
+						|				├──[SUB_MOD_NAME].json
+						|				└──[SUB_MOD_NAME].png
+						└── Themes								<- [Optional]
 							├──	[AUTHOR_NAME].credits
-					   		├──	[MOD_NAME]						<- CPM-Anaconda
+							├──	[MOD_NAME]						<- CPM-Anaconda
 							|		├── [THEME_NAME]			<- ie: '@Elite Default'
 							|		|		├── [MOD_NAME].ini	<- CPM-Anaconda.ini
 							|		|		├── [MOD_NAME].json
@@ -1467,63 +1749,62 @@ namespace EDHM_UI_mk2.Forms
 							|				├── [MOD_NAME].ini
 							|				├── [MOD_NAME].json
 							|				└── [MOD_NAME].png
-					 */
+					```	*/
 
-					string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods");
-					string ZIP_NAME = Path.GetFileNameWithoutExtension(OFDialog.FileName);
-					string TempPath = Path.Combine(Path.GetTempPath(), "EDHM_UI", ZIP_NAME);
+				string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods");
+				string ZIP_NAME = Path.GetFileNameWithoutExtension(ZIPfilePath);
+				string TempPath = Path.Combine(Path.GetTempPath(), "EDHM_UI", ZIP_NAME);
 
-					//2. Crear una Carpeta Temporal para los Archivos del Tema:
-					if (Directory.Exists(TempPath))
+				//2. Crear una Carpeta Temporal para los Archivos del Tema:
+				if (Directory.Exists(TempPath))
+				{
+					Directory.Delete(TempPath, true);
+				}
+
+				Directory.CreateDirectory(TempPath);
+				if (Directory.Exists(TempPath))  //<- %Temp%\EDHM_UI\%ZIP_NAME%
+				{
+					Util.DoNetZIP_UnCompressFile(ZIPfilePath, TempPath);
+					Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(ZIPfilePath));
+
+					CheckPreExisting(TempPath);
+
+					//Copia los archivos del MOD:
+					if (Directory.Exists(Path.Combine(TempPath, "EDHM-ini")))
 					{
-						Directory.Delete(TempPath, true);
-					}
+						Util.CopyDirectory(
+							new DirectoryInfo(Path.Combine(TempPath, "EDHM-ini")),
+							new DirectoryInfo(Path.Combine(ActiveInstance.path, "EDHM-ini")));
 
-					Directory.CreateDirectory(TempPath);
-					if (Directory.Exists(TempPath))  //<- %Temp%\EDHM_UI\%ZIP_NAME%
-					{
-						Util.DoNetZIP_UnCompressFile(OFDialog.FileName, TempPath);
-						Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(OFDialog.FileName));
-
-						CheckPreExisting(TempPath);						
-
-						//Copia los archivos del MOD:
-						if (Directory.Exists(Path.Combine(TempPath, "EDHM-ini")))
+						if (Directory.Exists(Path.Combine(TempPath, "ShaderFixes")))
 						{
 							Util.CopyDirectory(
-								new DirectoryInfo(Path.Combine(TempPath, "EDHM-ini")),
-								new DirectoryInfo(Path.Combine(ActiveInstance.path, "EDHM-ini")));
-
-							if (Directory.Exists(Path.Combine(TempPath, "ShaderFixes")))
-							{
-								Util.CopyDirectory(
-									new DirectoryInfo(Path.Combine(TempPath, "ShaderFixes")),
-									new DirectoryInfo(Path.Combine(ActiveInstance.path, "ShaderFixes")));
-							}
-
-							if (Directory.Exists(Path.Combine(TempPath, "Themes")))
-							{
-								//Hay temas para importar
-								CopyThemeFiles(Path.Combine(TempPath, "Themes"));
-							}
-
-							XtraMessageBox.Show("Mod Imported.", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-							LoadModList();
+								new DirectoryInfo(Path.Combine(TempPath, "ShaderFixes")),
+								new DirectoryInfo(Path.Combine(ActiveInstance.path, "ShaderFixes")));
 						}
-						else
+
+						if (Directory.Exists(Path.Combine(TempPath, "Themes")))
 						{
-							MessageBox.Show("This doesn't look like a 3PMod file.\r\nIs it a theme?\r\nTry with the 'Themes' combo button.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						}						
+							//Hay temas para importar
+							CopyThemeFiles(Path.Combine(TempPath, "Themes"));
+						}
+
+						//XtraMessageBox.Show("Mod Installed.", "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						Mensajero.ShowMessage("Done!", string.Format("'{0}' Installed.", ZIP_NAME), MessageBoxButtons.OK, MessageBoxIcon.Information);
+						LoadModList();
 					}
-					
-					Cursor = Cursors.Default;
+					else
+					{
+						MessageBox.Show("This doesn't look like a 3PMod file.\r\nIs it a theme?\r\nTry with the 'Themes' combo button.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
 				}
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private bool CheckPreExisting(string TempModPath)
 		{
 			/* REVISA LA PRE-EXISTENCIA DEL MOD Y LO DES-INSTALA */
@@ -2652,7 +2933,6 @@ namespace EDHM_UI_mk2.Forms
 					{
 						if (e.Element.Tag is TPMod_Config _Mod)
 						{
-							//Util.Serialize_ToJSON(@"C:\Users\Jhollman\source\repos\myMod.json", _Mod);
 							SelectedThemeElement = e.Element;
 							LoadMod(_Mod);
 						}
@@ -2714,8 +2994,10 @@ namespace EDHM_UI_mk2.Forms
 				if (view.GetRow(e.RowHandle) is ui_preset_new _Theme)
 				{
 					//Cargar el Thema Seleccionado:
-					if (MessageBox.Show(string.Format("Do you want to Apply '{0}' Theme now?", _Theme.name),
-						"Apply Theme?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					if (Mensajero.ShowMessage("Apply Theme?", string.Format("Do you want to Apply '{0}' Theme now?", 
+						_Theme.name), MessageBoxButtons.YesNo, MessageBoxIcon.Question, true) == DialogResult.Yes)
+					//if (MessageBox.Show(string.Format("Do you want to Apply '{0}' Theme now?", _Theme.name),
+						//"Apply Theme?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
 						/*  Theme ZIP estructure:
 						├──	[AUTHOR_NAME].credits
@@ -2812,6 +3094,32 @@ namespace EDHM_UI_mk2.Forms
 						if (File.Exists(CurrentdMod.file_full))
 						{
 							System.Diagnostics.Process.Start(CurrentdMod.file_full);
+						}
+					}
+					else
+					{
+						SaveMod(CurrentdMod);
+					}
+
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
+		private void mnuOpenModFolder_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+		{
+			try
+			{
+				if (CurrentdMod != null)
+				{
+					if (CurrentdMod.managed)
+					{
+						if (File.Exists(CurrentdMod.file_full))
+						{
+							//Abrir una carpeta en el Explorador de Windows:
+							System.Diagnostics.Process.Start(System.IO.Path.GetDirectoryName(CurrentdMod.file_full));
 						}
 					}
 					else
@@ -3134,6 +3442,6 @@ namespace EDHM_UI_mk2.Forms
 
 		}
 
-
+		
 	}
 }

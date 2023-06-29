@@ -120,7 +120,7 @@
   <metadata name="defaultToolTipController1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>160, 17</value>
   </metadata>
-  <data name="toolTipItem8.Text" xml:space="preserve">
+  <data name="toolTipItem7.Text" xml:space="preserve">
     <value>Here you can add a short description for your theme.
 Please include what are the main Colors used and other information you want to share.
 

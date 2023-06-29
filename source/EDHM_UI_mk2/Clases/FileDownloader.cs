@@ -8,7 +8,7 @@ namespace EDHM_UI_mk2.Clases
 {
 	/// <summary>Clase para la Descarga Asincronica de Archivos.
 	/// Autor: Jhollman Chacon R. 2021</summary>
-	public class FileDownloader
+	public class FileDownloader : System.IDisposable
 	{
 		#region Variables Privadas
 
@@ -95,13 +95,17 @@ namespace EDHM_UI_mk2.Clases
 			catch { }
 		}
 
-		/// <summary>Metodo PAra Descarga Rapida y Silenciosa.</summary>
+		/// <summary>Metodo Para Descarga Rapida y Silenciosa.</summary>
 		/// <param name="url">Ruta completa donde Descargar el Archivo</param>
 		/// <param name="fullPathWhereToSave">Ruta Completa donde Guardar el Archivo</param>
 		/// <param name="timeoutInMilliSec">5 mins = 300k ms</param>
-		public bool DownloadFile(string url, string fullPathWhereToSave, int timeoutInMilliSec = 300000)
+		public byte[] DownloadFile(string url, string fullPathWhereToSave, int timeoutInMilliSec = 300000)
 		{
-			return new FileDownloader(url, fullPathWhereToSave).StartDownload(timeoutInMilliSec);
+			//return new FileDownloader(url, fullPathWhereToSave).StartDownload(timeoutInMilliSec);
+			using (WebClient myWebClient = new WebClient())
+			{				
+				return myWebClient.DownloadData(url);
+			};			
 		}
 
 		/// <summary>Inicia la descarga Directa, si la conexion se interrumpe se pierden los datos.</summary>
@@ -405,6 +409,11 @@ namespace EDHM_UI_mk2.Clases
 			catch { }
 		}
 
+		public void Dispose()
+		{
+			//throw new NotImplementedException();
+		}
+
 		#endregion
 	}
 
@@ -428,5 +437,24 @@ namespace EDHM_UI_mk2.Clases
 
 		public bool re_install { get; set; }
 		public bool run_hotfix { get; set; }
+	}
+
+	[Serializable]
+	public class TPMVersionInfo
+	{
+		public TPMVersionInfo() { }
+
+		public string mod_name { get; set; }
+		public string description { get; set; }
+		public string author { get; set; }
+		public string mod_version { get; set; }
+		public string download_url { get; set; }
+		public string thumbnail_url { get; set; }
+		public string changelog { get; set; }
+
+		public override string ToString()
+		{
+			return string.Format("{0} (v{1})", this.mod_name, this.mod_version);
+		}
 	}
 }

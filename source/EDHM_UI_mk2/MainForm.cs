@@ -391,7 +391,7 @@ namespace EDHM_UI_mk2
 				Load_UITips();
 				History_LoadElements(SavesToRemember);
 
-				PlayerJournal_GetPlayerInfo();
+				//PlayerJournal_GetPlayerInfo();
 				ReadPlayerJournal();
 
 				progressPanel1.Visible = false;
@@ -2505,10 +2505,7 @@ namespace EDHM_UI_mk2
 					pIcon: MessageBoxIcon.Question, DarkMode: true, pButtons: MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					Cursor = Cursors.WaitCursor;
-					if (SelectedTheme.name == "Current Settings")
-					{
-						SelectedTheme.name = "MyTheme";
-					}
+					if (SelectedTheme.name == "Current Settings") SelectedTheme.name = "MyTheme";
 
 					ThemeParametersForm _Form = new ThemeParametersForm
 					{
@@ -2517,14 +2514,30 @@ namespace EDHM_UI_mk2
 						ThemeName = SelectedTheme.name,
 						Author = SelectedTheme.author,
 						Description = SelectedTheme.description,
-						Thumbnail = SelectedTheme.Preview
+						PreviewURL = SelectedTheme.BigPreview,
+						ThemeFolder = SelectedTheme.folder,					
 					};
+					if (File.Exists(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
+					{
+						//_Form.Thumbnail = Image.FromFile(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg"));
+						//Carga la Imagen sin dejara 'en uso':
+						try
+						{
+							using (Stream stream = File.OpenRead(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
+							{
+								_Form.Thumbnail = System.Drawing.Image.FromStream(stream);
+							}
+						}
+						catch { }						
+					}
+
 					if (_Form.ShowDialog() == DialogResult.OK)
 					{
 						SelectedTheme.name = _Form.ThemeName;
 						SelectedTheme.author = _Form.Author;
 						SelectedTheme.description = _Form.Description;
 						SelectedTheme.Preview = _Form.Thumbnail;
+						SelectedTheme.BigPreview = _Form.PreviewURL;
 
 						string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
 						string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
@@ -2551,9 +2564,12 @@ namespace EDHM_UI_mk2
 							{
 								//Copiar los Archivos del Tema Actual: // existing files will be overwritten
 								string NewThemeName = SelectedTheme.name;
-
-								foreach (FileInfo f in new DirectoryInfo(NewProfileFolder).GetFiles("*.credits")) { f.Delete(); }
-								Util.Serialize_ToJSON(Path.Combine(NewProfileFolder, string.Format("{0}.credits", _Form.Author)), ThemeDetails);
+								try
+								{
+									foreach (FileInfo f in new DirectoryInfo(NewProfileFolder).GetFiles("*.credits")) { f.Delete(); }
+									Util.Serialize_ToJSON(Path.Combine(NewProfileFolder, "Theme.credits"), ThemeDetails, true);
+								}
+								catch { }								
 
 								File.Copy(Path.Combine(GameFolder, @"Startup-Profile.ini"),
 									Path.Combine(NewProfileFolder, @"Startup-Profile.ini"), true);
@@ -2576,10 +2592,11 @@ namespace EDHM_UI_mk2
 								}
 
 								// Agregar una Imagen de Thumbnail :
-								if (SelectedTheme.Preview != null)
+								if (SelectedTheme.Preview != null && !_Form.ThumbnailAdded)
 								{
 									//Save the Image as JPG:
-									SelectedTheme.Preview.Save(Path.Combine(NewProfileFolder, "PREVIEW.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
+									//SelectedTheme.Preview.Save(Path.Combine(NewProfileFolder, "PREVIEW.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
+									Util.SaveJpeg(SelectedTheme.Preview, Path.Combine(NewProfileFolder, "PREVIEW.jpg"));
 								}
 
 								LoadThemeList_EX();
@@ -3393,11 +3410,11 @@ namespace EDHM_UI_mk2
 			bool _ret = false;
 			try
 			{
-				string NewThemePath = CreateNewThemeSync();
+				//string NewThemePath = CreateNewThemeSync();
 
-				if (!NewThemePath.EmptyOrNull() && Directory.Exists(NewThemePath))
+				if (this.SelectedTheme != null)
 				{
-					string ThemeName = new DirectoryInfo(NewThemePath).Name;
+					string ThemeName = SelectedTheme.name; // new DirectoryInfo(NewThemePath).Name;
 					string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
 
 					SaveFileDialog XSFD = new SaveFileDialog()
@@ -3416,20 +3433,20 @@ namespace EDHM_UI_mk2
 					{
 						Cursor = Cursors.WaitCursor;
 
-						bool _IsFavorite = File.Exists(Path.Combine(NewThemePath, "IsFavorite.fav"));
+						bool _IsFavorite = File.Exists(Path.Combine(SelectedTheme.folder, "IsFavorite.fav"));
 						if (_IsFavorite)
 						{
 							//No queremos incluir el 'Favorito' con el tema exportado
-							File.Delete(Path.Combine(NewThemePath, "IsFavorite.fav"));
+							File.Delete(Path.Combine(SelectedTheme.folder, "IsFavorite.fav"));
 						}
 
-						Util.DoNetZIP_CompressFolder(NewThemePath, XSFD.FileName);
+						Util.DoNetZIP_CompressFolder(SelectedTheme.folder, XSFD.FileName);
 						Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(XSFD.FileName));
 
 						if (_IsFavorite)
 						{
 							//Volvemos a dejar la marca de favorito
-							Util.SaveTextFile(Path.Combine(NewThemePath, "IsFavorite.fav"),
+							Util.SaveTextFile(Path.Combine(SelectedTheme.folder, "IsFavorite.fav"),
 															"** THIS THEME IS A FAVORITE **",
 															Util.TextEncoding.UTF8);
 						}
@@ -4918,7 +4935,7 @@ namespace EDHM_UI_mk2
 													}
 												}
 
-												//PlayerJournal_SetUserInfo(data);
+												PlayerJournal_SetUserInfo(data);
 												Invoke((MethodInvoker)(() =>
 												{
 													lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), ShipIDName.NVL("Unknown"));
@@ -4993,7 +5010,7 @@ namespace EDHM_UI_mk2
 
 							// Enviar los Datos mediante POST:
 							string url_desa = @"http://localhost:3000/users/add";
-							string url_prod = @"https://edhm-ui.herokuapp.com/users/add";
+							string url_prod = @"https://careful-rose-singlet.cyclic.app/users/add";
 							string _Res = Util.WebRequest_POST(url_prod, JSONStr, "application/json");
 							Console.WriteLine(_Res);
 						}
@@ -7134,9 +7151,8 @@ namespace EDHM_UI_mk2
 						//Invoke necesario xq esto ocurre en otro porceso:
 						Invoke((MethodInvoker)(() =>
 						{
-							SelectedTheme.Preview = Util.GetElementImage(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")); ; // Image.FromFile(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")); // 
+							SelectedTheme.Preview = Util.GetElementImage(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")); ; 
 							SelectedTheme.HasPreview = true;
-							//TODO:  Refresh
 						}));
 					}
 				};
@@ -7305,8 +7321,8 @@ namespace EDHM_UI_mk2
 			{
 				System.Diagnostics.Process.Start(Path.Combine(AppExePath, @"Data\EDHM_UI_Guide.pdf"));
 			}*/
-			System.Diagnostics.Process.Start("https://edhm-ui.herokuapp.com/");
-			//Load_UITips(true);
+			System.Diagnostics.Process.Start("https://bluemystical.github.io/edhm-api/"); //https://edhm-ui.herokuapp.com/
+																						  //Load_UITips(true);
 		}
 		private void MainMenu_About_ItemClick(object sender, ItemClickEventArgs e)
 		{

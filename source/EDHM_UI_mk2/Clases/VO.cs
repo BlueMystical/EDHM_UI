@@ -1,3 +1,4 @@
+using EDHM_UI_mk2.Clases;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -345,9 +346,17 @@ namespace EDHM_UI_mk2
 		public List<TPMod_Type> types { get; set; }
 		public List<TPMod_Type> custom_types { get; set; }
 
+		/// <summary>Information about Updates.</summary>
+		[Newtonsoft.Json.JsonIgnore] public TPMod_UpdateInfo update_info { get; set; }
+
 		/// <summary>List of files, besides the basic ones, dependant of this mod. ejem: ShaderFixes. 
 		/// <para>Files on this list will be removed when uninstall.</para></summary>
 		public List<string> dependencies { get; set; }
+
+		public override string ToString()
+		{
+			return string.Format("{0} (v{1})", this.mod_name, this.version);
+		}
 	}
 	[Serializable]
 	public class TPMod_Section : ICloneable
@@ -416,6 +425,19 @@ namespace EDHM_UI_mk2
 		public string value { get; set; }
 	}
 
+	[Serializable]
+	public class TPMod_UpdateInfo
+	{
+		public TPMod_UpdateInfo() { }
+		public TPMod_UpdateInfo(TPMVersionInfo pInfo)
+		{
+			this.info = pInfo;
+		}
+
+		public TPMVersionInfo info { get; set; }
+		public bool is_update { get; set; } = false;
+		public bool not_installed { get; set; } = false;
+	}
 
 	[Serializable]
 	public class UI_Tips

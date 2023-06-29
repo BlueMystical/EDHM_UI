@@ -82,6 +82,7 @@
 			this.barSubItem3 = new DevExpress.XtraBars.BarSubItem();
 			this.cmdKeysEdit = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdKeysAddNew = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuThemes = new DevExpress.XtraBars.BarSubItem();
 			this.cmdExport = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdImportTheme = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdFindMoreMods = new DevExpress.XtraBars.BarButtonItem();
@@ -189,7 +190,7 @@
 			this.vGridDetalles = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.category = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-			this.mnuThemes = new DevExpress.XtraBars.BarSubItem();
+			this.mnuOpenModFolder = new DevExpress.XtraBars.BarButtonItem();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
 			this.hideContainerRight.SuspendLayout();
@@ -317,8 +318,9 @@
             this.barSubItem3,
             this.cmdKeysEdit,
             this.cmdKeysAddNew,
-            this.mnuThemes});
-			this.barManager1.MaxItemId = 41;
+            this.mnuThemes,
+            this.mnuOpenModFolder});
+			this.barManager1.MaxItemId = 42;
 			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemHyperLinkEdit1,
             this.cmdMoreMods_Link});
@@ -405,6 +407,7 @@
 			this.barSubItem1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenRawFile),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenJsonFile),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuOpenModFolder),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem2, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem3)});
 			this.barSubItem1.Name = "barSubItem1";
@@ -471,6 +474,16 @@
 			this.cmdKeysAddNew.Id = 39;
 			this.cmdKeysAddNew.Name = "cmdKeysAddNew";
 			this.cmdKeysAddNew.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdKeysAddNew_ItemClick);
+			// 
+			// mnuThemes
+			// 
+			this.mnuThemes.Caption = "Themes";
+			this.mnuThemes.Id = 40;
+			this.mnuThemes.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuThemes.ImageOptions.SvgImage")));
+			this.mnuThemes.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdExport, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdImportTheme, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
+			this.mnuThemes.Name = "mnuThemes";
 			// 
 			// cmdExport
 			// 
@@ -545,7 +558,7 @@
 			this.standaloneBarDockControl2.Location = new System.Drawing.Point(380, 132);
 			this.standaloneBarDockControl2.Manager = this.barManager1;
 			this.standaloneBarDockControl2.Name = "standaloneBarDockControl2";
-			this.standaloneBarDockControl2.Size = new System.Drawing.Size(335, 38);
+			this.standaloneBarDockControl2.Size = new System.Drawing.Size(335, 1);
 			this.standaloneBarDockControl2.Text = "standaloneBarDockControl2";
 			// 
 			// barDockControlTop
@@ -560,9 +573,9 @@
 			// 
 			this.barDockControlBottom.CausesValidation = false;
 			this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.barDockControlBottom.Location = new System.Drawing.Point(0, 654);
+			this.barDockControlBottom.Location = new System.Drawing.Point(0, 662);
 			this.barDockControlBottom.Manager = this.barManager1;
-			this.barDockControlBottom.Size = new System.Drawing.Size(988, 38);
+			this.barDockControlBottom.Size = new System.Drawing.Size(988, 30);
 			// 
 			// barDockControlLeft
 			// 
@@ -570,7 +583,7 @@
 			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
 			this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlLeft.Manager = this.barManager1;
-			this.barDockControlLeft.Size = new System.Drawing.Size(0, 654);
+			this.barDockControlLeft.Size = new System.Drawing.Size(0, 662);
 			// 
 			// barDockControlRight
 			// 
@@ -578,7 +591,7 @@
 			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
 			this.barDockControlRight.Location = new System.Drawing.Point(988, 0);
 			this.barDockControlRight.Manager = this.barManager1;
-			this.barDockControlRight.Size = new System.Drawing.Size(0, 654);
+			this.barDockControlRight.Size = new System.Drawing.Size(0, 662);
 			// 
 			// dockManager1
 			// 
@@ -608,12 +621,12 @@
 			// 
 			// hideContainerRight
 			// 
-			this.hideContainerRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
+			this.hideContainerRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
 			this.hideContainerRight.Controls.Add(this.dock3PM_Themes);
 			this.hideContainerRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.hideContainerRight.Location = new System.Drawing.Point(957, 0);
+			this.hideContainerRight.Location = new System.Drawing.Point(961, 0);
 			this.hideContainerRight.Name = "hideContainerRight";
-			this.hideContainerRight.Size = new System.Drawing.Size(31, 654);
+			this.hideContainerRight.Size = new System.Drawing.Size(27, 662);
 			// 
 			// dock3PM_Themes
 			// 
@@ -853,9 +866,9 @@
 			// emptySpaceItem4
 			// 
 			this.emptySpaceItem4.AllowHotTrack = false;
-			this.emptySpaceItem4.Location = new System.Drawing.Point(368, 162);
+			this.emptySpaceItem4.Location = new System.Drawing.Point(368, 125);
 			this.emptySpaceItem4.Name = "emptySpaceItem4";
-			this.emptySpaceItem4.Size = new System.Drawing.Size(339, 97);
+			this.emptySpaceItem4.Size = new System.Drawing.Size(339, 134);
 			this.emptySpaceItem4.TextSize = new System.Drawing.Size(0, 0);
 			// 
 			// layoutControlItem13
@@ -899,7 +912,7 @@
 			this.layoutControlItem17.Control = this.standaloneBarDockControl2;
 			this.layoutControlItem17.Location = new System.Drawing.Point(368, 120);
 			this.layoutControlItem17.Name = "layoutControlItem17";
-			this.layoutControlItem17.Size = new System.Drawing.Size(339, 42);
+			this.layoutControlItem17.Size = new System.Drawing.Size(339, 5);
 			this.layoutControlItem17.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem17.TextVisible = false;
 			// 
@@ -1200,9 +1213,9 @@
 			// dockPanel1_Container
 			// 
 			this.dockPanel1_Container.Controls.Add(this.layoutControl1);
-			this.dockPanel1_Container.Location = new System.Drawing.Point(8, 56);
+			this.dockPanel1_Container.Location = new System.Drawing.Point(8, 42);
 			this.dockPanel1_Container.Name = "dockPanel1_Container";
-			this.dockPanel1_Container.Size = new System.Drawing.Size(379, 616);
+			this.dockPanel1_Container.Size = new System.Drawing.Size(379, 630);
 			this.dockPanel1_Container.TabIndex = 0;
 			// 
 			// layoutControl1
@@ -1216,17 +1229,17 @@
 			this.layoutControl1.Location = new System.Drawing.Point(0, 0);
 			this.layoutControl1.Name = "layoutControl1";
 			this.layoutControl1.Root = this.Root;
-			this.layoutControl1.Size = new System.Drawing.Size(379, 616);
+			this.layoutControl1.Size = new System.Drawing.Size(379, 630);
 			this.layoutControl1.TabIndex = 0;
 			this.layoutControl1.Text = "layoutControl1";
 			// 
 			// gridSectionKeys
 			// 
-			this.gridSectionKeys.Location = new System.Drawing.Point(24, 169);
+			this.gridSectionKeys.Location = new System.Drawing.Point(24, 165);
 			this.gridSectionKeys.MainView = this.gridviewSectionKeys;
 			this.gridSectionKeys.MenuManager = this.barManager1;
 			this.gridSectionKeys.Name = "gridSectionKeys";
-			this.gridSectionKeys.Size = new System.Drawing.Size(331, 377);
+			this.gridSectionKeys.Size = new System.Drawing.Size(331, 395);
 			this.gridSectionKeys.TabIndex = 8;
 			this.gridSectionKeys.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridviewSectionKeys});
@@ -1273,7 +1286,7 @@
 			// 
 			this.DockSection_cmdApply.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
 			this.DockSection_cmdApply.Appearance.Options.UseBackColor = true;
-			this.DockSection_cmdApply.Location = new System.Drawing.Point(191, 562);
+			this.DockSection_cmdApply.Location = new System.Drawing.Point(191, 576);
 			this.DockSection_cmdApply.Name = "DockSection_cmdApply";
 			this.DockSection_cmdApply.Size = new System.Drawing.Size(176, 42);
 			this.DockSection_cmdApply.StyleController = this.layoutControl1;
@@ -1323,7 +1336,7 @@
             this.layoutControlItem16,
             this.layoutControlGroup3});
 			this.Root.Name = "Root";
-			this.Root.Size = new System.Drawing.Size(379, 616);
+			this.Root.Size = new System.Drawing.Size(379, 630);
 			this.Root.TextVisible = false;
 			// 
 			// layoutControlItem1
@@ -1347,7 +1360,7 @@
 			// layoutControlItem3
 			// 
 			this.layoutControlItem3.Control = this.DockSection_cmdApply;
-			this.layoutControlItem3.Location = new System.Drawing.Point(179, 550);
+			this.layoutControlItem3.Location = new System.Drawing.Point(179, 564);
 			this.layoutControlItem3.Name = "layoutControlItem3";
 			this.layoutControlItem3.Size = new System.Drawing.Size(180, 46);
 			this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
@@ -1356,7 +1369,7 @@
 			// emptySpaceItem2
 			// 
 			this.emptySpaceItem2.AllowHotTrack = false;
-			this.emptySpaceItem2.Location = new System.Drawing.Point(0, 550);
+			this.emptySpaceItem2.Location = new System.Drawing.Point(0, 564);
 			this.emptySpaceItem2.Name = "emptySpaceItem2";
 			this.emptySpaceItem2.Size = new System.Drawing.Size(179, 46);
 			this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
@@ -1376,7 +1389,7 @@
             this.layoutControlItem19});
 			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 120);
 			this.layoutControlGroup3.Name = "layoutControlGroup3";
-			this.layoutControlGroup3.Size = new System.Drawing.Size(359, 430);
+			this.layoutControlGroup3.Size = new System.Drawing.Size(359, 444);
 			this.layoutControlGroup3.Text = "Elements";
 			// 
 			// layoutControlItem19
@@ -1384,7 +1397,7 @@
 			this.layoutControlItem19.Control = this.gridSectionKeys;
 			this.layoutControlItem19.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlItem19.Name = "layoutControlItem19";
-			this.layoutControlItem19.Size = new System.Drawing.Size(335, 381);
+			this.layoutControlItem19.Size = new System.Drawing.Size(335, 399);
 			this.layoutControlItem19.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem19.TextVisible = false;
 			// 
@@ -1521,7 +1534,7 @@
 			// 
 			this.splitContainerControl1.Panel2.Controls.Add(this.vGridDetalles);
 			this.splitContainerControl1.Panel2.Text = "Panel2";
-			this.splitContainerControl1.Size = new System.Drawing.Size(957, 654);
+			this.splitContainerControl1.Size = new System.Drawing.Size(961, 662);
 			this.splitContainerControl1.SplitterPosition = 247;
 			this.splitContainerControl1.TabIndex = 4;
 			// 
@@ -1532,7 +1545,7 @@
             this.accordionControlElement1});
 			this.lst3PMods.Location = new System.Drawing.Point(0, 0);
 			this.lst3PMods.Name = "lst3PMods";
-			this.lst3PMods.Size = new System.Drawing.Size(247, 554);
+			this.lst3PMods.Size = new System.Drawing.Size(247, 562);
 			this.lst3PMods.TabIndex = 0;
 			this.lst3PMods.ElementClick += new DevExpress.XtraBars.Navigation.ElementClickEventHandler(this.lst3PMods_ElementClick);
 			this.lst3PMods.CustomDrawElement += new DevExpress.XtraBars.Navigation.CustomDrawElementEventHandler(this.lst3PMods_CustomDrawElement);
@@ -1546,7 +1559,7 @@
 			// 
 			this.panelControl1.Controls.Add(this.lblMODdescription);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 554);
+			this.panelControl1.Location = new System.Drawing.Point(0, 562);
 			this.panelControl1.Name = "panelControl1";
 			this.panelControl1.Size = new System.Drawing.Size(247, 100);
 			this.panelControl1.TabIndex = 1;
@@ -1585,7 +1598,7 @@
 			this.vGridDetalles.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.category,
             this.row});
-			this.vGridDetalles.Size = new System.Drawing.Size(678, 654);
+			this.vGridDetalles.Size = new System.Drawing.Size(704, 662);
 			this.vGridDetalles.TabIndex = 1;
 			this.vGridDetalles.DoubleClick += new System.EventHandler(this.vGridDetalles_DoubleClick);
 			// 
@@ -1599,15 +1612,14 @@
 			// 
 			this.row.Name = "row";
 			// 
-			// mnuThemes
+			// mnuOpenModFolder
 			// 
-			this.mnuThemes.Caption = "Themes";
-			this.mnuThemes.Id = 40;
-			this.mnuThemes.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuThemes.ImageOptions.SvgImage")));
-			this.mnuThemes.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdExport, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
-            new DevExpress.XtraBars.LinkPersistInfo(DevExpress.XtraBars.BarLinkUserDefines.PaintStyle, this.cmdImportTheme, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
-			this.mnuThemes.Name = "mnuThemes";
+			this.mnuOpenModFolder.Caption = "Open Mod\'s Folder";
+			this.mnuOpenModFolder.Id = 41;
+			this.mnuOpenModFolder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuOpenModFolder.ImageOptions.Image")));
+			this.mnuOpenModFolder.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuOpenModFolder.ImageOptions.LargeImage")));
+			this.mnuOpenModFolder.Name = "mnuOpenModFolder";
+			this.mnuOpenModFolder.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuOpenModFolder_ItemClick);
 			// 
 			// TPModsManager
 			// 
@@ -1833,5 +1845,6 @@
 		private DevExpress.XtraBars.BarButtonItem cmdKeysAddNew;
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow row;
 		private DevExpress.XtraBars.BarSubItem mnuThemes;
+		private DevExpress.XtraBars.BarButtonItem mnuOpenModFolder;
 	}
 }

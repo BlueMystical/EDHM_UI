@@ -32,22 +32,21 @@
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem1 = new DevExpress.Utils.ToolTipSeparatorItem();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipItem toolTipItem5 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipItem toolTipItem6 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem5 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip4 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem4 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem7 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem6 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip5 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem5 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem8 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem7 = new DevExpress.Utils.ToolTipItem();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThemeParametersForm));
 			this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
 			this.txtModName = new DevExpress.XtraEditors.TextEdit();
@@ -134,13 +133,12 @@
 			this.picThumb.Size = new System.Drawing.Size(421, 82);
 			this.picThumb.StyleController = this.layoutControl1;
 			toolTipTitleItem1.Text = "Instructions:";
-			toolTipItem1.Text = "- Right click and save this image to open it with your favorite editor.";
-			toolTipItem2.Text = "- Then right click and Open the edited image.";
+			toolTipItem1.Text = "- DoubleClick here to add a Thumbnail image from an Screenshot.";
 			superToolTip1.Items.Add(toolTipTitleItem1);
 			superToolTip1.Items.Add(toolTipItem1);
-			superToolTip1.Items.Add(toolTipItem2);
 			this.picThumb.SuperTip = superToolTip1;
 			this.picThumb.TabIndex = 10;
+			this.picThumb.DoubleClick += new System.EventHandler(this.picThumb_DoubleClick);
 			// 
 			// cmdCancel
 			// 
@@ -182,20 +180,20 @@
 			this.txtAuthor.StyleController = this.layoutControl1;
 			toolTipTitleItem2.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
 			toolTipTitleItem2.Text = "Author\'s Name";
-			toolTipItem3.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipItem3.Text = "You can use <href=https://docs.devexpress.com/WindowsForms/4874/common-features/h" +
+			toolTipItem2.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+			toolTipItem2.Text = "You can use <href=https://docs.devexpress.com/WindowsForms/4874/common-features/h" +
     "tml-text-formatting>HTML Tags</href> to add a link to your Inara\'s Profile.\r\nOr " +
     "leave it as simple Text.\r\n";
 			toolTipTitleItem3.Text = "Example:";
+			toolTipItem3.Text = "<href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>";
+			toolTipItem4.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
 			toolTipItem4.Text = "<href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>";
-			toolTipItem5.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipItem5.Text = "<href=https://inara.cz/elite/cmdr-ranks/262694/>Blue Mystic</href>";
 			superToolTip2.Items.Add(toolTipTitleItem2);
-			superToolTip2.Items.Add(toolTipItem3);
+			superToolTip2.Items.Add(toolTipItem2);
 			superToolTip2.Items.Add(toolTipSeparatorItem1);
 			superToolTip2.Items.Add(toolTipTitleItem3);
+			superToolTip2.Items.Add(toolTipItem3);
 			superToolTip2.Items.Add(toolTipItem4);
-			superToolTip2.Items.Add(toolTipItem5);
 			this.txtAuthor.SuperTip = superToolTip2;
 			this.txtAuthor.TabIndex = 5;
 			// 
@@ -210,9 +208,9 @@
 			this.txtName.Properties.MaskSettings.Set("mask", "[0-9a-zA-Z ()-]+");
 			this.txtName.Size = new System.Drawing.Size(340, 36);
 			this.txtName.StyleController = this.layoutControl1;
-			toolTipItem6.Text = "Here you input your Theme\'s Name.\r\nPlease dont make it too long.\r\nAnd avoid weird" +
+			toolTipItem5.Text = "Here you input your Theme\'s Name.\r\nPlease dont make it too long.\r\nAnd avoid weird" +
     " symbols:  @$%&/#?¿<>";
-			superToolTip3.Items.Add(toolTipItem6);
+			superToolTip3.Items.Add(toolTipItem5);
 			this.txtName.SuperTip = superToolTip3;
 			this.txtName.TabIndex = 4;
 			// 
@@ -223,10 +221,10 @@
 			this.txtPreviewURL.Size = new System.Drawing.Size(340, 36);
 			this.txtPreviewURL.StyleController = this.layoutControl1;
 			toolTipTitleItem4.Text = "Big Preview";
-			toolTipItem7.Text = "Here you can paste a link to an Image that contains a big preview of your theme.\r" +
+			toolTipItem6.Text = "Here you can paste a link to an Image that contains a big preview of your theme.\r" +
     "\nYou can use Imgur or any other Image Hosting providers.";
 			superToolTip4.Items.Add(toolTipTitleItem4);
-			superToolTip4.Items.Add(toolTipItem7);
+			superToolTip4.Items.Add(toolTipItem6);
 			this.txtPreviewURL.SuperTip = superToolTip4;
 			this.txtPreviewURL.TabIndex = 12;
 			// 
@@ -239,10 +237,10 @@
 			this.txtDescription.StyleController = this.layoutControl1;
 			superToolTip5.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
 			toolTipTitleItem5.Text = "Theme\'s Description:";
-			toolTipItem8.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-			toolTipItem8.Text = resources.GetString("toolTipItem8.Text");
+			toolTipItem7.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+			toolTipItem7.Text = resources.GetString("toolTipItem7.Text");
 			superToolTip5.Items.Add(toolTipTitleItem5);
-			superToolTip5.Items.Add(toolTipItem8);
+			superToolTip5.Items.Add(toolTipItem7);
 			this.txtDescription.SuperTip = superToolTip5;
 			this.txtDescription.TabIndex = 6;
 			// 

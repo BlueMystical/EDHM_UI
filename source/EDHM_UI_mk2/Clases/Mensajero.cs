@@ -208,7 +208,7 @@ namespace EDHM_UI_mk2
 		/// <param name="pIcon">[Opcional] Icono del Mensaje</param>
 		/// <param name="DarkMode">[Opcional] Usar Tema Oscuro, Defecto = false</param>
 		/// <param name="AutoCloseTime">[Opcional] Tiempo (milisegundos) que Espera antes de Cerrarse, defecto 20s. 0=NoAutoClose</param>
-		public static DialogResult ShowMessage(string pTitulo, string pMensaje, MessageBoxButtons pButtons = MessageBoxButtons.OK, MessageBoxIcon pIcon = MessageBoxIcon.None, bool DarkMode = false, int AutoCloseTime = 0, string Language = "en")
+		public static DialogResult ShowMessage(string pTitulo, string pMensaje, MessageBoxButtons pButtons = MessageBoxButtons.OK, MessageBoxIcon pIcon = MessageBoxIcon.None, bool DarkMode = true, int AutoCloseTime = 0, string Language = "en")
 		{
 			XtraMessageBoxArgs msgArgs = new XtraMessageBoxArgs()
 			{
@@ -756,12 +756,12 @@ namespace EDHM_UI_mk2
 		Mensajero.ShowFlyoutPanel(this, Mensajero.TipoAlerta.Exito, "Operación Exitosa!", "Todo salió bien.");
 
 		* // [OPCIONAL] Enlazar al evento para saber que boton se presiona:
-			Mensajero.FlyoutPanelButtonClick += (FlyoutPanel _Sender, MensajeroControlEventArgs _E) => {
+			Mensajero.ButtonClick += (object _Sender, MensajeroEventArgs _E) => {
 				switch (_E.EditValue.ToString())
 				{
 					case "Aceptar": break;
 					case "Cancelar": break;
-					case "Si": break; 
+					case "Si": break;
 					case "No": break;
 					default:
 						break;
@@ -773,7 +773,7 @@ namespace EDHM_UI_mk2
 		/// <para>Enlaze el evento 'FlyoutPanelButtonClick' para saber cuando se presionan los botones del panel.</para></summary>
 		/// <param name="pOwner">[Requerido] Formulario Padre para esta Ventana</param>
 		/// <param name="Content">Controles a Mostrar deltro del formulario</param>
-		public static void ShowFlyoutPanel(Form pOwner, ref List<MensajeroControl> Content)
+		public static void ShowFlyoutPanel(Control pOwner, ref List<MensajeroControl> Content)
 		{
 			try
 			{
@@ -832,17 +832,19 @@ namespace EDHM_UI_mk2
 		/// <param name="pTitulo">Texto para el Titulo</param>
 		/// <param name="pMensaje">Texto del Mensaje</param>
 		/// <param name="Buttons">Botones a Mostrar</param>
-		public static void ShowFlyoutPanel(Form pOwner, TipoAlerta pTipoAlerta, string pTitulo, string pMensaje, MessageBoxButtons? Buttons = MessageBoxButtons.OK)
+		public static void ShowFlyoutPanel(Control pOwner, TipoAlerta pTipoAlerta, string pTitulo, string pMensaje, MessageBoxButtons? Buttons = MessageBoxButtons.OK)
 		{
 			try
 			{
+				MensajeroColors Colores = new MensajeroColors(true);
 				FlyoutPanel panel = new FlyoutPanel();
 				panel.OwnerControl = pOwner;
 				panel.AnimationRate = 60;
 				panel.Options.AnchorType = DevExpress.Utils.Win.PopupToolWindowAnchor.Bottom;
 				panel.Options.AnimationType = DevExpress.Utils.Win.PopupToolWindowAnimation.Slide;
 				panel.Options.CloseOnOuterClick = true;
-				//panel.BackColor = Color.PaleGreen;
+				panel.BackColor = Colores.WindowBackColor;
+				panel.ForeColor = Colores.WindowForeColor;
 
 				#region Botones
 
@@ -856,28 +858,28 @@ namespace EDHM_UI_mk2
 				};
 
 				panel.OptionsButtonPanel.ShowButtonPanel = true;
-				//panel.OptionsButtonPanel.ButtonPanelHeight = 38;
+				panel.OptionsButtonPanel.ButtonPanelHeight = 40;
 				panel.OptionsButtonPanel.ButtonPanelLocation = FlyoutPanelButtonPanelLocation.Bottom;
 				panel.OptionsButtonPanel.ButtonPanelContentAlignment = ContentAlignment.BottomRight;
 
 				switch (Buttons)
 				{
 					case MessageBoxButtons.OK:
-						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Aceptar", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
+						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("OK", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
 						break;
 					case MessageBoxButtons.OKCancel:
-						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Aceptar", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
-						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Cancelar", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_cancelar"], SvgImageSize = new Size(24, 24) }));
+						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("OK", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
+						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Cancel", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_cancelar"], SvgImageSize = new Size(24, 24) }));
 						break;
 
 					case MessageBoxButtons.YesNo:
-						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Si", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
+						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Yes", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
 						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("No", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_cancelar"], SvgImageSize = new Size(24, 24) }));
 						break;
 					case MessageBoxButtons.YesNoCancel:
-						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Si", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
+						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("Yes", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_aceptar"], SvgImageSize = new Size(24, 24) }));
 						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton("No", true, new ButtonImageOptions { SvgImage = _ButtonImages["btn_cancelar"], SvgImageSize = new Size(24, 24) }));
-						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton() { Caption = "Cancelar" });
+						panel.OptionsButtonPanel.Buttons.Add(new PeekFormButton() { Caption = "Cancel" });
 						break;
 
 					case MessageBoxButtons.RetryCancel:
@@ -893,7 +895,6 @@ namespace EDHM_UI_mk2
 					default:
 						break;
 				}
-
 				panel.ButtonClick += (object sender, FlyoutPanelButtonClickEventArgs e) =>
 				{
 					//El Usuario debe enlazar al evento para saber que boton se presinó
@@ -910,7 +911,8 @@ namespace EDHM_UI_mk2
 				LayoutControl lc = new LayoutControl
 				{
 					Dock = DockStyle.Fill,
-					BackColor = panel.BackColor,
+					BackColor = Colores.ControlBackColor,
+					ForeColor = Colores.WindowForeColor
 				};
 				lc.BeginUpdate();
 
@@ -919,45 +921,15 @@ namespace EDHM_UI_mk2
 				lc.Root.AppearanceGroup.Font = new Font(lc.Root.AppearanceGroup.Font.Name, 10, FontStyle.Bold);
 				lc.Root.AppearanceGroup.TextOptions.HAlignment = HorzAlignment.Center;
 
-				switch (pTipoAlerta)
-				{
-					case TipoAlerta.Info:
-						lc.Root.AppearanceGroup.BorderColor = Color.Gainsboro;
-						break;
-					case TipoAlerta.Exito:
-						lc.Root.AppearanceGroup.BorderColor = Color.ForestGreen;
-						break;
-					case TipoAlerta.Question:
-						lc.Root.AppearanceGroup.BorderColor = Color.DodgerBlue;
-						break;
-					case TipoAlerta.Advertencia:
-						lc.Root.AppearanceGroup.BorderColor = Color.DarkOrange;
-						break;
-					case TipoAlerta.Error:
-						lc.Root.AppearanceGroup.BorderColor = Color.Red;
-						break;
-					default:
-						break;
-				}
-
-				//El Titulo:
-				//var labelTitulo = new LabelControl()
-				//{
-				//	Name = "lblTitulo",
-				//	AutoSizeMode = LabelAutoSizeMode.Vertical,					
-				//	AllowHtmlString = true,
-				//	Text = pTitulo
-				//};
-				//labelTitulo.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
-				//labelTitulo.Font = new Font(labelTitulo.Font.Name, 14, FontStyle.Bold);
-
 				//El Mensaje:
 				var labelMensaje = new LabelControl()
 				{
 					Name = "lblMensaje",
 					AutoSizeMode = LabelAutoSizeMode.Vertical,
 					AllowHtmlString = true,
-					Text = pMensaje
+					Text = pMensaje,
+					BackColor = Color.Transparent,
+					ForeColor = lc.ForeColor
 				};
 				labelMensaje.Appearance.TextOptions.HAlignment = HorzAlignment.Center;
 				labelMensaje.Appearance.TextOptions.VAlignment = VertAlignment.Center;
@@ -965,11 +937,11 @@ namespace EDHM_UI_mk2
 
 				//EL Icono:
 				var imgIcono = new PictureEdit();
-				imgIcono.Size = new Size(87, 87);
-				imgIcono.SvgImage = _MsgImages["icon_left"];
-				imgIcono.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-				imgIcono.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-				imgIcono.BackColor = lc.BackColor;
+					imgIcono.Size = new Size(87, 87);
+					imgIcono.SvgImage = _MsgImages["icon_left"];
+					imgIcono.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
+					imgIcono.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+					imgIcono.BackColor = Color.Transparent;
 
 				// ---------------------------------
 				//Ahora Colocamos los Elementos donde deben ir:
@@ -982,23 +954,23 @@ namespace EDHM_UI_mk2
 				}
 
 				var PicItem = lc.Root.AddItem(string.Empty, imgIcono);
-				PicItem.SizeConstraintsType = SizeConstraintsType.Custom;
-				PicItem.MaxSize = new Size(87, 87);
-				PicItem.MinSize = new Size(87, 87);
-				PicItem.TextVisible = false;
-				PicItem.Move(Empty1, DevExpress.XtraLayout.Utils.InsertType.Right);
+					PicItem.SizeConstraintsType = SizeConstraintsType.Custom;
+					PicItem.MaxSize = new Size(87, 87);
+					PicItem.MinSize = new Size(87, 87);
+					PicItem.TextVisible = false;
+					PicItem.Move(Empty1, DevExpress.XtraLayout.Utils.InsertType.Right);
 
 				var BodyItem = lc.Root.AddItem(string.Empty, labelMensaje);
-				BodyItem.Move(Empty1, DevExpress.XtraLayout.Utils.InsertType.Bottom);
-				BodyItem.TextVisible = false;
+					BodyItem.Move(Empty1, DevExpress.XtraLayout.Utils.InsertType.Bottom);
+					BodyItem.TextVisible = false;
 
 				var Empty2 = lc.Root.AddItem(new EmptySpaceItem());
-				Empty2.Move(BodyItem, DevExpress.XtraLayout.Utils.InsertType.Bottom);
+					Empty2.Move(BodyItem, DevExpress.XtraLayout.Utils.InsertType.Bottom);
 
 				lc.EndUpdate();
 
 				panel.AddControl(lc);
-				panel.Height = lc.Height + 20;
+				panel.Height = lc.Height + 60;
 
 				lc.BestFit();
 
