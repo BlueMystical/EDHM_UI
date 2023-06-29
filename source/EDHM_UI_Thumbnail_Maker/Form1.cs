@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace EDHM_UI_Thumbnail_Maker
@@ -47,7 +48,6 @@ namespace EDHM_UI_Thumbnail_Maker
 				}
 			}
 		}
-
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			try
@@ -59,13 +59,11 @@ namespace EDHM_UI_Thumbnail_Maker
 				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
-
 		private void Form1_Shown(object sender, EventArgs e)
 		{
 			//Esta es la Caja de Seleccion que se dibuja
 			//MoveSelectionBox(0, 0, 40, 40);
 		}
-
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
 			// CTRL+V:
@@ -85,7 +83,6 @@ namespace EDHM_UI_Thumbnail_Maker
 				}
 			}
 		}
-
 		private void Form1_Resize(object sender, EventArgs e)
 		{
 			toolStripStatusLabel1.Text = string.Format("{0}x{1}", this.Width, this.Height);
@@ -151,28 +148,34 @@ namespace EDHM_UI_Thumbnail_Maker
 						this.picImagen.Image = _ScaledImage_B;
 						this.picImagen.SizeMode = PictureBoxSizeMode.CenterImage;
 
-						//La Imagen se guarda en la Carpeta del Tema:
-						SaveFileDialog SFDialog = new SaveFileDialog()
-						{
-							Filter = "Image JPG|*.jpg",
-							FilterIndex = 0,
-							DefaultExt = "jpg",
-							AddExtension = true,
-							CheckPathExists = true,
-							OverwritePrompt = true,
-							FileName = "PREVIEW",
-							InitialDirectory = !string.IsNullOrEmpty(this.ThemeFolder) ? ThemeFolder : Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-						};
-						if (SFDialog.ShowDialog() == DialogResult.OK)
+						if (!string.IsNullOrEmpty(this.ThemeFolder) && this.ThemeFolder != @"C:\Temp")
 						{
 							//6. Guarda la Imagen en JPG al 100% de Calidad:
-							Util.SaveJpegWithCompression(_ScaledImage_B, SFDialog.FileName, 100);
-
-							if (AutoClose)
-							{
-								System.Windows.Forms.Application.Exit();
-							}
+							Util.SaveJpeg(_ScaledImage_B, Path.Combine(this.ThemeFolder, "PREVIEW.jpg"));
+							if (AutoClose) System.Windows.Forms.Application.Exit();
 						}
+						else
+						{
+							//La Imagen se guarda en la Carpeta del Tema:
+							SaveFileDialog SFDialog = new SaveFileDialog()
+							{
+								Filter = "Image JPG|*.jpg",
+								FilterIndex = 0,
+								DefaultExt = "jpg",
+								AddExtension = true,
+								CheckPathExists = true,
+								OverwritePrompt = true,
+								FileName = "PREVIEW",
+								InitialDirectory = !string.IsNullOrEmpty(this.ThemeFolder) ? ThemeFolder : Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+							};
+							if (SFDialog.ShowDialog() == DialogResult.OK)
+							{
+								//6. Guarda la Imagen en JPG al 100% de Calidad:
+								Util.SaveJpeg(_ScaledImage_B, SFDialog.FileName);
+
+								if (AutoClose) System.Windows.Forms.Application.Exit();
+							}
+						}						
 					}
 				}				
 			}
@@ -181,6 +184,8 @@ namespace EDHM_UI_Thumbnail_Maker
 				MessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
+
+
 
 		private void pasteImageFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
 		{

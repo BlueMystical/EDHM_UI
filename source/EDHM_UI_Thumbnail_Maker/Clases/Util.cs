@@ -88,31 +88,42 @@ namespace EDHM_UI_Thumbnail_Maker
 			return encoders.FirstOrDefault(t => t.MimeType == mimeType);
 		}
 
-		/// <summary>
-		/// Save an Image as a JPeg with a given compression
-		///  Note: Filename suffix will not affect mime type which will be Jpeg.
-		/// </summary>
+		/// <summary>Save an Image as a JPeg with a given compression.
+		/// <para>Note: Filename suffix will not affect mime type which will be Jpeg.</para></summary>
 		/// <param name="image">Image: Image to save</param>
 		/// <param name="fileName">String: File name to save the image as. Note: suffix will not affect mime type which will be Jpeg.</param>
-		/// <param name="compression">Long: Value between 0 and 100.</param>
-		private static void SaveJpegWithCompressionSetting(Image image, string fileName, long compression)
+		/// <param name="compression">Long: Value between 0 and 100. [Default=100]</param>
+		public static void SaveJpeg(Image image, string fileName, long compression = 100)
 		{
-			var eps = new EncoderParameters(1);
-			eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, compression);
-			var ici = GetEncoderInfo("image/jpeg");
-			image.Save(fileName, ici, eps);
-		}
+			if (image is null || string.IsNullOrEmpty(fileName)) return;
 
-		/// <summary>
-		/// Save an Image as a JPeg with a given compression
-		/// Note: Filename suffix will not affect mime type which will be Jpeg.
-		/// </summary>
-		/// <param name="image">Image: This image</param>
-		/// <param name="fileName">String: File name to save the image as. Note: suffix will not affect mime type which will be Jpeg.</param>
-		/// <param name="compression">Long: Value between 0 and 100.</param>
-		public static void SaveJpegWithCompression(this Image image, string fileName, long compression)
-		{
-			SaveJpegWithCompressionSetting(image, fileName, compression);
+			var _Encoder = GetEncoderInfo("image/jpeg");
+			var _QualityParams = new EncoderParameters(1);
+			_QualityParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, compression);
+
+			try
+			{
+				using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
+				{
+					using (System.IO.FileStream fs = new System.IO.FileStream(fileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
+					{
+						image.Save(memory, _Encoder, _QualityParams);
+
+						byte[] bytes = memory.ToArray();
+						fs.Write(bytes, 0, bytes.Length);
+					}
+				}
+			}
+			catch
+			{
+				Bitmap bitmap = new Bitmap(image.Width, image.Height, image.PixelFormat);
+				Graphics g = Graphics.FromImage(bitmap);
+				g.DrawImage(image, new Point(0, 0));
+				g.Dispose();
+				image.Dispose();
+				bitmap.Save(fileName, _Encoder, _QualityParams);
+				image = bitmap; // preserve clone        
+			}
 		}
 
 
