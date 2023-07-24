@@ -1,11 +1,11 @@
 {
-   "app_version": "2.1.98.0",
-   "last_installer": "2.1.98.0",
+   "app_version": "2.1.99.0",
+   "last_installer": "2.1.99.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.15.1.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Minor fixes.\r\n- XML color transform Tool added.",
+   "changelog": "- Fix for Game Multi-Instancing.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
