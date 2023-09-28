@@ -70,6 +70,7 @@ namespace EDHM_UI_mk2.Forms
 			{
 				dxErrorProvider1.SetError(txtName, "Required Field!"); Continuar = false;
 			}
+			/*
 			if (!ThumbnailAdded)
 			{
 				dxErrorProvider1.SetError(picThumb, "Required Field!\r\nDouble Click on it to add an Screenshot!"); // Continuar = false;
@@ -79,7 +80,7 @@ namespace EDHM_UI_mk2.Forms
 				{
 					Continuar = false;
 				}
-			}
+			}*/
 
 			if (Continuar)
 			{
@@ -91,6 +92,8 @@ namespace EDHM_UI_mk2.Forms
 				Author = txtAuthor.EditValue.ToString().Trim();
 				Description = Util.NVL(txtDescription.EditValue, "").Trim();
 				PreviewURL = Util.NVL(txtPreviewURL.EditValue, "").Trim();
+
+				ThemeFolder = ThemeFolder.NVL(@"C:\Temp");
 
 				//Thumbnail = ThumbnailAdded ? Image.FromFile(@"C:\Temp\PREVIEW.jpg")  : picThumb.Image; // Util.GetElementImage(@"C:\Temp\PREVIEW.jpg")
 
@@ -105,7 +108,6 @@ namespace EDHM_UI_mk2.Forms
 
 				DialogResult = DialogResult.OK;
 			}
-
 		}
 
 		private void defaultToolTipController1_DefaultController_HyperlinkClick(object sender, DevExpress.Utils.HyperlinkClickEventArgs e)
@@ -127,7 +129,7 @@ namespace EDHM_UI_mk2.Forms
 			
 			System.Diagnostics.Process process = new System.Diagnostics.Process();
 			process.StartInfo.FileName = "EDHM_UI_Thumbnail_Maker.exe";
-			process.StartInfo.Arguments = "/AC /P:" + "\"" + ThumbPath + "\""; //<- /AC [Autoclose] /P:"[Directorio para guardar la imagen]"
+			process.StartInfo.Arguments = "/AC /P:" + "\"" + ThumbPath + "\""; //<- /AC[Autoclose] /P:"[ImageSavingDirectory]"
 			process.StartInfo.ErrorDialog = true;
 			process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
 			process.EnableRaisingEvents = true;

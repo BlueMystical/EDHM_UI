@@ -29,14 +29,15 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XML_Form_Odyssey));
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem1 = new DevExpress.Utils.ToolTipSeparatorItem();
-			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.ToolTipSeparatorItem toolTipSeparatorItem1 = new DevExpress.Utils.ToolTipSeparatorItem();
 			DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
 			this.layoutControl2 = new DevExpress.XtraLayout.LayoutControl();
 			this.tabPane1 = new DevExpress.XtraBars.Navigation.TabPane();
@@ -44,6 +45,55 @@
 			this.picShipPanels = new DevExpress.XtraEditors.PictureEdit();
 			this.tabNavigationPage2 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
 			this.picStationPanels = new DevExpress.XtraEditors.PictureEdit();
+			this.tabNavigationPage3 = new DevExpress.XtraBars.Navigation.TabNavigationPage();
+			this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
+			this.tablePanel1 = new DevExpress.Utils.Layout.TablePanel();
+			this.labelControl19 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl18 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl16 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_HEX_Custom = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_HEX_Cyan = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_HEX_Red = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_HEX_White = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_RGB_Custom = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_RGB_Cyan = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_RGB_Red = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_RGB_White = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_HEX_Orange = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_RGB_Orange = new DevExpress.XtraEditors.LabelControl();
+			this.picTransform_ED_Custom = new DevExpress.XtraEditors.ColorPickEdit();
+			this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
+			this.bar3 = new DevExpress.XtraBars.Bar();
+			this.cmdOpenNO2O = new DevExpress.XtraBars.BarButtonItem();
+			this.cmdSaveExit = new DevExpress.XtraBars.BarButtonItem();
+			this.trackGamma = new DevExpress.XtraBars.BarEditItem();
+			this.trackGammaRep = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
+			this.trackSaturation = new DevExpress.XtraBars.BarEditItem();
+			this.trackSaturationRep = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
+			this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
+			this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
+			this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
+			this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+			this.picTransform_XML_Custom = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_XML_Cyan = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_XML_Red = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_XML_White = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_XML_Orange = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_ED_Cyan = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_ED_Red = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_ED_White = new DevExpress.XtraEditors.PictureEdit();
+			this.picTransform_ED_Orange = new DevExpress.XtraEditors.PictureEdit();
+			this.labelControl13 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl12 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl11 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl10 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+			this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
 			this.cmdImportXML_2 = new DevExpress.XtraEditors.SimpleButton();
 			this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
 			this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
@@ -76,18 +126,6 @@
 			this.layoutControlItem33 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem16 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-			this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
-			this.bar3 = new DevExpress.XtraBars.Bar();
-			this.cmdOpenNO2O = new DevExpress.XtraBars.BarButtonItem();
-			this.cmdSaveExit = new DevExpress.XtraBars.BarButtonItem();
-			this.trackGamma = new DevExpress.XtraBars.BarEditItem();
-			this.trackGammaRep = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
-			this.trackSaturation = new DevExpress.XtraBars.BarEditItem();
-			this.trackSaturationRep = new DevExpress.XtraEditors.Repository.RepositoryItemTrackBar();
-			this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
-			this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
-			this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
-			this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl2)).BeginInit();
 			this.layoutControl2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tabPane1)).BeginInit();
@@ -96,6 +134,22 @@
 			((System.ComponentModel.ISupportInitialize)(this.picShipPanels.Properties)).BeginInit();
 			this.tabNavigationPage2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picStationPanels.Properties)).BeginInit();
+			this.tabNavigationPage3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tablePanel1)).BeginInit();
+			this.tablePanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Custom.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackGammaRep)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackSaturationRep)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Custom.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Cyan.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Red.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_White.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Orange.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Cyan.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Red.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_White.Properties)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Orange.Properties)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sRR_B)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sRR_B.Properties)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sRG_B)).BeginInit();
@@ -132,9 +186,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem33)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackGammaRep)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackSaturationRep)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// layoutControl2
@@ -159,7 +210,7 @@
 			this.layoutControl2.Location = new System.Drawing.Point(0, 0);
 			this.layoutControl2.Name = "layoutControl2";
 			this.layoutControl2.Root = this.layoutControlGroup2;
-			this.layoutControl2.Size = new System.Drawing.Size(965, 460);
+			this.layoutControl2.Size = new System.Drawing.Size(965, 462);
 			this.layoutControl2.TabIndex = 1;
 			this.layoutControl2.Text = "layoutControl2";
 			// 
@@ -167,14 +218,16 @@
 			// 
 			this.tabPane1.Controls.Add(this.tabNavigationPage1);
 			this.tabPane1.Controls.Add(this.tabNavigationPage2);
+			this.tabPane1.Controls.Add(this.tabNavigationPage3);
 			this.tabPane1.Location = new System.Drawing.Point(362, 12);
 			this.tabPane1.Name = "tabPane1";
 			this.tabPane1.Pages.AddRange(new DevExpress.XtraBars.Navigation.NavigationPageBase[] {
             this.tabNavigationPage1,
-            this.tabNavigationPage2});
-			this.tabPane1.RegularSize = new System.Drawing.Size(591, 436);
+            this.tabNavigationPage2,
+            this.tabNavigationPage3});
+			this.tabPane1.RegularSize = new System.Drawing.Size(591, 438);
 			this.tabPane1.SelectedPage = this.tabNavigationPage2;
-			this.tabPane1.Size = new System.Drawing.Size(591, 436);
+			this.tabPane1.Size = new System.Drawing.Size(591, 438);
 			this.tabPane1.TabIndex = 38;
 			this.tabPane1.Text = "tabPane1";
 			// 
@@ -183,7 +236,7 @@
 			this.tabNavigationPage1.Caption = "Ship Panels";
 			this.tabNavigationPage1.Controls.Add(this.picShipPanels);
 			this.tabNavigationPage1.Name = "tabNavigationPage1";
-			this.tabNavigationPage1.Size = new System.Drawing.Size(591, 409);
+			this.tabNavigationPage1.Size = new System.Drawing.Size(591, 405);
 			// 
 			// picShipPanels
 			// 
@@ -192,7 +245,7 @@
 			this.picShipPanels.Name = "picShipPanels";
 			this.picShipPanels.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
 			this.picShipPanels.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-			this.picShipPanels.Size = new System.Drawing.Size(591, 409);
+			this.picShipPanels.Size = new System.Drawing.Size(591, 405);
 			this.picShipPanels.StyleController = this.layoutControl2;
 			this.picShipPanels.TabIndex = 5;
 			// 
@@ -201,7 +254,7 @@
 			this.tabNavigationPage2.Caption = "Station Panels";
 			this.tabNavigationPage2.Controls.Add(this.picStationPanels);
 			this.tabNavigationPage2.Name = "tabNavigationPage2";
-			this.tabNavigationPage2.Size = new System.Drawing.Size(591, 409);
+			this.tabNavigationPage2.Size = new System.Drawing.Size(591, 405);
 			// 
 			// picStationPanels
 			// 
@@ -210,8 +263,641 @@
 			this.picStationPanels.Name = "picStationPanels";
 			this.picStationPanels.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
 			this.picStationPanels.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Zoom;
-			this.picStationPanels.Size = new System.Drawing.Size(591, 409);
+			this.picStationPanels.Size = new System.Drawing.Size(591, 405);
 			this.picStationPanels.TabIndex = 5;
+			// 
+			// tabNavigationPage3
+			// 
+			this.tabNavigationPage3.Caption = "Colors";
+			this.tabNavigationPage3.Controls.Add(this.labelControl14);
+			this.tabNavigationPage3.Controls.Add(this.tablePanel1);
+			this.tabNavigationPage3.Name = "tabNavigationPage3";
+			this.tabNavigationPage3.Size = new System.Drawing.Size(591, 405);
+			// 
+			// labelControl14
+			// 
+			this.labelControl14.Appearance.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelControl14.Appearance.Options.UseFont = true;
+			this.labelControl14.Location = new System.Drawing.Point(13, 269);
+			this.labelControl14.Name = "labelControl14";
+			this.labelControl14.Size = new System.Drawing.Size(472, 85);
+			this.labelControl14.TabIndex = 1;
+			this.labelControl14.Text = resources.GetString("labelControl14.Text");
+			// 
+			// tablePanel1
+			// 
+			this.tablePanel1.Columns.AddRange(new DevExpress.Utils.Layout.TablePanelColumn[] {
+            new DevExpress.Utils.Layout.TablePanelColumn(DevExpress.Utils.Layout.TablePanelEntityStyle.Relative, 45.58F),
+            new DevExpress.Utils.Layout.TablePanelColumn(DevExpress.Utils.Layout.TablePanelEntityStyle.Relative, 51.42F),
+            new DevExpress.Utils.Layout.TablePanelColumn(DevExpress.Utils.Layout.TablePanelEntityStyle.Relative, 21.25F),
+            new DevExpress.Utils.Layout.TablePanelColumn(DevExpress.Utils.Layout.TablePanelEntityStyle.Relative, 41.16F),
+            new DevExpress.Utils.Layout.TablePanelColumn(DevExpress.Utils.Layout.TablePanelEntityStyle.Relative, 50.59F),
+            new DevExpress.Utils.Layout.TablePanelColumn(DevExpress.Utils.Layout.TablePanelEntityStyle.Relative, 50F)});
+			this.tablePanel1.Controls.Add(this.labelControl19);
+			this.tablePanel1.Controls.Add(this.labelControl18);
+			this.tablePanel1.Controls.Add(this.labelControl17);
+			this.tablePanel1.Controls.Add(this.labelControl16);
+			this.tablePanel1.Controls.Add(this.labelControl15);
+			this.tablePanel1.Controls.Add(this.picTransform_HEX_Custom);
+			this.tablePanel1.Controls.Add(this.picTransform_HEX_Cyan);
+			this.tablePanel1.Controls.Add(this.picTransform_HEX_Red);
+			this.tablePanel1.Controls.Add(this.picTransform_HEX_White);
+			this.tablePanel1.Controls.Add(this.picTransform_RGB_Custom);
+			this.tablePanel1.Controls.Add(this.picTransform_RGB_Cyan);
+			this.tablePanel1.Controls.Add(this.picTransform_RGB_Red);
+			this.tablePanel1.Controls.Add(this.picTransform_RGB_White);
+			this.tablePanel1.Controls.Add(this.picTransform_HEX_Orange);
+			this.tablePanel1.Controls.Add(this.picTransform_RGB_Orange);
+			this.tablePanel1.Controls.Add(this.picTransform_ED_Custom);
+			this.tablePanel1.Controls.Add(this.picTransform_XML_Custom);
+			this.tablePanel1.Controls.Add(this.picTransform_XML_Cyan);
+			this.tablePanel1.Controls.Add(this.picTransform_XML_Red);
+			this.tablePanel1.Controls.Add(this.picTransform_XML_White);
+			this.tablePanel1.Controls.Add(this.picTransform_XML_Orange);
+			this.tablePanel1.Controls.Add(this.picTransform_ED_Cyan);
+			this.tablePanel1.Controls.Add(this.picTransform_ED_Red);
+			this.tablePanel1.Controls.Add(this.picTransform_ED_White);
+			this.tablePanel1.Controls.Add(this.picTransform_ED_Orange);
+			this.tablePanel1.Controls.Add(this.labelControl13);
+			this.tablePanel1.Controls.Add(this.labelControl12);
+			this.tablePanel1.Controls.Add(this.labelControl11);
+			this.tablePanel1.Controls.Add(this.labelControl10);
+			this.tablePanel1.Controls.Add(this.labelControl9);
+			this.tablePanel1.Controls.Add(this.labelControl4);
+			this.tablePanel1.Controls.Add(this.labelControl3);
+			this.tablePanel1.Controls.Add(this.labelControl2);
+			this.tablePanel1.Controls.Add(this.labelControl1);
+			this.tablePanel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.tablePanel1.Location = new System.Drawing.Point(0, 0);
+			this.tablePanel1.Name = "tablePanel1";
+			this.tablePanel1.Rows.AddRange(new DevExpress.Utils.Layout.TablePanelRow[] {
+            new DevExpress.Utils.Layout.TablePanelRow(DevExpress.Utils.Layout.TablePanelEntityStyle.Absolute, 26F),
+            new DevExpress.Utils.Layout.TablePanelRow(DevExpress.Utils.Layout.TablePanelEntityStyle.Absolute, 39F),
+            new DevExpress.Utils.Layout.TablePanelRow(DevExpress.Utils.Layout.TablePanelEntityStyle.Absolute, 39F),
+            new DevExpress.Utils.Layout.TablePanelRow(DevExpress.Utils.Layout.TablePanelEntityStyle.Absolute, 39F),
+            new DevExpress.Utils.Layout.TablePanelRow(DevExpress.Utils.Layout.TablePanelEntityStyle.Absolute, 39F),
+            new DevExpress.Utils.Layout.TablePanelRow(DevExpress.Utils.Layout.TablePanelEntityStyle.Absolute, 40F),
+            new DevExpress.Utils.Layout.TablePanelRow(DevExpress.Utils.Layout.TablePanelEntityStyle.Absolute, 26F)});
+			this.tablePanel1.Size = new System.Drawing.Size(591, 262);
+			this.tablePanel1.TabIndex = 0;
+			this.tablePanel1.UseSkinIndents = true;
+			// 
+			// labelControl19
+			// 
+			this.labelControl19.Appearance.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelControl19.Appearance.Options.UseFont = true;
+			this.labelControl19.Appearance.Options.UseTextOptions = true;
+			this.labelControl19.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl19.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.labelControl19, 2);
+			this.labelControl19.Location = new System.Drawing.Point(225, 200);
+			this.labelControl19.Name = "labelControl19";
+			this.tablePanel1.SetRow(this.labelControl19, 5);
+			this.labelControl19.Size = new System.Drawing.Size(43, 24);
+			this.labelControl19.TabIndex = 31;
+			this.labelControl19.Text = "→";
+			// 
+			// labelControl18
+			// 
+			this.labelControl18.Appearance.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelControl18.Appearance.Options.UseFont = true;
+			this.labelControl18.Appearance.Options.UseTextOptions = true;
+			this.labelControl18.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl18.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.labelControl18, 2);
+			this.labelControl18.Location = new System.Drawing.Point(225, 160);
+			this.labelControl18.Name = "labelControl18";
+			this.tablePanel1.SetRow(this.labelControl18, 4);
+			this.labelControl18.Size = new System.Drawing.Size(43, 24);
+			this.labelControl18.TabIndex = 31;
+			this.labelControl18.Text = "→";
+			// 
+			// labelControl17
+			// 
+			this.labelControl17.Appearance.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelControl17.Appearance.Options.UseFont = true;
+			this.labelControl17.Appearance.Options.UseTextOptions = true;
+			this.labelControl17.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl17.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.labelControl17, 2);
+			this.labelControl17.Location = new System.Drawing.Point(225, 121);
+			this.labelControl17.Name = "labelControl17";
+			this.tablePanel1.SetRow(this.labelControl17, 3);
+			this.labelControl17.Size = new System.Drawing.Size(43, 24);
+			this.labelControl17.TabIndex = 31;
+			this.labelControl17.Text = "→";
+			// 
+			// labelControl16
+			// 
+			this.labelControl16.Appearance.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelControl16.Appearance.Options.UseFont = true;
+			this.labelControl16.Appearance.Options.UseTextOptions = true;
+			this.labelControl16.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl16.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.labelControl16, 2);
+			this.labelControl16.Location = new System.Drawing.Point(225, 82);
+			this.labelControl16.Name = "labelControl16";
+			this.tablePanel1.SetRow(this.labelControl16, 2);
+			this.labelControl16.Size = new System.Drawing.Size(43, 24);
+			this.labelControl16.TabIndex = 31;
+			this.labelControl16.Text = "→";
+			// 
+			// labelControl15
+			// 
+			this.labelControl15.Appearance.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.labelControl15.Appearance.Options.UseFont = true;
+			this.labelControl15.Appearance.Options.UseTextOptions = true;
+			this.labelControl15.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl15.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.labelControl15, 2);
+			this.labelControl15.Location = new System.Drawing.Point(225, 43);
+			this.labelControl15.Name = "labelControl15";
+			this.tablePanel1.SetRow(this.labelControl15, 1);
+			this.labelControl15.Size = new System.Drawing.Size(43, 24);
+			this.labelControl15.TabIndex = 30;
+			this.labelControl15.Text = "→";
+			// 
+			// picTransform_HEX_Custom
+			// 
+			this.picTransform_HEX_Custom.Appearance.Options.UseTextOptions = true;
+			this.picTransform_HEX_Custom.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_HEX_Custom.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_HEX_Custom.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.picTransform_HEX_Custom, 5);
+			this.picTransform_HEX_Custom.Location = new System.Drawing.Point(473, 194);
+			this.picTransform_HEX_Custom.Name = "picTransform_HEX_Custom";
+			this.tablePanel1.SetRow(this.picTransform_HEX_Custom, 5);
+			this.picTransform_HEX_Custom.Size = new System.Drawing.Size(93, 36);
+			this.picTransform_HEX_Custom.TabIndex = 29;
+			this.picTransform_HEX_Custom.Text = "#0000";
+			// 
+			// picTransform_HEX_Cyan
+			// 
+			this.picTransform_HEX_Cyan.Appearance.Options.UseTextOptions = true;
+			this.picTransform_HEX_Cyan.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_HEX_Cyan.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_HEX_Cyan.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_HEX_Cyan.Location = new System.Drawing.Point(474, 155);
+			this.picTransform_HEX_Cyan.Name = "picTransform_HEX_Cyan";
+			this.picTransform_HEX_Cyan.Size = new System.Drawing.Size(93, 35);
+			this.picTransform_HEX_Cyan.TabIndex = 28;
+			this.picTransform_HEX_Cyan.Text = "#0000";
+			// 
+			// picTransform_HEX_Red
+			// 
+			this.picTransform_HEX_Red.Appearance.Options.UseTextOptions = true;
+			this.picTransform_HEX_Red.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_HEX_Red.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_HEX_Red.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_HEX_Red.Location = new System.Drawing.Point(474, 116);
+			this.picTransform_HEX_Red.Name = "picTransform_HEX_Red";
+			this.picTransform_HEX_Red.Size = new System.Drawing.Size(93, 35);
+			this.picTransform_HEX_Red.TabIndex = 27;
+			this.picTransform_HEX_Red.Text = "#0000";
+			// 
+			// picTransform_HEX_White
+			// 
+			this.picTransform_HEX_White.Appearance.Options.UseTextOptions = true;
+			this.picTransform_HEX_White.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_HEX_White.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_HEX_White.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_HEX_White.Location = new System.Drawing.Point(474, 79);
+			this.picTransform_HEX_White.Name = "picTransform_HEX_White";
+			this.picTransform_HEX_White.Size = new System.Drawing.Size(93, 31);
+			this.picTransform_HEX_White.TabIndex = 26;
+			this.picTransform_HEX_White.Text = "#0000";
+			// 
+			// picTransform_RGB_Custom
+			// 
+			this.picTransform_RGB_Custom.Appearance.Options.UseTextOptions = true;
+			this.picTransform_RGB_Custom.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_RGB_Custom.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_RGB_Custom.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.picTransform_RGB_Custom, 4);
+			this.picTransform_RGB_Custom.Location = new System.Drawing.Point(362, 194);
+			this.picTransform_RGB_Custom.Name = "picTransform_RGB_Custom";
+			this.tablePanel1.SetRow(this.picTransform_RGB_Custom, 5);
+			this.picTransform_RGB_Custom.Size = new System.Drawing.Size(93, 36);
+			this.picTransform_RGB_Custom.TabIndex = 25;
+			this.picTransform_RGB_Custom.Text = "0;0;0";
+			// 
+			// picTransform_RGB_Cyan
+			// 
+			this.picTransform_RGB_Cyan.Appearance.Options.UseTextOptions = true;
+			this.picTransform_RGB_Cyan.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_RGB_Cyan.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_RGB_Cyan.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_RGB_Cyan.Location = new System.Drawing.Point(366, 155);
+			this.picTransform_RGB_Cyan.Name = "picTransform_RGB_Cyan";
+			this.picTransform_RGB_Cyan.Size = new System.Drawing.Size(93, 35);
+			this.picTransform_RGB_Cyan.TabIndex = 24;
+			this.picTransform_RGB_Cyan.Text = "0;0;0";
+			// 
+			// picTransform_RGB_Red
+			// 
+			this.picTransform_RGB_Red.Appearance.Options.UseTextOptions = true;
+			this.picTransform_RGB_Red.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_RGB_Red.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_RGB_Red.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_RGB_Red.Location = new System.Drawing.Point(366, 116);
+			this.picTransform_RGB_Red.Name = "picTransform_RGB_Red";
+			this.picTransform_RGB_Red.Size = new System.Drawing.Size(93, 35);
+			this.picTransform_RGB_Red.TabIndex = 23;
+			this.picTransform_RGB_Red.Text = "0;0;0";
+			// 
+			// picTransform_RGB_White
+			// 
+			this.picTransform_RGB_White.Appearance.Options.UseTextOptions = true;
+			this.picTransform_RGB_White.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_RGB_White.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_RGB_White.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_RGB_White.Location = new System.Drawing.Point(366, 79);
+			this.picTransform_RGB_White.Name = "picTransform_RGB_White";
+			this.picTransform_RGB_White.Size = new System.Drawing.Size(93, 31);
+			this.picTransform_RGB_White.TabIndex = 22;
+			this.picTransform_RGB_White.Text = "0;0;0";
+			// 
+			// picTransform_HEX_Orange
+			// 
+			this.picTransform_HEX_Orange.Appearance.Options.UseTextOptions = true;
+			this.picTransform_HEX_Orange.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_HEX_Orange.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_HEX_Orange.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_HEX_Orange.Location = new System.Drawing.Point(474, 38);
+			this.picTransform_HEX_Orange.Name = "picTransform_HEX_Orange";
+			this.picTransform_HEX_Orange.Size = new System.Drawing.Size(93, 35);
+			this.picTransform_HEX_Orange.TabIndex = 21;
+			this.picTransform_HEX_Orange.Text = "#0000";
+			// 
+			// picTransform_RGB_Orange
+			// 
+			this.picTransform_RGB_Orange.Appearance.Options.UseTextOptions = true;
+			this.picTransform_RGB_Orange.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.picTransform_RGB_Orange.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.picTransform_RGB_Orange.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.picTransform_RGB_Orange.Location = new System.Drawing.Point(366, 38);
+			this.picTransform_RGB_Orange.Name = "picTransform_RGB_Orange";
+			this.picTransform_RGB_Orange.Size = new System.Drawing.Size(93, 35);
+			this.picTransform_RGB_Orange.TabIndex = 20;
+			this.picTransform_RGB_Orange.Text = "0;0;0";
+			// 
+			// picTransform_ED_Custom
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_ED_Custom, 1);
+			this.picTransform_ED_Custom.EditValue = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+			this.picTransform_ED_Custom.Location = new System.Drawing.Point(113, 194);
+			this.picTransform_ED_Custom.MenuManager = this.barManager1;
+			this.picTransform_ED_Custom.Name = "picTransform_ED_Custom";
+			this.picTransform_ED_Custom.Properties.AutomaticColor = System.Drawing.Color.Black;
+			this.picTransform_ED_Custom.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+			this.tablePanel1.SetRow(this.picTransform_ED_Custom, 5);
+			this.picTransform_ED_Custom.Size = new System.Drawing.Size(109, 36);
+			this.picTransform_ED_Custom.TabIndex = 19;
+			this.picTransform_ED_Custom.EditValueChanged += new System.EventHandler(this.picTransform_ED_Custom_EditValueChanged);
+			// 
+			// barManager1
+			// 
+			this.barManager1.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
+            this.bar3});
+			this.barManager1.DockControls.Add(this.barDockControlTop);
+			this.barManager1.DockControls.Add(this.barDockControlBottom);
+			this.barManager1.DockControls.Add(this.barDockControlLeft);
+			this.barManager1.DockControls.Add(this.barDockControlRight);
+			this.barManager1.Form = this;
+			this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.cmdOpenNO2O,
+            this.cmdSaveExit,
+            this.trackGamma,
+            this.trackSaturation});
+			this.barManager1.MaxItemId = 4;
+			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.trackGammaRep,
+            this.trackSaturationRep});
+			this.barManager1.StatusBar = this.bar3;
+			// 
+			// bar3
+			// 
+			this.bar3.BarName = "Barra de estado";
+			this.bar3.CanDockStyle = DevExpress.XtraBars.BarCanDockStyle.Bottom;
+			this.bar3.DockCol = 0;
+			this.bar3.DockRow = 0;
+			this.bar3.DockStyle = DevExpress.XtraBars.BarDockStyle.Bottom;
+			this.bar3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenNO2O),
+            new DevExpress.XtraBars.LinkPersistInfo(this.cmdSaveExit),
+            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.trackGamma, "", false, true, true, 133, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
+            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.trackSaturation, "", false, true, true, 157, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
+			this.bar3.OptionsBar.AllowQuickCustomization = false;
+			this.bar3.OptionsBar.DrawDragBorder = false;
+			this.bar3.OptionsBar.UseWholeRow = true;
+			this.bar3.Text = "Barra de estado";
+			// 
+			// cmdOpenNO2O
+			// 
+			this.cmdOpenNO2O.Caption = "NO2O! The Definitive List XML Colors";
+			this.cmdOpenNO2O.Id = 0;
+			this.cmdOpenNO2O.ItemAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+			this.cmdOpenNO2O.ItemAppearance.Normal.Options.UseBackColor = true;
+			this.cmdOpenNO2O.Name = "cmdOpenNO2O";
+			toolTipTitleItem1.Text = "No2O (No To Orange):";
+			toolTipItem1.Text = "Will Open the No2O website, place where you can find good looking XMLs to choose " +
+    "from.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			this.cmdOpenNO2O.SuperTip = superToolTip1;
+			this.cmdOpenNO2O.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdOpenNO2O_ItemClick);
+			// 
+			// cmdSaveExit
+			// 
+			this.cmdSaveExit.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+			this.cmdSaveExit.Caption = "&Save and Exit";
+			this.cmdSaveExit.Id = 1;
+			this.cmdSaveExit.ItemAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.cmdSaveExit.ItemAppearance.Normal.ForeColor = System.Drawing.Color.Black;
+			this.cmdSaveExit.ItemAppearance.Normal.Options.UseBackColor = true;
+			this.cmdSaveExit.ItemAppearance.Normal.Options.UseForeColor = true;
+			this.cmdSaveExit.Name = "cmdSaveExit";
+			this.cmdSaveExit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdSaveExit_ItemClick);
+			// 
+			// trackGamma
+			// 
+			this.trackGamma.Caption = "Gamma:";
+			this.trackGamma.Edit = this.trackGammaRep;
+			this.trackGamma.EditValue = 10;
+			this.trackGamma.Id = 2;
+			this.trackGamma.Name = "trackGamma";
+			// 
+			// trackGammaRep
+			// 
+			this.trackGammaRep.LabelAppearance.Options.UseTextOptions = true;
+			this.trackGammaRep.LabelAppearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.trackGammaRep.Maximum = 100;
+			this.trackGammaRep.Minimum = 10;
+			this.trackGammaRep.Name = "trackGammaRep";
+			this.trackGammaRep.ShowValueToolTip = true;
+			this.trackGammaRep.ValueChanged += new System.EventHandler(this.trackGammaRep_ValueChanged);
+			// 
+			// trackSaturation
+			// 
+			this.trackSaturation.Caption = "Saturation:";
+			this.trackSaturation.Edit = this.trackSaturationRep;
+			this.trackSaturation.EditValue = 0;
+			this.trackSaturation.Id = 3;
+			this.trackSaturation.Name = "trackSaturation";
+			// 
+			// trackSaturationRep
+			// 
+			this.trackSaturationRep.LabelAppearance.Options.UseTextOptions = true;
+			this.trackSaturationRep.LabelAppearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.trackSaturationRep.Maximum = 100;
+			this.trackSaturationRep.Minimum = -100;
+			this.trackSaturationRep.Name = "trackSaturationRep";
+			this.trackSaturationRep.ShowValueToolTip = true;
+			this.trackSaturationRep.ValueChanged += new System.EventHandler(this.trackSaturationRep_ValueChanged);
+			// 
+			// barDockControlTop
+			// 
+			this.barDockControlTop.CausesValidation = false;
+			this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
+			this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
+			this.barDockControlTop.Manager = this.barManager1;
+			this.barDockControlTop.Size = new System.Drawing.Size(965, 0);
+			// 
+			// barDockControlBottom
+			// 
+			this.barDockControlBottom.CausesValidation = false;
+			this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.barDockControlBottom.Location = new System.Drawing.Point(0, 462);
+			this.barDockControlBottom.Manager = this.barManager1;
+			this.barDockControlBottom.Size = new System.Drawing.Size(965, 28);
+			// 
+			// barDockControlLeft
+			// 
+			this.barDockControlLeft.CausesValidation = false;
+			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
+			this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
+			this.barDockControlLeft.Manager = this.barManager1;
+			this.barDockControlLeft.Size = new System.Drawing.Size(0, 462);
+			// 
+			// barDockControlRight
+			// 
+			this.barDockControlRight.CausesValidation = false;
+			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
+			this.barDockControlRight.Location = new System.Drawing.Point(965, 0);
+			this.barDockControlRight.Manager = this.barManager1;
+			this.barDockControlRight.Size = new System.Drawing.Size(0, 462);
+			// 
+			// picTransform_XML_Custom
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_XML_Custom, 3);
+			this.picTransform_XML_Custom.Location = new System.Drawing.Point(272, 194);
+			this.picTransform_XML_Custom.MenuManager = this.barManager1;
+			this.picTransform_XML_Custom.Name = "picTransform_XML_Custom";
+			this.picTransform_XML_Custom.Properties.Appearance.BackColor = System.Drawing.Color.Lime;
+			this.picTransform_XML_Custom.Properties.Appearance.Options.UseBackColor = true;
+			this.picTransform_XML_Custom.Properties.NullText = ".";
+			this.picTransform_XML_Custom.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_XML_Custom, 5);
+			this.picTransform_XML_Custom.Size = new System.Drawing.Size(86, 35);
+			this.picTransform_XML_Custom.TabIndex = 18;
+			// 
+			// picTransform_XML_Cyan
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_XML_Cyan, 3);
+			this.picTransform_XML_Cyan.Location = new System.Drawing.Point(272, 155);
+			this.picTransform_XML_Cyan.MenuManager = this.barManager1;
+			this.picTransform_XML_Cyan.Name = "picTransform_XML_Cyan";
+			this.picTransform_XML_Cyan.Properties.Appearance.BackColor = System.Drawing.Color.Cyan;
+			this.picTransform_XML_Cyan.Properties.Appearance.Options.UseBackColor = true;
+			this.picTransform_XML_Cyan.Properties.NullText = ".";
+			this.picTransform_XML_Cyan.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_XML_Cyan, 4);
+			this.picTransform_XML_Cyan.Size = new System.Drawing.Size(86, 35);
+			this.picTransform_XML_Cyan.TabIndex = 18;
+			// 
+			// picTransform_XML_Red
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_XML_Red, 3);
+			this.picTransform_XML_Red.Location = new System.Drawing.Point(272, 116);
+			this.picTransform_XML_Red.MenuManager = this.barManager1;
+			this.picTransform_XML_Red.Name = "picTransform_XML_Red";
+			this.picTransform_XML_Red.Properties.Appearance.BackColor = System.Drawing.Color.Red;
+			this.picTransform_XML_Red.Properties.Appearance.Options.UseBackColor = true;
+			this.picTransform_XML_Red.Properties.NullText = ".";
+			this.picTransform_XML_Red.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_XML_Red, 3);
+			this.picTransform_XML_Red.Size = new System.Drawing.Size(86, 35);
+			this.picTransform_XML_Red.TabIndex = 17;
+			// 
+			// picTransform_XML_White
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_XML_White, 3);
+			this.picTransform_XML_White.Location = new System.Drawing.Point(272, 77);
+			this.picTransform_XML_White.MenuManager = this.barManager1;
+			this.picTransform_XML_White.Name = "picTransform_XML_White";
+			this.picTransform_XML_White.Properties.NullText = ".";
+			this.picTransform_XML_White.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_XML_White, 2);
+			this.picTransform_XML_White.Size = new System.Drawing.Size(86, 35);
+			this.picTransform_XML_White.TabIndex = 16;
+			// 
+			// picTransform_XML_Orange
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_XML_Orange, 3);
+			this.picTransform_XML_Orange.Location = new System.Drawing.Point(272, 38);
+			this.picTransform_XML_Orange.MenuManager = this.barManager1;
+			this.picTransform_XML_Orange.Name = "picTransform_XML_Orange";
+			this.picTransform_XML_Orange.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.picTransform_XML_Orange.Properties.Appearance.Options.UseBackColor = true;
+			this.picTransform_XML_Orange.Properties.NullText = ".";
+			this.picTransform_XML_Orange.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_XML_Orange, 1);
+			this.picTransform_XML_Orange.Size = new System.Drawing.Size(86, 35);
+			this.picTransform_XML_Orange.TabIndex = 15;
+			// 
+			// picTransform_ED_Cyan
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_ED_Cyan, 1);
+			this.picTransform_ED_Cyan.Location = new System.Drawing.Point(113, 155);
+			this.picTransform_ED_Cyan.MenuManager = this.barManager1;
+			this.picTransform_ED_Cyan.Name = "picTransform_ED_Cyan";
+			this.picTransform_ED_Cyan.Properties.Appearance.BackColor = System.Drawing.Color.Cyan;
+			this.picTransform_ED_Cyan.Properties.Appearance.Options.UseBackColor = true;
+			this.picTransform_ED_Cyan.Properties.NullText = ".";
+			this.picTransform_ED_Cyan.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_ED_Cyan, 4);
+			this.picTransform_ED_Cyan.Size = new System.Drawing.Size(109, 35);
+			this.picTransform_ED_Cyan.TabIndex = 17;
+			// 
+			// picTransform_ED_Red
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_ED_Red, 1);
+			this.picTransform_ED_Red.Location = new System.Drawing.Point(113, 116);
+			this.picTransform_ED_Red.MenuManager = this.barManager1;
+			this.picTransform_ED_Red.Name = "picTransform_ED_Red";
+			this.picTransform_ED_Red.Properties.Appearance.BackColor = System.Drawing.Color.Red;
+			this.picTransform_ED_Red.Properties.Appearance.Options.UseBackColor = true;
+			this.picTransform_ED_Red.Properties.NullText = ".";
+			this.picTransform_ED_Red.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_ED_Red, 3);
+			this.picTransform_ED_Red.Size = new System.Drawing.Size(109, 35);
+			this.picTransform_ED_Red.TabIndex = 16;
+			// 
+			// picTransform_ED_White
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_ED_White, 1);
+			this.picTransform_ED_White.Location = new System.Drawing.Point(113, 77);
+			this.picTransform_ED_White.MenuManager = this.barManager1;
+			this.picTransform_ED_White.Name = "picTransform_ED_White";
+			this.picTransform_ED_White.Properties.NullText = ".";
+			this.picTransform_ED_White.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_ED_White, 2);
+			this.picTransform_ED_White.Size = new System.Drawing.Size(109, 35);
+			this.picTransform_ED_White.TabIndex = 15;
+			// 
+			// picTransform_ED_Orange
+			// 
+			this.tablePanel1.SetColumn(this.picTransform_ED_Orange, 1);
+			this.picTransform_ED_Orange.Location = new System.Drawing.Point(113, 38);
+			this.picTransform_ED_Orange.MenuManager = this.barManager1;
+			this.picTransform_ED_Orange.Name = "picTransform_ED_Orange";
+			this.picTransform_ED_Orange.Properties.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.picTransform_ED_Orange.Properties.Appearance.Options.UseBackColor = true;
+			this.picTransform_ED_Orange.Properties.NullText = ".";
+			this.picTransform_ED_Orange.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
+			this.tablePanel1.SetRow(this.picTransform_ED_Orange, 1);
+			this.picTransform_ED_Orange.Size = new System.Drawing.Size(109, 35);
+			this.picTransform_ED_Orange.TabIndex = 14;
+			// 
+			// labelControl13
+			// 
+			this.labelControl13.Appearance.Options.UseTextOptions = true;
+			this.labelControl13.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl13.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.labelControl13.Location = new System.Drawing.Point(474, 16);
+			this.labelControl13.Name = "labelControl13";
+			this.labelControl13.Size = new System.Drawing.Size(102, 13);
+			this.labelControl13.TabIndex = 8;
+			this.labelControl13.Text = "HEX HTML";
+			// 
+			// labelControl12
+			// 
+			this.labelControl12.Appearance.Options.UseTextOptions = true;
+			this.labelControl12.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl12.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.labelControl12.Location = new System.Drawing.Point(366, 16);
+			this.labelControl12.Name = "labelControl12";
+			this.labelControl12.Size = new System.Drawing.Size(102, 13);
+			this.labelControl12.TabIndex = 7;
+			this.labelControl12.Text = "RGB Value";
+			// 
+			// labelControl11
+			// 
+			this.labelControl11.Appearance.Options.UseTextOptions = true;
+			this.labelControl11.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl11.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.labelControl11.Location = new System.Drawing.Point(272, 16);
+			this.labelControl11.Name = "labelControl11";
+			this.labelControl11.Size = new System.Drawing.Size(88, 16);
+			this.labelControl11.TabIndex = 6;
+			this.labelControl11.Text = "XML Transform";
+			// 
+			// labelControl10
+			// 
+			this.labelControl10.Appearance.Options.UseTextOptions = true;
+			this.labelControl10.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.labelControl10.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.labelControl10, 1);
+			this.labelControl10.Location = new System.Drawing.Point(113, 16);
+			this.labelControl10.Name = "labelControl10";
+			this.tablePanel1.SetRow(this.labelControl10, 0);
+			this.labelControl10.Size = new System.Drawing.Size(89, 13);
+			this.labelControl10.TabIndex = 5;
+			this.labelControl10.Text = "Elite Default";
+			// 
+			// labelControl9
+			// 
+			this.labelControl9.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+			this.tablePanel1.SetColumn(this.labelControl9, 0);
+			this.labelControl9.Location = new System.Drawing.Point(13, 194);
+			this.labelControl9.Name = "labelControl9";
+			this.tablePanel1.SetRow(this.labelControl9, 5);
+			this.labelControl9.Size = new System.Drawing.Size(96, 33);
+			this.labelControl9.TabIndex = 4;
+			this.labelControl9.Text = "Custom Color";
+			// 
+			// labelControl4
+			// 
+			this.labelControl4.Location = new System.Drawing.Point(13, 166);
+			this.labelControl4.Name = "labelControl4";
+			this.labelControl4.Size = new System.Drawing.Size(74, 13);
+			this.labelControl4.TabIndex = 3;
+			this.labelControl4.Text = "Cyan Elements";
+			// 
+			// labelControl3
+			// 
+			this.labelControl3.Location = new System.Drawing.Point(13, 127);
+			this.labelControl3.Name = "labelControl3";
+			this.labelControl3.Size = new System.Drawing.Size(69, 13);
+			this.labelControl3.TabIndex = 2;
+			this.labelControl3.Text = "Red Elements";
+			// 
+			// labelControl2
+			// 
+			this.labelControl2.Location = new System.Drawing.Point(13, 88);
+			this.labelControl2.Name = "labelControl2";
+			this.labelControl2.Size = new System.Drawing.Size(80, 13);
+			this.labelControl2.TabIndex = 1;
+			this.labelControl2.Text = "White Elements";
+			// 
+			// labelControl1
+			// 
+			this.labelControl1.Location = new System.Drawing.Point(13, 49);
+			this.labelControl1.Name = "labelControl1";
+			this.labelControl1.Size = new System.Drawing.Size(88, 13);
+			this.labelControl1.TabIndex = 0;
+			this.labelControl1.Text = "Orange Elements";
 			// 
 			// cmdImportXML_2
 			// 
@@ -223,7 +909,7 @@
 			this.cmdImportXML_2.AppearanceHovered.ForeColor = System.Drawing.Color.White;
 			this.cmdImportXML_2.AppearanceHovered.Options.UseBackColor = true;
 			this.cmdImportXML_2.AppearanceHovered.Options.UseForeColor = true;
-			this.cmdImportXML_2.Location = new System.Drawing.Point(12, 406);
+			this.cmdImportXML_2.Location = new System.Drawing.Point(12, 408);
 			this.cmdImportXML_2.Name = "cmdImportXML_2";
 			this.cmdImportXML_2.Size = new System.Drawing.Size(346, 42);
 			this.cmdImportXML_2.StyleController = this.layoutControl2;
@@ -428,18 +1114,23 @@
 			// 
 			this.txtXML_LOW.Location = new System.Drawing.Point(12, 257);
 			this.txtXML_LOW.Name = "txtXML_LOW";
-			this.txtXML_LOW.Size = new System.Drawing.Size(346, 145);
+			this.txtXML_LOW.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtXML_LOW.Properties.Appearance.Options.UseFont = true;
+			this.txtXML_LOW.Properties.Appearance.Options.UseTextOptions = true;
+			this.txtXML_LOW.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+			this.txtXML_LOW.Properties.Appearance.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+			this.txtXML_LOW.Size = new System.Drawing.Size(346, 147);
 			this.txtXML_LOW.StyleController = this.layoutControl2;
-			toolTipTitleItem1.Text = "XML";
-			toolTipItem1.Text = "This XML define how your Panels Look.";
-			toolTipItem2.Text = "Its also used by any Elements with Mode set to XML.";
-			toolTipItem3.Text = "Paste Any XML text here and click the \'Import\' Button.";
-			superToolTip1.Items.Add(toolTipTitleItem1);
-			superToolTip1.Items.Add(toolTipItem1);
-			superToolTip1.Items.Add(toolTipItem2);
-			superToolTip1.Items.Add(toolTipSeparatorItem1);
-			superToolTip1.Items.Add(toolTipItem3);
-			this.txtXML_LOW.SuperTip = superToolTip1;
+			toolTipTitleItem2.Text = "XML";
+			toolTipItem2.Text = "This XML define how your Panels Look.";
+			toolTipItem3.Text = "Its also used by any Elements with Mode set to XML.";
+			toolTipItem4.Text = "Paste Any XML text here and click the \'Import\' Button.";
+			superToolTip2.Items.Add(toolTipTitleItem2);
+			superToolTip2.Items.Add(toolTipItem2);
+			superToolTip2.Items.Add(toolTipItem3);
+			superToolTip2.Items.Add(toolTipSeparatorItem1);
+			superToolTip2.Items.Add(toolTipItem4);
+			this.txtXML_LOW.SuperTip = superToolTip2;
 			this.txtXML_LOW.TabIndex = 21;
 			// 
 			// layoutControlGroup2
@@ -464,7 +1155,7 @@
             this.layoutControlItem16,
             this.layoutControlItem1});
 			this.layoutControlGroup2.Name = "Root";
-			this.layoutControlGroup2.Size = new System.Drawing.Size(965, 460);
+			this.layoutControlGroup2.Size = new System.Drawing.Size(965, 462);
 			this.layoutControlGroup2.TextVisible = false;
 			// 
 			// lowRR
@@ -608,7 +1299,7 @@
 			this.layoutControlItem33.CustomizationFormText = "XML:";
 			this.layoutControlItem33.Location = new System.Drawing.Point(0, 229);
 			this.layoutControlItem33.Name = "layoutControlItem33";
-			this.layoutControlItem33.Size = new System.Drawing.Size(350, 165);
+			this.layoutControlItem33.Size = new System.Drawing.Size(350, 167);
 			this.layoutControlItem33.Text = "XML:";
 			this.layoutControlItem33.TextLocation = DevExpress.Utils.Locations.Top;
 			this.layoutControlItem33.TextSize = new System.Drawing.Size(24, 13);
@@ -616,7 +1307,7 @@
 			// layoutControlItem16
 			// 
 			this.layoutControlItem16.Control = this.cmdImportXML_2;
-			this.layoutControlItem16.Location = new System.Drawing.Point(0, 394);
+			this.layoutControlItem16.Location = new System.Drawing.Point(0, 396);
 			this.layoutControlItem16.Name = "layoutControlItem16";
 			this.layoutControlItem16.Size = new System.Drawing.Size(350, 46);
 			this.layoutControlItem16.TextSize = new System.Drawing.Size(0, 0);
@@ -627,141 +1318,9 @@
 			this.layoutControlItem1.Control = this.tabPane1;
 			this.layoutControlItem1.Location = new System.Drawing.Point(350, 0);
 			this.layoutControlItem1.Name = "layoutControlItem1";
-			this.layoutControlItem1.Size = new System.Drawing.Size(595, 440);
+			this.layoutControlItem1.Size = new System.Drawing.Size(595, 442);
 			this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem1.TextVisible = false;
-			// 
-			// barManager1
-			// 
-			this.barManager1.Bars.AddRange(new DevExpress.XtraBars.Bar[] {
-            this.bar3});
-			this.barManager1.DockControls.Add(this.barDockControlTop);
-			this.barManager1.DockControls.Add(this.barDockControlBottom);
-			this.barManager1.DockControls.Add(this.barDockControlLeft);
-			this.barManager1.DockControls.Add(this.barDockControlRight);
-			this.barManager1.Form = this;
-			this.barManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-            this.cmdOpenNO2O,
-            this.cmdSaveExit,
-            this.trackGamma,
-            this.trackSaturation});
-			this.barManager1.MaxItemId = 4;
-			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.trackGammaRep,
-            this.trackSaturationRep});
-			this.barManager1.StatusBar = this.bar3;
-			// 
-			// bar3
-			// 
-			this.bar3.BarName = "Barra de estado";
-			this.bar3.CanDockStyle = DevExpress.XtraBars.BarCanDockStyle.Bottom;
-			this.bar3.DockCol = 0;
-			this.bar3.DockRow = 0;
-			this.bar3.DockStyle = DevExpress.XtraBars.BarDockStyle.Bottom;
-			this.bar3.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
-            new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenNO2O),
-            new DevExpress.XtraBars.LinkPersistInfo(this.cmdSaveExit),
-            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.trackGamma, "", false, true, true, 133, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph),
-            new DevExpress.XtraBars.LinkPersistInfo(((DevExpress.XtraBars.BarLinkUserDefines)((DevExpress.XtraBars.BarLinkUserDefines.PaintStyle | DevExpress.XtraBars.BarLinkUserDefines.Width))), this.trackSaturation, "", false, true, true, 157, null, DevExpress.XtraBars.BarItemPaintStyle.CaptionGlyph)});
-			this.bar3.OptionsBar.AllowQuickCustomization = false;
-			this.bar3.OptionsBar.DrawDragBorder = false;
-			this.bar3.OptionsBar.UseWholeRow = true;
-			this.bar3.Text = "Barra de estado";
-			// 
-			// cmdOpenNO2O
-			// 
-			this.cmdOpenNO2O.Caption = "NO2O! The Definitive List XML Colors";
-			this.cmdOpenNO2O.Id = 0;
-			this.cmdOpenNO2O.ItemAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-			this.cmdOpenNO2O.ItemAppearance.Normal.Options.UseBackColor = true;
-			this.cmdOpenNO2O.Name = "cmdOpenNO2O";
-			toolTipTitleItem2.Text = "No2O (No To Orange):";
-			toolTipItem4.Text = "Will Open the No2O website, place where you can find good looking XMLs to choose " +
-    "from.";
-			superToolTip2.Items.Add(toolTipTitleItem2);
-			superToolTip2.Items.Add(toolTipItem4);
-			this.cmdOpenNO2O.SuperTip = superToolTip2;
-			this.cmdOpenNO2O.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdOpenNO2O_ItemClick);
-			// 
-			// cmdSaveExit
-			// 
-			this.cmdSaveExit.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
-			this.cmdSaveExit.Caption = "&Save and Exit";
-			this.cmdSaveExit.Id = 1;
-			this.cmdSaveExit.ItemAppearance.Normal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.cmdSaveExit.ItemAppearance.Normal.ForeColor = System.Drawing.Color.Black;
-			this.cmdSaveExit.ItemAppearance.Normal.Options.UseBackColor = true;
-			this.cmdSaveExit.ItemAppearance.Normal.Options.UseForeColor = true;
-			this.cmdSaveExit.Name = "cmdSaveExit";
-			this.cmdSaveExit.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdSaveExit_ItemClick);
-			// 
-			// trackGamma
-			// 
-			this.trackGamma.Caption = "Gamma:";
-			this.trackGamma.Edit = this.trackGammaRep;
-			this.trackGamma.EditValue = 10;
-			this.trackGamma.Id = 2;
-			this.trackGamma.Name = "trackGamma";
-			// 
-			// trackGammaRep
-			// 
-			this.trackGammaRep.LabelAppearance.Options.UseTextOptions = true;
-			this.trackGammaRep.LabelAppearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-			this.trackGammaRep.Maximum = 100;
-			this.trackGammaRep.Minimum = 10;
-			this.trackGammaRep.Name = "trackGammaRep";
-			this.trackGammaRep.ShowValueToolTip = true;
-			this.trackGammaRep.ValueChanged += new System.EventHandler(this.trackGammaRep_ValueChanged);
-			// 
-			// trackSaturation
-			// 
-			this.trackSaturation.Caption = "Saturation:";
-			this.trackSaturation.Edit = this.trackSaturationRep;
-			this.trackSaturation.EditValue = 0;
-			this.trackSaturation.Id = 3;
-			this.trackSaturation.Name = "trackSaturation";
-			// 
-			// trackSaturationRep
-			// 
-			this.trackSaturationRep.LabelAppearance.Options.UseTextOptions = true;
-			this.trackSaturationRep.LabelAppearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-			this.trackSaturationRep.Maximum = 100;
-			this.trackSaturationRep.Minimum = -100;
-			this.trackSaturationRep.Name = "trackSaturationRep";
-			this.trackSaturationRep.ShowValueToolTip = true;
-			this.trackSaturationRep.ValueChanged += new System.EventHandler(this.trackSaturationRep_ValueChanged);
-			// 
-			// barDockControlTop
-			// 
-			this.barDockControlTop.CausesValidation = false;
-			this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
-			this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
-			this.barDockControlTop.Manager = this.barManager1;
-			this.barDockControlTop.Size = new System.Drawing.Size(965, 0);
-			// 
-			// barDockControlBottom
-			// 
-			this.barDockControlBottom.CausesValidation = false;
-			this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.barDockControlBottom.Location = new System.Drawing.Point(0, 460);
-			this.barDockControlBottom.Manager = this.barManager1;
-			this.barDockControlBottom.Size = new System.Drawing.Size(965, 30);
-			// 
-			// barDockControlLeft
-			// 
-			this.barDockControlLeft.CausesValidation = false;
-			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
-			this.barDockControlLeft.Manager = this.barManager1;
-			this.barDockControlLeft.Size = new System.Drawing.Size(0, 460);
-			// 
-			// barDockControlRight
-			// 
-			this.barDockControlRight.CausesValidation = false;
-			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.barDockControlRight.Location = new System.Drawing.Point(965, 0);
-			this.barDockControlRight.Manager = this.barManager1;
-			this.barDockControlRight.Size = new System.Drawing.Size(0, 460);
 			// 
 			// XML_Form_Odyssey
 			// 
@@ -787,6 +1346,24 @@
 			((System.ComponentModel.ISupportInitialize)(this.picShipPanels.Properties)).EndInit();
 			this.tabNavigationPage2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.picStationPanels.Properties)).EndInit();
+			this.tabNavigationPage3.ResumeLayout(false);
+			this.tabNavigationPage3.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.tablePanel1)).EndInit();
+			this.tablePanel1.ResumeLayout(false);
+			this.tablePanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Custom.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackGammaRep)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackSaturationRep)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Custom.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Cyan.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Red.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_White.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_XML_Orange.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Cyan.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Red.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_White.Properties)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picTransform_ED_Orange.Properties)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sRR_B.Properties)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sRR_B)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sRG_B.Properties)).EndInit();
@@ -823,9 +1400,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem33)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem16)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackGammaRep)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.trackSaturationRep)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -883,5 +1457,42 @@
 		private DevExpress.XtraEditors.Repository.RepositoryItemTrackBar trackGammaRep;
 		private DevExpress.XtraBars.BarEditItem trackSaturation;
 		private DevExpress.XtraEditors.Repository.RepositoryItemTrackBar trackSaturationRep;
+		private DevExpress.XtraBars.Navigation.TabNavigationPage tabNavigationPage3;
+		private DevExpress.Utils.Layout.TablePanel tablePanel1;
+		private DevExpress.XtraEditors.PictureEdit picTransform_ED_Cyan;
+		private DevExpress.XtraEditors.PictureEdit picTransform_ED_Red;
+		private DevExpress.XtraEditors.PictureEdit picTransform_ED_White;
+		private DevExpress.XtraEditors.PictureEdit picTransform_ED_Orange;
+		private DevExpress.XtraEditors.LabelControl labelControl13;
+		private DevExpress.XtraEditors.LabelControl labelControl12;
+		private DevExpress.XtraEditors.LabelControl labelControl11;
+		private DevExpress.XtraEditors.LabelControl labelControl10;
+		private DevExpress.XtraEditors.LabelControl labelControl9;
+		private DevExpress.XtraEditors.LabelControl labelControl4;
+		private DevExpress.XtraEditors.LabelControl labelControl3;
+		private DevExpress.XtraEditors.LabelControl labelControl2;
+		private DevExpress.XtraEditors.LabelControl labelControl1;
+		private DevExpress.XtraEditors.PictureEdit picTransform_XML_Custom;
+		private DevExpress.XtraEditors.PictureEdit picTransform_XML_Cyan;
+		private DevExpress.XtraEditors.PictureEdit picTransform_XML_Red;
+		private DevExpress.XtraEditors.PictureEdit picTransform_XML_White;
+		private DevExpress.XtraEditors.PictureEdit picTransform_XML_Orange;
+		private DevExpress.XtraEditors.ColorPickEdit picTransform_ED_Custom;
+		private DevExpress.XtraEditors.LabelControl picTransform_RGB_Orange;
+		private DevExpress.XtraEditors.LabelControl picTransform_HEX_Orange;
+		private DevExpress.XtraEditors.LabelControl picTransform_HEX_Custom;
+		private DevExpress.XtraEditors.LabelControl picTransform_HEX_Cyan;
+		private DevExpress.XtraEditors.LabelControl picTransform_HEX_Red;
+		private DevExpress.XtraEditors.LabelControl picTransform_HEX_White;
+		private DevExpress.XtraEditors.LabelControl picTransform_RGB_Custom;
+		private DevExpress.XtraEditors.LabelControl picTransform_RGB_Cyan;
+		private DevExpress.XtraEditors.LabelControl picTransform_RGB_Red;
+		private DevExpress.XtraEditors.LabelControl picTransform_RGB_White;
+		private DevExpress.XtraEditors.LabelControl labelControl14;
+		private DevExpress.XtraEditors.LabelControl labelControl19;
+		private DevExpress.XtraEditors.LabelControl labelControl18;
+		private DevExpress.XtraEditors.LabelControl labelControl17;
+		private DevExpress.XtraEditors.LabelControl labelControl16;
+		private DevExpress.XtraEditors.LabelControl labelControl15;
 	}
 }

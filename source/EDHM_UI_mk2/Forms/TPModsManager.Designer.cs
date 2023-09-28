@@ -76,6 +76,7 @@
 			this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
 			this.cmdOpenRawFile = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdOpenJsonFile = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuOpenModFolder = new DevExpress.XtraBars.BarButtonItem();
 			this.barSubItem2 = new DevExpress.XtraBars.BarSubItem();
 			this.cmdSectionsEditor = new DevExpress.XtraBars.BarButtonItem();
 			this.cmdSectionsNew = new DevExpress.XtraBars.BarButtonItem();
@@ -190,7 +191,7 @@
 			this.vGridDetalles = new DevExpress.XtraVerticalGrid.VGridControl();
 			this.category = new DevExpress.XtraVerticalGrid.Rows.CategoryRow();
 			this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-			this.mnuOpenModFolder = new DevExpress.XtraBars.BarButtonItem();
+			this.mnuReinstallMod = new DevExpress.XtraBars.BarButtonItem();
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dockManager1)).BeginInit();
 			this.hideContainerRight.SuspendLayout();
@@ -319,8 +320,9 @@
             this.cmdKeysEdit,
             this.cmdKeysAddNew,
             this.mnuThemes,
-            this.mnuOpenModFolder});
-			this.barManager1.MaxItemId = 42;
+            this.mnuOpenModFolder,
+            this.mnuReinstallMod});
+			this.barManager1.MaxItemId = 43;
 			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemHyperLinkEdit1,
             this.cmdMoreMods_Link});
@@ -407,7 +409,8 @@
 			this.barSubItem1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenRawFile),
             new DevExpress.XtraBars.LinkPersistInfo(this.cmdOpenJsonFile),
-            new DevExpress.XtraBars.LinkPersistInfo(this.mnuOpenModFolder),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuOpenModFolder, true),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuReinstallMod),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem2, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.barSubItem3)});
 			this.barSubItem1.Name = "barSubItem1";
@@ -427,6 +430,15 @@
 			this.cmdOpenJsonFile.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdOpenJsonFile.ImageOptions.SvgImage")));
 			this.cmdOpenJsonFile.Name = "cmdOpenJsonFile";
 			this.cmdOpenJsonFile.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cmdOpenJsonFile_ItemClick);
+			// 
+			// mnuOpenModFolder
+			// 
+			this.mnuOpenModFolder.Caption = "Open Mod\'s Folder";
+			this.mnuOpenModFolder.Id = 41;
+			this.mnuOpenModFolder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuOpenModFolder.ImageOptions.Image")));
+			this.mnuOpenModFolder.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuOpenModFolder.ImageOptions.LargeImage")));
+			this.mnuOpenModFolder.Name = "mnuOpenModFolder";
+			this.mnuOpenModFolder.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuOpenModFolder_ItemClick);
 			// 
 			// barSubItem2
 			// 
@@ -1612,14 +1624,12 @@
 			// 
 			this.row.Name = "row";
 			// 
-			// mnuOpenModFolder
+			// mnuReinstallMod
 			// 
-			this.mnuOpenModFolder.Caption = "Open Mod\'s Folder";
-			this.mnuOpenModFolder.Id = 41;
-			this.mnuOpenModFolder.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuOpenModFolder.ImageOptions.Image")));
-			this.mnuOpenModFolder.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuOpenModFolder.ImageOptions.LargeImage")));
-			this.mnuOpenModFolder.Name = "mnuOpenModFolder";
-			this.mnuOpenModFolder.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuOpenModFolder_ItemClick);
+			this.mnuReinstallMod.Caption = "&Re-Install Mod..";
+			this.mnuReinstallMod.Id = 42;
+			this.mnuReinstallMod.Name = "mnuReinstallMod";
+			this.mnuReinstallMod.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuReinstallMod_ItemClick);
 			// 
 			// TPModsManager
 			// 
@@ -1846,5 +1856,6 @@
 		private DevExpress.XtraVerticalGrid.Rows.EditorRow row;
 		private DevExpress.XtraBars.BarSubItem mnuThemes;
 		private DevExpress.XtraBars.BarButtonItem mnuOpenModFolder;
+		private DevExpress.XtraBars.BarButtonItem mnuReinstallMod;
 	}
 }

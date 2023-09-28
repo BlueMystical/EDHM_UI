@@ -1023,6 +1023,7 @@
           "Type": "AmbientLightingMode",
           "Description": "lighting fix to cover orange lighting in ships with a 'long nose' (eg. FDL)"
         },
+
         {
           "Category": "Ambient Glow",
           "Title": "Ambient Glow Mode",
@@ -1045,6 +1046,7 @@
           "Type": "CustomColor",
           "Description": "Cabin Lighting Background Glow Colour."
         },
+
         {
           "Category": "Primary Colour",
           "Title": "Primary Colour Mode",
@@ -1062,11 +1064,23 @@
           "File": "Advanced",
           "Section": "Constants",
           "Key": "x69|y69|z69",
-          "Value": -23296.0,
+          "Value": -1.0,
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "Cabin Lighting Primary Colour."
         },
+        {
+          "Category": "Primary Colour",
+          "Title": "Primary Colour Ex",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "y121",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Enable Extend Cabin Lighting Primary Colour.\r\nFor use on some ships like the Dolphin.\r\nThis option will break the lighting in some ships like the Mamba."
+        },
+        
         {
           "Category": "Secondary Colour",
           "Title": "Secondary Colour Mode",
@@ -1089,6 +1103,7 @@
           "Type": "CustomColor",
           "Description": "Cabin Lighting Secondary Colour Mode."
         },
+
         {
           "Category": "Cabin - Cockpit Lighting",
           "Title": "Overall Brightness",
@@ -2697,9 +2712,43 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Triangle Radar Widget. (*Alpha)"
         },
+
         {
           "Category": "Radar Zoom Widget",
           "Title": "Mode",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "y138",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Radar Zoom Widget"
+        },
+        {
+          "Category": "Radar Zoom Widget",
+          "Title": "Custom Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x240|y240|z240",
+          "Value": -23296.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Radar Zoom Widget. "
+        },
+        {
+          "Category": "Radar Zoom Widget",
+          "Title": "Zoom Widget Brightness",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "w240",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Zoom Widget Brightness"
+        },
+        {
+          "Category": "Radar Zoom Widget",
+          "Title": "Level Lines Mode",
           "File": "Startup-Profile",
           "Section": "Constants",
           "Key": "w136",
@@ -2707,17 +2756,6 @@
           "ValueType": "Preset",
           "Type": "AdvancedMode",
           "Description": "Mode for Radar zoom level lines"
-        },
-        {
-          "Category": "Radar Zoom Widget",
-          "Title": "Custom Color",
-          "File": "Advanced",
-          "Section": "Constants",
-          "Key": "x240|y240|z240|w240",
-          "Value": -23296.0,
-          "ValueType": "Color",
-          "Type": "CustomColor",
-          "Description": "Custom Color for Radar Zoom Widget. (*Alpha)"
         },
         {
           "Category": "Radar Zoom Widget",
@@ -2741,6 +2779,8 @@
           "Type": "2X",
           "Description": "Radar zoom level lines Brightness"
         },
+
+
         {
           "Category": "Radar Objects - Supercruice",
           "Title": "Radar Bodies in Supercruice",

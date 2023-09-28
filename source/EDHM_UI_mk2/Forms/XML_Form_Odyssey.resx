@@ -117,6 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="labelControl14.Text" xml:space="preserve">
+    <value>by @psychicEgg
+
+This tool helps you understand how colors are affected by the XML filter.
+The most common HUD elements in the game are orange, white, red, and cyan.
+This tool applies the XML to those elements so that you can compare the results.</value>
+  </data>
   <metadata name="barManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

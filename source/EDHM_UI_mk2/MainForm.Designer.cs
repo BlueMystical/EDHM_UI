@@ -210,6 +210,7 @@
 			this.skinBarSubItem1 = new DevExpress.XtraBars.SkinBarSubItem();
 			this.skinDropDownButtonItem2 = new DevExpress.XtraBars.SkinDropDownButtonItem();
 			this.skinBarSubItem2 = new DevExpress.XtraBars.SkinBarSubItem();
+			this.mnuTheme_EditParameters = new DevExpress.XtraBars.BarButtonItem();
 			this.popupMenu_Detalles = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.popupMenu_GlobalSettings = new DevExpress.XtraBars.PopupMenu(this.components);
 			this.popupMenu_UserSettings = new DevExpress.XtraBars.PopupMenu(this.components);
@@ -535,8 +536,9 @@
             this.skinPaletteDropDownButtonItem1,
             this.MainMenuBar_BodyItem,
             this.skinDropDownButtonItem2,
-            this.skinBarSubItem2});
-			this.barManager1.MaxItemId = 59;
+            this.skinBarSubItem2,
+            this.mnuTheme_EditParameters});
+			this.barManager1.MaxItemId = 60;
 			this.barManager1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repCboGameInstances,
             this.repProgressBar,
@@ -1774,6 +1776,8 @@
 			this.mnuGlobalSettings_Add.Id = 15;
 			this.mnuGlobalSettings_Add.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("mnuGlobalSettings_Add.ImageOptions.SvgImage")));
 			this.mnuGlobalSettings_Add.Name = "mnuGlobalSettings_Add";
+			this.mnuGlobalSettings_Add.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+			this.mnuGlobalSettings_Add.VisibleInSearchMenu = false;
 			this.mnuGlobalSettings_Add.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuGlobalSettings_Add_ItemClick);
 			// 
 			// mnuGlobalSettings_Remove
@@ -1915,6 +1919,15 @@
 			this.skinBarSubItem2.Id = 58;
 			this.skinBarSubItem2.Name = "skinBarSubItem2";
 			// 
+			// mnuTheme_EditParameters
+			// 
+			this.mnuTheme_EditParameters.Caption = "Edit Theme Parameters";
+			this.mnuTheme_EditParameters.Id = 59;
+			this.mnuTheme_EditParameters.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("mnuTheme_EditParameters.ImageOptions.Image")));
+			this.mnuTheme_EditParameters.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("mnuTheme_EditParameters.ImageOptions.LargeImage")));
+			this.mnuTheme_EditParameters.Name = "mnuTheme_EditParameters";
+			this.mnuTheme_EditParameters.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.mnuTheme_EditParameters_ItemClick);
+			// 
 			// popupMenu_Detalles
 			// 
 			this.popupMenu_Detalles.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
@@ -1993,9 +2006,10 @@
 			this.popupMenu_Themes.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Apply),
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Rename, true),
-            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Delete),
-            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Export),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_EditParameters),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Delete, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_MakeNew),
+            new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Export),
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Preview, true),
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_Thumbnail),
             new DevExpress.XtraBars.LinkPersistInfo(this.mnuTheme_OpenFolder, true),
@@ -2244,6 +2258,7 @@
 		private DevExpress.XtraBars.BarStaticItem MainMenuBar_BodyItem;
 		private DevExpress.XtraBars.SkinDropDownButtonItem skinDropDownButtonItem2;
 		private DevExpress.XtraBars.SkinBarSubItem skinBarSubItem2;
+		private DevExpress.XtraBars.BarButtonItem mnuTheme_EditParameters;
 	}
 }
 

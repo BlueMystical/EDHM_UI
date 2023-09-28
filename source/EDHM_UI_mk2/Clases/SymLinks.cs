@@ -43,6 +43,32 @@ namespace EDHM_UI_mk2.Clases
 			return _ret;
 		}
 
+		/// <summary>Determina si el Directorio especificado es un 'Symbolic Link'
+		/// <para>Devuelve 'false' si el Directorio NO existe o es un directorio Normal.</para>
+		/// <para>Devuelve 'true' si el Directorio es: [MountPoint, SymbolicLink, JunctionPoint]</para></summary>
+		/// <param name="DirectoryPath">Ruta del Directorio a probar.</param>
+		/// <param name="Target">si el Directorio especificado es un 'Symbolic Link', devuelve la ruta 'real' a donde apunta.</param>
+		public static bool IsSymbolicDirectory(string DirectoryPath, out string Target)
+		{
+			bool _ret = false;
+			string _ret2 = string.Empty;
+			try
+			{
+				if (Directory.Exists(DirectoryPath))
+				{
+					var Link = new ReparsePoint(DirectoryPath);
+					if (Link != null && Link.Tag != ReparsePoint.TagType.None)
+					{
+						_ret = true;
+						_ret2 = Link.Target;
+					}
+				}
+			}
+			catch (Exception ex) { throw ex; }
+			Target = _ret2;
+			return _ret;
+		}
+
 		/// <summary>Determina si el Directorio especificado es un 'Symbolic Link' y devuelve la ruta 'real' a donde apunta.</summary>
 		/// <param name="DirectoryPath">Ruta del Directorio a probar</param>
 		public static string GetTargetDirectory(string DirectoryPath)

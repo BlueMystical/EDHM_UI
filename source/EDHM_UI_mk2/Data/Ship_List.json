@@ -156,7 +156,7 @@
   {
     "ship_full_name": "Imperial Cutter",
     "ship_id": 23,
-    "ed_short": "cutter",
+    "ed_short": "empire_cutter",
     "size": "Large",
     "role": "Multipurpose "
   },

@@ -1,183 +1,196 @@
 {
    "Name":"GlobalSettings",
    "Title":"Global Settings",
-   "Elements":[
-      {
-         "Category":"Radar Objects",
-         "Title":"White Objects",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"x115",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"Switch for White objects on the radar (wakes, materials, salvage etc) in standard flight (not supercruise)"
-      },
-      {
-         "Category":"Messages",
-         "Title":"Background Opacity",
-         "File":"Advanced",
-         "Section":"Constants",
-         "Key":"z99",
-         "Value":1.0,
-         "ValueType":"Brightness",
-         "Type":"2X",
-         "Description":"Middle screen Popup Messages (Ship Scan Detected, etc)\r\nBackground Opacity, behind Text and symbols (cloud-shaped background).\r\nSet this value to 0 so you can still see the ship you're shooting at through the popup messages."
-      },
-      {
-         "Category":"Colour Protection",
-         "Title":"Bright Yellow Protection",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"z3",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
-      },
-      {
-         "Category":"Colour Protection",
-         "Title":"General Yellow Protection",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"y4",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
-      },
-      {
-         "Category":"Colour Protection",
-         "Title":"White Protection",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"z4",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
-      },
-      {
-         "Category":"Colour Protection",
-         "Title":"Green Protection",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"w4",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
-      },
-      {
-         "Category":"Colour Protection",
-         "Title":"Red Protection",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"x5",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
-      },
-      {
-         "Category":"Colour Protection",
-         "Title":"Cyan / Blue Protection",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"y5",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
-      },
-      {
-         "Category":"Colour Protection",
-         "Title":"SuperPowers / Powers Icon Protection",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"z5",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
-      },
-      {
-         "Category":"Space FX",
-         "Title":"Space Dust",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"z121",
-         "Value":1.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"Switch for Space Dust (aka Snow in normal flight)"
-      },
-      {
-         "Category":"Space FX",
-         "Title":"Space Dust Mode",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"z142",
-         "Value":1.0,
-         "ValueType":"Preset",
-         "Type":"SpaceDustMode",
-         "Description":"Mode for Space Dust"
-      },
-      {
-         "Category":"Space FX",
-         "Title":"Space Dust Color",
-         "File":"Advanced",
-         "Section":"Constants",
-         "Key":"x175|y175|z175",
-         "Value":-1.0,
-         "ValueType":"Color",
-         "Type":"CustomColor",
-         "Description":"Custom Color for Space Dust"
-      },
-      {
-         "Category":"Space FX",
-         "Title":"Space Dust Brightness",
-         "File":"Advanced",
-         "Section":"Constants",
-         "Key":"w175",
-         "Value":0.8,
-         "ValueType":"Brightness",
-         "Type":"2X",
-         "Description":"Brightness for Space Dust."
-      },
-      {
-         "Category":"Space FX",
-         "Title":"Space Dust Length",
-         "File":"Advanced",
-         "Section":"Constants",
-         "Key":"w142",
-         "Value":2.0,
-         "ValueType":"Brightness",
-         "Type":"4X",
-         "Description":"Brightness for Space Dust."
-      },
-      {
-         "Category":"Space FX",
-         "Title":"Supercruise Snow Mode",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"y234",
-         "Value":200.0,
-         "ValueType":"Preset",
-         "Type":"SCSnowMode",
-         "Description":"Mode for Supercruise Snow"
-      },
-      {
-         "Category":"Space FX",
-         "Title":"Supercruise Snow Color",
-         "File":"Advanced",
-         "Section":"Constants",
-         "Key":"x195|y195|z195",
-         "Value":-1.0,
-         "ValueType":"Color",
-         "Type":"CustomColor",
-         "Description":"Custom Color for Supercruise Snow"
-      },
+  "Elements": [
+    {
+      "Category": "Radar Objects",
+      "Title": "White Objects",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "x115",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "Switch for White objects on the radar (wakes, materials, salvage etc) in standard flight (not supercruise)"
+    },
+    {
+      "Category": "Messages",
+      "Title": "Background Opacity",
+      "File": "Advanced",
+      "Section": "Constants",
+      "Key": "z99",
+      "Value": 1.0,
+      "ValueType": "Brightness",
+      "Type": "2X",
+      "Description": "Middle screen Popup Messages (Ship Scan Detected, etc)\r\nBackground Opacity, behind Text and symbols (cloud-shaped background).\r\nSet this value to 0 so you can still see the ship you're shooting at through the popup messages."
+    },
+
+    {
+      "Category": "Jump System Info",
+      "Title": "Background Opacity",
+      "File": "Advanced",
+      "Section": "Constants",
+      "Key": "w151",
+      "Value": 1.0,
+      "ValueType": "Brightness",
+      "Type": "1X",
+      "Description": "Jump System Info Background Opacity."
+    },
+
+    {
+      "Category": "Colour Protection",
+      "Title": "Bright Yellow Protection",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "z3",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+    },
+    {
+      "Category": "Colour Protection",
+      "Title": "General Yellow Protection",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "y4",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+    },
+    {
+      "Category": "Colour Protection",
+      "Title": "White Protection",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "z4",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+    },
+    {
+      "Category": "Colour Protection",
+      "Title": "Green Protection",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "w4",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+    },
+    {
+      "Category": "Colour Protection",
+      "Title": "Red Protection",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "x5",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+    },
+    {
+      "Category": "Colour Protection",
+      "Title": "Cyan / Blue Protection",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "y5",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+    },
+    {
+      "Category": "Colour Protection",
+      "Title": "SuperPowers / Powers Icon Protection",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "z5",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+    },
+    {
+      "Category": "Space FX",
+      "Title": "Space Dust",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "z121",
+      "Value": 1.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "Switch for Space Dust (aka Snow in normal flight)"
+    },
+    {
+      "Category": "Space FX",
+      "Title": "Space Dust Mode",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "z142",
+      "Value": 1.0,
+      "ValueType": "Preset",
+      "Type": "SpaceDustMode",
+      "Description": "Mode for Space Dust"
+    },
+    {
+      "Category": "Space FX",
+      "Title": "Space Dust Color",
+      "File": "Advanced",
+      "Section": "Constants",
+      "Key": "x175|y175|z175",
+      "Value": -1.0,
+      "ValueType": "Color",
+      "Type": "CustomColor",
+      "Description": "Custom Color for Space Dust"
+    },
+    {
+      "Category": "Space FX",
+      "Title": "Space Dust Brightness",
+      "File": "Advanced",
+      "Section": "Constants",
+      "Key": "w175",
+      "Value": 0.8,
+      "ValueType": "Brightness",
+      "Type": "2X",
+      "Description": "Brightness for Space Dust."
+    },
+    {
+      "Category": "Space FX",
+      "Title": "Space Dust Length",
+      "File": "Advanced",
+      "Section": "Constants",
+      "Key": "w142",
+      "Value": 2.0,
+      "ValueType": "Brightness",
+      "Type": "4X",
+      "Description": "Brightness for Space Dust."
+    },
+    {
+      "Category": "Space FX",
+      "Title": "Supercruise Snow Mode",
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "y234",
+      "Value": 200.0,
+      "ValueType": "Preset",
+      "Type": "SCSnowMode",
+      "Description": "Mode for Supercruise Snow"
+    },
+    {
+      "Category": "Space FX",
+      "Title": "Supercruise Snow Color",
+      "File": "Advanced",
+      "Section": "Constants",
+      "Key": "x195|y195|z195",
+      "Value": -1.0,
+      "ValueType": "Color",
+      "Type": "CustomColor",
+      "Description": "Custom Color for Supercruise Snow"
+    },
     {
       "Category": "Space FX",
       "Title": "Supercruise Snow Brightness",
@@ -193,36 +206,36 @@
     {
       "Category": "Canopy Effects",
       "Title": "Canopy Scratches",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"x229",
-         "Value":0.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"Hide the canopy scratches when the ship is very damaged."
-      },
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "x229",
+      "Value": 0.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "Hide the canopy scratches when the ship is very damaged."
+    },
     {
       "Category": "Canopy Effects",
       "Title": "Canopy Ice",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"y229",
-         "Value":0.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"Hide the canopy ice when the ship is very cold."
-      },
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "y229",
+      "Value": 0.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "Hide the canopy ice when the ship is very cold."
+    },
     {
       "Category": "Canopy Effects",
       "Title": "Canopy Condensation",
-         "File":"Startup-Profile",
-         "Section":"Constants",
-         "Key":"z229",
-         "Value":0.0,
-         "ValueType":"ONOFF",
-         "Type":"ONOFF",
-         "Description":"Hide the canopy condensation when the ship is very hot."
-      },
+      "File": "Startup-Profile",
+      "Section": "Constants",
+      "Key": "z229",
+      "Value": 0.0,
+      "ValueType": "ONOFF",
+      "Type": "ONOFF",
+      "Description": "Hide the canopy condensation when the ship is very hot."
+    }
 
-   ]
+  ]
 }

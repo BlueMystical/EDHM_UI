@@ -11,6 +11,8 @@ namespace EDHM_UI_mk2.Forms
 {
 	public partial class XML_Form_Odyssey : DevExpress.XtraEditors.XtraForm
 	{
+		#region Declaraciones
+
 		/// <summary>Devuelve la Matrix de Color Elejida.</summary>
 		public float[][] ColorMatrix { get; set; }
 
@@ -27,6 +29,10 @@ namespace EDHM_UI_mk2.Forms
 
 		public game_instance ActiveInstance { get; set; }
 		public List<value_key> xml_profile { get; set; }
+
+		#endregion
+
+		#region Constructores
 
 		public XML_Form_Odyssey(game_instance _ActiveInstance, List<value_key> _Xml_profile)
 		{
@@ -55,8 +61,6 @@ namespace EDHM_UI_mk2.Forms
 			this.ShipPanelOriginalImage = Image.FromFile(Path.Combine(ImagesPath, @"ColorMatrix_Preview_2a.png"));
 			this.ShipPanelPortraitImage = Image.FromFile(Path.Combine(ImagesPath, @"ColorMatrix_Preview_2b.png"));
 
-			//this.PortraitMainImage = Image.FromFile(Path.Combine(ImagesPath, @"ColorMatrix_Preview_3a.png"));
-
 			this.picStationPanels.Image = this.StationOriginalImage;
 
 			this.trackGamma.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
@@ -76,15 +80,14 @@ namespace EDHM_UI_mk2.Forms
 			});
 		}
 
+		#endregion
+
+		#region Metodos
 
 		private void LoadINIProfile()
 		{
 			try
 			{
-				//Cuando se Carga un Tema, el XML se copia Localmente, usamos ese archivo 
-				//this._Reader = new IniFile(Path.Combine(this.AppExePath, "Data", this.ActiveInstance.key + "_XML-Profile.ini"));
-				//this._Reader = new IniFile(Path.Combine(this.ActiveTheme.folder, "XML-Profile.ini"));
-
 				if (true)
 				{
 					StringBuilder _XML_Matrix = new StringBuilder();
@@ -105,17 +108,17 @@ namespace EDHM_UI_mk2.Forms
 					decimal bGR, bGG, bGB = 0;
 					decimal bBR, bBG, bBB = 0;
 
-					bRR = this.xml_profile.Find(X => X.key == "x150").value;  // Convert.ToDecimal(this._Reader.ReadKey("x150", "constants"));
-					bRG = this.xml_profile.Find(X => X.key == "y150").value;  // Convert.ToDecimal(this._Reader.ReadKey("y150", "constants"));
-					bRB = this.xml_profile.Find(X => X.key == "z150").value;  // Convert.ToDecimal(this._Reader.ReadKey("z150", "constants"));
+					bRR = this.xml_profile.Find(X => X.key == "x150").value; 
+					bRG = this.xml_profile.Find(X => X.key == "y150").value; 
+					bRB = this.xml_profile.Find(X => X.key == "z150").value; 
 
-					bGR = this.xml_profile.Find(X => X.key == "x151").value;  // Convert.ToDecimal(this._Reader.ReadKey("x151", "constants"));
-					bGG = this.xml_profile.Find(X => X.key == "y151").value;  // Convert.ToDecimal(this._Reader.ReadKey("y151", "constants"));
-					bGB = this.xml_profile.Find(X => X.key == "z151").value;  // Convert.ToDecimal(this._Reader.ReadKey("z151", "constants"));
+					bGR = this.xml_profile.Find(X => X.key == "x151").value; 
+					bGG = this.xml_profile.Find(X => X.key == "y151").value;  
+					bGB = this.xml_profile.Find(X => X.key == "z151").value; 
 
-					bBR = this.xml_profile.Find(X => X.key == "x152").value;  // Convert.ToDecimal(this._Reader.ReadKey("x152", "constants"));
-					bBG = this.xml_profile.Find(X => X.key == "y152").value;  // Convert.ToDecimal(this._Reader.ReadKey("y152", "constants"));
-					bBB = this.xml_profile.Find(X => X.key == "z152").value;  // Convert.ToDecimal(this._Reader.ReadKey("z152", "constants"));
+					bBR = this.xml_profile.Find(X => X.key == "x152").value;  
+					bBG = this.xml_profile.Find(X => X.key == "y152").value; 
+					bBB = this.xml_profile.Find(X => X.key == "z152").value; 
 
 					_XML_Matrix.Length = 0;
 					_XML_Matrix.AppendLine(string.Format("<MatrixRed>{0}, {1}, {2}</MatrixRed>", bRR, bRG, bRB));
@@ -169,8 +172,8 @@ namespace EDHM_UI_mk2.Forms
 				   new float[] { (float)this.sRR_B.Value / 100, (float)this.sRG_B.Value / 100, (float)this.sRB_B.Value / 100,  0, 0},        // red scaling factor of 2
 				   new float[] { (float)this.sGR_B.Value / 100, (float)this.sGG_B.Value / 100, (float)this.sGB_B.Value / 100,  0, 0},        // green scaling factor of 1
 				   new float[] { (float)this.sBR_B.Value / 100, (float)this.sBG_B.Value / 100, (float)this.sBB_B.Value / 100,  0, 0},        // blue scaling factor of 1
-				   new float[] {0,  0,  0,  1, 0},			// alpha scaling factor of 1
-				   new float[] {0f, 0f, 0f, 0f, 1f}			// three translations of 0.2
+				   new float[] { 0,  0,  0,  1, 0},			// alpha scaling factor of 1
+				   new float[] { 0f, 0f, 0f, 0f, 1f}			// three translations of 0.2
 				};
 				this.ColorMatrix = colorMatrixElements;
 
@@ -283,6 +286,7 @@ namespace EDHM_UI_mk2.Forms
 					this.picStationPanels.Refresh();
 
 					DrawPortrait_STATION();
+					TransformXMLColors();
 				}));
 			}
 			catch (Exception ex)
@@ -312,6 +316,104 @@ namespace EDHM_UI_mk2.Forms
 				this.picStationPanels.Image = _Layer_1;
 				this.picStationPanels.Refresh();
 			}));
+		}
+
+		public void TransformXMLColors()
+		{
+			try
+			{
+				Color CustomColor = picTransform_ED_Custom.Color;
+
+				// Get XML Values from the Sliders:
+				XmlValues xmlValues = new XmlValues()
+				{
+					Red =   new RgbValues(this.sRR_B.Value / 100m, this.sRG_B.Value / 100m, this.sRB_B.Value / 100m),  //<- Slider Values are multiplied by 100;
+					Green = new RgbValues(this.sGR_B.Value / 100m, this.sGG_B.Value / 100m, this.sGB_B.Value / 100m),
+					Blue =  new RgbValues(this.sBR_B.Value / 100m, this.sBG_B.Value / 100m, this.sBB_B.Value / 100m)
+				};
+
+				// Orange Transformation:
+				RgbValues Percentages = new RgbValues(1.0m, 0.5m, 0.0m);
+				Color TransformColor_Orange = TransformColorFromXML(xmlValues, Percentages);
+
+				// White Transformation:
+				Percentages = new RgbValues(1.0m, 1.0m, 1.0m);
+				Color TransformColor_White = TransformColorFromXML(xmlValues, Percentages);
+
+				// Red Transformation:
+				Percentages = new RgbValues(1.0m, 0.0m, 0.0m);
+				Color TransformColor_Red = TransformColorFromXML(xmlValues, Percentages);
+
+				//Cyan Transformation:
+				Percentages = new RgbValues(0.0m, 1.0m, 1.0m);
+				Color TransformColor_Cyan = TransformColorFromXML(xmlValues, Percentages);
+
+				// Custom Color Transformation:
+				Percentages = new RgbValues(CustomColor.R / 255m, CustomColor.G / 255m, CustomColor.B / 255m);
+				Color TransformColor_Custom = TransformColorFromXML(xmlValues, Percentages);
+
+				#region Show the Colors
+
+				picTransform_ED_Orange.BackColor = Color.Orange;
+				picTransform_XML_Orange.BackColor = TransformColor_Orange;
+				picTransform_RGB_Orange.Text = string.Format("{0};{1};{2}", TransformColor_Orange.R, TransformColor_Orange.G, TransformColor_Orange.B);
+				picTransform_HEX_Orange.Text = ColorTranslator.ToHtml(TransformColor_Orange);
+
+				picTransform_ED_White.BackColor = Color.White;
+				picTransform_XML_White.BackColor = TransformColor_White;
+				picTransform_RGB_White.Text = string.Format("{0};{1};{2}", TransformColor_White.R, TransformColor_White.G, TransformColor_White.B);
+				picTransform_HEX_White.Text = ColorTranslator.ToHtml(TransformColor_White);
+
+				picTransform_ED_Red.BackColor = Color.Red;
+				picTransform_XML_Red.BackColor = TransformColor_Red;
+				picTransform_RGB_Red.Text = string.Format("{0};{1};{2}", TransformColor_Red.R, TransformColor_Red.G, TransformColor_Red.B);
+				picTransform_HEX_Red.Text = ColorTranslator.ToHtml(TransformColor_Red);
+
+				picTransform_ED_Cyan.BackColor = Color.Cyan;
+				picTransform_XML_Cyan.BackColor = TransformColor_Cyan;
+				picTransform_RGB_Cyan.Text = string.Format("{0};{1};{2}", TransformColor_Cyan.R, TransformColor_Cyan.G, TransformColor_Cyan.B);
+				picTransform_HEX_Cyan.Text = ColorTranslator.ToHtml(TransformColor_Cyan);
+
+				picTransform_XML_Custom.BackColor = TransformColor_Custom;
+				picTransform_RGB_Custom.Text = string.Format("{0};{1};{2}", TransformColor_Custom.R, TransformColor_Custom.G, TransformColor_Custom.B);
+				picTransform_HEX_Custom.Text = ColorTranslator.ToHtml(TransformColor_Custom);
+
+				#endregion
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		private Color TransformColorFromXML(XmlValues xml, RgbValues Percentages)
+		{
+			Color _ret = Color.White;
+			try
+			{
+				//1. Get Raw Values
+				decimal Raw_R = (xml.Red.Red * Percentages.Red)		+ (xml.Green.Red * Percentages.Green)	+ (xml.Blue.Red * Percentages.Blue);
+				decimal Raw_G = (xml.Red.Green * Percentages.Red)	+ (xml.Green.Green * Percentages.Green)	+ (xml.Blue.Green * Percentages.Blue);
+				decimal Raw_B = (xml.Red.Blue * Percentages.Red)	+ (xml.Green.Blue * Percentages.Green)	+ (xml.Blue.Blue * Percentages.Blue);
+
+				//2. Normalize_R = MAX(0; SI(MAX($D25:$F25) > 1; (1 / MAX($D25:$F25)) * D25; D25))
+				decimal Max_V = Util.Max(Raw_R, Raw_G, Raw_B);
+
+				decimal Norm_R = Math.Max(0.0m, Max_V > 1.0m ? (1 / Max_V) * Raw_R : Raw_R);
+				decimal Norm_G = Math.Max(0.0m, Max_V > 1.0m ? (1 / Max_V) * Raw_G : Raw_G);
+				decimal Norm_B = Math.Max(0.0m, Max_V > 1.0m ? (1 / Max_V) * Raw_B : Raw_B);
+
+				//3. Convert to RGB values
+				int rgb_R = Convert.ToInt32(Math.Round(Norm_R * 255m, 0));
+				int rgb_G = Convert.ToInt32(Math.Round(Norm_G * 255m, 0));
+				int rgb_B = Convert.ToInt32(Math.Round(Norm_B * 255m, 0));
+
+				_ret = Color.FromArgb(255, rgb_R, rgb_G, rgb_B);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			return _ret;
 		}
 
 		private void MakeXML_LOW()
@@ -419,6 +521,10 @@ namespace EDHM_UI_mk2.Forms
 			}
 		}
 
+		#endregion
+
+		#region Eventos de Controles
+
 		private void sliderBar_EditValueChanged(object sender, EventArgs e)
 		{
 			TrackBarControl _Slider = sender as TrackBarControl;
@@ -457,6 +563,62 @@ namespace EDHM_UI_mk2.Forms
 			});
 		}
 
+		private void trackGammaRep_ValueChanged(object sender, EventArgs e)
+		{
+			DrawPicture_STATION();
+		}
+		private void trackSaturationRep_ValueChanged(object sender, EventArgs e)
+		{
+			DrawPicture_STATION();
+		}
+		private void picTransform_ED_Custom_EditValueChanged(object sender, EventArgs e)
+		{
+			decimal bRR, bRG, bRB = 0;
+			decimal bGR, bGG, bGB = 0;
+			decimal bBR, bBG, bBB = 0;
+
+			bRR = this.sRR_B.Value / 100m;
+			bRG = this.sRG_B.Value / 100m;
+			bRB = this.sRB_B.Value / 100m;
+
+			bGR = this.sGR_B.Value / 100m;
+			bGG = this.sGG_B.Value / 100m;
+			bGB = this.sGB_B.Value / 100m;
+
+			bBR = this.sBR_B.Value / 100m;
+			bBG = this.sBG_B.Value / 100m;
+			bBB = this.sBB_B.Value / 100m;
+
+			Color CustomColor = picTransform_ED_Custom.Color;
+
+			decimal per_R = CustomColor.R / 255m;
+			decimal per_G = CustomColor.G / 255m;
+			decimal per_B = CustomColor.B / 255m;
+
+			decimal Raw_R = (bRR * per_R) + (bGR * per_G) + (bBR * per_B);
+			decimal Raw_G = (bRG * per_R) + (bGG * per_G) + (bBG * per_B);
+			decimal Raw_B = (bRB * per_R) + (bGB * per_G) + (bBB * per_B);
+
+			decimal Max_V = Util.Max(Raw_R, Raw_G, Raw_B);
+
+			decimal Norm_R = Math.Max(0.0m, Max_V > 1.0m ? (1 / Max_V) * Raw_R : Raw_R);
+			decimal Norm_G = Math.Max(0.0m, Max_V > 1.0m ? (1 / Max_V) * Raw_G : Raw_G);
+			decimal Norm_B = Math.Max(0.0m, Max_V > 1.0m ? (1 / Max_V) * Raw_B : Raw_B);
+
+			int rgb_R = Convert.ToInt32(Math.Round(Norm_R * 255m, 0));
+			int rgb_G = Convert.ToInt32(Math.Round(Norm_G * 255m, 0));
+			int rgb_B = Convert.ToInt32(Math.Round(Norm_B * 255m, 0));
+
+			picTransform_XML_Custom.BackColor = Color.FromArgb(255, rgb_R, rgb_G, rgb_B);
+			picTransform_RGB_Custom.Text = string.Format("{0};{1};{2}",
+					picTransform_XML_Custom.BackColor.R, picTransform_XML_Custom.BackColor.G, picTransform_XML_Custom.BackColor.B);
+			picTransform_HEX_Custom.Text = ColorTranslator.ToHtml(picTransform_XML_Custom.BackColor);
+		}
+
+		#endregion
+
+		#region Botonera
+
 		private void cmdImportXML_2_Click(object sender, EventArgs e)
 		{
 			ImportXML_LOW(this.txtXML_LOW.Text);
@@ -475,6 +637,7 @@ namespace EDHM_UI_mk2.Forms
 		{
 			try
 			{
+				//Fija los valores de los Sliders en el XML cargado:
 				if (this.xml_profile.IsNotEmpty())
 				{
 					this.xml_profile.Find(X => X.key == "x150").value = ((decimal)this.sRR_B.Value / 100);
@@ -490,6 +653,7 @@ namespace EDHM_UI_mk2.Forms
 					this.xml_profile.Find(X => X.key == "z152").value = ((decimal)this.sBB_B.Value / 100);
 				}
 				Close();
+				//Quien llamó a este formulario debe encargarse de Guardar los cambios.
 
 				/*
 				string INIpath = Path.Combine(this.ActiveInstance.path, "EDHM-ini", "XML-Profile.ini");
@@ -530,14 +694,28 @@ namespace EDHM_UI_mk2.Forms
 			}
 		}
 
-		private void trackGammaRep_ValueChanged(object sender, EventArgs e)
+		#endregion
+
+	}
+
+	class XmlValues
+	{
+		public RgbValues Red { get; set; }
+		public RgbValues Green { get; set; }
+		public RgbValues Blue { get; set; }
+	}
+	class RgbValues
+	{
+		public RgbValues() { }
+		public RgbValues(decimal pRed, decimal pGreen, decimal pBlue)
 		{
-			DrawPicture_STATION();
+			this.Red = pRed;
+			this.Green = pGreen;
+			this.Blue = pBlue;
 		}
 
-		private void trackSaturationRep_ValueChanged(object sender, EventArgs e)
-		{
-			DrawPicture_STATION();
-		}
+		public decimal Red { get; set; } = 0.0m;
+		public decimal Green { get; set; } = 0.0m;
+		public decimal Blue { get; set; } = 0.0m;
 	}
 }

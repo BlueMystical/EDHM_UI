@@ -1335,6 +1335,31 @@ namespace EDHM_UI_mk2
 			return _ret;
 		}
 
+		public static decimal Max(params decimal[] values)
+		{
+			decimal max = values[0];
+			for (int i = 1; i < values.Length; i++)
+			{
+				if (values[i] > max)
+				{
+					max = values[i];
+				}
+			}
+			return max;
+		}
+		public static int Max(params int[] values)
+		{
+			int max = values[0];
+			for (int i = 1; i < values.Length; i++)
+			{
+				if (values[i] > max)
+				{
+					max = values[i];
+				}
+			}
+			return max;
+		}
+
 		public static Image byteArrayToImage(byte[] byteArrayIn)
 		{
 			Image returnImage = null;
@@ -1461,6 +1486,108 @@ namespace EDHM_UI_mk2
 			return (Bitmap)_ret;
 		}
 
+		/*---------------------------------------------------------------------------------------------------------------*/
+
+		/// <summary>Guarda una Imagen en diferentes Formatos: JPG, PNG, BMP, GIF.</para></summary>
+		/// <param name="image">Imagen a guardar.</param>
+		/// <param name="fileName">Ruta completa al archivo donse se guarda la imagen.</param>
+		/// <param name="pMIMEType">'image/jpeg', 'image/bmp', 'image/png', 'image/gif' [Default='image/jpeg']</param>
+		/// <param name="compression">% de Compresion aplicado a la imagen, de 0 - 100. [Default=100] válido sólo para JPGs.</param>
+		public static void SaveImage(Image image, string fileName, string pMIMEType = "image/jpeg", long compression = 100)
+		{
+			/* Todo esto es para prevenir el error: 'A generic error occurred in GDI+'  */
+
+			if (image is null || string.IsNullOrEmpty(fileName)) return;
+
+			var _Encoder = ImageCodecInfo.GetImageEncoders().FirstOrDefault(encoder => encoder.MimeType == pMIMEType);
+			var _QualityParams = new EncoderParameters(1);
+			_QualityParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, compression);
+
+			try
+			{
+				using (System.IO.MemoryStream memory = new System.IO.MemoryStream())
+				{
+					using (System.IO.FileStream fs = new System.IO.FileStream(fileName, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
+					{
+						image.Save(memory, _Encoder, _QualityParams);
+
+						byte[] bytes = memory.ToArray();
+						fs.Write(bytes, 0, bytes.Length);
+					}
+				}
+			}
+			catch
+			{
+				using (Bitmap bitmap = new Bitmap(image.Width, image.Height, image.PixelFormat))
+				{
+					using (Graphics g = Graphics.FromImage(bitmap))
+					{
+						g.DrawImage(image, new Point(0, 0));
+					}
+					bitmap.Save(fileName, _Encoder, _QualityParams);
+					image.Dispose();
+				}
+			}
+		}
+		
+		/// <summary>Abre la Imagen indicada (si existe) sin dejarla 'en uso'.</summary>
+		/// <param name="_ImagePath">Ruta Completa al Archivo</param>
+		/// <param name="_DefaultImage">Ruta compleata al archivo de imagen que se abre si la otra no existe.</param>
+		public static Image OpenImage(string _ImagePath, string _DefaultImage = "")
+		{
+			if (string.IsNullOrEmpty(_ImagePath)) return null;
+			Image _ret = null;
+			try
+			{
+				if (File.Exists(_ImagePath))
+				{
+					using (var s = new System.IO.FileStream(_ImagePath, System.IO.FileMode.Open))
+					{
+						_ret = Image.FromStream(s);
+					}
+				}
+				else
+				{
+					if (_DefaultImage != string.Empty && File.Exists(_DefaultImage))
+					{
+						using (var s = new System.IO.FileStream(_DefaultImage, System.IO.FileMode.Open))
+						{
+							_ret = Image.FromStream(s);
+						}
+					}
+				}
+			}
+			catch { }
+			return _ret;
+		}
+
+		/// <summary>Crea una Nueva Imagen con Color de fondo y Borde [Opcional].</summary>
+		/// <param name="pSize">Tamaño, en pixels de la Imagen.</param>
+		/// <param name="BackColor">Color de Fondo. Admite 'Color.Transparent'.</param>
+		/// <param name="Opacity">[Opcional] Opacidad o transparencia del Fondo [0-255, default=255]</param>
+		/// <param name="BorderSize">[Opcional] Ancho del Borde (pixels) [default=0 (sin borde)]</param>
+		/// <param name="BorderColor">[Opcional] Color del Borde si 'BorderSize' > 0</param>
+		public static Image CreateNewImage(Size pSize, Color BackColor, int Opacity = 255, int BorderSize = 0, Color? BorderColor = null)
+		{
+			using (Graphics g = Graphics.FromImage(new Bitmap(pSize.Width, pSize.Height)))
+			{
+				Rectangle _Box = new Rectangle(0, 0, pSize.Width, pSize.Height);
+
+				SolidBrush Background = new SolidBrush(Color.FromArgb(Opacity, BackColor.R, BackColor.G, BackColor.B));
+				g.FillRectangle(Background, _Box);  //<- Dibuja el Fondo
+
+				if (BorderSize > 0 && BorderColor != null)
+				{
+					_Box.Width--; _Box.Height--;
+					Pen pen = new Pen(BorderColor.Value, BorderSize);
+					g.DrawRectangle(pen, _Box); //<- Dibuja el Borde:
+				}
+			}
+
+			return new Bitmap(pSize.Width, pSize.Height);
+		}
+
+		/*---------------------------------------------------------------------------------------------------------------*/
 
 		/// <summary>Convierte un color RGBA (0 -> 255) a la escala indicada, por defecto 0.0 -> 1.0</summary>
 		/// <param name="_Color"></param>
@@ -2632,6 +2759,34 @@ namespace EDHM_UI_mk2
 		public static string WebRequest_GET(string uri)
 		{
 			System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
+			request.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+
+			using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())
+			using (Stream stream = response.GetResponseStream())
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				return reader.ReadToEnd();
+			}
+		}
+		public static string WebRequest_GET(string uri, params KeyValuePair<string, string>[] parameters)
+		{
+			System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri);
+
+			// Add the optional parameters to the request.
+			if (parameters.Length > 0)
+			{
+				string queryString = "";
+				foreach (KeyValuePair<string, string> parameter in parameters)
+				{
+					// Replace the spaces in the parameter key and value with "%20".
+					queryString += parameter.Key.Replace(" ", "%20") + "=" + parameter.Value.Replace(" ", "%20") + "&";
+				}
+				queryString = queryString.TrimEnd('&'); // Remove the trailing ampersand.
+
+				// Add the query string to the request URI.
+				request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(uri + "?" + queryString);
+			}
+
 			request.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
 
 			using (System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse())

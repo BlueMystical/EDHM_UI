@@ -1097,7 +1097,7 @@
     "lang": [
       {
         "key": "en",
-        "value": "Remove from Global Settings",
+        "value": "Remove from User Settings",
         "category": null,
         "description": null
       },
@@ -1121,13 +1121,13 @@
       },
       {
         "key": "it",
-        "value": "Rimuovi dalle Impostazioni utente",
+        "value": "Rimuovi da Impostazioni utente",
         "category": null,
         "description": null
       },
       {
         "key": "pt",
-        "value": "Remover das configurações globais",
+        "value": "Remover das configurações do usuário",
         "category": null,
         "description": ""
       }
@@ -7614,6 +7614,48 @@
     ]
   },
   {
+    "id": "y121",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Primary Colour Ex",
+        "category": "Primary Colour",
+        "description": "Enable Extend Cabin Lighting Primary Colour.\r\nFor use on some ships like the Dolphin.\r\nThis option will break the lighting in some ships like the Mamba."
+      },
+      {
+        "key": "de",
+        "value": "Primärer Farbmodus Ex",
+        "category": "Primärfarbe",
+        "description": "Aktivieren Sie „Erweiterte Primärfarbe der Kabinenbeleuchtung“.\r\nZur Verwendung auf einigen Schiffen wie der Dolphin.\r\nDiese Option unterbricht die Beleuchtung auf einigen Schiffen wie der Mamba."
+      },
+      {
+        "key": "fr",
+        "value": "Mode couleur primaire Ex",
+        "category": "Couleur primaire",
+        "description": "Activer l'extension de la couleur primaire de l'éclairage de la cabine.\r\nÀ utiliser sur certains navires comme le Dolphin.\r\nCette option interrompra l'éclairage sur certains navires comme le Mamba."
+      },
+      {
+        "key": "it",
+        "value": "Modalità colore primario Ex",
+        "category": "Colore primario",
+        "description": "Abilita Estendi colore primario illuminazione cabina.\r\nDa utilizzare su alcune navi come la Dolphin.\r\nQuesta opzione interromperà l'illuminazione in alcune navi come la Mamba."
+      },
+      {
+        "key": "ru",
+        "value": "Основной цветовой режим Ex",
+        "category": "Основной цвет",
+        "description": "Включить расширение основного цвета освещения каюты.\r\nДля использования на некоторых кораблях, таких как «Дельфин».\r\nЭта опция отключит освещение на некоторых кораблях, таких как «Мамба»."
+      },
+      {
+        "key": "pt",
+        "value": "Modo de Cor Primária Ex",
+        "category": "Cor Primária",
+        "description": "Ative a cor primária da iluminação estendida da cabine.\r\nPara uso em alguns navios como o Dolphin.\r\nEsta opção interromperá a iluminação em alguns navios como o Mamba."
+      }
+    ]
+  },
+  {
     "id": "x69|y69|z69",
     "group": "Element",
     "lang": [
@@ -13320,49 +13362,91 @@
     ]
   },
   {
-    "id": "w136",
+    "id": "y138",
     "group": "Element",
     "lang": [
       {
         "key": "en",
         "value": "Mode",
         "category": "Radar Zoom Widget",
-        "description": "Mode for Radar zoom level lines"
+        "description": "Mode for Radar Zoom Widget"
       },
       {
         "key": "de",
         "value": "Modus",
         "category": "Radar-Zoom-Widget",
-        "description": "Modus für Radar-Zoom-Level-Linien"
+        "description": "Modus für Radar-Zoom-Widget."
       },
       {
         "key": "fr",
         "value": "Mode",
         "category": "Widget de zoom radar",
-        "description": "Mode pour les lignes de niveau de zoom radar"
+        "description": "Mode pour le widget de zoom radar."
       },
       {
         "key": "it",
         "value": "Modalità",
         "category": "Widget Zoom Radar",
-        "description": "Modalità per le linee del livello di zoom radar"
+        "description": "Modalità per Radar Zoom Widget."
       },
       {
         "key": "ru",
         "value": "Mode",
         "category": "Виджет Radar Zoom",
-        "description": "Mode для линий уровня масштабирования радара"
+        "description": "Режим для виджета Radar Zoom."
       },
       {
         "key": "pt",
         "value": "Mode",
         "category": "Widget de zoom de radar",
-        "description": "Mode for Radar zoom level lines"
+        "description": "Modo para Radar Zoom Widget."
       }
     ]
   },
   {
-    "id": "x240|y240|z240|w240",
+    "id": "w136",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Level Lines Mode",
+        "category": "Radar Zoom Widget",
+        "description": "Mode for Radar zoom level lines"
+      },
+      {
+        "key": "de",
+        "value": "Level-Lines-Modus",
+        "category": "Radar-Zoom-Widget",
+        "description": "Level-Lines-Modus"
+      },
+      {
+        "key": "fr",
+        "value": "Mode lignes de niveau",
+        "category": "Widget de zoom radar",
+        "description": "Mode lignes de niveau"
+      },
+      {
+        "key": "it",
+        "value": "Modalità linee di livello",
+        "category": "Widget Zoom Radar",
+        "description": "Modalità linee di livello"
+      },
+      {
+        "key": "ru",
+        "value": "Режим линий уровня",
+        "category": "Виджет Radar Zoom",
+        "description": "Режим линий уровня"
+      },
+      {
+        "key": "pt",
+        "value": "Modo Linhas de Nível",
+        "category": "Widget de zoom de radar",
+        "description": "Modo para las lineas."
+      }
+    ]
+  },
+  {
+    "id": "x240|y240|z240",
     "group": "Element",
     "lang": [
       {
@@ -13400,6 +13484,48 @@
         "value": "Custom Color",
         "category": "Widget de zoom de radar",
         "description": "Custom Color for Radar Zoom Widget. (*Alfa)"
+      }
+    ]
+  },
+  {
+    "id": "w240",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Zoom Widget Brightness",
+        "category": "Radar Zoom Widget",
+        "description": "Zoom Widget Brightness"
+      },
+      {
+        "key": "de",
+        "value": "Helligkeit des Zoom-Widgets",
+        "category": "Radar-Zoom-Widget",
+        "description": "Helligkeit des Zoom-Widgets"
+      },
+      {
+        "key": "fr",
+        "value": "Luminosité du widget de zoom",
+        "category": "Widget de zoom radar",
+        "description": "Luminosité du widget de zoom"
+      },
+      {
+        "key": "it",
+        "value": "Zoom Widget Luminosità",
+        "category": "Widget zoom radar",
+        "description": "Zoom Widget Luminosità"
+      },
+      {
+        "key": "ru",
+        "value": "Яркость виджета масштабирования",
+        "category": "Виджет масштабирования радара",
+        "description": "Яркость виджета масштабирования"
+      },
+      {
+        "key": "pt",
+        "value": "Brilho do Widget de Zoom",
+        "category": "Widget de zoom de radar",
+        "description": "Brilho do Widget de Zoom"
       }
     ]
   },
@@ -17414,6 +17540,48 @@
         "value": "Opacidade do plano de fundo",
         "category": "Mensagens pop-up da tela intermediária",
         "description": "Mensagens pop-up da tela intermediária (detectado pela verificação do navio, etc) Opacidade do plano de fundo, atrás do texto e símbolos (fundo em forma de nuvem)"
+      }
+    ]
+  },
+  {
+    "id": "w151",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Background Opacity",
+        "category": "Jump System Info",
+        "description": "Jump System Info Background Opacity."
+      },
+      {
+        "key": "de",
+        "value": "Hintergrunddeckkraft",
+        "category": "Informationen zum Sprungsystem",
+        "description": "Hintergrunddeckkraft der Sprungsysteminformationen."
+      },
+      {
+        "key": "fr",
+        "value": "Opacité d'arrière-plan",
+        "category": "Informations sur le système de saut",
+        "description": "Opacité d'arrière-plan des informations système de saut."
+      },
+      {
+        "key": "it",
+        "value": "Opacità di sfondo",
+        "category": "Informazioni sul sistema di salto",
+        "description": "Vai Informazioni di sistema Sfondo Opacità."
+      },
+      {
+        "key": "ru",
+        "value": "Непрозрачность фона",
+        "category": "Информация о системе прыжков",
+        "description": "Непрозрачность фона информации о системе Jump."
+      },
+      {
+        "key": "pt",
+        "value": "Opacidade do plano de fundo",
+        "category": "Informações do sistema de salto",
+        "description": "Opacidade de plano de fundo das informações do sistema de salto."
       }
     ]
   },

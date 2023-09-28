@@ -80,7 +80,7 @@ namespace EDHM_UI_mk2
 		private bool GameIsRunning = false;
 		private bool mCloseAutorized = false;
 		private bool DoUpdate = false;
-		private bool RunWatcher = true;
+		private bool JournalWatcherIsRunning = true;
 		private bool ShowTips = true;
 
 		private bool WatchMe = true; //<- Determina si Registra las Naves del Jugador
@@ -391,7 +391,7 @@ namespace EDHM_UI_mk2
 				Load_UITips();
 				History_LoadElements(SavesToRemember);
 
-				//PlayerJournal_GetPlayerInfo();
+				PlayerJournal_GetPlayerInfo();
 				ReadPlayerJournal();
 
 				progressPanel1.Visible = false;
@@ -912,15 +912,17 @@ namespace EDHM_UI_mk2
 							Restore_CurrentSettings(pGameInstance);
 						}
 
-						XtraMessageBoxArgs args = new XtraMessageBoxArgs()
-						{
-							Caption = "Success!",
-							Text = string.Format("EDHM Version '{0}' had been Installed!\r\n{1}", _Version, pGameInstance.instance),
-							Buttons = new DialogResult[] { DialogResult.OK }
-						};
-						args.AutoCloseOptions.Delay = 2000;
-						args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
-						XtraMessageBox.Show(args).ToString();
+						//XtraMessageBoxArgs args = new XtraMessageBoxArgs()
+						//{
+						//	Caption = "Success!",
+						//	Text = string.Format("EDHM Version '{0}' had been Installed!\r\n{1}", _Version, pGameInstance.instance),
+						//	Buttons = new DialogResult[] { DialogResult.OK }
+						//};
+						//args.AutoCloseOptions.Delay = 2000;
+						//args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
+						//XtraMessageBox.Show(args).ToString();
+						Mensajero.ShowMessage("Success!", string.Format("EDHM Version '{0}' had been Installed!\r\n{1}", _Version, pGameInstance.instance),
+							pIcon: MessageBoxIcon.Information, AutoCloseTime: 2000);
 					}
 				}
 			}
@@ -2519,10 +2521,8 @@ namespace EDHM_UI_mk2
 					};
 					if (File.Exists(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
 					{
-						//_Form.Thumbnail = Image.FromFile(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg"));
-						//Carga la Imagen sin dejara 'en uso':
 						try
-						{
+						{       //Carga la Imagen sin dejara 'en uso':
 							using (Stream stream = File.OpenRead(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
 							{
 								_Form.Thumbnail = System.Drawing.Image.FromStream(stream);
@@ -2986,7 +2986,7 @@ namespace EDHM_UI_mk2
 						uint lparam = (0x01 << 28);
 
 						SetActiveWindow(proc.MainWindowHandle);
-						Thread.Sleep(2000);
+						Thread.Sleep(1000);
 						SendMessage(proc.MainWindowHandle, action, key, lparam);
 						Thread.Sleep(1500);
 					}
@@ -3270,6 +3270,9 @@ namespace EDHM_UI_mk2
 					Directory.Delete(oldDocs, true);
 				}
 
+				//Mover temas del CPM:
+				//TODO
+
 				//Mover la Historia:
 				string HistoryDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Elite Dangerous\EDHM_UI", GameVersion, "History");
 				if (Directory.Exists(HistoryDir))
@@ -3317,7 +3320,8 @@ namespace EDHM_UI_mk2
 			{
 				//Mueve las Carpetas de EDHM usando SymLinks:
 				string GameVersion = pGameInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-				string destinoRoot = Path.Combine(UI_DOCUMENTS, GameVersion, "EDHM");  //<- %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM
+				string destinoRoot = Path.Combine(UI_DOCUMENTS, GameVersion, "EDHM", pGameInstance.instance);  
+				//<-				 %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM\[Epic Games (Horizons (Live))]
 
 				List<string> EDHM_Folders = new List<string>
 				{
@@ -3327,24 +3331,33 @@ namespace EDHM_UI_mk2
 
 				foreach (string folder in EDHM_Folders)
 				{
-					string RootFolder = System.IO.Path.GetFileName(folder);  //<- Nombre de la Ultima Carpeta en la Ruta: [EDHM-ini]
+					string RootFolder = Path.GetFileName(folder);		//<- Nombre de la Ultima Carpeta en la Ruta: [EDHM-ini]
 					string _Destino = Path.Combine(destinoRoot, RootFolder); //<- %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM\[EDHM-ini]\
-
-					bool IsSymbolic = SymLink.IsSymbolicDirectory(folder); 
+					string SymTarget = string.Empty;                         //<- El destino al que apunta el SymLink
 
 					if (Directory.Exists(folder))
 					{
-						//Si la migracion todavia no se ha hecho, se hace aqui:
-						if (!IsSymbolic)
+						bool IsSymbolic = SymLink.IsSymbolicDirectory(folder, out SymTarget);
+
+						//Si la migracion todavia no se ha hecho, o si se cambió la ruta de %USERPROFILE%:
+						if (!IsSymbolic || (!string.IsNullOrEmpty(SymTarget) && SymTarget != _Destino))
 						{
+							//1. Mueve el Directorio a su nueva ubicacion (target):
 							Util.CopyDirectory(new DirectoryInfo(folder), new DirectoryInfo(_Destino));
+
+							//2. Borra la ubicacion anterior, tambien borra SymLinks:
 							Directory.Delete(folder, true);
+
+							//3. Crea un nuevo SymLink apuntando a la nueva ubicacion:
 							SymLink.CreateLinkToDirectory(folder, _Destino);
+						}
+						else
+						{
+							//Nada que hacer aqui, el SymLink ya existe y apunta a donde debe
 						}
 					}
 					else //<- La Carpeta NO Existe:
 					{
-						//Directory.CreateDirectory(folder); //<- NO, el origen es ahora el SymLink
 						Directory.CreateDirectory(_Destino); //<- El 'Target' para el SymLink
 						SymLink.CreateLinkToDirectory(folder, _Destino);
 					}
@@ -3801,8 +3814,14 @@ namespace EDHM_UI_mk2
 							// Aplicar el HotFix a cada instancia
 							foreach (var _Instance in GameInstancesEx)
 							{
-								string HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);
-								string ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
+								string HORI_Path = string.Empty;
+								string ODYS_Path = string.Empty;
+								try
+								{
+									ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
+									HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);									
+								}
+								catch { }
 
 								foreach (file_job _job in _Jobs)
 								{
@@ -3857,11 +3876,21 @@ namespace EDHM_UI_mk2
 												break;
 
 											case "DEL": //Borra un Archivo
-												if (File.Exists(_job.file_path))
+												string path = System.IO.Path.GetDirectoryName(_job.file_path); //Obtiene el Path: (Sin archivo ni extension:
+												string file_name = System.IO.Path.GetFileName(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
+												//Borra archivos usando comodines
+												if (file_name.Contains("*"))
 												{
-													File.Delete(_job.file_path);
+													foreach (string f in Directory.EnumerateFiles(path, file_name))
+													{
+														File.Delete(f);
+													}
 												}
-
+												else
+												{
+													//Borra el archivo indicado, si existe
+													if (File.Exists(_job.file_path)) File.Delete(_job.file_path);
+												}
 												break;
 
 											case "RMDIR": //Borra un Directorio y todo su contenido
@@ -4407,6 +4436,7 @@ namespace EDHM_UI_mk2
 
 		private bool ApplyingShip = false;
 		private string OldShip = string.Empty;
+		private bool RunWatcher = true;
 
 		private void ReadPlayerJournal()
 		{
@@ -4629,7 +4659,11 @@ namespace EDHM_UI_mk2
 									if (this.CurrentShip.NaveCambiada(Convert.ToString(data.Ship)))
 									{
 										CurrentShip = ED_Ships.Find(x => x.ed_short == Convert.ToString(data.Ship));
-										ShipIDName = string.Format("{0} ({1} {2})", Util.NVL(CurrentShip.ship_full_name, string.Empty), data.ShipName, data.ShipIdent);
+										if (CurrentShip != null)
+										{
+											//empire_cutter
+											ShipIDName = string.Format("{0} ({1} {2})", Util.NVL(CurrentShip.ship_full_name, string.Empty), data.ShipName, data.ShipIdent);
+										}									
 
 										PlayerJournal_ShipChanged(new ship_loadout
 										{
@@ -4657,7 +4691,7 @@ namespace EDHM_UI_mk2
 						{
 							if (ED_Ships.IsNotEmpty())
 							{
-								OldShip = CurrentShip.ship_full_name;
+								OldShip = CurrentShip != null ? CurrentShip.ship_full_name : string.Empty;
 
 								if (this.CurrentShip.NaveCambiada(Convert.ToString(data.SRVType_Localised)))
 								{
@@ -4935,7 +4969,7 @@ namespace EDHM_UI_mk2
 													}
 												}
 
-												PlayerJournal_SetUserInfo(data);
+												//PlayerJournal_SetUserInfo(data);
 												Invoke((MethodInvoker)(() =>
 												{
 													lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), ShipIDName.NVL("Unknown"));
@@ -4963,7 +4997,6 @@ namespace EDHM_UI_mk2
 				"language": "English/UK", "gameversion": "4.0.0.701", "build": "r273365/r0 " */
 			try
 			{
-				// Enviar esta solicitud Sólo si no se ha hecho antes o si algo importante cambia
 				bool ForcedUpdate = true;
 				var PlayerInfo = new
 				{
@@ -4976,10 +5009,9 @@ namespace EDHM_UI_mk2
 				string PlayerInfo_JSON = Newtonsoft.Json.JsonConvert.SerializeObject(PlayerInfo, Newtonsoft.Json.Formatting.None);
 				string PlayerInfo_WREG = Util.WinReg_ReadKey("EDHM", "PlayerInfo").NVL(string.Empty);
 
+				// Enviar esta solicitud Sólo si no se ha hecho antes o si algo importante cambia:
 				if (PlayerInfo_WREG.EmptyOrNull() || PlayerInfo_WREG != PlayerInfo_JSON || ForcedUpdate)
 				{
-					Util.WinReg_WriteKey("EDHM", "PlayerInfo", PlayerInfo_JSON);
-
 					//Solicitar la Ubicacion usando la IP:
 					string _Response = Util.WebRequest_GET("https://ipinfo.io/?token=d811bd45b5fcf5");
 					if (_Response != null && _Response != string.Empty)
@@ -4993,26 +5025,29 @@ namespace EDHM_UI_mk2
 						{
 							var DataToSave = new
 							{
-								IP = MyIP.ip,
-								Country = MyIP.country,
+								IP = MyIP.ip,								
 								City = MyIP.city,
 								Location = MyIP.loc,
+								Country = MyIP.country,
 								TimeZone = MyIP.timezone,
 								Language = PlayerData.language,
 								CommanderName = PlayerData.Commander,
 								Horizons = PlayerData.Horizons.ToString().ToLower(),
-								Odyssey = PlayerData.Odyssey.ToString().ToLower(),
+								Odyssey = PlayerData.Odyssey.ToString().ToLower(),								
+								Date = DateTime.Today.ToString("yyyy-MM-dd"),
 								GameMode = PlayerData.GameMode,
-								Date = DateTime.Today.ToString("yyyy-MM-dd")
 							};
 							string JSONStr = Newtonsoft.Json.JsonConvert.SerializeObject(DataToSave, Newtonsoft.Json.Formatting.None);
 							//{"IP":"200.58.144.171","Country":"UY","City":"Montevideo","Location":"-34.9033,-56.1882","TimeZone":"America/Montevideo","Language":"English/UK","CommanderName":"Blue mystic","Horizons":true,"Odyssey":true,"GameMode":"Solo"}
 
 							// Enviar los Datos mediante POST:
-							string url_desa = @"http://localhost:3000/users/add";
 							string url_prod = @"https://careful-rose-singlet.cyclic.app/users/add";
 							string _Res = Util.WebRequest_POST(url_prod, JSONStr, "application/json");
-							Console.WriteLine(_Res);
+							if (!string.IsNullOrEmpty(_Res))
+							{
+								//Console.WriteLine(_Res);
+								Util.WinReg_WriteKey("EDHM", "PlayerInfo", PlayerInfo_JSON);
+							}							
 						}
 					}
 				}
@@ -5359,18 +5394,22 @@ namespace EDHM_UI_mk2
 
 			if (view.IsRowSelected(e.RowHandle) && e.Column.FieldName == "Preview")
 			{
-				ui_preset_new _theme = view.GetRow(e.RowHandle) as ui_preset_new;
-				if (_theme != null && _theme.Preview != null)
+				try
 				{
-					//Aqui dibuja la imagen normalmente:
-					e.Graphics.DrawImage(_theme.Preview, e.Bounds);
+					ui_preset_new _theme = view.GetRow(e.RowHandle) as ui_preset_new;
+					if (_theme != null && _theme.Preview != null)
+					{
+						//Aqui dibuja la imagen normalmente:
+						e.Graphics.DrawImage(_theme.Preview, e.Bounds);
 
-					//Aqui escribo el Nombre del Tema
-					e.Cache.DrawString(_theme.name, new System.Drawing.Font("Tahoma", 12, FontStyle.Bold),
-						Brushes.White, e.Bounds);
+						//Aqui escribo el Nombre del Tema
+						e.Cache.DrawString(_theme.name, new System.Drawing.Font("Tahoma", 12, FontStyle.Bold),
+							Brushes.White, e.Bounds);
 
-					e.Handled = true;
+						e.Handled = true;
+					}
 				}
+				catch { }				
 			}
 		}
 		private void gridView1_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
@@ -7065,6 +7104,7 @@ namespace EDHM_UI_mk2
 				popupMenu_Themes.ShowPopup(barManager1, view.GridControl.PointToScreen(e.Point));
 			}
 		}
+
 		private void mnuTheme_Apply_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (SelectedTheme != null && SelectedTheme.name != "Current Settings")
@@ -7077,12 +7117,46 @@ namespace EDHM_UI_mk2
 			if (SelectedTheme != null && SelectedTheme.name != "Current Settings")
 			{
 				string _ThemeName = XtraInputBox.Show("Type a Name for your Custom Theme:\r\n** If Exists, it will be Overwritten!",
-										"Create New Theme", SelectedTheme.name);
+										"Rename Theme", SelectedTheme.name);
 				if (!_ThemeName.EmptyOrNull())
 				{
-					Directory.Move(SelectedTheme.folder,
-										Path.Combine(System.IO.Directory.GetParent(SelectedTheme.folder).FullName, _ThemeName)
-									);
+					string Destino = Path.Combine(System.IO.Directory.GetParent(SelectedTheme.folder).FullName, _ThemeName);
+					if (_ThemeName.Trim() != SelectedTheme.name.Trim())
+					{
+						try
+						{
+							Directory.Move(SelectedTheme.folder, Destino);
+						}
+						catch { }
+					}
+
+					if (Directory.Exists(Destino))
+					{
+						DirectoryInfo dir = new DirectoryInfo(Destino);
+						string CreditsFile = dir.GetFiles("*.credits").Select(fi => fi.Name).FirstOrDefault().NVL("Unknown.credits");
+						if (!CreditsFile.EmptyOrNull())
+						{
+							try
+							{
+								theme_details ThemeDetails = Util.DeSerialize_FromJSON<theme_details>(Path.Combine(Destino, CreditsFile));
+								if (ThemeDetails != null)
+								{
+									ThemeDetails.theme = _ThemeName;
+
+									//Borrar y re-crear el archivo de Creditos:
+									foreach (FileInfo f in dir.GetFiles("*.credits")) { f.Delete(); }
+									Util.Serialize_ToJSON(Path.Combine(Destino, "Theme.credits"), ThemeDetails, true);
+
+									Mensajero.ShowMessageDark("Success!", "The theme had been renamed.");
+								}
+							}
+							catch { }
+						}
+					}
+					else
+					{
+						Mensajero.ShowMessageDark("Failure!", "Some errors ocurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
 					LoadThemeList_EX();
 				}
 			}
@@ -7169,6 +7243,86 @@ namespace EDHM_UI_mk2
 				}
 			}
 		}
+		private void mnuTheme_EditParameters_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			try
+			{
+				ThemeParametersForm _Form = new ThemeParametersForm
+				{
+					ThisIsAMod = false,
+					ModName = SelectedTheme.name,
+					ThemeName = SelectedTheme.name,
+					Author = SelectedTheme.author,
+					Description = SelectedTheme.description,
+					PreviewURL = SelectedTheme.BigPreview,
+					ThemeFolder = SelectedTheme.folder,
+				};
+				if (File.Exists(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
+				{
+					try
+					{       //Carga la Imagen sin dejara 'en uso':
+						using (Stream stream = File.OpenRead(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
+						{
+							_Form.Thumbnail = System.Drawing.Image.FromStream(stream);
+						}
+					}
+					catch { }
+				}
+
+				if (_Form.ShowDialog() == DialogResult.OK)
+				{
+					SelectedTheme.name = _Form.ThemeName;
+					SelectedTheme.author = _Form.Author;
+					SelectedTheme.description = _Form.Description;
+					SelectedTheme.BigPreview = _Form.PreviewURL;
+
+					string GameFolder = Path.Combine(ActiveInstance.path, @"EDHM-ini");
+					string GameVersion = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+
+					//Agregar el Identificador del Autor:
+					theme_details ThemeDetails = new theme_details
+					{
+						author = SelectedTheme.author,
+						theme = SelectedTheme.name,
+						description = SelectedTheme.description.NVL(string.Format("** THIS THEME WAS MADE BY {0} **", _Form.Author)),
+						preview = _Form.PreviewURL
+					};
+					try
+					{
+						foreach (FileInfo f in new DirectoryInfo(SelectedTheme.folder).GetFiles("*.credits")) { f.Delete(); }
+						Util.Serialize_ToJSON(Path.Combine(SelectedTheme.folder, "Theme.credits"), ThemeDetails, true);
+					}
+					catch { }
+
+					if (File.Exists(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
+					{
+						try
+						{       //Carga la Imagen sin dejara 'en uso':
+							using (Stream stream = File.OpenRead(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
+							{
+								SelectedTheme.Preview = System.Drawing.Image.FromStream(stream);
+							}
+						}
+						catch { }
+					}
+
+					Invoke((MethodInvoker)(() =>
+					{
+						int rowHandle = gridView1.LocateByValue("name", SelectedTheme.name);
+						if (rowHandle != DevExpress.XtraGrid.GridControl.InvalidRowHandle)
+						{
+							dockManager1.ActivePanel = dockThemes;
+							gridView1.FocusedRowHandle = rowHandle;
+						}
+					}));
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 
 		#endregion
 
@@ -7221,6 +7375,25 @@ namespace EDHM_UI_mk2
 					//Carga el Idioma del Usuario:
 					LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
 
+					if (KillGameProcces())
+					{
+						InstallGameInstance(ActiveInstance);
+
+						//Cargar Los Valores Base de La Instancia:
+						string JsonSettings_path = Path.Combine(AppExePath, "Data", ActiveInstance.key + string.Format("_Settings_{0}.json", LangShort.ToUpper()));
+						if (File.Exists(JsonSettings_path))
+						{
+							Settings = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
+						}
+
+						//Carga la Lista de Presets disponibles:
+						if (Settings != null && Settings.Presets.IsNotEmpty())
+						{
+							_ElementPresets = Settings.Presets;
+						}
+						DefaultSettings = Load_DefaultTheme(ActiveInstance, LangShort);
+					}
+
 					LoadGameInstance(ActiveInstance, LangShort);  //<- Carga La Instancia Activa	
 					LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
 				}
@@ -7231,12 +7404,12 @@ namespace EDHM_UI_mk2
 				GreetMe = _Form.GreetMe;
 				WatchMe = _Form.WatchMe;
 				SavesToRemember = _Form.SavesToRemember;
-				AutoApplyTheme = _Form.AutoApplyTheme;
-				
+				AutoApplyTheme = _Form.AutoApplyTheme;				
 
 				LoadMenus(LangShort);
-
 				History_LoadElements(SavesToRemember);
+
+				SilentUpdate = false;
 			}
 		}
 		private void MainMenu_GameFolder_ItemClick(object sender, ItemClickEventArgs e)

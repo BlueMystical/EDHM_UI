@@ -1430,6 +1430,14 @@ namespace EDHM_UI_mk2.Forms
 														InstalledMod.update_info.is_update = true;														
 													}));													
 												}
+												else
+												{
+													Invoke((MethodInvoker)(() =>
+													{
+														InstalledMod.update_info = new TPMod_UpdateInfo(ServerMod);
+														InstalledMod.update_info.is_update = false;
+													}));
+												}
 											}
 											else
 											{
@@ -1660,6 +1668,11 @@ namespace EDHM_UI_mk2.Forms
 						{
 							//Ahora Creamos una Imagen que sirva de Thumbnail:  
 							//Formato PNG, 200x61 pix, Fondo Gris semi-transparente, Borde Naranja
+							Util.SaveImage(
+								Util.CreateNewImage(new Size(200, 61), Color.Gray, 50, 1, Color.OrangeRed), 								
+								Path.Combine(TPMods_Path, FileName + ".png"), "image/png");
+
+							/*
 							Bitmap ThumbNail = new Bitmap(200, 61);
 							using (Graphics g = Graphics.FromImage(ThumbNail))
 							{
@@ -1674,7 +1687,9 @@ namespace EDHM_UI_mk2.Forms
 									g.DrawRectangle(pen, _Box);
 								}
 							}
+
 							ThumbNail.Save(Path.Combine(TPMods_Path, FileName + ".png"), System.Drawing.Imaging.ImageFormat.Png);
+							*/
 						}
 
 						LoadModList(); //<- Refresh Mod List
@@ -2035,7 +2050,7 @@ namespace EDHM_UI_mk2.Forms
 							{
 								author = _Mod.author,
 								theme = _Mod.theme_name,
-								description = string.Format("** THIS THEME WAS MADE BY {0} **", _Mod.author.ToUpper()),
+								description = _Mod.description, // string.Format("** THIS THEME WAS MADE BY {0} **", _Mod.author.ToUpper()),
 								preview = string.Empty
 							};
 							Util.Serialize_ToJSON(Path.Combine(TempPath, string.Format("{0}.credits", _Mod.author)), ThemeDetails, true);
@@ -2047,12 +2062,21 @@ namespace EDHM_UI_mk2.Forms
 							{
 								Directory.Delete(TempPath, true); //<- Borra la Carpeta Temporal
 
-								XtraMessageBox.Show(string.Format("The theme '{0}' had been Exported!", ThemeName), "Success!",
+								Mensajero.ShowMessage("Success!", string.Format("The theme '{0}' had been Exported!", ThemeName), 
 											MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-								//6. Muestra el ZIP creado en el Explorador de Windows:
-								string argument = string.Format("/select, \"{0}\"", XSFD.FileName);
-								System.Diagnostics.Process.Start("explorer.exe", argument);
+								if (Mensajero.ShowMessage("Import Theme?", 
+									"Would you like to import the recently exported theme?\r\nIt then will be shown in the available themes for the ship.",
+									MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+								{
+									ImportTheme(XSFD.FileName);
+								}
+								else
+								{
+									//6. Muestra el ZIP creado en el Explorador de Windows:
+									string argument = string.Format("/select, \"{0}\"", XSFD.FileName);
+									System.Diagnostics.Process.Start("explorer.exe", argument);
+								}								
 							}
 						}
 					}
@@ -2084,25 +2108,40 @@ namespace EDHM_UI_mk2.Forms
 
 					ThemeParametersForm _Form = new ThemeParametersForm
 					{
-						ThisIsAMod = true,
-						ModName = CurrentdMod.mod_name,
-						ThemeName = CurrentdMod.theme_name,
+						ThisIsAMod = true, //<- Diferencia Temas Normales de los temas del CPM
+
+						Thumbnail = _Thumbnail,
 						Author = CurrentdMod.author,
-						Description = CurrentdMod.description,
-						Thumbnail = _Thumbnail
+						ModName = CurrentdMod.mod_name,
+						ThemeName = CurrentdMod.theme_name,						
+						Description = CurrentdMod.description,						
+						ThemeFolder = CurrentdMod.root_folder,
 					};
+
 					if (_Form.ShowDialog() == DialogResult.OK)
 					{
 						CurrentdMod.theme_name = _Form.ThemeName;
 						CurrentdMod.author = _Form.Author;
 						CurrentdMod.description = _Form.Description;
-						CurrentdMod.Thumbnail = _Form.Thumbnail;
+						//CurrentdMod.Thumbnail = _Form.Thumbnail;
 
-						if (CurrentdMod.Thumbnail != null)
+						//if (CurrentdMod.Thumbnail != null)
+						//{
+						//	//Save the Image as PNG:
+						//	CurrentdMod.Thumbnail.Save(ThemePath + ".png",
+						//		System.Drawing.Imaging.ImageFormat.Png);
+						//}
+
+						if (File.Exists(ThemePath + ".png"))
 						{
-							//Save the Image as PNG:
-							CurrentdMod.Thumbnail.Save(ThemePath + ".png",
-								System.Drawing.Imaging.ImageFormat.Png);
+							try
+							{       //Carga la Imagen sin dejara 'en uso':
+								using (Stream stream = File.OpenRead(ThemePath + ".png"))
+								{
+									CurrentdMod.Thumbnail = System.Drawing.Image.FromStream(stream);
+								}
+							}
+							catch { }
 						}
 
 						//Save the changes in the JSON:
@@ -2136,7 +2175,19 @@ namespace EDHM_UI_mk2.Forms
 				//1. Ask for the ZIP to Import
 				if (OFDialog.ShowDialog() == DialogResult.OK)
 				{
-					/*  Theme ZIP estructure:
+					ImportTheme(OFDialog.FileName);
+				}
+			}
+			catch (Exception ex)
+			{
+				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+			}
+		}
+		private void ImportTheme(string pFilePath)
+		{
+			try
+			{
+				/*  Theme ZIP estructure:
 						├──	[AUTHOR_NAME].credits
 						├──	[MOD_NAME]						<- CPM-Anaconda
 						|		├── [THEME_NAME]			<- @Elite Default
@@ -2151,41 +2202,40 @@ namespace EDHM_UI_mk2.Forms
 						|				└── [MOD_NAME].png
 					 */
 
-					string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods");
-					string ThemeName = Path.GetFileNameWithoutExtension(OFDialog.FileName);
-					string TempPath = Path.Combine(Path.GetTempPath(), "EDHM_UI", ThemeName);
-					int[] _ret = new int[] { 0, 0 };
+				string ThemesFolder = Path.Combine(UI_DOCUMENTS, "ODYSS", "3PMods");
+				string ThemeName = Path.GetFileNameWithoutExtension(pFilePath);
+				string TempPath = Path.Combine(Path.GetTempPath(), "EDHM_UI", ThemeName);
+				int[] _ret = new int[] { 0, 0 };
 
-					Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(OFDialog.FileName));
+				Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(pFilePath));
 
-					//2. Crear una Carpeta Temporal para los Archivos del Tema:
-					if (Directory.Exists(TempPath))
-					{
-						Directory.Delete(TempPath, true);
-					}
-
-					Directory.CreateDirectory(TempPath);
-					if (Directory.Exists(TempPath))
-					{
-						Util.DoNetZIP_UnCompressFile(OFDialog.FileName, TempPath);
-						var _choice = MessageBox.Show("Would you like to Apply the Imported Theme(s)?", "Apply Themes?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-						_ret = CopyThemeFiles(TempPath, (_choice == DialogResult.Yes ? true : false));
-					}
-
-					// Borrar la Carpeta Temporal
-					if (Directory.Exists(TempPath))
-					{
-						Directory.Delete(TempPath, true);
-					}
-
-					string Message = string.Format("{0} Mods and {1} Themes Imported.", _ret[0], _ret[1]);
-					XtraMessageBox.Show(Message, "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-					LoadModList();
+				//2. Crear una Carpeta Temporal para los Archivos del Tema:
+				if (Directory.Exists(TempPath))
+				{
+					Directory.Delete(TempPath, true);
 				}
+
+				Directory.CreateDirectory(TempPath);
+				if (Directory.Exists(TempPath))
+				{
+					Util.DoNetZIP_UnCompressFile(pFilePath, TempPath);
+					var _choice = MessageBox.Show("Would you like to Apply the Imported Theme(s)?", "Apply Themes?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+					_ret = CopyThemeFiles(TempPath, (_choice == DialogResult.Yes ? true : false));
+				}
+
+				// Borrar la Carpeta Temporal
+				if (Directory.Exists(TempPath))
+				{
+					Directory.Delete(TempPath, true);
+				}
+
+				string Message = string.Format("{0} Mods and {1} Themes Imported.", _ret[0], _ret[1]);
+				XtraMessageBox.Show(Message, "Done!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				LoadModList();
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private int[] CopyThemeFiles(string TempPath, bool Apply = false)
@@ -3126,13 +3176,19 @@ namespace EDHM_UI_mk2.Forms
 					{
 						SaveMod(CurrentdMod);
 					}
-
 				}
 			}
 			catch (Exception ex)
 			{
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
+		}
+		private void mnuReinstallMod_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+		{
+			if (CurrentdMod.update_info != null)
+			{
+				DonwloadMod(CurrentdMod.update_info.info.download_url);
+			}			
 		}
 
 		private void cmdImportMod_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
