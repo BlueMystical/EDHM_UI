@@ -1,4 +1,77 @@
 @everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.5 ✦✦ is now available.  
+Change Log:
+
+- Orange patch for FDev Update 16.01:
+- Added Extend Primary Colour option for some ships (Read description).
+
+✦ Known issues:
+- Radar with Data Link does not work yet.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1146772133394010132
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Tacticool Red by @Skeitch  ✦ NEW ✦
+  ✦ Elite Default - ORANGE   ✦ UPDATED ✦
+  ✦ Grandidierite by @Ky ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.02 ✦✦ is now available.  
+Change Log:
+
+- Thanks to the hard work of @CMDR Fred89210 we are releasing the final orange patch for FDev Update 16:
+- EDHM v16.01 implemented:
+
+✦ Known issues:
+- Radar with Data Link does not work yet.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1137090562814648441
+
+- No Themes Added / Updated.
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.01 ✦✦ is now available.  
+Change Log:
+
+- Thanks to the efford of @CMDR Fred89210 we are releasing the Part 1 of the patch for FDev Update 16
+
+
+-------------------------------------------------------
+What still needs to be fixed:
+- Radar, other ship squares
+- Radar, Data link scanner
+- Radar, object coasters
+- Radar, target chevron
+- Radar, object lines
+
+- HUD glitched (5 shaders)
+- Radar, glitched (it must be broken)
+- Radar, Asteroid textures (it must be broken)
+- Canopy effects
+
+The rest works (or is fixed)
+
+The 3PMods:
+- Biome Overlay => Broken
+- Clean Screenshots => Broken
+- FSS Overlay => Broken
+- Thick Orbit Lines => OK
+-------------------------------------------------------
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1136344562890178672
+
+- No Themes Added / Updated.
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+
+@everyone ---------------------------------------------------------
 ✦✦ EDHM_UI v2.1.91 ✦✦ is now available.  
 Change Log:
 - EDHM v15.07 implemented:
