@@ -1,11 +1,11 @@
 {
-   "app_version": "2.2.6.0",
-   "last_installer": "2.2.6.0",
+   "app_version": "2.2.7.0",
+   "last_installer": "2.2.7.0",
    "ED_Horizons": "1.52.1.0",
    "ED_Odissey":  "2.2.5.0",   
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Fixed a missing element in Cabin lighting.\r\n- 2 themes added/updated.",
+   "changelog": "- Added new FDev Game Folders.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
