@@ -1,4 +1,50 @@
 @everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.15 ✦✦ is now available.  
+Change Log:
+
+- The Shipyard Feature was re-worked for better (hopefully) usability and function.
+- Shipyard now recognizes ships by type and plate id, so you can now have several ships of the same type with different themes to each.
+- Shipyard now recognizes when you Embark your ship either from Onfoot or from an SRV.
+- Many thanks to @CMDR Fred89210 for all the testings and ideas.
+
+Full List of Changes:  
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Red Gray Black by @Mats    ✦ UPDATED ✦
+  ✦ SimplyDarkPurple by @Mats    ✦ UPDATED ✦
+  ✦ Vibrant Poison Green by @Mats    ✦ UPDATED ✦
+  ✦ Morpheus by @otte   ✦ NEW ✦
+  ✦ BWO - Explorer by @CMDR[ERIDIAN]   ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.13 ✦✦ is now available.  
+Change Log:
+
+- No changes were needed to fix FDev U17.01
+- NEW OPTION : Ability to link the color of hidden destinations behind a body to the colors of visible destinations
+- Fix various elements
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1184527967041368154
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.8 ✦✦ is now available.  
+Change Log:
+
+- Orange patch for FDev Update 17.
+- 50 Deleted shaders.
+- 51 Added shaders.
+- 1 modified shader.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1163855717770473612
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
 ✦✦ EDHM_UI v2.2.5 ✦✦ is now available.  
 Change Log:
 
