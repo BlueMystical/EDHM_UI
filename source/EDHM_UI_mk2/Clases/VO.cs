@@ -16,21 +16,24 @@ namespace EDHM_UI_mk2
 		public string size { get; set; }
 		public string role { get; set; }
 
+		[Newtonsoft.Json.JsonIgnore]
+		public byte[] image { get; set; }
+
 		/// <summary>'true' si la nave es diferente a la actual</summary>
 		/// <param name="ShipShortName"></param>
-		public bool	NaveCambiada(string ShipShortName)
+		public bool NaveCambiada(string ShipShortName)
 		{
 			bool _ret = false;
 			if (ShipShortName != null && ShipShortName != string.Empty)
 			{
-				_ret = (ShipShortName.ToLower() != this.ed_short.ToLower()) ? true : false;
-			}			
+				_ret = (ShipShortName.ToLower() != ed_short.ToLower()) ? true : false;
+			}
 			return _ret;
 		}
 
 		public override string ToString()
 		{
-			return string.Format("{0} ({1})", this.ship_id, this.ship_full_name);
+			return string.Format("{0} ({1})", ship_id, ship_full_name);
 		}
 	}
 
@@ -48,7 +51,7 @@ namespace EDHM_UI_mk2
 		public List<string> color { get; set; }
 	}
 
-[Serializable]
+	[Serializable]
 	public class ui_translation
 	{
 		public ui_translation() { }
@@ -60,7 +63,7 @@ namespace EDHM_UI_mk2
 
 		public override string ToString()
 		{
-			return string.Format("{0} ({1})", this.id, this.group);
+			return string.Format("{0} ({1})", id, group);
 		}
 	}
 	[Serializable]
@@ -69,15 +72,15 @@ namespace EDHM_UI_mk2
 		public language() { }
 		public language(string _Key, string _Value)
 		{
-			this.key = _Key;
-			this.value = _Value;
+			key = _Key;
+			value = _Value;
 		}
 
 		public string key { get; set; }
 		public string value { get; set; }
 		public string category { get; set; }
 		public string description { get; set; }
-		
+
 
 		public object Clone()
 		{
@@ -86,9 +89,11 @@ namespace EDHM_UI_mk2
 
 		public override string ToString()
 		{
-			return string.Format("{0}: {1}", this.key, this.value);
+			return string.Format("{0}: {1}", key, value);
 		}
 	}
+
+	#region Old Shipyard [DELETE]
 
 	[Serializable]
 	public class player_loadout
@@ -97,7 +102,8 @@ namespace EDHM_UI_mk2
 
 		public bool theme_swaping { get; set; }
 		public string player_name { get; set; }
-		public string active_instance { get; set; }		
+		public string active_instance { get; set; }
+
 		public List<ship_loadout> ships { get; set; }
 	}
 	[Serializable]
@@ -117,6 +123,67 @@ namespace EDHM_UI_mk2
 		}
 	}
 
+	#endregion
+
+	#region New Shipyard
+
+	[Serializable]
+	public class ShipyardEx
+	{
+		public ShipyardEx() { }
+
+		public bool enabled { get; set; }
+		public string player_name { get; set; }
+		public string active_instance { get; set; }
+
+		public List<ship_loadout_ex> ships { get; set; }
+	}
+
+	[Serializable]
+	public class ship_loadout_ex
+	{
+		public ship_loadout_ex() { }
+		public ship_loadout_ex(List<ship> ShipList, string ed_short_id)
+		{
+			if (ShipList != null && ShipList.Count > 0)
+			{
+				this.Ship = ShipList.Find(x => x.ed_short == ed_short_id.ToLower());
+				this.theme = string.Empty;
+				if (Ship != null && Ship.image != null)
+				{
+					this.Preview = (Bitmap)Util.byteArrayToImage(Ship.image);
+				}				
+			}
+		}
+
+		public ship Ship { get; set; }
+
+		public string ship_name { get; set; }
+		public string ship_plate { get; set; }
+		public string theme { get; set; }
+
+		[Newtonsoft.Json.JsonIgnore]
+		public Bitmap Preview { get; set; }
+
+		/// <summary>'true' si la nave es diferente a la actual</summary>
+		/// <param name="ShipShortName"></param>
+		public bool IsDifferentShip(string ShipShortName, string ShipIdent)
+		{
+			bool _ret = false;
+			if (!string.IsNullOrEmpty(ShipShortName) && Ship != null)
+			{
+				if (ShipShortName.ToLower() != Ship.ed_short.ToLower()
+				 || ShipIdent.ToLower() != this.ship_plate.ToLower())
+				{
+					//_ret = (ShipShortName.ToLower() != Ship.ed_short.ToLower()) ? true : false;
+					_ret = true;
+				}				
+			}
+			return _ret;
+		}
+	}
+
+	#endregion
 
 	[Serializable]
 	public class game_instance
@@ -129,7 +196,7 @@ namespace EDHM_UI_mk2
 		public string key { get; set; }
 		public string name { get; set; }
 		public string path { get; set; }
-		
+
 		public string themes_folder { get; set; }
 		public bool is_active { get; set; } = false;
 
@@ -154,9 +221,9 @@ namespace EDHM_UI_mk2
 		public ui_preset_new() { }
 		public ui_preset_new(string Name, string Folder, string Author = "")
 		{
-			this.name = Name;
-			this.folder = Folder;
-			this.author = Author;
+			name = Name;
+			folder = Folder;
+			author = Author;
 		}
 
 		public string name { get; set; }
@@ -173,12 +240,12 @@ namespace EDHM_UI_mk2
 
 		public object Clone()
 		{
-			return (ui_preset_new)this.MemberwiseClone();
+			return (ui_preset_new)MemberwiseClone();
 		}
 
 		public override string ToString()
 		{
-			return this.name;
+			return name;
 		}
 	}
 
@@ -188,9 +255,9 @@ namespace EDHM_UI_mk2
 		public combo_item() { }
 		public combo_item(string _Type, string _Name, decimal _Index)
 		{
-			this.Type = _Type;
-			this.Name = _Name;
-			this.Index = _Index;
+			Type = _Type;
+			Name = _Name;
+			Index = _Index;
 		}
 
 		public string Type { get; set; }
@@ -203,7 +270,7 @@ namespace EDHM_UI_mk2
 		}
 		public override string ToString()
 		{
-			return string.Format("[{0}]: '{1}'", this.Type, this.Name);
+			return string.Format("[{0}]: '{1}'", Type, Name);
 		}
 	}
 
@@ -237,8 +304,8 @@ namespace EDHM_UI_mk2
 		public ui_group() { }
 		public ui_group(string pName, string pTitle)
 		{
-			this.Name = pName;
-			this.Title = pTitle;
+			Name = pName;
+			Title = pTitle;
 		}
 
 		public string Name { get; set; }
@@ -251,22 +318,22 @@ namespace EDHM_UI_mk2
 		}
 		public override string ToString()
 		{
-			return this.Title;
+			return Title;
 		}
-	}	
+	}
 
 	[Serializable]
 	public class element : ICloneable
 	{
 		public element() { }
 
-		
+
 		public string Category { get; set; }
 		public string Title { get; set; }
 		public string File { get; set; }
 
 		public string Section { get; set; } = "Constants";
-		public string Key { get; set; }		
+		public string Key { get; set; }
 		public decimal Value { get; set; }
 
 		public string ValueType { get; set; }
@@ -283,7 +350,7 @@ namespace EDHM_UI_mk2
 		}
 		public override string ToString()
 		{
-			return string.Format("{0}: {1}", this.Title, this.Value);
+			return string.Format("{0}: {1}", Title, Value);
 		}
 	}
 
@@ -298,7 +365,7 @@ namespace EDHM_UI_mk2
 
 		public override string ToString()
 		{
-			return string.Format("Name: {0}, Value: {1}", this.Name, this.Value);
+			return string.Format("Name: {0}, Value: {1}", Name, Value);
 		}
 	}
 
@@ -355,7 +422,7 @@ namespace EDHM_UI_mk2
 
 		public override string ToString()
 		{
-			return string.Format("{0} (v{1})", this.mod_name, this.version);
+			return string.Format("{0} (v{1})", mod_name, version);
 		}
 	}
 	[Serializable]
@@ -364,8 +431,8 @@ namespace EDHM_UI_mk2
 		public TPMod_Section() { }
 		public TPMod_Section(string _Name = "", string _Title = "")
 		{
-			this.name = _Name;
-			this.title = _Title;
+			name = _Name;
+			title = _Title;
 		}
 
 		public string name { get; set; }
@@ -375,14 +442,14 @@ namespace EDHM_UI_mk2
 		public string ini_section { get; set; }
 
 		/// <summary>Overrides the Mod File (ini or xml), only for this section.</summary>
-		public string file_override { get; set; } 
+		public string file_override { get; set; }
 
 		public List<TPMod_Key> keys { get; set; }
 
 		/// <summary>Permite Copiar por Valor el Objeto con todas sus propiedades y atributos.</summary>
 		public object Clone()
 		{
-			return (TPMod_Section)this.MemberwiseClone();
+			return (TPMod_Section)MemberwiseClone();
 		}
 	}
 	[Serializable]
@@ -392,7 +459,7 @@ namespace EDHM_UI_mk2
 
 		public string name { get; set; }
 		public string type { get; set; }
-		public string key { get; set; }		
+		public string key { get; set; }
 		public string value { get; set; }
 		public bool visible { get; set; } = true;
 		public string description { get; set; }
@@ -406,7 +473,7 @@ namespace EDHM_UI_mk2
 		/// <summary>Permite Copiar por Valor el Objeto con todas sus propiedades y atributos.</summary>
 		public object Clone()
 		{
-			return (TPMod_Key)this.MemberwiseClone();
+			return (TPMod_Key)MemberwiseClone();
 		}
 	}
 	[Serializable]
@@ -415,11 +482,11 @@ namespace EDHM_UI_mk2
 		public TPMod_Type() { }
 		public TPMod_Type(string _Type = "", string _Name = "", string _Value = "")
 		{
-			this.type = _Type;
-			this.name = _Name;
-			this.value = _Value;
+			type = _Type;
+			name = _Name;
+			value = _Value;
 		}
-				
+
 		public string type { get; set; }
 		public string name { get; set; }
 		public string value { get; set; }
@@ -431,7 +498,7 @@ namespace EDHM_UI_mk2
 		public TPMod_UpdateInfo() { }
 		public TPMod_UpdateInfo(TPMVersionInfo pInfo)
 		{
-			this.info = pInfo;
+			info = pInfo;
 		}
 
 		public TPMVersionInfo info { get; set; }

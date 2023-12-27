@@ -236,9 +236,13 @@ namespace EDHM_UI_mk2
 							{
 								case "elite-dangerous-64":			_Game.name = "Horizons (Legacy)";	_Game.key = "ED_Horizons"; break;   //<- Horizons 3.8
 								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (Live)";		_Game.key = "ED_Odissey"; break;    //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey & Horizons (Live)";	_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 and Horizons 4.0
-								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey & Horizons (Live)";	_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 alt
-								default:							_Game.name = "Odyssey (Live)";		_Game.key = "ED_Odissey"; break;   
+								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey (Live)";	_Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 and Horizons 4.0
+								// *** NEW FOLDERS ***
+								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey & Horizons (Live)"; _Game.key = "ED_Odissey"; break;      //<- Odyssey 4.0 alt									
+								case "FORC-FDEV-D-1010":			_Game.name = "ED Base Game"; _Game.key = "ED_Horizons"; break;
+								case "FORC-FDEV-D-1012":			_Game.name = "Elite Dangerous Arena"; _Game.key = "ED_Horizons"; break;
+								case "FORC-FDEV-D-1013":			_Game.name = "Horizons (Legacy)"; _Game.key = "ED_Horizons"; break;
+								default:							_Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;
 							}
 
 							_Game.instance = string.Format("{0} ({1})", _Instance.instance, _Game.name);
@@ -378,8 +382,12 @@ namespace EDHM_UI_mk2
 											Game.instance = "Odyssey (4.0)";
 											Game.name = "Odyssey (Live)";
 											Game.key = "ED_Odissey";
-											break;    
-											
+											break;
+							
+										case "FORC-FDEV-D-1010": Game.instance = "Base Game"; Game.name = "Elite Dangerous Base"; Game.key = "ED_Horizons"; break;
+										case "FORC-FDEV-D-1012": Game.instance = "Arena"; Game.name = "Elite Dangerous Arena"; Game.key = "ED_Horizons"; break;
+										case "FORC-FDEV-D-1013": Game.instance = "Legacy"; Game.name = "Horizons (Legacy)"; Game.key = "ED_Horizons"; break;
+
 										default:
 											Game.instance = "Odyssey (4.0)";
 											Game.name = "Odyssey (Live)";

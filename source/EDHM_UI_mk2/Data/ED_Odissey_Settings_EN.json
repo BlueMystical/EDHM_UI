@@ -389,6 +389,7 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Remote Release Flac / Flechette Launcher.\r\nNote: The red trigger signal cannot be modded at this time.\r\nBrightness controls are not available as it causes a glitch between the Outer and Proximity elements; To reduce brightness, simply reduce your RGB values by the same percentage"
         },
+
         {
           "Category": "Environmental and Destination Targets",
           "Title": "Mode",
@@ -443,6 +444,17 @@
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "Custom Color for Destination target circle. (*Alpha)"
+        },
+        {
+          "Category": "Environmental and Destination Targets",
+          "Title": "Hidden Destination Targets",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "z115",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "EnvDestTargetsMode",
+          "Description": "Circle and Text for Destination Hidden Behind an Object"
         },
         {
           "Category": "Environmental and Destination Targets",
@@ -3972,6 +3984,23 @@
       "Name": "XML (User Defined)",
       "Index": 199.0
     },
+
+    {
+      "Type": "EnvDestTargetsMode",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "EnvDestTargetsMode",
+      "Name": "Mode 1 - Circle and Text with Destination Colors",
+      "Index": 100.0
+    },
+    {
+      "Type": "EnvDestTargetsMode",
+      "Name": "Mode 2 - Circle with Destination Colors and Text with Main Text Color",
+      "Index": 101.0
+    },
+
     {
       "Type": "ProbeVariationMode",
       "Name": "Elite Default",

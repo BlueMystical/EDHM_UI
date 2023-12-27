@@ -38,7 +38,8 @@ namespace EDHM_UI_mk2
 
 		public ui_setting DefaultSettings { get; set; }
 		public ui_preset_new SelectedTheme { get; set; }
-		public player_loadout Shipyard { get; set; }
+		//public player_loadout Shipyard { get; set; }
+		public ShipyardEx Shipyard { get; set; }
 
 		public ui_group GlobalSettings { get; set; }
 		public ui_group UserSettings { get; set; }
@@ -80,7 +81,8 @@ namespace EDHM_UI_mk2
 		private bool GameIsRunning = false;
 		private bool mCloseAutorized = false;
 		private bool DoUpdate = false;
-		private bool JournalWatcherIsRunning = true;
+		//private bool JournalWatcherIsRunning = true;
+		private bool JournalLoading = false;
 		private bool ShowTips = true;
 
 		private bool WatchMe = true; //<- Determina si Registra las Naves del Jugador
@@ -96,8 +98,13 @@ namespace EDHM_UI_mk2
 
 		private string AppExePath = AppDomain.CurrentDomain.BaseDirectory;
 		private string CommanderName = string.Empty;
-		private string ShipIDName = string.Empty;
-		private ship CurrentShip = null;
+
+		//private string ShipIDName = string.Empty; //<-- COMENTAR
+		//private ship CurrentShip = null;         //<-- COMENTAR
+
+		private ship_loadout_ex EmbarkedShip = null; //<- This is the currently embarked Ship
+		private ship_loadout_ex PreviousShip = null; //<- The ship before that
+
 		private string WatchingFile = string.Empty;
 		private string LangShort = "en"; //<- Idioma x Defecto
 		private string ThemeWord = "Themes"; //<- para una Etiqueta que muestra la cantidad de temas, se traduce a diferentes idiomas
@@ -189,7 +196,7 @@ namespace EDHM_UI_mk2
 			SavesToRemember = Convert.ToInt32(Util.WinReg_ReadKey("EDHM", "SavesToRemember").NVL("10"));
 			AutoApplyTheme = Convert.ToBoolean(Util.WinReg_ReadKey("EDHM", "AutoApplyTheme").NVL("false"));
 			UI_DOCUMENTS = GetUIDocumentsDir(); //<- @"%USERPROFILE%\EDHM_UI"
-			
+
 			var EDJournalDir = Util.WinReg_ReadKey("EDHM", "PlayerJournal");
 			if (EDJournalDir is null)
 			{
@@ -293,14 +300,21 @@ namespace EDHM_UI_mk2
 
 			#region Carga el Historial de Naves
 
-			string JsonShipyardPath = Path.Combine(AppExePath, @"Data\PlayerLoadout.json");
-			if (File.Exists(JsonShipyardPath))
+			string JsonShipyardPath = Path.Combine(AppExePath, @"Data\Shipyard.json");
+			Shipyard = File.Exists(JsonShipyardPath) ?
+				Util.DeSerialize_FromJSON<ShipyardEx>(JsonShipyardPath) :
+				 new ShipyardEx()
+				 {
+					 active_instance = ActiveInstance.key
+				 };
+
+			if (Shipyard.ships != null)
 			{
-				Shipyard = Util.DeSerialize_FromJSON<player_loadout>(JsonShipyardPath);
-			}
-			else
-			{
-				Shipyard = new player_loadout();
+				foreach (var ship in Shipyard.ships)
+				{
+					ship.Ship.image = Util.OpenImage(Path.Combine(AppExePath, string.Format(@"Images\Ships\{0}.jpg", ship.Ship.ed_short)));
+					ship.Preview = (Bitmap)Util.byteArrayToImage(ship.Ship.image);
+				}
 			}
 
 			#endregion
@@ -345,7 +359,7 @@ namespace EDHM_UI_mk2
 				}
 				if (StartMinimized)
 				{
-					this.WindowState = FormWindowState.Minimized;
+					WindowState = FormWindowState.Minimized;
 				}
 
 				bool FirstRun = Convert.ToBoolean(Util.AppConfig_GetValue("FirstRun"));
@@ -372,8 +386,8 @@ namespace EDHM_UI_mk2
 								}
 							}
 							Util.AppConfig_SetValue("FirstRun", "false");
-						}					
-					}					
+						}
+					}
 				}
 
 				CheckForModUpdates();
@@ -610,7 +624,7 @@ namespace EDHM_UI_mk2
 			{
 				//Carga el Idioma elejido x el Usuario:
 				string LangInfo = string.Empty;
-				this.LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
+				LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
 
 				string _AvailableLanguages = Util.AppConfig_GetValue("Languages");
 				if (!_AvailableLanguages.Contains(LangShort))
@@ -632,7 +646,7 @@ namespace EDHM_UI_mk2
 
 				//customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
 				customCulture = System.Globalization.CultureInfo.CreateSpecificCulture(LangInfo); //es-ES, en-US, fr-FR, de-DE, it-IT, pt-BR, ru-RU
-			
+
 				customCulture.NumberFormat.NumberDecimalSeparator = ".";
 				customCulture.NumberFormat.NumberGroupSeparator = ",";
 				customCulture.NumberFormat.CurrencyDecimalSeparator = ".";
@@ -655,13 +669,13 @@ namespace EDHM_UI_mk2
 
 		/// <summary>Obtiene la ruta donde se guardan los Temas y datos del usuario.</summary>
 		/// <param name="MakeDir">[Opcional] Si la carpeta no existe, la crea.</param>
-		public string GetUIDocumentsDir(bool MakeDir = true)	
+		public string GetUIDocumentsDir(bool MakeDir = true)
 		{
 			string _ret = @"%USERPROFILE%\EDHM_UI";
 			try
 			{
-				_ret = Util.WinReg_ReadKey( "EDHM", "EDHM_DOCS").NVL(@"%USERPROFILE%\EDHM_UI"); //<- @"%USERPROFILE%\EDHM_UI"
-					   Util.WinReg_WriteKey("EDHM", "EDHM_DOCS", _ret);
+				_ret = Util.WinReg_ReadKey("EDHM", "EDHM_DOCS").NVL(@"%USERPROFILE%\EDHM_UI"); //<- @"%USERPROFILE%\EDHM_UI"
+				Util.WinReg_WriteKey("EDHM", "EDHM_DOCS", _ret);
 				_ret = Environment.ExpandEnvironmentVariables(_ret); //<- Permite usar cualquier variable de Windows
 
 				// https://pureinfotech.com/list-environment-variables-windows-10/   <- Windows's Enviroment Variables List
@@ -894,8 +908,11 @@ namespace EDHM_UI_mk2
 						string origen = Path.Combine(update_path, string.Format("Themes_EDHM_{0}.zip", GameVersion));
 						if (File.Exists(origen))
 						{
-							string destino = Path.Combine(UI_DOCUMENTS, GameVersion); 
-							if (!Directory.Exists(destino)) Directory.CreateDirectory(destino); //<- %USERPROFILE%\EDHM_UI\ODYSS\
+							string destino = Path.Combine(UI_DOCUMENTS, GameVersion);
+							if (!Directory.Exists(destino))
+							{
+								Directory.CreateDirectory(destino); //<- %USERPROFILE%\EDHM_UI\ODYSS\
+							}
 
 							//Mueve los Themas del Lugar anterior:
 							MoveUIDocuments(destino, GameVersion);
@@ -946,9 +963,20 @@ namespace EDHM_UI_mk2
 					{
 						foreach (var _Game in _Instance.games)
 						{
-							if (_Game.path.Contains("steamapps")) _Instance.instance = "Steam";
-							if (_Game.path.Contains("Epic Games")) _Instance.instance = "Epic Games";
-							if (_Game.path.Contains("Frontier")) _Instance.instance = "Frontier";
+							if (_Game.path.Contains("steamapps"))
+							{
+								_Instance.instance = "Steam";
+							}
+
+							if (_Game.path.Contains("Epic Games"))
+							{
+								_Instance.instance = "Epic Games";
+							}
+
+							if (_Game.path.Contains("Frontier"))
+							{
+								_Instance.instance = "Frontier";
+							}
 
 							if (_Game.game_id.EmptyOrNull())
 							{
@@ -957,10 +985,15 @@ namespace EDHM_UI_mk2
 
 							switch (Path.GetFileNameWithoutExtension(_Game.path))
 							{
-								case "elite-dangerous-64":			_Game.name = "Horizons (Legacy)"; _Game.key = "ED_Horizons"; break;   //<- Horizons 3.8
-								case "FORC-FDEV-DO-38-IN-40":		_Game.name = "Horizons (Live)"; _Game.key = "ED_Odissey"; break;    //<- Horizons 4.0
-								case "elite-dangerous-odyssey-64":	_Game.name = "Odyssey & Horizons (Live)"; _Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 and Horizons 4.0
-								case "FORC-FDEV-DO-1000":			_Game.name = "Odyssey & Horizons (Live)"; _Game.key = "ED_Odissey"; break;    //<- Odyssey 4.0 alt
+								case "elite-dangerous-64": _Game.name = "Horizons (Legacy)"; _Game.key = "ED_Horizons"; break;              //<- Horizons 3.8
+								case "FORC-FDEV-DO-38-IN-40": _Game.name = "Horizons (Live)"; _Game.key = "ED_Odissey"; break;              //<- Horizons 4.0
+								case "elite-dangerous-odyssey-64": _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;      //<- Odyssey 4.0 and Horizons 4.0
+
+								// *** NEW FOLDERS ***
+								case "FORC-FDEV-DO-1000": _Game.name = "Odyssey & Horizons (Live)"; _Game.key = "ED_Odissey"; break;      //<- Odyssey 4.0 alt									
+								case "FORC-FDEV-D-1010": _Game.name = "Elite Dangerous Base"; _Game.key = "ED_Horizons"; break;
+								case "FORC-FDEV-D-1012": _Game.name = "Elite Dangerous Arena"; _Game.key = "ED_Horizons"; break;
+								case "FORC-FDEV-D-1013": _Game.name = "Horizons (Legacy)"; _Game.key = "ED_Horizons"; break;
 								default: _Game.name = "Odyssey (Live)"; _Game.key = "ED_Odissey"; break;
 							}
 
@@ -1248,12 +1281,15 @@ namespace EDHM_UI_mk2
 			string _FilePath = Path.Combine(AppExePath, @"Data\Ship_List.json");
 			if (File.Exists(_FilePath))
 			{
-				
 				var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 				{
-					System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
+					Thread.CurrentThread.CurrentCulture = customCulture;
 					ED_Ships = Util.DeSerialize_FromJSON<List<ship>>(_FilePath);
+
+					foreach (var ship in ED_Ships)
+					{
+						ship.image = Util.OpenImage(Path.Combine(AppExePath, string.Format(@"Images\Ships\{0}.jpg", ship.ed_short)));
+					}
 				});
 			}
 		}
@@ -1268,7 +1304,7 @@ namespace EDHM_UI_mk2
 				{
 					ElementsImgCollection.Images.Clear();
 
-					
+
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
 						System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -1380,7 +1416,7 @@ namespace EDHM_UI_mk2
 										}
 										_theme.Preview = Util.ResizeImage((Bitmap)_theme.Preview, 360, 71, false);
 									}
-									catch { }									
+									catch { }
 								}
 								else
 								{
@@ -1912,13 +1948,13 @@ namespace EDHM_UI_mk2
 													_Element.Value = -1; //<- lo pongo negativo para buscarlo en la plantilla aqui abajo
 												}
 												if (_Element.ValueType != "Color" && _Element.Value < 0)
-												{													
+												{
 													//Si la Clave no existe en el Tema elejido, se carga el valor del tema plantilla:
 													var _DefaultElement = DefaultSettings.ui_groups.Find(x => x.Name == _group.Name).
 														Elements.Find(x => x.Key == _Element.Key);
 													_Element.Value = _DefaultElement.Value;
 												}
-												
+
 											}
 										}
 									}
@@ -2161,7 +2197,7 @@ namespace EDHM_UI_mk2
 													ShowSystemColors = false,
 													ShowWebSafeColors = false,
 													ShowMyCustomColors = true,
-													ShowMyPastelColors = false,													
+													ShowMyPastelColors = false,
 													Tag = _Element
 												};
 
@@ -2210,7 +2246,7 @@ namespace EDHM_UI_mk2
 														//e.Form.Appearance.
 													}
 												};
-												
+
 
 												//-------- LOAD THE THEME'S COLOR PALETTE 
 												if (_RecentColors != null)
@@ -2405,7 +2441,7 @@ namespace EDHM_UI_mk2
 
 									if (_Fila != null && _Element.Key == FindRowKey)
 									{
-										_ret = _Fila;										
+										_ret = _Fila;
 										Invoke((MethodInvoker)(() =>
 										{
 											vGridDetalles.FocusedRow = _Fila;
@@ -2507,7 +2543,10 @@ namespace EDHM_UI_mk2
 					pIcon: MessageBoxIcon.Question, DarkMode: true, pButtons: MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					Cursor = Cursors.WaitCursor;
-					if (SelectedTheme.name == "Current Settings") SelectedTheme.name = "MyTheme";
+					if (SelectedTheme.name == "Current Settings")
+					{
+						SelectedTheme.name = "MyTheme";
+					}
 
 					ThemeParametersForm _Form = new ThemeParametersForm
 					{
@@ -2517,7 +2556,7 @@ namespace EDHM_UI_mk2
 						Author = SelectedTheme.author,
 						Description = SelectedTheme.description,
 						PreviewURL = SelectedTheme.BigPreview,
-						ThemeFolder = SelectedTheme.folder,					
+						ThemeFolder = SelectedTheme.folder,
 					};
 					if (File.Exists(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")))
 					{
@@ -2528,7 +2567,7 @@ namespace EDHM_UI_mk2
 								_Form.Thumbnail = System.Drawing.Image.FromStream(stream);
 							}
 						}
-						catch { }						
+						catch { }
 					}
 
 					if (_Form.ShowDialog() == DialogResult.OK)
@@ -2569,7 +2608,7 @@ namespace EDHM_UI_mk2
 									foreach (FileInfo f in new DirectoryInfo(NewProfileFolder).GetFiles("*.credits")) { f.Delete(); }
 									Util.Serialize_ToJSON(Path.Combine(NewProfileFolder, "Theme.credits"), ThemeDetails, true);
 								}
-								catch { }								
+								catch { }
 
 								File.Copy(Path.Combine(GameFolder, @"Startup-Profile.ini"),
 									Path.Combine(NewProfileFolder, @"Startup-Profile.ini"), true);
@@ -2744,11 +2783,11 @@ namespace EDHM_UI_mk2
 				{
 					Thread.CurrentThread.CurrentCulture = customCulture;
 					try
-					{						
+					{
 						ApplyThemeSync(SaveIt, KeepItQuiet);
 					}
 					catch (ThreadAbortException) { Thread.CurrentThread.Join(); }
-					catch (Exception ex) { Mensajero.ShowMessage(ex.Message + ex.StackTrace, "ERROR:", pIcon: MessageBoxIcon.Error ); }
+					catch (Exception ex) { Mensajero.ShowMessage(ex.Message + ex.StackTrace, "ERROR:", pIcon: MessageBoxIcon.Error); }
 					finally
 					{
 						Invoke((MethodInvoker)(() =>
@@ -2770,7 +2809,7 @@ namespace EDHM_UI_mk2
 						Cursor = Cursors.Default;
 						gridControl1.Cursor = Cursors.Default;
 					}));
-				}				
+				}
 			}
 		}
 		private void ApplyThemeSync(bool SaveIt = true, bool KeepItQuiet = false)
@@ -2806,7 +2845,10 @@ namespace EDHM_UI_mk2
 			/*   APPLY THE THEME INTO THE GAME FILES      */
 			ApplyTheme_Files(KeepItQuiet);
 
-			if (SaveIt) SaveTheme(true); //<- Save the changes in the JSON
+			if (SaveIt)
+			{
+				SaveTheme(true); //<- Save the changes in the JSON
+			}
 
 			//Save the Settings into the History:
 			History_AddSettings(Settings);
@@ -2863,11 +2905,11 @@ namespace EDHM_UI_mk2
 						}
 
 						IniFile _CPM_Interior = null;
-						if (CurrentShip != null && ActiveInstance.key == "ED_Odissey" &&
+						if (EmbarkedShip != null && ActiveInstance.key == "ED_Odissey" &&
 							File.Exists(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini")))
 						{
 							_CPM_Interior = new IniFile(Path.Combine(ActiveInstance.path, @"EDHM-ini\3rdPartyMods\CPM-@Cockpit-Paint-Mod.ini"));
-							_CPM_Interior.WriteKey("w158", CurrentShip.ship_id.ToString(), "constants");
+							_CPM_Interior.WriteKey("w158", EmbarkedShip.Ship.ship_id.ToString(), "constants");
 						}
 
 						if (Settings.ui_groups.IsNotEmpty())
@@ -3165,7 +3207,7 @@ namespace EDHM_UI_mk2
 
 								//MUESTRA UN MENSAJE QUE SE CIERRA AUTOMATICAMENTE EN 2 SEGUNDOS:
 								Mensajero.ShowMessage("Done!", string.Format("The '{0}' theme has successfully been Saved.", SelectedTheme.name),
-									AutoCloseTime: 3000, DarkMode: true );
+									AutoCloseTime: 3000, DarkMode: true);
 
 								SavingTheme = false;
 								OnThemeApply = null;
@@ -3294,7 +3336,7 @@ namespace EDHM_UI_mk2
 						File.Move(Path.Combine(oldDocs, "ED_Odissey_User_Settings.json"), Path.Combine(UI_DOCUMENTS, "ED_Odissey_User_Settings.json"));
 					}
 				}
-				catch { }				
+				catch { }
 
 				if (GameVersion == "ODYSS")
 				{
@@ -3307,7 +3349,7 @@ namespace EDHM_UI_mk2
 					}
 					//if (Directory.Exists(oldDocs)) Directory.Delete(oldDocs, true);
 				}
-				
+
 			}
 			catch (Exception ex)
 			{
@@ -3320,7 +3362,7 @@ namespace EDHM_UI_mk2
 			{
 				//Mueve las Carpetas de EDHM usando SymLinks:
 				string GameVersion = pGameInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-				string destinoRoot = Path.Combine(UI_DOCUMENTS, GameVersion, "EDHM", pGameInstance.instance);  
+				string destinoRoot = Path.Combine(UI_DOCUMENTS, GameVersion, "EDHM", pGameInstance.instance);
 				//<-				 %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM\[Epic Games (Horizons (Live))]
 
 				List<string> EDHM_Folders = new List<string>
@@ -3331,7 +3373,7 @@ namespace EDHM_UI_mk2
 
 				foreach (string folder in EDHM_Folders)
 				{
-					string RootFolder = Path.GetFileName(folder);		//<- Nombre de la Ultima Carpeta en la Ruta: [EDHM-ini]
+					string RootFolder = Path.GetFileName(folder);       //<- Nombre de la Ultima Carpeta en la Ruta: [EDHM-ini]
 					string _Destino = Path.Combine(destinoRoot, RootFolder); //<- %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM\[EDHM-ini]\
 					string SymTarget = string.Empty;                         //<- El destino al que apunta el SymLink
 
@@ -3361,7 +3403,7 @@ namespace EDHM_UI_mk2
 						Directory.CreateDirectory(_Destino); //<- El 'Target' para el SymLink
 						SymLink.CreateLinkToDirectory(folder, _Destino);
 					}
-				}				
+				}
 			}
 			catch (Exception ex)
 			{
@@ -3425,7 +3467,7 @@ namespace EDHM_UI_mk2
 			{
 				//string NewThemePath = CreateNewThemeSync();
 
-				if (this.SelectedTheme != null)
+				if (SelectedTheme != null)
 				{
 					string ThemeName = SelectedTheme.name; // new DirectoryInfo(NewThemePath).Name;
 					string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
@@ -3520,7 +3562,7 @@ namespace EDHM_UI_mk2
 						if (Continuar)
 						{
 							Cursor = Cursors.WaitCursor;
-							
+
 							var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 							{
 								System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
@@ -3819,7 +3861,7 @@ namespace EDHM_UI_mk2
 								try
 								{
 									ODYS_Path = _Instance.games.Find(x => x.key == "ED_Odissey").path.NVL(string.Empty);
-									HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);									
+									HORI_Path = _Instance.games.Find(x => x.key == "ED_Horizons").path.NVL(string.Empty);
 								}
 								catch { }
 
@@ -3878,7 +3920,7 @@ namespace EDHM_UI_mk2
 											case "DEL": //Borra un Archivo
 												string path = System.IO.Path.GetDirectoryName(_job.file_path); //Obtiene el Path: (Sin archivo ni extension:
 												string file_name = System.IO.Path.GetFileName(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
-												//Borra archivos usando comodines
+																											   //Borra archivos usando comodines
 												if (file_name.Contains("*"))
 												{
 													foreach (string f in Directory.EnumerateFiles(path, file_name))
@@ -3889,7 +3931,10 @@ namespace EDHM_UI_mk2
 												else
 												{
 													//Borra el archivo indicado, si existe
-													if (File.Exists(_job.file_path)) File.Delete(_job.file_path);
+													if (File.Exists(_job.file_path))
+													{
+														File.Delete(_job.file_path);
+													}
 												}
 												break;
 
@@ -4045,7 +4090,7 @@ namespace EDHM_UI_mk2
 				string MSG_Title = string.Empty;
 				string MSG_Body = string.Empty;
 
-				switch (this.LangShort)
+				switch (LangShort)
 				{
 					case "en":
 						MSG_Title = "The Game is Running!";
@@ -4081,8 +4126,8 @@ namespace EDHM_UI_mk2
 						break;
 				}
 
-				if (Mensajero.ShowMessageDark(MSG_Title, MSG_Body, 
-					MessageBoxButtons.OKCancel, MessageBoxIcon.Information, Language: this.LangShort) == DialogResult.OK)
+				if (Mensajero.ShowMessageDark(MSG_Title, MSG_Body,
+					MessageBoxButtons.OKCancel, MessageBoxIcon.Information, Language: LangShort) == DialogResult.OK)
 				{
 					if (Game_Proc != null && Game_Proc.HasExited == false)
 					{
@@ -4435,7 +4480,7 @@ namespace EDHM_UI_mk2
 		#region Shipyard
 
 		private bool ApplyingShip = false;
-		private string OldShip = string.Empty;
+		//private string OldShip = string.Empty;
 		private bool RunWatcher = true;
 
 		private void ReadPlayerJournal()
@@ -4526,7 +4571,6 @@ namespace EDHM_UI_mk2
 
 					//TODO: Aqui deberia leer todo el archivo
 					//Hay que leer todas las lineas del archivo y registrar solo la ultima nave que encuentre
-					//
 
 					var wh = new System.Threading.AutoResetEvent(false);
 					var LogWatcher = new FileSystemWatcher(".")
@@ -4545,18 +4589,21 @@ namespace EDHM_UI_mk2
 					var fs = new FileStream(pFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 					using (var sr = new StreamReader(fs))
 					{
+						JournalLoading = true; //<- Loading all Journal lines
 						string Line = string.Empty;
 						while (RunWatcher) //<- Poner en False para dejar de Leer el Archivo
 						{
 							Line = sr.ReadLine(); //<- Lee Linea x Linea
 							if (Line != null)
 							{
-								//Analiza la Linea Buscando los Eventos deseados:
-								PlayerJournal_DetectEvents(Line);
+								Debug.WriteLine("Journal Event Found. ");
+								PlayerJournal_DetectEvents(Line); //<- Analiza la Linea Buscando los Eventos deseados 						
 							}
 							else
 							{
-								wh.WaitOne(1000); //<- Cuando ya no hay más lineas, pausa el proceso de lectura y Espera a que FileSystemWatcher notifique algun cambio
+								Debug.WriteLine("Journal EOF, Waiting for Input..");
+								JournalLoading = false;
+								wh.WaitOne(1000); //<- Cuando ya no hay más lineas, pausa el proceso de lectura y Espera a que FileSystemWatcher notifique algun cambio, checkea 1 vez x segundo.
 							}
 						}
 						wh.Close();
@@ -4572,6 +4619,7 @@ namespace EDHM_UI_mk2
 			try
 			{
 				/* Cada linea del Log es un Objeto JSON completo
+				 * https://elite-journal.readthedocs.io/en/latest/
 				 * Eventos a Detectar:
 				 * 
 				 * "timestamp":"2021-12-09T18:49:00Z",
@@ -4614,6 +4662,7 @@ namespace EDHM_UI_mk2
 				if (index != -1)
 				{
 					//Evento Detectado!
+					Debug.WriteLine("Commander event.");
 					dynamic data = Newtonsoft.Json.Linq.JObject.Parse(JsonLine);
 					if (data != null)
 					{
@@ -4632,58 +4681,84 @@ namespace EDHM_UI_mk2
 				//2. Detectar cuando se Cambia la Nave:
 				index = 0;
 				index = JsonLine.IndexOf("\"event\":\"Loadout\"", index);
-				if (index != -1)
+				if (index != -1 && JournalLoading == false)
 				{
 					//Evento Detectado!
+					Debug.WriteLine("Loadout event.");
 					dynamic data = Newtonsoft.Json.Linq.JObject.Parse(JsonLine);
 					{
-						/*	"timestamp": "2021-08-06T01:56:55Z", "event": "Loadout", "Ship": "cutter", "ShipID": 7, "ShipName": "NORMANDY", "ShipIdent": "SR-04", "HullValue": 180435872,
-							"ModulesValue": 128249820, "HullHealth": 1.0, "UnladenMass": 1803.399902, "CargoCapacity": 320, "MaxJumpRange": 31.563942,   */
+						/*	when loading from main menu, or when switching ships, or after changing the ship in Outfitting, or when docking SRV back in mothership
+						 *	
+						 *	"timestamp": "2021-08-06T01:56:55Z", "event": "Loadout", 
+						 *	"Ship": "cutter", "ShipID": 7, "ShipName": "NORMANDY", "ShipIdent": "SR-04", "HullValue": 180435872,
+							"ModulesValue": 128249820, "HullHealth": 1.0, "UnladenMass": 1803.399902, "CargoCapacity": 320, "MaxJumpRange": 31.563942, .... */
 						if (data != null)
 						{
-							if (ED_Ships.IsNotEmpty())
+							if (ED_Ships.IsNotEmpty() && !string.IsNullOrEmpty(Convert.ToString(data.Ship)))
 							{
-								if (CurrentShip is null)
+								string eventShipID = Convert.ToString(data.Ship).ToLowerInvariant();
+
+								if (PreviousShip is null)
 								{
-									//this.ShipIDName = string.Format("{0} ({1} {2})", Util.NVL(data.Ship, string.Empty), data.ShipName, data.ShipIdent);
-									CurrentShip = ED_Ships.Find(x => x.ed_short == Convert.ToString(data.Ship));
-									PlayerJournal_ShipChanged(new ship_loadout
+									PreviousShip = new ship_loadout_ex(ED_Ships, eventShipID)
 									{
-										ship_short_type = data.Ship,
 										ship_name = data.ShipName,
-										ship_id = data.ShipIdent
-									});
+										ship_plate = data.ShipIdent
+									};
 								}
 								else
 								{
-									if (this.CurrentShip.NaveCambiada(Convert.ToString(data.Ship)))
+									if (PreviousShip.IsDifferentShip(EmbarkedShip.Ship.ed_short, EmbarkedShip.ship_plate))
 									{
-										CurrentShip = ED_Ships.Find(x => x.ed_short == Convert.ToString(data.Ship));
-										if (CurrentShip != null)
+										PreviousShip = new ship_loadout_ex(ED_Ships, EmbarkedShip.Ship.ed_short)
 										{
-											//empire_cutter
-											ShipIDName = string.Format("{0} ({1} {2})", Util.NVL(CurrentShip.ship_full_name, string.Empty), data.ShipName, data.ShipIdent);
-										}									
-
-										PlayerJournal_ShipChanged(new ship_loadout
-										{
-											ship_short_type = data.Ship,
-											ship_name = data.ShipName,
-											ship_id = data.ShipIdent
-										});
+											ship_name = EmbarkedShip.ship_name,
+											ship_plate = EmbarkedShip.ship_plate
+										};
 									}
 								}
+
+								this.EmbarkedShip = new ship_loadout_ex(ED_Ships, eventShipID)
+								{
+									ship_name = data.ShipName,
+									ship_plate = data.ShipIdent
+								};
+
+								PlayerJournal_ShipChanged(EmbarkedShip);
 							}
 						}
+					}
+				}
+
+
+				//2.1 Detectar cuando se pone el Traje (on Foot):
+				index = 0;
+				index = JsonLine.IndexOf("\"event\":\"SuitLoadout\"", index);
+				if (index != -1)
+				{
+					//Evento Detectado!
+					Debug.WriteLine("SuitLoadout event.");
+					dynamic data = Newtonsoft.Json.Linq.JObject.Parse(JsonLine);
+					{
+						/* { "timestamp":"2023-12-23T21:18:17Z", "event":"SuitLoadout", 
+							"SuitID":1754183531470716, "SuitName":"utilitysuit_class5", "SuitName_Localised":"$UtilitySuit_Class1_Name;",
+							"LoadoutName":"Civil", "Modules":[..], "SuitMods":[..],
+						*/
 					}
 				}
 
 				//3. Detectar cuando se lanza el SRV:
 				index = 0;
 				index = JsonLine.IndexOf("\"event\":\"LaunchSRV\"", index);
-				if (index != -1)
+				if (index != -1 && JournalLoading == false)
 				{
-					//Evento Detectado!
+					/* When deploying the SRV from a ship onto planet surface
+					 * 
+					 *{ "timestamp":"2023-07-30T18:28:01Z", "event":"LaunchSRV", 
+					 * "SRVType":"combat_multicrew_srv_01", 
+					 * "SRVType_Localised":"SRV Scorpion", 
+					 * "Loadout":"default", "ID":10, "PlayerControlled":true } */
+					Debug.WriteLine("LaunchSRV event.");
 					dynamic data = Newtonsoft.Json.Linq.JObject.Parse(JsonLine);
 					{
 						/*	*/
@@ -4691,24 +4766,15 @@ namespace EDHM_UI_mk2
 						{
 							if (ED_Ships.IsNotEmpty())
 							{
-								OldShip = CurrentShip != null ? CurrentShip.ship_full_name : string.Empty;
-
-								if (this.CurrentShip.NaveCambiada(Convert.ToString(data.SRVType_Localised)))
+								string eventShipID = Convert.ToString(data.SRVType).ToLowerInvariant();
+								this.EmbarkedShip = new ship_loadout_ex(ED_Ships, eventShipID)
 								{
-									CurrentShip = ED_Ships.Find(x => x.ed_short == Convert.ToString(data.SRVType));
-									if (CurrentShip != null)
-									{
-										BackUp_CurrentSettings(ActiveInstance);
+									ship_name = data.SRVType_Localised,
+									ship_plate = string.Empty
+								};
 
-										ShipIDName = string.Format("{0} ({1})", Util.NVL(CurrentShip.ship_full_name, string.Empty), data.ID);
-										PlayerJournal_ShipChanged(new ship_loadout
-										{
-											ship_short_type = data.SRVType,
-											ship_name = data.SRVType_Localised,
-											ship_id = CurrentShip.ship_id.ToString()
-										});
-									}
-								}
+								//BackUp_CurrentSettings(ActiveInstance);
+								PlayerJournal_ShipChanged(EmbarkedShip);
 							}
 						}
 					}
@@ -4717,16 +4783,44 @@ namespace EDHM_UI_mk2
 				//4. Detectar cuando Vuelve a la nave desde el SRV:
 				index = 0;
 				index = JsonLine.IndexOf("\"event\":\"DockSRV\"", index);
-				if (index != -1)
+				if (index != -1 && JournalLoading == false)
 				{
-					Restore_CurrentSettings(ActiveInstance);
+					/*	when docking an SRV with the ship
+					 *	{ "timestamp":"2023-07-30T18:48:56Z", "event":"DockSRV", 
+					 *	"SRVType":"combat_multicrew_srv_01", "SRVType_Localised":"SRV Scorpion", "ID":10 } */
+					Debug.WriteLine("DockSRV event.");
+					//Restore_CurrentSettings(ActiveInstance);
 
-					if (CurrentShip != null)
+					if (PreviousShip != null)
 					{
-						Invoke((MethodInvoker)(() =>
+						PlayerJournal_ShipChanged(PreviousShip);
+					}
+				}
+
+				index = 0;
+				index = JsonLine.IndexOf("\"event\":\"Embark\"", index);
+				if (index != -1 && JournalLoading == false)
+				{
+					Debug.WriteLine("Embark event.");
+					dynamic data = Newtonsoft.Json.Linq.JObject.Parse(JsonLine);
+					{
+						/*	when a player (on foot) gets into a ship or SRV
+						 *	
+						 *	{	"timestamp":"2023-11-27T08:23:44Z","event":"Embark",
+						 *		"SRV":false,"Taxi":false, "Multicrew":false, "ID":72, 
+						 *		"StarSystem":"Bleae Thua WH-G b38-5",
+						 *		"SystemAddress":11653454440777,
+						 *		"Body":"Bleae Thua WH-G b38-5 A", "BodyID":2,
+						 *		"OnStation":false,
+						 *		"OnPlanet":false
+						 *	 }   */
+						if (data != null)
 						{
-							lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), OldShip);
-						}));
+							if (PreviousShip != null)
+							{
+								PlayerJournal_ShipChanged(PreviousShip);
+							}
+						}
 					}
 				}
 			}
@@ -4735,7 +4829,7 @@ namespace EDHM_UI_mk2
 				XtraMessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-		private void PlayerJournal_ShipChanged(ship_loadout CurrentShip)
+		private void PlayerJournal_ShipChanged(ship_loadout_ex CurrentShip)
 		{
 			/* OCURRE CUANDO SE CAMBIA LA NAVE 
 			    - Guarda la Nave en el Historial de Naves   
@@ -4744,11 +4838,11 @@ namespace EDHM_UI_mk2
 			// Esto sigue ejecutandose dentro del proceso iniciado x 'ReadPlayerJournal()'
 			try
 			{
-				if (this.CurrentShip != null)
+				if (this.EmbarkedShip != null)
 				{
 					Invoke((MethodInvoker)(() =>
 					{
-						lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), this.CurrentShip.ship_full_name);
+						lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), this.EmbarkedShip.Ship.ship_full_name);
 					}));
 
 
@@ -4759,7 +4853,7 @@ namespace EDHM_UI_mk2
 						try
 						{
 							IniFile TPMod_CPM = new IniFile(CPM_path);
-							TPMod_CPM.WriteKey("w158", this.CurrentShip.ship_id.ToString(), "constants");
+							TPMod_CPM.WriteKey("w158", this.EmbarkedShip.Ship.ship_id.ToString(), "constants");
 						}
 						catch { }
 					}
@@ -4767,22 +4861,21 @@ namespace EDHM_UI_mk2
 
 				if (Shipyard != null)
 				{
-					ship_loadout MyShip = null;
+					ship_loadout_ex MyShip = null;
 					Shipyard.player_name = CommanderName;
 					Shipyard.active_instance = ActiveInstance.key;
 
 					if (Shipyard.ships == null)
 					{
-						Shipyard.ships = new List<ship_loadout>();
+						Shipyard.ships = new List<ship_loadout_ex>();
 					}
 
 					//Revisar si la Nave ya existe en el Shipyard:
 					bool Existe = false;
 					if (Shipyard.ships.IsNotEmpty())
 					{
-						MyShip = Shipyard.ships.Find(x => x.ship_short_type == CurrentShip.ship_short_type.Trim() &&
-																	 x.ship_name == CurrentShip.ship_name.Trim() &&
-																	   x.ship_id == CurrentShip.ship_id.Trim());
+						MyShip = Shipyard.ships.Find(x => x.Ship.ed_short == CurrentShip.Ship.ed_short.Trim() &&
+															x.ship_plate == CurrentShip.ship_plate.Trim());
 						if (MyShip != null)
 						{
 							Existe = true;
@@ -4796,7 +4889,7 @@ namespace EDHM_UI_mk2
 						Shipyard.ships.Add(CurrentShip);
 
 						//Guarda los camnbios en el JSON:
-						Util.Serialize_ToJSON(Path.Combine(AppExePath, @"Data\PlayerLoadout.json"), Shipyard);
+						Util.Serialize_ToJSON(Path.Combine(AppExePath, @"Data\Shipyard.json"), Shipyard);
 						return;
 					}
 
@@ -4821,7 +4914,7 @@ namespace EDHM_UI_mk2
 						ApplyingShip = true;
 
 						//Si la Nave esta registrada en el Historial y está habilitado el Cambio de Tema:
-						if (Shipyard != null && Shipyard.ships.IsNotEmpty() && Shipyard.theme_swaping == true)
+						if (Shipyard != null && Shipyard.ships.IsNotEmpty() && Shipyard.enabled == true)
 						{
 							//La nave debe tener un tema asignado:
 							if (MyShip != null && !MyShip.theme.EmptyOrNull())
@@ -4850,58 +4943,60 @@ namespace EDHM_UI_mk2
 										SelectedTheme = _Theme;
 										LoadTheme(_Theme);
 										lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}",
-													CommanderName, ShipIDName);
+													CommanderName, EmbarkedShip.Ship.ship_full_name);
 										//Aplica el Tema:
 										ApplyTheme(true, true);
-
-										//Envia F11 al Juego, para Refrescar los Colores:
-										if (GameWindow != null && !GameWindow.HasExited)
-										{
-											IntPtr h = GameWindow.MainWindowHandle;
-											SetForegroundWindow(h);
-
-											System.Threading.Thread.Sleep(3000);
-											SendKeys.SendWait("{F11}");
-
-											ApplyingShip = false;
-
-											System.Threading.Thread.Sleep(3000); //<- Espera 3 segundos
-											SendKeys.SendWait("{F11}"); //Envia la Tecla x segunda vez
-
-											//const uint VK_F1 = 0x70;
-											//const uint VK_F2 = 0x71;
-											//const uint VK_F3 = 0x72;
-											//const uint VK_F4 = 0x73;
-											//const uint VK_F5 = 0x74;
-											//const uint VK_F6 = 0x75;
-											//const uint VK_F7 = 0x76;
-											//const uint VK_F8 = 0x77;
-											//const uint VK_F9 = 0x78;
-											//const uint VK_F10 = 0x79;
-											//const uint VK_F11 = 0x7A;
-											//const uint VK_F12 = 0x7B;
-											//const uint VK_F13 = 0x7C;
-											//const uint VK_F14 = 0x7D;
-											//const uint VK_F15 = 0x7E;
-											//const uint VK_F16 = 0x7F;
-											//const uint VK_F17 = 0x80;
-											//const uint VK_F18 = 0x81;
-											//const uint VK_F19 = 0x82;
-											//const uint VK_F20 = 0x83;
-											//const uint VK_F21 = 0x84;
-											//const uint VK_F22 = 0x85;
-											//const uint VK_F23 = 0x86;
-											//const uint VK_F24 = 0x87;
-
-											//IntPtr hwnd = FindWindowByCaption(IntPtr.Zero, GameTitle);
-											//int result3 = SendMessage(hwnd, (int)VK_F11, (int)VK_F11, "0");
-											//SendMessage(hwnd, 0x7A, (int)VK_F11, "{F11}");
-										}
-
 									}));
 								}
 							}
 						}
+
+						Invoke((MethodInvoker)(() =>
+						{
+							//Envia F11 al Juego, para Refrescar los Colores:
+							if (GameWindow != null && !GameWindow.HasExited)
+							{
+								IntPtr h = GameWindow.MainWindowHandle;
+								SetForegroundWindow(h);
+
+								System.Threading.Thread.Sleep(1500);
+								SendKeys.SendWait("{F11}");
+
+								ApplyingShip = false;
+
+								System.Threading.Thread.Sleep(1500); //<- Espera 3 segundos
+								SendKeys.SendWait("{F11}"); //Envia la Tecla x segunda vez
+
+								//const uint VK_F1 = 0x70;
+								//const uint VK_F2 = 0x71;
+								//const uint VK_F3 = 0x72;
+								//const uint VK_F4 = 0x73;
+								//const uint VK_F5 = 0x74;
+								//const uint VK_F6 = 0x75;
+								//const uint VK_F7 = 0x76;
+								//const uint VK_F8 = 0x77;
+								//const uint VK_F9 = 0x78;
+								//const uint VK_F10 = 0x79;
+								//const uint VK_F11 = 0x7A;
+								//const uint VK_F12 = 0x7B;
+								//const uint VK_F13 = 0x7C;
+								//const uint VK_F14 = 0x7D;
+								//const uint VK_F15 = 0x7E;
+								//const uint VK_F16 = 0x7F;
+								//const uint VK_F17 = 0x80;
+								//const uint VK_F18 = 0x81;
+								//const uint VK_F19 = 0x82;
+								//const uint VK_F20 = 0x83;
+								//const uint VK_F21 = 0x84;
+								//const uint VK_F22 = 0x85;
+								//const uint VK_F23 = 0x86;
+								//const uint VK_F24 = 0x87;
+
+								//IntPtr hwnd = FindWindowByCaption(IntPtr.Zero, GameTitle);
+								//int result3 = SendMessage(hwnd, (int)VK_F11, (int)VK_F11, "0");
+								//SendMessage(hwnd, 0x7A, (int)VK_F11, "{F11}");
+							}
+						}));
 					}
 				}
 			}
@@ -4952,12 +5047,16 @@ namespace EDHM_UI_mk2
 											dynamic data = Newtonsoft.Json.Linq.JObject.Parse(JsonLine);
 											if (data != null)
 											{
-												ShipIDName = string.Format("{0} ({1} {2})", Util.NVL(data.Ship_Localised, string.Empty), data.ShipName, data.ShipIdent);
-
+												string ShipIDName = string.Format("{0} ({1} {2})", Util.NVL(data.Ship_Localised, string.Empty), data.ShipName, data.ShipIdent);
 												if (ED_Ships.IsNotEmpty())
 												{
-													CurrentShip = ED_Ships.Find(x => x.ed_short.ToUpper() == Convert.ToString(data.Ship.ToString().ToUpper()));
-												}
+													this.EmbarkedShip = new ship_loadout_ex(ED_Ships, Convert.ToString(data.Ship.ToString().ToUpper()))
+													{
+														ship_name = data.ShipName,
+														ship_plate = data.ShipIdent
+													};
+												}												
+												//PlayerJournal_ShipChanged(EmbarkedShip);
 
 												if (CommanderName != Convert.ToString(data.Commander))
 												{
@@ -4991,71 +5090,11 @@ namespace EDHM_UI_mk2
 		}
 		private void PlayerJournal_SetUserInfo(dynamic PlayerData)
 		{
+			//TODO:
 			/* PlayerData:
 			 * 	"event": "LoadGame", "FID": "F5553303", "Commander": "Blue Mystic", "Horizons": true, "Odyssey": true, "Ship": "Cutter", "Ship_Localised": "Imperial Cutter",
 				"ShipID": 7, "ShipName": "NORMANDY", "ShipIdent": "SR-04", "FuelLevel": 64.0, "FuelCapacity": 64.0, "GameMode": "Solo", "Credits": 17540607, "Loan": 0,
-				"language": "English/UK", "gameversion": "4.0.0.701", "build": "r273365/r0 " */
-			try
-			{
-				bool ForcedUpdate = true;
-				var PlayerInfo = new
-				{
-					CommanderName = PlayerData.Commander,
-					Horizons = PlayerData.Horizons,
-					Odyssey = PlayerData.Odyssey,
-					Language = PlayerData.language,
-					ForcedUpdate
-				};
-				string PlayerInfo_JSON = Newtonsoft.Json.JsonConvert.SerializeObject(PlayerInfo, Newtonsoft.Json.Formatting.None);
-				string PlayerInfo_WREG = Util.WinReg_ReadKey("EDHM", "PlayerInfo").NVL(string.Empty);
-
-				// Enviar esta solicitud Sólo si no se ha hecho antes o si algo importante cambia:
-				if (PlayerInfo_WREG.EmptyOrNull() || PlayerInfo_WREG != PlayerInfo_JSON || ForcedUpdate)
-				{
-					//Solicitar la Ubicacion usando la IP:
-					string _Response = Util.WebRequest_GET("https://ipinfo.io/?token=d811bd45b5fcf5");
-					if (_Response != null && _Response != string.Empty)
-					{
-						/* _Response:
-						  "ip": "200.58.144.171", "hostname": "ns.cutcsa.com.uy", "city": "Montevideo", "region": "Montevideo", "country": "UY", "loc": "-34.9033,-56.1882",
-						  "org": "AS19422 Telefonica Moviles del Uruguay SA", "postal": "11100", "timezone": "America/Montevideo" */
-
-						dynamic MyIP = Newtonsoft.Json.JsonConvert.DeserializeObject(_Response);
-						if (MyIP != null)
-						{
-							var DataToSave = new
-							{
-								IP = MyIP.ip,								
-								City = MyIP.city,
-								Location = MyIP.loc,
-								Country = MyIP.country,
-								TimeZone = MyIP.timezone,
-								Language = PlayerData.language,
-								CommanderName = PlayerData.Commander,
-								Horizons = PlayerData.Horizons.ToString().ToLower(),
-								Odyssey = PlayerData.Odyssey.ToString().ToLower(),								
-								Date = DateTime.Today.ToString("yyyy-MM-dd"),
-								GameMode = PlayerData.GameMode,
-							};
-							string JSONStr = Newtonsoft.Json.JsonConvert.SerializeObject(DataToSave, Newtonsoft.Json.Formatting.None);
-							//{"IP":"200.58.144.171","Country":"UY","City":"Montevideo","Location":"-34.9033,-56.1882","TimeZone":"America/Montevideo","Language":"English/UK","CommanderName":"Blue mystic","Horizons":true,"Odyssey":true,"GameMode":"Solo"}
-
-							// Enviar los Datos mediante POST:
-							string url_prod = @"https://careful-rose-singlet.cyclic.app/users/add";
-							string _Res = Util.WebRequest_POST(url_prod, JSONStr, "application/json");
-							if (!string.IsNullOrEmpty(_Res))
-							{
-								//Console.WriteLine(_Res);
-								Util.WinReg_WriteKey("EDHM", "PlayerInfo", PlayerInfo_JSON);
-							}							
-						}
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
+				"language": "English/UK", "gameversion": "4.0.0.701", "build": "r273365/r0 " */			
 		}
 
 		#endregion
@@ -5409,7 +5448,7 @@ namespace EDHM_UI_mk2
 						e.Handled = true;
 					}
 				}
-				catch { }				
+				catch { }
 			}
 		}
 		private void gridView1_RowUpdated(object sender, DevExpress.XtraGrid.Views.Base.RowObjectEventArgs e)
@@ -5710,8 +5749,8 @@ namespace EDHM_UI_mk2
 						}));
 					}
 					else    //<- Group Details:
-					{						
-						this.OnRowIsFound += (object Sender, EventArgs E) =>
+					{
+						OnRowIsFound += (object Sender, EventArgs E) =>
 						{
 							var Fila = Sender as BaseRow;
 							vGridDetalles.Focus();
@@ -7225,7 +7264,7 @@ namespace EDHM_UI_mk2
 						//Invoke necesario xq esto ocurre en otro porceso:
 						Invoke((MethodInvoker)(() =>
 						{
-							SelectedTheme.Preview = Util.GetElementImage(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")); ; 
+							SelectedTheme.Preview = Util.GetElementImage(Path.Combine(SelectedTheme.folder, "PREVIEW.jpg")); ;
 							SelectedTheme.HasPreview = true;
 						}));
 					}
@@ -7404,7 +7443,7 @@ namespace EDHM_UI_mk2
 				GreetMe = _Form.GreetMe;
 				WatchMe = _Form.WatchMe;
 				SavesToRemember = _Form.SavesToRemember;
-				AutoApplyTheme = _Form.AutoApplyTheme;				
+				AutoApplyTheme = _Form.AutoApplyTheme;
 
 				LoadMenus(LangShort);
 				History_LoadElements(SavesToRemember);
@@ -7423,11 +7462,17 @@ namespace EDHM_UI_mk2
 		private void MainMenu_Sipyard_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			/*  MUESTRA EL HISTORIAL DE NAVES Y SUS TEMAS ASOCIADOS  */
-			ShipyardForm _Form = new ShipyardForm
+			//ShipyardForm _Form = new ShipyardForm
+			var pTranslations = _Translations.FindAll(x => x.group == "Shipyard");
+
+			ShipyardReborn _Form = new ShipyardReborn
 			{
-				ActiveInstance = ActiveInstance,
 				UI_Themes = (List<ui_preset_new>)UI_Themes.Clone(),
-				Shipyard = Shipyard
+				ActiveInstance = ActiveInstance,
+				Translations = pTranslations,
+				LangShort = LangShort,
+				Shipyard = Shipyard,
+				ShipList = ED_Ships
 			};
 			if (_Form.ShowDialog() == DialogResult.OK)
 			{
@@ -7463,7 +7508,7 @@ namespace EDHM_UI_mk2
 				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 				lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
 				lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
-			}			
+			}
 		}
 		private void MainMenu_UninstallMod_ItemClick(object sender, ItemClickEventArgs e)
 		{

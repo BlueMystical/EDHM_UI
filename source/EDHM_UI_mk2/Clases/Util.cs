@@ -1371,6 +1371,27 @@ namespace EDHM_UI_mk2
 		}
 
 		/// <summary>
+		/// Method to "convert" an Image object into a byte array, formatted in PNG file format, which 
+		/// provides lossless compression. This can be used together with the GetImageFromByteArray() 
+		/// method to provide a kind of serialization / deserialization. 
+		/// </summary>
+		/// <param name="theImage">Image object, must be convertable to PNG format</param>
+		/// <returns>byte array image of a PNG file containing the image</returns>
+		public static byte[] CopyImageToByteArray(Image theImage)
+		{
+			if (theImage is null) return null;
+			using (MemoryStream memoryStream = new MemoryStream())
+			{
+				theImage.Save(memoryStream, ImageFormat.Png);
+				return memoryStream.ToArray();
+			}
+		}
+
+		/// <summary>Convierte Imagen en Bytes</summary>
+		/// <param name="img">Datos de la Imagen</param>
+		public static byte[] BytesFromImage(this Image img) => CopyImageToByteArray(img);
+
+		/// <summary>
 		/// Retrieves the Encoder Information for a given MimeType
 		/// </summary>
 		/// <param name="mimeType">String: Mimetype</param>
@@ -1554,6 +1575,24 @@ namespace EDHM_UI_mk2
 						{
 							_ret = Image.FromStream(s);
 						}
+					}
+				}
+			}
+			catch { }
+			return _ret;
+		}
+
+		public static byte[] OpenImage(string _ImagePath)
+		{
+			if (string.IsNullOrEmpty(_ImagePath)) return null;
+			byte[] _ret = null;
+			try
+			{
+				if (File.Exists(_ImagePath))
+				{
+					using (var s = new System.IO.FileStream(_ImagePath, System.IO.FileMode.Open))
+					{
+						_ret = Image.FromStream(s).BytesFromImage();
 					}
 				}
 			}

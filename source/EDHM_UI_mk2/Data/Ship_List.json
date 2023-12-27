@@ -65,7 +65,7 @@
   {
     "ship_full_name": "Cobra Mk 4",
     "ship_id": 10,
-    "ed_short": "cobramkiii",
+    "ed_short": "cobramkiv",
     "size": "Small",
     "role": "Multipurpose "
   },
@@ -149,14 +149,14 @@
   {
     "ship_full_name": "Imperial Courier",
     "ship_id": 22,
-    "ed_short": "empire_courier",
+    "ed_short": "empire_courier", 
     "size": "Small",
     "role": "Multipurpose "
   },
   {
     "ship_full_name": "Imperial Cutter",
     "ship_id": 23,
-    "ed_short": "empire_cutter",
+    "ed_short": "cutter",
     "size": "Large",
     "role": "Multipurpose "
   },

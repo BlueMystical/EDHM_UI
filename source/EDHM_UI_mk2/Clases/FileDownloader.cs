@@ -68,8 +68,12 @@ namespace EDHM_UI_mk2.Clases
 			if (string.IsNullOrEmpty(url)) throw new ArgumentNullException("url");
 			if (string.IsNullOrEmpty(fullPathWhereToSave)) throw new ArgumentNullException("fullPathWhereToSave");
 
+			//If only a destination folder was passed, we add the file name from the URL:
+			string Ext = System.IO.Path.GetExtension(fullPathWhereToSave);
+			string url_file = System.IO.Path.GetFileName(url);
+			this.SaveFileName = (!string.IsNullOrEmpty(Ext)) ? fullPathWhereToSave : Path.Combine(fullPathWhereToSave, url_file);
+
 			this.DownloadUrl = url;
-			this.SaveFileName = fullPathWhereToSave;
 			this.DeleteExisting = true;
 			this.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
 		}

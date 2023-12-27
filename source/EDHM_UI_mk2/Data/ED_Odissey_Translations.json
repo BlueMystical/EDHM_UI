@@ -1,5 +1,259 @@
 [
   {
+    "id": "Template",
+    "group": "None",
+    "lang": [
+      {
+        "key": "en",
+        "category": "",
+        "value": "",
+        "description": ""
+      },
+      {
+        "key": "ru",
+        "category": "",
+        "value": "",
+        "description": ""
+      },
+      {
+        "key": "de",
+        "category": "",
+        "value": "",
+        "description": ""
+      },
+      {
+        "key": "fr",
+        "category": "",
+        "value": "",
+        "description": ""
+      },
+      {
+        "key": "it",
+        "category": "",
+        "value": "",
+        "description": ""
+      },
+      {
+        "key": "pt",
+        "category": "",
+        "value": "",
+        "description": ""
+      }
+    ]
+  },
+  //----------------
+  {
+    "id": "Consent",
+    "group": "Shipyard",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Do you give us your permission to access your \r\nPlayer Journal and retrieve the list of your ships \r\nand basic Player data?",
+        "category": "We need this information to enable automatic \r\ntheme change when you board your ship.",
+        "description": "You can disable this feature at any time."
+      },
+      {
+        "key": "ru",
+        "value": "Даете ли вы нам разрешение на доступ к вашему журналу \r\nигрока и получение списка ваших кораблей и \r\nосновных данных игрока?",
+        "category": "Нам нужна эта информация, чтобы включить автоматическое \r\nизменение темы, когда вы садитесь на корабль.",
+        "description": "Вы можете отключить эту функцию в любое время."
+      },
+      {
+        "key": "de",
+        "value": "Erteilen Sie uns Ihre Erlaubnis, auf Ihr Spielerjournal \r\nzuzugreifen und die Liste Ihrer Schiffe sowie grundlegende \r\nSpielerdaten abzurufen?",
+        "category": "Wir benötigen diese Informationen, um den automatischen \r\nThemenwechsel zu ermöglichen, wenn Sie an Bord Ihres Schiffes gehen.",
+        "description": "Sie können diese Funktion jederzeit deaktivieren."
+      },
+      {
+        "key": "fr",
+        "value": "Nous donnez-vous votre autorisation pour accéder à \r\nvotre journal de joueur et récupérer la liste \r\nde vos vaisseaux et les données de base du joueur ?",
+        "category": "Nous avons besoin de ces informations pour permettre \r\nle changement de thème automatique lorsque vous \r\nmontez à bord de votre navire.",
+        "description": "Vous pouvez désactiver cette fonctionnalité à tout moment."
+      },
+      {
+        "key": "it",
+        "value": "Ci dai il permesso di accedere al tuo Diario del Giocatore \r\ne recuperare l'elenco delle tue navi e \r\ni dati di base del Giocatore?",
+        "category": "Abbiamo bisogno di queste informazioni per abilitare il cambio \r\nautomatico del tema quando sali a bordo della tua nave.",
+        "description": "Puoi disattivare questa funzione in qualsiasi momento."
+      },
+      {
+        "key": "pt",
+        "value": "Você nos dá permissão para acessar seu Diário do Jogador \r\ne recuperar a lista de seus navios \r\ne dados básicos do Jogador?",
+        "category": "Precisamos dessas informações para permitir a mudança automática \r\nde tema quando você embarcar em seu navio.",
+        "description": "Você pode desativar esse recurso a qualquer momento."
+      }
+    ]
+  },
+  {
+    "id": "Reset",
+    "group": "Shipyard",
+    "lang": [
+      {
+        "key": "en",
+        "category": "This will remove all current ships from the shipyard!\r\n",
+        "value": "Then it will Scan your latest Journal looking for your last embarked ships\r\n",
+        "description": "and they will be added to the Shipyard.\r\n\r\nProceed?"
+      },
+      {
+        "key": "ru",
+        "category": "Это приведет к удалению всех текущих кораблей с верфи!\r\n",
+        "value": "Затем он просканирует ваш последний журнал в поисках ваших последних отправленных на борт кораблей\r\n",
+        "description": "и они будут добавлены на верфь.\r\n\r\nПродолжить?"
+      },
+      {
+        "key": "de",
+        "category": "Dadurch werden alle aktuellen Schiffe aus der Werft entfernt!\r\n",
+        "value": "Anschließend wird Ihr aktuelles Tagebuch nach Ihren zuletzt eingeschifften Schiffen durchsucht\r\n",
+        "description": "und sie werden der Werft hinzugefügt.\r\n\r\nWeiter?"
+      },
+      {
+        "key": "fr",
+        "category": "Cela supprimera tous les navires actuels du chantier naval !\r\n",
+        "value": "Ensuite, il analysera votre dernier journal à la recherche de vos derniers navires embarqués\r\n",
+        "description": "et ils seront ajoutés au chantier naval.\r\n\r\nContinuer ?"
+      },
+      {
+        "key": "it",
+        "category": "Ciò rimuoverà tutte le navi attuali dal cantiere navale!\r\n",
+        "value": "Quindi scansionerà il tuo ultimo diario alla ricerca delle ultime navi imbarcate\r\n",
+        "description": "e verranno aggiunti al Cantiere.\r\n\r\nProcedere?"
+      },
+      {
+        "key": "pt",
+        "category": "Isso removerá todos os navios atuais do estaleiro!\r\n",
+        "value": "Em seguida, ele examinará seu diário mais recente em busca dos últimos navios embarcados\r\n",
+        "description": "e eles serão adicionados ao Estaleiro.\r\n\r\nContinuar?"
+      }
+    ]
+  },
+  {
+    "id": "ResetDone",
+    "group": "Shipyard",
+    "lang": [
+      {
+        "key": "en",
+        "category": "If you want to add more ships,\r\n",
+        "value": "just embark them in-game and come \r\n",
+        "description": "back here to assign them a Theme."
+      },
+      {
+        "key": "ru",
+        "category": "Если вы хотите добавить больше кораблей,\r\n",
+        "value": "просто загрузите их в игру и приходите \r\n",
+        "description": "вернитесь сюда, чтобы назначить им тему."
+      },
+      {
+        "key": "de",
+        "category": "Wenn Sie weitere Schiffe hinzufügen möchten,\r\n",
+        "value": "Besteigen Sie sie einfach im Spiel und kommen Sie \r\n",
+        "description": "zurück, um ihnen ein Thema zuzuweisen."
+      },
+      {
+        "key": "fr",
+        "category": "Si vous souhaitez ajouter plus de vaisseaux,\r\n",
+        "value": "embarquez-les simplement dans le jeu et venez \r\n",
+        "description": "revenez ici pour leur attribuer un thème."
+      },
+      {
+        "key": "it",
+        "category": "Se vuoi aggiungere altre navi,\r\n",
+        "value": "imbarcarli nel gioco e venire\r\n",
+        "description": "di nuovo qui per assegnare loro un tema."
+      },
+      {
+        "key": "pt",
+        "category": "Se você quiser adicionar mais navios,\r\n",
+        "value": "basta embarcar no jogo e vir \r\n",
+        "description": "volte aqui para atribuir um tema a eles."
+      }
+    ]
+  },
+  {
+    "id": "Info",
+    "group": "Shipyard",
+    "lang": [
+      {
+        "key": "en",
+        "category": "The Shipyard is a feature that allows you\r\n to automatically assign a different theme\r\n to each of your ships when you embark.\r\n\r\n",
+        "value": "When enabled, we detect your ship once you embark\r\n and add it to the shipyard, all you have to do\r\n is choose a theme for the ship.\r\n\r\n",
+        "description": "- The UI Program(but not this window) needs to \r\n be running for the Detection of your Ships."
+      },
+      {
+        "key": "ru",
+        "category": "Верфь — это функция, которая позволяет вам\r\n автоматически назначать разные темы\r\n каждому из ваших кораблей при посадке на борт.\r\n\r\n",
+        "value": "Если эта функция включена, мы обнаруживаем ваш корабль после того, как вы погрузитесь в него\r\n, и добавляем его на верфь. Все, что вам нужно сделать\r\n, это выбрать тему для корабля.\r\n\r\n",
+        "description": "- Программа пользовательского интерфейса (но не это окно) должна быть запущена для обнаружения ваших кораблей."
+      },
+      {
+        "key": "de",
+        "category": "Die Werft ist eine Funktion, mit der Sie jedem Ihrer Schiffe automatisch ein anderes Thema zuweisen können, wenn Sie an Bord gehen.\r\n\r\n",
+        "value": "Wenn diese Option aktiviert ist, erkennen wir Ihr Schiff, sobald Sie an Bord gehen\r\n und fügen es der Werft hinzu. Sie müssen lediglich\r\nein Thema für das Schiff auswählen.\r\n\r\n",
+        "description": "- Das UI-Programm (aber nicht dieses Fenster) muss zur Erkennung Ihrer Schiffe ausgeführt werden."
+      },
+      {
+        "key": "fr",
+        "category": "Le Chantier Naval est une fonctionnalité qui vous permet\r\n d'attribuer automatiquement un thème différent\r\n à chacun de vos navires lorsque vous embarquez.\r\n\r\n",
+        "value": "Lorsqu'il est activé, nous détectons votre navire une fois que vous embarquez\r\n et l'ajoutons au chantier naval, tout ce que vous avez à faire\r\n est de choisir un thème pour le navire.\r\n\r\n",
+        "description": "- Le programme d'interface utilisateur (mais pas cette fenêtre) doit \r\n être exécuté pour la détection de vos navires."
+      },
+      {
+        "key": "it",
+        "category": "Il Cantiere navale è una funzionalità che ti consente\r\n di assegnare automaticamente un tema diverso\r\n a ciascuna delle tue navi quando ti imbarchi.\r\n\r\n",
+        "value": "Se abilitato, rileviamo la tua nave una volta imbarcata\r\n e la aggiungiamo al cantiere navale, tutto ciò che devi fare\r\n è scegliere un tema per la nave.\r\n\r\n",
+        "description": "- Il programma UI (ma non questa finestra) deve\r\n essere in esecuzione per il rilevamento delle tue navi."
+      },
+      {
+        "key": "pt",
+        "category": "O Estaleiro é um recurso que permite\r\n atribuir automaticamente um tema diferente\r\n a cada um dos seus navios ao embarcar.\r\n\r\n",
+        "value": "Quando ativado, detectamos seu navio assim que você embarca\r\n e o adicionamos ao estaleiro, tudo o que você precisa fazer\r\n é escolher um tema para o navio.\r\n\r\n",
+        "description": "- O Programa UI (mas não esta janela) precisa \r\n estar em execução para a Detecção de seus Navios."
+      }
+    ]
+  },
+  {
+    "id": "ShipRemoval",
+    "group": "Shipyard",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Remove Ship?",
+        "value": "Are you sure of removing the ship:\r\n'{0} - {1}'\r\n out from the Shipyard?",
+        "description": "Done!"
+      },
+      {
+        "key": "ru",
+        "category": "Удалить корабль?",
+        "value": "Вы уверены, что уберете корабль:\r\n'{0} - {1}'\r\n с верфи?",
+        "description": "Сделанный!"
+      },
+      {
+        "key": "de",
+        "category": "Schiff entfernen?",
+        "value": "Sind Sie sicher, dass das Schiff:\r\n'{0} - {1}'\r\n von der Werft entfernt wird?",
+        "description": "Erledigt!"
+      },
+      {
+        "key": "fr",
+        "category": "Supprimer le navire ?",
+        "value": "Êtes-vous sûr de retirer le navire :\r\n'{0} - {1}'\r\n du chantier naval ?",
+        "description": "Fait!"
+      },
+      {
+        "key": "it",
+        "category": "Rimuovere la nave?",
+        "value": "Sei sicuro di rimuovere la nave:\r\n'{0} - {1}'\r\n dal cantiere navale?",
+        "description": "Fatto!"
+      },
+      {
+        "key": "pt",
+        "category": "Remover navio?",
+        "value": "Você tem certeza de que deseja remover o navio:\r\n'{0} - {1}'\r\n do Estaleiro?",
+        "description": "Feito!"
+      }
+    ]
+  },
+  //----------------
+  {
     "id": "MainMenu_Menu",
     "group": "BarMenus",
     "lang": [
@@ -3314,6 +3568,48 @@
         "value": "Círculo de Alvo de Destino",
         "category": "Alvos Ambientais e de Destino",
         "description": "Cor Personalizada para Círculo de Alvo de Destino. (*Alfa)"
+      }
+    ]
+  },
+  {
+    "id": "z115",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Hidden Destination Targets",
+        "category": "Environmental and Destination Targets",
+        "description": "Circle and Text for Destination Hidden Behind an Object."
+      },
+      {
+        "key": "de",
+        "value": "Versteckte Zielziele",
+        "category": "Umgebungs- und Reiseziele",
+        "description": "Kreis und Text für das Ziel, das hinter einem Objekt verborgen ist."
+      },
+      {
+        "key": "fr",
+        "value": "Cibles de destination cachées",
+        "category": "Cibles environnementales et de destination",
+        "description": "Cercle et texte pour la destination cachée derrière un objet."
+      },
+      {
+        "key": "it",
+        "value": "Obiettivi di destinazione nascosti",
+        "category": "Obiettivi ambientali e di destinazione",
+        "description": "Cerchio e testo per la destinazione nascosta dietro un oggetto."
+      },
+      {
+        "key": "ru",
+        "value": "Скрытые цели назначения",
+        "category": "Экологические и целевые цели",
+        "description": "Круг и текст пункта назначения, скрытые за объектом."
+      },
+      {
+        "key": "pt",
+        "value": "Alvos de destino ocultos",
+        "category": "Alvos Ambientais e de Destino",
+        "description": "Círculo e texto para destino oculto atrás de um objeto."
       }
     ]
   },
@@ -11905,7 +12201,7 @@
         "key": "en",
         "value": "Hologram - Mode",
         "category": "OwnShip Hologram",
-        "description": "OwnShip Hologram Mode\r\nAlso includes landing hologram, SRV hologram, SRV terrain on radar"
+        "description": "OwnShip Hologram Mode\r\nAlso includes OwnShip & Target Holograms, Landing Hologram, SRV Hologram, SRV Terrain on Radar"
       },
       {
         "key": "de",

@@ -14,6 +14,7 @@ namespace EDHM_UI_mk2.Forms
 		public List<ui_preset_new> UI_Themes { get; set; }
 		public game_instance ActiveInstance { get; set; }
 		public player_loadout Shipyard { get; set; }
+		
 
 		private string AppExePath = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -52,7 +53,7 @@ namespace EDHM_UI_mk2.Forms
 					this.cboThemes_Rep.DataSource = this.UI_Themes;
 				}
 
-				if (this.Shipyard != null)
+				if (this.Shipyard != null && this.Shipyard.ships != null)
 				{
 					this.gridControl1.DataSource = this.Shipyard.ships;
 
@@ -60,7 +61,7 @@ namespace EDHM_UI_mk2.Forms
 					this.txtActiveInstance_Rep.Text = this.Shipyard.active_instance;
 					this.chkEnableThemeChange_Rep.EditValue = this.Shipyard.theme_swaping;
 
-					ship_loadout mSeleccionada = (ship_loadout)this.gridView1.GetFocusedRow();
+					ship_loadout_ex mSeleccionada = (ship_loadout_ex)this.gridView1.GetFocusedRow();
 					if (mSeleccionada != null)
 					{
 						var _Theme = this.UI_Themes.Find(x => x.name == mSeleccionada.theme);
@@ -74,6 +75,11 @@ namespace EDHM_UI_mk2.Forms
 						}
 					}
 				}
+				else
+				{
+					
+
+				}
 			}
 			catch (Exception ex)
 			{
@@ -81,7 +87,7 @@ namespace EDHM_UI_mk2.Forms
 			}
 			finally { this.Cursor = Cursors.Default; }
 		}
-
+		
 		private void gridView1_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
 		{
 			GridView view = sender as GridView;
