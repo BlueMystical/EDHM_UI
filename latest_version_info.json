@@ -1,11 +1,11 @@
 {
-   "app_version": "2.2.18.0",
-   "last_installer": "2.2.18.0",
-   "ED_Horizons": "1.52.1.0",
-   "ED_Odissey":  "2.2.18.0",   
+   "app_version":    "2.2.19.0",
+   "last_installer": "2.2.19.0",
+    "ED_Odissey":    "2.2.19.0", 
+   "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "✦ Two Themes Added:\r\n - GrayKitty by Rico brzenska.\r\n - Fire & Ice by Gileon Fletcher.",
+   "changelog": "- EDHM ODYSSEY v17.06 implemented.\r\n- Fixed SRV turret losing its custom colors in some circumstances.\r\n- Fixed Elite Default Loading Holo.\r\n- Fixed Elite Default Red Bar.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
