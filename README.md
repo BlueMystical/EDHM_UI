@@ -13,6 +13,8 @@ User Interface for Elite Dangerous HUD Mod (EDHM)
 ## What is EDHM_UI?
 
 EDHM_UI is the user interface for the Elite Dangerous mod [EDHM](https://github.com/psychicEgg/EDHM).
+The purpose of EDHM is to allow players of the game to customize their HUD Colors in many ways.
+This is estrictly a graphical mod, we dont change any in-game mechanics or things that FDev charges for.
 
 Current features include:
 
