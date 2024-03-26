@@ -136,7 +136,7 @@ namespace EDHM_UI_mk2
 			}
 			#endregion
 
-			this.chkSettings_WatchMe.Checked = this.WatchMe;
+			//this.chkSettings_WatchMe.Checked = this.WatchMe;
 			this.chkSettings_GreetMe.Checked = this.GreetMe;
 			this.chkSettings_HideToTray.Checked = this.HideToTray;
 			this.chkAutoApplyTheme.Checked = this.AutoApplyTheme;
@@ -272,13 +272,13 @@ namespace EDHM_UI_mk2
 					this.IsFirstRun = false;
 					this.HideToTray = this.chkSettings_HideToTray.Checked;
 					this.GreetMe = this.chkSettings_GreetMe.Checked;
-					this.WatchMe = this.chkSettings_WatchMe.Checked;
+					//this.WatchMe = this.chkSettings_WatchMe.Checked;
 					this.AutoApplyTheme = this.chkAutoApplyTheme.Checked;
 					this.SavesToRemember = Convert.ToInt32(this.txtSavesToRememberRep.Value);
 
 					Util.WinReg_WriteKey("EDHM", "HideToTray",		this.HideToTray);
 					Util.WinReg_WriteKey("EDHM", "GreetMe",			this.GreetMe);
-					Util.WinReg_WriteKey("EDHM", "WatchMe",			this.WatchMe);
+					//Util.WinReg_WriteKey("EDHM", "WatchMe",			this.WatchMe);
 					Util.WinReg_WriteKey("EDHM", "Language",		this.cboLanguages.EditValue.ToString());
 					Util.WinReg_WriteKey("EDHM", "PlayerJournal",	this.txtPlayerJournal.EditValue.ToString());
 					Util.WinReg_WriteKey("EDHM", "EDHM_DOCS",		this.txtUserDataFolder.EditValue.ToString());

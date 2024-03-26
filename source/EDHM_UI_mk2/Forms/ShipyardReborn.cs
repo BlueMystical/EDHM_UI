@@ -178,7 +178,7 @@ namespace EDHM_UI_mk2.Forms
 			{
 				/* Cada linea del Log es un Objeto JSON completo
 				 * https://elite-journal.readthedocs.io/en/latest/
-				 * */
+				 */
 
 				//1. Buscar el Nombre del Jugador:
 				int index = 0;
@@ -251,7 +251,7 @@ namespace EDHM_UI_mk2.Forms
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void PlayerJournal_ShipChanged(ship_loadout_ex CurrentShip)
@@ -269,7 +269,6 @@ namespace EDHM_UI_mk2.Forms
 					if (Shipyard.ships.IsNotEmpty())
 					{
 						MyShip = Shipyard.ships.Find(x => x.Ship.ed_short == CurrentShip.Ship.ed_short.Trim() &&
-															x.ship_name == CurrentShip.ship_name.Trim() &&
 															x.ship_plate == CurrentShip.ship_plate.Trim());
 						if (MyShip != null)
 						{
@@ -287,7 +286,7 @@ namespace EDHM_UI_mk2.Forms
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -308,7 +307,7 @@ namespace EDHM_UI_mk2.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		public void SaveChanges()
@@ -320,7 +319,7 @@ namespace EDHM_UI_mk2.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -415,12 +414,11 @@ namespace EDHM_UI_mk2.Forms
 		{
 			SaveChanges();
 			IsLoading = true;
+
 			LoadShipyardData();
 			IsLoading = false;
 		}
 
 		#endregion
-
-
 	}
 }

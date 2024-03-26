@@ -81,9 +81,9 @@ namespace EDHM_UI_mk2
 		private bool GameIsRunning = false;
 		private bool mCloseAutorized = false;
 		private bool DoUpdate = false;
-		//private bool JournalWatcherIsRunning = true;
 		private bool JournalLoading = false;
 		private bool ShowTips = true;
+		private bool IsLoading = false;
 
 		private bool WatchMe = true; //<- Determina si Registra las Naves del Jugador
 		private bool GreetMe = true; //<- Determina si Saluda al Jugador al Inicio
@@ -178,10 +178,15 @@ namespace EDHM_UI_mk2
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			IsLoading = true;
+
 			#region DevExpress Theme Saving
 
 			UserLookAndFeel.Default.StyleChanged += Default_StyleChanged;
 			Apply_DXSkinColors();
+
+			//WindowsFormsSettings.AnimationMode = AnimationMode.DisableAll;
+			WindowsFormsSettings.PopupAnimation = PopupAnimation.None;
 
 			#endregion
 
@@ -294,6 +299,8 @@ namespace EDHM_UI_mk2
 
 				lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
 				lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
+
+						
 			}
 
 			#endregion
@@ -398,6 +405,9 @@ namespace EDHM_UI_mk2
 				LoadUserSettings(ActiveInstance);
 				LoadShipList();
 
+				//Check if EDHM is Enabled:
+				barToggleEnableEDHM.Checked = File.Exists(Path.Combine(ActiveInstance.path, "d3d11.dll"));
+
 				string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 				lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
 				lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
@@ -412,10 +422,11 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally
 			{
+				IsLoading = false;
 				Cursor = Cursors.Default;
 				MainMenu_ApplyTheme.Enabled = true;
 				gridControl1.Cursor = Cursors.Default;
@@ -530,11 +541,13 @@ namespace EDHM_UI_mk2
 
 					SkinName = Util.XML_GetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultAppSkin']", "value");
 					Pallette = Util.XML_GetValue(xmlDoc, @"configuration/applicationSettings/DevExpress.LookAndFeel.Design.AppSettings/setting[@name='DefaultPalette']", "value");
+					SkinName = SkinName.Replace(@"Skin/", string.Empty);
 
 					//3. Lo guarga en el Registro para la proxima vez:
 					Util.WinReg_WriteKey("EDHM", "SkinName", SkinName);
 					Util.WinReg_WriteKey("EDHM", "Pallette", Pallette);
 				}
+				SkinName = SkinName.Replace(@"Skin/", string.Empty);
 
 				//4. Aplica el Skin y Paleta Seleccionados:
 				if (!string.IsNullOrEmpty(Pallette))
@@ -610,7 +623,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -687,7 +700,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			return _ret;
 		}
@@ -858,7 +871,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private bool InstallGameInstance(game_instance pGameInstance)
@@ -945,7 +958,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			return _ret;
 		}
@@ -1029,7 +1042,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -1130,7 +1143,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void LoadMenus(string pLang = "en")
@@ -1272,7 +1285,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -1321,7 +1334,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -1485,7 +1498,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally { Cursor = Cursors.Default; }
 		}
@@ -1566,7 +1579,7 @@ namespace EDHM_UI_mk2
 															_RGBA.Add(Convert.ToDouble(_StartupReader.ReadKey(_Key, _Element.Section).NVL("-1")));
 															break;
 													}
-												}
+												}											
 
 												//convertir de GammaCorrected -> sRGB -> RGB
 												if (IsColor(_RGBA))
@@ -1578,6 +1591,15 @@ namespace EDHM_UI_mk2
 													//Si la Clave no existe en el Tema elejido, se carga el valor del tema plantilla:
 													_Element.Value = _Element.Value;
 												}
+
+
+												//if (_Element.Key == "x238|y238|z238|w238")
+												//{
+												//	if (_Element.Value == -785403905M)
+												//	{
+												//		//_Element.Value = 0;
+												//	}
+												//}
 											}
 
 											#endregion
@@ -1625,8 +1647,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			return _ret;
 		}
@@ -1646,8 +1667,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void LoadTheme_Horizons(ui_preset_new _Theme)
@@ -1798,8 +1818,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally { Cursor = Cursors.Default; }
 		}
@@ -1914,6 +1933,15 @@ namespace EDHM_UI_mk2
 													_Element.Value = _DefaultElement.Value;
 												}
 
+												// Valor x defecto para 'Radar - Crew Targets'
+												if (_Element.Key == "x238|y238|z238|w238")
+												{
+													if (_Element.Value == -865354625M)
+													{
+														_Element.Value = -785403905M;
+													}
+												}
+
 												//Guarda los colores usados en el Tema:
 												_RecentColors.Add(Color.FromArgb(Util.ValidarNulo(_Element.Value, 0)));
 
@@ -1996,8 +2024,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally
 			{
@@ -2484,7 +2511,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			return _ret;
 		}
@@ -2663,8 +2690,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally { Cursor = Cursors.Default; }
 			return _ret;
@@ -2765,8 +2791,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR",
-					MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -2866,10 +2891,10 @@ namespace EDHM_UI_mk2
 					}));
 				}
 			}
-			if (AutoApplyTheme)
-			{
-				SendF11toGame();
-			}
+			//if (AutoApplyTheme)
+			//{
+			//	SendRefreshCommand();
+			//}
 		}
 		private void ApplyTheme_Files(bool KeepItQuiet = false)
 		{
@@ -2985,7 +3010,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally
 			{
@@ -3004,39 +3029,57 @@ namespace EDHM_UI_mk2
 			}
 		}
 
-		private void SendF11toGame()
+		private void SendRefreshCommand()
 		{
 			try
 			{
-				//If set and Game is running, attepms to send the F11 key to refresh the colors in game:
-				// https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.sendkeys.send?view=netframework-4.5.2
-
-				//Thread.Sleep(1500); //<- Espera 3 segundos
-				//string GameTitle = Util.AppConfig_GetValue("GameProcessID");
-
-				Process[] targetProcess = Process.GetProcessesByName("EliteDangerous64");
-				if (targetProcess.Length > 0)
+				//If Game is running, attepms to send the F11 key to refresh the colors in game:
+				Invoke((MethodInvoker)(() =>
 				{
-					foreach (Process proc in targetProcess)
+					#region Check if Game is Running
+
+					if (GameWindow == null)
 					{
-						Thread.Sleep(1500);
-						//SendKeys.SendWait("{F11}");
+						//Process[] targetProcess = Process.GetProcessesByName("EliteDangerous64");
+						string GameTitle = Util.AppConfig_GetValue("GameProcessID");
 
-						// activate the window and send F11 simulating a 'KeyDown' event;
-						ushort action = (ushort)WM_SYSKEYDOWN;
-						ushort key = (ushort)System.Windows.Forms.Keys.F11;
-						uint lparam = (0x01 << 28);
-
-						SetActiveWindow(proc.MainWindowHandle);
-						Thread.Sleep(1000);
-						SendMessage(proc.MainWindowHandle, action, key, lparam);
-						Thread.Sleep(1500);
+						System.Diagnostics.Process[] processlist = System.Diagnostics.Process.GetProcesses();
+						foreach (System.Diagnostics.Process process in processlist)
+						{
+							if (!String.IsNullOrEmpty(process.ProcessName))
+							{
+								if (process.MainWindowTitle == GameTitle)
+								{
+									GameWindow = process;
+									GameIsRunning = true;
+									break;
+								}
+							}
+						}
 					}
-				}
+
+					#endregion
+
+					if (GameWindow != null && !GameWindow.HasExited)
+					{
+						// activate the window and send F11 simulating a 'KeyDown' event;
+						IntPtr h = GameWindow.MainWindowHandle;
+						SetForegroundWindow(h);
+
+						System.Threading.Thread.Sleep(2000);
+						SendKeys.SendWait("{F11}");
+
+						ApplyingShip = false;
+
+						//System.Threading.Thread.Sleep(1500); //<- Espera X segundos
+						//SendKeys.SendWait("{F11}"); //Envia la Tecla x segunda vez
+					}
+
+				}));
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -3065,7 +3108,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void History_LoadElements(int ItemsToLoad = 10)
@@ -3127,7 +3170,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -3151,7 +3194,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void SaveThemeChanges()
@@ -3233,7 +3276,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -3353,7 +3396,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		public void MoveEDHMfolders(game_instance pGameInstance)
@@ -3361,9 +3404,14 @@ namespace EDHM_UI_mk2
 			try
 			{
 				//Mueve las Carpetas de EDHM usando SymLinks:
+				bool UseSymLinks = true;
 				string GameVersion = pGameInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
 				string destinoRoot = Path.Combine(UI_DOCUMENTS, GameVersion, "EDHM", pGameInstance.instance);
 				//<-				 %USERPROFILE%\EDHM_UI\[ODYSS]\EDHM\[Epic Games (Horizons (Live))]
+
+				//If the user changed the path, we wont be using Symlinks:
+				string DefaultDOCS = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\EDHM_UI");
+				//if (UI_DOCUMENTS != DefaultDOCS) UseSymLinks = false;
 
 				List<string> EDHM_Folders = new List<string>
 				{
@@ -3379,35 +3427,56 @@ namespace EDHM_UI_mk2
 
 					if (Directory.Exists(folder))
 					{
-						bool IsSymbolic = SymLink.IsSymbolicDirectory(folder, out SymTarget);
-
-						//Si la migracion todavia no se ha hecho, o si se cambió la ruta de %USERPROFILE%:
-						if (!IsSymbolic || (!string.IsNullOrEmpty(SymTarget) && SymTarget != _Destino))
+						if (UseSymLinks)
 						{
-							//1. Mueve el Directorio a su nueva ubicacion (target):
-							Util.CopyDirectory(new DirectoryInfo(folder), new DirectoryInfo(_Destino));
+							bool IsSymbolic = SymLink.IsSymbolicDirectory(folder, out SymTarget);
 
-							//2. Borra la ubicacion anterior, tambien borra SymLinks:
-							Directory.Delete(folder, true);
+							//Si la migracion todavia no se ha hecho, o si se cambió la ruta de %USERPROFILE%:
+							if (!IsSymbolic || (!string.IsNullOrEmpty(SymTarget) && SymTarget != _Destino))
+							{
+								//1. Mueve el Directorio a su nueva ubicacion (target):
+								Util.CopyDirectory(new DirectoryInfo(folder), new DirectoryInfo(_Destino));
 
-							//3. Crea un nuevo SymLink apuntando a la nueva ubicacion:
-							SymLink.CreateLinkToDirectory(folder, _Destino);
+								//2. Borra la ubicacion anterior, tambien borra SymLinks:
+								Directory.Delete(folder, true);
+
+								//3. Crea un nuevo SymLink apuntando a la nueva ubicacion:
+								SymLink.CreateLinkToDirectory(folder, _Destino);
+							}
+							else
+							{
+								//Nada que hacer aqui, el SymLink ya existe y apunta a donde debe
+							}
 						}
 						else
 						{
-							//Nada que hacer aqui, el SymLink ya existe y apunta a donde debe
+							//Do NOT use Symlinks
+							try
+							{
+								if (folder != _Destino)
+								{
+									//1. Mueve el Directorio a su nueva ubicacion (target):
+									Util.CopyDirectory(new DirectoryInfo(folder), new DirectoryInfo(_Destino));
+									//2. Borra la ubicacion anterior, tambien borra SymLinks:
+									Directory.Delete(folder, true);
+								}								
+							}
+							catch { }							
 						}
 					}
 					else //<- La Carpeta NO Existe:
 					{
 						Directory.CreateDirectory(_Destino); //<- El 'Target' para el SymLink
-						SymLink.CreateLinkToDirectory(folder, _Destino);
+						if (UseSymLinks)
+						{
+							SymLink.CreateLinkToDirectory(folder, _Destino);
+						}						
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -3454,7 +3523,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally { Cursor = Cursors.Default; }
 			return _ret;
@@ -3525,7 +3594,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			finally { Cursor = Cursors.Default; }
 			return _ret;
@@ -3747,7 +3816,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 				progressPanel1.Visible = false;
 				Cursor = Cursors.Default;
 			}
@@ -3987,7 +4056,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				//MessageBox.Show(ex.Message + ex.StackTrace);
+				// SILENCE! -> MessageBox.Show(ex.Message + ex.StackTrace);
 			}
 			return _ret;
 		}
@@ -4036,7 +4105,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 			return _ret;
 		}
@@ -4250,7 +4319,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -4272,7 +4341,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -4325,7 +4394,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -4379,7 +4448,7 @@ namespace EDHM_UI_mk2
 				_ret.Add(Math.Round(Convert_sRGB_ToLinear(sRGBcolor.B, _GammaValue), 4));
 				_ret.Add(Math.Round(Convert.ToDouble(Util.NormalizeNumber(_Color.A, 0m, 255m, 0m, 1m)), 4)); //alpha remains linear!
 			}
-			catch (Exception ex) { MessageBox.Show(ex.Message + ex.StackTrace); }
+			catch (Exception ex) { Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error); }
 			return _ret;
 		}
 		private Color ReverseGammaCorrected(double _Gamma_R, double _Gamma_G, double _Gamma_B, double _Gamma_A = 1.0, double _GammaValue = 2.4)
@@ -4405,7 +4474,7 @@ namespace EDHM_UI_mk2
 
 				_ret = System.Drawing.Color.FromArgb(A, R, G, B);
 			}
-			catch (Exception ex) { MessageBox.Show(ex.Message + ex.StackTrace); }
+			catch (Exception ex) { Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error); }
 			return _ret;
 		}
 		private Color ReverseGammaCorrected(List<double> _GammaComponents, double _GammaValue = 2.4)
@@ -4471,7 +4540,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -4528,35 +4597,41 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void PlayerJournal_WatchDirectory(string pDirectoryPath)
 		{
-			FileSystemWatcher watcher = new FileSystemWatcher
+			try
 			{
-				Path = pDirectoryPath,
-				EnableRaisingEvents = true,
-				Filter = "Journal.*.log"
-			};
-			watcher.Created += (sender, e) =>
-			{
-				RunWatcher = false; //<- Deja de Leer el archivo actual (si hay)
-
-				DirectoryInfo di = new DirectoryInfo(pDirectoryPath);
-
-				//Busca el Archivo de Log mas reciente:
-				FileInfo JournalFile = di.GetFiles("Journal.*.log")
-					.OrderByDescending(f => f.LastWriteTime).First();
-
-				if (JournalFile != null)
+				FileSystemWatcher watcher = new FileSystemWatcher
 				{
-					//Abre el archivo en modo compartido y 'Escucha' si ha sido modificado:
-					RunWatcher = true;
-					PlayerJournal_WatchFile(JournalFile.FullName);
-				}
-			};
+					Path = pDirectoryPath,
+					EnableRaisingEvents = true,
+					Filter = "Journal.*.log"
+				};
+				watcher.Created += (sender, e) =>
+				{
+					RunWatcher = false; //<- Deja de Leer el archivo actual (si hay)
 
+					DirectoryInfo di = new DirectoryInfo(pDirectoryPath);
+
+					//Busca el Archivo de Log mas reciente:
+					FileInfo JournalFile = di.GetFiles("Journal.*.log")
+						.OrderByDescending(f => f.LastWriteTime).First();
+
+					if (JournalFile != null)
+					{
+						//Abre el archivo en modo compartido y 'Escucha' si ha sido modificado:
+						RunWatcher = true;
+						PlayerJournal_WatchFile(JournalFile.FullName);
+					}
+				};
+			}
+			catch (Exception ex)
+			{
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
+			}
 		}
 		private void PlayerJournal_WatchFile(string pFilePath)
 		{
@@ -4692,6 +4767,10 @@ namespace EDHM_UI_mk2
 						 *	"timestamp": "2021-08-06T01:56:55Z", "event": "Loadout", 
 						 *	"Ship": "cutter", "ShipID": 7, "ShipName": "NORMANDY", "ShipIdent": "SR-04", "HullValue": 180435872,
 							"ModulesValue": 128249820, "HullHealth": 1.0, "UnladenMass": 1803.399902, "CargoCapacity": 320, "MaxJumpRange": 31.563942, .... */
+
+						// { "timestamp":"2024-02-26T18:25:44Z", "event":"Loadout",
+						// "Ship":"typex_3", "ShipID":36, "ShipName":"AFTERMATH", "ShipIdent":"SR-X", 
+						// "HullValue":25939508, "ModulesValue":55180869, "HullHealth":1.000000, "UnladenMass":693.900024, "CargoCapacity":74, "MaxJumpRange":26.575233, "FuelCapacity":{ "Main":16.000000, "Reserve":0.770000 }, "Rebuy":4056023, ...
 						if (data != null)
 						{
 							if (ED_Ships.IsNotEmpty() && !string.IsNullOrEmpty(Convert.ToString(data.Ship)))
@@ -4708,7 +4787,7 @@ namespace EDHM_UI_mk2
 								}
 								else
 								{
-									if (PreviousShip.IsDifferentShip(EmbarkedShip.Ship.ed_short, EmbarkedShip.ship_plate))
+									if (EmbarkedShip != null && PreviousShip.IsDifferentShip(EmbarkedShip.Ship.ed_short, EmbarkedShip.ship_plate))
 									{
 										PreviousShip = new ship_loadout_ex(ED_Ships, EmbarkedShip.Ship.ed_short)
 										{
@@ -4718,7 +4797,7 @@ namespace EDHM_UI_mk2
 									}
 								}
 
-								this.EmbarkedShip = new ship_loadout_ex(ED_Ships, eventShipID)
+								EmbarkedShip = new ship_loadout_ex(ED_Ships, eventShipID)
 								{
 									ship_name = data.ShipName,
 									ship_plate = data.ShipIdent
@@ -4729,7 +4808,6 @@ namespace EDHM_UI_mk2
 						}
 					}
 				}
-
 
 				//2.1 Detectar cuando se pone el Traje (on Foot):
 				index = 0;
@@ -4767,14 +4845,14 @@ namespace EDHM_UI_mk2
 							if (ED_Ships.IsNotEmpty())
 							{
 								string eventShipID = Convert.ToString(data.SRVType).ToLowerInvariant();
-								this.EmbarkedShip = new ship_loadout_ex(ED_Ships, eventShipID)
+								EmbarkedShip = new ship_loadout_ex(ED_Ships, eventShipID)
 								{
 									ship_name = data.SRVType_Localised,
 									ship_plate = string.Empty
 								};
 
 								//BackUp_CurrentSettings(ActiveInstance);
-								PlayerJournal_ShipChanged(EmbarkedShip);
+								PlayerJournal_ShipChanged(EmbarkedShip, AutoApplyTheme);
 							}
 						}
 					}
@@ -4788,15 +4866,18 @@ namespace EDHM_UI_mk2
 					/*	when docking an SRV with the ship
 					 *	{ "timestamp":"2023-07-30T18:48:56Z", "event":"DockSRV", 
 					 *	"SRVType":"combat_multicrew_srv_01", "SRVType_Localised":"SRV Scorpion", "ID":10 } */
+					// { "timestamp":"2024-02-26T18:25:44Z", "event":"DockSRV", "SRVType":"testbuggy", "SRVType_Localised":"Scarabée VRS", "ID":39 }
+
 					Debug.WriteLine("DockSRV event.");
 					//Restore_CurrentSettings(ActiveInstance);
 
 					if (PreviousShip != null)
 					{
-						PlayerJournal_ShipChanged(PreviousShip);
+						PlayerJournal_ShipChanged(PreviousShip, AutoApplyTheme);
 					}
 				}
 
+				//5. Cuando vuelve a la Nave o al SRV estando a pie:
 				index = 0;
 				index = JsonLine.IndexOf("\"event\":\"Embark\"", index);
 				if (index != -1 && JournalLoading == false)
@@ -4813,23 +4894,30 @@ namespace EDHM_UI_mk2
 						 *		"Body":"Bleae Thua WH-G b38-5 A", "BodyID":2,
 						 *		"OnStation":false,
 						 *		"OnPlanet":false
-						 *	 }   */
+						 *	 }  
+						 */
 						if (data != null)
 						{
+							// Since the Embark doesnt tell the ship, we use the Previously embarked ship
+							// TODO: it may be a problem if the player logs out while on foot and tries to embark, we wont know what ship he/she had
 							if (PreviousShip != null)
 							{
-								PlayerJournal_ShipChanged(PreviousShip);
+								PlayerJournal_ShipChanged(PreviousShip, AutoApplyTheme);
 							}
 						}
 					}
 				}
+
+				// Disembark
+				// { "timestamp":"2024-02-26T15:25:46Z", "event":"Disembark", "SRV":false, "Taxi":false, "Multicrew":false, "ID":33, "StarSystem":"YZ Ceti", "SystemAddress":2869977687465, "Body":"YZ Ceti A 10 a", "BodyID":23, "OnStation":false, "OnPlanet":true }
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				// Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
-		private void PlayerJournal_ShipChanged(ship_loadout_ex CurrentShip)
+
+		private void PlayerJournal_ShipChanged(ship_loadout_ex CurrentShip, bool _ApplyTheme = true)
 		{
 			/* OCURRE CUANDO SE CAMBIA LA NAVE 
 			    - Guarda la Nave en el Historial de Naves   
@@ -4838,11 +4926,11 @@ namespace EDHM_UI_mk2
 			// Esto sigue ejecutandose dentro del proceso iniciado x 'ReadPlayerJournal()'
 			try
 			{
-				if (this.EmbarkedShip != null)
+				if (EmbarkedShip != null)
 				{
 					Invoke((MethodInvoker)(() =>
 					{
-						lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), this.EmbarkedShip.Ship.ship_full_name);
+						lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}", CommanderName.NVL("Unknown"), EmbarkedShip.Ship.ship_full_name);
 					}));
 
 
@@ -4853,7 +4941,7 @@ namespace EDHM_UI_mk2
 						try
 						{
 							IniFile TPMod_CPM = new IniFile(CPM_path);
-							TPMod_CPM.WriteKey("w158", this.EmbarkedShip.Ship.ship_id.ToString(), "constants");
+							TPMod_CPM.WriteKey("w158", EmbarkedShip.Ship.ship_id.ToString(), "constants");
 						}
 						catch { }
 					}
@@ -4885,7 +4973,6 @@ namespace EDHM_UI_mk2
 					//Si la Nave No existe la Agregamos al Historial:
 					if (!Existe && WatchMe)
 					{
-						//ShowSystemNotificacion("EDHM - UI", "New Ship Detected!: " + CurrentShip.ship_short_type);
 						Shipyard.ships.Add(CurrentShip);
 
 						//Guarda los camnbios en el JSON:
@@ -4893,32 +4980,17 @@ namespace EDHM_UI_mk2
 						return;
 					}
 
-					//Verificar si el Juego esta Corriendo:						
-					string GameTitle = Util.AppConfig_GetValue("GameProcessID");
-					System.Diagnostics.Process[] processlist = System.Diagnostics.Process.GetProcesses();
-					foreach (System.Diagnostics.Process process in processlist)
-					{
-						if (!String.IsNullOrEmpty(process.ProcessName))
-						{
-							if (process.MainWindowTitle == GameTitle)
-							{
-								GameWindow = process;
-								GameIsRunning = true;
-								break;
-							}
-						}
-					}
+					//ShowSystemNotificacion("EDHM - UI", "New Ship Detected!: " + CurrentShip.ToString());
 
-					if (GameIsRunning && Existe) //<- Determinar si el juego está Corriendo
+					if (Existe) 
 					{
-						ApplyingShip = true;
-
 						//Si la Nave esta registrada en el Historial y está habilitado el Cambio de Tema:
 						if (Shipyard != null && Shipyard.ships.IsNotEmpty() && Shipyard.enabled == true)
 						{
 							//La nave debe tener un tema asignado:
 							if (MyShip != null && !MyShip.theme.EmptyOrNull())
 							{
+								ApplyingShip = true;
 								//ShowSystemNotificacion("EDHM - UI", "Ship Embark Detected!: " + CurrentShip.ship_short_type);
 
 								//Busca el Tema indicado para la Nave:
@@ -4946,63 +5018,18 @@ namespace EDHM_UI_mk2
 													CommanderName, EmbarkedShip.Ship.ship_full_name);
 										//Aplica el Tema:
 										ApplyTheme(true, true);
+
+										if (_ApplyTheme) SendRefreshCommand();
 									}));
 								}
 							}
-						}
-
-						Invoke((MethodInvoker)(() =>
-						{
-							//Envia F11 al Juego, para Refrescar los Colores:
-							if (GameWindow != null && !GameWindow.HasExited)
-							{
-								IntPtr h = GameWindow.MainWindowHandle;
-								SetForegroundWindow(h);
-
-								System.Threading.Thread.Sleep(1500);
-								SendKeys.SendWait("{F11}");
-
-								ApplyingShip = false;
-
-								System.Threading.Thread.Sleep(1500); //<- Espera 3 segundos
-								SendKeys.SendWait("{F11}"); //Envia la Tecla x segunda vez
-
-								//const uint VK_F1 = 0x70;
-								//const uint VK_F2 = 0x71;
-								//const uint VK_F3 = 0x72;
-								//const uint VK_F4 = 0x73;
-								//const uint VK_F5 = 0x74;
-								//const uint VK_F6 = 0x75;
-								//const uint VK_F7 = 0x76;
-								//const uint VK_F8 = 0x77;
-								//const uint VK_F9 = 0x78;
-								//const uint VK_F10 = 0x79;
-								//const uint VK_F11 = 0x7A;
-								//const uint VK_F12 = 0x7B;
-								//const uint VK_F13 = 0x7C;
-								//const uint VK_F14 = 0x7D;
-								//const uint VK_F15 = 0x7E;
-								//const uint VK_F16 = 0x7F;
-								//const uint VK_F17 = 0x80;
-								//const uint VK_F18 = 0x81;
-								//const uint VK_F19 = 0x82;
-								//const uint VK_F20 = 0x83;
-								//const uint VK_F21 = 0x84;
-								//const uint VK_F22 = 0x85;
-								//const uint VK_F23 = 0x86;
-								//const uint VK_F24 = 0x87;
-
-								//IntPtr hwnd = FindWindowByCaption(IntPtr.Zero, GameTitle);
-								//int result3 = SendMessage(hwnd, (int)VK_F11, (int)VK_F11, "0");
-								//SendMessage(hwnd, 0x7A, (int)VK_F11, "{F11}");
-							}
-						}));
+						}					
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				// Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void PlayerJournal_GetPlayerInfo()
@@ -5050,12 +5077,12 @@ namespace EDHM_UI_mk2
 												string ShipIDName = string.Format("{0} ({1} {2})", Util.NVL(data.Ship_Localised, string.Empty), data.ShipName, data.ShipIdent);
 												if (ED_Ships.IsNotEmpty())
 												{
-													this.EmbarkedShip = new ship_loadout_ex(ED_Ships, Convert.ToString(data.Ship.ToString().ToUpper()))
+													EmbarkedShip = new ship_loadout_ex(ED_Ships, Convert.ToString(data.Ship.ToString().ToUpper()))
 													{
 														ship_name = data.ShipName,
 														ship_plate = data.ShipIdent
 													};
-												}												
+												}
 												//PlayerJournal_ShipChanged(EmbarkedShip);
 
 												if (CommanderName != Convert.ToString(data.Commander))
@@ -5085,7 +5112,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void PlayerJournal_SetUserInfo(dynamic PlayerData)
@@ -5094,7 +5121,7 @@ namespace EDHM_UI_mk2
 			/* PlayerData:
 			 * 	"event": "LoadGame", "FID": "F5553303", "Commander": "Blue Mystic", "Horizons": true, "Odyssey": true, "Ship": "Cutter", "Ship_Localised": "Imperial Cutter",
 				"ShipID": 7, "ShipName": "NORMANDY", "ShipIdent": "SR-04", "FuelLevel": 64.0, "FuelCapacity": 64.0, "GameMode": "Solo", "Credits": 17540607, "Loan": 0,
-				"language": "English/UK", "gameversion": "4.0.0.701", "build": "r273365/r0 " */			
+				"language": "English/UK", "gameversion": "4.0.0.701", "build": "r273365/r0 " */
 		}
 
 		#endregion
@@ -5279,7 +5306,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -5679,7 +5706,7 @@ namespace EDHM_UI_mk2
 						}
 						catch (Exception ex)
 						{
-							XtraMessageBox.Show(ex.Message + ex.StackTrace);
+							Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 						}
 
 						//Actualiza los Controles fuera de este Proceso:	
@@ -5701,7 +5728,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void ShowSearchedElement(element _Element)
@@ -5763,7 +5790,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -5824,7 +5851,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -6228,7 +6255,7 @@ namespace EDHM_UI_mk2
 							}
 							catch (Exception ex)
 							{
-								XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+								Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 							}
 							Invoke((MethodInvoker)(() =>
 							{
@@ -6254,7 +6281,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void ApplyGlobalSettings()
@@ -6316,7 +6343,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -6372,7 +6399,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void mnuGlobalSettings_Remove_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -6402,7 +6429,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void mnuGlobalToUserSettings_ItemClick(object sender, ItemClickEventArgs e)
@@ -6457,7 +6484,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -6901,7 +6928,7 @@ namespace EDHM_UI_mk2
 							}
 							catch (Exception ex)
 							{
-								XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+								Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 							}
 							Invoke((MethodInvoker)(() =>
 							{
@@ -6927,7 +6954,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void ApplyUserSettings()
@@ -6989,7 +7016,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -7045,7 +7072,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void mnuRemoveUserSettings_ItemClick(object sender, ItemClickEventArgs e)
@@ -7075,7 +7102,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -7369,86 +7396,93 @@ namespace EDHM_UI_mk2
 
 		private void MainMenu_Settings_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			//Opens the Settings Window:
-			GameFolderForm _Form = new GameFolderForm(GameInstancesEx);
-			if (_Form.ShowDialog() == DialogResult.OK)
+			try
 			{
-				GameInstancesEx = _Form.GameInstancesEx;
-
-				string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
-				string GameInstances_JSON = Util.Serialize_ToJSON(_Form.GameInstancesEx);
-
-				UI_DOCUMENTS = GetUIDocumentsDir();
-
-				FixGameInstances();
-
-				repCboGameInstances.ValueMember = "game_id";
-				repCboGameInstances.DisplayMember = "instance";
-				repCboGameInstances.DataSource = GameInstances;
-
-				#region Seleccionar la Instancia Activa
-
-				string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
-				if (_ActiveGames != null && _ActiveGames.Length > 1)
+				//Opens the Settings Window:
+				GameFolderForm _Form = new GameFolderForm(GameInstancesEx);
+				if (_Form.ShowDialog() == DialogResult.OK)
 				{
-					ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
-				}
-				if (ActiveInstance == null)
-				{
-					ActiveInstance = (GameInstancesEx[0].games[1].key == "ED_Odissey") ?
-						GameInstancesEx[0].games[1] :
-						GameInstancesEx[0].games[0];
+					GameInstancesEx = _Form.GameInstancesEx;
 
-					_RegActiveInstance = ActiveInstance.instance;
-					Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
-				}
+					string _RegActiveInstance = Util.WinReg_ReadKey("EDHM", "ActiveInstance").NVL("ED_Horizons");
+					string GameInstances_JSON = Util.Serialize_ToJSON(_Form.GameInstancesEx);
 
-				if (ActiveInstance != null)
-				{
-					CboGameInstances.EditValue = ActiveInstance.game_id;
+					UI_DOCUMENTS = GetUIDocumentsDir();
 
-					string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
-					lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
-					lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
+					FixGameInstances();
 
-					//Carga el Idioma del Usuario:
-					LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
+					repCboGameInstances.ValueMember = "game_id";
+					repCboGameInstances.DisplayMember = "instance";
+					repCboGameInstances.DataSource = GameInstances;
 
-					if (KillGameProcces())
+					#region Seleccionar la Instancia Activa
+
+					string[] _ActiveGames = _RegActiveInstance.Split(new char[] { '|' });
+					if (_ActiveGames != null && _ActiveGames.Length > 1)
 					{
-						InstallGameInstance(ActiveInstance);
+						ActiveInstance = GameInstances.Find(x => x.instance == _RegActiveInstance);
+					}
+					if (ActiveInstance == null)
+					{
+						ActiveInstance = (GameInstancesEx[0].games[1].key == "ED_Odissey") ?
+							GameInstancesEx[0].games[1] :
+							GameInstancesEx[0].games[0];
 
-						//Cargar Los Valores Base de La Instancia:
-						string JsonSettings_path = Path.Combine(AppExePath, "Data", ActiveInstance.key + string.Format("_Settings_{0}.json", LangShort.ToUpper()));
-						if (File.Exists(JsonSettings_path))
-						{
-							Settings = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
-						}
-
-						//Carga la Lista de Presets disponibles:
-						if (Settings != null && Settings.Presets.IsNotEmpty())
-						{
-							_ElementPresets = Settings.Presets;
-						}
-						DefaultSettings = Load_DefaultTheme(ActiveInstance, LangShort);
+						_RegActiveInstance = ActiveInstance.instance;
+						Util.WinReg_WriteKey("EDHM", "ActiveInstance", _RegActiveInstance);
 					}
 
-					LoadGameInstance(ActiveInstance, LangShort);  //<- Carga La Instancia Activa	
-					LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
+					if (ActiveInstance != null)
+					{
+						CboGameInstances.EditValue = ActiveInstance.game_id;
+
+						string search = ActiveInstance.key == "ED_Horizons" ? "HORIZ" : "ODYSS";
+						lblVersion_App.Caption = string.Format("App Version: {0}", System.Configuration.ConfigurationManager.AppSettings["AppVersion"].ToString());
+						lblVersion_MOD.Caption = string.Format("Mod Version: {0}", Util.WinReg_ReadKey("EDHM", string.Format("Version_{0}", search)).NVL("v1.51"));
+
+						//Carga el Idioma del Usuario:
+						LangShort = Util.WinReg_ReadKey("EDHM", "Language").NVL("en");
+
+						if (KillGameProcces())
+						{
+							InstallGameInstance(ActiveInstance);
+
+							//Cargar Los Valores Base de La Instancia:
+							string JsonSettings_path = Path.Combine(AppExePath, "Data", ActiveInstance.key + string.Format("_Settings_{0}.json", LangShort.ToUpper()));
+							if (File.Exists(JsonSettings_path))
+							{
+								Settings = Util.DeSerialize_FromJSON<ui_setting>(JsonSettings_path);
+							}
+
+							//Carga la Lista de Presets disponibles:
+							if (Settings != null && Settings.Presets.IsNotEmpty())
+							{
+								_ElementPresets = Settings.Presets;
+							}
+							DefaultSettings = Load_DefaultTheme(ActiveInstance, LangShort);
+						}
+
+						LoadGameInstance(ActiveInstance, LangShort);  //<- Carga La Instancia Activa	
+						LoadThemeList_EX(); //<- Cargar la Lista de Temas disponibles
+					}
+
+					#endregion
+
+					HideToTray = _Form.HideToTray;
+					GreetMe = _Form.GreetMe;
+					WatchMe = _Form.WatchMe;
+					SavesToRemember = _Form.SavesToRemember;
+					AutoApplyTheme = _Form.AutoApplyTheme;
+
+					LoadMenus(LangShort);
+					History_LoadElements(SavesToRemember);
+
+					SilentUpdate = false;
 				}
-
-				#endregion
-
-				HideToTray = _Form.HideToTray;
-				GreetMe = _Form.GreetMe;
-				WatchMe = _Form.WatchMe;
-				SavesToRemember = _Form.SavesToRemember;
-				AutoApplyTheme = _Form.AutoApplyTheme;
-
-				LoadMenus(LangShort);
-				History_LoadElements(SavesToRemember);
-
-				SilentUpdate = false;
+			}
+			catch (Exception ex)
+			{
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void MainMenu_GameFolder_ItemClick(object sender, ItemClickEventArgs e)
@@ -7528,7 +7562,7 @@ namespace EDHM_UI_mk2
 			}
 			catch (Exception ex)
 			{
-				XtraMessageBox.Show(ex.Message + ex.StackTrace);
+				Mensajero.ShowMessage("ERROR!", ex.Message + ex.StackTrace, pIcon: MessageBoxIcon.Error);
 			}
 		}
 		private void MainMenu_Help_ItemClick(object sender, ItemClickEventArgs e)
@@ -7557,7 +7591,55 @@ namespace EDHM_UI_mk2
 			ApplyTheme(true);
 		}
 
+		private void barToggleEnableEDHM_CheckedChanged(object sender, ItemClickEventArgs e)
+		{
+			/* 
+				THIS DISABLES OR ENABLES 3DMIGOTO BY RENAMING IT'S MAIN DLL   
+				A GAME RE-START IS REQUIRED IN BOTH CASES
+			 */
+			if (!IsLoading && e.Item is BarToggleSwitchItem _Check)
+			{
+				using (var handle = Mensajero.ShowOverlayForm(this))
+				{
+					if (KillGameProcces())
+					{
+						if (_Check.Checked)
+						{
+							if (File.Exists(Path.Combine(ActiveInstance.path, "-d3d11.dll")))
+							{
+								File.Delete(Path.Combine(ActiveInstance.path, "d3d11.dll"));
+								File.Move(Path.Combine(ActiveInstance.path, "-d3d11.dll"), Path.Combine(ActiveInstance.path, "d3d11.dll"));
+							}
+						}
+						else
+						{
+							if (File.Exists(Path.Combine(ActiveInstance.path, "d3d11.dll")))
+							{
+								File.Delete(Path.Combine(ActiveInstance.path, "-d3d11.dll"));
+								File.Move(Path.Combine(ActiveInstance.path, "d3d11.dll"), Path.Combine(ActiveInstance.path, "-d3d11.dll"));
+							}
+						}
+
+						Mensajero.ShowMessage(
+							"Done!",
+							string.Format("EDHM is now {0}!\r\nYou can now re-start the game.", _Check.Checked ? "Enabled" : "Disabled"),
+							MessageBoxButtons.OK, MessageBoxIcon.Information
+						);
+					}
+					else
+					{
+						// If the user dont want to Close the game..
+						IsLoading = true;
+						_Check.Checked = !_Check.Checked;
+						IsLoading = false;
+					}
+				}				
+			}
+		}
+
 		#endregion
+
+
 	}
 
 	public class RedColorComparer : IComparer<Color>

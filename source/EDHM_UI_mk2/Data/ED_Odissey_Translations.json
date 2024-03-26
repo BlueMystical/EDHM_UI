@@ -2738,37 +2738,37 @@
       {
         "key": "en",
         "value": "Combat Reticles",
-        "category": "Targeting Reticle",
+        "category": "Targeting Reticle - Components",
         "description": "Mode for Targeting Reticle"
       },
       {
         "key": "de",
         "value": "Fadenkreuze bekämpfen",
-        "category": "Fadenkreuz",
+        "category": "Fadenkreuz – Komponenten",
         "description": "Modus für Fadenkreuz"
       },
       {
         "key": "fr",
         "value": "Réticules de combat",
-        "category": "Réticule de ciblage",
+        "category": "Réticule de ciblage - Composants",
         "description": "Mode pour le réticule de ciblage"
       },
       {
         "key": "it",
         "value": "Reticoli da combattimento",
-        "category": "Reticolo di puntamento",
+        "category": "Reticolo di puntamento - Componenti",
         "description": "Modalità per il reticolo di puntamento"
       },
       {
         "key": "ru",
         "value": "Боевые сетки",
-        "category": "Прицельная сетка",
+        "category": "Прицельная сетка — Компоненты",
         "description": "Режим прицеливания"
       },
       {
         "key": "pt",
         "value": "Retículas de combate",
-        "category": "Retículo de segmentação",
+        "category": "Retículo de segmentação - Componentes",
         "description": "Modo para retícula de mira"
       }
     ]
@@ -14320,6 +14320,48 @@
         "value": "Radar - Alvos hostis",
         "category": "Objetos de radar",
         "description": "Quadrados, linhas e porta-copos VERMELHOS em ambos os modos de voo.\r\n* Alfa"
+      }
+    ]
+  },
+  {
+    "id": "x238|y238|z238|w238",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Radar - Crew Targets",
+        "category": "Radar Objects",
+        "description": "CYAN Squares, Lines, and Coasters in both flight modes (SRV/Fighter/Wing).\r\nAlso affects SRV/Fighter/Wing Square and Triangles Targeting.\r\n*Alpha"
+      },
+      {
+        "key": "de",
+        "value": "Radar – Besatzungsziele",
+        "category": "Radarobjekte",
+        "description": "CYAN-Quadrate, -Linien und -Achterbahnen in beiden Flugmodi (SRV/Jäger/Wing).\r\nWirkt sich auch auf SRV/Jäger/Wing-Quadrat- und Dreieckszielen aus."
+      },
+      {
+        "key": "fr",
+        "value": "Radar - Cibles de l'équipage",
+        "category": "Objets radar",
+        "description": "Carrés, lignes et montagnes russes CYAN dans les deux modes de vol (SRV/Fighter/Wing).\r\nAffecte également le ciblage SRV/Fighter/Wing Square et Triangles."
+      },
+      {
+        "key": "it",
+        "value": "Radar: bersagli dell'equipaggio",
+        "category": "Oggetti radar",
+        "description": "Quadrati, linee e sottobicchieri CIANO in entrambe le modalità di volo (SRV/Caccia/Ala).\r\nInfluisce anche sul targeting del quadrato SRV/Caccia/Ala e dei Triangoli."
+      },
+      {
+        "key": "ru",
+        "value": "Радар — цели экипажа",
+        "category": "Радарные объекты",
+        "description": "ГОЛУБЫЕ квадраты, линии и подставки в обоих режимах полета (SRV/Fighter/Wing).\r\nТакже влияет на SRV/Fighter/Wing Square и Triangles Targeting."
+      },
+      {
+        "key": "pt",
+        "value": "Radar - Alvos da Tripulação",
+        "category": "Objetos de radar",
+        "description": "Quadrados, Linhas e Coasters CYAN em ambos os modos de voo (SRV/Fighter/Wing).\r\nTambém afeta a mira em SRV/Fighter/Wing Square e Triângulos."
       }
     ]
   },

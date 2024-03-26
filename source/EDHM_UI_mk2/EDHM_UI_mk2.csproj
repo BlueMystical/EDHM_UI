@@ -258,6 +258,7 @@
     </Compile>
     <None Include="App.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

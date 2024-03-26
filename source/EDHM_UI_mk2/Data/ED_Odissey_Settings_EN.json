@@ -204,17 +204,6 @@
         },
         {
           "Category": "Targeting Reticle",
-          "Title": "Combat Reticles",
-          "File": "Startup-Profile",
-          "Section": "Constants",
-          "Key": "y141",
-          "Value": 200.0,
-          "ValueType": "Preset",
-          "Type": "AdvancedMode",
-          "Description": "Mode for Targeting Reticle"
-        },
-        {
-          "Category": "Targeting Reticle",
           "Title": "Rank Icon",
           "File": "Startup-Profile",
           "Section": "Constants",
@@ -267,6 +256,17 @@
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "Custom Color for Analysis reticle when in Combat mode. (*Alpha)"
+        },
+        {
+          "Category": "Targeting Reticle - Components",
+          "Title": "Combat Reticles",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "y141",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Targeting Reticle"
         },
         {
           "Category": "Targeting Reticle - Components",
@@ -2848,6 +2848,7 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Object Lines and coasters in Supercruise."
         },
+
         {
           "Category": "Radar Objects",
           "Title": "Radar Objects",
@@ -2891,6 +2892,17 @@
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "RED Squares, Lines, and Coasters in both flight modes.\r\n* Alpha"
+        },
+        {
+          "Category": "Radar Objects",
+          "Title": "Radar - Crew Targets",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x238|y238|z238|w238",
+          "Value": -785403905.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "CYAN Squares, Lines, and Coasters in both flight modes (SRV/Fighter/Wing).\r\nAlso affects SRV/Fighter/Wing Square and Triangles Targeting."
         },
         {
           "Category": "Radar Objects",
@@ -3002,6 +3014,7 @@
           "Type": "2X",
           "Description": "Brightness for Heat Bar and Speed Bar"
         },
+
         {
           "Category": "Optimal Speed Bar",
           "Title": "Custom Color",
@@ -3024,6 +3037,7 @@
           "Type": "2X",
           "Description": "Overall Brightness (of all Outer Radar Components)"
         },
+
         {
           "Category": "SRV Scanner",
           "Title": "SRV Scanner",
@@ -3134,6 +3148,7 @@
           "Type": "2X",
           "Description": "SRV Turret, Distributor Brightness Boost.\r\nFDev applies an odd colour dampening filter to the SRV Turret screen.\r\nUse this value to boost the colour of the distributor (it won't look exactly the same as the ship/SRV distributor due to the filter)"
         },
+
         {
           "Category": "Compass",
           "Title": "Color Mode",
