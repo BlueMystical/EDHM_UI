@@ -1,11 +1,11 @@
 {
-   "app_version":    "2.2.27.0",
-   "last_installer": "2.2.27.0",
-    "ED_Odissey":    "2.2.27.0", 
+   "app_version":    "2.2.28.0",
+   "last_installer": "2.2.28.0",
+    "ED_Odissey":    "2.2.28.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- New Option added for Crew Icon on the Radar.",
+   "changelog": "- Implemented EDHM v18.06, Ready for FDev Update 18.02\r\n- Check patch notes.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
