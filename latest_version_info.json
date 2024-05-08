@@ -1,11 +1,11 @@
 {
-   "app_version":    "2.2.29.0",
-   "last_installer": "2.2.29.0",
-    "ED_Odissey":    "2.2.29.0", 
+   "app_version":    "2.2.30.0",
+   "last_installer": "2.2.30.0",
+    "ED_Odissey":    "2.2.30.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Lighting Shader modification to reactivate the Lighting Brightness option and to Reduce Contamination when using the External Camera.",
+   "changelog": "- Implemented EDHM v18.08\r\n- Minor Oranges got Juiced.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
