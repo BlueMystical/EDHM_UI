@@ -5,7 +5,7 @@
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "-Implemented EDHM v18.14\r\n- Various Fixes",
+   "changelog": "- Implemented EDHM v18.14\r\n- Various Fixes",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
