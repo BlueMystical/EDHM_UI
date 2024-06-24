@@ -1,11 +1,11 @@
 {
-   "app_version":    "2.2.37.0",
-   "last_installer": "2.2.37.0",
-    "ED_Odissey":    "2.2.37.0", 
+   "app_version":    "2.2.38.0",
+   "last_installer": "2.2.38.0",
+    "ED_Odissey":    "2.2.38.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Implemented EDHM v18.14\r\n- Various Fixes",
+   "changelog": "- No More Orange on Rebuy Screen.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
