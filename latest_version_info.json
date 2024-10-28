@@ -1,11 +1,11 @@
 {
-   "app_version":    "2.2.44.0",
-   "last_installer": "2.2.44.0",
-    "ED_Odissey":    "2.2.44.0", 
+   "app_version":    "2.2.45.0",
+   "last_installer": "2.2.45.0",
+    "ED_Odissey":    "2.2.45.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Thank you all for reaching 7K Members in our Discord!\r\n- 5 New Themes added.",
+   "changelog": "- Added missing image for the Mandaly.\r\n- Fixed a visual glitch when minimized.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
