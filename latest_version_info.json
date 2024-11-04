@@ -1,12 +1,12 @@
 {
-   "app_version":    "2.2.45.0",
-   "last_installer": "2.2.45.0",
-    "ED_Odissey":    "2.2.45.0", 
+   "app_version":    "2.2.46.0",
+   "last_installer": "2.2.46.0",
+    "ED_Odissey":    "2.2.46.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Added missing image for the Mandaly.\r\n- Fixed a visual glitch when minimized.",
-   "notification": "Unfortunately, the new FDev update broke EDHM (and 3PMods), resulting in some elements reverting to their original colors.\r\nPlease wait until a fix is ​​available.",
+   "changelog": "- First Fix for FDev U19.00",
+   "notification": "",
    "re_install": true,
    "run_hotfix": true
 }
