@@ -1,11 +1,11 @@
 {
-   "app_version":    "2.2.50.0",
-   "last_installer": "2.2.50.0",
-    "ED_Odissey":    "2.2.50.0", 
+   "app_version":    "2.2.51.0",
+   "last_installer": "2.2.51.0",
+    "ED_Odissey":    "2.2.51.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Fix Message Box that sometimes appears with an orange background when switching ships.\r\n- Fix Coaster Overall Brightness option. (x113)- Bodies - Lines and Coasters (previously Neutral Targets - Lines) (xyzw244), now uses Radar Bodies in Supercruise Mode (z138) instead of Radar Objects Mode (y139).",
+   "changelog": "- Several Bug Fixes.\r\n- New option for the HUD Elements on Station Concourse.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
