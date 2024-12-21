@@ -29,11 +29,6 @@ npm install -g node
 npm install -g npm
 ```
 
-Install Specific Node Version:
-```
-nvm install 23.3.0
-```
-
 ## Usage
 
 To use this project, you can do the following:
