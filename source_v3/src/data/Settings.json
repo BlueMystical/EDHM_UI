@@ -1,0 +1,39 @@
+{
+    "Version_HORIZ":"v1.52.b",
+    "Version_ODYSS":"v19.04",
+    "ActiveInstance":"Steam (Odyssey (Live))",
+    "GameInstances":[
+       {
+          "instance":"Steam",
+          "games":[
+             {
+                "instance":"Steam (Odyssey (Live))",
+                "game_id":"Steam|ED_Odissey",
+                "key":"ED_Odissey",
+                "name":"Horizons (Live)",
+                "path":"%PROGRAMFILES(x86)%\\Steam\\steamapps\\common\\Elite Dangerous\\Products\\elite-dangerous-odyssey-64",
+                "themes_folder":"%USERPROFILE%\\EDHM_UI\\ODYSS\\Themes",
+                "is_active":false
+             },
+             {
+               "instance":"Steam (Horizons (Live))",
+               "game_id":"Steam|ED_Odissey",
+               "key":"ED_Odissey",
+               "name":"Horizons (Live)",
+               "path":"%PROGRAMFILES(x86)%\\Steam\\steamapps\\common\\Elite Dangerous\\Products\\FORC-FDEV-DO-38-IN-40",
+               "themes_folder":"%USERPROFILE%\\EDHM_UI\\ODYSS\\Themes",
+               "is_active":false
+            }
+          ]
+       }
+    ],
+    "PlayerJournal":"%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous",  
+    "HUD_Cover": "HUD_Type8",
+    "SavesToRemember":10, 
+    "FavToogle":false,
+    "GreetMe":false,
+    "HideToTray":false,
+    "WatchMe":true,
+    "LastFolderUsed":"",            
+    "KeyBindings":[ ]
+ }

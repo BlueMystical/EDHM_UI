@@ -1,0 +1,111 @@
+{
+   "Name":"HUD_Default",
+   "Author":"Blue Mystic",
+   "Image": "/src/images/HUD_Default.png",
+   "Areas":[
+      {
+         "id":"Panel_UP",
+         "title":"Upper Panel",
+         "x":31,
+         "y":36,
+         "width":500,
+         "height":158
+      },
+      {
+         "id":"Reticle",
+         "title":"Targetting Reticle",
+         "x":710,
+         "y":178,
+         "width":300,
+         "height":334
+      },
+      {
+         "id":"CHUD_AHUD",
+         "title":"Combat & Analysis HUD",
+         "x":1100,
+         "y":244,
+         "width":340,
+         "height":374
+      },
+      {
+         "id":"ShieldsHolo",
+         "title":"Shield & Holograms",
+         "x":1020,
+         "y":640,
+         "width":148,
+         "height":274
+      },
+      {
+         "id":"Power_Distributor",
+         "title":"Power Distributor",
+         "x":1247,
+         "y":699,
+         "width":131,
+         "height":170
+      },
+      {
+         "id":"FuelBars",
+         "title":"Signature & Fuel Bars",
+         "x":1384,
+         "y":733,
+         "width":170,
+         "height":140
+      },
+      {
+         "id":"RadarHUD",
+         "title":"Radar & Common Group",
+         "x":576,
+         "y":640,
+         "width":438,
+         "height":264
+      },
+      {
+         "id":"Panel_Lower",
+         "title":"Ship Panels",
+         "x":9,
+         "y":640,
+         "width":363,
+         "height":276
+      },
+      {
+         "id":"StationsPanels",
+         "title":"XML Editor",
+         "x":9,
+         "y":185,
+         "width":261,
+         "height":256
+      },
+      {
+         "id":"Lighting",
+         "title":"Cabin Lighting",
+         "x":244,
+         "y":249,
+         "width":251,
+         "height":368
+      },
+      {
+         "id":"SpecialFX",
+         "title":"Ship Systems",
+         "x":437,
+         "y":689,
+         "width":139,
+         "height":220
+      },
+      {
+         "id":"Settings",
+         "title":"General Settings",
+         "x":1055,
+         "y":35,
+         "width":474,
+         "height":174
+      },
+      {
+         "id":"Foot_HUD",
+         "title":"Suit & Onfoot",
+         "x":1385,
+         "y":231,
+         "width":187,
+         "height":250
+      }
+   ]
+}
