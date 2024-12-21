@@ -1,5 +1,6 @@
 ## This is the code for new version 3.x+
 
+v3 is not an update but a Complete Rework of all functionalities.<br>
 App is made with Electron Forge Vite-Vue and Bootstrap
 
 * https://www.electronjs.org
