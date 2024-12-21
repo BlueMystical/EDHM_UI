@@ -5,13 +5,16 @@ App is made with Electron Forge Vite-Vue and Bootstrap
 
 * https://www.electronjs.org
 * https://www.electronforge.io
-* https://vite.dev/
+* https://electron-vite.org
+* https://github.com/SimulatedGREG/electron-vue
 * https://getbootstrap.com
 
+[License: GPL-3.0+](https://raw.githubusercontent.com/BlueMystical/EDHM_UI/main/license.txt)
+
 ## Requeriments:
-- NODE JS   [Download](https://nodejs.org/en/download/prebuilt-installer)
-- NPM:      [Download](https://docs.npmjs.com/cli/v11/commands/npm)
-- NVM:      [Download](https://github.com/coreybutler/nvm-windows/releases/latest)
+- NODE:   [Download](https://nodejs.org/en/download/prebuilt-installer)
+- NPM:    [Download](https://docs.npmjs.com/cli/v11/commands/npm)
+- NVM:    [Download](https://github.com/coreybutler/nvm-windows/releases/latest)
 - Visual Studio Code [Download](https://code.visualstudio.com/)
 
 Check your Node and NPM Versions:
@@ -41,7 +44,7 @@ To use this project, you can do the following:
 
 2. Open a Terminal (System Symbol) as Admin and navigate to the folder where you unpacked the repo:
    ```
-   cd G:\[Full Path to the Repo\EDHM_UI]\source_v3 && G:
+   cd [Full Path to the Repo]\EDHM_UI\source_v3
    ```
 3. Install dependencies: (having your Terminal at the source_v3 folder)
    ```
