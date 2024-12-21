@@ -1,0 +1,44 @@
+{
+  "name": "edhm-ui",
+  "productName": "edhm-ui",
+  "version": "3.0.0",
+  "description": "Mod for Elite Dangerous to customize the HUD of any ship.",
+  "main": ".vite/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.6.0",
+    "@electron-forge/maker-deb": "^7.6.0",
+    "@electron-forge/maker-rpm": "^7.6.0",
+    "@electron-forge/maker-squirrel": "^7.6.0",
+    "@electron-forge/maker-zip": "^7.6.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.6.0",
+    "@electron-forge/plugin-fuses": "^7.6.0",
+    "@electron-forge/plugin-vite": "^7.6.0",
+    "@electron/fuses": "^1.8.0",
+    "@electron/packager": "^18.3.6",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "electron": "33.2.1",
+    "vite": "^5.0.12",
+    "vue": "^3.5.13"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Blue Mystic",
+    "email": "bluemystic.play@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "electron-squirrel-startup": "^1.0.1",
+    "ini": "^5.0.0",
+    "mitt": "^3.0.1",
+    "node-windows": "^1.0.0-beta.8"
+  }
+}
