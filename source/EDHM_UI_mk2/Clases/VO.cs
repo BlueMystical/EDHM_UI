@@ -175,12 +175,17 @@ namespace EDHM_UI_mk2
 				if (ShipShortName.ToLower() != Ship.ed_short.ToLower()
 				 || ShipIdent.ToLower() != this.ship_plate.ToLower())
 				{
-					//_ret = (ShipShortName.ToLower() != Ship.ed_short.ToLower()) ? true : false;
 					_ret = true;
 				}				
 			}
 			return _ret;
 		}
+
+		public override string ToString()
+		{
+			return String.Format("Name:{0}, Plate:{1}, Data:{2}", ship_name, ship_plate, Ship.ToString() );
+		}
+
 	}
 
 	#endregion

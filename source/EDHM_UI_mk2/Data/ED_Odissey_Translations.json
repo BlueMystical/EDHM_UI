@@ -1939,7 +1939,7 @@
     "lang": [
       {
         "key": "en",
-        "value": "Special Efects",
+        "value": "Special Effects",
         "category": null,
         "description": null
       },
@@ -3446,6 +3446,48 @@
     ]
   },
   {
+    "id": "x112",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Environmental and Destination Targets",
+        "value": "Other Ship Target Elements",
+        "description": "Also includes Friendly, Hostile and Crew Target Elements.\r\nRhombus, Triangle Holo, Text"
+      },
+      {
+        "key": "de",
+        "value": "Andere Schiffszielelemente",
+        "category": "Umgebungs- und Reiseziele",
+        "description": "Enthält auch freundliche, feindliche und Crew-Zielelemente.\r\nRhombus, Dreieck-Holo, Text"
+      },
+      {
+        "key": "fr",
+        "value": "Autres éléments cibles du navire",
+        "category": "Cibles environnementales et de destination",
+        "description": "Comprend également des éléments cibles amicaux, hostiles et d'équipage.\r\nRhombus, Triangle Holo, Texte"
+      },
+      {
+        "key": "it",
+        "value": "Altri elementi bersaglio della nave",
+        "category": "Obiettivi ambientali e di destinazione",
+        "description": "Include anche elementi bersaglio amichevoli, ostili e dell'equipaggio.\r\nRombo, triangolo olografico, testo"
+      },
+      {
+        "key": "ru",
+        "value": "Другие элементы цели корабля",
+        "category": "Экологические и целевые цели",
+        "description": "Также включает элементы «Дружественные», «Враждебные» и «Экипажные цели».\r\nРомб, голографический треугольник, текст."
+      },
+      {
+        "key": "pt",
+        "value": "Outros elementos-alvo do navio",
+        "category": "Alvos Ambientais e de Destino",
+        "description": "Também inclui elementos de alvo amigáveis, hostis e de tripulação.\r\nRhombus, Triângulo Holo, Texto"
+      }
+    ]
+  },
+  {
     "id": "x65|y65|z65|w65",
     "group": "Element",
     "lang": [
@@ -4539,37 +4581,37 @@
         "key": "en",
         "value": "System Connector Lines",
         "category": "Galaxy Map",
-        "description": "Mode for System Connector Lines.\r\nNote: You can turn these off in GalMap Display Options (in-game) - Bottom left row of icons.\r\nThe Brightness will affect all colour modes (including default colour)."
+        "description": "Mode for System Connector Lines and Supercharged Jump Lines.\r\nNote: You can turn these off in GalMap Display Options (in-game) - Bottom left row of icons.\r\nThe Brightness will affect all colour modes (including default colour)."
       },
       {
         "key": "de",
         "value": "Verbindungslinien",
         "category": "Galaxiekarte",
-        "description": "Modus für Kartengitter und Systemlinien.\r\nHinweis: Sie können diese in den GalMap-Anzeigeoptionen (im Spiel) deaktivieren – Symbolreihe unten links."
+        "description": "Modus für Systemanschlussleitungen und aufgeladene Sprungleitungen.\r\nHinweis: Sie können diese in den GalMap-Anzeigeoptionen (im Spiel) ausschalten – untere linke Symbolreihe.\r\nDie Helligkeit wirkt sich auf alle Farbmodi aus (einschließlich der Standardfarbe)."
       },
       {
         "key": "fr",
         "value": "Lignes de connexion du système",
         "category": "Galaxy Map",
-        "description": "Mode pour les lignes de connexion du système.\r\nRemarque : Vous pouvez les désactiver dans les options d'affichage de GalMap (dans le jeu) - Rangée d'icônes en bas à gauche."
+        "description": "Mode pour les lignes de connecteur système et les lignes de saut suralimentées.\r\nRemarque : vous pouvez les désactiver dans les options d'affichage de GalMap (dans le jeu) - Rangée d'icônes en bas à gauche.\r\nLa luminosité affectera tous les modes de couleur (y compris la couleur par défaut)."
       },
       {
         "key": "it",
         "value": "Linee di connessione del sistema",
         "category": "Mappa Galaxy",
-        "description": "Modalità per le linee di connessione del sistema.\r\nNota: puoi disattivarle nelle opzioni di visualizzazione di GalMap (in-game) - Riga di icone in basso a sinistra."
+        "description": "MModalità per le linee di collegamento del sistema e le linee di salto potenziate.\r\nNota: puoi disattivarle nelle Opzioni di visualizzazione di GalMap (nel gioco) - Riga inferiore sinistra delle icone.\r\nLa luminosità influirà su tutte le modalità colore (incluso il colore predefinito)."
       },
       {
         "key": "ru",
         "value": "Системные соединительные линии",
         "category": "Карта галактики",
-        "description": "Режим для системных соединительных линий.\r\nПримечание. Вы можете отключить их в параметрах отображения GalMap (в игре) — нижний левый ряд значков."
+        "description": "Режим для линий системного соединителя и линий сверхбыстрого прыжка.\r\nПримечание: вы можете отключить их в параметрах отображения GalMap (в игре) - нижний левый ряд значков.\r\nЯркость повлияет на все цветовые режимы (включая цвет по умолчанию)."
       },
       {
         "key": "pt",
         "value": "System Connector Lines",
         "category": "Mapa da Galáxia",
-        "description": "Modo para System Connector Lines.\r\nNota: Você pode desativá-los em GalMap Display Options (no jogo) - Linha inferior esquerda de ícones."
+        "description": "Modo para Linhas de Conexão do Sistema e Linhas de Salto Supercarregadas.\r\nObservação: você pode desativá-los nas Opções de Exibição do GalMap (no jogo) - Linha inferior esquerda de ícones.\r\nO Brilho afetará todos os modos de cor (incluindo a cor padrão)."
       }
     ]
   },
@@ -4581,37 +4623,37 @@
         "key": "en",
         "value": "System Connector Lines",
         "category": "Galaxy Map",
-        "description": "Custom Color for System Connector Lines. *Alpha*"
+        "description": "Custom Color for System Connector Lines and Supercharged Jump Lines. *Alpha*"
       },
       {
         "key": "de",
         "value": "Verbindungslinien",
         "category": "Galaxiekarte",
-        "description": "Benutzerdefinierte Farbe für Verbindungslinien. *Alpha*"
+        "description": "Benutzerdefinierte Farbe für Systemanschlussleitungen und aufgeladene Sprungleitungen. *Alpha*"
       },
       {
         "key": "fr",
         "value": "Lignes de connexion du système",
         "category": "Galaxy Map",
-        "description": "Couleur personnalisée pour les lignes de connexion du système. *Alpha*"
+        "description": "Couleur personnalisée pour les lignes de connexion du système et les lignes de saut suralimentées. *Alpha*"
       },
       {
         "key": "it",
         "value": "Linee di connettori di sistema",
         "category": "Mappa Galaxy",
-        "description": "Colore personalizzato per le linee di connettori di sistema. *Alfa*"
+        "description": "Colore personalizzato per linee di collegamento del sistema e linee di salto sovralimentate. *Alpha*"
       },
       {
         "key": "ru",
         "value": "Системные соединительные линии",
         "category": "Карта галактики",
-        "description": "Пользовательский цвет для системных соединительных линий. *Альфа*"
+        "description": "Пользовательский цвет для линий системного разъема и линий Supercharged Jump. *Альфа*"
       },
       {
         "key": "pt",
         "value": "System Connector Lines",
         "category": "Mapa da Galáxia",
-        "description": "Cor personalizada para System Connector Lines. *Alfa*"
+        "description": "Cor personalizada para linhas de conexão do sistema e linhas de salto supercarregadas. *Alfa**"
       }
     ]
   },
@@ -4874,8 +4916,8 @@
       {
         "key": "en",
         "value": "Background Colour Mode",
-        "category": "Powers and GalNet",
-        "description": "Mode for Powers and GalNet Background Colour."
+        "category": "Codex and GalNet",
+        "description": "Mode for GalNet Background Colour."
       },
       {
         "key": "de",
@@ -4909,6 +4951,49 @@
       }
     ]
   },
+
+  {
+    "id": "x180|y180|z180|w180",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Custom Colour",
+        "category": "Codex and GalNet",
+        "description": "Custom Color for GalNet Background Colour. *Alpha*"
+      },
+      {
+        "key": "de",
+        "value": "Benutzerdefinierte Farbe",
+        "category": "Kräfte und GalNet",
+        "description": "Benutzerdefinierte Farbe für Kräfte und GalNet-Hintergrundfarbe. *Alpha*"
+      },
+      {
+        "key": "fr",
+        "value": "Couleur personnalisée",
+        "category": "Pouvoirs et GalNet",
+        "description": "Couleur personnalisée pour les pouvoirs et la couleur d'arrière-plan GalNet. *Alpha*"
+      },
+      {
+        "key": "it",
+        "value": "Colore personalizzato",
+        "category": "Powers e GalNet",
+        "description": "Colore personalizzato per Powers e colore di sfondo GalNet. *Alfa*"
+      },
+      {
+        "key": "ru",
+        "value": "Пользовательский цвет",
+        "category": "Пауэрс и галактическая сеть",
+        "description": "Пользовательский цвет для Пауэрса и цвета фона GalNet. *Альфа*"
+      },
+      {
+        "key": "pt",
+        "value": "Custom Color",
+        "category": "Poderes e Rede Galaxy",
+        "description": "Custom Color para Poderes e Rede Galaxy Background Color. *Alfa*"
+      }
+    ]
+  },
   {
     "id": "w104",
     "group": "Element",
@@ -4916,7 +5001,7 @@
       {
         "key": "en",
         "value": "Galnet Image Filter Colour",
-        "category": "Powers and GalNet",
+        "category": "Codex and GalNet",
         "description": "Mode for Galnet Image Filter Colour."
       },
       {
@@ -4952,55 +5037,13 @@
     ]
   },
   {
-    "id": "x180|y180|z180|w180",
-    "group": "Element",
-    "lang": [
-      {
-        "key": "en",
-        "value": "Custom Colour",
-        "category": "Powers and GalNet",
-        "description": "Custom Color for Powers and GalNet Background Colour. *Alpha*"
-      },
-      {
-        "key": "de",
-        "value": "Benutzerdefinierte Farbe",
-        "category": "Kräfte und GalNet",
-        "description": "Benutzerdefinierte Farbe für Kräfte und GalNet-Hintergrundfarbe. *Alpha*"
-      },
-      {
-        "key": "fr",
-        "value": "Couleur personnalisée",
-        "category": "Pouvoirs et GalNet",
-        "description": "Couleur personnalisée pour les pouvoirs et la couleur d'arrière-plan GalNet. *Alpha*"
-      },
-      {
-        "key": "it",
-        "value": "Colore personalizzato",
-        "category": "Powers e GalNet",
-        "description": "Colore personalizzato per Powers e colore di sfondo GalNet. *Alfa*"
-      },
-      {
-        "key": "ru",
-        "value": "Пользовательский цвет",
-        "category": "Пауэрс и галактическая сеть",
-        "description": "Пользовательский цвет для Пауэрса и цвета фона GalNet. *Альфа*"
-      },
-      {
-        "key": "pt",
-        "value": "Custom Color",
-        "category": "Poderes e Rede Galaxy",
-        "description": "Custom Color para Poderes e Rede Galaxy Background Color. *Alfa*"
-      }
-    ]
-  },
-  {
     "id": "w81",
     "group": "Element",
     "lang": [
       {
         "key": "en",
         "value": "Codex filter Colour",
-        "category": "Powers and GalNet",
+        "category": "Codex and GalNet",
         "description": "Mode for Codex filter (also Passenger Missions) Colour."
       },
       {
@@ -5042,8 +5085,8 @@
       {
         "key": "en",
         "value": "Custom Colour",
-        "category": "Powers and GalNet",
-        "description": "Custom Color for Codex, Galnet, & Powers filter Custom Colour. *Alpha*"
+        "category": "Codex and GalNet",
+        "description": "Custom Color for Codex and Galnet filter Custom Colour. *Alpha*"
       },
       {
         "key": "de",
@@ -5077,48 +5120,7 @@
       }
     ]
   },
-  {
-    "id": "y99",
-    "group": "Element",
-    "lang": [
-      {
-        "key": "en",
-        "value": "Powers Panel Portrait",
-        "category": "Powers and GalNet",
-        "description": "Mode for Powers Panel Portrait filter & Galnet image filter.\r\nNote: When changing modes you need to move your cursor around the screen (in-game) to update.\r\nNote: If 'True powers colours' is selected for the Powers Panel filter, the Galnet filter will use the Custom colour."
-      },
-      {
-        "key": "de",
-        "value": "Kräfte Bereich Portrait",
-        "category": "Kräfte und GalNet",
-        "description": "Modus für Kräftebereich Portraitfilter & Galnet-Bildfilter.\r\nHinweis: Wenn Sie den Modus ändern, müssen Sie Ihren Cursor auf dem Bildschirm (im Spiel) bewegen, um ihn zu aktualisieren.\r\nHinweis: Wenn Für den Kräftebereich-Filter „Echte Kräfte-Farben“ ausgewählt ist, verwendet der Galnet-Filter die benutzerdefinierte Farbe."
-      },
-      {
-        "key": "fr",
-        "value": "Powers Panel Portrait",
-        "category": "Pouvoirs et GalNet",
-        "description": "Mode pour le filtre Powers Panel Portrait et le filtre d'image Galnet.\r\nRemarque : lorsque vous changez de mode, vous devez déplacer votre curseur sur l'écran (dans le jeu) pour mettre à jour.\r\nRemarque : si 'True power colors' est sélectionné pour le filtre Powers Panel, le filtre Galnet utilisera la couleur personnalisée."
-      },
-      {
-        "key": "it",
-        "value": "Ritratto del pannello dei poteri",
-        "category": "Powers e GalNet",
-        "description": "Modo per il filtro verticale del pannello dei poteri e filtro dell'immagine di Galnet.\r\nNota: quando si cambia modalità è necessario spostare il cursore sullo schermo (in-game) per aggiornare.\r\nNota: se 'True powers colors' è selezionato per il filtro Powers Panel, il filtro Galnet utilizzerà il colore personalizzato."
-      },
-      {
-        "key": "ru",
-        "value": "Powers Panel Portrait",
-        "category": "Пауэрс и галактическая сеть",
-        "description": "Mode for Powers Panel Portrait filter & Galnet image filter.\r\nПримечание: при смене режимов вам нужно перемещать курсор по экрану (в игре) для обновления.\r\nПримечание: если Если для фильтра Powers Panel выбрано значение «True power colors», фильтр Galnet будет использовать пользовательский цвет."
-      },
-      {
-        "key": "pt",
-        "value": "Powers Panel Portrait",
-        "category": "Poderes e Rede Galaxy",
-        "description": "Modo para Powers Panel Filtro de retrato e filtro de imagem Galnet.\r\nNota: Ao alterar os modos, você precisa mover o cursor pela tela (no jogo) para atualizar.\r\nNota: Se 'True powers colors' é selecionado para o filtro Powers Panel, o filtro Galnet usará a cor Personalizada."
-      }
-    ]
-  },
+
   {
     "id": "y119",
     "group": "Element",
@@ -5410,6 +5412,216 @@
         "value": "Subcomponentes do navio de destino",
         "category": "Painel Zona de Combate (CZ)",
         "description": "Painel de Zona de Combate (CZ) e Painel de Alvo Subcomponentes da Nave Alvo."
+      }
+    ]
+  },
+  {
+    "id": "z113",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Cargo Scoop",
+        "value": "Cargo Scoop Reticle",
+        "description": "Mode for Cargo Scoop Reticle."
+      },
+      {
+        "key": "de",
+        "category": "Frachtschaufel",
+        "value": "Frachtschaufel-Fadenkreuz",
+        "description": "Modus für Cargo Scoop-Absehen."
+      },
+      {
+        "key": "fr",
+        "category": "Pelle à marchandises",
+        "value": "Réticule de pelle à cargaison",
+        "description": "Mode pour réticule Cargo Scoop."
+      },
+      {
+        "key": "it",
+        "category": "Scoop del carico",
+        "value": "Reticolo della paletta di carico",
+        "description": "Modalità per reticolo Cargo Scoop."
+      },
+      {
+        "key": "ru",
+        "category": "Грузовой совок",
+        "value": "Сетка грузового ковша",
+        "description": "Режим для сетки грузового ковша."
+      },
+      {
+        "key": "pt",
+        "category": "Colher de carga",
+        "value": "Retículo de colher de carga",
+        "description": "Modo para retículo de colher de carga."
+      }
+    ]
+  },
+  {
+    "id": "x160|y160|z160",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Cargo Scoop",
+        "value": "Custom Color",
+        "description": "Custom Color for Cargo Scoop Reticle."
+      },
+      {
+        "key": "de",
+        "category": "Frachtschaufel",
+        "value": "Freiwählbare Farbe",
+        "description": "Benutzerdefinierte Farbe für das Cargo Scoop-Absehen."
+      },
+      {
+        "key": "fr",
+        "category": "Pelle à marchandises",
+        "value": "Couleur personnalisée",
+        "description": "Couleur personnalisée pour le réticule Cargo Scoop."
+      },
+      {
+        "key": "it",
+        "category": "Scoop del carico",
+        "value": "Colore personalizzato",
+        "description": "Colore personalizzato per il reticolo del cucchiaio da carico."
+      },
+      {
+        "key": "ru",
+        "category": "Грузовой совок",
+        "value": "Пользовательский цвет",
+        "description": "Пользовательский цвет для сетки грузового ковша."
+      },
+      {
+        "key": "pt",
+        "category": "Colher de carga",
+        "value": "Cor customizada",
+        "description": "Cor personalizada para retículo de colher de carga."
+      }
+    ]
+  },
+  {
+    "id": "w113",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Cargo Scoop",
+        "value": "Brightness",
+        "description": "Brightness of Cargo Scoop Reticle."
+      },
+      {
+        "key": "de",
+        "category": "Frachtschaufel",
+        "value": "Helligkeit",
+        "description": "Helligkeit des Cargo Scoop Fadenkreuzes."
+      },
+      {
+        "key": "fr",
+        "category": "Pelle à marchandises",
+        "value": "Luminosité",
+        "description": "Luminosité du réticule Cargo Scoop."
+      },
+      {
+        "key": "it",
+        "category": "Scoop del carico",
+        "value": "Luminosità",
+        "description": "Luminosità del reticolo della paletta di carico."
+      },
+      {
+        "key": "ru",
+        "category": "Грузовой совок",
+        "value": "Яркость",
+        "description": "Яркость сетки грузового ковша."
+      },
+      {
+        "key": "pt",
+        "category": "Colher de carga",
+        "value": "Brilho",
+        "description": "Brilho do retículo da colher de carga."
+      }
+    ]
+  },
+  {
+    "id": "y113",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Mining Mini Games",
+        "value": "Mini Games Mode",
+        "description": "Mode for Sub-Surface Mining and Seismic Charges Mini Games."
+      },
+      {
+        "key": "de",
+        "category": "Bergbau-Minispiele",
+        "value": "Minispiele-Modus",
+        "description": "Modus für Minispiele zum Thema Untergrundbergbau und seismische Ladungen."
+      },
+      {
+        "key": "fr",
+        "category": "Mini-jeux miniers",
+        "value": "Mode mini-jeux",
+        "description": "Mode pour les mini-jeux d'exploitation minière souterraine et de charges sismiques."
+      },
+      {
+        "key": "it",
+        "category": "Minigiochi minerari",
+        "value": "Modalità minigiochi",
+        "description": "Modalità per minigiochi di estrazione sotterranea e cariche sismiche."
+      },
+      {
+        "key": "ru",
+        "category": "Мини-игры о горном деле",
+        "value": "Режим мини-игр",
+        "description": "Режим мини-игр «Подземные разработки и сейсмические заряды»."
+      },
+      {
+        "key": "pt",
+        "category": "Minijogos de mineração",
+        "value": "Modo Minijogos",
+        "description": "Modo para minijogos de mineração subterrânea e cargas sísmicas."
+      }
+    ]
+  },
+  {
+    "id": "x158|y158|z158",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Mining Mini Games",
+        "value": "Custom Color",
+        "description": "Custom color to replace the orange squares in the mining mini-games.\r\nThe other squares will apply the XML matrix."
+      },
+      {
+        "key": "de",
+        "category": "Bergbau-Minispiele",
+        "value": "Freiwählbare Farbe",
+        "description": "Modus für Minispiele zum Thema Untergrundbergbau und seismische Ladungen."
+      },
+      {
+        "key": "fr",
+        "category": "Mini-jeux miniers",
+        "value": "Couleur personnalisée",
+        "description": "Mode pour les mini-jeux d'exploitation minière souterraine et de charges sismiques."
+      },
+      {
+        "key": "it",
+        "category": "Minigiochi minerari",
+        "value": "Colore personalizzato",
+        "description": "Modalità per minigiochi di estrazione sotterranea e cariche sismiche."
+      },
+      {
+        "key": "ru",
+        "category": "Мини-игры о горном деле",
+        "value": "Пользовательский цвет",
+        "description": "Режим мини-игр «Подземные разработки и сейсмические заряды»."
+      },
+      {
+        "key": "pt",
+        "category": "Minijogos de mineração",
+        "value": "Cor customizada",
+        "description": "Modo para minijogos de mineração subterrânea e cargas sísmicas."
       }
     ]
   },
@@ -7459,9 +7671,9 @@
     "lang": [
       {
         "key": "en",
-        "value": "Ship sketch",
-        "category": "Maintenance Panel",
-        "description": "Ship sketches on Advanced Maintenance and Carrier/Station Panels"
+        "value": "Ship Sketches & Drawings",
+        "category": "Ship Sketches & Drawings",
+        "description": "Mode for Ship Sketches and Various Drawings on Ship Panels and Carrier/Station"
       },
       {
         "key": "de",
@@ -7496,14 +7708,56 @@
     ]
   },
   {
-    "id": "x146|y146|z146|w146",
+    "id": "x146|y146|z146",
     "group": "Element",
     "lang": [
       {
         "key": "en",
         "value": "Custom Color",
-        "category": "Maintenance Panel",
-        "description": "Ship sketches on Advanced Maintenance and Carrier/Station Panels. *Alpha"
+        "category": "Ship Sketches & Drawings",
+        "description": "Custom Color for Ship Sketches and Various Drawings on Ship Panels and Carrier/Station"
+      },
+      {
+        "key": "de",
+        "value": "Benutzerdefinierte Farbe",
+        "category": "Wartungsbereich",
+        "description": "Benutzerdefinierte Farbe für Schiffsskizze. *Alpha"
+      },
+      {
+        "key": "fr",
+        "value": "Couleur personnalisée",
+        "category": "Panneau de maintenance",
+        "description": "Couleur personnalisée pour le croquis du navire. *Alpha"
+      },
+      {
+        "key": "it",
+        "value": "Colore personalizzato",
+        "category": "Pannello di manutenzione",
+        "description": "Colore personalizzato per lo schizzo della nave. *Alfa"
+      },
+      {
+        "key": "ru",
+        "value": "Пользовательский цвет",
+        "category": "Панель обслуживания",
+        "description": "Пользовательский цвет для эскиза корабля. *Альфа"
+      },
+      {
+        "key": "pt",
+        "value": "Cor personalizada",
+        "category": "Painel de manutenção",
+        "description": "Cor personalizada para esboço do navio. *Alfa"
+      }
+    ]
+  },
+  {
+    "id": "w146",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Brightness",
+        "category": "Ship Sketches & Drawings",
+        "description": "Brightness for Ship Sketches and Various Drawings on Ship Panels and Carrier/Station"
       },
       {
         "key": "de",
@@ -8205,7 +8459,7 @@
         "key": "en",
         "category": "Surface Scanner",
         "value": "Probe Trail Mode",
-        "description": "Classic & XML modes only replaces the color of the trail.\r\nBoosted mode replaces the color and gives a very luminous effect to the trail."
+        "description": "Classic & XML modes only replaces the color of the trail.\r\nBoosted mode replaces the color and gives a very luminous effect to the trail.\r\nNOTE: DSS must be closed to apply the new settings."
       },
       {
         "key": "de",
@@ -10304,6 +10558,48 @@
     ]
   },
   {
+    "id": "x157",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Extended Opacity",
+        "category": "Suit HUD - Panel",
+        "description": "Apply opacity setting to other elements such as dialog panels or nameplates."
+      },
+      {
+        "key": "de",
+        "value": "Erweiterte Deckkraft",
+        "category": "Anzug-HUD - Panel",
+        "description": "Helligkeit für Zu-Fuß-Bereich."
+      },
+      {
+        "key": "fr",
+        "value": "Opacité étendue",
+        "category": "Suit HUD - Panneau",
+        "description": "Luminosité pour le panneau sur pied."
+      },
+      {
+        "key": "it",
+        "value": "Opacità estesa",
+        "category": "Tuta HUD - Pannello",
+        "description": "Luminosità per pannello a piedi."
+      },
+      {
+        "key": "ru",
+        "value": "Расширенная непрозрачность",
+        "category": "Костюм HUD - Панель",
+        "description": "Яркость пешей панели."
+      },
+      {
+        "key": "pt",
+        "value": "Opacidade estendida",
+        "category": "Terno HUD - Painel",
+        "description": "Brilho para Painel de Pé."
+      }
+    ]
+  },
+  {
     "id": "y30",
     "group": "Element",
     "lang": [
@@ -10689,7 +10985,7 @@
         "key": "en",
         "value": "HUD Elements on station concourse",
         "category": "Suit HUD - Panel",
-        "description": "Option to Turn off HUD Elements on station concourse."
+        "description": "Option to Turn Off HUD Elements or Hide Only Inactive Parts on Station Concourse."
       },
       {
         "key": "de",
@@ -12243,37 +12539,37 @@
         "key": "en",
         "value": "Hologram - Color",
         "category": "OwnShip Hologram",
-        "description": "Custom color for OwnShip Hologram"
+        "description": "Custom color for OwnShip Hologram and Landing Plate"
       },
       {
         "key": "de",
         "value": "Hologramm - Farbe",
         "category": "Eigenes Schiff Hologramm",
-        "description": "Benutzerdefinierte Farbe für Eigenes Schiff-Hologramm"
+        "description": "Benutzerdefinierte Farbe für das OwnShip-Hologramm und die Landeplatte"
       },
       {
         "key": "fr",
         "value": "Hologramme - Couleur",
         "category": "Hologramme OwnShip",
-        "description": "Couleur personnalisée pour l'hologramme OwnShip"
+        "description": "Couleur personnalisée pour l'hologramme et la plaque d'atterrissage d'OwnShip"
       },
       {
         "key": "it",
         "value": "Ologramma - Colore",
         "category": "Ologramma della propria nave",
-        "description": "Colore personalizzato per OwnShip Hologram"
+        "description": "Colore personalizzato per l'ologramma OwnShip e la piastra di atterraggio"
       },
       {
         "key": "ru",
         "value": "Голограмма - Цвет",
         "category": "Голограмма собственного корабля",
-        "description": "Пользовательский цвет для голограммы OwnShip"
+        "description": "Индивидуальный цвет для голограммы OwnShip и посадочной пластины"
       },
       {
         "key": "pt",
         "value": "Holograma - Cor",
         "category": "Holograma da própria nave",
-        "description": "Cor personalizada para Holograma OwnShip"
+        "description": "Cor personalizada para holograma e placa de pouso OwnShip"
       }
     ]
   },
@@ -12650,14 +12946,56 @@
     ]
   },
   {
+    "id": "y112",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Other Ship Target Hologram",
+        "category": "Target Ship Hologram",
+        "description": "Also includes Friendly, Hostile and Crew Target Holograms."
+      },
+      {
+        "key": "de",
+        "value": "Anderes Schiffszielhologramm",
+        "category": "Hologramm des Zielschiffs",
+        "description": "Enthält außerdem Hologramme für freundliche und feindliche Ziele sowie für die Crew."
+      },
+      {
+        "key": "fr",
+        "value": "Autre hologramme de cible de navire",
+        "category": "Hologramme du vaisseau cible",
+        "description": "Comprend également des hologrammes de cibles amicales, hostiles et d'équipage."
+      },
+      {
+        "key": "it",
+        "value": "Altro ologramma bersaglio della nave",
+        "category": "Ologramma nave bersaglio",
+        "description": "Include anche ologrammi di bersagli amichevoli, ostili e dell'equipaggio."
+      },
+      {
+        "key": "ru",
+        "value": "Другая голограмма цели корабля",
+        "category": "Голограмма корабля-мишени",
+        "description": "Также включает в себя дружественные, враждебные голограммы и голограммы, предназначенные для экипажа."
+      },
+      {
+        "key": "pt",
+        "value": "Outro holograma de alvo de navio",
+        "category": "Holograma do Navio Alvo",
+        "description": "Também inclui hologramas de alvo amigável, hostil e de tripulação."
+      }
+    ]
+  },
+  {
     "id": "z73",
     "group": "Element",
     "lang": [
       {
         "key": "en",
-        "value": "Green Target Brightness",
+        "value": "Friendly Target - Brightness",
         "category": "Target Ship Hologram",
-        "description": "Bright Green Target Holo Brightness (some green holograms have excessive brightness)"
+        "description": "Green Friendly Target Holo Brightness)"
       },
       {
         "key": "de",
@@ -12734,6 +13072,90 @@
     ]
   },
   {
+    "id": "x105",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Target Ship Hologram",
+        "value": "Hostile Target - Brightness",
+        "description": "Red Hostile Target Holo Brightness"
+      },
+      {
+        "key": "de",
+        "value": "Feindliches Ziel – Helligkeit",
+        "category": "Hologramm des Zielschiffs",
+        "description": "Rotes feindliches Ziel Holo Helligkeit"
+      },
+      {
+        "key": "fr",
+        "value": "Cible hostile – Luminosité",
+        "category": "Hologramme du vaisseau cible",
+        "description": "Luminosité holographique de la cible hostile rouge"
+      },
+      {
+        "key": "it",
+        "value": "Bersaglio ostile: Luminosità",
+        "category": "Ologramma nave bersaglio",
+        "description": "Luminosità olografica del bersaglio ostile rosso"
+      },
+      {
+        "key": "ru",
+        "value": "Враждебная цель — яркость",
+        "category": "Голограмма корабля-мишени",
+        "description": "Яркость голографической цели красной враждебной цели"
+      },
+      {
+        "key": "pt",
+        "value": "Alvo Hostil - Brilho",
+        "category": "Holograma do Navio Alvo",
+        "description": "Brilho holográfico do alvo hostil vermelho"
+      }
+    ]
+  },
+  {
+    "id": "y105",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "category": "Target Ship Hologram",
+        "value": "Crew Target - Brightnesss",
+        "description": "Cyan Crew Target Holo Brightness"
+      },
+      {
+        "key": "de",
+        "value": "Crew-Ziel - Helligkeiten",
+        "category": "Hologramm des Zielschiffs",
+        "description": "Rotes feindliches Ziel Holo Helligkeit"
+      },
+      {
+        "key": "fr",
+        "value": "Cible de l'équipage – Luminosité",
+        "category": "Hologramme du vaisseau cible",
+        "description": "Luminosité holographique de la cible hostile rouge"
+      },
+      {
+        "key": "it",
+        "value": "Obiettivo dell'equipaggio: luminosità",
+        "category": "Ologramma nave bersaglio",
+        "description": "Luminosità olografica del bersaglio ostile rosso"
+      },
+      {
+        "key": "ru",
+        "value": "Цель экипажа — яркость",
+        "category": "Голограмма корабля-мишени",
+        "description": "Яркость голографической цели красной враждебной цели"
+      },
+      {
+        "key": "pt",
+        "value": "Alvo da Tripulação - Brilho",
+        "category": "Holograma do Navio Alvo",
+        "description": "Brilho holográfico do alvo hostil vermelho"
+      }
+    ]
+  },
+  {
     "id": "x254|y254|z254",
     "group": "Element",
     "lang": [
@@ -12741,37 +13163,37 @@
         "key": "en",
         "value": "OFF landing site",
         "category": "Landing Hologram",
-        "description": "Custom color for Landing Hologram"
+        "description": "Custom Color for Ship Hologram when Landing on a Pad or Not being Aligned when Landing on a Planet.\r\nIt depends on option Ownship Hologram Mode."
       },
       {
         "key": "de",
         "value": "Farbe Schiffhologramm gelandet",
         "category": "Landehologramm",
-        "description": "Benutzerdefinierte Farbe für das Landehologramm"
+        "description": "Benutzerdefinierte Farbe für das Schiffshologramm bei der Landung auf einer Plattform oder bei fehlender Ausrichtung bei der Landung auf einem Planeten.\r\nDies hängt von der Option „Hologrammmodus für eigenes Schiff“ ab."
       },
       {
         "key": "fr",
         "value": "Site d'atterrissage OFF",
         "category": "Hologramme d'atterrissage",
-        "description": "Couleur personnalisée pour l'hologramme d'atterrissage"
+        "description": "Couleur personnalisée pour l'hologramme du vaisseau lors de l'atterrissage sur une plateforme ou lorsqu'il n'est pas aligné lors de l'atterrissage sur une planète.\r\nCela dépend de l'option Mode hologramme du vaisseau."
       },
       {
         "key": "it",
         "value": "Sito di atterraggio OFF",
         "category": "Ologramma di atterraggio",
-        "description": "Colore personalizzato per l'ologramma di atterraggio"
+        "description": "Colore personalizzato per l'ologramma della nave quando si atterra su una piattaforma o non è allineata quando si atterra su un pianeta.\r\nDipende dall'opzione Modalità ologramma della nave."
       },
       {
         "key": "ru",
         "value": "ВЫКЛ. посадочная площадка",
         "category": "Голограмма приземления",
-        "description": "Пользовательский цвет для посадки голограммы"
+        "description": "Пользовательский цвет для голограммы корабля при посадке на площадку или при невыравнивании при посадке на планету.\r\nЭто зависит от параметра «Режим голограммы собственного корабля»."
       },
       {
         "key": "pt",
         "value": "Site de aterrissagem OFF",
         "category": "Holograma de aterrissagem",
-        "description": "Cor personalizada para holograma de aterrissagem"
+        "description": "Cor personalizada para holograma da nave ao pousar em uma plataforma ou não estar alinhado ao pousar em um planeta.\r\nDepende da opção Modo de holograma da nave."
       }
     ]
   },
@@ -12783,37 +13205,37 @@
         "key": "en",
         "value": "ON landing site",
         "category": "Landing Hologram",
-        "description": "Custom color for ON landing site"
+        "description": "Custom Color for Ship Hologram, Landing Line and Coaster when the Ship is Aligned during Landing on a Planet.\r\nIt depends on option Ownship Hologram Mode."
       },
       {
         "key": "de",
         "value": "Farbe Schiffhologramm nicht gelandet",
         "category": "Landehologramm",
-        "description": "Benutzerdefinierte Farbe für oberhalb des Landeplatzesfarbe radar"
+        "description": "Benutzerdefinierte Farbe für Schiffshologramm, Landelinie und Küstenmotorschiff, wenn das Schiff während der Landung auf einem Planeten ausgerichtet ist.\r\nDies hängt von der Option „Hologrammmodus für eigenes Schiff“ ab."
       },
       {
         "key": "fr",
         "value": "Site d'atterrissage ON",
         "category": "Hologramme d'atterrissage",
-        "description": "Couleur personnalisée pour le site d'atterrissage ON"
+        "description": "Couleur personnalisée pour l'hologramme du navire, la ligne d'atterrissage et les montagnes russes lorsque le navire est aligné lors de l'atterrissage sur une planète.\r\nCela dépend de l'option Mode hologramme du navire."
       },
       {
         "key": "it",
         "value": "SUL sito di atterraggio",
         "category": "Ologramma di atterraggio",
-        "description": "Colore personalizzato per il sito di atterraggio"
+        "description": "Colore personalizzato per l'ologramma della nave, la linea di atterraggio e le montagne russe quando la nave è allineata durante l'atterraggio su un pianeta.\r\nDipende dall'opzione Modalità ologramma di proprietà."
       },
       {
         "key": "ru",
         "value": "На посадочной площадке",
         "category": "Голограмма приземления",
-        "description": "Пользовательский цвет для целевой площадки"
+        "description": "Пользовательский цвет для голограммы корабля, посадочной линии и каботажного судна, когда корабль выравнивается во время посадки на планету.\r\nЭто зависит от опции «Режим голограммы собственного корабля»."
       },
       {
         "key": "pt",
         "value": "local de aterrissagem ON",
         "category": "Holograma de aterrissagem",
-        "description": "Cor personalizada para local de aterrissagem ON"
+        "description": "Cor personalizada para holograma da nave, linha de pouso e montanha-russa quando a nave estiver alinhada durante o pouso em um planeta.\r\nDepende da opção Modo de holograma da nave."
       }
     ]
   },
@@ -12856,6 +13278,48 @@
         "value": "Brilho",
         "category": "Holograma de aterrissagem",
         "description": "Brilho para holograma de pouso"
+      }
+    ]
+  },
+  {
+    "id": "x139",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Landing Line and Coasters",
+        "category": "Landing Hologram",
+        "description": "Mode for Landing Line and Coaster (Orange).\r\nWhen Landing on a Pad or Not being Aligned when Landing on a Planet."
+      },
+      {
+        "key": "de",
+        "value": "Radarobjekte - Landung",
+        "category": "Landehologramm",
+        "description": "Modus für Landelinie und Achterbahn (Orange). \r\nBei der Landung auf einer Plattform oder bei fehlender Ausrichtung bei der Landung auf einem Planeten."
+      },
+      {
+        "key": "fr",
+        "value": "Objets radar - Atterrissage",
+        "category": "Hologramme d'atterrissage",
+        "description": "Mode pour ligne d'atterrissage et montagnes russes (orange).\r\nLors de l'atterrissage sur une plateforme ou lorsque vous n'êtes pas aligné lors de l'atterrissage sur une planète."
+      },
+      {
+        "key": "it",
+        "value": "Oggetti radar - Atterraggio",
+        "category": "Ologramma di atterraggio",
+        "description": "Modalità per linea di atterraggio e montagne russe (arancione).\r\nQuando si atterra su una piattaforma o non si è allineati quando si atterra su un pianeta."
+      },
+      {
+        "key": "ru",
+        "value": "Объекты радара - Посадка",
+        "category": "Голограмма приземления",
+        "description": "Режим для посадочной линии и горки (оранжевый).\r\nПри посадке на площадку или при невыравнивании при посадке на планету."
+      },
+      {
+        "key": "pt",
+        "value": "Objetos de radar - Landing",
+        "category": "Holograma de aterrissagem",
+        "description": "Modo para linha de pouso e montanha-russa (laranja).\r\nAo pousar em uma plataforma ou não estar alinhado ao pousar em um planeta."
       }
     ]
   },
@@ -12944,44 +13408,87 @@
     ]
   },
   {
+    "id": "x71|y71|z71|w71",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Cyan Elements Color",
+        "category": "Planetary Landing Reticle",
+        "description": "Custom Color for Cyan Planetary Landing Reticle and Aligned Landing Bar. *Alpha"
+      },
+      {
+        "key": "de",
+        "value": "Benutzerdefinierte Farbe",
+        "category": "Planetenlandeansicht",
+        "description": "Benutzerdefinierte Farbe für Anzeige der Planetenlandeansicht. *Alpha"
+      },
+      {
+        "key": "fr",
+        "value": "Couleur personnalisée",
+        "category": "Réticule d'atterrissage planétaire",
+        "description": "Couleur personnalisée pour le réticule d'atterrissage planétaire. *Alpha"
+      },
+      {
+        "key": "it",
+        "value": "Colore personalizzato",
+        "category": "Reticolo di atterraggio planetario",
+        "description": "Colore personalizzato per reticolo di atterraggio planetario. *Alfa"
+      },
+      {
+        "key": "ru",
+        "value": "Пользовательский цвет",
+        "category": "Планетарная посадочная сетка",
+        "description": "Пользовательский цвет для планетарной посадочной сетки. *Альфа"
+      },
+      {
+        "key": "pt",
+        "value": "Cor personalizada",
+        "category": "Retículo de Pouso Planetário",
+        "description": "Cor personalizada para Retículo de Pouso Planetário. *Alfa"
+      }
+    ]
+  },
+
+  {
     "id": "x255|y255|z255|w255",
     "group": "Element",
     "lang": [
       {
         "key": "en",
-        "value": "Landing line and coasters",
-        "category": "Planetary Landing Reticle",
-        "description": "Custom color for Landing line and coaster (orange)*Alpha"
+        "value": "Custom Color",
+        "Category": "Landing Hologram",
+        "description": "Custom Color for Landing Line and Coaster (Orange)*Alpha\r\nWhen Landing on a Pad or Not being Aligned when Landing on a Planet."
       },
       {
         "key": "de",
         "value": "Anzeige für Steig- und Sinkrate",
         "category": "Planetenlandeansicht",
-        "description": "Benutzerdefinierte Farbe für Steig- und Sinkrate (Orange)*Alpha"
+        "description": "Benutzerdefinierte Farbe für Landelinie und Untersetzer (Orange)*Alpha\r\nBei der Landung auf einer Plattform oder fehlender Ausrichtung bei der Landung auf einem Planeten."
       },
       {
         "key": "fr",
         "value": "Ligne d'atterrissage et dessous de verre",
         "category": "Réticule d'atterrissage planétaire",
-        "description": "Couleur personnalisée pour la ligne d'atterrissage et le dessous de verre (orange)*Alpha"
+        "description": "Couleur personnalisée pour la ligne d'atterrissage et les montagnes russes (orange)*Alpha\r\nLors de l'atterrissage sur une plateforme ou en cas de non-alignement lors de l'atterrissage sur une planète."
       },
       {
         "key": "it",
         "value": "Linea di atterraggio e sottobicchieri",
         "category": "Reticolo di atterraggio planetario",
-        "description": "Colore personalizzato per linea di atterraggio e sottobicchiere (arancione)*Alfa"
+        "description": "Colore personalizzato per la linea di atterraggio e le montagne russe (arancione)*Alpha\r\nQuando si atterra su una piattaforma o non si è allineati quando si atterra su un pianeta."
       },
       {
         "key": "ru",
         "value": "Линия приземления и подставки",
         "category": "Планетарная посадочная сетка",
-        "description": "Пользовательский цвет для линии приземления и подставки (оранжевый)*Альфа"
+        "description": "Пользовательский цвет для линии посадки и горки (оранжевый)*Альфа\r\nПри посадке на площадку или при невыравнивании при посадке на планету."
       },
       {
         "key": "pt",
         "value": "Linha de pouso e porta-copos",
         "category": "Retículo de Pouso Planetário",
-        "description": "Cor personalizada para linha de pouso e montanha-russa (laranja)*Alpha"
+        "description": "Cor personalizada para linha de pouso e montanha-russa (laranja)*Alpha\r\nAo pousar em uma plataforma ou não estar alinhado ao pousar em um planeta."
       }
     ]
   },
@@ -13287,7 +13794,7 @@
         "key": "en",
         "value": "SRV Hologram - Main",
         "category": "SRV Hologram",
-        "description": "**(DISABLED)** Custom color for SRV Hologram (*Alpha)"
+        "description": "Custom Color for SRV Hologram (*Alpha)"
       },
       {
         "key": "de",
@@ -14083,9 +14590,9 @@
     "lang": [
       {
         "key": "en",
-        "value": "Neutral Targets - Lines",
+        "value": "Bodies - Lines and Coasters",
         "category": "Radar Objects - Supercruise",
-        "description": "Custom Color for Object Lines and coasters in Supercruise."
+        "description": "Custom Color for Neutral Bodies Lines and Coasters in Supercruise."
       },
       {
         "key": "de",
@@ -14331,7 +14838,7 @@
         "key": "en",
         "value": "Radar - Crew Targets",
         "category": "Radar Objects",
-        "description": "CYAN Squares, Lines, and Coasters in both flight modes (SRV/Fighter/Wing).\r\nAlso affects SRV/Fighter/Wing Square and Triangles Targeting.\r\n*Alpha"
+        "description": "CYAN Squares, Lines and Coasters in both flight modes (SRV/Fighter/Wing).\r\n*Alpha"
       },
       {
         "key": "de",
@@ -14356,6 +14863,48 @@
         "value": "Радар — цели экипажа",
         "category": "Радарные объекты",
         "description": "ГОЛУБЫЕ квадраты, линии и подставки в обоих режимах полета (SRV/Fighter/Wing).\r\nТакже влияет на SRV/Fighter/Wing Square и Triangles Targeting."
+      },
+      {
+        "key": "pt",
+        "value": "Radar - Alvos da Tripulação",
+        "category": "Objetos de radar",
+        "description": "Quadrados, Linhas e Coasters CYAN em ambos os modos de voo (SRV/Fighter/Wing).\r\nTambém afeta a mira em SRV/Fighter/Wing Square e Triângulos."
+      }
+    ]
+  },
+  {
+    "id": "x196|y196|z196|w196",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Radar - Scanned by Target",
+        "category": "Radar Objects",
+        "description": "Custom Color for Scanned by Neutral Target. *Alpha"
+      },
+      {
+        "key": "de",
+        "value": "Radar - Vom Ziel gescannt",
+        "category": "Radarobjekte",
+        "description": "Benutzerdefinierte Farbe für das Scannen mit neutralem Ziel. *Alpha"
+      },
+      {
+        "key": "fr",
+        "value": "Radar - Scanné par la cible",
+        "category": "Objets radar",
+        "description": "Couleur personnalisée pour les images numérisées par une cible neutre. *Alpha"
+      },
+      {
+        "key": "it",
+        "value": "Radar: bersagli dell'equipaggio",
+        "category": "Oggetti radar",
+        "description": "Quadrati, linee e sottobicchieri CIANO in entrambe le modalità di volo (SRV/Caccia/Ala).\r\nInfluisce anche sul targeting del quadrato SRV/Caccia/Ala e dei Triangoli."
+      },
+      {
+        "key": "ru",
+        "value": "Радар - Сканирование цели",
+        "category": "Радарные объекты",
+        "description": "Пользовательский цвет для сканирования нейтральной целью. *Альфа"
       },
       {
         "key": "pt",
@@ -14785,57 +15334,16 @@
       }
     ]
   },
-  {
-    "id": "x139",
-    "group": "Element",
-    "lang": [
-      {
-        "key": "en",
-        "value": "Radar Objects - Landing",
-        "category": "Radar Objects",
-        "description": "Mode for Radar Objects while Landing, line and coaster"
-      },
-      {
-        "key": "de",
-        "value": "Radarobjekte - Landung",
-        "category": "Radarobjekte",
-        "description": "Modus für Radarobjekte bei Landung, Linien und Objektflächen"
-      },
-      {
-        "key": "fr",
-        "value": "Objets radar - Atterrissage",
-        "category": "Objets radar",
-        "description": "Mode pour les objets radar lors de l'atterrissage, de la ligne et des montagnes russes"
-      },
-      {
-        "key": "it",
-        "value": "Oggetti radar - Atterraggio",
-        "category": "Oggetti radar",
-        "description": "Modalità per oggetti radar durante l'atterraggio, linea e montagne russe"
-      },
-      {
-        "key": "ru",
-        "value": "Объекты радара - Посадка",
-        "category": "Объекты радара",
-        "description": "Режим для объектов радара при посадке, линии и каботажном судне"
-      },
-      {
-        "key": "pt",
-        "value": "Objetos de radar - Landing",
-        "category": "Objetos de radar",
-        "description": "Mode for Radar Objects while Landing, line and coaster"
-      }
-    ]
-  },
+
   {
     "id": "x253|y253|z253|w253",
     "group": "Element",
     "lang": [
       {
         "key": "en",
-        "value": "Radar Objects - Landing",
-        "category": "Radar Objects",
-        "description": "Custom Color for Terrain While landing on a planet."
+        "value": "Landing Terrain Color",
+        "category": "Terrain Hologram",
+        "description": "Custom Color for Terrain While Landing on a planet."
       },
       {
         "key": "de",
@@ -15043,9 +15551,9 @@
     "lang": [
       {
         "key": "en",
-        "value": "Terrain Hologram on radar",
-        "category": "SRV Scanner",
-        "description": "Custom Color for Terrain Hologram on Radar (While in SRV)."
+        "value": "SRV Terrain Color",
+        "Category": "Terrain Hologram",
+        "description": "Custom Color for Terrain While in SRV."
       },
       {
         "key": "de",
@@ -15080,14 +15588,99 @@
     ]
   },
   {
+    "id": "z157",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Outer Line",
+        "Category": "Terrain Hologram",
+        "description": "Switch for Terrain Hologram Outer Line."
+      },
+      {
+        "key": "de",
+        "value": "Äußere Liniew",
+        "category": "SRV-Scanner",
+        "description": "Benutzerdefinierte Farbe für Geländehologramm auf Radar (im SRV)."
+      },
+      {
+        "key": "fr",
+        "value": "Ligne extérieure",
+        "category": "Scanner SRV",
+        "description": "Couleur personnalisée pour l'hologramme de terrain sur radar (en SRV)."
+      },
+      {
+        "key": "it",
+        "value": "Linea esterna",
+        "category": "Scanner SRV",
+        "description": "Colore personalizzato per l'ologramma del terreno sul radar (mentre in SRV)."
+      },
+      {
+        "key": "ru",
+        "value": "Внешняя линия",
+        "category": "Сканер SRV",
+        "description": "Пользовательский цвет для голограммы местности на радаре (в SRV)."
+      },
+      {
+        "key": "pt",
+        "value": "Linha Externa",
+        "category": "SRV Scanner",
+        "description": "Cor personalizada para holograma de terreno no radar (enquanto em SRV)."
+      }
+    ]
+  },
+  {
+    "id": "w157",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Shimmering Lines",
+        "Category": "Terrain Hologram",
+        "description": "Switch for Landing Terrain Hologram Shimmer."
+      },
+      {
+        "key": "de",
+        "value": "Schimmernde Linien",
+        "category": "SRV-Scanner",
+        "description": "Benutzerdefinierte Farbe für Geländehologramm auf Radar (im SRV)."
+      },
+      {
+        "key": "fr",
+        "value": "Lignes chatoyantes",
+        "category": "Scanner SRV",
+        "description": "Couleur personnalisée pour l'hologramme de terrain sur radar (en SRV)."
+      },
+      {
+        "key": "it",
+        "value": "Linee scintillanti",
+        "category": "Scanner SRV",
+        "description": "Colore personalizzato per l'ologramma del terreno sul radar (mentre in SRV)."
+      },
+      {
+        "key": "ru",
+        "value": "Мерцающие линии",
+        "category": "Сканер SRV",
+        "description": "Пользовательский цвет для голограммы местности на радаре (в SRV)."
+      },
+      {
+        "key": "pt",
+        "value": "Linhas Cintilantes",
+        "category": "SRV Scanner",
+        "description": "Cor personalizada para holograma de terreno no radar (enquanto em SRV)."
+      }
+    ]
+  },
+
+  {
     "id": "z139",
     "group": "Element",
     "lang": [
       {
         "key": "en",
-        "value": "SRV Scanner Elevation",
-        "category": "SRV Scanner",
-        "description": "Mode for SRV Radar Elevation diagonal lines"
+        "value": "Terrain Elevation",
+        "category": "Terrain Hologram",
+        "description": "Mode for Terrain Elevation Diagonal Lines"
       },
       {
         "key": "de",
@@ -15121,15 +15714,18 @@
       }
     ]
   },
+
+
+
   {
     "id": "x50|y50|z50|w50",
     "group": "Element",
     "lang": [
       {
         "key": "en",
-        "value": "SRV Scanner Elevation",
-        "category": "SRV Scanner",
-        "description": "Custom Color for SRV Radar Elevation diagonal lines. *Alpha*"
+        "value": "Custom Color",
+        "Category": "Terrain Hologram",
+        "description": "Custom Color for Terrain Elevation Diagonal Lines"
       },
       {
         "key": "de",
@@ -15675,19 +16271,19 @@
         "key": "en",
         "value": "Top Block Color",
         "category": "Power Distributor",
-        "description": "Custom Color for Top Block of Tri-Colour Distributor, or Standard (single colour)"
+        "description": "Custom Color for Top Block of Tri-Colour Distributor (Gradient & Non Gradient), or Standard (Single Colour)"
       },
       {
         "key": "de",
         "value": "Farbe des oberen Blocks",
         "category": "Energieverteiler",
-        "description": "Benutzerdefinierte Farbe für den oberen Block des dreifarbigen Verteilers oder Standard (einfarbig)"
+        "description": "Benutzerdefinierte Farbe für den oberen Block des dreifarbigen Verteilers (mit und ohne Farbverlauf) oder Standard (Einzelfarbe)"
       },
       {
         "key": "fr",
         "value": "Couleur du bloc supérieur",
         "category": "Distributeur d'alimentation",
-        "description": "Couleur personnalisée pour le bloc supérieur du distributeur tricolore ou Standard (couleur unique)"
+        "description": "Couleur personnalisée pour le bloc supérieur du distributeur tricolore (dégradé et non dégradé) ou standard (couleur unique)"
       },
       {
         "key": "it",
@@ -15699,7 +16295,7 @@
         "key": "ru",
         "value": "Цвет верхнего блока",
         "category": "Распределитель питания",
-        "description": "Пользовательский цвет для верхнего блока трехцветного распределителя или стандартный (одноцветный)"
+        "description": "Индивидуальный цвет для верхнего блока трехцветного распределителя (градиентный и неградиентный) или стандартный (одноцветный)"
       },
       {
         "key": "pt",
@@ -15717,19 +16313,19 @@
         "key": "en",
         "value": "Top Block Brightness",
         "category": "Power Distributor",
-        "description": "Brightness for Top Block of Tri-Colour Distributor, or Standard (single colour)"
+        "description": "Brightness for Top Block of Non Gradient Tri-Colour Distributor, or Standard (Single Colour)"
       },
       {
         "key": "de",
         "value": "Helligkeit des oberen Blocks",
         "category": "Energieverteiler",
-        "description": "Helligkeit für den oberen Block des dreifarbigen Verteilers oder Standard (einfarbig)"
+        "description": "Helligkeit für den oberen Block des nichtgradienten Dreifarbverteilers oder Standard (Einzelfarbe)"
       },
       {
         "key": "fr",
         "value": "Luminosité du bloc supérieur",
         "category": "Distributeur d'alimentation",
-        "description": "Luminosité du bloc supérieur du distributeur tricolore ou standard (couleur unique)"
+        "description": "Luminosité du bloc supérieur du distributeur tricolore non dégradé ou standard (couleur unique)"
       },
       {
         "key": "it",
@@ -15741,7 +16337,7 @@
         "key": "ru",
         "value": "Яркость верхнего блока",
         "category": "Распределитель питания",
-        "description": "Яркость верхнего блока трехцветного распределителя или стандартного (одноцветного)"
+        "description": "Яркость верхнего блока неградиентного трехцветного распределителя или стандартная (одноцветная)"
       },
       {
         "key": "pt",
@@ -15758,19 +16354,19 @@
       {
         "key": "en",
         "value": "Middle Block Color",
-        "category": "Tri-Colour Distributor",
-        "description": "Custom Color values for Middle block of Tri-Distributor."
+        "category": "Non Gradient Tri-Colour Distributor",
+        "description": "Custom Color for Middle Block of Non Gradient Tri-Colour Distributor."
       },
       {
         "key": "de",
         "value": "Farbe des mittleren Blocks",
-        "category": "Dreifarbiger Verteiler",
+        "category": "Kein Farbverlauf Dreifarbiger Verteiler",
         "description": "Benutzerdefinierte Farbwerte für den mittleren Block des dreifarbigen Verteilers."
       },
       {
         "key": "fr",
         "value": "Couleur du bloc intermédiaire",
-        "category": "Distributeur tricolore",
+        "category": "Sans gradient Distributeur tricolore",
         "description": "Valeurs de couleur personnalisées pour le bloc intermédiaire du distributeur tricolore."
       },
       {
@@ -15782,7 +16378,7 @@
       {
         "key": "ru",
         "value": "Цвет среднего блока",
-        "category": "Трехцветный распределитель",
+        "category": "Неградиентный Трехцветный распределитель",
         "description": "Пользовательские значения цвета для среднего блока трехраспределителя."
       },
       {
@@ -15800,8 +16396,8 @@
       {
         "key": "en",
         "value": "Middle Block Brightness",
-        "category": "Tri-Colour Distributor",
-        "description": "Brightness (alpha) for Middle block"
+        "category": "Non Gradient Tri-Colour Distributor",
+        "description": "Brightness for Middle Block of Non Gradient Tri-Colour Distributor"
       },
       {
         "key": "de",
@@ -15842,8 +16438,8 @@
       {
         "key": "en",
         "value": "Bottom Block Color",
-        "category": "Tri-Colour Distributor",
-        "description": "Custom Color values for Bottom block of Tri-Distributor."
+        "category": "Non Gradient Tri-Colour Distributor",
+        "description": "Custom Color for Bottom Block of Non Gradient Tri-Colour Distributor."
       },
       {
         "key": "de",
@@ -15884,8 +16480,8 @@
       {
         "key": "en",
         "value": "Bottom Block Brightness",
-        "category": "Tri-Colour Distributor",
-        "description": "Brightness for Bottom block"
+        "category": "Non Gradient Tri-Colour Distributor",
+        "description": "Brightness for Bottom Block of Non Gradient Tri-Colour Distributor."
       },
       {
         "key": "de",
@@ -15927,7 +16523,7 @@
         "key": "en",
         "value": "Color 1",
         "category": "Gradient Distributor",
-        "description": "Custom Color for Colour 1: Top Colour of Gradient Distributor."
+        "description": "Custom Color for Colour 1: Top Colour of Bi-Colour Gradient Distributor, Middle Colour of Tri-Colour Gradient."
       },
       {
         "key": "de",
@@ -16011,7 +16607,7 @@
         "key": "en",
         "value": "Color 2",
         "category": "Gradient Distributor",
-        "description": "Custom Color for Colour 2: Bottom colour of Gradient Distributor."
+        "description": "Custom Color for Colour 2: Bottom Colour of Bi-Colour and Tri-Colour Gradient Distributor."
       },
       {
         "key": "de",
@@ -17126,6 +17722,48 @@
     ]
   },
   {
+    "id": "y100",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "FSS Gas Giant Icons",
+        "category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
+        "description": "Replace Orange Gas Giant Icons with the Blue color corresponding to the FSS before U18.02"
+      },
+      {
+        "key": "de",
+        "value": "FSS-Gasriesen-Symbole",
+        "category": "Vollspektrum-Scanner (FSS) und detaillierter Oberflächenscanner (DSS)",
+        "description": "Ersetzen Sie die orangefarbenen Gasriesen-Symbole durch die blaue Farbe, die dem FSS vor U18.02 entspricht"
+      },
+      {
+        "key": "fr",
+        "value": "Icônes géantes de gaz FSS",
+        "category": "Scanner à spectre complet (FSS) et scanner de surface détaillé (DSS)",
+        "description": "Remplacer les icônes Orange Gas Giant par la couleur bleue correspondant à la FSS avant U18.02"
+      },
+      {
+        "key": "it",
+        "value": "Icone giganti del gas FSS",
+        "category": "Scanner a spettro completo (FSS) e Scanner di superficie dettagliato (DSS)",
+        "description": "Sostituisci le icone arancioni dei giganti gassosi con il colore blu corrispondente all'FSS prima della U18.02"
+      },
+      {
+        "key": "ru",
+        "value": "Иконы газового гиганта ФСС",
+        "category": "Сканер полного спектра (FSS) и подробный сканер поверхности (DSS)",
+        "description": "Замените значки оранжевого газового гиганта на синий цвет, соответствующий FSS до U18.02."
+      },
+      {
+        "key": "pt",
+        "value": "Ícones gigantes de gás FSS",
+        "category": "Scanner de Espectro Completo (FSS) e Scanner de Superfície Detalhado (DSS)",
+        "description": "Substitua os ícones laranja do Gas Giant pela cor azul correspondente ao FSS antes de U18.02"
+      }
+    ]
+  },
+  {
     "id": "w114",
     "group": "Element",
     "lang": [
@@ -17542,6 +18180,48 @@
         "value": "Texto FSS/DSS (somente troca de ciano)",
         "category": "Scanner de espectro completo (FSS) e scanner de superfície detalhado (DSS)",
         "description": "Cor personalizada para texto FSS/DSS (somente troca de ciano). *ALFA"
+      }
+    ]
+  },
+  {
+    "id": "z111",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "FSS Mission Icons",
+        "category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
+        "description": "Replace Orange Mission Icons and Arrows with the Mission Panel Custom Color.\r\nThis option is independent and does not require the activation of another setting."
+      },
+      {
+        "key": "de",
+        "value": "FSS-Missionssymbole",
+        "category": "Vollspektrum-Scanner (FSS) und detaillierter Oberflächenscanner (DSS)",
+        "description": "Ersetzen Sie orangefarbene Missionssymbole und Pfeile durch die benutzerdefinierte Farbe des Missionsfelds.\r\nDiese Option ist unabhängig und erfordert nicht die Aktivierung einer anderen Einstellung."
+      },
+      {
+        "key": "fr",
+        "value": "Icônes de mission FSS",
+        "category": "Scanner à spectre complet (FSS) et scanner de surface détaillé (DSS)",
+        "description": "Remplacez les icônes et flèches de mission orange par la couleur personnalisée du panneau de mission.\r\nCette option est indépendante et ne nécessite pas l'activation d'un autre paramètre."
+      },
+      {
+        "key": "it",
+        "value": "Icone della missione FSS",
+        "category": "Scanner a spettro completo (FSS) e Scanner di superficie dettagliato (DSS)",
+        "description": "Sostituisci le icone e le frecce arancioni della missione con il colore personalizzato del pannello missione.\r\nQuesta opzione è indipendente e non richiede l'attivazione di un'altra impostazione."
+      },
+      {
+        "key": "ru",
+        "value": "Иконки миссий ФСС",
+        "category": "Сканер полного спектра (FSS) и подробный сканер поверхности (DSS)",
+        "description": "Замените оранжевые значки и стрелки миссий на собственный цвет панели миссий.\r\nЭтот параметр независим и не требует активации другого параметра."
+      },
+      {
+        "key": "pt",
+        "value": "Ícones de missão FSS",
+        "category": "Scanner de espectro completo (FSS) e scanner de superfície detalhado (DSS)",
+        "description": "Substitua os ícones e setas laranja da missão pela cor personalizada do painel da missão.\r\nEsta opção é independente e não requer a ativação de outra configuração."
       }
     ]
   },
@@ -18013,39 +18693,39 @@
     "lang": [
       {
         "key": "en",
-        "value": "Canopy Scratches",
+        "value": "Hide Canopy Scratches",
         "category": "Canopy Effects",
-        "description": "Hide the canopy scratches when the ship is very damaged."
+        "description": "Hide the canopy scratches when the ship is very damaged. Check to Hide."
       },
       {
         "key": "de",
         "value": "Kratzer im Baldachin",
         "category": "Überdachungseffekte",
-        "description": "Verstecken Sie die Kratzer an der Kabinenhaube, wenn das Schiff stark beschädigt ist."
+        "description": "Verstecken Sie die Kratzer in der Kabinenhaube, wenn das Schiff stark beschädigt ist. Aktivieren Sie die Option „Verstecken“."
       },
       {
         "key": "fr",
         "value": "Rayures de la canopée",
         "category": "Effets de canopée",
-        "description": "Masquez les rayures de la verrière lorsque le navire est très endommagé."
+        "description": "Masquez les rayures sur la verrière lorsque le navire est très endommagé. Cochez pour masquer."
       },
       {
         "key": "it",
         "value": "Graffi sul baldacchino",
         "category": "Effetti del baldacchino",
-        "description": "Nascondi i graffi del baldacchino quando la nave è molto danneggiata."
+        "description": "Nascondi i graffi della calotta quando la nave è molto danneggiata. Seleziona per nascondere."
       },
       {
         "key": "ru",
         "value": "Навес Царапины",
         "category": "Эффекты навеса",
-        "description": "Скройте царапины на куполе, когда корабль сильно поврежден."
+        "description": "Скрыть царапины на навесе, если корабль сильно поврежден. Отметьте, чтобы скрыть."
       },
       {
         "key": "pt",
         "value": "Arranhões na capota",
         "category": "Efeitos de Dossel",
-        "description": "Esconda os arranhões do velame quando o navio estiver muito danificado."
+        "description": "Esconda os arranhões do canopy quando o navio estiver muito danificado. Marque para Ocultar."
       }
     ]
   },
@@ -18055,39 +18735,39 @@
     "lang": [
       {
         "key": "en",
-        "value": "Canopy Ice",
+        "value": "Hide Canopy Icee",
         "category": "Canopy Effects",
-        "description": "Hide the canopy ice when the ship is very cold."
+        "description": "Hide the canopy ice when the ship is very cold. Check to Hide."
       },
       {
         "key": "de",
         "value": "Baldachin-Eis",
         "category": "Überdachungseffekte",
-        "description": "Verstecken Sie das Eis der Kabinenhaube, wenn das Schiff sehr kalt ist."
+        "description": "Verstecken Sie das Eis des Baldachins, wenn es auf dem Schiff sehr kalt ist. Aktivieren Sie die Option Verstecken."
       },
       {
         "key": "fr",
         "value": "Glace de la canopée",
         "category": "Effets de canopée",
-        "description": "Cachez la glace de la verrière lorsque le navire est très froid."
+        "description": "Cachez la glace de la verrière lorsque le navire est très froid. Cochez pour cacher."
       },
       {
         "key": "it",
         "value": "Ghiaccio a baldacchino",
         "category": "Effetti del baldacchino",
-        "description": "Nascondi il ghiaccio del baldacchino quando la nave è molto fredda."
+        "description": "Nascondi il ghiaccio della calotta quando la nave è molto fredda. Seleziona per nascondere."
       },
       {
         "key": "ru",
         "value": "Ледяной навес",
         "category": "Эффекты навеса",
-        "description": "Прячьте купол льда, когда на корабле очень холодно."
+        "description": "Скрыть лед навеса, когда на судне очень холодно. Отметьте, чтобы скрыть."
       },
       {
         "key": "pt",
         "value": "Dossel de Gelo",
         "category": "Efeitos de Dossel",
-        "description": "Esconda o gelo do dossel quando o navio estiver muito frio."
+        "description": "Esconda o gelo do dossel quando o navio estiver muito frio. Marque para Ocultar."
       }
     ]
   },
@@ -18097,39 +18777,39 @@
     "lang": [
       {
         "key": "en",
-        "value": "Canopy Condensation",
+        "value": "Hide Canopy Condensation",
         "category": "Canopy Effects",
-        "description": "Hide the canopy condensation when the ship is very hot."
+        "description": "Hide the canopy condensation when the ship is very hot. Check to Hide."
       },
       {
         "key": "de",
         "value": "Kondensation im Baldachin",
         "category": "Überdachungseffekte",
-        "description": "Verstecken Sie die Kondenswasserbildung in der Kabinenhaube, wenn das Schiff sehr heiß ist."
+        "description": "Verbergen Sie die Kondensation in der Haube, wenn es auf dem Schiff sehr heiß ist. Aktivieren Sie die Option „Verbergen“."
       },
       {
         "key": "fr",
         "value": "Condensation de la canopée",
         "category": "Effets de canopée",
-        "description": "Cachez la condensation de la verrière lorsque le navire est très chaud."
+        "description": "Masquer la condensation de la verrière lorsque le navire est très chaud. Cochez pour masquer."
       },
       {
         "key": "it",
         "value": "Condensazione del baldacchino",
         "category": "Effetti del baldacchino",
-        "description": "Nascondi la condensa del tettuccio quando la nave è molto calda."
+        "description": "Nascondi la condensa della calotta quando la nave è molto calda. Seleziona per nascondere."
       },
       {
         "key": "ru",
         "value": "Конденсация навеса",
         "category": "Эффекты навеса",
-        "description": "Прячьте фонарь от конденсата, когда на корабле очень жарко."
+        "description": "Скрыть конденсацию навеса, когда на корабле очень жарко. Отметьте, чтобы скрыть."
       },
       {
         "key": "pt",
         "value": "Condensação Dossel",
         "category": "Efeitos de Dossel",
-        "description": "Esconda a condensação do velame quando o navio estiver muito quente."
+        "description": "Oculte a condensação do canopy quando o navio estiver muito quente. Marque para Ocultar."
       }
     ]
   }

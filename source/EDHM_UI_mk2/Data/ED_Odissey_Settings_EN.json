@@ -414,6 +414,17 @@
         },
         {
           "Category": "Environmental and Destination Targets",
+          "Title": "Other Ship Target Elements",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "x112",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "OtherShipTarget",
+          "Description": "Also includes Friendly, Hostile and Crew Target Elements.\r\nRhombus, Triangle Holo, Text"
+        },
+        {
+          "Category": "Environmental and Destination Targets",
           "Title": "Possible Destination target",
           "File": "Advanced",
           "Section": "Constants",
@@ -968,11 +979,22 @@
           "Title": "Custom Color",
           "File": "Advanced",
           "Section": "Constants",
-          "Key": "x146|y146|z146|w146",
+          "Key": "x146|y146|z146",
           "Value": -23296.0,
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "Custom Color for Ship sketch. *Alpha"
+        },
+        {
+          "Category": "Maintenance Panel",
+          "Title": "Brightness",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "w146",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for the Side Panels Main lines."
         },
         {
           "Category": "OwnCarrier Nav Panel",
@@ -1485,17 +1507,7 @@
           "Type": "GalaxyMapMode",
           "Description": "Mode for Powers and GalNet Background Colour."
         },
-        {
-          "Category": "Powers and GalNet",
-          "Title": "Galnet Image Filter Colour",
-          "File": "Startup-Profile",
-          "Section": "Constants",
-          "Key": "w104",
-          "Value": 200.0,
-          "ValueType": "Preset",
-          "Type": "GalaxyMapMode",
-          "Description": "Mode for Galnet Image Filter Colour."
-        },
+
         {
           "Category": "Powers and GalNet",
           "Title": "Custom Colour",
@@ -1506,6 +1518,17 @@
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "Custom Color for Powers and GalNet Background Colour. *Alpha*"
+        },
+        {
+          "Category": "Powers and GalNet",
+          "Title": "Galnet Image Filter Colour",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "w104",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "GalaxyMapMode",
+          "Description": "Mode for Galnet Image Filter Colour."
         },
         {
           "Category": "Powers and GalNet",
@@ -1529,17 +1552,7 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Codex, Galnet, & Powers filter Custom Colour. *Alpha*"
         },
-        {
-          "Category": "Powers and GalNet",
-          "Title": "Powers Panel Portrait",
-          "File": "Startup-Profile",
-          "Section": "Constants",
-          "Key": "y99",
-          "Value": 200.0,
-          "ValueType": "Preset",
-          "Type": "PowersMode",
-          "Description": "Mode for Powers Panel Portrait filter & Galnet image filter.\r\nNote: When changing modes you need to move your cursor around the screen (in-game) to update.\r\nNote: If 'True powers colours' is selected for the Powers Panel filter, the Galnet filter will use the Custom colour."
-        },
+
         {
           "Category": "CQC Rank on Ship Panel",
           "Title": "CQC Rank Mode",
@@ -1617,6 +1630,64 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents. *Alpha*"
         },
+
+        {
+          "Category": "Cargo Scoop",
+          "Title": "Cargo Scoop Reticle",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "z113",
+          "Value": 199.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Cargo Scoop Reticle"
+        },
+        {
+          "Category": "Cargo Scoop",
+          "Title": "Custom Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x160|y160|z160",
+          "Value": -14863617.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Cargo Scoop Reticle"
+        },
+        {
+          "Category": "Cargo Scoop",
+          "Title": "Brightness",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "w113",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness of Cargo Scoop Reticle"
+        },
+
+        {
+          "Category": "Mining Mini Games",
+          "Title": "Mini Games Mode",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "y113",
+          "Value": 199.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Sub-Surface Mining and Seismic Charges Mini Games"
+        },
+        {
+          "Category": "Mining Mini Games",
+          "Title": "Custom Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x158|y158|z158",
+          "Value": -14863617.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom color to replace the orange squares in the mining mini-games.\r\nThe other squares will apply the XML matrix."
+        },
+
         {
           "Category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
           "Title": "Mode",
@@ -1630,11 +1701,22 @@
         },
         {
           "Category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
+          "Title": "FSS Gas Giant Icons",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "y100",
+          "Value": 0.0,
+          "ValueType": "Preset",
+          "Type": "FSSGasGiantIcons",
+          "Description": "Replace Orange Gas Giant Icons with the Blue color corresponding to the FSS before U18.02"
+        },
+        {
+          "Category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
           "Title": "FSS Background Brightness",
           "File": "Advanced",
           "Section": "Constants",
           "Key": "w114",
-          "Value": 0.0,
+          "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "1X",
           "Description": "0 = Off. Note: Setting this value to 0 will also turn off the space fog shader (only while using the FSS/DSS)"
@@ -1737,6 +1819,17 @@
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "Custom Color for FSS / DSS Text (Cyan swap only). *ALPHA"
+        },
+        {
+          "Category": "Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)",
+          "Title": "FSS Mission Icons",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "z111",
+          "Value": 199.0,
+          "ValueType": "Preset",
+          "Type": "FSSMissionIcons",
+          "Description": "Replace Orange Mission Icons and Arrows with the Mission Panel Custom Color"
         },
         {
           "Category": "Night Vision",
@@ -2456,14 +2549,47 @@
         },
         {
           "Category": "Target Ship Hologram",
-          "Title": "Green Target Brightness",
+          "Title": "Other Ship Target Hologram",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "y112",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "OtherShipTarget",
+          "Description": "Also includes Friendly, Hostile and Crew Target Holograms."
+        },
+        {
+          "Category": "Target Ship Hologram",
+          "Title": "Friendly Target - Brightness",
           "File": "Advanced",
           "Section": "Constants",
           "Key": "z73",
           "Value": 0.5,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Bright Green Target Holo Brightness (some green holograms have excessive brightness)"
+          "Description": "Green Friendly Target Holo Brightness"
+        },
+        {
+          "Category": "Target Ship Hologram",
+          "Title": "Hostile Target - Brightness",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x105",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Red Hostile Target Holo Brightness"
+        },
+        {
+          "Category": "Target Ship Hologram",
+          "Title": "Crew Target - Brightnesss",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "y105",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Cyan Crew Target Holo Brightness"
         },
         {
           "Category": "Target Ship Hologram",
@@ -2510,6 +2636,97 @@
           "Description": "Brightness for Landing Hologram"
         },
         {
+          "Category": "Landing Hologram",
+          "Title": "Landing Line and Coasters",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "x139",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Landing Line and Coaster (Orange)"
+        },
+        {
+          "Category": "Landing Hologram",
+          "Title": "Custom Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x255|y255|z255|w255",
+          "Value": -7012352.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Landing Line and Coaster (Orange)*Alpha"
+        },
+
+        {
+          "Category": "Terrain Hologram",
+          "Title": "Landing Terrain Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x253|y253|z253|w253",
+          "Value": -23296.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Terrain While Landing on a planet."
+        },
+        {
+          "Category": "Terrain Hologram",
+          "Title": "SRV Terrain Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x252|y252|z252|w252",
+          "Value": -23296.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Terrain While in SRV."
+        },
+        {
+          "Category": "Terrain Hologram",
+          "Title": "Outer Line",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "z157",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Switch for Terrain Hologram Outer Line."
+        },
+        {
+          "Category": "Terrain Hologram",
+          "Title": "Shimmering Lines",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "w157",
+          "Value": 0.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Switch for Landing Terrain Hologram Shimmer."
+        },
+
+        {
+          "Category": "Terrain Hologram",
+          "Title": "Terrain Elevation",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "z139",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for Terrain Elevation Diagonal Lines"
+        },
+        {
+          "Category": "Terrain Hologram",
+          "Title": "Custom Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x50|y50|z50|w50",
+          "Value": -23296.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Terrain Elevation Diagonal Lines"
+        },
+
+        {
           "Category": "Planetary Landing Reticle",
           "Title": "Color Mode",
           "File": "Startup-Profile",
@@ -2533,15 +2750,16 @@
         },
         {
           "Category": "Planetary Landing Reticle",
-          "Title": "Landing line and coasters",
+          "Title": "Cyan Elements Color",
           "File": "Advanced",
           "Section": "Constants",
-          "Key": "x255|y255|z255|w255",
-          "Value": -7012352.0,
+          "Key": "x71|y71|z71|w71",
+          "Value": -23296.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "Custom color for Landing line and coaster (orange)*Alpha"
+          "Description": "Custom Color for Cyan Planetary Landing Reticle and Aligned Landing Bar. *Alpha"
         },
+
         {
           "Category": "Planetary Landing Reticle",
           "Title": "Altitude Bar",
@@ -2628,7 +2846,7 @@
           "Value": -65536.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "**(DISABLED)** Custom color for SRV Hologram (*Alpha)"
+          "Description": "Custom Color for SRV Hologram (*Alpha)"
         },
         {
           "Category": "SRV Hologram",
@@ -2902,7 +3120,18 @@
           "Value": -785403905.0,
           "ValueType": "Color",
           "Type": "CustomColor",
-          "Description": "CYAN Squares, Lines, and Coasters in both flight modes (SRV/Fighter/Wing).\r\nAlso affects SRV/Fighter/Wing Square and Triangles Targeting."
+          "Description": "CYAN Squares, Lines and Coasters in both flight modes (SRV/Fighter/Wing).\r\n*Alpha"
+        },
+        {
+          "Category": "Radar Objects",
+          "Title": "Radar - Scanned by Target",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x196|y196|z196|w196",
+          "Value": -785403905.0,
+          "ValueType": "Color",
+          "Type": "CustomColor",
+          "Description": "Custom Color for Scanned by Neutral Target. *Alpha"
         },
         {
           "Category": "Radar Objects",
@@ -2959,28 +3188,8 @@
           "Type": "2X",
           "Description": "Asteroid outline, altitude line and coaster Brightness\r\nNote the brightness depends very much on your base colour"
         },
-        {
-          "Category": "Radar Objects",
-          "Title": "Radar Objects - Landing",
-          "File": "Startup-Profile",
-          "Section": "Constants",
-          "Key": "x139",
-          "Value": 200.0,
-          "ValueType": "Preset",
-          "Type": "AdvancedMode",
-          "Description": "Mode for Radar Objects while Landing, line and coaster"
-        },
-        {
-          "Category": "Radar Objects",
-          "Title": "Radar Objects - Landing",
-          "File": "Advanced",
-          "Section": "Constants",
-          "Key": "x253|y253|z253|w253",
-          "Value": -23296.0,
-          "ValueType": "Color",
-          "Type": "CustomColor",
-          "Description": "Custom Color for Terrain While landing on a planet."
-        },
+
+
         {
           "Category": "Heat Bar and Speed Bar",
           "Title": "Color Mode",
@@ -3082,39 +3291,9 @@
           "Type": "2X",
           "Description": "SRV Scanner - Overall Alpha"
         },
-        {
-          "Category": "SRV Scanner",
-          "Title": "Terrain Hologram on radar",
-          "File": "Advanced",
-          "Section": "Constants",
-          "Key": "x252|y252|z252|w252",
-          "Value": -23296.0,
-          "ValueType": "Color",
-          "Type": "CustomColor",
-          "Description": "Custom Color for Terrain Hologram on Radar (While in SRV)."
-        },
-        {
-          "Category": "SRV Scanner",
-          "Title": "SRV Scanner Elevation",
-          "File": "Startup-Profile",
-          "Section": "Constants",
-          "Key": "z139",
-          "Value": 200.0,
-          "ValueType": "Preset",
-          "Type": "AdvancedMode",
-          "Description": "Mode for SRV Radar Elevation diagonal lines"
-        },
-        {
-          "Category": "SRV Scanner",
-          "Title": "SRV Scanner Elevation",
-          "File": "Advanced",
-          "Section": "Constants",
-          "Key": "x50|y50|z50|w50",
-          "Value": -23296.0,
-          "ValueType": "Color",
-          "Type": "CustomColor",
-          "Description": "Custom Color for SRV Radar Elevation diagonal lines. *Alpha*"
-        },
+
+
+
         {
           "Category": "SRV Scanner",
           "Title": "SRV Turret Mode",
@@ -3281,17 +3460,7 @@
           "Type": "AdvancedMode",
           "Description": "Mode for Speeding Warning (lines only)"
         },
-        {
-          "Category": "Warnings - Speeding",
-          "Title": "FSD Cooldown and Escape Vector",
-          "File": "Startup-Profile",
-          "Section": "Constants",
-          "Key": "x109",
-          "Value": 200.0,
-          "ValueType": "Preset",
-          "Type": "AdvancedMode",
-          "Description": "Mode for FSD Cooldown and Escape Vector"
-        },
+
         {
           "Category": "Warnings - Speeding",
           "Title": "Custom Color",
@@ -3313,6 +3482,17 @@
           "ValueType": "Brightness",
           "Type": "2X",
           "Description": "Brightness for Speeding Warning (lines only)."
+        },
+        {
+          "Category": "Warnings - Speeding",
+          "Title": "FSD Cooldown and Escape Vector",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "x109",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "AdvancedMode",
+          "Description": "Mode for FSD Cooldown and Escape Vector"
         },
         {
           "Category": "Warnings - Speeding",
@@ -3785,14 +3965,25 @@
         },
         {
           "Category": "Suit HUD - Panel",
+          "Title": "Extended Opacity",
+          "File": "SuitHud",
+          "Section": "Constants",
+          "Key": "x157",
+          "Value": 1.0,
+          "ValueType": "ONOFF",
+          "Type": "ONOFF",
+          "Description": "Apply opacity setting to other elements such as dialog panels or nameplates."
+        },
+        {
+          "Category": "Suit HUD - Panel",
           "Title": "HUD Elements on station concourse",
           "File": "SuitHud",
           "Section": "Constants",
           "Key": "w121",
-          "Value": 0.0,
-          "ValueType": "ONOFF",
-          "Type": "ONOFF",
-          "Description": "Option to Turn off HUD Elements on station concourse."
+          "Value": 1.0,
+          "ValueType": "Preset",
+          "Type": "SuitHUDPanel",
+          "Description": "Option to Turn Off HUD Elements or Hide Only Inactive Parts on Station Concourse."
         },
         {
           "Category": "Suit HUD - Panel",
@@ -3979,6 +4170,34 @@
     }
   ],
   "Presets": [
+    {
+      "Type": "SuitHUDPanel",
+      "Name": "OFF",
+      "Index": 0.0
+    },
+    {
+      "Type": "SuitHUDPanel",
+      "Name": "ON - Default",
+      "Index": 1.0
+    },
+    {
+      "Type": "SuitHUDPanel",
+      "Name": "Minimalist",
+      "Index": 2.0
+    },
+
+
+    {
+      "Type": "FSSGasGiantIcons",
+      "Name": "Orange Gas Giant Icons (Elite Default)",
+      "Index": 0.0
+    },
+    {
+      "Type": "FSSGasGiantIcons",
+      "Name": "Blue Gas Giant Icons (Previous Color)",
+      "Index": 1.0
+    },
+
     {
       "Type": "ProbeTrailMode",
       "Name": "Elite Default",
@@ -4448,13 +4667,18 @@
     },
     {
       "Type": "PowerDistributor",
-      "Name": "Custom Gradient",
+      "Name": "Custom Bi-Colour Gradient",
       "Index": 101.0
     },
     {
       "Type": "PowerDistributor",
-      "Name": "Custom Tri-colour",
+      "Name": "Custom Tri-colour (Non Gradient)",
       "Index": 102.0
+    },
+    {
+      "Type": "PowerDistributor",
+      "Name": "Custom Tri-colour Gradient",
+      "Index": 103.0
     },
     {
       "Type": "PowerDistributor",
@@ -4550,7 +4774,30 @@
       "Type": "HullGaugeMode",
       "Name": "Elite Default",
       "Index": 200.0
+    },
+
+    {
+      "Type": "FSSMissionIcons",
+      "Name": "Use Mission Panel Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "FSSMissionIcons",
+      "Name": "XML",
+      "Index": 199.0
+    },
+
+    {
+      "Type": "OtherShipTarget",
+      "Name": "Use Radar Colors",
+      "Index": 100.0
+    },
+    {
+      "Type": "OtherShipTarget",
+      "Name": "Elite default",
+      "Index": 200.0
     }
+
   ],
   "xml_profile": [
     {

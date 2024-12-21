@@ -284,13 +284,13 @@ namespace EDHM_UI_mk2.Forms
 							lblStatus.Caption = string.Format("{0} Mods detected.", TPMods.Count);
 							SelectedThemeElement = lst3PMods.Elements[0];
 							LoadMod(TPMods[0]);
-
-							System.Threading.Tasks.Task.Factory.StartNew(() => { CheckModUpdates(); });
 						}
 						else
 						{
 							lblStatus.Caption = "NO mods detected.";
 						}
+
+						System.Threading.Tasks.Task.Factory.StartNew(() => { CheckModUpdates(); });
 					}));
 
 					#endregion
@@ -1395,8 +1395,8 @@ namespace EDHM_UI_mk2.Forms
 
 									foreach (TPMVersionInfo ServerMod in ModsList)
 									{
-										if (TPMods.IsNotEmpty())
-										{
+										//if (TPMods.IsNotEmpty())
+										//{
 											// Revisar que el Mod esté instalado:
 											var InstalledMod = TPMods.Find(x => x.mod_name == ServerMod.mod_name);
 											if (InstalledMod != null)
@@ -1540,7 +1540,7 @@ namespace EDHM_UI_mk2.Forms
 											}
 										}
 									}
-								}
+								//}
 							}
 						}
 						else

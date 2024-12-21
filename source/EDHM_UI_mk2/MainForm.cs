@@ -326,7 +326,10 @@ namespace EDHM_UI_mk2
 
 			#endregion
 
-			//this.Location = new Point(0, 0);
+			//if (Properties.Settings.Default.WindowLocation != null && Properties.Settings.Default.WindowLocation != Point.Empty)
+			//{
+			//	this.Location = Properties.Settings.Default.WindowLocation;
+			//}
 		}
 
 		private void Default_StyleChanged(object sender, EventArgs e)
@@ -390,6 +393,7 @@ namespace EDHM_UI_mk2
 								if (!_Instance.path.EmptyOrNull())
 								{
 									InstallGameInstance(_Instance);
+									//ApplyTheme(false, true);
 								}
 							}
 							Util.AppConfig_SetValue("FirstRun", "false");
@@ -443,7 +447,7 @@ namespace EDHM_UI_mk2
 					Hide();
 					notifyIcon1.Visible = true;
 
-					ShowSystemNotificacion("EDHM - UI", "Will be running in the background.");
+					//ShowSystemNotificacion("EDHM - UI", "Will be running in the background.");
 				}
 				else
 				{
@@ -518,6 +522,14 @@ namespace EDHM_UI_mk2
 				//this.notifyIcon1.BalloonTipTitle = "EDHM - UI";
 				//this.notifyIcon1.BalloonTipText = "This program would be running in the background.";
 				//this.notifyIcon1.ShowBalloonTip(3000); //<- Ocultar tras 5 segundos.
+			}
+		}
+		private void MainForm_Move(object sender, EventArgs e)
+		{
+			if (!this.IsLoading)
+			{
+				//Properties.Settings.Default.WindowLocation = this.Location;
+				//Properties.Settings.Default.Save();
 			}
 		}
 
@@ -1365,6 +1377,7 @@ namespace EDHM_UI_mk2
 							ui_preset_new _mytheme = new ui_preset_new("Current Settings", Path.Combine(ActiveInstance.path, @"EDHM-ini"), "User")
 							{
 								Preview = Util.GetElementImage(Path.Combine(AppExePath, "Images", "PREVIEW.PNG")),
+								description = "This represents the colors currently applied in the game.",
 								IsFavorite = true
 							};
 							UI_Themes.Add(_mytheme);
@@ -2891,10 +2904,6 @@ namespace EDHM_UI_mk2
 					}));
 				}
 			}
-			//if (AutoApplyTheme)
-			//{
-			//	SendRefreshCommand();
-			//}
 		}
 		private void ApplyTheme_Files(bool KeepItQuiet = false)
 		{
@@ -3536,7 +3545,7 @@ namespace EDHM_UI_mk2
 			{
 				//string NewThemePath = CreateNewThemeSync();
 
-				if (SelectedTheme != null)
+				if (SelectedTheme != null && SelectedTheme.name != "Current Settings")
 				{
 					string ThemeName = SelectedTheme.name; // new DirectoryInfo(NewThemePath).Name;
 					string LastFolderUsed = Util.WinReg_ReadKey("EDHM", "LastFolderUsed").NVL(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
@@ -4256,8 +4265,6 @@ namespace EDHM_UI_mk2
 									{
 										HayActualizacion = true;
 									}
-									//if (HoriVersion < new Version(VI.ED_Horizons)) HayActualizacion = true;
-									//if (OddyVersion < new Version(VI.ED_Odissey)) HayActualizacion = true;
 
 									VI.cur_version = App_Version.ToString();
 									Util.Serialize_ToJSON(TempFilePath, VI);
@@ -4962,8 +4969,9 @@ namespace EDHM_UI_mk2
 					bool Existe = false;
 					if (Shipyard.ships.IsNotEmpty())
 					{
-						MyShip = Shipyard.ships.Find(x => x.Ship.ed_short == CurrentShip.Ship.ed_short.Trim() &&
-															x.ship_plate == CurrentShip.ship_plate.Trim());
+						MyShip = Shipyard.ships.Find( x =>	x.Ship.ed_short == CurrentShip.Ship.ed_short.Trim() &&
+															x.ship_name == CurrentShip.ship_name.Trim());
+						//									x.ship_plate == CurrentShip.ship_plate.Trim());
 						if (MyShip != null)
 						{
 							Existe = true;
@@ -5017,9 +5025,8 @@ namespace EDHM_UI_mk2
 										lblShipStatus.Caption = string.Format("Cmdr. {0}, Ship: {1}",
 													CommanderName, EmbarkedShip.Ship.ship_full_name);
 										//Aplica el Tema:
-										ApplyTheme(true, true);
-
-										if (_ApplyTheme) SendRefreshCommand();
+										ApplyTheme(true, true, false);
+										SendRefreshCommand();
 									}));
 								}
 							}
@@ -7144,12 +7151,14 @@ namespace EDHM_UI_mk2
 
 		#region Theme Context Menus
 
+		// La grilla de los Temas:
 		private void gridView1_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
-		{
+		{			
 			DevExpress.XtraGrid.Views.Grid.GridView view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
 			DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo hitInfo = view.CalcHitInfo(e.Point);
 			if (hitInfo.InRowCell)
 			{
+				//Selecciona el Tema con click derecho antes de mostrar el menu contextual
 				view.FocusedRowHandle = hitInfo.RowHandle;
 				view.SelectRow(hitInfo.RowHandle);
 
@@ -7159,16 +7168,20 @@ namespace EDHM_UI_mk2
 					if (_Theme != null)
 					{
 						SelectedTheme = _Theme;
-						LoadTheme(_Theme);
+						//LoadTheme(_Theme);
 
 						//Desactiva el menu si no tiene Preview:
 						mnuTheme_Preview.Enabled = !_Theme.BigPreview.EmptyOrNull();
 					}
 				}
 
-				var column = hitInfo.Column;
+				//var column = hitInfo.Column;
 				popupMenu_Themes.ShowPopup(barManager1, view.GridControl.PointToScreen(e.Point));
 			}
+		}
+		private void gridView1_MouseDown(object sender, MouseEventArgs e)
+		{
+
 		}
 
 		private void mnuTheme_Apply_ItemClick(object sender, ItemClickEventArgs e)
@@ -7637,9 +7650,11 @@ namespace EDHM_UI_mk2
 			}
 		}
 
+
+
 		#endregion
 
-
+		
 	}
 
 	public class RedColorComparer : IComparer<Color>

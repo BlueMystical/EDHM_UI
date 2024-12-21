@@ -149,7 +149,7 @@
   {
     "ship_full_name": "Imperial Courier",
     "ship_id": 22,
-    "ed_short": "empire_courier", 
+    "ed_short": "empire_courier",
     "size": "Small",
     "role": "Multipurpose "
   },
@@ -279,5 +279,33 @@
     "ed_short": "combat_multicrew_srv_01",
     "size": "Small",
     "role": "Combat "
+  },
+  {
+    "ship_full_name": "Python Mk 2",
+    "ship_id": 47,
+    "ed_short": "python_nx",
+    "size": "Medium",
+    "role": "Combat "
+  },
+  {
+    "ship_full_name": "Type 8 Transporter",
+    "ship_id": 48,
+    "ed_short": "type8",
+    "size": "Medium",
+    "role": "Freighter "
+  },
+  {
+    "ship_full_name": "Mandalay",
+    "ship_id": 49,
+    "ed_short": "mandalay",
+    "size": "Medium",
+    "role": "Explorer "
+  },
+  {
+    "ship_full_name": "Cobra Mk 5",
+    "ship_id": 50,
+    "ed_short": "cobramkv",
+    "size": "Small",
+    "role": "Multipurpose "
   }
 ]

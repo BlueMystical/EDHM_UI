@@ -29,9 +29,9 @@
 		private void InitializeComponent()
 		{
 			DevExpress.XtraGrid.GridLevelNode gridLevelNode1 = new DevExpress.XtraGrid.GridLevelNode();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameFolderForm));
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameFolderForm));
 			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
@@ -55,6 +55,7 @@
 			this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
 			this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+			this.cmdCleanInstall = new DevExpress.XtraEditors.SimpleButton();
 			this.txtUserDataFolder = new DevExpress.XtraEditors.ButtonEdit();
 			this.chkAutoApplyTheme = new DevExpress.XtraEditors.CheckEdit();
 			this.txtSavesToRememberRep = new DevExpress.XtraEditors.SpinEdit();
@@ -85,6 +86,7 @@
 			this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.lblPi = new DevExpress.XtraEditors.LabelControl();
 			((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.repGameFolderSelector)).BeginInit();
@@ -118,6 +120,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// gridView2
@@ -171,12 +174,12 @@
 			gridLevelNode1.RelationName = "games";
 			this.gridControl1.LevelTree.Nodes.AddRange(new DevExpress.XtraGrid.GridLevelNode[] {
             gridLevelNode1});
-			this.gridControl1.Location = new System.Drawing.Point(24, 49);
+			this.gridControl1.Location = new System.Drawing.Point(24, 45);
 			this.gridControl1.MainView = this.gridView1;
 			this.gridControl1.Name = "gridControl1";
 			this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repGameFolderSelector});
-			this.gridControl1.Size = new System.Drawing.Size(846, 263);
+			this.gridControl1.Size = new System.Drawing.Size(846, 271);
 			this.gridControl1.TabIndex = 13;
 			this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1,
@@ -208,6 +211,7 @@
 			// 
 			// layoutControl1
 			// 
+			this.layoutControl1.Controls.Add(this.cmdCleanInstall);
 			this.layoutControl1.Controls.Add(this.txtUserDataFolder);
 			this.layoutControl1.Controls.Add(this.chkAutoApplyTheme);
 			this.layoutControl1.Controls.Add(this.txtSavesToRememberRep);
@@ -227,6 +231,17 @@
 			this.layoutControl1.Size = new System.Drawing.Size(894, 609);
 			this.layoutControl1.TabIndex = 0;
 			this.layoutControl1.Text = "layoutControl1";
+			// 
+			// cmdCleanInstall
+			// 
+			this.cmdCleanInstall.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdCleanInstall.ImageOptions.SvgImage")));
+			this.cmdCleanInstall.Location = new System.Drawing.Point(307, 320);
+			this.cmdCleanInstall.Name = "cmdCleanInstall";
+			this.cmdCleanInstall.Size = new System.Drawing.Size(128, 36);
+			this.cmdCleanInstall.StyleController = this.layoutControl1;
+			this.cmdCleanInstall.TabIndex = 20;
+			this.cmdCleanInstall.Text = "Clean Install";
+			this.cmdCleanInstall.Click += new System.EventHandler(this.cmdCleanInstall_Click);
 			// 
 			// txtUserDataFolder
 			// 
@@ -292,9 +307,9 @@
 			// cmdRemoveInstance
 			// 
 			this.cmdRemoveInstance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdRemoveInstance.ImageOptions.SvgImage")));
-			this.cmdRemoveInstance.Location = new System.Drawing.Point(223, 316);
+			this.cmdRemoveInstance.Location = new System.Drawing.Point(195, 320);
 			this.cmdRemoveInstance.Name = "cmdRemoveInstance";
-			this.cmdRemoveInstance.Size = new System.Drawing.Size(80, 36);
+			this.cmdRemoveInstance.Size = new System.Drawing.Size(108, 36);
 			this.cmdRemoveInstance.StyleController = this.layoutControl1;
 			toolTipTitleItem1.Text = "Remove Instance";
 			toolTipItem2.Text = "Removes the selected Game Instance ans its Games.";
@@ -307,9 +322,9 @@
 			// cmdAddGameInstance
 			// 
 			this.cmdAddGameInstance.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdAddGameInstance.ImageOptions.SvgImage")));
-			this.cmdAddGameInstance.Location = new System.Drawing.Point(24, 316);
+			this.cmdAddGameInstance.Location = new System.Drawing.Point(24, 320);
 			this.cmdAddGameInstance.Name = "cmdAddGameInstance";
-			this.cmdAddGameInstance.Size = new System.Drawing.Size(195, 36);
+			this.cmdAddGameInstance.Size = new System.Drawing.Size(167, 36);
 			this.cmdAddGameInstance.StyleController = this.layoutControl1;
 			toolTipTitleItem2.Text = "New Instance:";
 			toolTipItem3.Text = "This will add a whole new instance of Games, both Horizons and Odyssey.";
@@ -330,9 +345,9 @@
 			this.cmdHelp.Appearance.Options.UseBackColor = true;
 			this.cmdHelp.Appearance.Options.UseForeColor = true;
 			this.cmdHelp.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("cmdHelp.ImageOptions.SvgImage")));
-			this.cmdHelp.Location = new System.Drawing.Point(535, 316);
+			this.cmdHelp.Location = new System.Drawing.Point(600, 320);
 			this.cmdHelp.Name = "cmdHelp";
-			this.cmdHelp.Size = new System.Drawing.Size(335, 36);
+			this.cmdHelp.Size = new System.Drawing.Size(270, 36);
 			this.cmdHelp.StyleController = this.layoutControl1;
 			toolTipTitleItem3.Text = "Click Me";
 			superToolTip4.Items.Add(toolTipTitleItem3);
@@ -439,9 +454,9 @@
             this.emptySpaceItem1,
             this.layoutControlItem2,
             this.layoutControlItem4});
-			this.layoutControlGroup1.Location = new System.Drawing.Point(0, 356);
+			this.layoutControlGroup1.Location = new System.Drawing.Point(0, 360);
 			this.layoutControlGroup1.Name = "layoutControlGroup1";
-			this.layoutControlGroup1.Size = new System.Drawing.Size(874, 193);
+			this.layoutControlGroup1.Size = new System.Drawing.Size(874, 189);
 			this.layoutControlGroup1.Text = "Settings:";
 			// 
 			// layoutControlItem6
@@ -532,27 +547,28 @@
             this.emptySpaceItem3,
             this.layoutControlItem10,
             this.layoutControlItem11,
-            this.layoutControlItem12});
+            this.layoutControlItem12,
+            this.layoutControlItem7});
 			this.layoutControlGroup2.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlGroup2.Name = "layoutControlGroup2";
-			this.layoutControlGroup2.Size = new System.Drawing.Size(874, 356);
+			this.layoutControlGroup2.Size = new System.Drawing.Size(874, 360);
 			this.layoutControlGroup2.Text = "Game Locations:";
 			// 
 			// layoutControlItem9
 			// 
 			this.layoutControlItem9.Control = this.cmdHelp;
-			this.layoutControlItem9.Location = new System.Drawing.Point(511, 267);
+			this.layoutControlItem9.Location = new System.Drawing.Point(576, 275);
 			this.layoutControlItem9.Name = "layoutControlItem9";
-			this.layoutControlItem9.Size = new System.Drawing.Size(339, 40);
+			this.layoutControlItem9.Size = new System.Drawing.Size(274, 40);
 			this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem9.TextVisible = false;
 			// 
 			// emptySpaceItem3
 			// 
 			this.emptySpaceItem3.AllowHotTrack = false;
-			this.emptySpaceItem3.Location = new System.Drawing.Point(283, 267);
+			this.emptySpaceItem3.Location = new System.Drawing.Point(415, 275);
 			this.emptySpaceItem3.Name = "emptySpaceItem3";
-			this.emptySpaceItem3.Size = new System.Drawing.Size(228, 40);
+			this.emptySpaceItem3.Size = new System.Drawing.Size(161, 40);
 			this.emptySpaceItem3.TextSize = new System.Drawing.Size(0, 0);
 			// 
 			// layoutControlItem10
@@ -560,31 +576,40 @@
 			this.layoutControlItem10.Control = this.gridControl1;
 			this.layoutControlItem10.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlItem10.Name = "layoutControlItem10";
-			this.layoutControlItem10.Size = new System.Drawing.Size(850, 267);
+			this.layoutControlItem10.Size = new System.Drawing.Size(850, 275);
 			this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem10.TextVisible = false;
 			// 
 			// layoutControlItem11
 			// 
 			this.layoutControlItem11.Control = this.cmdAddGameInstance;
-			this.layoutControlItem11.Location = new System.Drawing.Point(0, 267);
+			this.layoutControlItem11.Location = new System.Drawing.Point(0, 275);
 			this.layoutControlItem11.Name = "layoutControlItem11";
-			this.layoutControlItem11.Size = new System.Drawing.Size(199, 40);
+			this.layoutControlItem11.Size = new System.Drawing.Size(171, 40);
 			this.layoutControlItem11.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem11.TextVisible = false;
 			// 
 			// layoutControlItem12
 			// 
 			this.layoutControlItem12.Control = this.cmdRemoveInstance;
-			this.layoutControlItem12.Location = new System.Drawing.Point(199, 267);
+			this.layoutControlItem12.Location = new System.Drawing.Point(171, 275);
 			this.layoutControlItem12.Name = "layoutControlItem12";
-			this.layoutControlItem12.Size = new System.Drawing.Size(84, 40);
+			this.layoutControlItem12.Size = new System.Drawing.Size(112, 40);
 			this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem12.TextVisible = false;
 			// 
+			// layoutControlItem7
+			// 
+			this.layoutControlItem7.Control = this.cmdCleanInstall;
+			this.layoutControlItem7.Location = new System.Drawing.Point(283, 275);
+			this.layoutControlItem7.Name = "layoutControlItem7";
+			this.layoutControlItem7.Size = new System.Drawing.Size(132, 40);
+			this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
+			this.layoutControlItem7.TextVisible = false;
+			// 
 			// lblPi
 			// 
-			this.lblPi.Location = new System.Drawing.Point(856, 247);
+			this.lblPi.Location = new System.Drawing.Point(857, 296);
 			this.lblPi.Name = "lblPi";
 			this.lblPi.Size = new System.Drawing.Size(7, 13);
 			this.lblPi.TabIndex = 1;
@@ -639,6 +664,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -685,5 +711,7 @@
 		private DevExpress.XtraEditors.LabelControl lblPi;
 		private DevExpress.XtraEditors.ButtonEdit txtUserDataFolder;
 		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
+		private DevExpress.XtraEditors.SimpleButton cmdCleanInstall;
+		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
 	}
 }

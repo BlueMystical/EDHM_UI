@@ -986,6 +986,19 @@ namespace EDHM_UI_mk2
 			catch { return false; }
 		}
 
+		/// <summary>Borra todas las claves y subcarpetas dentro del Sistema indicado.</summary>
+		/// <param name="Sistema">Nombre del Sistema que guarda las Claves, ejem: RRHH, Contaduria, CutcsaPagos, etc.</param>
+		public static void WinReg_DeleteAllKeys(string Sistema)
+		{
+			try
+			{
+				using (var baseKey = Microsoft.Win32.RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, Microsoft.Win32.RegistryView.Registry64))
+				{
+					baseKey.DeleteSubKeyTree(string.Format(@"Software\{0}", Sistema));
+				}
+			}
+			catch (Exception ex) { Console.WriteLine(ex.Message); }
+		}
 
 		/// <summary>Convierte el tamaño de un archivo a la unidad más adecuada.</summary>
 		/// <param name="pFileBytes">Tamaño del Archivo en Bytes</param>

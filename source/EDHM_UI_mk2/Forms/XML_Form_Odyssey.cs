@@ -63,8 +63,8 @@ namespace EDHM_UI_mk2.Forms
 
 			this.picStationPanels.Image = this.StationOriginalImage;
 
-			this.trackGamma.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
-			this.trackSaturation.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+			//this.trackGamma.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+			//this.trackSaturation.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
 		}
 		private void XML_Form_Odyssey_Shown(object sender, EventArgs e)
 		{

@@ -307,11 +307,11 @@
 			this.tileControl1.ItemBackgroundImageScaleMode = DevExpress.XtraEditors.TileItemImageScaleMode.ZoomInside;
 			this.tileControl1.ItemBorderVisibility = DevExpress.XtraEditors.TileItemBorderVisibility.Always;
 			this.tileControl1.ItemCheckMode = DevExpress.XtraEditors.TileItemCheckMode.Single;
-			this.tileControl1.Location = new System.Drawing.Point(31, 42);
+			this.tileControl1.Location = new System.Drawing.Point(27, 40);
 			this.tileControl1.MaxId = 18;
 			this.tileControl1.Name = "tileControl1";
 			this.tileControl1.Padding = new System.Windows.Forms.Padding(18, 18, 18, 2);
-			this.tileControl1.Size = new System.Drawing.Size(811, 645);
+			this.tileControl1.Size = new System.Drawing.Size(815, 645);
 			this.tileControl1.TabIndex = 1;
 			this.tileControl1.Text = "tileControl1";
 			this.tileControl1.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.tileControl1_ItemClick);
@@ -1019,21 +1019,21 @@
 			this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
 			this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlTop.Manager = this.barManager1;
-			this.barDockControlTop.Size = new System.Drawing.Size(1340, 42);
+			this.barDockControlTop.Size = new System.Drawing.Size(1340, 40);
 			// 
 			// barDockControlBottom
 			// 
 			this.barDockControlBottom.CausesValidation = false;
 			this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.barDockControlBottom.Location = new System.Drawing.Point(0, 687);
+			this.barDockControlBottom.Location = new System.Drawing.Point(0, 685);
 			this.barDockControlBottom.Manager = this.barManager1;
-			this.barDockControlBottom.Size = new System.Drawing.Size(1340, 40);
+			this.barDockControlBottom.Size = new System.Drawing.Size(1340, 42);
 			// 
 			// barDockControlLeft
 			// 
 			this.barDockControlLeft.CausesValidation = false;
 			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			this.barDockControlLeft.Location = new System.Drawing.Point(0, 42);
+			this.barDockControlLeft.Location = new System.Drawing.Point(0, 40);
 			this.barDockControlLeft.Manager = this.barManager1;
 			this.barDockControlLeft.Size = new System.Drawing.Size(0, 645);
 			// 
@@ -1041,7 +1041,7 @@
 			// 
 			this.barDockControlRight.CausesValidation = false;
 			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.barDockControlRight.Location = new System.Drawing.Point(1340, 42);
+			this.barDockControlRight.Location = new System.Drawing.Point(1340, 40);
 			this.barDockControlRight.Manager = this.barManager1;
 			this.barDockControlRight.Size = new System.Drawing.Size(0, 645);
 			// 
@@ -1081,12 +1081,12 @@
 			// 
 			// hideContainerLeft
 			// 
-			this.hideContainerLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(46)))), ((int)(((byte)(64)))));
+			this.hideContainerLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
 			this.hideContainerLeft.Controls.Add(this.panelSearch);
 			this.hideContainerLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			this.hideContainerLeft.Location = new System.Drawing.Point(0, 42);
+			this.hideContainerLeft.Location = new System.Drawing.Point(0, 40);
 			this.hideContainerLeft.Name = "hideContainerLeft";
-			this.hideContainerLeft.Size = new System.Drawing.Size(31, 645);
+			this.hideContainerLeft.Size = new System.Drawing.Size(27, 645);
 			// 
 			// panelSearch
 			// 
@@ -1290,7 +1290,7 @@
 			this.panelGlobalSettings.Controls.Add(this.dockUserSettings);
 			this.panelGlobalSettings.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
 			this.panelGlobalSettings.ID = new System.Guid("869a47f1-0807-4de2-bb7a-81ac966145aa");
-			this.panelGlobalSettings.Location = new System.Drawing.Point(842, 42);
+			this.panelGlobalSettings.Location = new System.Drawing.Point(842, 40);
 			this.panelGlobalSettings.Name = "panelGlobalSettings";
 			this.panelGlobalSettings.Options.AllowDockAsTabbedDocument = false;
 			this.panelGlobalSettings.Options.AllowDockBottom = false;
@@ -1312,14 +1312,14 @@
 			this.dockThemes.Controls.Add(this.controlContainer5);
 			this.dockThemes.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
 			this.dockThemes.ID = new System.Guid("0fbae07b-a8a8-47b5-9aa0-ef4b535644a7");
-			this.dockThemes.Location = new System.Drawing.Point(8, 44);
+			this.dockThemes.Location = new System.Drawing.Point(8, 34);
 			this.dockThemes.Name = "dockThemes";
 			this.dockThemes.Options.ShowAutoHideButton = false;
 			this.dockThemes.Options.ShowCloseButton = false;
 			this.dockThemes.Options.ShowMaximizeButton = false;
 			this.dockThemes.Options.ShowMinimizeButton = false;
-			this.dockThemes.OriginalSize = new System.Drawing.Size(487, 577);
-			this.dockThemes.Size = new System.Drawing.Size(487, 558);
+			this.dockThemes.OriginalSize = new System.Drawing.Size(487, 558);
+			this.dockThemes.Size = new System.Drawing.Size(487, 577);
 			this.dockThemes.Text = "Themes";
 			// 
 			// controlContainer5
@@ -1328,7 +1328,7 @@
 			this.controlContainer5.Controls.Add(this.standaloneBarDockControl2);
 			this.controlContainer5.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer5.Name = "controlContainer5";
-			this.controlContainer5.Size = new System.Drawing.Size(487, 558);
+			this.controlContainer5.Size = new System.Drawing.Size(487, 577);
 			this.controlContainer5.TabIndex = 0;
 			// 
 			// gridControl1
@@ -1340,7 +1340,7 @@
 			this.gridControl1.Name = "gridControl1";
 			this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repGridThemes_Favorite});
-			this.gridControl1.Size = new System.Drawing.Size(487, 520);
+			this.gridControl1.Size = new System.Drawing.Size(487, 539);
 			this.gridControl1.TabIndex = 0;
 			this.gridControl1.ToolTipController = this.toolTipController1;
 			this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -1364,6 +1364,7 @@
 			this.gridView1.PopupMenuShowing += new DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventHandler(this.gridView1_PopupMenuShowing);
 			this.gridView1.BeforeLeaveRow += new DevExpress.XtraGrid.Views.Base.RowAllowEventHandler(this.gridView1_BeforeLeaveRow);
 			this.gridView1.RowUpdated += new DevExpress.XtraGrid.Views.Base.RowObjectEventHandler(this.gridView1_RowUpdated);
+			this.gridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridView1_MouseDown);
 			// 
 			// gridColumn4
 			// 
@@ -1427,7 +1428,7 @@
 			this.dockDetalles.Controls.Add(this.controlContainer1);
 			this.dockDetalles.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
 			this.dockDetalles.ID = new System.Guid("4c908207-b623-4d93-b6d6-10d5d06ff264");
-			this.dockDetalles.Location = new System.Drawing.Point(8, 44);
+			this.dockDetalles.Location = new System.Drawing.Point(8, 34);
 			this.dockDetalles.Name = "dockDetalles";
 			this.dockDetalles.Options.AllowDockAsTabbedDocument = false;
 			this.dockDetalles.Options.AllowDockBottom = false;
@@ -1437,8 +1438,8 @@
 			this.dockDetalles.Options.ShowAutoHideButton = false;
 			this.dockDetalles.Options.ShowCloseButton = false;
 			this.dockDetalles.Options.ShowMaximizeButton = false;
-			this.dockDetalles.OriginalSize = new System.Drawing.Size(487, 577);
-			this.dockDetalles.Size = new System.Drawing.Size(487, 558);
+			this.dockDetalles.OriginalSize = new System.Drawing.Size(487, 558);
+			this.dockDetalles.Size = new System.Drawing.Size(487, 577);
 			this.dockDetalles.Text = "Details";
 			// 
 			// controlContainer1
@@ -1449,7 +1450,7 @@
 			this.controlContainer1.Controls.Add(this.panelControl1);
 			this.controlContainer1.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer1.Name = "controlContainer1";
-			this.controlContainer1.Size = new System.Drawing.Size(487, 558);
+			this.controlContainer1.Size = new System.Drawing.Size(487, 577);
 			this.controlContainer1.TabIndex = 0;
 			// 
 			// vGridDetalles
@@ -1479,7 +1480,7 @@
             this.repositoryItemZoomTrackBar1,
             this.repositoryItemSpinEdit1});
 			this.vGridDetalles.RowHeaderWidth = 242;
-			this.vGridDetalles.Size = new System.Drawing.Size(487, 455);
+			this.vGridDetalles.Size = new System.Drawing.Size(487, 474);
 			this.vGridDetalles.TabIndex = 0;
 			this.vGridDetalles.ToolTipController = this.toolTipController1;
 			this.vGridDetalles.FocusedRowChanged += new DevExpress.XtraVerticalGrid.Events.FocusedRowChangedEventHandler(this.vGridDetalles_FocusedRowChanged);
@@ -1499,7 +1500,7 @@
 			// splitterControl1
 			// 
 			this.splitterControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.splitterControl1.Location = new System.Drawing.Point(0, 455);
+			this.splitterControl1.Location = new System.Drawing.Point(0, 474);
 			this.splitterControl1.Name = "splitterControl1";
 			this.splitterControl1.Size = new System.Drawing.Size(487, 32);
 			this.splitterControl1.TabIndex = 2;
@@ -1510,7 +1511,7 @@
 			this.panelControl1.Controls.Add(this.lblDescription_Description);
 			this.panelControl1.Controls.Add(this.lblDescription_Caption);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panelControl1.Location = new System.Drawing.Point(0, 487);
+			this.panelControl1.Location = new System.Drawing.Point(0, 506);
 			this.panelControl1.Name = "panelControl1";
 			this.panelControl1.Size = new System.Drawing.Size(487, 71);
 			this.panelControl1.TabIndex = 1;
@@ -1547,14 +1548,14 @@
 			this.dockGlobalSettings.Controls.Add(this.controlContainer4);
 			this.dockGlobalSettings.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
 			this.dockGlobalSettings.ID = new System.Guid("9d8d674d-34b2-49fe-b5b4-be6167fe5f03");
-			this.dockGlobalSettings.Location = new System.Drawing.Point(8, 44);
+			this.dockGlobalSettings.Location = new System.Drawing.Point(8, 34);
 			this.dockGlobalSettings.Name = "dockGlobalSettings";
 			this.dockGlobalSettings.Options.ShowAutoHideButton = false;
 			this.dockGlobalSettings.Options.ShowCloseButton = false;
 			this.dockGlobalSettings.Options.ShowMaximizeButton = false;
 			this.dockGlobalSettings.Options.ShowMinimizeButton = false;
-			this.dockGlobalSettings.OriginalSize = new System.Drawing.Size(487, 577);
-			this.dockGlobalSettings.Size = new System.Drawing.Size(487, 558);
+			this.dockGlobalSettings.OriginalSize = new System.Drawing.Size(487, 558);
+			this.dockGlobalSettings.Size = new System.Drawing.Size(487, 577);
 			this.dockGlobalSettings.Text = "Global Settings";
 			// 
 			// controlContainer4
@@ -1562,7 +1563,7 @@
 			this.controlContainer4.Controls.Add(this.splitContainerControl1);
 			this.controlContainer4.Location = new System.Drawing.Point(0, 0);
 			this.controlContainer4.Name = "controlContainer4";
-			this.controlContainer4.Size = new System.Drawing.Size(487, 558);
+			this.controlContainer4.Size = new System.Drawing.Size(487, 577);
 			this.controlContainer4.TabIndex = 0;
 			// 
 			// splitContainerControl1
@@ -1582,7 +1583,7 @@
 			this.splitContainerControl1.Panel2.Controls.Add(this.GlobalSettings_Description);
 			this.splitContainerControl1.Panel2.Controls.Add(this.GlobalSettings_Title);
 			this.splitContainerControl1.Panel2.Text = "Panel2";
-			this.splitContainerControl1.Size = new System.Drawing.Size(487, 558);
+			this.splitContainerControl1.Size = new System.Drawing.Size(487, 577);
 			this.splitContainerControl1.SplitterPosition = 443;
 			this.splitContainerControl1.TabIndex = 0;
 			// 
@@ -1646,7 +1647,7 @@
 			this.GlobalSettings_Description.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.GlobalSettings_Description.Location = new System.Drawing.Point(0, 20);
 			this.GlobalSettings_Description.Name = "GlobalSettings_Description";
-			this.GlobalSettings_Description.Size = new System.Drawing.Size(487, 63);
+			this.GlobalSettings_Description.Size = new System.Drawing.Size(487, 82);
 			this.GlobalSettings_Description.TabIndex = 2;
 			// 
 			// GlobalSettings_Title
@@ -1668,10 +1669,10 @@
 			this.dockUserSettings.Controls.Add(this.dockPanel1_Container);
 			this.dockUserSettings.Dock = DevExpress.XtraBars.Docking.DockingStyle.Fill;
 			this.dockUserSettings.ID = new System.Guid("8431b80a-3b6f-43cf-b67f-6c5810e57089");
-			this.dockUserSettings.Location = new System.Drawing.Point(8, 44);
+			this.dockUserSettings.Location = new System.Drawing.Point(8, 34);
 			this.dockUserSettings.Name = "dockUserSettings";
-			this.dockUserSettings.OriginalSize = new System.Drawing.Size(487, 577);
-			this.dockUserSettings.Size = new System.Drawing.Size(487, 558);
+			this.dockUserSettings.OriginalSize = new System.Drawing.Size(487, 558);
+			this.dockUserSettings.Size = new System.Drawing.Size(487, 577);
 			this.dockUserSettings.Text = "User Settings";
 			// 
 			// dockPanel1_Container
@@ -1679,7 +1680,7 @@
 			this.dockPanel1_Container.Controls.Add(this.splitContainer_UserSettings);
 			this.dockPanel1_Container.Location = new System.Drawing.Point(0, 0);
 			this.dockPanel1_Container.Name = "dockPanel1_Container";
-			this.dockPanel1_Container.Size = new System.Drawing.Size(487, 558);
+			this.dockPanel1_Container.Size = new System.Drawing.Size(487, 577);
 			this.dockPanel1_Container.TabIndex = 0;
 			// 
 			// splitContainer_UserSettings
@@ -1699,7 +1700,7 @@
 			this.splitContainer_UserSettings.Panel2.Controls.Add(this.UserSettings_Description);
 			this.splitContainer_UserSettings.Panel2.Controls.Add(this.UserSettings_Title);
 			this.splitContainer_UserSettings.Panel2.Text = "Panel2";
-			this.splitContainer_UserSettings.Size = new System.Drawing.Size(487, 558);
+			this.splitContainer_UserSettings.Size = new System.Drawing.Size(487, 577);
 			this.splitContainer_UserSettings.SplitterPosition = 446;
 			this.splitContainer_UserSettings.TabIndex = 0;
 			// 
@@ -1763,7 +1764,7 @@
 			this.UserSettings_Description.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.UserSettings_Description.Location = new System.Drawing.Point(0, 20);
 			this.UserSettings_Description.Name = "UserSettings_Description";
-			this.UserSettings_Description.Size = new System.Drawing.Size(487, 60);
+			this.UserSettings_Description.Size = new System.Drawing.Size(487, 79);
 			this.UserSettings_Description.TabIndex = 3;
 			// 
 			// UserSettings_Title
@@ -2050,6 +2051,7 @@
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
+			this.Move += new System.EventHandler(this.MainForm_Move);
 			this.Resize += new System.EventHandler(this.MainForm_Resize);
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.repCboGameInstances)).EndInit();

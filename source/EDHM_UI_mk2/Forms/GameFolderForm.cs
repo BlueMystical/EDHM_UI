@@ -250,6 +250,8 @@ namespace EDHM_UI_mk2
 							_Game.themes_folder = (_Game.key == "ED_Horizons") ?
 								Path.Combine(UI_DOCUMENTS, "HORIZ", "Themes") :
 								Path.Combine(UI_DOCUMENTS, "ODYSS", "Themes");
+
+							Mensajero.ShowMessageDark("Changes Saved!", "Please re-start the EDHM app and the Game.");
 						}
 					}
 
@@ -688,6 +690,16 @@ namespace EDHM_UI_mk2
 			detailView.Focus();
 		}
 
-		
+		private void cmdCleanInstall_Click(object sender, EventArgs e)
+		{			
+			if (Mensajero.ShowMessageDark("WARNING!", "This will clean all the Setings in the Registry!\r\nYou will be required to set the paths again after re-start.\r\nAre you Sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				Util.WinReg_DeleteAllKeys(@"Elte Dangerous\Mods\");
+				Mensajero.ShowMessageDark("Settings had been wiped!", 
+					"Please re-start the EDHM app.", 
+					MessageBoxButtons.OK, MessageBoxIcon.Information);
+				this.Close();
+			}
+		}
 	}
 }
