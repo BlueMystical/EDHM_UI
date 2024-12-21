@@ -42,7 +42,7 @@ To use this project, you can do the following:
    ```
    cd G:\[Full Path to the Repo\EDHM_UI]\source_v3 && G:
    ```
-3. Install dependencies:
+3. Install dependencies: (having your Terminal at the source_v3 folder)
    ```
    npm install
    ```
