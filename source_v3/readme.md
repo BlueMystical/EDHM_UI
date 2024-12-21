@@ -14,7 +14,7 @@ App is made with Electron Forge Vite-Vue and Bootstrap
 ## Requeriments (For Development):
 - NODE:   [Download](https://nodejs.org/en/download/prebuilt-installer)
 - NPM:    [Download](https://docs.npmjs.com/cli/v11/commands/npm)
-- NVM:    [Download](https://github.com/coreybutler/nvm-windows/releases/latest)
+- NVM:    [Download](https://github.com/coreybutler/nvm-windows/releases/latest) [Optional]
 - Visual Studio Code [Download](https://code.visualstudio.com/)
 
 Check your Node and NPM Versions:
