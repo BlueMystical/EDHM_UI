@@ -141,9 +141,9 @@ export default defineComponent({
      * @param number Integer Value representing a Color.
      */
      const intToHexColor = (number) => {
-      console.log('1 - Int Color:', number);
-        const color = intToRGB(number);
-        console.log('2- RGB Color:', color);
+        //console.log('1 - Int Color:', number);
+        //const color = intToRGB(number);
+        //console.log('2- RGB Color:', color);
         //const reversed = reverseGammaCorrected(color.r, color.g, color.b);
         //console.log('Reversed RGB:', reversed);
         //const colorString = rgbToHex(reversed.r, reversed.g, reversed.b);
@@ -214,10 +214,6 @@ export default defineComponent({
       }
     };
 
- 
-
-
-
     //-----------------------------------------------------------------------------
     function intToHex(int) {
       // Ensure unsigned 32-bit
@@ -284,7 +280,6 @@ export default defineComponent({
       saveToThemeTemplate(item);
     };
     const updateColorValue = (item, color) => {
-
       item.value = parseInt(color.slice(1), 16);
       saveToThemeTemplate(item);
     };

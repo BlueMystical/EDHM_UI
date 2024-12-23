@@ -110,6 +110,7 @@ const LoadThemeINIs = async (folderPath) => {
 };
 
 const ApplyIniValuesToTemplate = (template, iniValues) => {
+  console.log('ApplyIniValuesToTemplate..');
     if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
@@ -117,19 +118,39 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
             const iniFile = element.File;
             const iniSection = element.Section;
             const iniKey = element.Key;
-  
+
+            if (iniKey === "x159|y159|z159") {
+              console.log("x159|y159|z159", element.Value);
+            }
+
+            const foundValue = ini.findValueByKey(iniValues, element);
+            console.log('foundValue:', foundValue);
+
+                if (element.ValueType === "Color") {
+                  
+                } else {
+                  element.Value = foundValue;
+                }
+  /*
             // Map iniFile to the corresponding object in iniValues
             const iniFileObject = iniValues[iniFile.replace(/-/g, '')];
+            console.log("iniFileObject:", iniValues);
   
             if (iniFileObject && iniFileObject.constants && iniKey) {
               try {
                 if (element.ValueType === "Color") {
+
                   const colorKeys = iniKey.split("|"); 
                   const colorComponents = colorKeys.map(key => iniFileObject.constants[key]); 
                   if (colorComponents.every(component => !isNaN(parseFloat(component)))) {
                     const color = reverseGammaCorrected(colorComponents); 
                     element.Value = getColorDecimalValue(color); 
                   } 
+
+                  if (iniKey === "x159|y159|z159") {
+                    console.log("x159|y159|z159", element.Value);
+                  }
+
                 } else {
                   const iniValue = iniFileObject.constants[iniKey];
                   if (!isNaN(parseFloat(iniValue))) {
@@ -140,6 +161,8 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                 console.error(`Error parsing value for ${iniFile} - ${iniSection} - ${iniKey}:`, error);
               }
             }
+
+*/
           }
         }
       }

@@ -172,9 +172,11 @@ export default {
         // Loads the 'Current Settings' from the Ini files:
         const ActiveInstance = await window.api.getActiveInstance();            //console.log('ActiveInstance', ActiveInstance.path);
         const themePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
-        const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
+        const ThemeINIs = await window.api.LoadThemeINIs(themePath);  console.log('ThemeINIs:', ThemeINIs);
 
-        themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);               //console.log('ThemeTemplate: ', themeTemplate);              
+        themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);               //console.log('ThemeTemplate: ', themeTemplate);   
+        console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
+        
         eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
 
         // Provide the themeTemplate data to be accessible by all components 
@@ -365,6 +367,8 @@ export default {
 
       console.log('Theme Changed: ', themeTemplate);
       eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+
+      console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
 
       //console.log('z103: ', themeTemplate.ui_groups[1].Elements[0].Value   );
       //console.log('z103: ->', defaultTemplate.ui_groups[1].Elements[0].Value   );

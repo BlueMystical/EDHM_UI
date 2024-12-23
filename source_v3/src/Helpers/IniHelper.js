@@ -61,6 +61,72 @@ function saveIniFile(filePath, iniData) {
         return false;
     }
 }
+
+function findValueByKey(data, searchItem) {
+    const fileName = searchItem.File.replace(/-/g, '');  // Remove hyphens
+    const section = searchItem.Section.toLowerCase();  // Convert section to lowercase
+    const keys = searchItem.Key.split('|');  // Split multiple keys
+  
+    const fileData = data[fileName];
+    const results = [];
+    let keyCount = 0;
+  
+    try {
+      if (fileData) {
+        // Find the correct section in a case-insensitive manner
+        const sectionKey = Object.keys(fileData).find(
+          key => key.toLowerCase() === section
+        );
+  
+        if (sectionKey && fileData[sectionKey]) {
+          keys.forEach(key => {
+            const value = fileData[sectionKey][key];
+            if (value !== undefined) {
+              results.push({ key, value });
+              keyCount++; // Increment the counter for each found key
+            } else {
+              throw new Error(`Key not found: ${key}`);
+            }
+          });
+        } else {
+          throw new Error(`Section not found: ${fileName} / ${section}`);
+        }
+      } else {
+        throw new Error(`File not found: ${fileName}`);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  
+    //console.log(`Total keys found: ${keyCount}`);
+  
+    // Return results as an array of key-value pairs, or the single value if only one key
+    return results.length === 1 ? results[0].value : results;
+  }
+/*
+function findValueByKey(data, searcher) {
+    const { File, Section, Key } = searcher;
+  
+    for (const profileName in data) {
+      const normalizedProfileName = profileName.replace(/-/g, ''); 
+
+      if (normalizedProfileName === File) {
+        if (data[normalizedProfileName][Section]) {
+          if (Key.includes("|")) { 
+            const keys = Key.split("|");
+            const values = keys.map(key => data[normalizedProfileName][Section][key]);
+            return values.filter(value => value !== undefined); 
+          } else {
+            return data[normalizedProfileName][Section][Key];
+          }
+        }
+      }
+    }
+  
+    console.log('Not Found: ', File, Section, Key);
+    return undefined; // Key not found
+  }
+*/
 /* -----------------------------------------------------------------------------------------------------*/
 // Expose functions through ipcMain
 
@@ -78,4 +144,4 @@ ipcMain.handle('setValueInSection', async (event, iniData, section, key, value) 
     return setValueInSection(iniData, section, key, value);
 });
 
-export default { loadIniFile, saveIniFile, getValueFromSection, setValueInSection }
+export default { loadIniFile, saveIniFile, getValueFromSection, setValueInSection, findValueByKey }
