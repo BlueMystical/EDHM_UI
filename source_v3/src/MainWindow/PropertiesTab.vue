@@ -47,8 +47,7 @@
                   <!-- Color Picker Control -->
                   <template v-if="item.valueType === 'Color'">
                     <input type="color" :value="intToHexColor(item.value)"
-                      @input="updateColorValue(item, $event.target.value)" class="form-control color-picker"
-                      :style="{ backgroundColor: 'transparent' }" />
+                      @input="updateColorValue(item, $event.target.value)" class="form-control color-picker" :style="{ backgroundColor: 'transparent' }" />
                   </template>
 
                   <!-- On/Off Swap control -->
@@ -72,17 +71,16 @@
 
 
 <script>
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { ref } from 'vue';
 import eventBus from '../EventBus';
 import { inject, defineComponent, reactive, onMounted } from 'vue';
-import { ref } from 'vue';
 
+let themeTemplate = inject('themeTemplate');
 
 export default defineComponent({
   name: 'PropertiesTab',
   setup() {
-    const themeTemplate = inject('themeTemplate');
+    //const themeTemplate = inject('themeTemplate');
     const tooltipStyles = reactive([]);
     const properties = reactive([]);
     const key = ref(0);
@@ -136,6 +134,146 @@ export default defineComponent({
       }
     };
 
+
+
+     /**
+     * Convert a Color from Number to a Hex HTML string.
+     * @param number Integer Value representing a Color.
+     */
+     const intToHexColor = (number) => {
+      console.log('1 - Int Color:', number);
+        const color = intToRGB(number);
+        console.log('2- RGB Color:', color);
+        //const reversed = reverseGammaCorrected(color.r, color.g, color.b);
+        //console.log('Reversed RGB:', reversed);
+        //const colorString = rgbToHex(reversed.r, reversed.g, reversed.b);
+        return intToHex(number);
+      };
+
+
+    function safeRound(value) {
+      return isNaN(value) ? 0 : Math.round(value);
+    };
+
+    //-----------------------------------------------------------------------------
+    function convertSRGBFromLinear(theLinearValue, gammaValue = 2.4) {
+      return theLinearValue <= 0.0031308 ? 
+            theLinearValue * 12.92 : 
+            Math.pow(theLinearValue, 1.0 / gammaValue) * 1.055 - 0.055;
+    };
+    function convertSRGBToLinear(theSRGBValue, gammaValue = 2.4) {
+      return thesRGBValue <= 0.04045 ? 
+            theSRGBValue / 12.92 : 
+            Math.pow((theSRGBValue + 0.055) / 1.055, gammaValue);
+    };
+    function getGammaCorrectedRGBA(color, gammaValue = 2.4) {
+      try {
+        const sRGBcolor = {
+          r: color.r / 255,
+          g: color.g / 255,
+          b: color.b / 255,
+          a: color.a / 255
+        };
+
+        const gammaCorrected = [
+          Math.round(convertSRGBToLinear(sRGBcolor.r, gammaValue) * 10000) / 10000,
+          Math.round(convertSRGBToLinear(sRGBcolor.g, gammaValue) * 10000) / 10000,
+          Math.round(convertSRGBToLinear(sRGBcolor.b, gammaValue) * 10000) / 10000,
+          Math.round(sRGBcolor.a * 10000) / 10000 // Alpha remains linear
+        ];
+
+        return gammaCorrected;
+      } catch (error) {
+        console.error("ERROR!", error.message, error.stack);
+      }
+      return null;
+    };
+    function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
+      try {
+        console.log(`Input Gamma Values: R=${gammaR}, G=${gammaG}, B=${gammaB}, A=${gammaA}`);
+
+        const invR = convertSRGBFromLinear(gammaR, gammaValue);
+        const invG = convertSRGBFromLinear(gammaG, gammaValue);
+        const invB = convertSRGBFromLinear(gammaB, gammaValue);
+
+        console.log(`Converted Values: invR=${invR}, invG=${invG}, invB=${invB}`);
+
+        const result = {
+          r: safeRound(invR),
+          g: safeRound(invG),
+          b: safeRound(invB),
+          a: safeRound(gammaA)
+        };
+
+        console.log(`Result: ${JSON.stringify(result)}`);
+
+        return result;
+      } catch (error) {
+        console.error("ERROR!", error.message, error.stack);
+        return { r: 0, g: 0, b: 0, a: 1 }; // Return default value in case of error
+      }
+    };
+
+ 
+
+
+
+    //-----------------------------------------------------------------------------
+    function intToHex(int) {
+      // Ensure unsigned 32-bit
+      int >>>= 0;
+      
+      // Convert each component to a two-digit hex string
+      const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
+      const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
+      const b = (int & 0xFF).toString(16).padStart(2, '0');
+      
+      return `#${r}${g}${b}`;
+    };
+    function intToRGB(num) {
+      // Convert the signed integer to an unsigned integer
+      const unsignedNum = num >>> 0; 
+
+      // Extract red, green, and blue components
+      const r = (unsignedNum >> 16) & 0xFF;
+      const g = (unsignedNum >> 8) & 0xFF;
+      const b = unsignedNum & 0xFF;
+
+      return { r, g, b };
+    };
+    function rgbToHex(r, g, b, a = 1) {
+      // Ensure values are within valid range
+      r = Math.max(0, Math.min(255, r));
+      g = Math.max(0, Math.min(255, g));
+      b = Math.max(0, Math.min(255, b));
+      a = Math.max(0, Math.min(1, a));
+
+      // Convert alpha to hexadecimal
+      const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
+
+      // Convert RGB to hexadecimal
+      const hex = "#" + 
+        r.toString(16).padStart(2, '0') + 
+        g.toString(16).padStart(2, '0') + 
+        b.toString(16).padStart(2, '0');
+
+      return a < 1 ? hex + alphaHex : hex; // Return hex with alpha if alpha is less than 1
+    };
+
+
+    /**
+     * Gets the path for an Element Image
+     * @param key The file name of the image matches the 'key' of the Element.
+     */
+     const getImagePath = (key) => {
+      const imageKey = key.replace(/\|/g, '_');
+      return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
+    };
+
+    const hideImage = (event) => {
+      event.target.style.display = 'none';
+    };
+
     /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
     const updatePresetValue = (item, value) => {
       item.value = value;
@@ -146,6 +284,7 @@ export default defineComponent({
       saveToThemeTemplate(item);
     };
     const updateColorValue = (item, color) => {
+
       item.value = parseInt(color.slice(1), 16);
       saveToThemeTemplate(item);
     };
@@ -166,32 +305,10 @@ export default defineComponent({
         }
       });
     };
-
-
-    /**
-     * Convert a Color from Number to a Hex HTML string.
-     * @param number Integer Value representing a Color.
-     */
-    const intToHexColor = (number) => {
-      const colorString = (number & 0x00FFFFFF).toString(16).padStart(6, '0');
-      return `#${colorString}`;
-    };
-
-    /**
-     * Gets the path for an Element Image
-     * @param key The file name of the image matches the 'key' of the Element.
-     */
-    const getImagePath = (key) => {
-      const imageKey = key.replace(/\|/g, '_');
-      return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
-    };
-
-    const hideImage = (event) => {
-      event.target.style.display = 'none';
-    };
-
+ 
     onMounted(() => {
       //checkImagesExistence();
+      
     });
 
     return {
@@ -212,17 +329,20 @@ export default defineComponent({
   },
   data() {
     return {
+      themeTemplate,
       tooltipStyles: []
     };
   },
   mounted() {
     eventBus.on('areaClicked', this.loadProperties);
+    eventBus.on('ThemeLoaded', this.updateThemeTemplate);
   },
   beforeUnmount() {
     eventBus.off('areaClicked', this.loadProperties);
+    eventBus.off('ThemeLoaded', this.updateThemeTemplate);
   },
   methods: {
-    loadProperties(area) {
+    loadProperties(area) {      
       console.log('Loading properties for area:', area);
       this.updateProperties(this.getPropertiesForArea(area));
       this.key++;
@@ -230,43 +350,57 @@ export default defineComponent({
     updateProperties(newProperties) {
       this.properties.splice(0, this.properties.length, ...newProperties);
     },
+    updateThemeTemplate(item) {
+
+      console.log('On_ThemeLoaded', item)
+      themeTemplate = item;
+    },
     getPropertiesForArea(area) {
-      /* Gets all the properties of the indicated Category */
-      const themeTemplate = this.themeTemplate;
-      const matchingGroups = themeTemplate.ui_groups.filter(group => group.Name === area.id);
+      /* Gets all  Categories and Properties of the Area */
+      console.log('Loaded Template:', themeTemplate);
+
       const categorizedProperties = [];
+      if (themeTemplate != null && themeTemplate.ui_groups != null) {
 
-      matchingGroups.forEach(group => {
-        group.Elements.forEach(element => {
-          let category = categorizedProperties.find(cat => cat.name === element.Category);
+        // 1. Look for the UI-Group of the Selected Area:
+        const matchingGroups = themeTemplate.ui_groups.filter(group => group.Name === area.id);
+        if (matchingGroups != null) {
+          matchingGroups.forEach(group => {
+            // 2. Loop all Elements in each Group:
+            group.Elements.forEach(element => {
+              // 3. Get the Category of each Element
+              let category = categorizedProperties.find(cat => cat.name === element.Category);
+              if (!category) {
+                category = {
+                  name: element.Category,
+                  items: []
+                };
+                categorizedProperties.push(category);
+              }
 
-          if (!category) {
-            category = {
-              name: element.Category,
-              items: []
-            };
-            categorizedProperties.push(category);
-          }
+              // 4. Returns an object with the required fields:
+              category.items.push({
+                category: element.Category,
+                title: element.Title,
 
-          // Returns an object with the required fields:
-          category.items.push({
-            category: element.Category,
-            title: element.Title,
+                file: element.File,
+                section: element.Section,
+                key: element.Key,
 
-            file: element.File,
-            section: element.Section,
-            key: element.Key,
+                value: element.Value,
+                valueType: element.ValueType,
+                type: element.Type,
+                description: element.Description,
 
-            value: element.Value,
-            valueType: element.ValueType,
-            type: element.Type,
-            description: element.Description,
+                options: element.Options || []
+              });
 
-            options: element.Options || []
+            });
           });
-
-        });
-      });
+        }
+      } else {
+        console.error('No Theme Loaded!');
+      }
 
       return categorizedProperties;
     },

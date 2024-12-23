@@ -1,0 +1,68 @@
+private void PlayerJournal_SetUserInfo(dynamic PlayerData)
+		{
+			/* PlayerData:
+			 * 	"event": "LoadGame", "FID": "F5553303", "Commander": "Blue Mystic", "Horizons": true, "Odyssey": true, "Ship": "Cutter", "Ship_Localised": "Imperial Cutter",
+				"ShipID": 7, "ShipName": "NORMANDY", "ShipIdent": "SR-04", "FuelLevel": 64.0, "FuelCapacity": 64.0, "GameMode": "Solo", "Credits": 17540607, "Loan": 0,
+				"language": "English/UK", "gameversion": "4.0.0.701", "build": "r273365/r0 " */
+			try
+			{
+				bool ForcedUpdate = true;
+				var PlayerInfo = new
+				{
+					CommanderName = PlayerData.Commander,
+					Horizons = PlayerData.Horizons,
+					Odyssey = PlayerData.Odyssey,
+					Language = PlayerData.language,
+					ForcedUpdate
+				};
+				string PlayerInfo_JSON = Newtonsoft.Json.JsonConvert.SerializeObject(PlayerInfo, Newtonsoft.Json.Formatting.None);
+				string PlayerInfo_WREG = Util.WinReg_ReadKey("EDHM", "PlayerInfo").NVL(string.Empty);
+
+				// Enviar esta solicitud Sólo si no se ha hecho antes o si algo importante cambia:
+				if (PlayerInfo_WREG.EmptyOrNull() || PlayerInfo_WREG != PlayerInfo_JSON || ForcedUpdate)
+				{
+					//Solicitar la Ubicacion usando la IP:
+					string _Response = Util.WebRequest_GET("https://ipinfo.io/?token=d811bd45b5fcf5");
+					if (_Response != null && _Response != string.Empty)
+					{
+						/* _Response:
+						  "ip": "200.58.144.171", "hostname": "ns.cutcsa.com.uy", "city": "Montevideo", "region": "Montevideo", "country": "UY", "loc": "-34.9033,-56.1882",
+						  "org": "AS19422 Telefonica Moviles del Uruguay SA", "postal": "11100", "timezone": "America/Montevideo" */
+
+						dynamic MyIP = Newtonsoft.Json.JsonConvert.DeserializeObject(_Response);
+						if (MyIP != null)
+						{
+							var DataToSave = new
+							{
+								IP = MyIP.ip,
+								City = MyIP.city,
+								Location = MyIP.loc,
+								Country = MyIP.country,
+								TimeZone = MyIP.timezone,
+								Language = PlayerData.language,
+								CommanderName = PlayerData.Commander,
+								Horizons = PlayerData.Horizons.ToString().ToLower(),
+								Odyssey = PlayerData.Odyssey.ToString().ToLower(),
+								Date = DateTime.Today.ToString("yyyy-MM-dd"),
+								GameMode = PlayerData.GameMode,
+							};
+							string JSONStr = Newtonsoft.Json.JsonConvert.SerializeObject(DataToSave, Newtonsoft.Json.Formatting.None);
+							//{"IP":"200.58.144.171","Country":"UY","City":"Montevideo","Location":"-34.9033,-56.1882","TimeZone":"America/Montevideo","Language":"English/UK","CommanderName":"Blue mystic","Horizons":true,"Odyssey":true,"GameMode":"Solo"}
+
+							// Enviar los Datos mediante POST:
+							string url_prod = @"https://careful-rose-singlet.cyclic.app/users/add";
+							string _Res = Util.WebRequest_POST(url_prod, JSONStr, "application/json");
+							if (!string.IsNullOrEmpty(_Res))
+							{
+								//Console.WriteLine(_Res);
+								Util.WinReg_WriteKey("EDHM", "PlayerInfo", PlayerInfo_JSON);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + ex.StackTrace, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}

@@ -34,7 +34,7 @@ function createWindow() {
 
   mainWindow.webContents.on('did-finish-load', () => {
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools(); 
+    mainWindow.webContents.openDevTools(); 
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
@@ -78,15 +78,8 @@ process.on('unhandledRejection', (reason, promise) => {
 
 /* ==================================================================================================*/
 
-
-
-
 /*--------- Expose Methods via IPC Handlers: ---------------------*/
 //  they can be accesed like this:   const files = await window.api.getThemes(dirPath);
-
-
-
-
 
 ipcMain.handle('get-app-version', async () => {
   const appPath = app.getAppPath();

@@ -8,153 +8,18 @@
 
    {
       "game":"ODYSSEY",
-      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\Themes",
-      "action":"RMDIR",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\Cyberpunk",
-      "action":"RMDIR",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\Dragon Scales",
-      "action":"RMDIR",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\Sapphire_Diamonds",
-      "action":"RMDIR",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\Simple GreenRed",
-      "action":"RMDIR",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\Vibrant Poison Green",
-      "action":"RMDIR",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\XML - Janus Purist v2",
-      "action":"RMDIR",
+      "file_path":"%GAME_PATH%\\nvapi64.dll",
+      "action":"DEL",
       "destination":""
    },
 
    {
       "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\nvapi64.dll",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\0c569cd6001357fb-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\17b61707531b3e67-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\18167d40907cbd62-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\45895d0a8d46c05f-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\4f3812247e975491-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\594b95e8439163ed-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\7314afc523c59490-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\89119ad0bffa82f5-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\9173221231e2a6a4-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\9c5f63949673254a-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\a2002394136f1c25-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\ba5dca19de716009-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\e5991ba4716899fd-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\e8ca4d89ee990fae-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\f5ec2fc9f34f6553-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\f8def60425555f45-ps.txt",
-      "action":"DEL",
-      "destination":""
-   },
-   {
-      "game":"ODYSSEY",
-      "file_path":"%GAME_PATH%\\ShaderFixes\\fa7af23411413d51-ps.txt",
-      "action":"DEL",
+      "file_path":"%UI_DOCS%\\ODYSS\\Themes\\Taneth Yellow",
+      "action":"RMDIR",
       "destination":""
    }
+   
+   
+ 
 ]

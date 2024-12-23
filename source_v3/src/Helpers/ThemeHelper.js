@@ -164,8 +164,9 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
     return template;
   };
   
-  // ... rest of the code (getColorDecimalValue, reverseGammaCorrected) ...
 
+
+  
 
 function deepCopy(obj) {
     if (typeof obj !== 'object' || obj === null) {
@@ -191,6 +192,43 @@ function getColorDecimalValue(color) {
     // This is a simple example, you might need to adjust based on your specific needs
     return (color.r << 16) + (color.g << 8) + color.b;
 };
+
+function intToHex(int) {
+    // Ensure unsigned 32-bit
+    int >>>= 0;
+    
+    // Convert each component to a two-digit hex string
+    const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
+    const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
+    const b = (int & 0xFF).toString(16).padStart(2, '0');
+    
+    return `#${r}${g}${b}`;
+  };
+
+  function intToRGB(int) {
+    int >>>= 0; // Ensure unsigned 32-bit
+    const r = (int >> 16) & 0xFF;
+    const g = (int >> 8) & 0xFF;
+    const b = int & 0xFF;
+    return { r, g, b };
+  };
+
+  function rgbToHex(r, g, b) {
+    // Convert each component to a two-digit hex string
+    const red = r.toString(16).padStart(2, '0');
+    const green = g.toString(16).padStart(2, '0');
+    const blue = b.toString(16).padStart(2, '0');
+  
+    // Concatenate the components with '#' to form the HEX color string
+    return `#${red}${green}${blue}`;
+  };
+  
+
+  
+
+//  const colorInt = -23296;
+  //const rgb = intToRGB(colorInt);
+//  console.log(`RGB: (${rgb.r}, ${rgb.g}, ${rgb.b})`);
 
 function getGammaCorrectedRgba(color, gammaValue = 2.4) {
     // No ColorManagment library assumed in JavaScript
@@ -230,13 +268,13 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
         const linearSrgb = { r: invR, g: invG, b: invB };
 
         // Convert to RGB (assuming 0-255 range)
-        result.r = Math.round(linearSrgb.r * 255);
-        result.g = Math.round(linearSrgb.g * 255);
-        result.b = Math.round(linearSrgb.b * 255);
+        result.r = safeRound(linearSrgb.r * 255);
+        result.g = safeRound(linearSrgb.g * 255);
+        result.b = safeRound(linearSrgb.b * 255);
 
         // Handle alpha (if provided)
         if (gammaA !== undefined) {
-            result.a = Math.round(gammaA * 255);
+            result.a = safeRound(gammaA * 255);
         }
     } catch (error) {
         console.error("Error converting gamma corrected values to color:", error);
@@ -256,6 +294,23 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
     return reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
 };
 
+function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
+    return theLinearValue <= 0.0031308 
+      ? theLinearValue * 12.92 
+      : Math.pow(theLinearValue, 1.0 / _GammaValue) * 1.055 - 0.055;
+  };
+  
+  function convert_sRGB_ToLinear(thesRGBValue, _GammaValue = 2.4) {
+    return thesRGBValue <= 0.04045 
+      ? thesRGBValue / 12.92 
+      : Math.pow((thesRGBValue + 0.055) / 1.055, _GammaValue);
+  };
+
+function safeRound(value) {
+    return isNaN(value) ? 0 : Math.round(value);
+  };
+
+
 /*--------- Expose Methods via IPC Handlers: ---------------------*/
 ipcMain.handle('get-themes', async (event, dirPath) => {
     try {
@@ -269,6 +324,10 @@ ipcMain.handle('get-themes', async (event, dirPath) => {
 
 ipcMain.handle('LoadThemeINIs', async (event, folderPath) => {
     return LoadThemeINIs(folderPath);
+});
+
+ipcMain.handle('reverseGammaCorrected', async (event, gammaR, gammaG, gammaB) => {
+    return reverseGammaCorrected(gammaR, gammaG, gammaB);
 });
 
 ipcMain.handle('apply-ini-values', async (event, template, iniValues) => {

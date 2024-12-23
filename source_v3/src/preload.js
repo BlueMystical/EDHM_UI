@@ -27,6 +27,7 @@ contextBridge.exposeInMainWorld('api', {
   getActiveInstance: () => ipcRenderer.invoke('active-instance'),
 
   applyIniValuesToTemplate: async (template, iniValues) => ipcRenderer.invoke('apply-ini-values', template, iniValues),
+  reverseGammaCorrected: async (gammaR, gammaG, gammaB) => ipcRenderer.invoke('reverseGammaCorrected', gammaR, gammaG, gammaB),
  
   
   loadIniFile: async (filePath) => ipcRenderer.invoke('loadIniFile', filePath),

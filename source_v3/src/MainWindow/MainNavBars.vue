@@ -142,7 +142,9 @@ import ThemeTab from './ThemeTab.vue';
 import PropertiesTab from './PropertiesTab.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';
-import themeTemplate from '../data/ED_Odissey_ThemeTemplate.json';
+
+import defaultTemplate from '../data/ED_Odissey_ThemeTemplate.json';
+let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate)); 
 
 export default {
   name: 'MainNavBars',
@@ -162,9 +164,6 @@ export default {
     const historyOptions = ref([]);
     const selectedHistory = ref('dummy'); // Initialize with the dummy value
 
-    // Provide the themeTemplate data to be accessible by all components 
-    provide('themeTemplate', themeTemplate);
-
     onMounted(async () => {
       try {
         appVersion.value = await window.api.getAppVersion();
@@ -176,6 +175,10 @@ export default {
         const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
 
         themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);               //console.log('ThemeTemplate: ', themeTemplate);              
+        eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+
+        // Provide the themeTemplate data to be accessible by all components 
+        provide('themeTemplate', themeTemplate);
 
       } catch (error) {
         console.error('Error retrieving Active Instance:', error);
@@ -356,11 +359,15 @@ export default {
       //console.log('Theme Selected: ', theme);    console.log(theme.file.path);
 
       const ThemeINIs = await window.api.LoadThemeINIs(theme.file.path);          //console.log('ThemeINIs:', ThemeINIs);
-      const UT = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+      themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+      themeTemplate.name = theme.name;
+      themeTemplate.author = theme.file.credits.author;
 
-      console.log('Theme Loaded: ', UT);
-      console.log('z103: ', themeTemplate.ui_groups[1].Elements[0].Value   );
-      console.log('z103: ->', UT.ui_groups[1].Elements[0].Value   );
+      console.log('Theme Changed: ', themeTemplate);
+      eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+
+      //console.log('z103: ', themeTemplate.ui_groups[1].Elements[0].Value   );
+      //console.log('z103: ->', defaultTemplate.ui_groups[1].Elements[0].Value   );
     }
   },
   mounted() {

@@ -1,40 +1,35 @@
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe.config
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.pdb
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\bin\Debug\Ionic.Zip.dll
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.dll
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.pdb
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.xml
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Form1.resources
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Properties.Resources.resources
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.GenerateResource.cache
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CoreCompileInputs.cache
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CopyComplete
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.exe
-D:\EDHM_UI\EDHM_UI-main\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.pdb
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe.config
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.pdb
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Ionic.Zip.dll
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.dll
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.pdb
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.xml
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csprojAssemblyReference.cache
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Form1.resources
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Properties.Resources.resources
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.GenerateResource.cache
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CoreCompileInputs.cache
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CopyComplete
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.exe
-D:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.pdb
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe.config
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.pdb
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.Desktop.v24.1.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.v24.1.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Images.v24.1.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Printing.v24.1.Core.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Utils.v24.1.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraBars.v24.1.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraEditors.v24.1.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraLayout.v24.1.dll
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Ionic.Zip.dll
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Drawing.v24.1.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Core.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Drawing.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Sparkline.v24.1.Core.dll
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.Desktop.v24.1.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.v24.1.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Printing.v24.1.Core.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Utils.v24.1.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraBars.v24.1.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraEditors.v24.1.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraLayout.v24.1.xml
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.pdb
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Drawing.v24.1.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Core.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Drawing.xml
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\bin\Debug\DevExpress.Sparkline.v24.1.Core.xml
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csprojAssemblyReference.cache
+G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\Chart_Test.PerformanceChart.resources
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Form1.resources
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Properties.Resources.resources
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.GenerateResource.cache

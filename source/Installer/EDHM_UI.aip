@@ -20,10 +20,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{29847D67-01A0-4C7F-88ED-4D8D82F31A26} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{61B012A0-9CD4-4BE9-AC58-1E46DB1A9847} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM_UI"/>
-    <ROW Property="ProductVersion" Value="2.2.29.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.2.54.0" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{2949570F-AF20-4990-B258-006A1649A388}"/>
@@ -49,42 +49,43 @@
     <ROW Directory="Elements_ODY_Dir" Directory_Parent="Images_Dir" DefaultDir="ELEMEN~1|Elements_ODY" DirectoryOptions="3"/>
     <ROW Directory="Images_Dir" Directory_Parent="APPDIR" DefaultDir="Images"/>
     <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
+    <ROW Directory="Properties_Dir" Directory_Parent="APPDIR" DefaultDir="PROPER~1|Properties"/>
     <ROW Directory="Ships_Dir" Directory_Parent="Images_Dir" DefaultDir="Ships"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="Updates_Dir" Directory_Parent="APPDIR" DefaultDir="Updates" DirectoryOptions="3"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="AIShRegAnswer" ComponentId="{2D8D79A9-F005-4936-95B1-DD31BB7F3851}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
-    <ROW Component="AI_CustomARPName" ComponentId="{C6245049-D197-4584-ADF7-07410D07CF8B}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{F489EDDC-79A2-410B-BE76-2A76413A08FB}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="APPDIR" ComponentId="{1428F5F3-0E71-45A1-AC93-1D376C7F0DC2}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="AmbientLights_0.png" ComponentId="{52A436C9-3EAA-4B92-958A-344A6537B298}" Directory_="ED_Horizons_Dir" Attributes="0" KeyPath="AmbientLights_0.png" Type="0"/>
     <ROW Component="ColorManagment.dll" ComponentId="{35162133-6069-4C8C-A522-8283866B1CAE}" Directory_="APPDIR" Attributes="0" KeyPath="ColorManagment.dll"/>
     <ROW Component="ColorMatrix_Preview_1a.png" ComponentId="{D96405A6-090B-455D-879D-1FD8CE4E5153}" Directory_="ED_Odissey_Dir" Attributes="0" KeyPath="ColorMatrix_Preview_1a.png_2" Type="0"/>
-    <ROW Component="DevExpress.BonusSkins.v23.2.dll" ComponentId="{E1BD9859-09F1-4ABE-B154-B6F5FAB65D05}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.BonusSkins.v23.2.dll"/>
-    <ROW Component="DevExpress.CodeParser.v23.2.dll" ComponentId="{4FC76D6B-C8E3-471F-AD8C-0D49F80A5E0B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.CodeParser.v23.2.dll"/>
-    <ROW Component="DevExpress.Data.Desktop.v23.2.dll" ComponentId="{1481FEFF-BC35-413B-BA6E-61DAD5156914}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.Desktop.v23.2.dll"/>
-    <ROW Component="DevExpress.Data.v23.2.dll" ComponentId="{3C0ED6D6-E5EB-4162-BC7C-3FCB9212FE32}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.v23.2.dll"/>
-    <ROW Component="DevExpress.DataAccess.v23.2.dll" ComponentId="{7B83E780-FFFD-44B6-9F6C-637065FC6B87}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.DataAccess.v23.2.dll"/>
-    <ROW Component="DevExpress.Dialogs.v23.2.Core.dll" ComponentId="{B2C31D42-BEF0-4978-94D4-05DD606BB856}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Dialogs.v23.2.Core.dll"/>
-    <ROW Component="DevExpress.Drawing.v23.2.dll" ComponentId="{512E6138-8549-44D7-B5E4-08566A153DC6}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Drawing.v23.2.dll"/>
-    <ROW Component="DevExpress.Images.v23.2.dll" ComponentId="{D1484F0A-8212-4F13-A494-F8B586882802}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Images.v23.2.dll"/>
-    <ROW Component="DevExpress.Office.v23.2.Core.dll" ComponentId="{9E8E13E0-98F3-4DF5-B803-9C41BE7694EC}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Office.v23.2.Core.dll"/>
-    <ROW Component="DevExpress.Pdf.v23.2.Core.dll" ComponentId="{57F71DB4-D06E-4DEC-B2FE-BAC34A27E2A5}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v23.2.Core.dll"/>
-    <ROW Component="DevExpress.Pdf.v23.2.Drawing.dll" ComponentId="{78AFED33-1CFC-4CC3-9D89-4001453CA720}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v23.2.Drawing.dll"/>
-    <ROW Component="DevExpress.Printing.v23.2.Core.dll" ComponentId="{1BBD6591-B54E-4C26-A00E-7F22D2AD6CD4}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Printing.v23.2.Core.dll"/>
-    <ROW Component="DevExpress.RichEdit.v23.2.Core.dll" ComponentId="{1677F52F-59D6-4FAD-BF29-8E0982E2A07A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.RichEdit.v23.2.Core.dll"/>
-    <ROW Component="DevExpress.Sparkline.v23.2.Core.dll" ComponentId="{7F0CB8D7-DBDA-4318-BE8A-E5152EEAC896}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Sparkline.v23.2.Core.dll"/>
-    <ROW Component="DevExpress.Utils.v23.2.dll" ComponentId="{CECA6355-BE8D-4D75-BC46-503FC7052E0F}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Utils.v23.2.dll"/>
-    <ROW Component="DevExpress.Xpo.v23.2.dll" ComponentId="{7D1EAC74-A24E-413B-8796-BA16EC86DDAC}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Xpo.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraBars.v23.2.dll" ComponentId="{780BFAA3-0FBC-4711-A69D-C6EF0A6771DF}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraBars.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraDialogs.v23.2.dll" ComponentId="{9EDFB616-9DB9-4C0E-BBAE-2DCE2BD94748}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraDialogs.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraEditors.v23.2.dll" ComponentId="{0BD218DD-B68E-45CD-A4DB-D004BFF95F21}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraEditors.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraGrid.v23.2.dll" ComponentId="{B6A111F5-412C-445A-9175-A527FEFE0A9A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraGrid.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraLayout.v23.2.dll" ComponentId="{6CA2728B-1D65-44B4-BF6F-7A226686CDCC}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraLayout.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraNavBar.v23.2.dll" ComponentId="{9E742FD4-00C4-4738-87AA-084CA1ED99AC}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraNavBar.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraPrinting.v23.2.dll" ComponentId="{B10A56C3-458B-429C-9059-FB0FEB34DA63}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraPrinting.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraTreeList.v23.2.dll" ComponentId="{C0B29B3A-BECD-4074-ACD7-A1F2DC6613DD}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraTreeList.v23.2.dll"/>
-    <ROW Component="DevExpress.XtraVerticalGrid.v23.2.dll" ComponentId="{0A1FB413-AD01-40E3-A828-3C420C4587B6}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraVerticalGrid.v23.2.dll"/>
+    <ROW Component="DevExpress.BonusSkins.v24.1.dll" ComponentId="{943E2F48-3F1C-4AD8-9693-476D4B776E94}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.BonusSkins.v24.1.dll"/>
+    <ROW Component="DevExpress.CodeParser.v24.1.dll" ComponentId="{ECF20A87-734B-4FA1-9329-EEA8C5AF505A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.CodeParser.v24.1.dll"/>
+    <ROW Component="DevExpress.Data.Desktop.v24.1.dll" ComponentId="{AAFD859F-53A1-4EC5-8009-EE53B4F65D15}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.Desktop.v24.1.dll"/>
+    <ROW Component="DevExpress.Data.v24.1.dll" ComponentId="{CD704DAB-AE00-4E96-B49D-A5037A679F1F}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.v24.1.dll"/>
+    <ROW Component="DevExpress.DataAccess.v24.1.dll" ComponentId="{4BF15210-53AC-4DB5-AC60-3A194BB82C8E}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.DataAccess.v24.1.dll"/>
+    <ROW Component="DevExpress.Dialogs.v24.1.Core.dll" ComponentId="{7F333BC8-17CA-4A9F-ABF5-17F2287481F3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Dialogs.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Drawing.v24.1.dll" ComponentId="{8BFE4565-428F-4119-8206-FD69332B8E74}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Drawing.v24.1.dll"/>
+    <ROW Component="DevExpress.Images.v24.1.dll" ComponentId="{3A6C1BAD-95E6-4655-8CE8-09BEC76CA998}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Images.v24.1.dll"/>
+    <ROW Component="DevExpress.Office.v24.1.Core.dll" ComponentId="{BDC7E227-A327-4BB8-BB68-89A228045A6D}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Office.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Pdf.v24.1.Core.dll" ComponentId="{0CACA3A8-E706-48AA-B041-A1412F8C9D5B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Pdf.v24.1.Drawing.dll" ComponentId="{DFDEA3DA-17C4-4328-977C-989A3CFCF723}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v24.1.Drawing.dll"/>
+    <ROW Component="DevExpress.Printing.v24.1.Core.dll" ComponentId="{34114E8C-3CC8-4CC0-BDBB-BAA715C7AC24}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Printing.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.RichEdit.v24.1.Core.dll" ComponentId="{7E81FD7C-43ED-43C8-BEBA-6A05F1CF75A0}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.RichEdit.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Sparkline.v24.1.Core.dll" ComponentId="{6BBB816B-F502-477B-B39D-EA78E8EE4098}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Sparkline.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Utils.v24.1.dll" ComponentId="{8FEDC3A3-4D76-4EB8-930A-54236EFB31A3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Utils.v24.1.dll"/>
+    <ROW Component="DevExpress.Xpo.v24.1.dll" ComponentId="{70C3418C-EB92-4A0C-AC36-97BB8460D2DD}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Xpo.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraBars.v24.1.dll" ComponentId="{2ABAFAD1-4DBA-42B9-9129-951623D6AF45}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraBars.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraDialogs.v24.1.dll" ComponentId="{2A125262-884D-44AA-B32B-3ACAECC6705B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraDialogs.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraEditors.v24.1.dll" ComponentId="{B726E057-7B63-4001-916A-4F3B0E251F70}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraEditors.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraGrid.v24.1.dll" ComponentId="{0E432E18-387C-4E99-AB72-DECF9BC24BD3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraGrid.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraLayout.v24.1.dll" ComponentId="{7CE42135-2AFF-4766-A086-7C51A766E5A3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraLayout.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraNavBar.v24.1.dll" ComponentId="{DF1EE296-6000-483E-8FD8-D422867E1BBF}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraNavBar.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraPrinting.v24.1.dll" ComponentId="{978E60A6-4464-4B35-A24E-602F61D1276B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraPrinting.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraTreeList.v24.1.dll" ComponentId="{D5A3AA16-93B2-48C5-A00A-65970D1F00B1}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraTreeList.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraVerticalGrid.v24.1.dll" ComponentId="{CFF4EA78-01D1-4586-9861-1356C88B13A0}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraVerticalGrid.v24.1.dll"/>
     <ROW Component="EDHM_UI_Guide.pdf" ComponentId="{B6C93243-E42F-4572-9E06-C8F0AD605DA4}" Directory_="Data_Dir" Attributes="0" KeyPath="ED_Horizons_XMLProfile.ini" Type="0"/>
     <ROW Component="EDHM_UI_Patcher.exe" ComponentId="{986622D2-1826-479C-953F-5C8C000CC8D9}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_Patcher.exe"/>
     <ROW Component="EDHM_UI_Thumbnail_Maker.exe" ComponentId="{5E6A1F3F-DD88-4C11-8984-0DB6AF037EDC}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_Thumbnail_Maker.exe"/>
@@ -99,6 +100,7 @@
     <ROW Component="Newtonsoft.Json.dll" ComponentId="{6D944275-7E84-4326-A395-F2763ED28D38}" Directory_="APPDIR" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
     <ROW Component="PREVIEW.png" ComponentId="{66052CFD-4B30-4AAB-9D01-A39D85806726}" Directory_="Images_Dir" Attributes="0" KeyPath="PREVIEW.png" Type="0"/>
     <ROW Component="ProductInformation" ComponentId="{E86B98E5-CFC4-493A-8B3C-A69D8278A401}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="Properties" ComponentId="{F40A4739-32D8-4D25-A341-7289F8990683}" Directory_="Properties_Dir" Attributes="0"/>
     <ROW Component="adder.jpg" ComponentId="{D88A3C07-670F-4BAF-B196-7D93921F2FD0}" Directory_="Ships_Dir" Attributes="0" KeyPath="adder.jpg" Type="0"/>
     <ROW Component="w97.png" ComponentId="{95EF65DD-47F4-43E9-B5D7-9CC37A618AD3}" Directory_="Elements_ODY_Dir" Attributes="0" KeyPath="w97.png" Type="0"/>
   </COMPONENT>
@@ -614,33 +616,38 @@
     <ROW File="viper.jpg" Component_="adder.jpg" FileName="viper.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper.jpg" SelfReg="false"/>
     <ROW File="viper_mkiv.jpg" Component_="adder.jpg" FileName="VIPER_~1.JPG|viper_mkiv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper_mkiv.jpg" SelfReg="false"/>
     <ROW File="vulture.jpg" Component_="adder.jpg" FileName="vulture.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\vulture.jpg" SelfReg="false"/>
-    <ROW File="DevExpress.BonusSkins.v23.2.dll" Component_="DevExpress.BonusSkins.v23.2.dll" FileName="DEVEXP~1.DLL|DevExpress.BonusSkins.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.BonusSkins.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.CodeParser.v23.2.dll" Component_="DevExpress.CodeParser.v23.2.dll" FileName="DEVEXP~2.DLL|DevExpress.CodeParser.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.CodeParser.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Data.Desktop.v23.2.dll" Component_="DevExpress.Data.Desktop.v23.2.dll" FileName="DEVEXP~3.DLL|DevExpress.Data.Desktop.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.Desktop.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Data.v23.2.dll" Component_="DevExpress.Data.v23.2.dll" FileName="DEVEXP~4.DLL|DevExpress.Data.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.DataAccess.v23.2.dll" Component_="DevExpress.DataAccess.v23.2.dll" FileName="DEVEXP~5.DLL|DevExpress.DataAccess.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.DataAccess.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Dialogs.v23.2.Core.dll" Component_="DevExpress.Dialogs.v23.2.Core.dll" FileName="DEVEXP~6.DLL|DevExpress.Dialogs.v23.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Dialogs.v23.2.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Drawing.v23.2.dll" Component_="DevExpress.Drawing.v23.2.dll" FileName="DEVEXP~7.DLL|DevExpress.Drawing.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Drawing.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Images.v23.2.dll" Component_="DevExpress.Images.v23.2.dll" FileName="DEVEXP~8.DLL|DevExpress.Images.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Images.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Office.v23.2.Core.dll" Component_="DevExpress.Office.v23.2.Core.dll" FileName="DEVEXP~9.DLL|DevExpress.Office.v23.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Office.v23.2.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Pdf.v23.2.Core.dll" Component_="DevExpress.Pdf.v23.2.Core.dll" FileName="DEVEX~10.DLL|DevExpress.Pdf.v23.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v23.2.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Pdf.v23.2.Drawing.dll" Component_="DevExpress.Pdf.v23.2.Drawing.dll" FileName="DEVEX~11.DLL|DevExpress.Pdf.v23.2.Drawing.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v23.2.Drawing.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Printing.v23.2.Core.dll" Component_="DevExpress.Printing.v23.2.Core.dll" FileName="DEVEX~12.DLL|DevExpress.Printing.v23.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Printing.v23.2.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.RichEdit.v23.2.Core.dll" Component_="DevExpress.RichEdit.v23.2.Core.dll" FileName="DEVEX~13.DLL|DevExpress.RichEdit.v23.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.RichEdit.v23.2.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Sparkline.v23.2.Core.dll" Component_="DevExpress.Sparkline.v23.2.Core.dll" FileName="DEVEX~14.DLL|DevExpress.Sparkline.v23.2.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Sparkline.v23.2.Core.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Utils.v23.2.dll" Component_="DevExpress.Utils.v23.2.dll" FileName="DEVEX~15.DLL|DevExpress.Utils.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Utils.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.Xpo.v23.2.dll" Component_="DevExpress.Xpo.v23.2.dll" FileName="DEVEX~16.DLL|DevExpress.Xpo.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Xpo.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraBars.v23.2.dll" Component_="DevExpress.XtraBars.v23.2.dll" FileName="DEVEX~17.DLL|DevExpress.XtraBars.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraBars.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraDialogs.v23.2.dll" Component_="DevExpress.XtraDialogs.v23.2.dll" FileName="DEVEX~18.DLL|DevExpress.XtraDialogs.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraDialogs.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraEditors.v23.2.dll" Component_="DevExpress.XtraEditors.v23.2.dll" FileName="DEVEX~19.DLL|DevExpress.XtraEditors.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraGrid.v23.2.dll" Component_="DevExpress.XtraGrid.v23.2.dll" FileName="DEVEX~20.DLL|DevExpress.XtraGrid.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraGrid.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraLayout.v23.2.dll" Component_="DevExpress.XtraLayout.v23.2.dll" FileName="DEVEX~21.DLL|DevExpress.XtraLayout.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraLayout.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraNavBar.v23.2.dll" Component_="DevExpress.XtraNavBar.v23.2.dll" FileName="DEVEX~22.DLL|DevExpress.XtraNavBar.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraNavBar.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraPrinting.v23.2.dll" Component_="DevExpress.XtraPrinting.v23.2.dll" FileName="DEVEX~23.DLL|DevExpress.XtraPrinting.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraPrinting.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraTreeList.v23.2.dll" Component_="DevExpress.XtraTreeList.v23.2.dll" FileName="DEVEX~24.DLL|DevExpress.XtraTreeList.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraTreeList.v23.2.dll" SelfReg="false"/>
-    <ROW File="DevExpress.XtraVerticalGrid.v23.2.dll" Component_="DevExpress.XtraVerticalGrid.v23.2.dll" FileName="DEVEX~25.DLL|DevExpress.XtraVerticalGrid.v23.2.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraVerticalGrid.v23.2.dll" SelfReg="false"/>
     <ROW File="x238_y238_z238_w238.png" Component_="w97.png" FileName="X238_Y~1.PNG|x238_y238_z238_w238.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x238_y238_z238_w238.png" SelfReg="false"/>
-    <ROW File="ODYSS_EDHMv18.07.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v18.07.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v18.07.zip" SelfReg="false"/>
+    <ROW File="python_nx.jpg" Component_="adder.jpg" FileName="PYTHON~1.JPG|python_nx.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\python_nx.jpg" SelfReg="false"/>
+    <ROW File="type8.jpg" Component_="adder.jpg" FileName="type8.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type8.jpg" SelfReg="false"/>
+    <ROW File="DevExpress.BonusSkins.v24.1.dll" Component_="DevExpress.BonusSkins.v24.1.dll" FileName="DEVEXP~1.DLL|DevExpress.BonusSkins.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.BonusSkins.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.CodeParser.v24.1.dll" Component_="DevExpress.CodeParser.v24.1.dll" FileName="DEVEXP~2.DLL|DevExpress.CodeParser.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.CodeParser.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Data.Desktop.v24.1.dll" Component_="DevExpress.Data.Desktop.v24.1.dll" FileName="DEVEXP~3.DLL|DevExpress.Data.Desktop.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.Desktop.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Data.v24.1.dll" Component_="DevExpress.Data.v24.1.dll" FileName="DEVEXP~4.DLL|DevExpress.Data.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.DataAccess.v24.1.dll" Component_="DevExpress.DataAccess.v24.1.dll" FileName="DEVEXP~5.DLL|DevExpress.DataAccess.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.DataAccess.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Dialogs.v24.1.Core.dll" Component_="DevExpress.Dialogs.v24.1.Core.dll" FileName="DEVEXP~6.DLL|DevExpress.Dialogs.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Dialogs.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Drawing.v24.1.dll" Component_="DevExpress.Drawing.v24.1.dll" FileName="DEVEXP~7.DLL|DevExpress.Drawing.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Drawing.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Images.v24.1.dll" Component_="DevExpress.Images.v24.1.dll" FileName="DEVEXP~8.DLL|DevExpress.Images.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Images.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Office.v24.1.Core.dll" Component_="DevExpress.Office.v24.1.Core.dll" FileName="DEVEXP~9.DLL|DevExpress.Office.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Office.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Pdf.v24.1.Core.dll" Component_="DevExpress.Pdf.v24.1.Core.dll" FileName="DEVEX~10.DLL|DevExpress.Pdf.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Pdf.v24.1.Drawing.dll" Component_="DevExpress.Pdf.v24.1.Drawing.dll" FileName="DEVEX~11.DLL|DevExpress.Pdf.v24.1.Drawing.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v24.1.Drawing.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Printing.v24.1.Core.dll" Component_="DevExpress.Printing.v24.1.Core.dll" FileName="DEVEX~12.DLL|DevExpress.Printing.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Printing.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.RichEdit.v24.1.Core.dll" Component_="DevExpress.RichEdit.v24.1.Core.dll" FileName="DEVEX~13.DLL|DevExpress.RichEdit.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.RichEdit.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Sparkline.v24.1.Core.dll" Component_="DevExpress.Sparkline.v24.1.Core.dll" FileName="DEVEX~14.DLL|DevExpress.Sparkline.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Sparkline.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Utils.v24.1.dll" Component_="DevExpress.Utils.v24.1.dll" FileName="DEVEX~15.DLL|DevExpress.Utils.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Utils.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Xpo.v24.1.dll" Component_="DevExpress.Xpo.v24.1.dll" FileName="DEVEX~16.DLL|DevExpress.Xpo.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Xpo.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraBars.v24.1.dll" Component_="DevExpress.XtraBars.v24.1.dll" FileName="DEVEX~17.DLL|DevExpress.XtraBars.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraBars.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraDialogs.v24.1.dll" Component_="DevExpress.XtraDialogs.v24.1.dll" FileName="DEVEX~18.DLL|DevExpress.XtraDialogs.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraDialogs.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraEditors.v24.1.dll" Component_="DevExpress.XtraEditors.v24.1.dll" FileName="DEVEX~19.DLL|DevExpress.XtraEditors.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraGrid.v24.1.dll" Component_="DevExpress.XtraGrid.v24.1.dll" FileName="DEVEX~20.DLL|DevExpress.XtraGrid.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraGrid.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraLayout.v24.1.dll" Component_="DevExpress.XtraLayout.v24.1.dll" FileName="DEVEX~21.DLL|DevExpress.XtraLayout.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraLayout.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraNavBar.v24.1.dll" Component_="DevExpress.XtraNavBar.v24.1.dll" FileName="DEVEX~22.DLL|DevExpress.XtraNavBar.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraNavBar.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraPrinting.v24.1.dll" Component_="DevExpress.XtraPrinting.v24.1.dll" FileName="DEVEX~23.DLL|DevExpress.XtraPrinting.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraPrinting.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraTreeList.v24.1.dll" Component_="DevExpress.XtraTreeList.v24.1.dll" FileName="DEVEX~24.DLL|DevExpress.XtraTreeList.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraTreeList.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraVerticalGrid.v24.1.dll" Component_="DevExpress.XtraVerticalGrid.v24.1.dll" FileName="DEVEX~25.DLL|DevExpress.XtraVerticalGrid.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraVerticalGrid.v24.1.dll" SelfReg="false"/>
+    <ROW File="mandalay.jpg" Component_="adder.jpg" FileName="mandalay.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mandalay.jpg" SelfReg="false"/>
+    <ROW File="DevExpress.XtraEditors.v24.1.xml" Component_="EDHM_UI_mk2.exe.Config" FileName="DEVEXP~1.XML|DevExpress.XtraEditors.v24.1.xml" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v24.1.xml" SelfReg="false"/>
+    <ROW File="ODYSS_EDHMv19.05.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v19.05.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v19.05.zip" SelfReg="false"/>
+    <ROW File="cobramkv.jpg" Component_="adder.jpg" FileName="cobramkv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkv.jpg" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -730,6 +737,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
+    <ROW Directory_="Properties_Dir" Component_="Properties" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_ApplyShortcutFlags" Type="3073" Source="ShortcutFlags.dll" Target="UpdateShortcutFlags" WithoutSeq="true"/>
@@ -786,33 +794,34 @@
     <ROW Feature_="MainFeature" Component_="EDHM_UI_Thumbnail_Maker.exe"/>
     <ROW Feature_="TileAssets_DefaultBuild" Component_="EDHM_UI_mk2.VisualElementsManifest.xml"/>
     <ROW Feature_="MainFeature" Component_="w97.png"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.BonusSkins.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.CodeParser.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Data.Desktop.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Data.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.DataAccess.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Dialogs.v23.2.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Drawing.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Images.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Office.v23.2.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v23.2.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v23.2.Drawing.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Printing.v23.2.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.RichEdit.v23.2.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Sparkline.v23.2.Core.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Utils.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.Xpo.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraBars.v23.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.BonusSkins.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.CodeParser.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Data.Desktop.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Data.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.DataAccess.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Dialogs.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Drawing.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Images.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Office.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v24.1.Drawing.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Printing.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.RichEdit.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Sparkline.v24.1.Core.dll"/>
     <ROW Feature_="MainFeature" Component_="AIShRegAnswer"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraDialogs.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraEditors.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraGrid.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraLayout.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraNavBar.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraPrinting.v23.2.dll"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraTreeList.v23.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Utils.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Xpo.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraBars.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraDialogs.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraEditors.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraGrid.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraLayout.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="adder.jpg"/>
-    <ROW Feature_="MainFeature" Component_="DevExpress.XtraVerticalGrid.v23.2.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraNavBar.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraPrinting.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraTreeList.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraVerticalGrid.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="Properties"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="ED_TripleElite.exe" SourcePath="..\ED_TripleElite.ico" Index="0"/>

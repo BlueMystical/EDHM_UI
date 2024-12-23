@@ -1,4 +1,260 @@
 @everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.53 ✦✦ is now available.  
+Change Log:
+Ready for FDev U19.03
+
+- Fix Asteroid Lines and Coasters on Radar
+- Fix Passenger Mission Parallelogram
+- Refinery Station Banner now use XML Color
+- Galmap icons linked to y84/xyzw85 parameters, now use these parameters also in Galmap Menus
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1316789346010927236
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.51 ✦✦ is now available.  
+Change Log:
+- Fix Supercharged Jump Lines that could sometimes display noise.
+- Fix an issue where the number of unread messages was still displayed when the on-foot HUD was disabled in stations (w121).
+- The option to hide the Dot inside stations (w109) no longer requires hiding the rest of the on-foot HUD in stations.
+
+✦ NEW: the HUD Elements on Station Concourse option (w121) now has a new mode: Minimalist. This allows you to hide the on-foot HUD inside stations while keeping the active Insight Hub bar visible (where you can see unread messages, for example). (image 1)
+
+✦ We got several reports of virus infection in the installer, we believe it was an attack on Github files, this patch should be clean, thank you for your patience and apologies for the inconvenience.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1313443167122493460
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Neptune by @CMDR QUASXR (AXIN)    ✦ NEW ✦
+  ✦ Priest-Duke Purple BY @CMDR Nopileos03   ✦ UPDATED ✦
+  ✦ Green Wonder by @Macsek - Garfield ✦ NEW ✦
+  ✦ Five-Alive by @SAINROK   ✦ NEW ✦
+  ✦ StarTrekNew by @T.J. Kirk   ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.49 ✦✦ is now available.  
+Change Log:
+- Fix for FDev U19.01
+- Fix some orange icons in Galaxy Map
+- Fix some PowerPlay icons
+- XML Colorization of the Eye icon in the Livery Menu (orange & blue)
+
+✦ FDev have made many changes, so if you notice any remaining orange elements (that aren't Power related) after the update, please let  me know where they are and send me a screenshot in #edhm-mod.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1309557641990770748
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Type 8 Yellow by @VD    ✦ UPDATED ✦
+  ✦ Prestige Red by @VD     ✦ UPDATED ✦
+  ✦ Priest-Duke Purple BY @CMDR Nopileos03   ✦ NEW ✦
+  ✦ Lime and Coconut by @VD ✦ NEW ✦
+  ✦ Taneth Muted Green by @Taneth   ✦ NEW ✦
+  ✦ Covenant Carbine by @Lysergic   ✦ BLUE'S CHOICE ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.46 ✦✦ is now available.  
+Change Log:
+- First Fix for FDev U19.00
+- Elements that only appear after joining a Faction are not currently modded.
+- Reverted the Program to .NET 4.52 to ensure compatibility with Windows 7.
+- Fixed a glitch that made the program to launch hidden.
+
+    ✦ FDev have made many changes, so if you notice any remaining orange elements (that aren't Power related) after the update, please let me know where they are and send me a screenshot in #edhm-mod.
+
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1302739717502275604
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Landerf Theme by @doc_landerf   ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.39 ✦✦ is now available.  
+Change Log:
+- Fix for FDev Update 18.07
+- Fix Some Orange
+- Fixe Orbit Lines
+
+⚠️ FDev U18.07 Update has made changes to Orbit Lines, making them thicker to reduce the hatching effect.
+
+Due to these changes, the Thick Orbit Lines Mod no longer works, and an update will be necessary when it becomes available.
+
+Unfortunately, FDev has introduced a bug that causes Orbit Lines to not always be hidden correctly when disabled in-game (some visible lines on the screen when attempting to disable them are not hidden and start moving).
+The solution is to disable the lines when they are not visible, such as when in normal flight.
+
+Until FDev fixes this issue, I offer you a temporary 3PMod that allows you to use a keyboard shortcut to enable/disable the Orbit Lines Shader, which will effectively hide them without encountering this problem. ➡️ #3rd-party-mods
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1253418886917914858
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Cyan & Yellow by @CMDR KAJAK-DE
+  ✦ Juvecu's Default Orange by @Juvecu
+  ✦ BWO - Explorer by @CMDR [ERIDIAN]
+  ✦ Warm and Cozy by @Skeitch   ✦ NEW ✦
+  ✦ Tacticool Lite  by @Skeitch  ✦ NEW ✦
+  ✦ Purple Dreamz by @Skeitch  ✦ NEW ✦
+  ✦ Janus Luxe - Crimson by @Evertiro   ✦ NEW ✦
+  ✦ Fire and Ice by @Gileon Fletcher
+  ✦ Taneth Yellow (Exploration) by @Taneth
+  ✦ Taneth Goldenrod (Exploration) by @Taneth
+  ✦ Taneth Goldenrod by @Taneth
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.44 ✦✦ is now available.  
+Change Log:
+
+- Thank you all for reaching 7K Members in our Discord!
+
+- Themes Added / Updated:
+  ✦ Retro Green Screen by @Veltr0        ✦ NEW ✦
+  ✦ Citizen Star by @Lix                 ✦ NEW ✦
+  ✦ Turquoise and blood orange color by @Veltr0        ✦ NEW ✦
+  ✦ Muted Red by @CMDR KAJAK-DE          ✦ NEW ✦
+  ✦ Prestige Red by @VD                  ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.36 ✦✦ is now available.  
+Change Log:
+
+- Add an option to Choose the Color of the Cargo Scoop Reticle and Adjust its Brightness. (image 3)
+- Add an option to Change the Color of Mining Mini Games. The Custom Color will be used to replace the Orange Part, Other Parts will use XML Matrix. (image 4)
+- Add an option to Extend the On Foot HUD Opacity setting (w31) to Other On Foot Elements like Dialogue Windows or Nameplates. (x157)
+- General improvement of modded elements when On Foot. Elements could be poorly colored or transparency issues could be visible.
+- Using the XML matrix to Color Orange Mining Symbols. (image 4)
+- Fix Thargoid Radar Circle and Thargoid Holograms before they are on Alert.
+- Fix Glitched Radar in some situations.
+- Fix an issue that could cause Target Ship Text to flicker when Other Ship Target Elements was set to Use Radar Colors. (already included in EDHM v18.12)
+- Various Fixes
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1251601354896572546
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Interstellar Frost by @Takumi 
+  ✦ Blue and White by @CMDR Fred89210 
+  ✦ MediCorp by @CMDR Fred89210 ✦ NEW ✦
+  ✦ @XML - Color Import by @evertiro 
+  ✦ Janus Core by @evertiro  
+  ✦ Janus Minimalism by @evertiro 
+  ✦ Janus Blackout by @evertiro 
+  ✦ Janus Clementine by @evertiro 
+  ✦ Janus Emerald by @evertiro 
+  ✦ Janus Festivus by @evertiro 
+  ✦ Janus Legacy by @evertiro 
+  ✦ Janus Festivus by @evertiro 
+  ✦ Janus Luxe - Royal by @evertiro
+  ✦ Janus Luxe - Midnight by @evertiro
+  ✦ Janus Luxe - Mint by @evertiro 
+  ✦ Janus Luxe - Luster by @evertiro ✦ NEW ✦
+  ✦ Janus Neon by @evertiro ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.34 ✦✦ is now available.  
+Change Log:
+
+- NEW: Add an option to Synchronize the Color of Friendly, Hostiles, and Crew Targets on the Radar with the Color of the Selection Elements of these Targets (Rhombus, Triple Triangles, Text,...). (x112) (image 4)
+- NEW: Add an option to Synchronize the Color of Friendly, Hostile, and Crew Targets on the Radar with the Color of the Holograms of these Targets. (y112) (image 4)
+- NEW: Hologram Brightness Settings for Hostile and Crew Target (Friendly Target Brightness (z73) already existed). (x105 & y105)
+- NEW: Added an option to Customize the Cyan Part of the Landing Reticle during Planetary Descent (also affects the Aligned Planetary Landing Bar). (xyzw71) (image 5)
+- NEW: Two Terrain Hologram Options (Outer Line and Shimmering Lines).
+- Re-enable Custom Color option for SRV Hologram - Main.
+
+And More :
+- The Target Contact Bars in the Nav Contact Panel use the Radar Target Colors. (image 4)
+- Neutral Target Subcomponents now use the Neutral Target Color instead of Orange.
+- Supercruise Radar Very Close Red Bodies take the Color of Hostile Targets to match the Color of the Line and the Coaster (until now only Line and Coaster changed Color, which could create a strange effect).
+- Station Landing Line and Coaster now use the color of the Landing Line and Coasters option.
+- Various Adjustments.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1249355571904249948
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Interstellar Frost by @Takumi ✦ UPDATE ✦
+  ✦ Blue and White by @CMDR Fred89210 ✦ UPDATE ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.30 ✦✦ is now available.  
+Change Log:
+
+- Implemented EDHM v18.08
+- Minor Oranges got Juiced.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1237534457771331614
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Ace Combat by @Lilac the Speedster(Pixy) ✦ UPDATED ✦
+  ✦ Ace Hornet by @Lilac the Speedster(Pixy) ✦ NEW ✦
+  ✦ Interstellar Frost by @Takumi  ✦ UPDATED ✦
+  ✦ Grandidierite by @Ky  ✦ UPDATED ✦
+  ✦ Taneth Yellow by @Taneth ✦ UPDATED ✦
+  ✦ Taneth Exploration by @Taneth ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.29 ✦✦ is now available.  
+Change Log:
+
+Implemented EDHM v18.07.
+
+- Lighting Shader modification to reactivate the Lighting Brightness option and to Reduce Contamination when using the External Camera.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1229891657978089583
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Neon Emerald by @zann ☄  ✦ NEW ✦
+  ✦ Grandidierite by @Ky  ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.27 ✦✦ is now available.  
+Change Log:
+
+- Added a new customizable Option for Crew icon on the Radar (also affects Targeting of these elements) (SRV/Fighter/Wing, Cyan by Default).
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1222138718685626389
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Blue and White by @CMDR Fred89210  ✦ UPDATED ✦
+  ✦ Interstellar Frost by @Takumi  ✦ UPDATED ✦
+  ✦ Cat Paw's Victory by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ CupCake by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ Fenhong Pink warfare by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ GrayKitty by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ Guardian RILO by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ JUNKETSU-Satsuki Kiryuin by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ Strawberry_Milkshake by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
 ✦✦ EDHM_UI v2.2.15 ✦✦ is now available.  
 Change Log:
 

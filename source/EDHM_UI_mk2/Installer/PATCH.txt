@@ -1,0 +1,1715 @@
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.53 ✦✦ is now available.  
+Change Log:
+Ready for FDev U19.03
+
+- Fix Asteroid Lines and Coasters on Radar
+- Fix Passenger Mission Parallelogram
+- Refinery Station Banner now use XML Color
+- Galmap icons linked to y84/xyzw85 parameters, now use these parameters also in Galmap Menus
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1316789346010927236
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.51 ✦✦ is now available.  
+Change Log:
+- Fix Supercharged Jump Lines that could sometimes display noise.
+- Fix an issue where the number of unread messages was still displayed when the on-foot HUD was disabled in stations (w121).
+- The option to hide the Dot inside stations (w109) no longer requires hiding the rest of the on-foot HUD in stations.
+
+✦ NEW: the HUD Elements on Station Concourse option (w121) now has a new mode: Minimalist. This allows you to hide the on-foot HUD inside stations while keeping the active Insight Hub bar visible (where you can see unread messages, for example). (image 1)
+
+✦ We got several reports of virus infection in the installer, we believe it was an attack on Github files, this patch should be clean, thank you for your patience and apologies for the inconvenience.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1313443167122493460
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Neptune by @CMDR QUASXR (AXIN)    ✦ NEW ✦
+  ✦ Priest-Duke Purple BY @CMDR Nopileos03   ✦ UPDATED ✦
+  ✦ Green Wonder by @Macsek - Garfield ✦ NEW ✦
+  ✦ Five-Alive by @SAINROK   ✦ NEW ✦
+  ✦ StarTrekNew by @T.J. Kirk   ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.49 ✦✦ is now available.  
+Change Log:
+- Fix for FDev U19.01
+- Fix some orange icons in Galaxy Map
+- Fix some PowerPlay icons
+- XML Colorization of the Eye icon in the Livery Menu (orange & blue)
+
+✦ FDev have made many changes, so if you notice any remaining orange elements (that aren't Power related) after the update, please let  me know where they are and send me a screenshot in #edhm-mod.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1309557641990770748
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Type 8 Yellow by @VD    ✦ UPDATED ✦
+  ✦ Prestige Red by @VD     ✦ UPDATED ✦
+  ✦ Priest-Duke Purple BY @CMDR Nopileos03   ✦ NEW ✦
+  ✦ Lime and Coconut by @VD ✦ NEW ✦
+  ✦ Taneth Muted Green by @Taneth   ✦ NEW ✦
+  ✦ Covenant Carbine by @Lysergic   ✦ BLUE'S CHOICE ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.46 ✦✦ is now available.  
+Change Log:
+- First Fix for FDev U19.00
+- Elements that only appear after joining a Faction are not currently modded.
+- Reverted the Program to .NET 4.52 to ensure compatibility with Windows 7.
+- Fixed a glitch that made the program to launch hidden.
+
+    ✦ FDev have made many changes, so if you notice any remaining orange elements (that aren't Power related) after the update, please let me know where they are and send me a screenshot in #edhm-mod.
+
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1302739717502275604
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Landerf Theme by @doc_landerf   ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.39 ✦✦ is now available.  
+Change Log:
+- Fix for FDev Update 18.07
+- Fix Some Orange
+- Fixe Orbit Lines
+
+⚠️ FDev U18.07 Update has made changes to Orbit Lines, making them thicker to reduce the hatching effect.
+
+Due to these changes, the Thick Orbit Lines Mod no longer works, and an update will be necessary when it becomes available.
+
+Unfortunately, FDev has introduced a bug that causes Orbit Lines to not always be hidden correctly when disabled in-game (some visible lines on the screen when attempting to disable them are not hidden and start moving).
+The solution is to disable the lines when they are not visible, such as when in normal flight.
+
+Until FDev fixes this issue, I offer you a temporary 3PMod that allows you to use a keyboard shortcut to enable/disable the Orbit Lines Shader, which will effectively hide them without encountering this problem. ➡️ #3rd-party-mods
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1253418886917914858
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Cyan & Yellow by @CMDR KAJAK-DE
+  ✦ Juvecu's Default Orange by @Juvecu
+  ✦ BWO - Explorer by @CMDR [ERIDIAN]
+  ✦ Warm and Cozy by @Skeitch   ✦ NEW ✦
+  ✦ Tacticool Lite  by @Skeitch  ✦ NEW ✦
+  ✦ Purple Dreamz by @Skeitch  ✦ NEW ✦
+  ✦ Janus Luxe - Crimson by @Evertiro   ✦ NEW ✦
+  ✦ Fire and Ice by @Gileon Fletcher
+  ✦ Taneth Yellow (Exploration) by @Taneth
+  ✦ Taneth Goldenrod (Exploration) by @Taneth
+  ✦ Taneth Goldenrod by @Taneth
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.44 ✦✦ is now available.  
+Change Log:
+
+- Thank you all for reaching 7K Members in our Discord!
+
+- Themes Added / Updated:
+  ✦ Retro Green Screen by @Veltr0        ✦ NEW ✦
+  ✦ Citizen Star by @Lix                 ✦ NEW ✦
+  ✦ Turquoise and blood orange color by @Veltr0        ✦ NEW ✦
+  ✦ Muted Red by @CMDR KAJAK-DE          ✦ NEW ✦
+  ✦ Prestige Red by @VD                  ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.36 ✦✦ is now available.  
+Change Log:
+
+- Add an option to Choose the Color of the Cargo Scoop Reticle and Adjust its Brightness. (image 3)
+- Add an option to Change the Color of Mining Mini Games. The Custom Color will be used to replace the Orange Part, Other Parts will use XML Matrix. (image 4)
+- Add an option to Extend the On Foot HUD Opacity setting (w31) to Other On Foot Elements like Dialogue Windows or Nameplates. (x157)
+- General improvement of modded elements when On Foot. Elements could be poorly colored or transparency issues could be visible.
+- Using the XML matrix to Color Orange Mining Symbols. (image 4)
+- Fix Thargoid Radar Circle and Thargoid Holograms before they are on Alert.
+- Fix Glitched Radar in some situations.
+- Fix an issue that could cause Target Ship Text to flicker when Other Ship Target Elements was set to Use Radar Colors. (already included in EDHM v18.12)
+- Various Fixes
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1251601354896572546
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Interstellar Frost by @Takumi 
+  ✦ Blue and White by @CMDR Fred89210 
+  ✦ MediCorp by @CMDR Fred89210 ✦ NEW ✦
+  ✦ @XML - Color Import by @evertiro 
+  ✦ Janus Core by @evertiro  
+  ✦ Janus Minimalism by @evertiro 
+  ✦ Janus Blackout by @evertiro 
+  ✦ Janus Clementine by @evertiro 
+  ✦ Janus Emerald by @evertiro 
+  ✦ Janus Festivus by @evertiro 
+  ✦ Janus Legacy by @evertiro 
+  ✦ Janus Festivus by @evertiro 
+  ✦ Janus Luxe - Royal by @evertiro
+  ✦ Janus Luxe - Midnight by @evertiro
+  ✦ Janus Luxe - Mint by @evertiro 
+  ✦ Janus Luxe - Luster by @evertiro ✦ NEW ✦
+  ✦ Janus Neon by @evertiro ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.34 ✦✦ is now available.  
+Change Log:
+
+- NEW: Add an option to Synchronize the Color of Friendly, Hostiles, and Crew Targets on the Radar with the Color of the Selection Elements of these Targets (Rhombus, Triple Triangles, Text,...). (x112) (image 4)
+- NEW: Add an option to Synchronize the Color of Friendly, Hostile, and Crew Targets on the Radar with the Color of the Holograms of these Targets. (y112) (image 4)
+- NEW: Hologram Brightness Settings for Hostile and Crew Target (Friendly Target Brightness (z73) already existed). (x105 & y105)
+- NEW: Added an option to Customize the Cyan Part of the Landing Reticle during Planetary Descent (also affects the Aligned Planetary Landing Bar). (xyzw71) (image 5)
+- NEW: Two Terrain Hologram Options (Outer Line and Shimmering Lines).
+- Re-enable Custom Color option for SRV Hologram - Main.
+
+And More :
+- The Target Contact Bars in the Nav Contact Panel use the Radar Target Colors. (image 4)
+- Neutral Target Subcomponents now use the Neutral Target Color instead of Orange.
+- Supercruise Radar Very Close Red Bodies take the Color of Hostile Targets to match the Color of the Line and the Coaster (until now only Line and Coaster changed Color, which could create a strange effect).
+- Station Landing Line and Coaster now use the color of the Landing Line and Coasters option.
+- Various Adjustments.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1249355571904249948
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Interstellar Frost by @Takumi ✦ UPDATE ✦
+  ✦ Blue and White by @CMDR Fred89210 ✦ UPDATE ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.30 ✦✦ is now available.  
+Change Log:
+
+- Implemented EDHM v18.08
+- Minor Oranges got Juiced.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1237534457771331614
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Ace Combat by @Lilac the Speedster(Pixy) ✦ UPDATED ✦
+  ✦ Ace Hornet by @Lilac the Speedster(Pixy) ✦ NEW ✦
+  ✦ Interstellar Frost by @Takumi  ✦ UPDATED ✦
+  ✦ Grandidierite by @Ky  ✦ UPDATED ✦
+  ✦ Taneth Yellow by @Taneth ✦ UPDATED ✦
+  ✦ Taneth Exploration by @Taneth ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.29 ✦✦ is now available.  
+Change Log:
+
+Implemented EDHM v18.07.
+
+- Lighting Shader modification to reactivate the Lighting Brightness option and to Reduce Contamination when using the External Camera.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1229891657978089583
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Neon Emerald by @zann ☄  ✦ NEW ✦
+  ✦ Grandidierite by @Ky  ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.27 ✦✦ is now available.  
+Change Log:
+
+- Added a new customizable Option for Crew icon on the Radar (also affects Targeting of these elements) (SRV/Fighter/Wing, Cyan by Default).
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1222138718685626389
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Blue and White by @CMDR Fred89210  ✦ UPDATED ✦
+  ✦ Interstellar Frost by @Takumi  ✦ UPDATED ✦
+  ✦ Cat Paw's Victory by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ CupCake by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ Fenhong Pink warfare by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ GrayKitty by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ Guardian RILO by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ JUNKETSU-Satsuki Kiryuin by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+  ✦ Strawberry_Milkshake by @Rico brzenska CMDR R^L   ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.15 ✦✦ is now available.  
+Change Log:
+
+- The Shipyard Feature was re-worked for better (hopefully) usability and function.
+- Shipyard now recognizes ships by type and plate id, so you can now have several ships of the same type with different themes to each.
+- Shipyard now recognizes when you Embark your ship either from Onfoot or from an SRV.
+- Many thanks to @CMDR Fred89210 for all the testings and ideas.
+
+Full List of Changes:  
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Red Gray Black by @Mats    ✦ UPDATED ✦
+  ✦ SimplyDarkPurple by @Mats    ✦ UPDATED ✦
+  ✦ Vibrant Poison Green by @Mats    ✦ UPDATED ✦
+  ✦ Morpheus by @otte   ✦ NEW ✦
+  ✦ BWO - Explorer by @CMDR[ERIDIAN]   ✦ UPDATED ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.13 ✦✦ is now available.  
+Change Log:
+
+- No changes were needed to fix FDev U17.01
+- NEW OPTION : Ability to link the color of hidden destinations behind a body to the colors of visible destinations
+- Fix various elements
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1184527967041368154
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.8 ✦✦ is now available.  
+Change Log:
+
+- Orange patch for FDev Update 17.
+- 50 Deleted shaders.
+- 51 Added shaders.
+- 1 modified shader.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1163855717770473612
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.5 ✦✦ is now available.  
+Change Log:
+
+- Orange patch for FDev Update 16.01:
+- Added Extend Primary Colour option for some ships (Read description).
+
+✦ Known issues:
+- Radar with Data Link does not work yet.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1146772133394010132
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Tacticool Red by @Skeitch  ✦ NEW ✦
+  ✦ Elite Default - ORANGE   ✦ UPDATED ✦
+  ✦ Grandidierite by @Ky ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.02 ✦✦ is now available.  
+Change Log:
+
+- Thanks to the hard work of @CMDR Fred89210 we are releasing the final orange patch for FDev Update 16:
+- EDHM v16.01 implemented:
+
+✦ Known issues:
+- Radar with Data Link does not work yet.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1137090562814648441
+
+- No Themes Added / Updated.
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.2.01 ✦✦ is now available.  
+Change Log:
+
+- Thanks to the efford of @CMDR Fred89210 we are releasing the Part 1 of the patch for FDev Update 16
+
+
+-------------------------------------------------------
+What still needs to be fixed:
+- Radar, other ship squares
+- Radar, Data link scanner
+- Radar, object coasters
+- Radar, target chevron
+- Radar, object lines
+
+- HUD glitched (5 shaders)
+- Radar, glitched (it must be broken)
+- Radar, Asteroid textures (it must be broken)
+- Canopy effects
+
+The rest works (or is fixed)
+
+The 3PMods:
+- Biome Overlay => Broken
+- Clean Screenshots => Broken
+- FSS Overlay => Broken
+- Thick Orbit Lines => OK
+-------------------------------------------------------
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1136344562890178672
+
+- No Themes Added / Updated.
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.91 ✦✦ is now available.  
+Change Log:
+- EDHM v15.07 implemented:
+- Few fixes and improvements on the Theme Creation process.
+- When applying a theme, you now get a fading Loading screen instead of the old annoying Messagebox.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1119011315470577734
+-------------------------------------------------------
+  ✦✦  The CPM (Cockpit Paint Mod) is back on duty!!  ✦✦
+	 updated and fixed by @psychicEgg 
+	 https://discord.com/channels/773552741632180224/897503811944460388/1120820821481488515
+-------------------------------------------------------
+- Themes Added / Updated:
+  ✦ Azure Sky by @CMDR Fred89210 ✦ UPDATED ✦
+  ✦ Blue and White by @CMDR Fred89210 ✦ UPDATED ✦
+  ✦ Fantastic Journey by @At0m ✦ UPDATED ✦
+  ✦ Taneth Green by @Taneth ✦ UPDATED ✦
+  ✦ XQs Custom Green by @Xeno Queen ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.89 ✦✦ is now available.  
+Change Log:
+- EDHM v15.06 implemented:
+- Several new options for Shields.
+- Surface scanner probe trails can be customized.
+- Dot in the middle of the screen can be hidden in the stations.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1118262453273366649
+
+- Themes Added / Updated:
+  ✦ REDandBLUEthem by @CMDR InfernalxLegion ✦ NEW ✦
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.86 ✦✦ is now available.  
+Change Log:
+- EDHM v15.05 implemented:
+- Fix for FDev U15.02
+- Fix for some orange icons in Ship Panels & Galmap
+- Fix for OnFoot Background Galmap Panels (wrong color was applied)
+
+  ✦ Enhanced Biome Overlay is now back, thanks to @CMDR Fred89210: https://discord.com/channels/773552741632180224/897503811944460388/1115327307083694121
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1115326319429947392
+
+- Themes Added / Updated:
+  ✦ Blue and White by @CMDR Fred89210 ✦ NEW ✦
+  ✦ Cornflower Blue by @Mystler
+  ✦ EliteNautica by @Sky (Skyles)
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.85 ✦✦ is now available.  
+Change Log:
+- The user will be prompted to close the game (if it is running) whenever the mod needs to be installed or updated.
+- You can now change the location of all EDHM user files, they default to %USERPROFILE%\EDHM_UI
+- In an effort to resolve permissions issues some users are having, the UI program will now require elevated permissions to run, a Windows UAC popup will appear.
+
+- EDHM v15.04 implemented:
+- Added the Following new Customizable HUD Effects under 'Global Settings':
+  ✦ Canopy Effects - Canopy Scratches:  Hide the canopy scratches when the ship is very damaged.
+  ✦ Canopy Effects - Canopy Ice: Hide the canopy ice when the ship is very cold.
+  ✦ Canopy Effects - Canopy Condensation: Hide the canopy condensation when the ship is very hot.
+
+- Themes Added / Updated:
+  ✦ Taneth Yellow" a.k 'Taxi Cab' by @Taneth ✦ NEW ✦
+  ✦ Taneth Green by @Taneth ✦ NEW ✦
+  ✦ Cyberpunk by @Chris Joule [TRCG] (PeeCee) ✦ NEW ✦
+  ✦ Janus Core by @Evertiro
+  ✦ Janus Legacy by @Evertiro   ✦ NEW ✦
+  ✦ EliteNautica by @Sky  ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.80 ✦✦ is now available.  
+Change Log:
+- Patch for FDev's U15.01
+- Few Icons on the Galaxy Map got fixed.
+
+✦ Known Issue:
+- On the 'More colors' Dialog, the text buttons may be missing when the User's system language is not English.
+
+
+- Themes Added / Updated:
+  ✦ Light Olive by @Cpt ✦ NEW ✦
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.76 ✦✦ is now available.  
+Change Log:
+
+- ORANGE KILLER PATCH for FDev's U15.
+- As you may already know each mayor update from FDev breaks the mod functionality and we have to restore the colors, we do it as fast as we can.
+- This time we had the sad retirement of the original EDHM author ✦✦ @psychicEgg ✦✦ THANK YOU for everything Bro!
+- The flame was taken by our brave team of volunteers:
+  	✦ @CMDR Fred89210
+  	✦ @MrVaad
+  	✦ @Rico brzenska CMDR R^L
+- Many thanks to them all, and I'm still here to kill all your Oranges ^_^
+
+- There may still a few things here and there to fix, if you spot them please report it.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Unicorn Fart by @Xeno Queen 
+  ✦ Fantastic Journey by @At0m
+  ✦ Purple White Gold by @Octavius  ✦ NEW ✦
+  ✦ JUNKETSU-Satsuki Kiryuin by @Rico brzenska CMDR R^L
+  ✦ Dragon Scales by @Xeno Queen ✦ NEW ✦
+  ✦ SL - Saud Kruger by @Strasny Lada
+  ✦ Stealth - Red and Grey by @Kailoren ✦ NEW ✦
+  ✦ Stealth EightySix by @Yammy (ASyoPro) ✦ NEW ✦
+  ✦ Fenhong Pink warfare by @Rico brzenska CMDR R^L  ✦ NEW ✦
+  ✦ BWO - Explorer V4 by @CMDR [ERIDIAN]  ✦ NEW ✦
+  ✦ Pink and Purple by @DemonCard  ✦ NEW ✦
+  ✦ Orange Decent by @Phoenix PC ✦ NEW ✦
+  ✦ Teal Marble and Gold - MMGP by @DStan304 ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.74 ✦✦ is now available.  
+Change Log:
+
+- Implemented EDHM v14.05
+
+- Small update to fix some minor issues introduced in FDev Update 14.02
+
+- Fixed Galmap textures that broke in FDev 14.02
+
+- Added colour options for Damaged Stations on GalMap (previously was only Custom)
+
+- Converted most 'Thargoid effects on Station' icons on the Targeting Panel (Lower left)
+    Note: I have to fly around to capture each combination of station type and thargoid status, and sometimes there's more than one version (I currently have about 25 versions)
+    If you see an orange (unmodded) Thargoid status symbol on the station icon can you please let me know:
+        - the system and station name (or just a screenshot)
+        - your game resolution
+    Note: I haven't done the versions above 1440p (inclusive of supersampling), will update as I find them (no need to report these hi-res versions)
+
+- Added an option to choose the colour for the Combat Zone (CZ) panels (top right Info Panel)
+    Note: This colour will also affect the background of the Thargoid frame on the Targeting Panel (bottom left)
+    Will also affect the target ship's subcomponents bar
+
+- Fixed a glitch on some Concourse Terminal Monitors. Please let me know if the fix breaks anything
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1077100812272140330
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Uncy Arak Green by @ArakDaRat CMDR Uncy_Arak ✦ NEW ✦
+  ✦ SimplyDarkPurple by @Mats        ✦ NEW ✦
+  ✦ Cotton Candy by @CMDR Ilionikoi  ✦ NEW ✦
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.73 ✦✦ is now available.  
+Change Log:
+
+- Implemented EDHM v14.03
+- Small update to fix the Blinding Blob 'feature' that sometimes appears during the rotating loading screen holo sequence.
+- Added the [Loader] section to d3dx.ini for people who want to use OpenComposite for VR.
+- Added the ability to use a keybind to toggle Sunglasses Mode 😎  (bloom on / off) binded to F6 Key.
+
+Full List of Changes:  https://discord.com/channels/773552741632180224/864174753946271794/1066388072243138570
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Green AF by @Neddington
+  ✦ Red Gray Black by @Mats
+  ✦ Vibrant Poison Green by @Mats
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.72 ✦✦ is now available.  
+Change Log:
+
+- Fixed Theme's panel visibility on 3PM manager.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Blue and Yellow by @krzykell         ✦ NEW ✦
+  ✦ Imperial Blue & Orange by @krzykell  ✦ NEW ✦
+  ✦ SL - Faulcon DeLacy by @StrasnyLada  ✦ NEW ✦
+  ✦ Guardian RILO by @Rico brzenska CMDR R^L
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.71 ✦✦ is now available.  
+Change Log:
+
+- Added the SRVs to the Shipyard, so they can now have their own color themes.
+  https://discord.com/channels/773552741632180224/940346129881632841/941094380096327700
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Fantastic Journey by @At0m
+  ✦ Blood Dimension by @otte	✦ NEW ✦
+  ✦ Juvecu's Default Orange by @Juvecu
+  ✦ Janus Luxe - Royal by @Evertiro 
+  ✦ Janus Luxe - Midnight by @Evertiro  ✦ NEW ✦
+  ✦ Janus Emerald by @Evertiro
+  ✦ Janus Core by @Evertiro
+  ✦ Janus Clementine by @Evertiro
+  ✦ Janus Blackout by @Evertiro
+  ✦ Janus Festivus by @Evertiro  ✦ NEW ✦
+  ✦ @XML - Color Import by @Evertiro
+  ✦ Guardian RILO by @Rico brzenska CMDR R^L
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.69 ✦✦ is now available.  
+Change Log:
+
+- Added the possibility of having more than 2 games per instance in the Settings.
+- Your changes in the Key bindings will now be preserved between updates.
+- Fixed a bug while Saving Themes.
+
+  ✦ Enhanced Biome Overlay Mod is now Back on bussiness, check it out: https://discord.com/channels/773552741632180224/897503811944460388/1052183053222543490
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Shadow War by @The Cowboy
+  ✦ Redline HD by @At0m
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.66 ✦✦ is now available.  
+Change Log:
+
+- Small update to fix the Custom colour % on the multi-ring shield, that's all!
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ CyberPurple by @NoMotivationGamer 		✦ NEW ✦
+  ✦ Fantastic Journey by @At0m
+
+-------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.65 ✦✦ is now available.  
+Change Log:
+
+- This is the third and final update and fix for Odyssey, v14.01.
+- Added XML text override, to make ALL your text XML
+- Added a more colourful glitching HUD mode 		✦ NEW ✦
+
+
+- Full list of changes:  https://discord.com/channels/773552741632180224/864174753946271794/1050383155313512528
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Clean White v3 by @CaptainCup  			✦ NEW ✦
+  ✦ CupCake Muted Overhaul by @RUSSIANman1996 	✦ NEW ✦
+  ✦ Refined White Theme by @Streetnight | 🇫🇷
+  ✦ Refined White - No Flag by @Streetnight | 🇫🇷
+  ✦ Federal Fighter by @Brynjar Odinson 		✦ NEW ✦
+  ✦ Guardian RILO by @Rico brzenska CMDR R^L
+  ✦ Strawberry_Milkshake by @Rico brzenska CMDR R^L
+
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.64 ✦✦ is now available.  
+Change Log:
+
+- Here's the 2nd round of fixes for FDev Update 14, EDHM v14.01.
+- Most of the orange should be gone now, but please let me know if you spot anything, best to report in edhm-mod, thank you!.
+- Fixed the relative mouse arrow in the SRV.
+
+✦ Remaining issues:
+- Galmap fog not modded
+- New orange icons on GalMap system info screens
+- Codex orange icons
+- Haven't checked FSS/DSS yet, more fun for tomorrow
+
+- Full list of changes:  https://discord.com/channels/773552741632180224/864174753946271794/1047908362660102245
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.63 ✦✦ is now available.  
+Change Log:
+
+- This is the first round of fixes for FDev U14. 
+  There's lots to fix and @psychicEgg been working on it the past 10 hours.
+- Full list of changes:  https://discord.com/channels/773552741632180224/864174753946271794/1047575445861826560
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ TRPM hud Red by @Lex Rottie  ✦ NEW ✦
+  ✦ TRPM Squad Gold by @Lex Rottie  ✦ NEW ✦
+  ✦ STRANGE PURPLE VIOLET by @Jyukat ✦ NEW ✦
+
+-------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.62 ✦✦ is now available.  
+Change Log:
+
+- Only theme Thanges.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Strawberry_Milkshake by @Rico brzenska CMDR R^L
+  ✦ RAPTOR by @Misfit  ✦ NEW ✦
+
+-------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.61 ✦✦ is now available.  
+Change Log:
+
+- You can now change the UI program skin.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ SL - Combat Green by @Strasny Lada
+  ✦ SL - Saud Kruger by @Strasny Lada
+  ✦ SL - Sky Blue&Orange by @Strasny Lada
+
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.52 ✦✦ is now available.  
+Change Log:
+
+- EDHM v13.5 Implemented for Odyssey & Horizons 4.0.
+- Added the Dank Rank mod.
+- Added mod of the FSD Cooldown animation and Escape Vector
+- Added separate brightness controls to radar objects: Squares, lines/stalks, and coasters
+- Added separate colour modes for the mouse dot 
+- Added an optional fix for the Ambient Cabin Lighting
+- Removed the Non-sequence star highlight on the GalMap
+
+- The UI program is now Translated to Portugesse, making it a total of 6 languages.
+
+Check Full List of Changes here:  https://discord.com/channels/773552741632180224/864174753946271794/1035564305950724106
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ SimpleGreenRed by @CMDRJags
+
+---------------------------------------------------------
+Enjoy. o7
+
+
+- Lots of changes, check Changelog on our Discord.
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.50 ✦✦ is now available.  
+Change Log:
+
+- Few changes on 3PMods functionality.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Fantastic Journey by @At0m ✦ NEW ✦
+  ✦ Halloween by @KokooTheProto (Cmdr Cixiid) ✦ NEW ✦
+  ✦ SimpleGreenRed by @CMDRJags ✦ NEW ✦
+
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.49 ✦✦ is now available.  
+Change Log:
+
+- Minor bugs fixes.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ THE FLYING DUTCHMAN by @MISFIT (1DAVYJONES1) ✦ NEW ✦
+  ✦ Coach Purple and Orange by @Coach Z ✦ NEW ✦
+
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.48 ✦✦ is now available.  
+Change Log:
+
+- Minor bug fixes on the 3PMods.
+- Introducing the Enhanced Biome Overlay (EBO) for Odyssey & Horizons 4.0
+
+The default overlay has a background of blue, and a biome target colour of slightly more greeny-blue - it's not surprising it can be very difficult to distinguish between the two layers, especially for CMDRs with visual difficulties.
+
+EBO is a 3P Mod (a Plugin) for EDHM, therefore you need to Download it independently:
+
+Download:  https://discord.com/channels/773552741632180224/897503811944460388/1029702569209102387
+Install Instructions:
+- Exit the Game.
+- Download the ZIP file and save it anywhere you want.
+- In the EDHM_UI go to 'Main Menu -> 3PMods'
+- At the bottom toolbar, click 'Import Mod' and select the ZIP you downloaded.
+
+https://youtu.be/LLAsj_QY__A
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.46 ✦✦ is now available.  
+Change Log:
+
+- Minor bug fix.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Unicorn Fart by @Xeno Queen ✦ NEW ✦
+  ✦ Space 1992 by @Titoino ✦ NEW ✦
+  ✦ Beyond the Terrorvortex by @Titoino ✦ NEW ✦
+
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.45 ✦✦ is now available.  
+Change Log:
+
+- Global Settings can now be added to 'User Settings.
+- Restored White Objects on radar.
+- XML files now save beautified with Tab indenting and UTF8 no BOOM.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Razorblade Meltdown by @Titoino ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.44 ✦✦ is now available.  
+Change Log:
+
+- Added a new Feature called 'User Settings'.
+  This can store any UI element you want.
+  Unlike Global Settings, user settings are saved in your 'My Documents' directory and will never be overwritten by any Update nor patch.
+  Global Preferences will always be overridden from now on, or at least every time we need to add new settings in there.
+
+  ✦ Global Settings have priority over theme settings.
+  ✦ User Settings have priority over Global settings.
+
+This is a new feature, any feedback and bug reports are welcome at #edhm-ui.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Star Wars Themes: Falcon - By @Contrition		 ✦ NEW ✦
+  ✦ Star Wars Themes: Inquisitor - By @Contrition	 ✦ NEW ✦
+  ✦ Star Wars Themes: Star Destroyer - By @Contrition  ✦ NEW ✦
+  ✦ Juvecu's Default Orange by @Juvecu ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.42 ✦✦ is now available.  
+Change Log:
+
+- List of Ships Updated.
+- Hidden weird windows on 3PMods.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Strawberry_Milkshake by @Rico brzenska CMDR R^L
+  ✦ CupCake by @Rico brzenska CMDR R^L
+
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.41 ✦✦ is now available.  
+Change Log:
+
+- Fix for Null Reference Error while loading Game Instances.
+  Sorry for the inconveniences o7
+
+---------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.40 ✦✦ is now available.  
+Change Log:
+
+- Fixed a bug in the Game Finder Assistant.
+- Minor changes in the 3PM manager.
+
+- Themes Added / Updated (Odyssey & Horizons 4.0):
+  ✦ Shadow War by @The Cowboy ✦ NEW ✦
+
+---------------------------------------------------------
+Enjoy. o7
+
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.38 ✦✦ is now available.  
+Change Log:
+
+- Minor Bug Fixes.
+- Themes now show their name on the List.
+
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.37 ✦✦ is now available.  
+Change Log:
+
+- Few changes in the 3PM manager.
+- CPM (Cockpit Paint Mod) is Released!
+
+First Public Release of the CPM is Live at last!!!
+Check it here: https://discord.com/channels/773552741632180224/897503811944460388/1021763848111411201
+
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.36 ✦✦ is now available.  
+Change Log:
+
+- Fixes Post FDev 4.0 update, EDHM v13.4 implemented.
+- Bunch of Oranges got juiced, thanks to @CMDR Fred89210 
+- Added new options for Space Dust, look for it under Global Settings, (your current Global Settings need to be overwritten, sorry for that).
+
+EXCELLENT NEWS FOR ALL HORIZON PLAYERS:
+```
+- With Horizons 4.0, you now have access to all of the EDHM customization options, previously you only had a tiny piece of the pie.
+- All you need to do is configure the game paths correctly, to do so open the EDHM Settings and click the green button, that's it!
+- In 'Odyssey' or 'Horizons 4.0' mode, you can now choose ANY color for almost any HUD element.
+- You will also have more than 120 custom themes created by our talented community.
+```
+✦✦ Unfortunately, the old Horizons themes are NOT compatible with the new mode,
+     take it as an opportunity to try something new ^_^
+
+We welcome our new Horizons 4.0 brethren into the real EDHM! Time to take the red pill 😉  
+We look forward to seeing what sort of amazing HUDs you create.
+
+Full patch Notes:  https://discord.com/channels/773552741632180224/864174753946271794/1020653863285555250
+---------------------------------------------------------
+Enjoy. o7
+[Foto Game Paths]
+[Foto Game Chooser]
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.35 ✦✦ is now available.  
+Change Log:
+
+- Few changes in the 3PM manager.
+- Release Pre FDev update.
+
+- Themes Added / Updated (HORIZONS):
+  ✦ LCD Matrix by Lucere by @Lucere ✦ NEW ✦
+
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.32 ✦✦ is now available.  
+Change Log:
+
+- EDHM v13.3 ODYSSEY implemented.
+
+- Thanks to @CMDR Fred89210 for his first shader mod! You can now change the colour of the Supercruise Snow to custom, multi-colour, or XML.
+  ✦ You can find SC Snow under 'Global Settings' in the UI, this is an User's prefference not affected by themes.
+
+- Added a 'face fix' for the darkened skin tone in Odyssey. The fix adds brightness to the skin tone only while in-ship.
+  ✦ You can find this in the Cabin Lighting section
+
+- Fixed orange icons in Foot Comms
+- Added fail-safe for Altitude Bar text for old themes where brightness is missing
+- Fixed an edge-case bug with the panel background/shadows and shield percentage
+
+✦ Added an Option in the UI Settings to Automatically apply theme in the game by Focusing it and sending the F11 key, 
+  This behaviour may be a bit 'intrusive' therefore it is OFF by default.
+
+Full Patch Notes: https://discord.com/channels/773552741632180224/864174753946271794/1017806775027781682
+
+- Themes Added / Updated (ODYSSEY):
+  ✦ Lesbian_Pride by @Rico brzenska CMDR R^L ✦ NEW ✦
+  ✦ Refined White Theme 	  by @Streetnight | 🇫🇷
+  ✦ Refined White - No Flag by @Streetnight | 🇫🇷
+  ✦ Weltensegler by @haVoc  ✦ NEW ✦
+
+- Themes Added / Updated (HORIZONS):
+  ✦ Bisexual Baboon by @SuperFungi ✦ NEW ✦
+
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.31 ✦✦ is now available.  
+Change Log:
+
+- Multi-colour shield rings should now work at 1920x1080 game resolution (but maybe not below). Please provide any feedback to edhm-mod, thank you
+- The concourse terminal mod was turning off the station exterior lights (only raxxla knows why they would be in the same shader!)
+
+---------------------------------------------------------
+Enjoy. o7
+
+- Multi-colour shield rings should now work at 1920x1080 game resolution (but maybe not below). 
+- The concourse terminal mod was turning off the station exterior lights.
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.30 ✦✦ is now available.  
+Change Log:
+- Fix for FDV Update 13, Part 3 (The Final Punch)
+
+@psychicEgg:
+Here's the third and final round of major fixes for FDev Update 13 🎉 
+This update turned out to be the most disruptive with 39 of the 50 modded shaders requiring updating or replacement. I'd say this would have something to do with the merging of Horizons as many of the affected shaders hadn't been updated by FDev in over a year
+If you spot any orange please let me know in #edhm-mod and I'll take care of it.
+
+I hope you enjoy the update! 
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Refined White Theme by @Streetnight | 🇫🇷  ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.29 ✦✦ is now available.  
+Change Log:
+- Fix for FDV Update 13, Part 2 (The Revenge)
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Scarlet Steel by @Valdaenor  ✦ NEW ✦
+  ✦ Shadow War by @The Cowboy  ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+NOTE:
+  ✦ As always, Installer and Executable files ran thru 2 Antivirus, they are safe.
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.28 ✦✦ is now available.  
+Change Log:
+- Fix for FDV Update 13.
+- Please do a Clean Install.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Red Gray Black by @Mats
+  ✦ Vibrant Poison Green by @Mats ✦ NEW ✦
+  ✦ BASILISK - Thargoid Series 01 by @Krynesur ✦ NEW ✦
+  ✦ MEDUSA - Thargoid Series 02 [KRY]  by @Krynesur ✦ NEW ✦
+  ✦ Toxic Twilight by @Chameleon  ✦ NEW ✦
+  ✦ Green AF by @Neddington
+  ✦ Caitlyn Kiramman by @Rico brzenska CMDR R^L  ✦ NEW ✦
+---------------------------------------------------------
+* Due the Large amount of Shader Fixes in this update, it is recomended doing a Clean Install:
+- Main Menu -> Uninstal Mod
+- Run the Setup Program.
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.27 ✦✦ is now available.  
+Change Log:
+
+- A Website had been made  https://edhm-ui.herokuapp.com/
+  ✦ Feel free to share this link.
+- The Help Menu will now link to the website.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Red Back Combat UI by @ArakDaRat
+
+- Themes Added / Updated (HORIZONS)
+  ✦ Slushpuppy Amber by @Amber💖#1417 
+---------------------------------------------------------
+Enjoy. o7
+
+- Minor fixes and Theme Updates (Odyssey).
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.24 ✦✦ is now available.  
+Change Log:
+
+- Link for 3PMods added.
+- Minor bug fixes in the Shipyard feature.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ WRB Holographic by @otte	✦ NEW ✦
+  ✦ Cat Paw's Victory by @Rico brzenska
+  ✦ SlushPuppy by @MFSIDDY	
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.23 ✦✦ is now available.  
+Change Log:
+- Minor patch for EDHM v12.21 (Odyssey)
+  ✦ Fixed the landing hologram turning black when over a suitable landing spot
+  ✦ Fixed the FHUD Insight Menu background reverting to default colours
+- Fixed a bug in the 3PM Manager.
+- Some improvements in the Signing Certificate for the Installer and Executables 
+  to easy the paranoia from some antivirus.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Cornflower Blue by @Mystler
+  ✦ Cat Paw's Victory by @Rico brzenska 	✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.20 ✦✦ is now available.  
+Change Log:
+
+- EDHM v12.2 (Odyssey) implemented.
+- Final round of fixed of FDEV Update 12:
+  ✦ Clean-up of remaining orange icons broken by FDev Update 12
+  ✦ New GalMap options
+    - Grid Lines & Coasters (fill circles on the grid)
+    - System Z-Axis Lines
+    - Non-sequence Star Custom Colour (Note: only the star colour on the map can be modified, not the coloured square in the Star Class Map Mode key .. different shader, causes too many issues)
+    - Fog reduction
+  ✦ Suit (on Foot) HUD Custom Energy and Oxygen Bars.
+
+- 3rd Party Mods (3PM) coming Soon *TM:
+  ✦ FSS Overlay
+  ✦ Cockpit Paint Mod (CPM)
+  ✦ Cockpit Lights Mod (CLM) fix for Update 12, but the CPM needs to be finished first as they use some of the same shaders.
+
+- Unhandled error in the 3PM Manager fixed (hopefully).
+- Different 'Warning Messages' moved to the 'Radar & Common Group' category.
+- Galaxy Map, Powers, FSS and Night Vision elements moved to the 'Special Efects' category.
+- Keybindings (F1 to F4) restored.
+
+Full list of changes: https://discord.com/channels/773552741632180224/864174753946271794/989163542429184072
+---------------------------------------------------------
+- Themes Added / Updated (ODYSSEY)
+  ✦ Military HUD by @CMDR Crunch Buttsteak
+  ✦ Cherenkov Blue by @CMDR Valkyrie64Ryan
+  ✦ CupCake by @Rico brzenska
+  ✦ JUNKETSU-Satsuki Kiryuin by @Rico brzenska
+  ✦ Lunar China RiLo by @Rico brzenska
+  ✦ Cornflower Blue by @Mystler
+  ✦ Vibrant Purple by @c4t4ly5t 	✦ NEW ✦
+  ✦ Vibrant Green by @c4t4ly5t 		✦ NEW ✦
+  ✦ Vibrant Blue by @c4t4ly5t 		✦ NEW ✦
+  ✦ Vibrant Red by @c4t4ly5t 		✦ NEW ✦
+  ✦ Richard's Darksaber by @Richard FLuiraniz M.  ✦ EDITOR'S PICK ✦
+  ✦ Richard's Ultra-Dark Saber by @Richard FLuiraniz M.	  ✦ NEW ✦
+  ✦ SlushPuppy by @MFSIDDY			✦ NEW ✦
+
+- Themes Added / Updated (HORIZONS)
+  ✦ WRB Holographic by @otte		✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+✦ Big Update:\r\n- Final round of fixes.\r\n- New GalMap options\r\n- New Suit HUD options\r\n- Several Updated and New Themes
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.13.0 ✦✦ is now available.  
+Change Log:
+- Minor Changes and Tweaks for 3PMods.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Super-light Green by @MightyRan
+  ✦ Blue Raspberry by @EMP                     ✦ NEW ✦
+  ✦ JUNKETSU-Satsuki Kiryuin by @Rico brzenska ✦ NEW ✦
+  ✦ Ace Combat by @Three Strikes Trigger(Pixy) ✦ NEW ✦
+  ✦ Natural Vette Theme by @Captin Pelley      ✦ NEW ✦
+  ✦ Red Gray Black by @Mats
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.11.0 ✦✦ is now available.  
+Change Log:
+- No changes in the program nor edhm.
+- Theme updating only.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Azure Sky by @HafCoJoe
+  ✦ Cornflower Blue by @Mystler
+  ✦ Ken'Tarii Mandate by @Ivan Ivanovitch Ivanovsky
+  ✦ KITTYMEOW by @RICO BRZENSKA
+  ✦ Paladin Colors by @Northern Paladin PCLN ✦ NEW ✦
+  ✦ Purple & Yellow by @krzykell
+  ✦ Sapphire and Diamonds by @c4t4ly5t
+  ✦ SnarkyAcid by @Snarky_One
+  ✦ SnarkyBlueberry by @Snarky_One
+  ✦ SnarkyDesaturated by @Snarky_One
+  ✦ SnarkyGarden by @Snarky_One
+  ✦ SnarkyMountainside by @Snarky_One ✦ NEW ✦
+  ✦ SnarkyPetunia by @Snarky_One
+  ✦ SnarkyPostModern by @Snarky_One ✦ NEW ✦
+  ✦ SnarkySedona by @Snarky_One ✦ NEW ✦
+  ✦ SnarkyVapor by @Snarky_One
+  ✦ SnarkyWave by @Snarky_One
+  ✦ Super-light Green by @MightyRan
+
+- Themes Added / Updated (HORIZONS)
+  ✦ Gold and Blue by@Gazer890 ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.10.0 ✦✦ is now available.  
+Change Log:
+- Element Preview is implemented:
+  ✦ Thanks to the awesome contribution of @snarky_one
+  ✦ Hover any Element to see an image showing what it is for.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Cornflower Blue by @Mystler
+  ✦ KITTYMEOW by @Rico brzenska ✦ NEW ✦
+  ✦ Purple & Yellow by @krzykell ✦ NEW ✦
+  ✦ SnarkyAcid by @snarky_one 
+  ✦ SnarkyBlueberry by @snarky_one  ✦ NEW ✦
+  ✦ SnarkyDesaturated by @snarky_one
+  ✦ SnarkyGarden by @snarky_one  ✦ NEW ✦
+  ✦ SnarkyPetunia by @snarky_one  ✦ NEW ✦
+  ✦ SnarkyVapor by @snarky_one
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.9.8 ✦✦ is now available.
+Change Log:
+- Minor Bugs and Improvements.
+- Globall Settings got a new item, so i had to overwrite it, sorry.
+- EDHM, v11.2 (Odyssey) implemented.
+  ✦ Carrier Shipyard terminals
+  ✦ Icons for Controllers in the 'Ship Landed' text, and Controller icons in the Codex and Squadron menus
+  ✦ Nav panel (left panel), Contacts tab, fixed default colours on the bars that represent other ship's relationship to you (ie. green, red, yellow, blue, purple)
+  ✦ Fixed orange icon on System map (HMC with rings icon)
+  ✦ added an option to reduce the opacity of the texture behind pop-up messages in the centre of the screen (eg. Ship Scan Detected)
+  ✦ https://discord.com/channels/773552741632180224/864174753946271794/958418481425027094
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ KITTYMEOW by @Rico brzenska ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.9.6 ✦✦ is now available.
+Change Log:
+- Theme Preview is implemented for ALL Odyssey Themes:
+  ✦ all thank to the awesome contibution of @snarky_one
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ SnarkyVapor by @snarky_one 
+  ✦ SnarkyPetunia by @snarky_one ✦ NEW ✦
+  ✦ SnarkyGarden by @snarky_one ✦ NEW ✦
+  ✦ SnarkyDesaturated by @snarky_one ✦ NEW ✦
+  ✦ Merica by @Vowser.
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.9.5 ✦✦ is now available.
+Change Log:
+- Panel Highlight has been removed.
+- Theme Preview is implemented:
+  ✦ Right Click any theme and hit 'Theme Preview' (if available - Work in progress).
+  ✦ for both Horizons and Ody.
+- A notification will show when you embark a ship (Testing for Shipyard).
+- LOTS OF NEW THEMES (with BIG Previews)
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ SL - Saud Kruger by @Strasny Lada  ✦ NEW ✦
+  ✦ SL - Combat Green by @Strasny Lada
+  ✦ SL - Sky Blue&Orange by @Strasny Lada
+  ✦ Super-light Green by @MightyRan ✦ NEW ✦
+  ✦ SnarkyAcid by @snarky_one ✦ NEW ✦
+  ✦ Merica by @Vowser. ✦ NEW ✦
+  ✦ SnarkyVapor by @snarky_one ✦ NEW ✦
+  ✦ White Blue Minimal by @ZTolp
+
+- Themes Added / Updated (HORIZONS)
+  ✦ Naval Warfare by @Bakulover ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+{
+   "theme": "SL - Saud Kruger",
+   "author": "Strasny Lada",
+   "description": "** THIS THEME WAS MADE BY STRASNYLADA **",
+   "preview": "https://cdn.discordapp.com/attachments/829586218223665163/957192026905010216/SL_-_Saud_Kruger.jpg"
+}
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.9.4 ✦✦ is now available.
+Change Log:
+- EDHM, v11.11 (Odyssey) implemented.
+  ✦ Night Vision / PWA fixed
+  ✦ Overhaul of Team ship bar
+  ✦ New rank badge on FHUD targets now take XML colour (was orange)
+  ✦ FHUD team shield colour set to default (was contaminated by XML)
+  ✦ Nav panel contacts tab, colour of Team contact bar set to default (blue), was contaminated by XML
+  ✦ Team member out of system icon modded
+  ✦ Multi-crew Gunner mode modded (same interface as Scorpion turret)
+  ✦ Fixed a few orange multicrew icons (may still be some remaining, I couldn't do extensive tests)
+  ✦ Landing Coaster Fixed
+  ✦ Landing Hologram fixed
+  ✦ Radar planet terrain fixed
+  ✦ Carrier terminal on Command deck fixed (the Shipyard terminals may not be fixed, I don't have a shipyard module on my carrier to test. I'll need some help with this)
+  ✦ Privacy Mode terminal fixed
+  ✦ Intro screens on Concourse Terminals should look a bit better in general (note: when the game first loads it uses a really low res placeholder texture for the terminal screen, which is orange. Then it is replaced by the normal one after everything loads) 
+  ✦ Fixed / Added supercruise snow so it can be turned off again
+  ✦ Bunch of orange icons fixed
+  ✦ Full Notes: https://discord.com/channels/773552741632180224/864174753946271794/956271262576029716
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ SL - Saud Kruger by @Strasny Lada  ✦ NEW ✦
+  ✦ Super-light Green by @MightyRan ✦ NEW ✦
+  ✦ Red Gray Black by @Mats
+  ✦ Azure Sky by @HafCoJoe
+  ✦ Military HUD by @CMDR Crunch Buttsteak ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.9.3 ✦✦ is now available.
+Change Log:
+- EDHM, v11.0 (Odyssey) implemented.
+  ✦ Fix for all the Oranges FDev gave us in their last Update (•̀ᴗ•́)و
+  ✦ Knonw Issues:  
+  	- The landing hologram seems to have turned white.
+  	- Night Vision doesnt work.
+  	- if you see any orange report it at #current-development 
+  ✦ Full Notes: https://discord.com/channels/773552741632180224/864174753946271794/954017156536877166
+
+- NOTE: I'm not patching the Cockpit mod this time, so if you get warnings about it, just remove it from the 3PMods Menu.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Ken'Tarii Mandate by @Ivan Ivanovitch Ivanovsky   ✦ NEW ✦
+  ✦ CupCake by @Rico brzenska
+  ✦ FeminineUniverse by @Rico brzenska
+  ✦ GrayKitty by @Rico brzenska
+  ✦ Lunar China RiLo by @Rico brzenska
+  ✦ Pink Pinky Poo by @Rico brzenska
+  ✦ Strawberry_Milkshake by @Rico brzenska
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.9.2 ✦✦ is now available.
+Change Log:
+- EDHM, v10.21 (Odyssey) implemented.
+  ✦ Fix for space fog / nebulae turning off in External Camera mode when FSS background brightness is set to 0 
+  ✦ Please note: Your FSS/DSS main reticle colour will be applied to the External Camera side lines. We can't avoid this as it's part of the same resource used in the FSS/DSS
+  ✦ set the default FSS/DSS mode to Elite default (z118 = 200), so old themes won't be FSS/DSS green by default
+    Full Notes: https://discord.com/channels/773552741632180224/864174753946271794/952772790984011877
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.9.0 ✦✦ is now available.
+Change Log:
+- Fixed minor bug in the Searchbox.
+- EDHM, v10.2 (Odyssey) implemented.
+  ✦ CHUD / AHUD: Inactive Hardpoints (Red Text)
+  ✦ Targeting Panel: Text colour when aligned in supercruise
+  ✦ Distributor: Non-Active Pips 
+  ✦ Status Lights: Added Alpha override to prevent fade in bright light.
+  ✦ Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)  ✦ NEW ✦
+  Full Notes: https://discord.com/channels/773552741632180224/864174753946271794/952198622345297930
+
+- Themes Added / Updated (ODYSSEY) 80 Themes now !!
+  ✦ Red_Dragon_Red        by @Steve Lewis [PC GB-Esp]
+  ✦ Deep_Red              by @Steve Lewis [PC GB-Esp]
+  ✦ Dark_Purple           by @Darth Hass
+  ✦ Rescue Ship           by @YamatoFr  ✦ NEW ✦
+  ✦ Azure Sky             by @HafCoJoe ✦ NEW ✦
+  ✦ SL_-_Sky_BlueOrange   by @Strasny Lada
+  ✦ SL_-_Combat_Green     by @Strasny Lada
+  ✦ Cornflower_Blue       by @Mystler
+  ✦ GrayKitty             by @Rico brzenska ✦ NEW ✦
+  ✦ Sapphire_And_Diamonds by @c4t4ly5t
+---------------------------------------------------------
+Enjoy. o7
+
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.8.0 ✦✦ is now available.
+Change Log:
+- Translations available: EN, RU, FR, DE, IT.
+  ✦ Thanks to @RandyTJones [Tom] for the DE translation.
+
+- EDHM, v10.11 implemented.
+  ✦ Alpha/Opacity added for OwnShip hologram.
+  ✦ Fix for the custom colour on the fuel bar for the next jump while in supercruise, if that makes sense 🙂 Previously it was only showing the custom colour while in normal flight.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Azure Sky by      @HafCoJoe ✦ NEW ✦
+  ✦ Janus Core by     @Evertiro 
+  ✦ A2_GREY-CYAN by   @Alex_238
+  ✦ A2_CYAN-COMBAT by @Alex_238
+  ✦ A2_EXPLO by       @Alex_238
+  ✦ A2_GREEN-SOFT by  @Alex_238
+  ✦ Dark Purple by    @Darth Hass ✦ NEW ✦
+  ✦ BLURANGE by       @Raz Uryel ✦ NEW ✦
+
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.7.4 ✦✦ is now available.
+Change Log:
+
+- Translations available: EN, RU, FR, DE, IT.
+- EDHM, v10.11 implemented.
+  ✦ Alpha/Opacity added for OwnShip hologram.
+  ✦ Fix for the custom colour on the fuel bar for the next jump while in supercruise, if that makes sense 🙂 Previously it was only showing the custom colour while in normal flight.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Lunar China RiLo by @Rico brzenska ✦ NEW ✦
+  ✦ Sparrow's Minimal Blue by @Sparrow ✦ NEW ✦
+  ✦ White Blue Minimal by @ZTolp
+
+- Themes Added / Updated (HORIZONS)
+  ✦ @Elite Default - ORANGE by @Blue Mystic
+  ✦ @XML Janus Purist
+---------------------------------------------------------
+Enjoy. o7
+
+---------------------------------------------------------
+@everyone   ✦✦ Hot-Fix post ED Update 8 ✦✦ is now Available
+
+- We are no longer in Beta.
+- Full Support for both Horizons and Odyssey.
+- Now With Auto Updates, no more manual patching files.
+- 18 Themes Ready to use for Odyssey.
+- 38 Themes Ready to use for Horizons.
+- Updated to latest EDHM Public Beta 5
+
+✦ Check full list of changes at #beta-files
+----------------------------------------------
+HOW TO UPDATE / INSTALL:
+- If you instaled the Pre-Release you should get an Update Notification, follow it.
+- If you used the Betas or older versions, then Delete/Un install them all.
+
+- REQUIRED: Make sure the 'Material Quality' in game Graphic Settings is set to ULTRA.
+----------------------------------------------
+[Link] https://github.com/BlueMystical/EDHM_UI/releases/latest
+----------------------------------------------
+Enjoy.
+
+---------------------------------------------------------
+@everyone ✦✦ Hot-Fix post ED Update 9 ✦✦ is now available.
+
+Change Log:
+- EDHM post FDev Update 9.0 fix.
+- No more Orange Icons!
+
+Check full list of Changes:  
+https://discord.com/channels/773552741632180224/864174753946271794/919055917469814795
+----------------------------------------------
+Enjoy.
+
+---------------------------------------------------------
+@everyone EDHM_UI v2.0.8.4 is now available.
+Change Log:
+
+- Improved Auto-Updater, is faster and retry if gets disconnected, if you still have issues with patches check that your Antivirus is not blocking the program.
+- Helping hand added to aid new users finding the Game locations easily.
+
+- Updated EDHM 1.52 for Horizons.
+- Orange Icons Removed.
+  Check full list of Changes: https://discord.com/channels/773552741632180224/864174753946271794/921636026563297290
+
+- New/Updated Themes (for ODYSSEY): 
+  ✦ Cherenkov_Blue
+  ✦ Holiday Blue
+  ✦ Red Gray Black
+  ✦ Clean_Slate NEW
+  ✦ Red_Dragon_Red NEW
+----------------------------------------------
+Enjoy.
+
+
+---------------------------------------------------------
+@everyone EDHM_UI v2.0.7.1 is now available.
+
+Change Log:
+- Purple Shield % fixed.
+- Onfoot HUD is now operative.
+- New theme: Veritas Shieldless.
+- New version of the cabin lighting for the Corvette, It extends the range slightly for the Corvette, so instead of Orange round lights, they get covered by the Cabin lighting colour in Full and Complete modes.
+----------------------------------------------
+Enjoy.
+
+---------------------------------------------------------
+@everyone 
+- New update today to hopefully fix all the auto-patch problems we had yesterday.
+- We now have Night Vision mod for Odyssey ^_^ thanks to @Jessidhia, check it out: https://discord.com/channels/773552741632180224/897503811944460388/913015862179536896
+- The lightning cockpit mod is almost ready, keep an eye at #3rdpartymods
+----------------------------------------------
+Regards.
+
+
+
+---------------------------------------------------------
+@everyone 
+- New update today to hopefully fix all the auto-patch problems we had yesterday.
+- We now have Night Vision mod for Odyssey ^_^ thanks to @Jessidhia, check it out: https://discord.com/channels/773552741632180224/897503811944460388/913015862179536896
+- The lightning cockpit mod is almost ready, keep an eye at #3rdpartymods
+----------------------------------------------
+Regards.
+
+
+---------------------------------------------------------
+@everyone EDHM Update 8.4 for Odyssey is now available.
+
+Change Log:
+- Update 8.4 for Odyssey.
+- Speeding Warning.
+- Remote release Flechette.
+- Modded the Wing / Team hull bars to XML
+- Check the whole change log: https://discord.com/channels/773552741632180224/864174753946271794/916968146223644703
+- Themes Added / Updated: 
+   Cobalt by @CMDR-Stank  *NEW* 
+   Carinae by @psychicEgg
+   Colonels Blue-Purple by @ColonelOfTruth *NEW* 
+   Cherenkov_Blue by @Valkyrie64Ryan
+- New version of the cabin lighting for the Corvette, It extends the range slightly for the Corvette, so instead of Orange round lights, they get covered by the Cabin lighting colour in Full and Complete modes.
+----------------------------------------------
+Enjoy.
+
+*SPOILER* I'm currently translating the whole UI into 6 languages: EN, ES, DE, FR, PT, RU
+
+
+---------------------------------------------------------
+@everyone ✦✦ EDHM_UI v2.0.8 ✦✦ is now available.
+
+Change Log:
+- UI is now Translated into 6 languages: EN, ES, DE, FR, PT, RU.
+- Update 8.4 for Odyssey Included.
+
+Please Note the following:
+- Not ALL the texts are or could be translated, lets settle it at 95% of them.
+- I used Google Translator so it may not be 100% Accuratelly translated, appologies for any miss-translation.
+- If you want to help me with the translations, send me a DM and i'll provide the file that need to be translated or revised.
+---------------------------------------------------------
+Enjoy. o7
+
+
+---------------------------------------------------------
+@everyone ✦✦ EDHM_UI v2.0.8.1 ✦✦ is now available.
+
+Change Log:
+- Fixed a Bug that prevented the Horizons version to work propertly, sorry for the inconveniences.
+- ODY: New Translation added for Japanese (thanks to @desperado421)
+- ODY: New Translation added for Italian (thanks to @Cpt Mark Harlock)
+
+- Themes Added / Updated:
+  ✦ Arcane Violet by @Ashh (Whisky) *NEW* 
+  ✦ Rat King Red by @Ashh (Whisky) *NEW* 
+  ✦ Red Gray Black by @Mats
+---------------------------------------------------------
+Enjoy. o7
+
+
+---------------------------------------------------------
+@everyone EDHM Update 9.1 for Odyssey is now available.
+Change Log:
+- Update 9.1 for Odyssey.
+- Supercruise sidelines added.
+- Orbit Lines added.
+- Night vision added.
+- Check the whole change log: https://discord.com/channels/773552741632180224/864174753946271794/922570410548146247
+----------------------------------------------
+Enjoy. o7
+
+---------------------------------------------------------
+@everyone ✦✦ EDHM_UI v2.1.4.1 ✦✦ is now available.
+Change Log:
+- Fixed a bug applying XML when saving a theme.
+- Fixed a bug in the Search Box.
+
+- Themes Added / Updated (ODYSSEY):
+  ✦ Invictus Federalby @Invictus
+  ✦ Janus Core by @Evertiro
+  ✦ Green AF by @Neddington ✦ NEW ✦
+
+- Themes Added / Updated (HORIZONS):
+  ✦ LCD_SOFT_GREEN by @Alex_238 ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v2.1.7.1 ✦✦ is now available.
+Change Log:
+
+- History feature added, will remember your last 10 saves and you can 'undo' changes to any of them.
+  ✦ The number of saves to remember (10 by default), is configurable thru the Settings (max 100).
+  ✦ History files are Out of the game folder, so FDev wont be able to touch anything, therefore you guys wont lose any data never again.
+
+- Main Menu got a 'Makeover'.
+- When Saving a theme the prompt for thumbnail won't pop again, you will have to use the context menu.
+- No Changes in EDHM, v10.1 is still the latest.
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ A2_GREY-CYAN by @Alex_238
+  ✦ A2_CYAN-COMBAT by @Alex_238
+  ✦ A2_EXPLO by @Alex_238
+  ✦ A2_GREEN-SOFT by @Alex_238
+  ✦ Sapphire Diamonds by @c4t4ly5t ✦ NEW ✦
+  ✦ Spear Aegis by @Akuma Tebori ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+---------------------------------------------------------
+✦✦ EDHM_UI v2.1.7.0 ✦✦ is now available.
+Change Log:
+- All Themes got relocated to %USERPROFILE%\My Documents\ this will prevent any FDev update wipe them again.
+  ✦ read more here: https://discord.com/channels/773552741632180224/773553131568889916/941790405748486185
+- Easier and more intuitive access to Theme Managing, just a Right Click over any theme.
+- Updated Translations for EN, RU, FR and IT.
+
+- EDHM v10.1 for Odyssey had been implemented. 
+  ✦ Latitude / Longitude Coordinates, & Gravity Text Colour.
+  ✦ Text Along the Altitude Bar
+  ✦ CHUD / AHUD Red Text (Weapons Out of Range)
+  ✦ Planetary Landing Text (bright cyan) "Ship Landed" paragraph
+  ✦ Check the full list of changes here: https://discord.com/channels/773552741632180224/864174753946271794/942758555583381595
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Cherenkov Blue by @CMDR Valkyrie64Ryan
+  ✦ Dark Krait 2 by @Raz Uryel
+  ✦ Deep Purple by @Pissman
+  ✦ Janus Clementine by @Evertiro
+  ✦ Janus Luxe - Mint by @Evertiro ✦ NEW ✦
+  ✦ Janus Luxe - Royal by @Evertiro ✦ NEW ✦
+  ✦ Janus Purist by @Evertiro
+  ✦ SL - Combat Green by @Strasny Lada ✦ NEW ✦
+  ✦ SL - Sky Blue&Orange by @Strasny Lada ✦ NEW ✦
+  ✦ Strawberry_Milkshake by @Rico brzenska
+  ✦ White Blue Minimal by @ZTolp ✦ NEW ✦
+---------------------------------------------------------
+o7
+
+---------------------------------------------------------
+@everyone ✦✦ EDHM_UI v2.1.6 ✦✦ is now available.
+Change Log:
+- Fixed a bug with the Shipyard.
+- EDHM v10.1 for Odyssey had been implemented. 
+  ✦ Ship's Name Color and Background.
+  ✦ Options for Color Protection: Yellow, White, Green, Red, Cyan
+;------------------------------------------------------------------------------------------------------
+ ** Colour Protection **
+ The mod protects certain default Elite colours to add variety to the panel and
+ interactive screens (otherwise they all become coloured with your XML)
+ You can override colour protection below.
+
+ Please note: This version of EDHM was designed with colour protection, so it's
+ recommended you leave this setting ON (or possibly remove the bright yellows)
+
+ This is a new experimental feature, and if you spot any glitches please let me know
+ Some icons aren't colour protected, they just aren't modded
+;------------------------------------------------------------------------------------------------------
+  Full List of Changes: https://discord.com/channels/773552741632180224/864174753946271794/940491752006094878
+
+- Themes Added / Updated (ODYSSEY)
+  ✦ Strawberry_Milkshake by @Rico brzenska ✦ NEW ✦
+
+- Themes Added / Updated (HORIZONS)
+  ✦ Into_The_Pink by @Sparky862 ✦ NEW ✦
+---------------------------------------------------------
+Enjoy. o7
+
+
+
+
+---------------------------------------------------------
+@everyone ✦✦ EDHM_UI v2.1.1 ✦✦ is now available.
+Change Log:
+- Fixed a bug with the Preview in Horizons Version.
+- Fixed a bug in the Multi-Instances selection.
+- Fixed Russian Translation for Horizons.
+- Added XML toogle for AHUD/CHUD in Horizons.
+- Improved Auto-Patcher, made it faster and smarter.
+- You can now have Favorite themes and filter them.  *NEW*
+
+- EDHM 9.2c BOTE (Beginning Of The End) Update
+  ✦ OwnCarrier Nav Panel Colours
+  ✦ Mission & Nav Panel Colours and Icons
+  ✦ Interdiction on XML
+  ✦ GalMap System Connector Lines
+  ✦ Scorpion turret
+  ✦ Powers, Codex and GalNet Panels
+  ✦ Menus on XML
+  ✦ Cockpit Lights Updated
+Check full list of changes here: https://discord.com/channels/773552741632180224/864174753946271794/933774143491571833
+
+- Themes Added / Updated (Odyssey):
+  ✦ Deep Purple by @Pissman  	*NEW* 
+  ✦ Cyan Combat by @Alex_238	*NEW* 
+  ✦ Grey Cyan by @Alex_238
+  ✦ Janus Emerald by @Evertiro *NEW*  
+  ✦ Janus Core by @Evertiro 	
+  ✦ Janus Blackou by @Evertiro *NEW* 
+  ✦ Interstellar UltraBlue by @Blue Mystic *NEW*
+  ✦ Everything Off BY @c4t4ly5t *NEW*
+
+- Themes Added / Updated (Horizons):
+  ✦ Interstellar UltraBlue by @psychicEgg	*NEW*
+  ✦ Quiet Grey by @Alex_238	*NEW* 
+
+---------------------------------------------------------
+✦✦✦✦ WARNING: ✦✦✦✦
+Due a lot of internal changes and re-structuration of files, you may loose your 'Current Settings' >>> JUST FOR THIS TIME ONLY <<<.
+Please Backup your Current Settings by turning them into a Theme.
+Simply click the 'Make New Theme' button (+) on top of the Theme list BEFORE getting this update.
+Sorry for the inconveniences.
+---------------------------------------------------------
+Many thanks to @Evertiro for alll the testings.
+---------------------------------------------------------
+Enjoy. o7
+
+
+
+

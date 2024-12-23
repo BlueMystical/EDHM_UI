@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="18.5" version="18.8.1" Modules="professional" RootPath="." Language="en" Id="{305C5696-0D09-4FD3-AC00-C5F2E9C1A1D0}">
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
+    <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
+    <ROW Property="AI_CURRENT_YEAR" Value="2024" ValueLocId="-"/>
+    <ROW Property="AI_EXTERNALUIUNINSTALLERNAME" MultiBuildValue="DefaultBuild:aiui"/>
+    <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_DOTNET_VERSION"/>
+    <ROW Property="AI_PRODUCTNAME_ARP" Value="EDHM_UI"/>
+    <ROW Property="AI_REQUIRED_DOTNET_DISPLAY" MultiBuildValue="DefaultBuild:4.5.2" ValueLocId="-"/>
+    <ROW Property="AI_REQUIRED_DOTNET_VERSION" MultiBuildValue="DefaultBuild:4.5.2" ValueLocId="-"/>
+    <ROW Property="AI_SHORTCUTSREG" Value="0|0|0|0|"/>
+    <ROW Property="AI_UNINSTALLER" Value="msiexec.exe"/>
+    <ROW Property="ALLUSERS" Value="1" MultiBuildValue="DefaultBuild:2"/>
+    <ROW Property="ARPCOMMENTS" Value="This installer contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPHELPLINK" Value="https://github.com/BlueMystical/EDHM_UI/wiki"/>
+    <ROW Property="ARPNOREPAIR" Value="1"/>
+    <ROW Property="ARPPRODUCTICON" Value="ED_TripleElite.exe" Type="8"/>
+    <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
+    <ROW Property="ARPURLINFOABOUT" Value="https://github.com/BlueMystical/EDHM_UI"/>
+    <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
+    <ROW Property="CTRLS" Value="2"/>
+    <ROW Property="Manufacturer" Value="Blue Mystic"/>
+    <ROW Property="ProductCode" Value="1033:{61B012A0-9CD4-4BE9-AC58-1E46DB1A9847} " Type="16"/>
+    <ROW Property="ProductLanguage" Value="1033"/>
+    <ROW Property="ProductName" Value="EDHM_UI"/>
+    <ROW Property="ProductVersion" Value="2.2.54.0" Type="32"/>
+    <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
+    <ROW Property="UpgradeCode" Value="{2949570F-AF20-4990-B258-006A1649A388}"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT" MultiBuildValue="DefaultBuild:Windows Vista x86, Windows Server 2008 x86" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5X" MultiBuildValue="DefaultBuild:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="DefaultBuild:Windows XP/2003" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT64" MultiBuildValue="DefaultBuild:Windows Vista x64, Windows Server 2008 x64, Windows Server 2008 R2 x64, Windows Server 2012 x64, Windows Server 2012 R2 x64" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT64Display" MultiBuildValue="DefaultBuild:Windows Vista x64, Windows Server 2008 x64, Windows Server 2008 R2 x64, Windows Server 2012 x64, Windows Server 2012 R2 x64" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNTDisplay" MultiBuildValue="DefaultBuild:Windows Vista x86, Windows Server 2008 x86" ValueLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
+    <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="Data_Dir" Directory_Parent="APPDIR" DefaultDir="Data" DirectoryOptions="3"/>
+    <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
+    <ROW Directory="ED_Horizons_Dir" Directory_Parent="Images_Dir" DefaultDir="ED_HOR~1|ED_Horizons"/>
+    <ROW Directory="ED_Odissey_Dir" Directory_Parent="Images_Dir" DefaultDir="ED_ODI~1|ED_Odissey"/>
+    <ROW Directory="Elements_ODY_Dir" Directory_Parent="Images_Dir" DefaultDir="ELEMEN~1|Elements_ODY" DirectoryOptions="3"/>
+    <ROW Directory="Images_Dir" Directory_Parent="APPDIR" DefaultDir="Images"/>
+    <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
+    <ROW Directory="Properties_Dir" Directory_Parent="APPDIR" DefaultDir="PROPER~1|Properties"/>
+    <ROW Directory="Ships_Dir" Directory_Parent="Images_Dir" DefaultDir="Ships"/>
+    <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+    <ROW Directory="Updates_Dir" Directory_Parent="APPDIR" DefaultDir="Updates" DirectoryOptions="3"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="AIShRegAnswer" ComponentId="{2D8D79A9-F005-4936-95B1-DD31BB7F3851}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{F489EDDC-79A2-410B-BE76-2A76413A08FB}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="APPDIR" ComponentId="{1428F5F3-0E71-45A1-AC93-1D376C7F0DC2}" Directory_="APPDIR" Attributes="0"/>
+    <ROW Component="AmbientLights_0.png" ComponentId="{52A436C9-3EAA-4B92-958A-344A6537B298}" Directory_="ED_Horizons_Dir" Attributes="0" KeyPath="AmbientLights_0.png" Type="0"/>
+    <ROW Component="ColorManagment.dll" ComponentId="{35162133-6069-4C8C-A522-8283866B1CAE}" Directory_="APPDIR" Attributes="0" KeyPath="ColorManagment.dll"/>
+    <ROW Component="ColorMatrix_Preview_1a.png" ComponentId="{D96405A6-090B-455D-879D-1FD8CE4E5153}" Directory_="ED_Odissey_Dir" Attributes="0" KeyPath="ColorMatrix_Preview_1a.png_2" Type="0"/>
+    <ROW Component="DevExpress.BonusSkins.v24.1.dll" ComponentId="{943E2F48-3F1C-4AD8-9693-476D4B776E94}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.BonusSkins.v24.1.dll"/>
+    <ROW Component="DevExpress.CodeParser.v24.1.dll" ComponentId="{ECF20A87-734B-4FA1-9329-EEA8C5AF505A}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.CodeParser.v24.1.dll"/>
+    <ROW Component="DevExpress.Data.Desktop.v24.1.dll" ComponentId="{AAFD859F-53A1-4EC5-8009-EE53B4F65D15}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.Desktop.v24.1.dll"/>
+    <ROW Component="DevExpress.Data.v24.1.dll" ComponentId="{CD704DAB-AE00-4E96-B49D-A5037A679F1F}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Data.v24.1.dll"/>
+    <ROW Component="DevExpress.DataAccess.v24.1.dll" ComponentId="{4BF15210-53AC-4DB5-AC60-3A194BB82C8E}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.DataAccess.v24.1.dll"/>
+    <ROW Component="DevExpress.Dialogs.v24.1.Core.dll" ComponentId="{7F333BC8-17CA-4A9F-ABF5-17F2287481F3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Dialogs.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Drawing.v24.1.dll" ComponentId="{8BFE4565-428F-4119-8206-FD69332B8E74}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Drawing.v24.1.dll"/>
+    <ROW Component="DevExpress.Images.v24.1.dll" ComponentId="{3A6C1BAD-95E6-4655-8CE8-09BEC76CA998}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Images.v24.1.dll"/>
+    <ROW Component="DevExpress.Office.v24.1.Core.dll" ComponentId="{BDC7E227-A327-4BB8-BB68-89A228045A6D}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Office.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Pdf.v24.1.Core.dll" ComponentId="{0CACA3A8-E706-48AA-B041-A1412F8C9D5B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Pdf.v24.1.Drawing.dll" ComponentId="{DFDEA3DA-17C4-4328-977C-989A3CFCF723}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Pdf.v24.1.Drawing.dll"/>
+    <ROW Component="DevExpress.Printing.v24.1.Core.dll" ComponentId="{34114E8C-3CC8-4CC0-BDBB-BAA715C7AC24}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Printing.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.RichEdit.v24.1.Core.dll" ComponentId="{7E81FD7C-43ED-43C8-BEBA-6A05F1CF75A0}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.RichEdit.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Sparkline.v24.1.Core.dll" ComponentId="{6BBB816B-F502-477B-B39D-EA78E8EE4098}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Sparkline.v24.1.Core.dll"/>
+    <ROW Component="DevExpress.Utils.v24.1.dll" ComponentId="{8FEDC3A3-4D76-4EB8-930A-54236EFB31A3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Utils.v24.1.dll"/>
+    <ROW Component="DevExpress.Xpo.v24.1.dll" ComponentId="{70C3418C-EB92-4A0C-AC36-97BB8460D2DD}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.Xpo.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraBars.v24.1.dll" ComponentId="{2ABAFAD1-4DBA-42B9-9129-951623D6AF45}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraBars.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraDialogs.v24.1.dll" ComponentId="{2A125262-884D-44AA-B32B-3ACAECC6705B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraDialogs.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraEditors.v24.1.dll" ComponentId="{B726E057-7B63-4001-916A-4F3B0E251F70}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraEditors.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraGrid.v24.1.dll" ComponentId="{0E432E18-387C-4E99-AB72-DECF9BC24BD3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraGrid.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraLayout.v24.1.dll" ComponentId="{7CE42135-2AFF-4766-A086-7C51A766E5A3}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraLayout.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraNavBar.v24.1.dll" ComponentId="{DF1EE296-6000-483E-8FD8-D422867E1BBF}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraNavBar.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraPrinting.v24.1.dll" ComponentId="{978E60A6-4464-4B35-A24E-602F61D1276B}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraPrinting.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraTreeList.v24.1.dll" ComponentId="{D5A3AA16-93B2-48C5-A00A-65970D1F00B1}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraTreeList.v24.1.dll"/>
+    <ROW Component="DevExpress.XtraVerticalGrid.v24.1.dll" ComponentId="{CFF4EA78-01D1-4586-9861-1356C88B13A0}" Directory_="APPDIR" Attributes="0" KeyPath="DevExpress.XtraVerticalGrid.v24.1.dll"/>
+    <ROW Component="EDHM_UI_Guide.pdf" ComponentId="{B6C93243-E42F-4572-9E06-C8F0AD605DA4}" Directory_="Data_Dir" Attributes="0" KeyPath="ED_Horizons_XMLProfile.ini" Type="0"/>
+    <ROW Component="EDHM_UI_Patcher.exe" ComponentId="{986622D2-1826-479C-953F-5C8C000CC8D9}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_Patcher.exe"/>
+    <ROW Component="EDHM_UI_Thumbnail_Maker.exe" ComponentId="{5E6A1F3F-DD88-4C11-8984-0DB6AF037EDC}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_Thumbnail_Maker.exe"/>
+    <ROW Component="EDHM_UI_mk2.VisualElementsManifest.xml" ComponentId="{96958B65-E906-44AD-BEE7-E743671D2B5E}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_mk2.VisualElementsManifest.xml"/>
+    <ROW Component="EDHM_UI_mk2.exe" ComponentId="{D5A05CEF-EEB0-4400-AC59-821151D0A0B4}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_mk2.exe"/>
+    <ROW Component="EDHM_UI_mk2.exe.Config" ComponentId="{2DB91403-C312-4C8C-95D8-97E9B50C61AC}" Directory_="APPDIR" Attributes="0" KeyPath="EDHM_UI_mk2.exe.Config" Type="0"/>
+    <ROW Component="HORIZ_EDHMv1.51.1.zip" ComponentId="{8665364D-8829-4C1C-B5A6-1D8CC0014052}" Directory_="Updates_Dir" Attributes="0" KeyPath="HORIZ_EDHMv1.52.b.zip" Type="0"/>
+    <ROW Component="ICCReader.dll" ComponentId="{B2601AD1-3EBF-4BCB-BD32-3141C559D7C0}" Directory_="APPDIR" Attributes="0" KeyPath="ICCReader.dll"/>
+    <ROW Component="INIFileParser.dll" ComponentId="{EB4F033F-0812-46E7-B887-3D6FD06B1BDB}" Directory_="APPDIR" Attributes="0" KeyPath="INIFileParser.dll"/>
+    <ROW Component="Ionic.Zip.dll" ComponentId="{FDBB6871-3311-4EAB-A1CE-DCF18A3E9DFC}" Directory_="APPDIR" Attributes="0" KeyPath="Ionic.Zip.dll"/>
+    <ROW Component="MathNet.Numerics.dll" ComponentId="{D8245384-9A30-443B-8A81-46C2D5F777D7}" Directory_="APPDIR" Attributes="0" KeyPath="MathNet.Numerics.dll"/>
+    <ROW Component="Newtonsoft.Json.dll" ComponentId="{6D944275-7E84-4326-A395-F2763ED28D38}" Directory_="APPDIR" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
+    <ROW Component="PREVIEW.png" ComponentId="{66052CFD-4B30-4AAB-9D01-A39D85806726}" Directory_="Images_Dir" Attributes="0" KeyPath="PREVIEW.png" Type="0"/>
+    <ROW Component="ProductInformation" ComponentId="{E86B98E5-CFC4-493A-8B3C-A69D8278A401}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="Properties" ComponentId="{F40A4739-32D8-4D25-A341-7289F8990683}" Directory_="Properties_Dir" Attributes="0"/>
+    <ROW Component="adder.jpg" ComponentId="{D88A3C07-670F-4BAF-B196-7D93921F2FD0}" Directory_="Ships_Dir" Attributes="0" KeyPath="adder.jpg" Type="0"/>
+    <ROW Component="w97.png" ComponentId="{95EF65DD-47F4-43E9-B5D7-9CC37A618AD3}" Directory_="Elements_ODY_Dir" Attributes="0" KeyPath="w97.png" Type="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
+    <ROW Feature="TileAssets_DefaultBuild" Title="TileAssets_DefaultBuild" Description="Description" Display="0" Level="1" Directory_="APPDIR" Attributes="0" Options="271" Builds="DefaultBuild"/>
+    <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="EDHM_UI_mk2.exe" Component_="EDHM_UI_mk2.exe" FileName="EDHM_U~1.EXE|EDHM_UI_mk2.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_mk2.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="EDHM_UI_mk2.exe.Config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~1.CON|EDHM_UI_mk2.exe.Config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_mk2.exe.Config" SelfReg="false"/>
+    <ROW File="ColorManagment.dll" Component_="ColorManagment.dll" FileName="COLORM~1.DLL|ColorManagment.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\ColorManagment.dll" SelfReg="false"/>
+    <ROW File="ICCReader.dll" Component_="ICCReader.dll" FileName="ICCREA~1.DLL|ICCReader.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\ICCReader.dll" SelfReg="false"/>
+    <ROW File="INIFileParser.dll" Component_="INIFileParser.dll" FileName="INIFIL~1.DLL|INIFileParser.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\INIFileParser.dll" SelfReg="false"/>
+    <ROW File="Ionic.Zip.dll" Component_="Ionic.Zip.dll" FileName="IONICZ~1.DLL|Ionic.Zip.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Ionic.Zip.dll" SelfReg="false"/>
+    <ROW File="MathNet.Numerics.dll" Component_="MathNet.Numerics.dll" FileName="MATHNE~1.DLL|MathNet.Numerics.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\MathNet.Numerics.dll" SelfReg="false"/>
+    <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Newtonsoft.Json.dll" SelfReg="false"/>
+    <ROW File="ED_Horizons_XMLProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~1.INI|ED_Horizons_XML-Profile.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_XML-Profile.ini" SelfReg="false"/>
+    <ROW File="ED_Odissey_XMLProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~1.INI|ED_Odissey_XML-Profile.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_XML-Profile.ini" SelfReg="false"/>
+    <ROW File="AmbientLights_0.png" Component_="AmbientLights_0.png" FileName="AMBIEN~1.PNG|AmbientLights_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_0.png" SelfReg="false"/>
+    <ROW File="AmbientLights_0p.png" Component_="AmbientLights_0.png" FileName="AMBIEN~2.PNG|AmbientLights_0p.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_0p.png" SelfReg="false"/>
+    <ROW File="AmbientLights_1.png" Component_="AmbientLights_0.png" FileName="AMBIEN~3.PNG|AmbientLights_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_1.png" SelfReg="false"/>
+    <ROW File="AmbientLights_10.png" Component_="AmbientLights_0.png" FileName="AMBIEN~4.PNG|AmbientLights_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_10.png" SelfReg="false"/>
+    <ROW File="AmbientLights_11.png" Component_="AmbientLights_0.png" FileName="AMBIEN~5.PNG|AmbientLights_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_11.png" SelfReg="false"/>
+    <ROW File="AmbientLights_12.png" Component_="AmbientLights_0.png" FileName="AMBIEN~6.PNG|AmbientLights_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_12.png" SelfReg="false"/>
+    <ROW File="AmbientLights_13.png" Component_="AmbientLights_0.png" FileName="AMBIEN~7.PNG|AmbientLights_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_13.png" SelfReg="false"/>
+    <ROW File="AmbientLights_14.png" Component_="AmbientLights_0.png" FileName="AMBIEN~8.PNG|AmbientLights_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_14.png" SelfReg="false"/>
+    <ROW File="AmbientLights_15.png" Component_="AmbientLights_0.png" FileName="AMBIEN~9.PNG|AmbientLights_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_15.png" SelfReg="false"/>
+    <ROW File="AmbientLights_16.png" Component_="AmbientLights_0.png" FileName="AMBIE~10.PNG|AmbientLights_16.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_16.png" SelfReg="false"/>
+    <ROW File="AmbientLights_17.png" Component_="AmbientLights_0.png" FileName="AMBIE~11.PNG|AmbientLights_17.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_17.png" SelfReg="false"/>
+    <ROW File="AmbientLights_18.png" Component_="AmbientLights_0.png" FileName="AMBIE~12.PNG|AmbientLights_18.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_18.png" SelfReg="false"/>
+    <ROW File="AmbientLights_19.png" Component_="AmbientLights_0.png" FileName="AMBIE~13.PNG|AmbientLights_19.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_19.png" SelfReg="false"/>
+    <ROW File="AmbientLights_2.png" Component_="AmbientLights_0.png" FileName="AMBIE~14.PNG|AmbientLights_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_2.png" SelfReg="false"/>
+    <ROW File="AmbientLights_20.png" Component_="AmbientLights_0.png" FileName="AMBIE~15.PNG|AmbientLights_20.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_20.png" SelfReg="false"/>
+    <ROW File="AmbientLights_21.png" Component_="AmbientLights_0.png" FileName="AMBIE~16.PNG|AmbientLights_21.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_21.png" SelfReg="false"/>
+    <ROW File="AmbientLights_22.png" Component_="AmbientLights_0.png" FileName="AMBIE~17.PNG|AmbientLights_22.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_22.png" SelfReg="false"/>
+    <ROW File="AmbientLights_23.png" Component_="AmbientLights_0.png" FileName="AMBIE~18.PNG|AmbientLights_23.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_23.png" SelfReg="false"/>
+    <ROW File="AmbientLights_3.png" Component_="AmbientLights_0.png" FileName="AMBIE~19.PNG|AmbientLights_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_3.png" SelfReg="false"/>
+    <ROW File="AmbientLights_4.png" Component_="AmbientLights_0.png" FileName="AMBIE~20.PNG|AmbientLights_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_4.png" SelfReg="false"/>
+    <ROW File="AmbientLights_5.png" Component_="AmbientLights_0.png" FileName="AMBIE~21.PNG|AmbientLights_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_5.png" SelfReg="false"/>
+    <ROW File="AmbientLights_6.png" Component_="AmbientLights_0.png" FileName="AMBIE~22.PNG|AmbientLights_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_6.png" SelfReg="false"/>
+    <ROW File="AmbientLights_7.png" Component_="AmbientLights_0.png" FileName="AMBIE~23.PNG|AmbientLights_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_7.png" SelfReg="false"/>
+    <ROW File="AmbientLights_8.png" Component_="AmbientLights_0.png" FileName="AMBIE~24.PNG|AmbientLights_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_8.png" SelfReg="false"/>
+    <ROW File="AmbientLights_9.png" Component_="AmbientLights_0.png" FileName="AMBIE~25.PNG|AmbientLights_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AmbientLights_9.png" SelfReg="false"/>
+    <ROW File="Ambient_Cabin_Lights_P.png" Component_="AmbientLights_0.png" FileName="AMBIE~26.PNG|Ambient_Cabin_Lights_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Ambient_Cabin_Lights_P.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_0.png" Component_="AmbientLights_0.png" FileName="ANALYS~1.PNG|AnalysisHUD_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_0.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_1.png" Component_="AmbientLights_0.png" FileName="ANALYS~2.PNG|AnalysisHUD_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_1.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_10.png" Component_="AmbientLights_0.png" FileName="ANALYS~3.PNG|AnalysisHUD_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_10.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_11.png" Component_="AmbientLights_0.png" FileName="ANALYS~4.PNG|AnalysisHUD_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_11.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_2.png" Component_="AmbientLights_0.png" FileName="ANALYS~5.PNG|AnalysisHUD_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_2.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_3.png" Component_="AmbientLights_0.png" FileName="ANALYS~6.PNG|AnalysisHUD_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_3.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_4.png" Component_="AmbientLights_0.png" FileName="ANALYS~7.PNG|AnalysisHUD_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_4.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_5.png" Component_="AmbientLights_0.png" FileName="ANALYS~8.PNG|AnalysisHUD_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_5.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_6.png" Component_="AmbientLights_0.png" FileName="ANALYS~9.PNG|AnalysisHUD_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_6.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_7.png" Component_="AmbientLights_0.png" FileName="ANALY~10.PNG|AnalysisHUD_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_7.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_8.png" Component_="AmbientLights_0.png" FileName="ANALY~11.PNG|AnalysisHUD_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_8.png" SelfReg="false"/>
+    <ROW File="AnalysisHUD_9.png" Component_="AmbientLights_0.png" FileName="ANALY~12.PNG|AnalysisHUD_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\AnalysisHUD_9.png" SelfReg="false"/>
+    <ROW File="Blank.png" Component_="AmbientLights_0.png" FileName="Blank.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Blank.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_1a.png" Component_="AmbientLights_0.png" FileName="COLORM~1.PNG|ColorMatrix_Preview_1a.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ColorMatrix_Preview_1a.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_1b.png" Component_="AmbientLights_0.png" FileName="COLORM~2.PNG|ColorMatrix_Preview_1b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ColorMatrix_Preview_1b.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_2a.png" Component_="AmbientLights_0.png" FileName="COLORM~3.PNG|ColorMatrix_Preview_2a.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ColorMatrix_Preview_2a.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_2b.png" Component_="AmbientLights_0.png" FileName="COLORM~4.PNG|ColorMatrix_Preview_2b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ColorMatrix_Preview_2b.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_3a.png" Component_="AmbientLights_0.png" FileName="COLORM~5.PNG|ColorMatrix_Preview_3a.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ColorMatrix_Preview_3a.png" SelfReg="false"/>
+    <ROW File="CombatHUD_0.png" Component_="AmbientLights_0.png" FileName="COMBAT~1.PNG|CombatHUD_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_0.png" SelfReg="false"/>
+    <ROW File="CombatHUD_1.png" Component_="AmbientLights_0.png" FileName="COMBAT~2.PNG|CombatHUD_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_1.png" SelfReg="false"/>
+    <ROW File="CombatHUD_10.png" Component_="AmbientLights_0.png" FileName="COMBAT~3.PNG|CombatHUD_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_10.png" SelfReg="false"/>
+    <ROW File="CombatHUD_10b.png" Component_="AmbientLights_0.png" FileName="COMBAT~4.PNG|CombatHUD_10b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_10b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_11.png" Component_="AmbientLights_0.png" FileName="COMBAT~5.PNG|CombatHUD_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_11.png" SelfReg="false"/>
+    <ROW File="CombatHUD_11b.png" Component_="AmbientLights_0.png" FileName="COMBAT~6.PNG|CombatHUD_11b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_11b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_12.png" Component_="AmbientLights_0.png" FileName="COMBAT~7.PNG|CombatHUD_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_12.png" SelfReg="false"/>
+    <ROW File="CombatHUD_12b.png" Component_="AmbientLights_0.png" FileName="COMBAT~8.PNG|CombatHUD_12b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_12b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_13.png" Component_="AmbientLights_0.png" FileName="COMBAT~9.PNG|CombatHUD_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_13.png" SelfReg="false"/>
+    <ROW File="CombatHUD_13b.png" Component_="AmbientLights_0.png" FileName="COMBA~10.PNG|CombatHUD_13b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_13b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_14.png" Component_="AmbientLights_0.png" FileName="COMBA~11.PNG|CombatHUD_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_14.png" SelfReg="false"/>
+    <ROW File="CombatHUD_14b.png" Component_="AmbientLights_0.png" FileName="COMBA~12.PNG|CombatHUD_14b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_14b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_15.png" Component_="AmbientLights_0.png" FileName="COMBA~13.PNG|CombatHUD_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_15.png" SelfReg="false"/>
+    <ROW File="CombatHUD_15b.png" Component_="AmbientLights_0.png" FileName="COMBA~14.PNG|CombatHUD_15b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_15b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_16.png" Component_="AmbientLights_0.png" FileName="COMBA~15.PNG|CombatHUD_16.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_16.png" SelfReg="false"/>
+    <ROW File="CombatHUD_16b.png" Component_="AmbientLights_0.png" FileName="COMBA~16.PNG|CombatHUD_16b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_16b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_17.png" Component_="AmbientLights_0.png" FileName="COMBA~17.PNG|CombatHUD_17.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_17.png" SelfReg="false"/>
+    <ROW File="CombatHUD_17b.png" Component_="AmbientLights_0.png" FileName="COMBA~18.PNG|CombatHUD_17b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_17b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_18.png" Component_="AmbientLights_0.png" FileName="COMBA~19.PNG|CombatHUD_18.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_18.png" SelfReg="false"/>
+    <ROW File="CombatHUD_18b.png" Component_="AmbientLights_0.png" FileName="COMBA~20.PNG|CombatHUD_18b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_18b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_19.png" Component_="AmbientLights_0.png" FileName="COMBA~21.PNG|CombatHUD_19.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_19.png" SelfReg="false"/>
+    <ROW File="CombatHUD_199.png" Component_="AmbientLights_0.png" FileName="COMBA~22.PNG|CombatHUD_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_199.png" SelfReg="false"/>
+    <ROW File="CombatHUD_199b.png" Component_="AmbientLights_0.png" FileName="COMBA~23.PNG|CombatHUD_199b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_199b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_19b.png" Component_="AmbientLights_0.png" FileName="COMBA~24.PNG|CombatHUD_19b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_19b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_1b.png" Component_="AmbientLights_0.png" FileName="COMBA~25.PNG|CombatHUD_1b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_1b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_1n.png" Component_="AmbientLights_0.png" FileName="COMBA~26.PNG|CombatHUD_1n.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_1n.png" SelfReg="false"/>
+    <ROW File="CombatHUD_2.png" Component_="AmbientLights_0.png" FileName="COMBA~27.PNG|CombatHUD_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_2.png" SelfReg="false"/>
+    <ROW File="CombatHUD_2b.png" Component_="AmbientLights_0.png" FileName="COMBA~28.PNG|CombatHUD_2b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_2b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_3.png" Component_="AmbientLights_0.png" FileName="COMBA~29.PNG|CombatHUD_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_3.png" SelfReg="false"/>
+    <ROW File="CombatHUD_3b.png" Component_="AmbientLights_0.png" FileName="COMBA~30.PNG|CombatHUD_3b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_3b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_4.png" Component_="AmbientLights_0.png" FileName="COMBA~31.PNG|CombatHUD_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_4.png" SelfReg="false"/>
+    <ROW File="CombatHUD_4b.png" Component_="AmbientLights_0.png" FileName="COMBA~32.PNG|CombatHUD_4b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_4b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_5.png" Component_="AmbientLights_0.png" FileName="COMBA~33.PNG|CombatHUD_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_5.png" SelfReg="false"/>
+    <ROW File="CombatHUD_5b.png" Component_="AmbientLights_0.png" FileName="COMBA~34.PNG|CombatHUD_5b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_5b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_6.png" Component_="AmbientLights_0.png" FileName="COMBA~35.PNG|CombatHUD_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_6.png" SelfReg="false"/>
+    <ROW File="CombatHUD_6b.png" Component_="AmbientLights_0.png" FileName="COMBA~36.PNG|CombatHUD_6b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_6b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_7.png" Component_="AmbientLights_0.png" FileName="COMBA~37.PNG|CombatHUD_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_7.png" SelfReg="false"/>
+    <ROW File="CombatHUD_7b.png" Component_="AmbientLights_0.png" FileName="COMBA~38.PNG|CombatHUD_7b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_7b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_8.png" Component_="AmbientLights_0.png" FileName="COMBA~39.PNG|CombatHUD_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_8.png" SelfReg="false"/>
+    <ROW File="CombatHUD_8b.png" Component_="AmbientLights_0.png" FileName="COMBA~40.PNG|CombatHUD_8b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_8b.png" SelfReg="false"/>
+    <ROW File="CombatHUD_9.png" Component_="AmbientLights_0.png" FileName="COMBA~41.PNG|CombatHUD_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_9.png" SelfReg="false"/>
+    <ROW File="CombatHUD_9b.png" Component_="AmbientLights_0.png" FileName="COMBA~42.PNG|CombatHUD_9b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CombatHUD_9b.png" SelfReg="false"/>
+    <ROW File="Combat_HUD_P.png" Component_="AmbientLights_0.png" FileName="COMBA~43.PNG|Combat_HUD_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Combat_HUD_P.png" SelfReg="false"/>
+    <ROW File="CommonGroup_0.png" Component_="AmbientLights_0.png" FileName="COMMON~1.PNG|CommonGroup_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_0.png" SelfReg="false"/>
+    <ROW File="CommonGroup_1.png" Component_="AmbientLights_0.png" FileName="COMMON~2.PNG|CommonGroup_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_1.png" SelfReg="false"/>
+    <ROW File="CommonGroup_10.png" Component_="AmbientLights_0.png" FileName="COMMON~3.PNG|CommonGroup_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_10.png" SelfReg="false"/>
+    <ROW File="CommonGroup_11.png" Component_="AmbientLights_0.png" FileName="COMMON~4.PNG|CommonGroup_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_11.png" SelfReg="false"/>
+    <ROW File="CommonGroup_12.png" Component_="AmbientLights_0.png" FileName="COMMON~5.PNG|CommonGroup_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_12.png" SelfReg="false"/>
+    <ROW File="CommonGroup_13.png" Component_="AmbientLights_0.png" FileName="COMMON~6.PNG|CommonGroup_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_13.png" SelfReg="false"/>
+    <ROW File="CommonGroup_14.png" Component_="AmbientLights_0.png" FileName="COMMON~7.PNG|CommonGroup_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_14.png" SelfReg="false"/>
+    <ROW File="CommonGroup_15.png" Component_="AmbientLights_0.png" FileName="COMMON~8.PNG|CommonGroup_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_15.png" SelfReg="false"/>
+    <ROW File="CommonGroup_15s.png" Component_="AmbientLights_0.png" FileName="COMMON~9.PNG|CommonGroup_15s.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_15s.png" SelfReg="false"/>
+    <ROW File="CommonGroup_199.png" Component_="AmbientLights_0.png" FileName="COMMO~10.PNG|CommonGroup_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_199.png" SelfReg="false"/>
+    <ROW File="CommonGroup_2.png" Component_="AmbientLights_0.png" FileName="COMMO~11.PNG|CommonGroup_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_2.png" SelfReg="false"/>
+    <ROW File="CommonGroup_3.png" Component_="AmbientLights_0.png" FileName="COMMO~12.PNG|CommonGroup_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_3.png" SelfReg="false"/>
+    <ROW File="CommonGroup_4.png" Component_="AmbientLights_0.png" FileName="COMMO~13.PNG|CommonGroup_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_4.png" SelfReg="false"/>
+    <ROW File="CommonGroup_5.png" Component_="AmbientLights_0.png" FileName="COMMO~14.PNG|CommonGroup_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_5.png" SelfReg="false"/>
+    <ROW File="CommonGroup_6.png" Component_="AmbientLights_0.png" FileName="COMMO~15.PNG|CommonGroup_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_6.png" SelfReg="false"/>
+    <ROW File="CommonGroup_7.png" Component_="AmbientLights_0.png" FileName="COMMO~16.PNG|CommonGroup_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_7.png" SelfReg="false"/>
+    <ROW File="CommonGroup_8.png" Component_="AmbientLights_0.png" FileName="COMMO~17.PNG|CommonGroup_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_8.png" SelfReg="false"/>
+    <ROW File="CommonGroup_9.png" Component_="AmbientLights_0.png" FileName="COMMO~18.PNG|CommonGroup_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\CommonGroup_9.png" SelfReg="false"/>
+    <ROW File="EnvironmentObject_0.png" Component_="AmbientLights_0.png" FileName="ENVIRO~1.PNG|EnvironmentObject_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\EnvironmentObject_0.png" SelfReg="false"/>
+    <ROW File="EnvironmentObject_1.png" Component_="AmbientLights_0.png" FileName="ENVIRO~2.PNG|EnvironmentObject_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\EnvironmentObject_1.png" SelfReg="false"/>
+    <ROW File="EnvironmentObject_2.png" Component_="AmbientLights_0.png" FileName="ENVIRO~3.PNG|EnvironmentObject_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\EnvironmentObject_2.png" SelfReg="false"/>
+    <ROW File="EnvironmentObject_3.png" Component_="AmbientLights_0.png" FileName="ENVIRO~4.PNG|EnvironmentObject_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\EnvironmentObject_3.png" SelfReg="false"/>
+    <ROW File="EnvironmentObject_4.png" Component_="AmbientLights_0.png" FileName="ENVIRO~5.PNG|EnvironmentObject_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\EnvironmentObject_4.png" SelfReg="false"/>
+    <ROW File="EnvironmentObject_5.png" Component_="AmbientLights_0.png" FileName="ENVIRO~6.PNG|EnvironmentObject_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\EnvironmentObject_5.png" SelfReg="false"/>
+    <ROW File="EnvironmentObject_6.png" Component_="AmbientLights_0.png" FileName="ENVIRO~7.PNG|EnvironmentObject_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\EnvironmentObject_6.png" SelfReg="false"/>
+    <ROW File="Environment_Target_Colour_P.png" Component_="AmbientLights_0.png" FileName="ENVIRO~8.PNG|Environment_Target_Colour_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Environment_Target_Colour_P.png" SelfReg="false"/>
+    <ROW File="HUD_Common_Group_P.png" Component_="AmbientLights_0.png" FileName="HUD_CO~1.PNG|HUD_Common_Group_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\HUD_Common_Group_P.png" SelfReg="false"/>
+    <ROW File="LightingDimmer_Bright.png" Component_="AmbientLights_0.png" FileName="LIGHTI~1.PNG|LightingDimmer_Bright.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\LightingDimmer_Bright.png" SelfReg="false"/>
+    <ROW File="LightingDimmer_Low.png" Component_="AmbientLights_0.png" FileName="LIGHTI~2.PNG|LightingDimmer_Low.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\LightingDimmer_Low.png" SelfReg="false"/>
+    <ROW File="LightingDimmer_Medium.png" Component_="AmbientLights_0.png" FileName="LIGHTI~3.PNG|LightingDimmer_Medium.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\LightingDimmer_Medium.png" SelfReg="false"/>
+    <ROW File="MOD_OFF.png" Component_="AmbientLights_0.png" FileName="MOD_OFF.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\MOD_OFF.png" SelfReg="false"/>
+    <ROW File="OwnShip_Holo_P.png" Component_="AmbientLights_0.png" FileName="OWNSHI~1.PNG|OwnShip_Holo_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\OwnShip_Holo_P.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_0.png" Component_="AmbientLights_0.png" FileName="PANELL~1.PNG|PanelLines_Lower_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_0.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_1.png" Component_="AmbientLights_0.png" FileName="PANELL~2.PNG|PanelLines_Lower_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_1.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_10.png" Component_="AmbientLights_0.png" FileName="PANELL~3.PNG|PanelLines_Lower_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_10.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_11.png" Component_="AmbientLights_0.png" FileName="PANELL~4.PNG|PanelLines_Lower_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_11.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_12.png" Component_="AmbientLights_0.png" FileName="PANELL~5.PNG|PanelLines_Lower_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_12.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_13.png" Component_="AmbientLights_0.png" FileName="PANELL~6.PNG|PanelLines_Lower_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_13.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_14.png" Component_="AmbientLights_0.png" FileName="PANELL~7.PNG|PanelLines_Lower_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_14.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_15.png" Component_="AmbientLights_0.png" FileName="PANELL~8.PNG|PanelLines_Lower_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_15.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_199.png" Component_="AmbientLights_0.png" FileName="PANELL~9.PNG|PanelLines_Lower_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_199.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_2.png" Component_="AmbientLights_0.png" FileName="PANEL~10.PNG|PanelLines_Lower_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_2.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_3.png" Component_="AmbientLights_0.png" FileName="PANEL~11.PNG|PanelLines_Lower_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_3.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_4.png" Component_="AmbientLights_0.png" FileName="PANEL~12.PNG|PanelLines_Lower_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_4.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_5.png" Component_="AmbientLights_0.png" FileName="PANEL~13.PNG|PanelLines_Lower_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_5.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_6.png" Component_="AmbientLights_0.png" FileName="PANEL~14.PNG|PanelLines_Lower_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_6.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_7.png" Component_="AmbientLights_0.png" FileName="PANEL~15.PNG|PanelLines_Lower_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_7.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_8.png" Component_="AmbientLights_0.png" FileName="PANEL~16.PNG|PanelLines_Lower_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_8.png" SelfReg="false"/>
+    <ROW File="PanelLines_Lower_9.png" Component_="AmbientLights_0.png" FileName="PANEL~17.PNG|PanelLines_Lower_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PanelLines_Lower_9.png" SelfReg="false"/>
+    <ROW File="Panel_Lines_lower_P.png" Component_="AmbientLights_0.png" FileName="PANEL_~1.PNG|Panel_Lines_(lower)_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Panel_Lines_(lower)_P.png" SelfReg="false"/>
+    <ROW File="Panel_Lines_upper_P.png" Component_="AmbientLights_0.png" FileName="PANEL_~2.PNG|Panel_Lines_(upper)_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Panel_Lines_(upper)_P.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_0.png" Component_="AmbientLights_0.png" FileName="PANNEL~1.PNG|PannelLines_UP_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_0.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_1.png" Component_="AmbientLights_0.png" FileName="PANNEL~2.PNG|PannelLines_UP_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_1.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_10.png" Component_="AmbientLights_0.png" FileName="PANNEL~3.PNG|PannelLines_UP_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_10.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_11.png" Component_="AmbientLights_0.png" FileName="PANNEL~4.PNG|PannelLines_UP_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_11.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_12.png" Component_="AmbientLights_0.png" FileName="PANNEL~5.PNG|PannelLines_UP_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_12.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_13.png" Component_="AmbientLights_0.png" FileName="PANNEL~6.PNG|PannelLines_UP_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_13.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_14.png" Component_="AmbientLights_0.png" FileName="PANNEL~7.PNG|PannelLines_UP_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_14.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_15.png" Component_="AmbientLights_0.png" FileName="PANNEL~8.PNG|PannelLines_UP_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_15.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_16.png" Component_="AmbientLights_0.png" FileName="PANNEL~9.PNG|PannelLines_UP_16.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_16.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_199copia.png" Component_="AmbientLights_0.png" FileName="PANNE~10.PNG|PannelLines_UP_199 - copia.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_199 - copia.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_2.png" Component_="AmbientLights_0.png" FileName="PANNE~11.PNG|PannelLines_UP_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_2.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_3.png" Component_="AmbientLights_0.png" FileName="PANNE~12.PNG|PannelLines_UP_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_3.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_4.png" Component_="AmbientLights_0.png" FileName="PANNE~13.PNG|PannelLines_UP_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_4.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_5.png" Component_="AmbientLights_0.png" FileName="PANNE~14.PNG|PannelLines_UP_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_5.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_6.png" Component_="AmbientLights_0.png" FileName="PANNE~15.PNG|PannelLines_UP_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_6.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_7.png" Component_="AmbientLights_0.png" FileName="PANNE~16.PNG|PannelLines_UP_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_7.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_8.png" Component_="AmbientLights_0.png" FileName="PANNE~17.PNG|PannelLines_UP_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_8.png" SelfReg="false"/>
+    <ROW File="PannelLines_UP_9.png" Component_="AmbientLights_0.png" FileName="PANNE~18.PNG|PannelLines_UP_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PannelLines_UP_9.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_0.png" Component_="AmbientLights_0.png" FileName="POWERD~1.PNG|PowerDistributor_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_0.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_1.png" Component_="AmbientLights_0.png" FileName="POWERD~2.PNG|PowerDistributor_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_1.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_10.png" Component_="AmbientLights_0.png" FileName="POWERD~3.PNG|PowerDistributor_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_10.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_11.png" Component_="AmbientLights_0.png" FileName="POWERD~4.PNG|PowerDistributor_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_11.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_12.png" Component_="AmbientLights_0.png" FileName="POWERD~5.PNG|PowerDistributor_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_12.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_13.png" Component_="AmbientLights_0.png" FileName="POWERD~6.PNG|PowerDistributor_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_13.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_14.png" Component_="AmbientLights_0.png" FileName="POWERD~7.PNG|PowerDistributor_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_14.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_15.png" Component_="AmbientLights_0.png" FileName="POWERD~8.PNG|PowerDistributor_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_15.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_16.png" Component_="AmbientLights_0.png" FileName="POWERD~9.PNG|PowerDistributor_16.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_16.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_17.png" Component_="AmbientLights_0.png" FileName="POWER~10.PNG|PowerDistributor_17.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_17.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_18.png" Component_="AmbientLights_0.png" FileName="POWER~11.PNG|PowerDistributor_18.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_18.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_19.png" Component_="AmbientLights_0.png" FileName="POWER~12.PNG|PowerDistributor_19.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_19.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_199.png" Component_="AmbientLights_0.png" FileName="POWER~13.PNG|PowerDistributor_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_199.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_2.png" Component_="AmbientLights_0.png" FileName="POWER~14.PNG|PowerDistributor_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_2.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_3.png" Component_="AmbientLights_0.png" FileName="POWER~15.PNG|PowerDistributor_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_3.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_4.png" Component_="AmbientLights_0.png" FileName="POWER~16.PNG|PowerDistributor_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_4.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_5.png" Component_="AmbientLights_0.png" FileName="POWER~17.PNG|PowerDistributor_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_5.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_6.png" Component_="AmbientLights_0.png" FileName="POWER~18.PNG|PowerDistributor_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_6.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_7.png" Component_="AmbientLights_0.png" FileName="POWER~19.PNG|PowerDistributor_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_7.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_8.png" Component_="AmbientLights_0.png" FileName="POWER~20.PNG|PowerDistributor_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_8.png" SelfReg="false"/>
+    <ROW File="PowerDistributor_9.png" Component_="AmbientLights_0.png" FileName="POWER~21.PNG|PowerDistributor_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\PowerDistributor_9.png" SelfReg="false"/>
+    <ROW File="Power_Distributor_P.png" Component_="AmbientLights_0.png" FileName="POWER_~1.PNG|Power_Distributor_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Power_Distributor_P.png" SelfReg="false"/>
+    <ROW File="Radar_0.png" Component_="AmbientLights_0.png" FileName="Radar_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_0.png" SelfReg="false"/>
+    <ROW File="Radar_1.png" Component_="AmbientLights_0.png" FileName="Radar_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_1.png" SelfReg="false"/>
+    <ROW File="Radar_10.png" Component_="AmbientLights_0.png" FileName="Radar_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_10.png" SelfReg="false"/>
+    <ROW File="Radar_11.png" Component_="AmbientLights_0.png" FileName="Radar_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_11.png" SelfReg="false"/>
+    <ROW File="Radar_12.png" Component_="AmbientLights_0.png" FileName="Radar_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_12.png" SelfReg="false"/>
+    <ROW File="Radar_13.png" Component_="AmbientLights_0.png" FileName="Radar_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_13.png" SelfReg="false"/>
+    <ROW File="Radar_14.png" Component_="AmbientLights_0.png" FileName="Radar_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_14.png" SelfReg="false"/>
+    <ROW File="Radar_15.png" Component_="AmbientLights_0.png" FileName="Radar_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_15.png" SelfReg="false"/>
+    <ROW File="Radar_16.png" Component_="AmbientLights_0.png" FileName="Radar_16.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_16.png" SelfReg="false"/>
+    <ROW File="Radar_199.png" Component_="AmbientLights_0.png" FileName="RADAR_~1.PNG|Radar_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_199.png" SelfReg="false"/>
+    <ROW File="Radar_2.png" Component_="AmbientLights_0.png" FileName="Radar_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_2.png" SelfReg="false"/>
+    <ROW File="Radar_3.png" Component_="AmbientLights_0.png" FileName="Radar_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_3.png" SelfReg="false"/>
+    <ROW File="Radar_4.png" Component_="AmbientLights_0.png" FileName="Radar_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_4.png" SelfReg="false"/>
+    <ROW File="Radar_5.png" Component_="AmbientLights_0.png" FileName="Radar_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_5.png" SelfReg="false"/>
+    <ROW File="Radar_6.png" Component_="AmbientLights_0.png" FileName="Radar_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_6.png" SelfReg="false"/>
+    <ROW File="Radar_7.png" Component_="AmbientLights_0.png" FileName="Radar_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_7.png" SelfReg="false"/>
+    <ROW File="Radar_8.png" Component_="AmbientLights_0.png" FileName="Radar_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_8.png" SelfReg="false"/>
+    <ROW File="Radar_9.png" Component_="AmbientLights_0.png" FileName="Radar_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_9.png" SelfReg="false"/>
+    <ROW File="Radar_Colour_0.png" Component_="AmbientLights_0.png" FileName="RADAR_~2.PNG|Radar_Colour_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_Colour_0.png" SelfReg="false"/>
+    <ROW File="Radar_Colour_P.png" Component_="AmbientLights_0.png" FileName="RADAR_~3.PNG|Radar_Colour_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Radar_Colour_P.png" SelfReg="false"/>
+    <ROW File="Shield_0.png" Component_="AmbientLights_0.png" FileName="Shield_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_0.png" SelfReg="false"/>
+    <ROW File="Shield_0_Default.png" Component_="AmbientLights_0.png" FileName="SHIELD~1.PNG|Shield_0_Default.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_0_Default.png" SelfReg="false"/>
+    <ROW File="Shield_1.png" Component_="AmbientLights_0.png" FileName="Shield_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_1.png" SelfReg="false"/>
+    <ROW File="Shield_10.png" Component_="AmbientLights_0.png" FileName="SHIELD~2.PNG|Shield_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_10.png" SelfReg="false"/>
+    <ROW File="Shield_11.png" Component_="AmbientLights_0.png" FileName="SHIELD~3.PNG|Shield_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_11.png" SelfReg="false"/>
+    <ROW File="Shield_12.png" Component_="AmbientLights_0.png" FileName="SHIELD~4.PNG|Shield_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_12.png" SelfReg="false"/>
+    <ROW File="Shield_13.png" Component_="AmbientLights_0.png" FileName="SHIELD~5.PNG|Shield_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_13.png" SelfReg="false"/>
+    <ROW File="Shield_14.png" Component_="AmbientLights_0.png" FileName="SHIELD~6.PNG|Shield_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_14.png" SelfReg="false"/>
+    <ROW File="Shield_15.png" Component_="AmbientLights_0.png" FileName="SHIELD~7.PNG|Shield_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_15.png" SelfReg="false"/>
+    <ROW File="Shield_16.png" Component_="AmbientLights_0.png" FileName="SHIELD~8.PNG|Shield_16.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_16.png" SelfReg="false"/>
+    <ROW File="Shield_17.png" Component_="AmbientLights_0.png" FileName="SHIELD~9.PNG|Shield_17.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_17.png" SelfReg="false"/>
+    <ROW File="Shield_18.png" Component_="AmbientLights_0.png" FileName="SHIEL~10.PNG|Shield_18.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_18.png" SelfReg="false"/>
+    <ROW File="Shield_19.png" Component_="AmbientLights_0.png" FileName="SHIEL~11.PNG|Shield_19.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_19.png" SelfReg="false"/>
+    <ROW File="Shield_199.png" Component_="AmbientLights_0.png" FileName="SHIEL~12.PNG|Shield_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_199.png" SelfReg="false"/>
+    <ROW File="Shield_2.png" Component_="AmbientLights_0.png" FileName="Shield_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_2.png" SelfReg="false"/>
+    <ROW File="Shield_20.png" Component_="AmbientLights_0.png" FileName="SHIEL~13.PNG|Shield_20.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_20.png" SelfReg="false"/>
+    <ROW File="Shield_3.png" Component_="AmbientLights_0.png" FileName="Shield_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_3.png" SelfReg="false"/>
+    <ROW File="Shield_4.png" Component_="AmbientLights_0.png" FileName="Shield_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_4.png" SelfReg="false"/>
+    <ROW File="Shield_5.png" Component_="AmbientLights_0.png" FileName="Shield_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_5.png" SelfReg="false"/>
+    <ROW File="Shield_6.png" Component_="AmbientLights_0.png" FileName="Shield_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_6.png" SelfReg="false"/>
+    <ROW File="Shield_7.png" Component_="AmbientLights_0.png" FileName="Shield_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_7.png" SelfReg="false"/>
+    <ROW File="Shield_8.png" Component_="AmbientLights_0.png" FileName="Shield_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_8.png" SelfReg="false"/>
+    <ROW File="Shield_9.png" Component_="AmbientLights_0.png" FileName="Shield_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_9.png" SelfReg="false"/>
+    <ROW File="Shield_Color_P.png" Component_="AmbientLights_0.png" FileName="SHIEL~14.PNG|Shield_Color_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Shield_Color_P.png" SelfReg="false"/>
+    <ROW File="ShipHolo_0.png" Component_="AmbientLights_0.png" FileName="SHIPHO~1.PNG|ShipHolo_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_0.png" SelfReg="false"/>
+    <ROW File="ShipHolo_1.png" Component_="AmbientLights_0.png" FileName="SHIPHO~2.PNG|ShipHolo_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_1.png" SelfReg="false"/>
+    <ROW File="ShipHolo_10.png" Component_="AmbientLights_0.png" FileName="SHIPHO~3.PNG|ShipHolo_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_10.png" SelfReg="false"/>
+    <ROW File="ShipHolo_11.png" Component_="AmbientLights_0.png" FileName="SHIPHO~4.PNG|ShipHolo_11.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_11.png" SelfReg="false"/>
+    <ROW File="ShipHolo_12.png" Component_="AmbientLights_0.png" FileName="SHIPHO~5.PNG|ShipHolo_12.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_12.png" SelfReg="false"/>
+    <ROW File="ShipHolo_13.png" Component_="AmbientLights_0.png" FileName="SHIPHO~6.PNG|ShipHolo_13.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_13.png" SelfReg="false"/>
+    <ROW File="ShipHolo_14.png" Component_="AmbientLights_0.png" FileName="SHIPHO~7.PNG|ShipHolo_14.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_14.png" SelfReg="false"/>
+    <ROW File="ShipHolo_15.png" Component_="AmbientLights_0.png" FileName="SHIPHO~8.PNG|ShipHolo_15.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_15.png" SelfReg="false"/>
+    <ROW File="ShipHolo_199.png" Component_="AmbientLights_0.png" FileName="SHIPHO~9.PNG|ShipHolo_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_199.png" SelfReg="false"/>
+    <ROW File="ShipHolo_2.png" Component_="AmbientLights_0.png" FileName="SHIPH~10.PNG|ShipHolo_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_2.png" SelfReg="false"/>
+    <ROW File="ShipHolo_3.png" Component_="AmbientLights_0.png" FileName="SHIPH~11.PNG|ShipHolo_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_3.png" SelfReg="false"/>
+    <ROW File="ShipHolo_4.png" Component_="AmbientLights_0.png" FileName="SHIPH~12.PNG|ShipHolo_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_4.png" SelfReg="false"/>
+    <ROW File="ShipHolo_5.png" Component_="AmbientLights_0.png" FileName="SHIPH~13.PNG|ShipHolo_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_5.png" SelfReg="false"/>
+    <ROW File="ShipHolo_6.png" Component_="AmbientLights_0.png" FileName="SHIPH~14.PNG|ShipHolo_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_6.png" SelfReg="false"/>
+    <ROW File="ShipHolo_7.png" Component_="AmbientLights_0.png" FileName="SHIPH~15.PNG|ShipHolo_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_7.png" SelfReg="false"/>
+    <ROW File="ShipHolo_8.png" Component_="AmbientLights_0.png" FileName="SHIPH~16.PNG|ShipHolo_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_8.png" SelfReg="false"/>
+    <ROW File="ShipHolo_9.png" Component_="AmbientLights_0.png" FileName="SHIPH~17.PNG|ShipHolo_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\ShipHolo_9.png" SelfReg="false"/>
+    <ROW File="SignatureBar_0.png" Component_="AmbientLights_0.png" FileName="SIGNAT~1.PNG|SignatureBar_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_0.png" SelfReg="false"/>
+    <ROW File="SignatureBar_1.png" Component_="AmbientLights_0.png" FileName="SIGNAT~2.PNG|SignatureBar_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_1.png" SelfReg="false"/>
+    <ROW File="SignatureBar_10.png" Component_="AmbientLights_0.png" FileName="SIGNAT~3.PNG|SignatureBar_10.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_10.png" SelfReg="false"/>
+    <ROW File="SignatureBar_199.png" Component_="AmbientLights_0.png" FileName="SIGNAT~4.PNG|SignatureBar_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_199.png" SelfReg="false"/>
+    <ROW File="SignatureBar_2.png" Component_="AmbientLights_0.png" FileName="SIGNAT~5.PNG|SignatureBar_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_2.png" SelfReg="false"/>
+    <ROW File="SignatureBar_3.png" Component_="AmbientLights_0.png" FileName="SIGNAT~6.PNG|SignatureBar_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_3.png" SelfReg="false"/>
+    <ROW File="SignatureBar_4.png" Component_="AmbientLights_0.png" FileName="SIGNAT~7.PNG|SignatureBar_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_4.png" SelfReg="false"/>
+    <ROW File="SignatureBar_5.png" Component_="AmbientLights_0.png" FileName="SIGNAT~8.PNG|SignatureBar_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_5.png" SelfReg="false"/>
+    <ROW File="SignatureBar_6.png" Component_="AmbientLights_0.png" FileName="SIGNAT~9.PNG|SignatureBar_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_6.png" SelfReg="false"/>
+    <ROW File="SignatureBar_7.png" Component_="AmbientLights_0.png" FileName="SIGNA~10.PNG|SignatureBar_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_7.png" SelfReg="false"/>
+    <ROW File="SignatureBar_8.png" Component_="AmbientLights_0.png" FileName="SIGNA~11.PNG|SignatureBar_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_8.png" SelfReg="false"/>
+    <ROW File="SignatureBar_9.png" Component_="AmbientLights_0.png" FileName="SIGNA~12.PNG|SignatureBar_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\SignatureBar_9.png" SelfReg="false"/>
+    <ROW File="Signature_Bar_Colour_P.png" Component_="AmbientLights_0.png" FileName="SIGNA~13.PNG|Signature_Bar_Colour_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Signature_Bar_Colour_P.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_0.png" Component_="AmbientLights_0.png" FileName="TARGET~1.PNG|TargetingReticle_0.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_0.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_1.png" Component_="AmbientLights_0.png" FileName="TARGET~2.PNG|TargetingReticle_1.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_1.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_199.png" Component_="AmbientLights_0.png" FileName="TARGET~3.PNG|TargetingReticle_199.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_199.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_2.png" Component_="AmbientLights_0.png" FileName="TARGET~4.PNG|TargetingReticle_2.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_2.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_3.png" Component_="AmbientLights_0.png" FileName="TARGET~5.PNG|TargetingReticle_3.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_3.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_4.png" Component_="AmbientLights_0.png" FileName="TARGET~6.PNG|TargetingReticle_4.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_4.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_5.png" Component_="AmbientLights_0.png" FileName="TARGET~7.PNG|TargetingReticle_5.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_5.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_6.png" Component_="AmbientLights_0.png" FileName="TARGET~8.PNG|TargetingReticle_6.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_6.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_7.png" Component_="AmbientLights_0.png" FileName="TARGET~9.PNG|TargetingReticle_7.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_7.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_8.png" Component_="AmbientLights_0.png" FileName="TARGE~10.PNG|TargetingReticle_8.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_8.png" SelfReg="false"/>
+    <ROW File="TargetingReticle_9.png" Component_="AmbientLights_0.png" FileName="TARGE~11.PNG|TargetingReticle_9.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\TargetingReticle_9.png" SelfReg="false"/>
+    <ROW File="Targeting_Reticle_P.png" Component_="AmbientLights_0.png" FileName="TARGE~12.PNG|Targeting_Reticle_P.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\Targeting_Reticle_P.png" SelfReg="false"/>
+    <ROW File="XML_PREVIEW.PNG" Component_="AmbientLights_0.png" FileName="XML_PR~1.PNG|XML_PREVIEW.PNG" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Horizons\XML_PREVIEW.PNG" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_1a.png_2" Component_="ColorMatrix_Preview_1a.png" FileName="COLORM~1.PNG|ColorMatrix_Preview_1a.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\ColorMatrix_Preview_1a.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_1b.png_2" Component_="ColorMatrix_Preview_1a.png" FileName="COLORM~2.PNG|ColorMatrix_Preview_1b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\ColorMatrix_Preview_1b.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_2a.png_2" Component_="ColorMatrix_Preview_1a.png" FileName="COLORM~3.PNG|ColorMatrix_Preview_2a.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\ColorMatrix_Preview_2a.png" SelfReg="false"/>
+    <ROW File="ColorMatrix_Preview_2b.png_2" Component_="ColorMatrix_Preview_1a.png" FileName="COLORM~4.PNG|ColorMatrix_Preview_2b.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\ColorMatrix_Preview_2b.png" SelfReg="false"/>
+    <ROW File="PREVIEW.png" Component_="PREVIEW.png" FileName="PREVIEW.png" Attributes="0" SourcePath="..\bin\Debug\Images\PREVIEW.png" SelfReg="false"/>
+    <ROW File="PREVIEW_DEFAULT.PNG" Component_="PREVIEW.png" FileName="PREVIE~1.PNG|PREVIEW_DEFAULT.PNG" Attributes="0" SourcePath="..\bin\Debug\Images\PREVIEW_DEFAULT.PNG" SelfReg="false"/>
+    <ROW File="ED_Odissey_StartupProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~3.INI|ED_Odissey_Startup-Profile.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Startup-Profile.ini" SelfReg="false"/>
+    <ROW File="BLANK.png_1" Component_="ColorMatrix_Preview_1a.png" FileName="BLANK.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\BLANK.png" SelfReg="false"/>
+    <ROW File="HULL_Gauge.png" Component_="ColorMatrix_Preview_1a.png" FileName="HULL_G~1.PNG|HULL_Gauge.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\HULL_Gauge.png" SelfReg="false"/>
+    <ROW File="RADAR_Border.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~1.PNG|RADAR_Border.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_Border.png" SelfReg="false"/>
+    <ROW File="RADAR_Compass.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~2.PNG|RADAR_Compass.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_Compass.png" SelfReg="false"/>
+    <ROW File="RADAR_CompassDot.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~3.PNG|RADAR_CompassDot.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_CompassDot.png" SelfReg="false"/>
+    <ROW File="RADAR_Grid.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~4.PNG|RADAR_Grid.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_Grid.png" SelfReg="false"/>
+    <ROW File="RADAR_OptimalSpeedBar.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~5.PNG|RADAR_OptimalSpeedBar.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_OptimalSpeedBar.png" SelfReg="false"/>
+    <ROW File="RADAR_OuterComponents.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~6.PNG|RADAR_OuterComponents.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_OuterComponents.png" SelfReg="false"/>
+    <ROW File="RADAR_Triangle.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~7.PNG|RADAR_Triangle.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_Triangle.png" SelfReg="false"/>
+    <ROW File="RADAR_Zoom.png" Component_="ColorMatrix_Preview_1a.png" FileName="RADAR_~8.PNG|RADAR_Zoom.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\RADAR_Zoom.png" SelfReg="false"/>
+    <ROW File="SHIELDS_Single.png" Component_="ColorMatrix_Preview_1a.png" FileName="SHIELD~1.PNG|SHIELDS_Single.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SHIELDS_Single.png" SelfReg="false"/>
+    <ROW File="SHIP_FDL.png" Component_="ColorMatrix_Preview_1a.png" FileName="SHIP_FDL.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SHIP_FDL.png" SelfReg="false"/>
+    <ROW File="SHIP_Holo.png" Component_="ColorMatrix_Preview_1a.png" FileName="SHIP_H~1.PNG|SHIP_Holo.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SHIP_Holo.png" SelfReg="false"/>
+    <ROW File="SHIP_Holo_XML.png" Component_="ColorMatrix_Preview_1a.png" FileName="SHIP_H~2.PNG|SHIP_Holo_XML.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SHIP_Holo_XML.png" SelfReg="false"/>
+    <ROW File="SWIRLS_Bottom.png" Component_="ColorMatrix_Preview_1a.png" FileName="SWIRLS~1.PNG|SWIRLS_Bottom.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SWIRLS_Bottom.png" SelfReg="false"/>
+    <ROW File="SWIRLS_Middle.png" Component_="ColorMatrix_Preview_1a.png" FileName="SWIRLS~2.PNG|SWIRLS_Middle.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SWIRLS_Middle.png" SelfReg="false"/>
+    <ROW File="SWIRLS_Top.png" Component_="ColorMatrix_Preview_1a.png" FileName="SWIRLS~3.PNG|SWIRLS_Top.png" Attributes="0" SourcePath="..\bin\Debug\Images\ED_Odissey\SWIRLS_Top.png" SelfReg="false"/>
+    <ROW File="UI_Tips.json" Component_="EDHM_UI_Guide.pdf" FileName="UI_TIP~1.JSO|UI_Tips.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\UI_Tips.json" SelfReg="false"/>
+    <ROW File="EDHM_UI_Patcher.exe" Component_="EDHM_UI_Patcher.exe" FileName="EDHM_U~2.EXE|EDHM_UI_Patcher.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Patcher.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="EDHM_UI_Patcher.exe.config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~2.CON|EDHM_UI_Patcher.exe.config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Patcher.exe.config" SelfReg="false"/>
+    <ROW File="ED_Horizons_StartupProfile.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~2.INI|ED_Horizons_Startup-Profile.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Startup-Profile.ini" SelfReg="false"/>
+    <ROW File="EDHM_HOTFIX.json" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_H~1.JSO|EDHM_HOTFIX.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_HOTFIX.json" SelfReg="false"/>
+    <ROW File="EDHM_UNINSTALL.bat" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~1.BAT|EDHM_UNINSTALL.bat" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UNINSTALL.bat" SelfReg="false"/>
+    <ROW File="ED_Odissey_SuitHud.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~4.INI|ED_Odissey_SuitHud.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_SuitHud.ini" SelfReg="false"/>
+    <ROW File="ED_Odissey_Settings_EN.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~4.JSO|ED_Odissey_Settings_EN.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Settings_EN.json" SelfReg="false"/>
+    <ROW File="ED_Horizons_Settings_EN.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~1.JSO|ED_Horizons_Settings_EN.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Settings_EN.json" SelfReg="false"/>
+    <ROW File="ED_Odissey_Advanced.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~2.INI|ED_Odissey_Advanced.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Advanced.ini" SelfReg="false"/>
+    <ROW File="HORIZ_EDHMv1.52.b.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="HORIZ_~1.ZIP|HORIZ_EDHM-v1.52.b.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\HORIZ_EDHM-v1.52.b.zip" SelfReg="false"/>
+    <ROW File="ED_Horizons_Custom.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.INI|ED_Horizons_Custom.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Custom.ini" SelfReg="false"/>
+    <ROW File="EDHM_UI_Guide.pdf" Component_="EDHM_UI_Guide.pdf" FileName="EDHM_U~1.PDF|EDHM_UI_Guide.pdf" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\EDHM_UI_Guide.pdf" SelfReg="false"/>
+    <ROW File="Themes_EDHM_HORIZ.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="THEMES~1.ZIP|Themes_EDHM_HORIZ.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\Themes_EDHM_HORIZ.zip" SelfReg="false"/>
+    <ROW File="Themes_EDHM_ODYSS.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="THEMES~2.ZIP|Themes_EDHM_ODYSS.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\Themes_EDHM_ODYSS.zip" SelfReg="false"/>
+    <ROW File="ED_Odissey_Global_Settings.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~9.JSO|ED_Odissey_Global_Settings.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Global_Settings.json" SelfReg="false"/>
+    <ROW File="EDHM_UI_Thumbnail_Maker.exe" Component_="EDHM_UI_Thumbnail_Maker.exe" FileName="EDHM_U~3.EXE|EDHM_UI_Thumbnail_Maker.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="EDHM_UI_Thumbnail_Maker.exe.config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~3.CON|EDHM_UI_Thumbnail_Maker.exe.config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe.config" SelfReg="false"/>
+    <ROW File="ED_Horizons_Global_Settings.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~2.JSO|ED_Horizons_Global_Settings.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Global_Settings.json" SelfReg="false"/>
+    <ROW File="ED_Horizons_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.JSO|ED_Horizons_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Translations.json" SelfReg="false"/>
+    <ROW File="ED_Odissey_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~1.JSO|ED_Odissey_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Translations.json" SelfReg="false"/>
+    <ROW File="EDHM_UI_mk2.VisualElementsManifest.xml" Component_="EDHM_UI_mk2.VisualElementsManifest.xml" FileName="EDHM_U~1.XML|EDHM_UI_mk2.VisualElementsManifest.xml" Version="65535.65535.65535.65535" Attributes="0" SourcePath="&lt;AI_RES&gt;app.VisualElementsManifest.xml" SelfReg="false"/>
+    <ROW File="w97.png" Component_="w97.png" FileName="w97.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w97.png" SelfReg="false"/>
+    <ROW File="x122_y122_z122_w122.png" Component_="w97.png" FileName="X122_Y~1.PNG|x122_y122_z122_w122.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x122_y122_z122_w122.png" SelfReg="false"/>
+    <ROW File="x128_y128_z128_w128.png" Component_="w97.png" FileName="X128_Y~1.PNG|x128_y128_z128_w128.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x128_y128_z128_w128.png" SelfReg="false"/>
+    <ROW File="x143_y143_z143_w143.png" Component_="w97.png" FileName="X143_Y~1.PNG|x143_y143_z143_w143.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x143_y143_z143_w143.png" SelfReg="false"/>
+    <ROW File="x144_y144_z144_w144.png" Component_="w97.png" FileName="X144_Y~1.PNG|x144_y144_z144_w144.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x144_y144_z144_w144.png" SelfReg="false"/>
+    <ROW File="x145_y145_z145_w145.png" Component_="w97.png" FileName="X145_Y~1.PNG|x145_y145_z145_w145.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x145_y145_z145_w145.png" SelfReg="false"/>
+    <ROW File="x146_y146_z146_w146.png" Component_="w97.png" FileName="X146_Y~1.PNG|x146_y146_z146_w146.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x146_y146_z146_w146.png" SelfReg="false"/>
+    <ROW File="x147_y147_z147_w147.png" Component_="w97.png" FileName="X147_Y~1.PNG|x147_y147_z147_w147.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x147_y147_z147_w147.png" SelfReg="false"/>
+    <ROW File="x170_y170_z170.png" Component_="w97.png" FileName="X170_Y~1.PNG|x170_y170_z170.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x170_y170_z170.png" SelfReg="false"/>
+    <ROW File="x171_y171_z171.png" Component_="w97.png" FileName="X171_Y~1.PNG|x171_y171_z171.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x171_y171_z171.png" SelfReg="false"/>
+    <ROW File="x172_y172_z172.png" Component_="w97.png" FileName="X172_Y~1.PNG|x172_y172_z172.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x172_y172_z172.png" SelfReg="false"/>
+    <ROW File="x173_y173_z173.png" Component_="w97.png" FileName="X173_Y~1.PNG|x173_y173_z173.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x173_y173_z173.png" SelfReg="false"/>
+    <ROW File="x174_y174_z174.png" Component_="w97.png" FileName="X174_Y~1.PNG|x174_y174_z174.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x174_y174_z174.png" SelfReg="false"/>
+    <ROW File="x176_y176_z176.png" Component_="w97.png" FileName="X176_Y~1.PNG|x176_y176_z176.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x176_y176_z176.png" SelfReg="false"/>
+    <ROW File="x177_y177_z177.png" Component_="w97.png" FileName="X177_Y~1.PNG|x177_y177_z177.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x177_y177_z177.png" SelfReg="false"/>
+    <ROW File="x178_y178_z178.png" Component_="w97.png" FileName="X178_Y~1.PNG|x178_y178_z178.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x178_y178_z178.png" SelfReg="false"/>
+    <ROW File="x179_y179_z179_w179.png" Component_="w97.png" FileName="X179_Y~1.PNG|x179_y179_z179_w179.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x179_y179_z179_w179.png" SelfReg="false"/>
+    <ROW File="x180_y180_z180_w180.png" Component_="w97.png" FileName="X180_Y~1.PNG|x180_y180_z180_w180.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x180_y180_z180_w180.png" SelfReg="false"/>
+    <ROW File="x181_y181_z181_w181.png" Component_="w97.png" FileName="X181_Y~1.PNG|x181_y181_z181_w181.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x181_y181_z181_w181.png" SelfReg="false"/>
+    <ROW File="x182_y182_z182_w182.png" Component_="w97.png" FileName="X182_Y~1.PNG|x182_y182_z182_w182.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x182_y182_z182_w182.png" SelfReg="false"/>
+    <ROW File="x183_y183_z183.png" Component_="w97.png" FileName="X183_Y~1.PNG|x183_y183_z183.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x183_y183_z183.png" SelfReg="false"/>
+    <ROW File="x184_y184_z184_w184.png" Component_="w97.png" FileName="X184_Y~1.PNG|x184_y184_z184_w184.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x184_y184_z184_w184.png" SelfReg="false"/>
+    <ROW File="x185_y185_z185_w185.png" Component_="w97.png" FileName="X185_Y~1.PNG|x185_y185_z185_w185.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x185_y185_z185_w185.png" SelfReg="false"/>
+    <ROW File="x189_y189_z189.png" Component_="w97.png" FileName="X189_Y~1.PNG|x189_y189_z189.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x189_y189_z189.png" SelfReg="false"/>
+    <ROW File="x197_y197_z197_w197.png" Component_="w97.png" FileName="X197_Y~1.PNG|x197_y197_z197_w197.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x197_y197_z197_w197.png" SelfReg="false"/>
+    <ROW File="x198_y198_z198_w198.png" Component_="w97.png" FileName="X198_Y~1.PNG|x198_y198_z198_w198.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x198_y198_z198_w198.png" SelfReg="false"/>
+    <ROW File="x199_y199_z199_w199.png" Component_="w97.png" FileName="X199_Y~1.PNG|x199_y199_z199_w199.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x199_y199_z199_w199.png" SelfReg="false"/>
+    <ROW File="x200_y200_z200_w200.png" Component_="w97.png" FileName="X200_Y~1.PNG|x200_y200_z200_w200.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x200_y200_z200_w200.png" SelfReg="false"/>
+    <ROW File="x201_y201_z201_w201.png" Component_="w97.png" FileName="X201_Y~1.PNG|x201_y201_z201_w201.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x201_y201_z201_w201.png" SelfReg="false"/>
+    <ROW File="x202_y202_z202_w202.png" Component_="w97.png" FileName="X202_Y~1.PNG|x202_y202_z202_w202.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x202_y202_z202_w202.png" SelfReg="false"/>
+    <ROW File="x203_y203_z203_w203.png" Component_="w97.png" FileName="X203_Y~1.PNG|x203_y203_z203_w203.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x203_y203_z203_w203.png" SelfReg="false"/>
+    <ROW File="x204_y204_z204_w204.png" Component_="w97.png" FileName="X204_Y~1.PNG|x204_y204_z204_w204.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x204_y204_z204_w204.png" SelfReg="false"/>
+    <ROW File="x205_y205_z205_w205.png" Component_="w97.png" FileName="X205_Y~1.PNG|x205_y205_z205_w205.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x205_y205_z205_w205.png" SelfReg="false"/>
+    <ROW File="x206_y206_z206.png" Component_="w97.png" FileName="X206_Y~1.PNG|x206_y206_z206.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x206_y206_z206.png" SelfReg="false"/>
+    <ROW File="x207_y207_z207.png" Component_="w97.png" FileName="X207_Y~1.PNG|x207_y207_z207.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x207_y207_z207.png" SelfReg="false"/>
+    <ROW File="x208_y208_z208_w208.png" Component_="w97.png" FileName="X208_Y~1.PNG|x208_y208_z208_w208.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x208_y208_z208_w208.png" SelfReg="false"/>
+    <ROW File="x209_y209_z209_w209.png" Component_="w97.png" FileName="X209_Y~1.PNG|x209_y209_z209_w209.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x209_y209_z209_w209.png" SelfReg="false"/>
+    <ROW File="x210_y210_z210.png" Component_="w97.png" FileName="X210_Y~1.PNG|x210_y210_z210.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x210_y210_z210.png" SelfReg="false"/>
+    <ROW File="x211_y211_z211.png" Component_="w97.png" FileName="X211_Y~1.PNG|x211_y211_z211.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x211_y211_z211.png" SelfReg="false"/>
+    <ROW File="x212_y212_z212.png" Component_="w97.png" FileName="X212_Y~1.PNG|x212_y212_z212.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x212_y212_z212.png" SelfReg="false"/>
+    <ROW File="x214_y214_z214.png" Component_="w97.png" FileName="X214_Y~1.PNG|x214_y214_z214.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x214_y214_z214.png" SelfReg="false"/>
+    <ROW File="x215_y215_z215.png" Component_="w97.png" FileName="X215_Y~1.PNG|x215_y215_z215.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x215_y215_z215.png" SelfReg="false"/>
+    <ROW File="x216_y216_z216.png" Component_="w97.png" FileName="X216_Y~1.PNG|x216_y216_z216.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x216_y216_z216.png" SelfReg="false"/>
+    <ROW File="x217_y217_z217_w217.png" Component_="w97.png" FileName="X217_Y~1.PNG|x217_y217_z217_w217.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x217_y217_z217_w217.png" SelfReg="false"/>
+    <ROW File="x218_y218_z218_w218.png" Component_="w97.png" FileName="X218_Y~1.PNG|x218_y218_z218_w218.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x218_y218_z218_w218.png" SelfReg="false"/>
+    <ROW File="x219_y219_z219.png" Component_="w97.png" FileName="X219_Y~1.PNG|x219_y219_z219.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x219_y219_z219.png" SelfReg="false"/>
+    <ROW File="x220_y220_z220.png" Component_="w97.png" FileName="X220_Y~1.PNG|x220_y220_z220.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x220_y220_z220.png" SelfReg="false"/>
+    <ROW File="x221_y221_z221.png" Component_="w97.png" FileName="X221_Y~1.PNG|x221_y221_z221.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x221_y221_z221.png" SelfReg="false"/>
+    <ROW File="x222_y222_z222.png" Component_="w97.png" FileName="X222_Y~1.PNG|x222_y222_z222.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x222_y222_z222.png" SelfReg="false"/>
+    <ROW File="x223_y223_z223.png" Component_="w97.png" FileName="X223_Y~1.PNG|x223_y223_z223.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x223_y223_z223.png" SelfReg="false"/>
+    <ROW File="x224_y224_z224.png" Component_="w97.png" FileName="X224_Y~1.PNG|x224_y224_z224.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x224_y224_z224.png" SelfReg="false"/>
+    <ROW File="x225_y225_z225.png" Component_="w97.png" FileName="X225_Y~1.PNG|x225_y225_z225.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x225_y225_z225.png" SelfReg="false"/>
+    <ROW File="x226_y226_z226.png" Component_="w97.png" FileName="X226_Y~1.PNG|x226_y226_z226.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x226_y226_z226.png" SelfReg="false"/>
+    <ROW File="x227_y227_z227.png" Component_="w97.png" FileName="X227_Y~1.PNG|x227_y227_z227.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x227_y227_z227.png" SelfReg="false"/>
+    <ROW File="x228_y228_z228.png" Component_="w97.png" FileName="X228_Y~1.PNG|x228_y228_z228.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x228_y228_z228.png" SelfReg="false"/>
+    <ROW File="x230_y230_z230.png" Component_="w97.png" FileName="X230_Y~1.PNG|x230_y230_z230.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x230_y230_z230.png" SelfReg="false"/>
+    <ROW File="x231_y231_z231.png" Component_="w97.png" FileName="X231_Y~1.PNG|x231_y231_z231.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x231_y231_z231.png" SelfReg="false"/>
+    <ROW File="x232_y232_z232_w232.png" Component_="w97.png" FileName="X232_Y~1.PNG|x232_y232_z232_w232.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x232_y232_z232_w232.png" SelfReg="false"/>
+    <ROW File="x233_y233_z233_w233.png" Component_="w97.png" FileName="X233_Y~1.PNG|x233_y233_z233_w233.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x233_y233_z233_w233.png" SelfReg="false"/>
+    <ROW File="x235_y235_z235.png" Component_="w97.png" FileName="X235_Y~1.PNG|x235_y235_z235.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x235_y235_z235.png" SelfReg="false"/>
+    <ROW File="x236_y236_z236.png" Component_="w97.png" FileName="X236_Y~1.PNG|x236_y236_z236.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x236_y236_z236.png" SelfReg="false"/>
+    <ROW File="x237_y237_z237.png" Component_="w97.png" FileName="X237_Y~1.PNG|x237_y237_z237.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x237_y237_z237.png" SelfReg="false"/>
+    <ROW File="x239_y239_z239_w239.png" Component_="w97.png" FileName="X239_Y~1.PNG|x239_y239_z239_w239.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x239_y239_z239_w239.png" SelfReg="false"/>
+    <ROW File="x240_y240_z240_w240.png" Component_="w97.png" FileName="X240_Y~1.PNG|x240_y240_z240_w240.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x240_y240_z240_w240.png" SelfReg="false"/>
+    <ROW File="x241_y241_z241_w241.png" Component_="w97.png" FileName="X241_Y~1.PNG|x241_y241_z241_w241.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x241_y241_z241_w241.png" SelfReg="false"/>
+    <ROW File="x242_y242_z242_w242.png" Component_="w97.png" FileName="X242_Y~1.PNG|x242_y242_z242_w242.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x242_y242_z242_w242.png" SelfReg="false"/>
+    <ROW File="x243_y243_z243_w243.png" Component_="w97.png" FileName="X243_Y~1.PNG|x243_y243_z243_w243.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x243_y243_z243_w243.png" SelfReg="false"/>
+    <ROW File="x244_y244_z244_w244.png" Component_="w97.png" FileName="X244_Y~1.PNG|x244_y244_z244_w244.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x244_y244_z244_w244.png" SelfReg="false"/>
+    <ROW File="x245_y245_z245_w245.png" Component_="w97.png" FileName="X245_Y~1.PNG|x245_y245_z245_w245.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x245_y245_z245_w245.png" SelfReg="false"/>
+    <ROW File="x246_y246_z246_w246.png" Component_="w97.png" FileName="X246_Y~1.PNG|x246_y246_z246_w246.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x246_y246_z246_w246.png" SelfReg="false"/>
+    <ROW File="x247_y247_z247_w247.png" Component_="w97.png" FileName="X247_Y~1.PNG|x247_y247_z247_w247.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x247_y247_z247_w247.png" SelfReg="false"/>
+    <ROW File="x248_y248_z248.png" Component_="w97.png" FileName="X248_Y~1.PNG|x248_y248_z248.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x248_y248_z248.png" SelfReg="false"/>
+    <ROW File="x249_y249_z249.png" Component_="w97.png" FileName="X249_Y~1.PNG|x249_y249_z249.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x249_y249_z249.png" SelfReg="false"/>
+    <ROW File="x251_y251_z251_w251.png" Component_="w97.png" FileName="X251_Y~1.PNG|x251_y251_z251_w251.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x251_y251_z251_w251.png" SelfReg="false"/>
+    <ROW File="x252_y252_z252_w252.png" Component_="w97.png" FileName="X252_Y~1.PNG|x252_y252_z252_w252.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x252_y252_z252_w252.png" SelfReg="false"/>
+    <ROW File="x253_y253_z253_w253.png" Component_="w97.png" FileName="X253_Y~1.PNG|x253_y253_z253_w253.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x253_y253_z253_w253.png" SelfReg="false"/>
+    <ROW File="x254_y254_z254.png" Component_="w97.png" FileName="X254_Y~1.PNG|x254_y254_z254.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x254_y254_z254.png" SelfReg="false"/>
+    <ROW File="x255_y255_z255_w255.png" Component_="w97.png" FileName="X255_Y~1.PNG|x255_y255_z255_w255.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x255_y255_z255_w255.png" SelfReg="false"/>
+    <ROW File="x29_y29_z29.png" Component_="w97.png" FileName="X29_Y2~1.PNG|x29_y29_z29.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x29_y29_z29.png" SelfReg="false"/>
+    <ROW File="x31_y31_z31.png" Component_="w97.png" FileName="X31_Y3~1.PNG|x31_y31_z31.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x31_y31_z31.png" SelfReg="false"/>
+    <ROW File="x32_y32_z32_w32.png" Component_="w97.png" FileName="X32_Y3~1.PNG|x32_y32_z32_w32.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x32_y32_z32_w32.png" SelfReg="false"/>
+    <ROW File="x33_y33_z33_w33.png" Component_="w97.png" FileName="X33_Y3~1.PNG|x33_y33_z33_w33.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x33_y33_z33_w33.png" SelfReg="false"/>
+    <ROW File="x34_y34_z34_w34.png" Component_="w97.png" FileName="X34_Y3~1.PNG|x34_y34_z34_w34.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x34_y34_z34_w34.png" SelfReg="false"/>
+    <ROW File="x35_y35_z35_w35.png" Component_="w97.png" FileName="X35_Y3~1.PNG|x35_y35_z35_w35.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x35_y35_z35_w35.png" SelfReg="false"/>
+    <ROW File="x36_y36_z36_w36.png" Component_="w97.png" FileName="X36_Y3~1.PNG|x36_y36_z36_w36.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x36_y36_z36_w36.png" SelfReg="false"/>
+    <ROW File="x37_y37_z37_w37.png" Component_="w97.png" FileName="X37_Y3~1.PNG|x37_y37_z37_w37.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x37_y37_z37_w37.png" SelfReg="false"/>
+    <ROW File="x38_y38_z38_w38.png" Component_="w97.png" FileName="X38_Y3~1.PNG|x38_y38_z38_w38.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x38_y38_z38_w38.png" SelfReg="false"/>
+    <ROW File="x39_y39_z39.png" Component_="w97.png" FileName="X39_Y3~1.PNG|x39_y39_z39.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x39_y39_z39.png" SelfReg="false"/>
+    <ROW File="x40_y40_z40.png" Component_="w97.png" FileName="X40_Y4~1.PNG|x40_y40_z40.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x40_y40_z40.png" SelfReg="false"/>
+    <ROW File="x41_y41_z41.png" Component_="w97.png" FileName="X41_Y4~1.PNG|x41_y41_z41.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x41_y41_z41.png" SelfReg="false"/>
+    <ROW File="x42_y42_z42.png" Component_="w97.png" FileName="X42_Y4~1.PNG|x42_y42_z42.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x42_y42_z42.png" SelfReg="false"/>
+    <ROW File="x43_y43_z43.png" Component_="w97.png" FileName="X43_Y4~1.PNG|x43_y43_z43.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x43_y43_z43.png" SelfReg="false"/>
+    <ROW File="x44_y44_z44.png" Component_="w97.png" FileName="X44_Y4~1.PNG|x44_y44_z44.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x44_y44_z44.png" SelfReg="false"/>
+    <ROW File="x45_y45_z45.png" Component_="w97.png" FileName="X45_Y4~1.PNG|x45_y45_z45.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x45_y45_z45.png" SelfReg="false"/>
+    <ROW File="x46_y46_z46.png" Component_="w97.png" FileName="X46_Y4~1.PNG|x46_y46_z46.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x46_y46_z46.png" SelfReg="false"/>
+    <ROW File="x47_y47_z47.png" Component_="w97.png" FileName="X47_Y4~1.PNG|x47_y47_z47.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x47_y47_z47.png" SelfReg="false"/>
+    <ROW File="x48_y48_z48.png" Component_="w97.png" FileName="X48_Y4~1.PNG|x48_y48_z48.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x48_y48_z48.png" SelfReg="false"/>
+    <ROW File="x50_y50_z50_w50.png" Component_="w97.png" FileName="X50_Y5~1.PNG|x50_y50_z50_w50.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x50_y50_z50_w50.png" SelfReg="false"/>
+    <ROW File="x51_y51_z51.png" Component_="w97.png" FileName="X51_Y5~1.PNG|x51_y51_z51.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x51_y51_z51.png" SelfReg="false"/>
+    <ROW File="x52_y52_z52.png" Component_="w97.png" FileName="X52_Y5~1.PNG|x52_y52_z52.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x52_y52_z52.png" SelfReg="false"/>
+    <ROW File="x53_y53_z53.png" Component_="w97.png" FileName="X53_Y5~1.PNG|x53_y53_z53.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x53_y53_z53.png" SelfReg="false"/>
+    <ROW File="x54_y54_z54_w54.png" Component_="w97.png" FileName="X54_Y5~1.PNG|x54_y54_z54_w54.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x54_y54_z54_w54.png" SelfReg="false"/>
+    <ROW File="x55_y55_z55.png" Component_="w97.png" FileName="X55_Y5~1.PNG|x55_y55_z55.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x55_y55_z55.png" SelfReg="false"/>
+    <ROW File="x56_y56_z56_w56.png" Component_="w97.png" FileName="X56_Y5~1.PNG|x56_y56_z56_w56.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x56_y56_z56_w56.png" SelfReg="false"/>
+    <ROW File="x57_y57_z57_w57.png" Component_="w97.png" FileName="X57_Y5~1.PNG|x57_y57_z57_w57.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x57_y57_z57_w57.png" SelfReg="false"/>
+    <ROW File="x58_y58_z58_w58.png" Component_="w97.png" FileName="X58_Y5~1.PNG|x58_y58_z58_w58.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x58_y58_z58_w58.png" SelfReg="false"/>
+    <ROW File="x61_y61_z61_w61.png" Component_="w97.png" FileName="X61_Y6~1.PNG|x61_y61_z61_w61.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x61_y61_z61_w61.png" SelfReg="false"/>
+    <ROW File="x62_y62_z62_w62.png" Component_="w97.png" FileName="X62_Y6~1.PNG|x62_y62_z62_w62.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x62_y62_z62_w62.png" SelfReg="false"/>
+    <ROW File="x63_y63_z63_w63.png" Component_="w97.png" FileName="X63_Y6~1.PNG|x63_y63_z63_w63.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x63_y63_z63_w63.png" SelfReg="false"/>
+    <ROW File="x64_y64_z64_w64.png" Component_="w97.png" FileName="X64_Y6~1.PNG|x64_y64_z64_w64.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x64_y64_z64_w64.png" SelfReg="false"/>
+    <ROW File="x65_y65_z65_w65.png" Component_="w97.png" FileName="X65_Y6~1.PNG|x65_y65_z65_w65.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x65_y65_z65_w65.png" SelfReg="false"/>
+    <ROW File="x66_y66_z66_w66.png" Component_="w97.png" FileName="X66_Y6~1.PNG|x66_y66_z66_w66.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x66_y66_z66_w66.png" SelfReg="false"/>
+    <ROW File="x67_y67_z67_w67.png" Component_="w97.png" FileName="X67_Y6~1.PNG|x67_y67_z67_w67.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x67_y67_z67_w67.png" SelfReg="false"/>
+    <ROW File="x69_y69_z69.png" Component_="w97.png" FileName="X69_Y6~1.PNG|x69_y69_z69.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x69_y69_z69.png" SelfReg="false"/>
+    <ROW File="x70_y70_z70.png" Component_="w97.png" FileName="X70_Y7~1.PNG|x70_y70_z70.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x70_y70_z70.png" SelfReg="false"/>
+    <ROW File="x71_y71_z71.png" Component_="w97.png" FileName="X71_Y7~1.PNG|x71_y71_z71.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x71_y71_z71.png" SelfReg="false"/>
+    <ROW File="x72_y72_z72.png" Component_="w97.png" FileName="X72_Y7~1.PNG|x72_y72_z72.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x72_y72_z72.png" SelfReg="false"/>
+    <ROW File="x76_y76_z76.png" Component_="w97.png" FileName="X76_Y7~1.PNG|x76_y76_z76.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x76_y76_z76.png" SelfReg="false"/>
+    <ROW File="x77_y77_z77_w77.png" Component_="w97.png" FileName="X77_Y7~1.PNG|x77_y77_z77_w77.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x77_y77_z77_w77.png" SelfReg="false"/>
+    <ROW File="x79_y79_z79.png" Component_="w97.png" FileName="X79_Y7~1.PNG|x79_y79_z79.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x79_y79_z79.png" SelfReg="false"/>
+    <ROW File="x82_y82_z82_w82.png" Component_="w97.png" FileName="X82_Y8~1.PNG|x82_y82_z82_w82.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x82_y82_z82_w82.png" SelfReg="false"/>
+    <ROW File="x85_y85_z85_w85.png" Component_="w97.png" FileName="X85_Y8~1.PNG|x85_y85_z85_w85.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x85_y85_z85_w85.png" SelfReg="false"/>
+    <ROW File="x86_y86_z86_w86.png" Component_="w97.png" FileName="X86_Y8~1.PNG|x86_y86_z86_w86.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x86_y86_z86_w86.png" SelfReg="false"/>
+    <ROW File="x88_y88_z88.png" Component_="w97.png" FileName="X88_Y8~1.PNG|x88_y88_z88.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x88_y88_z88.png" SelfReg="false"/>
+    <ROW File="x90_y90_z90.png" Component_="w97.png" FileName="X90_Y9~1.PNG|x90_y90_z90.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x90_y90_z90.png" SelfReg="false"/>
+    <ROW File="x91_y91_z91.png" Component_="w97.png" FileName="X91_Y9~1.PNG|x91_y91_z91.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x91_y91_z91.png" SelfReg="false"/>
+    <ROW File="x92_y92_z92_w92.png" Component_="w97.png" FileName="X92_Y9~1.PNG|x92_y92_z92_w92.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x92_y92_z92_w92.png" SelfReg="false"/>
+    <ROW File="x94_y94_z94.png" Component_="w97.png" FileName="X94_Y9~1.PNG|x94_y94_z94.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x94_y94_z94.png" SelfReg="false"/>
+    <ROW File="x95_y95_z95_w95.png" Component_="w97.png" FileName="X95_Y9~1.PNG|x95_y95_z95_w95.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x95_y95_z95_w95.png" SelfReg="false"/>
+    <ROW File="x96_y96_z96_w96.png" Component_="w97.png" FileName="X96_Y9~1.PNG|x96_y96_z96_w96.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x96_y96_z96_w96.png" SelfReg="false"/>
+    <ROW File="x98_y98_z98_w98.png" Component_="w97.png" FileName="X98_Y9~1.PNG|x98_y98_z98_w98.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x98_y98_z98_w98.png" SelfReg="false"/>
+    <ROW File="Ship_List.json" Component_="EDHM_UI_Guide.pdf" FileName="SHIP_L~1.JSO|Ship_List.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\Ship_List.json" SelfReg="false"/>
+    <ROW File="PM_Default.png" Component_="PREVIEW.png" FileName="3PM_DE~1.PNG|3PM_Default.png" Attributes="0" SourcePath="..\bin\Debug\Images\3PM_Default.png" SelfReg="false"/>
+    <ROW File="x59_y59_z59.png" Component_="w97.png" FileName="X59_Y5~2.PNG|x59_y59_z59.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x59_y59_z59.png" SelfReg="false"/>
+    <ROW File="x60_y60_z60.png" Component_="w97.png" FileName="X60_Y6~2.PNG|x60_y60_z60.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x60_y60_z60.png" SelfReg="false"/>
+    <ROW File="w190.png" Component_="w97.png" FileName="w190.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w190.png" SelfReg="false"/>
+    <ROW File="x191_y191_z191.png" Component_="w97.png" FileName="X191_Y~1.PNG|x191_y191_z191.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x191_y191_z191.png" SelfReg="false"/>
+    <ROW File="x192_y192_z192.png" Component_="w97.png" FileName="X192_Y~1.PNG|x192_y192_z192.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x192_y192_z192.png" SelfReg="false"/>
+    <ROW File="x195y_195z_195.png" Component_="w97.png" FileName="X195Y_~1.PNG|x195y_195z_195.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x195y_195z_195.png" SelfReg="false"/>
+    <ROW File="w234.png" Component_="w97.png" FileName="w234.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w234.png" SelfReg="false"/>
+    <ROW File="EDHM_UI_mk2.pdb" Component_="EDHM_UI_mk2.exe" FileName="EDHM_U~1.PDB|EDHM_UI_mk2.pdb" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_mk2.pdb" SelfReg="false"/>
+    <ROW File="app.manifest" Component_="EDHM_UI_mk2.exe.Config" FileName="APP~1.MAN|app.manifest" Attributes="0" SourcePath="..\bin\Debug\app.manifest" SelfReg="false"/>
+    <ROW File="x256_y256_z256.png" Component_="w97.png" FileName="X256_Y~1.PNG|x256_y256_z256.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x256_y256_z256.png" SelfReg="false"/>
+    <ROW File="x159_y159_z159.png" Component_="w97.png" FileName="X159_Y~1.PNG|x159_y159_z159.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x159_y159_z159.png" SelfReg="false"/>
+    <ROW File="z115.png" Component_="w97.png" FileName="z115.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z115.png" SelfReg="false"/>
+    <ROW File="adder.jpg" Component_="adder.jpg" FileName="adder.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\adder.jpg" SelfReg="false"/>
+    <ROW File="anaconda.jpg" Component_="adder.jpg" FileName="anaconda.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\anaconda.jpg" SelfReg="false"/>
+    <ROW File="asp.jpg" Component_="adder.jpg" FileName="asp.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\asp.jpg" SelfReg="false"/>
+    <ROW File="asp_scout.jpg" Component_="adder.jpg" FileName="ASP_SC~1.JPG|asp_scout.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\asp_scout.jpg" SelfReg="false"/>
+    <ROW File="belugaliner.jpg" Component_="adder.jpg" FileName="BELUGA~1.JPG|belugaliner.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\belugaliner.jpg" SelfReg="false"/>
+    <ROW File="cobramkiii.jpg" Component_="adder.jpg" FileName="COBRAM~1.JPG|cobramkiii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkiii.jpg" SelfReg="false"/>
+    <ROW File="cobramkiv.jpg" Component_="adder.jpg" FileName="COBRAM~2.JPG|cobramkiv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkiv.jpg" SelfReg="false"/>
+    <ROW File="combat_multicrew_srv_01.jpg" Component_="adder.jpg" FileName="COMBAT~1.JPG|combat_multicrew_srv_01.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\combat_multicrew_srv_01.jpg" SelfReg="false"/>
+    <ROW File="cutter.jpg" Component_="adder.jpg" FileName="cutter.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cutter.jpg" SelfReg="false"/>
+    <ROW File="diamondback.jpg" Component_="adder.jpg" FileName="DIAMON~1.JPG|diamondback.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\diamondback.jpg" SelfReg="false"/>
+    <ROW File="diamondbackxl.jpg" Component_="adder.jpg" FileName="DIAMON~2.JPG|diamondbackxl.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\diamondbackxl.jpg" SelfReg="false"/>
+    <ROW File="dolphin.jpg" Component_="adder.jpg" FileName="dolphin.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\dolphin.jpg" SelfReg="false"/>
+    <ROW File="eagle.jpg" Component_="adder.jpg" FileName="eagle.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\eagle.jpg" SelfReg="false"/>
+    <ROW File="empire_courier.jpg" Component_="adder.jpg" FileName="EMPIRE~1.JPG|empire_courier.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_courier.jpg" SelfReg="false"/>
+    <ROW File="empire_eagle.jpg" Component_="adder.jpg" FileName="EMPIRE~2.JPG|empire_eagle.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_eagle.jpg" SelfReg="false"/>
+    <ROW File="empire_trader.jpg" Component_="adder.jpg" FileName="EMPIRE~3.JPG|empire_trader.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_trader.jpg" SelfReg="false"/>
+    <ROW File="federation_corvette.jpg" Component_="adder.jpg" FileName="FEDERA~1.JPG|federation_corvette.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_corvette.jpg" SelfReg="false"/>
+    <ROW File="federation_dropship.jpg" Component_="adder.jpg" FileName="FEDERA~2.JPG|federation_dropship.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_dropship.jpg" SelfReg="false"/>
+    <ROW File="federation_dropship_mkii.jpg" Component_="adder.jpg" FileName="FEDERA~3.JPG|federation_dropship_mkii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_dropship_mkii.jpg" SelfReg="false"/>
+    <ROW File="federation_gunship.jpg" Component_="adder.jpg" FileName="FEDERA~4.JPG|federation_gunship.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_gunship.jpg" SelfReg="false"/>
+    <ROW File="ferdelance.jpg" Component_="adder.jpg" FileName="FERDEL~1.JPG|ferdelance.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\ferdelance.jpg" SelfReg="false"/>
+    <ROW File="hauler.jpg" Component_="adder.jpg" FileName="hauler.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\hauler.jpg" SelfReg="false"/>
+    <ROW File="independant_trader.jpg" Component_="adder.jpg" FileName="INDEPE~1.JPG|independant_trader.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\independant_trader.jpg" SelfReg="false"/>
+    <ROW File="krait_light.jpg" Component_="adder.jpg" FileName="KRAIT_~1.JPG|krait_light.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\krait_light.jpg" SelfReg="false"/>
+    <ROW File="krait_mkii.jpg" Component_="adder.jpg" FileName="KRAIT_~2.JPG|krait_mkii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\krait_mkii.jpg" SelfReg="false"/>
+    <ROW File="mamba.jpg" Component_="adder.jpg" FileName="mamba.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mamba.jpg" SelfReg="false"/>
+    <ROW File="orca.jpg" Component_="adder.jpg" FileName="orca.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\orca.jpg" SelfReg="false"/>
+    <ROW File="python.jpg" Component_="adder.jpg" FileName="python.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\python.jpg" SelfReg="false"/>
+    <ROW File="sidewinder.jpg" Component_="adder.jpg" FileName="SIDEWI~1.JPG|sidewinder.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\sidewinder.jpg" SelfReg="false"/>
+    <ROW File="testbuggy.jpg" Component_="adder.jpg" FileName="TESTBU~1.JPG|testbuggy.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\testbuggy.jpg" SelfReg="false"/>
+    <ROW File="type6.jpg" Component_="adder.jpg" FileName="type6.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type6.jpg" SelfReg="false"/>
+    <ROW File="type7.jpg" Component_="adder.jpg" FileName="type7.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type7.jpg" SelfReg="false"/>
+    <ROW File="type9.jpg" Component_="adder.jpg" FileName="type9.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type9.jpg" SelfReg="false"/>
+    <ROW File="type9_military.jpg" Component_="adder.jpg" FileName="TYPE9_~1.JPG|type9_military.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type9_military.jpg" SelfReg="false"/>
+    <ROW File="typex.jpg" Component_="adder.jpg" FileName="typex.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex.jpg" SelfReg="false"/>
+    <ROW File="typex_2.jpg" Component_="adder.jpg" FileName="typex_2.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex_2.jpg" SelfReg="false"/>
+    <ROW File="typex_3.jpg" Component_="adder.jpg" FileName="typex_3.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex_3.jpg" SelfReg="false"/>
+    <ROW File="viper.jpg" Component_="adder.jpg" FileName="viper.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper.jpg" SelfReg="false"/>
+    <ROW File="viper_mkiv.jpg" Component_="adder.jpg" FileName="VIPER_~1.JPG|viper_mkiv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper_mkiv.jpg" SelfReg="false"/>
+    <ROW File="vulture.jpg" Component_="adder.jpg" FileName="vulture.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\vulture.jpg" SelfReg="false"/>
+    <ROW File="x238_y238_z238_w238.png" Component_="w97.png" FileName="X238_Y~1.PNG|x238_y238_z238_w238.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x238_y238_z238_w238.png" SelfReg="false"/>
+    <ROW File="python_nx.jpg" Component_="adder.jpg" FileName="PYTHON~1.JPG|python_nx.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\python_nx.jpg" SelfReg="false"/>
+    <ROW File="type8.jpg" Component_="adder.jpg" FileName="type8.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type8.jpg" SelfReg="false"/>
+    <ROW File="DevExpress.BonusSkins.v24.1.dll" Component_="DevExpress.BonusSkins.v24.1.dll" FileName="DEVEXP~1.DLL|DevExpress.BonusSkins.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.BonusSkins.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.CodeParser.v24.1.dll" Component_="DevExpress.CodeParser.v24.1.dll" FileName="DEVEXP~2.DLL|DevExpress.CodeParser.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.CodeParser.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Data.Desktop.v24.1.dll" Component_="DevExpress.Data.Desktop.v24.1.dll" FileName="DEVEXP~3.DLL|DevExpress.Data.Desktop.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.Desktop.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Data.v24.1.dll" Component_="DevExpress.Data.v24.1.dll" FileName="DEVEXP~4.DLL|DevExpress.Data.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.DataAccess.v24.1.dll" Component_="DevExpress.DataAccess.v24.1.dll" FileName="DEVEXP~5.DLL|DevExpress.DataAccess.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.DataAccess.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Dialogs.v24.1.Core.dll" Component_="DevExpress.Dialogs.v24.1.Core.dll" FileName="DEVEXP~6.DLL|DevExpress.Dialogs.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Dialogs.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Drawing.v24.1.dll" Component_="DevExpress.Drawing.v24.1.dll" FileName="DEVEXP~7.DLL|DevExpress.Drawing.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Drawing.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Images.v24.1.dll" Component_="DevExpress.Images.v24.1.dll" FileName="DEVEXP~8.DLL|DevExpress.Images.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Images.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Office.v24.1.Core.dll" Component_="DevExpress.Office.v24.1.Core.dll" FileName="DEVEXP~9.DLL|DevExpress.Office.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Office.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Pdf.v24.1.Core.dll" Component_="DevExpress.Pdf.v24.1.Core.dll" FileName="DEVEX~10.DLL|DevExpress.Pdf.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Pdf.v24.1.Drawing.dll" Component_="DevExpress.Pdf.v24.1.Drawing.dll" FileName="DEVEX~11.DLL|DevExpress.Pdf.v24.1.Drawing.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Pdf.v24.1.Drawing.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Printing.v24.1.Core.dll" Component_="DevExpress.Printing.v24.1.Core.dll" FileName="DEVEX~12.DLL|DevExpress.Printing.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Printing.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.RichEdit.v24.1.Core.dll" Component_="DevExpress.RichEdit.v24.1.Core.dll" FileName="DEVEX~13.DLL|DevExpress.RichEdit.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.RichEdit.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Sparkline.v24.1.Core.dll" Component_="DevExpress.Sparkline.v24.1.Core.dll" FileName="DEVEX~14.DLL|DevExpress.Sparkline.v24.1.Core.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Sparkline.v24.1.Core.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Utils.v24.1.dll" Component_="DevExpress.Utils.v24.1.dll" FileName="DEVEX~15.DLL|DevExpress.Utils.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Utils.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.Xpo.v24.1.dll" Component_="DevExpress.Xpo.v24.1.dll" FileName="DEVEX~16.DLL|DevExpress.Xpo.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Xpo.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraBars.v24.1.dll" Component_="DevExpress.XtraBars.v24.1.dll" FileName="DEVEX~17.DLL|DevExpress.XtraBars.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraBars.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraDialogs.v24.1.dll" Component_="DevExpress.XtraDialogs.v24.1.dll" FileName="DEVEX~18.DLL|DevExpress.XtraDialogs.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraDialogs.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraEditors.v24.1.dll" Component_="DevExpress.XtraEditors.v24.1.dll" FileName="DEVEX~19.DLL|DevExpress.XtraEditors.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraGrid.v24.1.dll" Component_="DevExpress.XtraGrid.v24.1.dll" FileName="DEVEX~20.DLL|DevExpress.XtraGrid.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraGrid.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraLayout.v24.1.dll" Component_="DevExpress.XtraLayout.v24.1.dll" FileName="DEVEX~21.DLL|DevExpress.XtraLayout.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraLayout.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraNavBar.v24.1.dll" Component_="DevExpress.XtraNavBar.v24.1.dll" FileName="DEVEX~22.DLL|DevExpress.XtraNavBar.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraNavBar.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraPrinting.v24.1.dll" Component_="DevExpress.XtraPrinting.v24.1.dll" FileName="DEVEX~23.DLL|DevExpress.XtraPrinting.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraPrinting.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraTreeList.v24.1.dll" Component_="DevExpress.XtraTreeList.v24.1.dll" FileName="DEVEX~24.DLL|DevExpress.XtraTreeList.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraTreeList.v24.1.dll" SelfReg="false"/>
+    <ROW File="DevExpress.XtraVerticalGrid.v24.1.dll" Component_="DevExpress.XtraVerticalGrid.v24.1.dll" FileName="DEVEX~25.DLL|DevExpress.XtraVerticalGrid.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraVerticalGrid.v24.1.dll" SelfReg="false"/>
+    <ROW File="mandalay.jpg" Component_="adder.jpg" FileName="mandalay.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mandalay.jpg" SelfReg="false"/>
+    <ROW File="DevExpress.XtraEditors.v24.1.xml" Component_="EDHM_UI_mk2.exe.Config" FileName="DEVEXP~1.XML|DevExpress.XtraEditors.v24.1.xml" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v24.1.xml" SelfReg="false"/>
+    <ROW File="ODYSS_EDHMv19.05.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v19.05.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v19.05.zip" SelfReg="false"/>
+    <ROW File="cobramkv.jpg" Component_="adder.jpg" FileName="cobramkv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkv.jpg" SelfReg="false"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
+    <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BootstrapperUISequenceComponent">
+    <ROW Action="AI_DetectSoftware" Sequence="151"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." PackageFileName="EDHM_UI_Setup" Languages="en" InstallationType="4" ExtUI="true" UseLargeSchema="true"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.DigCertStoreComponent">
+    <ROW DigitalCertificate="EDHM_UI.pfx" TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" DescriptionUrl="https://github.com/BlueMystical/EDHM_UI" SignOptions="7" SignTool="0" EnableLUAPatching="1" UseSha256="1" Password="789991A4C593EF030980A053B042AF11D1FB3A7AFC805B00C296"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
+    <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
+    <ROW Fragment="MaintenanceTypeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceTypeDlg.aip"/>
+    <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceWelcomeDlg.aip"/>
+    <ROW Fragment="SequenceDialogs.aip" Path="&lt;AI_THEMES&gt;classic\fragments\SequenceDialogs.aip"/>
+    <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
+    <ROW Fragment="ShortcutsDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\ShortcutsDlg.aip"/>
+    <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
+    <ROW Fragment="UI.aip" Path="&lt;AI_THEMES&gt;classic\fragments\UI.aip"/>
+    <ROW Fragment="Validation.aip" Path="&lt;AI_FRAGS&gt;Validation.aip"/>
+    <ROW Fragment="VerifyRemoveDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRemoveDlg.aip"/>
+    <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRepairDlg.aip"/>
+    <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\WelcomeDlg.aip"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.GenericXmlAttributeComponent">
+    <ROW XmlAttribute="BackgroundColor" XmlElement="VisualElements" Name="BackgroundColor" Flags="0" Order="0" Value="#004080"/>
+    <ROW XmlAttribute="Executable" XmlElement="VisualElements" Name="Executable" Flags="0" Order="0" FileId="EDHM_UI_mk2.exe"/>
+    <ROW XmlAttribute="ForegroundText" XmlElement="VisualElements" Name="ForegroundText" Flags="0" Order="0" Value="light"/>
+    <ROW XmlAttribute="ShowNameOnSquare150x150Logo" XmlElement="VisualElements" Name="ShowNameOnSquare150x150Logo" Flags="0" Order="0" Value="on"/>
+    <ROW XmlAttribute="xmlnsxsi" XmlElement="Application" Name="xmlns:xsi" Flags="0" Order="0" Value="http://www.w3.org/2001/XMLSchema-instance"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.GenericXmlElementComponent">
+    <ROW XmlElement="Application" Name="Application" Order="0" Flags="0" Type="53"/>
+    <ROW XmlElement="VisualElements" ParentElement="Application" Name="VisualElements" Order="0" Flags="0" Type="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.GenericXmlFileComponent">
+    <ROW XmlFile="EDHM_UI_mk2.VisualElementsManifest." FileName="EDHM_UI_mk2.VisualElementsManifest.xml" RootElement="Application" Flags="89" Version="1.0" Encoding="UTF-8" IndentUnits="2"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
+    <ROW Property="AI_SHORTCUTSREG" Signature_="AI_ShRegOptionUser"/>
+    <ROW Property="AI_SHORTCUTSREG" Signature_="AI_ShRegOptionMachine"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
+    <ROW Name="ExternalUICleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ExternalUICleaner.dll"/>
+    <ROW Name="ShortcutFlags.dll" SourcePath="&lt;AI_CUSTACTS&gt;ShortcutFlags.dll"/>
+    <ROW Name="SoftwareDetector.dll" SourcePath="&lt;AI_CUSTACTS&gt;SoftwareDetector.dll"/>
+    <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
+    <ROW Name="viewer.exe" SourcePath="&lt;AI_CUSTACTS&gt;viewer.exe"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiConditionComponent">
+    <ROW Feature_="TileAssets_DefaultBuild" Level="4" Condition="VersionNT &lt; 603"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlConditionComponent">
+    <ROW Dialog_="ShortcutsDlg" Control_="QuickLaunchShorcutsCheckBox" Action="Hide" Condition="(Not Installed) AND (VersionNT&lt;&quot;601&quot;)"/>
+    <ATTRIBUTE name="DeletedRows" value="ShortcutsDlg#QuickLaunchShorcutsCheckBox#Show#(Not Installed) AND (VersionNT&lt;&quot;601&quot;)"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="ShortcutsDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_INSTALL" Ordering="197"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="ShortcutsDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_MAINT" Ordering="198"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="202"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="ChangeButton" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="501"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceWelcomeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RemoveButton" Event="NewDialog" Argument="VerifyRemoveDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RepairButton" Event="NewDialog" Argument="VerifyRepairDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="1"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Repair" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="399" Options="1"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Remove" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="299" Options="1"/>
+    <ROW Dialog_="PatchWelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_PATCH" Ordering="201"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
+    <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
+    <ROW Dialog_="ShortcutsDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="ShortcutsDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
+    <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
+    <ROW Directory_="Properties_Dir" Component_="Properties" ManualDelete="false"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_ApplyShortcutFlags" Type="3073" Source="ShortcutFlags.dll" Target="UpdateShortcutFlags" WithoutSeq="true"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_DEL_EMPTY_SHORTCUTDIR" Target="[SHORTCUTDIR]"/>
+    <ROW Action="AI_DELETE_SHORTCUTS" Type="1" Source="aicustact.dll" Target="DeleteShortcuts"/>
+    <ROW Action="AI_DEL_EMPTY_SHORTCUTDIR" Type="3073" Source="aicustact.dll" Target="DeleteEmptyDirectory" AdditionalSeq="AI_DATA_SETTER"/>
+    <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
+    <ROW Action="AI_DetectSoftware" Type="257" Source="SoftwareDetector.dll" Target="OnDetectSoftware"/>
+    <ROW Action="AI_DoRemoveExternalUIStub" Type="3585" Source="ExternalUICleaner.dll" Target="DoRemoveExternalUIStub" WithoutSeq="true"/>
+    <ROW Action="AI_DpiContentScale" Type="1" Source="aicustact.dll" Target="DpiContentScale"/>
+    <ROW Action="AI_EnableDebugLog" Type="321" Source="aicustact.dll" Target="EnableDebugLog"/>
+    <ROW Action="AI_GetArpIconPath" Type="1" Source="aicustact.dll" Target="GetArpIconPath"/>
+    <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
+    <ROW Action="AI_LaunchApp" Type="1" Source="aicustact.dll" Target="[#EDHM_UI_mk2.exe]"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_PinShortcuts" Type="1" Source="ShortcutFlags.dll" Target="PinShortcuts"/>
+    <ROW Action="AI_PinToStartScreen" Type="1025" Source="ShortcutFlags.dll" Target="PinToStartScreen" WithoutSeq="true"/>
+    <ROW Action="AI_PinToTaskbar" Type="1025" Source="ShortcutFlags.dll" Target="PinToTaskbar" WithoutSeq="true"/>
+    <ROW Action="AI_PrepareShortcutFlags" Type="1" Source="ShortcutFlags.dll" Target="PrepareActionData"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
+    <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
+    <ROW Action="AI_RemoveExternalUIStub" Type="1" Source="ExternalUICleaner.dll" Target="RemoveExternalUIStub"/>
+    <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
+    <ROW Action="AI_SETMIXINSTLOCATION" Type="1" Source="aicustact.dll" Target="MixedAllUsersInstallLocation"/>
+    <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
+    <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="AI_UnpinFromStartScreen" Type="1025" Source="ShortcutFlags.dll" Target="UnpinFromStartScreen" WithoutSeq="true"/>
+    <ROW Action="AI_UnpinFromTaskbar" Type="1025" Source="ShortcutFlags.dll" Target="UnpinFromTaskbar" WithoutSeq="true"/>
+    <ROW Action="AI_UnpinShortcuts" Type="1" Source="ShortcutFlags.dll" Target="UnpinShortcuts"/>
+    <ROW Action="LaunchFile" Type="2" Source="viewer.exe" Target="&quot;[#EDHM_UNINSTALL.bat]&quot;" Options="1"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[LocalAppDataFolder][ProductName]"/>
+    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
+    <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatCompsComponent">
+    <ROW Feature_="MainFeature" Component_="APPDIR"/>
+    <ROW Feature_="MainFeature" Component_="ProductInformation"/>
+    <ROW Feature_="MainFeature" Component_="EDHM_UI_mk2.exe"/>
+    <ROW Feature_="MainFeature" Component_="EDHM_UI_mk2.exe.Config"/>
+    <ROW Feature_="MainFeature" Component_="ColorManagment.dll"/>
+    <ROW Feature_="MainFeature" Component_="ICCReader.dll"/>
+    <ROW Feature_="MainFeature" Component_="INIFileParser.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ionic.Zip.dll"/>
+    <ROW Feature_="MainFeature" Component_="MathNet.Numerics.dll"/>
+    <ROW Feature_="MainFeature" Component_="Newtonsoft.Json.dll"/>
+    <ROW Feature_="MainFeature" Component_="EDHM_UI_Guide.pdf"/>
+    <ROW Feature_="MainFeature" Component_="AmbientLights_0.png"/>
+    <ROW Feature_="MainFeature" Component_="ColorMatrix_Preview_1a.png"/>
+    <ROW Feature_="MainFeature" Component_="PREVIEW.png"/>
+    <ROW Feature_="MainFeature" Component_="EDHM_UI_Patcher.exe"/>
+    <ROW Feature_="MainFeature" Component_="HORIZ_EDHMv1.51.1.zip"/>
+    <ROW Feature_="MainFeature" Component_="AI_CustomARPName"/>
+    <ROW Feature_="MainFeature" Component_="EDHM_UI_Thumbnail_Maker.exe"/>
+    <ROW Feature_="TileAssets_DefaultBuild" Component_="EDHM_UI_mk2.VisualElementsManifest.xml"/>
+    <ROW Feature_="MainFeature" Component_="w97.png"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.BonusSkins.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.CodeParser.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Data.Desktop.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Data.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.DataAccess.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Dialogs.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Drawing.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Images.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Office.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Pdf.v24.1.Drawing.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Printing.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.RichEdit.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Sparkline.v24.1.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="AIShRegAnswer"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Utils.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.Xpo.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraBars.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraDialogs.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraEditors.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraGrid.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraLayout.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="adder.jpg"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraNavBar.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraPrinting.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraTreeList.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevExpress.XtraVerticalGrid.v24.1.dll"/>
+    <ROW Feature_="MainFeature" Component_="Properties"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="ED_TripleElite.exe" SourcePath="..\ED_TripleElite.ico" Index="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
+    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1502"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1397"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
+    <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_SETMIXINSTLOCATION" Sequence="748"/>
+    <ROW Action="AI_DetectSoftware" Sequence="101"/>
+    <ROW Action="AI_GetArpIconPath" Sequence="1403"/>
+    <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1501"/>
+    <ROW Action="LaunchFile" Condition="( Installed AND ( REMOVE = &quot;ALL&quot; OR AI_INSTALL_MODE = &quot;Remove&quot; ) AND NOT UPGRADINGPRODUCTCODE )" Sequence="1601"/>
+    <ROW Action="RemoveExistingProducts" Condition="AI_UPGRADE&lt;&gt;&quot;No&quot;" Sequence="1402" SeqType="0" MsiKey="RemoveExistingProducts"/>
+    <ROW Action="AI_PrepareShortcutFlags" Condition="(VersionNT &gt; 501) AND ((NOT Installed) OR (Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;)))" Sequence="4501"/>
+    <ROW Action="AI_PinShortcuts" Condition="(VersionNT &gt; 600) AND ((NOT Installed) OR (Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;)))" Sequence="6499"/>
+    <ROW Action="AI_UnpinShortcuts" Condition="(VersionNT &gt; 600) AND (REMOVE = &quot;ALL&quot;)" Sequence="3199"/>
+    <ROW Action="AI_DELETE_SHORTCUTS" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="1401"/>
+    <ROW Action="AI_DEL_EMPTY_SHORTCUTDIR" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6402"/>
+    <ROW Action="AI_DATA_SETTER" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6401"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
+    <ROW Action="AI_DpiContentScale" Sequence="52"/>
+    <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_SETMIXINSTLOCATION" Sequence="748"/>
+    <ROW Action="AI_DetectSoftware" Sequence="102"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
+    <ROW Condition="( Version9X OR ( NOT VersionNT64 ) OR ( VersionNT64 AND ((VersionNT64 &lt;&gt; 600) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT64 &lt;&gt; 600) OR (MsiNTProductType = 1)) AND ((VersionNT64 &lt;&gt; 601) OR (MsiNTProductType = 1)) AND ((VersionNT64 &lt;&gt; 602) OR (MsiNTProductType = 1)) AND ((VersionNT64 &lt;&gt; 603) OR (MsiNTProductType = 1)) ) )" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNT64Display]." DescriptionLocId="AI.LaunchCondition.NoSpecificNT64" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="( Version9X OR VersionNT64 OR ( VersionNT AND ((VersionNT &lt;&gt; 600) OR (MsiNTProductType &lt;&gt; 1)) AND ((VersionNT &lt;&gt; 600) OR (MsiNTProductType = 1)) ) )" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNTDisplay]." DescriptionLocId="AI.LaunchCondition.NoSpecificNT" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="AI_DETECTED_DOTNET_VERSION &gt;= AI_REQUIRED_DOTNET_VERSION" Description="[ProductName] cannot be installed on systems with .NET Framework version lower than [AI_REQUIRED_DOTNET_DISPLAY]." DescriptionLocId="AI.LaunchCondition.DotNET" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
+    <ROW Signature_="AI_ShRegOptionMachine" Root="2" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Type="2"/>
+    <ROW Signature_="AI_ShRegOptionUser" Root="1" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Type="2"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
+    <ROW Registry="AIShRegAnswer" Root="-1" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Value="[AI_SHORTCUTSREG]" Component_="AIShRegAnswer"/>
+    <ROW Registry="Comments" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Comments" Value="[ARPCOMMENTS]" Component_="AI_CustomARPName"/>
+    <ROW Registry="Contact" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Contact" Value="[ARPCONTACT]" Component_="AI_CustomARPName"/>
+    <ROW Registry="DisplayIcon" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="DisplayIcon" Value="[ARP_ICON_PATH]" Component_="AI_CustomARPName"/>
+    <ROW Registry="DisplayName" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="DisplayName" Value="[AI_PRODUCTNAME_ARP]" Component_="AI_CustomARPName"/>
+    <ROW Registry="DisplayVersion" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="DisplayVersion" Value="[ProductVersion]" Component_="AI_CustomARPName"/>
+    <ROW Registry="EstimatedSize" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="EstimatedSize" Value="#[AI_ARP_SIZE]" Component_="AI_CustomARPName" VirtualValue="#"/>
+    <ROW Registry="HelpLink" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="HelpLink" Value="[ARPHELPLINK]" Component_="AI_CustomARPName"/>
+    <ROW Registry="HelpTelephone" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="HelpTelephone" Value="[ARPHELPTELEPHONE]" Component_="AI_CustomARPName"/>
+    <ROW Registry="InstallLocation" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="InstallLocation" Value="[APPDIR]" Component_="AI_CustomARPName"/>
+    <ROW Registry="ModifyPath" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="ModifyPath" Value="[AI_UNINSTALLER] /i [ProductCode] AI_UNINSTALLER_CTP=1" Component_="AI_CustomARPName"/>
+    <ROW Registry="NoRepair" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="NoRepair" Value="#1" Component_="AI_CustomARPName" VirtualValue="#"/>
+    <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
+    <ROW Registry="Publisher" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Publisher" Value="[Manufacturer]" Component_="AI_CustomARPName"/>
+    <ROW Registry="Readme" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Readme" Value="[ARPREADME]" Component_="AI_CustomARPName"/>
+    <ROW Registry="URLInfoAbout" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="URLInfoAbout" Value="[ARPURLINFOABOUT]" Component_="AI_CustomARPName"/>
+    <ROW Registry="URLUpdateInfo" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="URLUpdateInfo" Value="[ARPURLUPDATEINFO]" Component_="AI_CustomARPName"/>
+    <ROW Registry="UninstallPath" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="UninstallPath" Value="[AI_UNINSTALLER] /x [ProductCode] AI_UNINSTALLER_CTP=1" Component_="AI_CustomARPName"/>
+    <ROW Registry="UninstallString" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="UninstallString" Value="[AI_UNINSTALLER] /x [ProductCode] AI_UNINSTALLER_CTP=1" Component_="AI_CustomARPName"/>
+    <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+    <ROW Registry="VersionMajor" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="VersionMajor" Value="#2" Component_="AI_CustomARPName" VirtualValue="#"/>
+    <ROW Registry="VersionMinor" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="VersionMinor" Value="#0" Component_="AI_CustomARPName" VirtualValue="#"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="EDHMUI" Directory_="DesktopFolder" Name="EDHMUI~1|EDHM UI" Component_="EDHM_UI_mk2.exe" Target="[#EDHM_UI_mk2.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="EDHM_UI" Directory_="ProgramMenuFolder" Name="EDHM_UI" Component_="EDHM_UI_mk2.exe" Target="[#EDHM_UI_mk2.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR" CustomFlags="4"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
+    <ATTRIBUTE name="UsedTheme" value="classic"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="0.0.1" VersionMax="[|ProductVersion]" Attributes="257" ActionProperty="OLDPRODUCTS"/>
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+</DOCUMENT>

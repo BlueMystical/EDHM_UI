@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -487,7 +488,7 @@ namespace EDHM_UI_Patcher
 			{
 				if (File.Exists(ZIPfilePath))
 				{
-					if (!Directory.Exists(DestinationFolder)) Directory.CreateDirectory(DestinationFolder);
+					Directory.CreateDirectory(DestinationFolder);
 
 					using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(ZIPfilePath))
 					{
@@ -502,6 +503,7 @@ namespace EDHM_UI_Patcher
 			}
 			return _ret;
 		}
+
 
 		#endregion
 	}
