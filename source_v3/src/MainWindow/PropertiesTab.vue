@@ -46,8 +46,10 @@
 
                   <!-- Color Picker Control -->
                   <template v-if="item.valueType === 'Color'">
+                    
                     <input type="color" :value="intToHexColor(item.value)"
-                      @input="updateColorValue(item, $event.target.value)" class="form-control color-picker" :style="{ backgroundColor: 'transparent' }" />
+                      @input="updateColorValue(item, $event.target.value)" class="form-control color-picker" :style="{ backgroundColor: 'transparent' }" /> 
+                    
                   </template>
 
                   <!-- On/Off Swap control -->
@@ -74,6 +76,7 @@
 import { ref } from 'vue';
 import eventBus from '../EventBus';
 import { inject, defineComponent, reactive, onMounted } from 'vue';
+import ColorPicker from './ColorPicker.vue';
 
 let themeTemplate = inject('themeTemplate');
 
@@ -141,12 +144,6 @@ export default defineComponent({
      * @param number Integer Value representing a Color.
      */
      const intToHexColor = (number) => {
-        //console.log('1 - Int Color:', number);
-        //const color = intToRGB(number);
-        //console.log('2- RGB Color:', color);
-        //const reversed = reverseGammaCorrected(color.r, color.g, color.b);
-        //console.log('Reversed RGB:', reversed);
-        //const colorString = rgbToHex(reversed.r, reversed.g, reversed.b);
         return intToHex(number);
       };
 
@@ -322,10 +319,14 @@ export default defineComponent({
       intToHexColor,
     };
   },
+  components: {
+    ColorPicker,
+  },
   data() {
     return {
       themeTemplate,
-      tooltipStyles: []
+      tooltipStyles: [],
+      selectedColor: '#ffffff',
     };
   },
   mounted() {

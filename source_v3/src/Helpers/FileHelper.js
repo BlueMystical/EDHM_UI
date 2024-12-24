@@ -111,7 +111,7 @@ const loadJsonFile = (filePath) => {
     try {
       ensureDirectoryExists(path.dirname(resolvedPath)); // Ensure parent directory exists
   
-      const options = prettyPrint ? { spaces: 2 } : null; 
+      const options = prettyPrint ? { spaces: 4 } : null; 
       fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
     } catch (err) {
       console.error(`Error writing JSON file: ${resolvedPath}`, err);
@@ -183,6 +183,9 @@ ipcMain.handle('get-local-file-url', async (event, localPath) => {
 ipcMain.handle('get-json-file', async (event, jsonPath) => {
     return loadJsonFile(jsonPath);
   });
+ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
+  return writeJsonFile(filePath, data, prettyPrint);
+});
   
 ipcMain.handle('is-not-null-obj', async (event, obj) => {
     return isNotNullOrEmpty(obj);

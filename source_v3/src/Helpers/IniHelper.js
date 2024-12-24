@@ -1,6 +1,7 @@
 import * as ini from 'ini';
 import * as fs from 'fs';
 import { ipcMain } from 'electron';
+import path from 'node:path';
 
 /**
  * Loads the INI file from the specified path.
@@ -62,7 +63,25 @@ function saveIniFile(filePath, iniData) {
     }
 }
 
+/**
+ * Finds a Key/Value in an INI file
+ * @param {*} data Parsed data of all INI files
+ * @param {*} searchItem One of the Elements from a Theme Template
+ * @returns Return results as an array of key-value pairs, or the single value if only one key
+ */
 function findValueByKey(data, searchItem) {
+    /* searchItem: {
+      "Category":"Chat Panel",
+      "Title":"Chat Panel Lines",
+      "File":"Startup-Profile",
+      "Section":"Constants",
+      "Key":"x137",
+      "Value":100,
+      "ValueType":"Preset",
+      "Type":"AdvancedMode",
+      "Description":""
+    } */
+
     const fileName = searchItem.File.replace(/-/g, '');  // Remove hyphens
     const section = searchItem.Section.toLowerCase();  // Convert section to lowercase
     const keys = searchItem.Key.split('|');  // Split multiple keys
@@ -85,48 +104,23 @@ function findValueByKey(data, searchItem) {
               results.push({ key, value });
               keyCount++; // Increment the counter for each found key
             } else {
-              throw new Error(`Key not found: ${key}`);
+              throw new Error(`Key Not Found: ${path.join(fileName, searchItem.Section, searchItem.Key)}`);
             }
           });
         } else {
-          throw new Error(`Section not found: ${fileName} / ${section}`);
+          throw new Error(`Section Not Found: ${path.join(fileName, searchItem.Section)} `);
         }
       } else {
-        throw new Error(`File not found: ${fileName}`);
+        throw new Error(`File Not Found: ${fileName}`);
       }
     } catch (error) {
       console.error(error.message);
     }
   
-    //console.log(`Total keys found: ${keyCount}`);
-  
     // Return results as an array of key-value pairs, or the single value if only one key
     return results.length === 1 ? results[0].value : results;
   }
-/*
-function findValueByKey(data, searcher) {
-    const { File, Section, Key } = searcher;
-  
-    for (const profileName in data) {
-      const normalizedProfileName = profileName.replace(/-/g, ''); 
 
-      if (normalizedProfileName === File) {
-        if (data[normalizedProfileName][Section]) {
-          if (Key.includes("|")) { 
-            const keys = Key.split("|");
-            const values = keys.map(key => data[normalizedProfileName][Section][key]);
-            return values.filter(value => value !== undefined); 
-          } else {
-            return data[normalizedProfileName][Section][Key];
-          }
-        }
-      }
-    }
-  
-    console.log('Not Found: ', File, Section, Key);
-    return undefined; // Key not found
-  }
-*/
 /* -----------------------------------------------------------------------------------------------------*/
 // Expose functions through ipcMain
 

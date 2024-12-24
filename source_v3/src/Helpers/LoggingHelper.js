@@ -33,6 +33,9 @@ const logEvent = (type, ...args) => {
   } else if (args.length === 1 && args[0] instanceof Error) {
     message = args[0].message;
     stackTrace = args[0].stack;
+  } else if (args.length === 2 && args[0] instanceof Object) {
+    message = args[0];
+    stackTrace = JSON.stringify(args[1]) ;
   } else if (args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'string') {
     message = args[0];
     stackTrace = args[1];

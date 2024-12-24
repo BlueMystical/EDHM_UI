@@ -34,6 +34,9 @@
             <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme">
               <i class="bi bi-save"></i>
             </button>
+            <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme">
+              <i class="bi bi-floppy"></i>
+            </button>
             <button id="cmdShowFavorites" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites" @mousedown="toggleFavorites">
               <i class="bi bi-star"></i>
             </button>
@@ -66,6 +69,13 @@
 
     <!-- Middle Div - Content -->
     <div class="middle-div">
+
+      <div v-if="showSpinner" class="d-flex justify-content-center align-items-center position-fixed top-0 left-0 w-100 h-100 bg-dark bg-opacity-75 z-index-999">
+        <div class="spinner-border text-light" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
       <!-- The Ship's HUD image -->
       <div class="row no-gutters full-height m-0 h-100">
         <div class="col-8 h-100">
@@ -172,12 +182,18 @@ export default {
         // Loads the 'Current Settings' from the Ini files:
         const ActiveInstance = await window.api.getActiveInstance();            //console.log('ActiveInstance', ActiveInstance.path);
         const themePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
-        const ThemeINIs = await window.api.LoadThemeINIs(themePath);  console.log('ThemeINIs:', ThemeINIs);
+        const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
 
-        themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);               //console.log('ThemeTemplate: ', themeTemplate);   
-        console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
-        
+        themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+        themeTemplate.credits.theme = "Current Settings"; // theme.file.credits.theme;
+        themeTemplate.credits.author = "User"; // theme.file.credits.author;
+        themeTemplate.credits.description = "Currently Applied Colors in Game"; // theme.file.credits.description;
+        themeTemplate.credits.preview = ""; // theme.file.credits.preview;
+        themeTemplate.path = themePath;
+        themeTemplate.version = '19.05'; //<- TODO: Load version from EDHM
+
         eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+        //eventBus.emit('RoastMe', { title: 'Theme Loaded', message: 'Current Settings'}); //<- this event will be heard in 'App.vue'
 
         // Provide the themeTemplate data to be accessible by all components 
         provide('themeTemplate', themeTemplate);
@@ -278,7 +294,8 @@ export default {
       activeTab: 'themes',
       showFavorites: false,
       tooltipVisible: false,
-      tooltipText: ''
+      tooltipText: '',
+      showSpinner: false, // Initially hide the spinner
     };
   },
   methods: {
@@ -292,6 +309,8 @@ export default {
       }
     },
 
+   
+
     addNewTheme(event) {
       console.log('Add New Theme button clicked');
       this.applyIconColor(event.target);
@@ -299,6 +318,27 @@ export default {
     exportTheme(event) {
       console.log('Export Theme button clicked');
       this.applyIconColor(event.target);
+      if (themeTemplate != null && themeTemplate.credits.theme != "Current Settings") {
+        console.log('Exporting theme: ', themeTemplate.credits.theme);
+        
+      } else {
+        console.error('Current Settings can not be saved??');
+      }
+    },
+    saveTheme(event) {
+      //console.log('Save Theme button clicked');
+      this.applyIconColor(event.target);
+      if (themeTemplate != null && themeTemplate.credits.theme != "Current Settings") {
+        console.log('Saving theme: ', themeTemplate.credits.theme);
+        const jsonPath = window.api.joinPath(themeTemplate.path, 'Theme.json');
+        window.api.writeJsonFile(jsonPath, themeTemplate, true);
+
+        eventBus.emit('RoastMe', { title: 'Theme Saved!', message: themeTemplate.credits.theme}); //<- this event will be heard in 'App.vue'
+
+      } else {
+        console.error('Current Settings can not be saved');
+      }
+      //
     },
     toggleFavorites(event) {
       console.log('Favorites toggled:', this.showFavorites);
@@ -356,22 +396,39 @@ export default {
         console.error('Failed to add theme to history:', error);
       }
     },
+
+    showSpinner() {
+      this.showSpinner = true;
+    },
+
+    hideSpinner() {
+      this.showSpinner = false;
+    },
+
     async LoadTheme(theme) {
       /* Happens when a Theme in the list is Selected  */
       //console.log('Theme Selected: ', theme);    console.log(theme.file.path);
+      this.showSpinner = true;
 
       const ThemeINIs = await window.api.LoadThemeINIs(theme.file.path);          //console.log('ThemeINIs:', ThemeINIs);
+      
       themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-      themeTemplate.name = theme.name;
-      themeTemplate.author = theme.file.credits.author;
+      themeTemplate.credits.theme = theme.file.credits.theme;
+      themeTemplate.credits.author = theme.file.credits.author;
+      themeTemplate.credits.description = theme.file.credits.description;
+      themeTemplate.credits.preview = theme.file.credits.preview;
+      themeTemplate.path = theme.file.path;
+      themeTemplate.version = '19.05'; //<- TODO: Load version from EDHM
 
-      console.log('Theme Changed: ', themeTemplate);
+      //console.log('Theme Changed: ', themeTemplate);
       eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
 
-      console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
+      //console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
 
       //console.log('z103: ', themeTemplate.ui_groups[1].Elements[0].Value   );
       //console.log('z103: ->', defaultTemplate.ui_groups[1].Elements[0].Value   );
+
+      this.showSpinner = false;
     }
   },
   mounted() {
@@ -392,6 +449,9 @@ export default {
 body {
   background-color: #1F1F1F;
   color: #fff; /* Optional: Set text color to white */
+}
+.z-index-999 {
+  z-index: 999; /* Ensure the spinner is on top of other elements */
 }
 #Container {
   background-color: #1F1F1F;

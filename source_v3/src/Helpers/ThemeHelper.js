@@ -115,54 +115,37 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
           for (const element of group.Elements) {
-            const iniFile = element.File;
-            const iniSection = element.Section;
             const iniKey = element.Key;
+            const foundValue = ini.findValueByKey(iniValues, element);            
+         /* foundValue: [
+              { key: 'x127', value: '0.063' },
+              { key: 'y127', value: '0.7011' },
+              { key: 'z127', value: '1' }
+            ],
+            foundValue: 100.0 */
 
-            if (iniKey === "x159|y159|z159") {
-              console.log("x159|y159|z159", element.Value);
-            }
+            if (foundValue != null) {
+              if (Array.isArray(foundValue) && foundValue.length > 2) { 
+                const colorKeys = iniKey.split("|"); //<- iniKey === "x159|y159|z159"
+                const colorComponents = colorKeys.map(key => {
+                  const foundValueObj = foundValue.find(obj => obj.key === key); 
+                  return foundValueObj ? foundValueObj.value : undefined; 
+                }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
 
-            const foundValue = ini.findValueByKey(iniValues, element);
-            console.log('foundValue:', foundValue);
-
-                if (element.ValueType === "Color") {
-                  
+                if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                  const color = reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                  element.Value = getColorDecimalValue(color); 
+                  //console.log("Value:", element.Value);
                 } else {
-                  element.Value = foundValue;
+                  Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
                 }
-  /*
-            // Map iniFile to the corresponding object in iniValues
-            const iniFileObject = iniValues[iniFile.replace(/-/g, '')];
-            console.log("iniFileObject:", iniValues);
-  
-            if (iniFileObject && iniFileObject.constants && iniKey) {
-              try {
-                if (element.ValueType === "Color") {
 
-                  const colorKeys = iniKey.split("|"); 
-                  const colorComponents = colorKeys.map(key => iniFileObject.constants[key]); 
-                  if (colorComponents.every(component => !isNaN(parseFloat(component)))) {
-                    const color = reverseGammaCorrected(colorComponents); 
-                    element.Value = getColorDecimalValue(color); 
-                  } 
-
-                  if (iniKey === "x159|y159|z159") {
-                    console.log("x159|y159|z159", element.Value);
-                  }
-
-                } else {
-                  const iniValue = iniFileObject.constants[iniKey];
-                  if (!isNaN(parseFloat(iniValue))) {
-                    element.Value = parseFloat(iniValue); 
-                  }
-                }
-              } catch (error) {
-                console.error(`Error parsing value for ${iniFile} - ${iniSection} - ${iniKey}:`, error);
+              } else {
+                element.Value = parseFloat(foundValue);
               }
+            } else {
+              Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
             }
-
-*/
           }
         }
       }
@@ -210,6 +193,18 @@ function deepCopy(obj) {
 };
 
 /*--------- Color Conversion Methods ---------------------*/
+function RGBAtoColor(colorComponents) {
+  if (colorComponents.length === 3) {
+    const [r, g, b] = colorComponents.map(parseFloat); 
+    return `rgb(${r}, ${g}, ${b})`;
+  } else if (colorComponents.length === 4) {
+    const [r, g, b, a] = colorComponents.map(parseFloat);
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+  } else {
+    throw new Error("Invalid number of color components. Expected 3 or 4.");
+  }
+};
+
 function getColorDecimalValue(color) {
     // Convert RGB to a single decimal value (e.g., for use with some UI libraries)
     // This is a simple example, you might need to adjust based on your specific needs
@@ -308,6 +303,7 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
 
 function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
     if (!Array.isArray(gammaComponents) || gammaComponents.length < 3) {
+      console.log(gammaComponents);
         throw new Error("Invalid gamma components list (requires at least 3 elements)");
     }
 

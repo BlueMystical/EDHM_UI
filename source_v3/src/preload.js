@@ -46,6 +46,8 @@ contextBridge.exposeInMainWorld('api', {
   getParentFolder: (filePath) => getParentFolder(filePath),
 
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
+  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
+
   getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
   getAssetFileUrl: (assetPath) => ipcRenderer.invoke('get-asset-file-url', assetPath),
   getLocalFileUrl: (assetPath) => ipcRenderer.invoke('get-local-file-url', assetPath),
