@@ -69,7 +69,6 @@ export default {
             thumbnail: ThumbImage,
             credits: {
               author: "Blue Mystic",
-              color: [],
               description: "** THESE ARE THE CURRENTLY APPLIED COLORS **",
               preview: "",
               theme: "Current Settings"
@@ -91,6 +90,8 @@ export default {
         // Set loading to false with a delay after themes are loaded
         setTimeout(() => {
           this.loading = false;
+          eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'
+          
         }, 2000);
       }
     }

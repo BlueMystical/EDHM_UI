@@ -14,6 +14,13 @@ const getParentFolder = (filePath) => {
 contextBridge.exposeInMainWorld('api', {
   getAppVersion: async () => ipcRenderer.invoke('get-app-version'),
   logEvent: (message, stackTrace = '') => ipcRenderer.invoke('log-event', message, stackTrace),
+
+  joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
+  resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
+  getParentFolder: (filePath) => getParentFolder(filePath),
+
+  getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
+  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
   
   getThemes: async (dirPath) => ipcRenderer.invoke('get-themes', dirPath),
   LoadThemeINIs: async (folderPath) => ipcRenderer.invoke('LoadThemeINIs', folderPath),
@@ -27,7 +34,8 @@ contextBridge.exposeInMainWorld('api', {
   getActiveInstance: () => ipcRenderer.invoke('active-instance'),
 
   applyIniValuesToTemplate: async (template, iniValues) => ipcRenderer.invoke('apply-ini-values', template, iniValues),
-  reverseGammaCorrected: async (gammaR, gammaG, gammaB) => ipcRenderer.invoke('reverseGammaCorrected', gammaR, gammaG, gammaB),
+  applyTemplateToGame: async (template, gamePath) => ipcRenderer.invoke('applyTemplateToGame', template, gamePath),
+  //reverseGammaCorrected: async (gammaR, gammaG, gammaB) => ipcRenderer.invoke('reverseGammaCorrected', gammaR, gammaG, gammaB),
  
   
   loadIniFile: async (filePath) => ipcRenderer.invoke('loadIniFile', filePath),
@@ -41,12 +49,9 @@ contextBridge.exposeInMainWorld('api', {
   saveHistory: (historyFolder, theme) => ipcRenderer.invoke('save-history', historyFolder, theme),
 
   //resolvePath: (basePath, ...segments) => path.resolve(basePath, ...segments),
-  joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
-  resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
-  getParentFolder: (filePath) => getParentFolder(filePath),
+  
 
-  getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
-  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
+
 
   getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
   getAssetFileUrl: (assetPath) => ipcRenderer.invoke('get-asset-file-url', assetPath),

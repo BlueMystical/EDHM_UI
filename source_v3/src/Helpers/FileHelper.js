@@ -76,6 +76,22 @@ const ensureDirectoryExists = (DirectoryPath) => {
     }
   };
 
+  /**
+   * Verifies is a File Exists
+   * @param {*} filePath Full path to the File
+   */
+const checkFileExists = (filePath) => { 
+  try { 
+    if (fs.existsSync(filePath)) { 
+      return true;
+    } else { 
+      return false; //File does not exist
+    } 
+  } catch (error) {
+    console.error('Error checking file existence:', error); 
+  }
+};
+
 
 /**
  * Loads a JSON file from the specified path.
@@ -191,4 +207,4 @@ ipcMain.handle('is-not-null-obj', async (event, obj) => {
     return isNotNullOrEmpty(obj);
 });
 
-export default { getAssetPath, resolveEnvVariables, ensureDirectoryExists, loadJsonFile, writeJsonFile };
+export default { getAssetPath, resolveEnvVariables, ensureDirectoryExists, loadJsonFile, writeJsonFile, checkFileExists };

@@ -19,7 +19,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x137",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Chat Panel Lines (Top Left Side)\r\nNote: The colours will look slightly different to the Info Panel lines because the original Elite colours are different."
@@ -30,7 +30,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x232|y232|z232|w232",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Chat Panel Lines. (*Alpha)"
@@ -41,7 +41,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y137",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Chat Panel Icons."
@@ -52,7 +52,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x233|y233|z233|w233",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Chat Panel Icons. (*Alpha)"
@@ -63,7 +63,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w206",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Info Panel Lines (Top Right Side)"
@@ -74,7 +74,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x208|y208|z208|w208",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Info Panel Lines. (*Alpha)"
@@ -85,7 +85,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z137",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Text Color for the Ship's Name."
@@ -96,7 +96,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x235|y235|z235",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for the Ship's Name."
@@ -107,7 +107,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w235",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Ship Name Brightness"
@@ -118,7 +118,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x183|y183|z183",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for the Ship's Name Background Glow"
@@ -129,7 +129,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w183",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Ship Name Background Glow"
@@ -140,7 +140,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y120",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Wing Ship Indicators.\r\nCustom (Hull and icon will take XML colour; Shield will take Single shield colour; Middle symbol custom RGB).\r\nXML is as Custom, but shield will take XML colour (Note: The red 'shield down' will also be affected by the XML) "
@@ -151,7 +151,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x128|y128|z128|w128",
-               "Value":7461375,
+               "Value":-9840641.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Wing Ships *ALPHA"
@@ -162,7 +162,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y213",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Wing Shields (will also affect the selection triangles if ship is targeted)."
@@ -173,7 +173,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"z213",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Wing Hull and Icon Brightness"
@@ -190,7 +190,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z103",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mouse Dot (Ship & SRV)"
@@ -201,7 +201,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x61|y61|z61|w61",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Mouse Dot. (*Alpha)"
@@ -212,7 +212,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w141",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"RankIcon",
                "Description":"Rank icon that appears next to targeted ship (neutral / orange only)"
@@ -223,7 +223,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z114",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Mode for Analysis Reticles"
@@ -234,7 +234,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x129|y129|z129",
-               "Value":9295103,
+               "Value":-7875841.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Analysis Reticles when in Analysis mode."
@@ -245,7 +245,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w129",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Analysis Reticles when in Analysis mode."
@@ -256,7 +256,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x63|y63|z63|w63",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Analysis reticle when in Combat mode. (*Alpha)"
@@ -267,7 +267,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y141",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Targeting Reticle"
@@ -278,7 +278,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x56|y56|z56|w56",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Large Tri-bars (one vertical at the top, two diagonal at the bottom). (*Alpha)"
@@ -289,7 +289,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x57|y57|z57|w57",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Small Tri-bars. (*Alpha)"
@@ -300,7 +300,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x58|y58|z58|w58",
-               "Value":10530754,
+               "Value":-6575169.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Large Circle. (*Alpha)"
@@ -311,7 +311,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x59|y59|z59",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Leading Circle. (*Alpha)"
@@ -333,7 +333,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x60|y60|z60",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Weapon Dots. (*Alpha)"
@@ -355,7 +355,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x62|y62|z62|w62",
-               "Value":10530754,
+               "Value":-6575169.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Missile Lock (also Lift Off from planet animation) *Alpha"
@@ -366,7 +366,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w174",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Remote Release Flac / Flechette Launcher"
@@ -377,7 +377,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x173|y173|z173",
-               "Value":16711680,
+               "Value":-65536.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Remote Release Flac / Flechette Launcher.\r\nNote: The red trigger signal cannot be modded at this time.\r\nBrightness controls are not available as it causes a glitch between the Outer and Proximity elements; To reduce brightness, simply reduce your RGB values by the same percentage"
@@ -388,7 +388,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x174|y174|z174",
-               "Value":65280,
+               "Value":-16711936.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Remote Release Flac / Flechette Launcher.\r\nNote: The red trigger signal cannot be modded at this time.\r\nBrightness controls are not available as it causes a glitch between the Outer and Proximity elements; To reduce brightness, simply reduce your RGB values by the same percentage"
@@ -399,7 +399,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z141",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Environmental and Destination (& Missile Lock) Targets Mode"
@@ -410,7 +410,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x64|y64|z64|w64",
-               "Value":2791167,
+               "Value":-14774017.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Possible ship target (unselected). (*Alpha)"
@@ -421,7 +421,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x112",
-               "Value":200,
+               "Value":200.0,
                "ValueType":"Preset",
                "Type":"OtherShipTarget",
                "Description":"Also includes Friendly, Hostile and Crew Target Elements.\r\nRhombus, Triangle Holo, Text"
@@ -432,7 +432,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x65|y65|z65|w65",
-               "Value":3841279,
+               "Value":-13658113.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Possible destination target and relative mouse arrow. (*Alpha)"
@@ -443,7 +443,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x66|y66|z66|w66",
-               "Value":4957695,
+               "Value":-12476161.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Possible supercruise target circle. (*Alpha)"
@@ -454,7 +454,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x67|y67|z67|w67",
-               "Value":4221080,
+               "Value":-13213550.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Destination target circle. (*Alpha)"
@@ -465,7 +465,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z115",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"EnvDestTargetsMode",
                "Description":"Circle and Text for Destination Hidden Behind an Object"
@@ -487,7 +487,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x107",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Grey Rhombus (non-biological potential target in the environment)"
@@ -498,7 +498,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x171|y171|z171",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Grey Rhombus (non-biological potential target in the environment)."
@@ -509,7 +509,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w171",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Grey Rhombus (non-biological potential target in the environment)."
@@ -520,7 +520,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y107",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Opacity Boost in SRV\r\nA booster for the SRV has been added as the grey rhombus on a planetary surface is very weak."
@@ -537,7 +537,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w75",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Orange Text Colour Swap (the majority of text)."
@@ -548,7 +548,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x77|y77|z77|w77",
-               "Value":14805750,
+               "Value":-2102794.0,
                "ValueType":"Color",
                "Type":"CustomColour",
                "Description":"Custom Color for Global Text. *Alpha*"
@@ -559,7 +559,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z87",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Mode for Highlighted Text in all Panels."
@@ -570,7 +570,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x143|y143|z143|w143",
-               "Value":4802889,
+               "Value":-12632257.0,
                "ValueType":"Color",
                "Type":"CustomColour",
                "Description":"Custom Color for Highlighted Text in all Panels. *Alpha*"
@@ -581,7 +581,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y108",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"This will override ALL text with your XML colour matrix."
@@ -592,7 +592,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y78",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Blue Text Colour Swap (around the AHUD and mission text, among others)."
@@ -603,7 +603,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x82|y82|z82|w82",
-               "Value":14542578,
+               "Value":-2365967.0,
                "ValueType":"Color",
                "Type":"CustomColour",
                "Description":"Custom Color for Secondary Texts. *Alpha*"
@@ -614,7 +614,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z108",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Preset",
                "Type":"GlitchingHUDmode",
                "Description":"The HUD will sometimes glitch when taking damage, and by default is orange."
@@ -631,7 +631,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z104",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"value for your favourite Lower Panel Lines colour."
@@ -642,7 +642,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x204|y204|z204|w204",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"(*Alpha) ** (if your custom colour is close to orange, add a little blue (eg. 0.1) to avoid a glitch on the targeting panel. The targeting panel uses a colour swap technique that looks for blue = 0)."
@@ -653,7 +653,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x140",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Speed/Distance/Alignment in Supercruise. Excluding lower panel lines and text colour.\r\nIf your chosen colour for Supercruise Speed/Distance elements are close to orange (high red, medium green), add 0.1 blue to avoid a glitch"
@@ -664,7 +664,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x51|y51|z51",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for target alignment (correct) blocks, bar and indicator light (blue sections in original Elite)."
@@ -675,7 +675,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w51",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Target alignment (correct)"
@@ -686,7 +686,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x78",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Divider Lines on Targeting Panel in Supercruise"
@@ -697,7 +697,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x79|y79|z79",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Divider Lines on Targeting Panel in Supercruise"
@@ -708,7 +708,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w79",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Icons on Nav panel and Targeting panel"
@@ -719,7 +719,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x52|y52|z52",
-               "Value":8234973,
+               "Value":-9002277.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for target alignment (incorrect / not aligned) blocks and indicator light (orange sections in original Elite)."
@@ -741,7 +741,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w118",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"TargetingPanelTextMode",
                "Description":"Text colour when aligned in supercruise"
@@ -752,7 +752,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z75",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Icons on various panels"
@@ -763,7 +763,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x53|y53|z53",
-               "Value":7839180,
+               "Value":-9398071.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Icons on Nav panel and Targeting panel"
@@ -774,7 +774,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x178|y178|z178",
-               "Value":5550281,
+               "Value":-11817786.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Applied to icons and parts of icons on Nav panel that were cyan in default Elite"
@@ -796,7 +796,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z97",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Current Location Pin/wedge (only the Current Location Pin can be modded to a custom colour. The Destination Pin is connected to other elements/lines on the Ship Panel)"
@@ -807,7 +807,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x98|y98|z98|w98",
-               "Value":14869218,
+               "Value":-2039584.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Nav Panel, Current Location Pin/wedge. *Alpha*"
@@ -829,7 +829,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x75",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"(Note: This also colours the current speed indicator, the supercruise alignment bar (when not aligned), active fuel on the fuel bar. It can't be separated unfortunately, but you can choose the colour. I recommend XML."
@@ -840,7 +840,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x76|y76|z76",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for target alignment (correct) blocks, bar and indicator light (blue sections in original Elite)."
@@ -851,7 +851,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w76",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for the Side Panels Main lines."
@@ -862,7 +862,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x89",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShipPanelOpacity",
                "Description":"Mode for Ship's Panels Background (Shadows)"
@@ -873,7 +873,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x90|y90|z90",
-               "Value":40655,
+               "Value":-16737844.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Ship's Panels Background (Shadows)"
@@ -884,7 +884,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w90",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"Brightness",
                "Description":"Opacity (Alpha) for the Ship Panels Background."
@@ -895,7 +895,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x93",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Option to replace CYAN elements on ship side panels.\r\nTurning this ON will colour the cyan rank icons & parts of the icons on the Nav Panel with your XML, and cyan.\r\nIt will also change the colour of the cyan blocks on the Ship Panel Storage Tab with your panel XML colour."
@@ -906,7 +906,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w89",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Art and sketches on panels"
@@ -917,7 +917,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x92|y92|z92|w92",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Panel Drawings. *Alpha*"
@@ -928,7 +928,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z89",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Affects the colour of the Mission panels on the Nav Panel, plus mission icon on the Mission Selection screen)"
@@ -939,7 +939,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x91|y91|z91",
-               "Value":6465023,
+               "Value":-10903297.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Mission Panels on Nav Panel, plus mission icon on the Mission Selection screen."
@@ -950,7 +950,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w91",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Mission Panel."
@@ -961,7 +961,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z81",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"TextModeShort",
                "Description":"Mission Line on Nav Panel TEXT Colour"
@@ -972,7 +972,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w78",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Ship sketches on Advanced Maintenance and Carrier/Station Panels"
@@ -983,7 +983,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x146|y146|z146",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Ship sketch. *Alpha"
@@ -1005,7 +1005,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x81",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Note: This will also change the colour of the 'Confirm items transfer' on the Ship Panel Inventory tab."
@@ -1016,7 +1016,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y81",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"TextModeShort",
                "Description":"OwnCarrier Nav Panel TEXT Colour."
@@ -1027,7 +1027,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x177|y177|z177",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Mission Panels on Nav Panel, plus mission icon on the Mission Selection screen."
@@ -1055,7 +1055,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y111",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Preset",
                "Type":"AmbientLightingMode",
                "Description":"lighting fix to cover orange lighting in ships with a 'long nose' (eg. FDL)"
@@ -1066,7 +1066,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w159",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Cabin Lighting Ambient Glow Mode.\r\n** Keep this at Default Elite unless neutralising lighting for the Cockpit Paint Mod"
@@ -1077,7 +1077,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x190|y190|z190",
-               "Value":46321,
+               "Value":-16731920.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Cabin Lighting Background Glow Colour."
@@ -1088,7 +1088,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y19",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AmbientLights",
                "Description":"Cabin Lighting Primary Colour Mode."
@@ -1099,7 +1099,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x69|y69|z69",
-               "Value":46321,
+               "Value":-16731920.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Cabin Lighting Primary Colour."
@@ -1110,7 +1110,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y121",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Enable Extend Cabin Lighting Primary Colour.\r\nFor use on some ships like the Dolphin.\r\nThis option will break the lighting in some ships like the Mamba."
@@ -1121,7 +1121,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w160",
-               "Value":200,
+               "Value":200.0,
                "ValueType":"Preset",
                "Type":"AmbientLights",
                "Description":"Cabin Lighting Secondary Colour Mode."
@@ -1132,7 +1132,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x70|y70|z70",
-               "Value":7853302,
+               "Value":-9383179.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Cabin Lighting Secondary Colour Mode."
@@ -1163,7 +1163,7 @@
       },
       {
          "Name":"SpecialFX",
-         "Title":"Special Efects",
+         "Title":"Special Effects",
          "Elements":[
             {
                "Category":"Surface Scanner",
@@ -1171,7 +1171,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z234",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"ProbeTrailMode",
                "Description":"Classic & XML modes only replaces the color of the trail.\r\nBoosted mode replaces the color and gives a very luminous effect to the trail."
@@ -1182,7 +1182,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w173",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Preset",
                "Type":"ProbeVariationMode",
                "Description":"This option reduces the color variations of the probes trail, it allows to have a more uniform color.\r\nThis option works in Classic and Boosted modes."
@@ -1193,7 +1193,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x256|y256|z256",
-               "Value":25343,
+               "Value":-16754177.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Colour (Classic & Boosted Modes)"
@@ -1204,7 +1204,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w256",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"1X",
                "Description":"Custom Probe Trail Brigthness."
@@ -1215,7 +1215,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w120",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"SC_SideLines",
                "Description":"Switch for Remove Supercruise SideLines"
@@ -1226,7 +1226,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x176|y176|z176",
-               "Value":28367,
+               "Value":-16750900.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Supercruise SideLines."
@@ -1248,7 +1248,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y75",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Orbital, Gravity and Exclusion zone Lines"
@@ -1259,7 +1259,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x39|y39|z39",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Orbit Lines."
@@ -1281,7 +1281,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x40|y40|z40",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Gravity Well Lines."
@@ -1303,7 +1303,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x44|y44|z44",
-               "Value":12779520,
+               "Value":-4194304.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Exclusion Zone Lines."
@@ -1325,7 +1325,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x29|y29|z29",
-               "Value":12566463,
+               "Value":-4408132.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Orbital Cruise Lines."
@@ -1347,7 +1347,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y84",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"GalMap Icon Colour (excluding Engineering), and Travel Line colour."
@@ -1358,7 +1358,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x85|y85|z85|w85",
-               "Value":5550281,
+               "Value":-11817786.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for GalMap Icon Colour. *Alpha*"
@@ -1369,7 +1369,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x111",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Repair / Damaged Stations Mode"
@@ -1380,7 +1380,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x110|y110|z110|w110",
-               "Value":16746240,
+               "Value":-32768.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for GalMap Repair / Damaged Stations Icon Colour. *Alpha*"
@@ -1391,7 +1391,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z84",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"GalMap Engineering Icon Mode"
@@ -1402,7 +1402,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x86|y86|z86|w86",
-               "Value":5550281,
+               "Value":-11817786.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for GalMap Engineering Icon Colour. *Alpha*"
@@ -1413,7 +1413,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y89",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"GalaxyMapMode",
                "Description":"Mode for System Connector Lines.\r\nNote: You can turn these off in GalMap Display Options (in-game) - Bottom left row of icons."
@@ -1424,7 +1424,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x179|y179|z179|w179",
-               "Value":49151,
+               "Value":-16728833.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for System Connector Lines. *Alpha*"
@@ -1435,7 +1435,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w97",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Toogle for GalMap System Hats (semi-circles on top of star images)."
@@ -1446,7 +1446,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w191",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"GalMap Grid Lines & Coasters (fill circles on the grid)."
@@ -1457,7 +1457,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x191|y191|z191",
-               "Value":7461375,
+               "Value":-9840641.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for GalMap Grid Lines & Coasters (fill circles on the grid)."
@@ -1468,7 +1468,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w192",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"System Z-axis Lines."
@@ -1479,7 +1479,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x192|y192|z192",
-               "Value":7461375,
+               "Value":-9840641.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for System Z-axis Lines."
@@ -1490,7 +1490,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w190",
-               "Value":2,
+               "Value":2.0,
                "ValueType":"Preset",
                "Type":"GalMapFogMode",
                "Description":"GalMap Fog."
@@ -1501,7 +1501,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x99",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"GalaxyMapMode",
                "Description":"Mode for Powers and GalNet Background Colour."
@@ -1512,7 +1512,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x180|y180|z180|w180",
-               "Value":49151,
+               "Value":-16728833.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Powers and GalNet Background Colour. *Alpha*"
@@ -1523,7 +1523,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w104",
-               "Value":199,
+               "Value":199.0,
                "ValueType":"Preset",
                "Type":"GalaxyMapMode",
                "Description":"Mode for Galnet Image Filter Colour."
@@ -1534,7 +1534,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w81",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"GalaxyMapMode",
                "Description":"Mode for Codex filter (also Passenger Missions) Colour."
@@ -1545,7 +1545,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x181|y181|z181|w181",
-               "Value":7919853,
+               "Value":-9316628.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Codex, Galnet, & Powers filter Custom Colour. *Alpha*"
@@ -1556,7 +1556,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y119",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Mode for CQC Rank on Ship Panel."
@@ -1567,7 +1567,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x156|y156|z156|w156",
-               "Value":16777215,
+               "Value":-1.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for CQC Rank on Ship Panel. *Alpha*"
@@ -1578,7 +1578,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x119",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness of CQC Rank Text (0 = OFF)"
@@ -1589,7 +1589,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z119",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"RankBoxesMode",
                "Description":"Mode for Rank Boxes on Ship Panel."
@@ -1600,7 +1600,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x155|y155|z155|w155",
-               "Value":52991,
+               "Value":-16724993.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Rank Boxes on Ship Panel. *Alpha*"
@@ -1611,7 +1611,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w123",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for  Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents."
@@ -1622,7 +1622,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x125|y125|z125|w125",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents. *Alpha*"
@@ -1633,7 +1633,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z113",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Cargo Scoop Reticle"
@@ -1644,7 +1644,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x160|y160|z160",
-               "Value":7526911,
+               "Value":-9775105.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Cargo Scoop Reticle"
@@ -1666,7 +1666,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y113",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Sub-Surface Mining and Seismic Charges Mini Games"
@@ -1677,7 +1677,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x158|y158|z158",
-               "Value":49151,
+               "Value":-16728833.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color to replace the orange squares in the mining mini-games.\r\nThe other squares will apply the XML matrix."
@@ -1688,7 +1688,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z118",
-               "Value":200,
+               "Value":200.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Mode for Full-Spectrum Scanner (FSS) and Detailed Surface Scanner (DSS)"
@@ -1699,7 +1699,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y100",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Preset",
                "Type":"FSSGasGiantIcons",
                "Description":"Replace Orange Gas Giant Icons with the Blue color corresponding to the FSS before U18.02"
@@ -1710,7 +1710,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w114",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"1X",
                "Description":"0 = Off. Note: Setting this value to 0 will also turn off the space fog shader (only while using the FSS/DSS)"
@@ -1721,7 +1721,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w115",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"1X",
                "Description":"FDev made the orbit lines too bright in the FSS, you can reduce the brightness here"
@@ -1732,7 +1732,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x199|y199|z199|w199",
-               "Value":4304639,
+               "Value":-13128961.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for FSS Scanning Glow Blobs. The blobs are very sensitive - small values near zero (eg. 0.01) can make a difference."
@@ -1743,7 +1743,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x200|y200|z200|w200",
-               "Value":54527,
+               "Value":-16723201.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for FSS / DSS Cyan Elements / Main reticle. *ALPHA"
@@ -1754,7 +1754,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x198|y198|z198|w198",
-               "Value":54527,
+               "Value":-16723201.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for FSS Centre Circle. *ALPHA"
@@ -1765,7 +1765,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w132",
-               "Value":2,
+               "Value":2.0,
                "ValueType":"Preset",
                "Type":"FSSColorMode",
                "Description":"Mode for Glow on bottom spectrum panel"
@@ -1787,7 +1787,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y124",
-               "Value":200,
+               "Value":200.0,
                "ValueType":"Preset",
                "Type":"FSSColorMode2",
                "Description":"Mode for FSS Spectrum Selector\r\nThis is the vertical line you move across the spectrum panel to find signal sources"
@@ -1798,7 +1798,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"z124",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness Multiplier of FSS Spectrum Selector.\r\nNote: Baseline brightness is set above, this value multiplies the baseline brightness (except for default)."
@@ -1809,7 +1809,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x197|y197|z197|w197",
-               "Value":14542578,
+               "Value":-2365967.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for FSS / DSS Text (Cyan swap only). *ALPHA"
@@ -1820,7 +1820,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z111",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"FSSMissionIcons",
                "Description":"Replace Orange Mission Icons and Arrows with the Mission Panel Custom Color"
@@ -1831,7 +1831,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y93",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Mode for Night Vision"
@@ -1842,7 +1842,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x43|y43|z43",
-               "Value":11460351,
+               "Value":-5579521.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Night Vision."
@@ -1853,7 +1853,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w43",
-               "Value":2,
+               "Value":2.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Night Vision."
@@ -1864,7 +1864,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z93",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Mode for Pulse Wave Analyser Asteroid Glow"
@@ -1875,7 +1875,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x41|y41|z41",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for PWA Asteroid Glow."
@@ -1886,7 +1886,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w41",
-               "Value":2,
+               "Value":2.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for PWA Asteroid Glow."
@@ -1897,7 +1897,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w93",
-               "Value":200,
+               "Value":200.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Mode for Pulse Wave Analyser Wavefront"
@@ -1908,7 +1908,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x42|y42|z42",
-               "Value":65280,
+               "Value":-16711936.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for PWA Wavefront."
@@ -1919,7 +1919,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w42",
-               "Value":2,
+               "Value":2.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for PWA Wavefront."
@@ -1936,7 +1936,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x141",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"** Combat HUD (CHUD) MODE ** \r\n For a standard CHUD, Set Colour 2 RGB(0,0,0) and Fade Strength = 0\r\n For a single colour Bird-of-Prey CHUD, Set Colour 2 RGB(0,0,0) and your preferred Fade Strength (0.7 is a nice balance)\r\n For a synthwave (dual-colour) CHUD, Set Colour 2 RGB to your preference, and Fade Strenth = 1"
@@ -1947,7 +1947,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x55|y55|z55",
-               "Value":7921151,
+               "Value":-9315329.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Combat HUD - Color 1 (Top colour)."
@@ -1958,7 +1958,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w55",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Color 1 (Top colour)."
@@ -1969,7 +1969,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x48|y48|z48",
-               "Value":42970,
+               "Value":-16735528.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Combat HUD - Colour 2 (Bottom colour)."
@@ -1980,7 +1980,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w48",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Fade Strength (or Synthwave Colour Balance: > 1 = more Second Colour, < 1 = less Second Colour)."
@@ -1991,7 +1991,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x45|y45|z45",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Combat HUD - Ammunition.\r\nAlso changes the colour of the small weapon-type icons around the CHUD, and on the Ship Panel, Modules tab"
@@ -2002,7 +2002,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w45",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Ammunition."
@@ -2013,7 +2013,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y114",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Radar Mode"
@@ -2024,7 +2024,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x189|y189|z189",
-               "Value":8882055,
+               "Value":-8355712.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Red Text and Elements around the CHUD / AHUD."
@@ -2035,7 +2035,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w189",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Red Text and Elements around the CHUD / AHUD"
@@ -2046,7 +2046,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w140",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Radar Mode"
@@ -2057,7 +2057,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x54|y54|z54|w54",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Analysis HUD. (*Alpha)"
@@ -2068,7 +2068,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w87",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"AHUDText",
                "Description":"Mode for Texts around AHUD."
@@ -2079,7 +2079,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x144|y144|z144|w144",
-               "Value":14542578,
+               "Value":-2365967.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Texts around AHUD. *Alpha*"
@@ -2090,7 +2090,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w186",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"CHUD-AHUD-Text",
                "Description":"Color Mode for Red TEXT around the CHUD / AHUD."
@@ -2118,7 +2118,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z105",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"ShieldColor",
                "Description":"Note: Multi-shield only works at resolutions >= 1920x1080. Applied to self and target."
@@ -2129,7 +2129,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w228",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Overall Brightness of Own Shield area.\r\n Note: Also works on Default Elite and XML mode."
@@ -2140,7 +2140,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x121",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Overall Brightness of Target Shield area.\r\n Note: Also works on Default Elite and XML mode."
@@ -2151,7 +2151,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w152",
-               "Value":200,
+               "Value":200.0,
                "ValueType":"Preset",
                "Type":"ShieldDepletedMode",
                "Description":"Mode When Shield is depleted, double-rings."
@@ -2162,7 +2162,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x87",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShieldDissolving",
                "Description":"Shield fades to invisible when damaged.\r\nNote: Dissolving mode is not available for XML shield mode."
@@ -2173,7 +2173,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x159|y159|z159",
-               "Value":44799,
+               "Value":-16733441.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Not available for XML shield mode"
@@ -2184,7 +2184,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x88|y88|z88",
-               "Value":14936319,
+               "Value":-1972225.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Shield Percentage % Colour for OwnShield & Target Shield."
@@ -2195,10 +2195,10 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w88",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
-               "Description":"OwnShield Percentage % Brightness"
+               "Description":"OwnShield Percentage Brightness"
             },
             {
                "Category":"Shields",
@@ -2206,10 +2206,10 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"z120",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
-               "Description":"Target Shield Percentage % Brightness"
+               "Description":"Target Shield Percentage Brightness"
             },
             {
                "Category":"Multi-Shield",
@@ -2217,7 +2217,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x201|y201|z201|w201",
-               "Value":16755200,
+               "Value":-23296.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Inner Ring Color, Only for Multi-Shield. (Alpha)"
@@ -2228,7 +2228,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x202|y202|z202|w202",
-               "Value":16755200,
+               "Value":-23296.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Middle Ring Color, Only for Multi-Shield. (Alpha)"
@@ -2239,7 +2239,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x203|y203|z203|w203",
-               "Value":16755200,
+               "Value":-23296.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Outer Ring Color, Only for Multi-Shield. (Alpha)"
@@ -2250,7 +2250,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x228|y228|z228",
-               "Value":11061220,
+               "Value":-6044446.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Shield Up Colour (relative to Shield Down colour)."
@@ -2272,7 +2272,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z133",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Circular Swirls under Holos"
@@ -2283,7 +2283,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x226|y226|z226",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Circular Swirls under Holos"
@@ -2305,7 +2305,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x135",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Status bars under shield"
@@ -2316,7 +2316,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x215|y215|z215",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for Status Bars"
@@ -2338,7 +2338,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x134",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Thin semi-circles at bottom of hologram"
@@ -2349,7 +2349,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x205|y205|z205|w205",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Thin semi-circles at bottom of hologram. *Alpha"
@@ -2360,7 +2360,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y134",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"HullGaugeMode",
                "Description":"Blocks for Hull Health, including target"
@@ -2371,7 +2371,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x212|y212|z212",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for Blocks under shield, including target."
@@ -2382,7 +2382,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w212",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Blocks under shield"
@@ -2393,7 +2393,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w213",
-               "Value":4,
+               "Value":4.0,
                "ValueType":"Brightness",
                "Type":"4X_Min",
                "Description":"Shading multiplier (Only aplies to the shaded mode)"
@@ -2404,7 +2404,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w170",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"Preset",
                "Type":"CausticEffect",
                "Description":"Blocks for Hull Health, including target"
@@ -2415,7 +2415,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x170|y170|z170",
-               "Value":0,
+               "Value":-16777216.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for Caustic Affected Hull Bars."
@@ -2426,10 +2426,10 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y101",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
-               "Description":"OwnShip Hologram Mode\r\nAlso includes landing hologram, SRV hologram, SRV terrain on radar"
+               "Description":"OwnShip Hologram Mode\r\nAlso includes OwnShip & Target Holograms, Landing Hologram, SRV Hologram, SRV Terrain on Radar"
             },
             {
                "Category":"OwnShip Hologram",
@@ -2437,10 +2437,10 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x248|y248|z248",
-               "Value":5539000,
+               "Value":-11829836.0,
                "ValueType":"Color",
                "Type":"CustomColor",
-               "Description":"Custom color for OwnShip Hologram"
+               "Description":"Custom color for OwnShip Hologram and Landing Plate"
             },
             {
                "Category":"OwnShip Hologram",
@@ -2448,7 +2448,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w248",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Alpha (mainly affects the opacity of the hull in bright light)\r\nSet to approximately 1.0 to prevent fade in bright external light.\r\nYou can set this value higher than 1 to make the hologram very opaque"
@@ -2470,7 +2470,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y132",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Holo bloom / glow"
@@ -2492,7 +2492,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"z101",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Overall brightness of hologram"
@@ -2503,7 +2503,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"z109",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Switch for OwnShip Hologram Shimmer"
@@ -2514,7 +2514,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x72|y72|z72",
-               "Value":9016741,
+               "Value":-8220768.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for OwnShip Hologram"
@@ -2525,7 +2525,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w72",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Hologram's Hull\r\nFor Ultra-tron, set Hull brightness low (eg. 0), and Outer Lines bloom high (eg. 0.5)"
@@ -2536,7 +2536,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y73",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Hologram"
@@ -2547,7 +2547,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y112",
-               "Value":200,
+               "Value":200.0,
                "ValueType":"Preset",
                "Type":"OtherShipTarget",
                "Description":"Also includes Friendly, Hostile and Crew Target Holograms."
@@ -2561,7 +2561,7 @@
                "Value":0.6,
                "ValueType":"Brightness",
                "Type":"2X",
-               "Description":"Green Friendly Target Holo Brightness"
+               "Description":"Green Friendly Target Holo Brightness)"
             },
             {
                "Category":"Target Ship Hologram",
@@ -2569,7 +2569,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x105",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Red Hostile Target Holo Brightness"
@@ -2580,7 +2580,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y105",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Cyan Crew Target Holo Brightness"
@@ -2591,7 +2591,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x73",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Switch for Target Hologram Shimmer"
@@ -2602,10 +2602,10 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x254|y254|z254",
-               "Value":5539000,
+               "Value":-11829836.0,
                "ValueType":"Color",
                "Type":"CustomColor",
-               "Description":"Custom color for Landing Hologram"
+               "Description":"Custom Color for Ship Hologram when Landing on a Pad or Not being Aligned when Landing on a Planet.\r\nIt depends on option Ownship Hologram Mode."
             },
             {
                "Category":"Landing Hologram",
@@ -2613,10 +2613,10 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x249|y249|z249",
-               "Value":10602239,
+               "Value":-6503425.0,
                "ValueType":"Color",
                "Type":"CustomColor",
-               "Description":"Custom color for ON landing site"
+               "Description":"Custom Color for Ship Hologram, Landing Line and Coaster when the Ship is Aligned during Landing on a Planet.\r\nIt depends on option Ownship Hologram Mode."
             },
             {
                "Category":"Landing Hologram",
@@ -2635,10 +2635,10 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x139",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
-               "Description":"Mode for Landing Line and Coaster (Orange)"
+               "Description":"Mode for Landing Line and Coaster (Orange).\r\nWhen Landing on a Pad or Not being Aligned when Landing on a Planet."
             },
             {
                "Category":"Landing Hologram",
@@ -2646,10 +2646,10 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x255|y255|z255|w255",
-               "Value":52223,
+               "Value":-16725761.0,
                "ValueType":"Color",
                "Type":"CustomColor",
-               "Description":"Custom Color for Landing Line and Coaster (Orange)*Alpha"
+               "Description":"Custom Color for Landing Line and Coaster (Orange)*Alpha\r\nWhen Landing on a Pad or Not being Aligned when Landing on a Planet."
             },
             {
                "Category":"Terrain Hologram",
@@ -2657,7 +2657,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x253|y253|z253|w253",
-               "Value":6132694,
+               "Value":-11235884.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Terrain While Landing on a planet."
@@ -2668,7 +2668,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x252|y252|z252|w252",
-               "Value":2791167,
+               "Value":-14774017.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Terrain While in SRV."
@@ -2679,7 +2679,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"z157",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Switch for Terrain Hologram Outer Line."
@@ -2690,7 +2690,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w157",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Switch for Landing Terrain Hologram Shimmer."
@@ -2701,7 +2701,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z139",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Terrain Elevation Diagonal Lines"
@@ -2712,7 +2712,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x50|y50|z50|w50",
-               "Value":15794176,
+               "Value":-1048576.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Terrain Elevation Diagonal Lines"
@@ -2723,7 +2723,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z107",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Planetary Landing Reticle - Bearing and descent angle bars, plus text"
@@ -2734,7 +2734,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x209|y209|z209|w209",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Planetary Landing Reticle. *Alpha"
@@ -2745,7 +2745,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x71|y71|z71|w71",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Cyan Planetary Landing Reticle and Aligned Landing Bar. *Alpha"
@@ -2756,7 +2756,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x96|y96|z96|w96",
-               "Value":3099241,
+               "Value":-14401439.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for Altitude Bar *Alpha"
@@ -2767,7 +2767,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x95|y95|z95|w95",
-               "Value":14542578,
+               "Value":-2365967.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for Text in Reticle boxes *Alpha"
@@ -2778,7 +2778,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w101",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"AltitudeBarText",
                "Description":"Custom color for Text Along the Altitude Bar"
@@ -2800,7 +2800,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x185|y185|z185|w185",
-               "Value":14805750,
+               "Value":-2102794.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for Latitude / Longitude Coordinates, & Gravity Text Colour *Alpha"
@@ -2811,7 +2811,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y109",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"Preset",
                "Type":"TextBackgroundShadowsGlow",
                "Description":"Mode for Text Background: Shadows / Glow \r\nIs applied to:  Text in reticle boxes, Text on the altitude bar, Lat / Long & Gravity text."
@@ -2833,7 +2833,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x250|y250|z250|w250",
-               "Value":5539000,
+               "Value":-11829836.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for SRV Hologram (*Alpha)"
@@ -2844,7 +2844,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x251|y251|z251|w251",
-               "Value":10205145,
+               "Value":-6966313.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom color for SRV Hologram.\r\nAlpha (is a % of the Main Hologram alpha)"
@@ -2861,7 +2861,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y106",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Radar Mode"
@@ -2872,7 +2872,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x236|y236|z236",
-               "Value":2791167,
+               "Value":-14774017.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Outer Radar Components Custom Color."
@@ -2883,7 +2883,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w236",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Outer Radar Brightness (normal range is between 0.3 and 1.0, but you can go higher)"
@@ -2894,7 +2894,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x237|y237|z237",
-               "Value":5811676,
+               "Value":-11556646.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Radar Grid ."
@@ -2905,7 +2905,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w237",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Radar Grid"
@@ -2916,7 +2916,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x138",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Radar Triangle Widget Mode"
@@ -2927,7 +2927,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x239|y239|z239|w239",
-               "Value":10205145,
+               "Value":-6966313.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Triangle Radar Widget. (*Alpha)"
@@ -2938,7 +2938,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y138",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Radar Zoom Widget"
@@ -2949,7 +2949,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x240|y240|z240",
-               "Value":9017516,
+               "Value":-8219993.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Radar Zoom Widget. "
@@ -2960,7 +2960,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w240",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Zoom Widget Brightness"
@@ -2971,7 +2971,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w136",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Radar zoom level lines"
@@ -2982,7 +2982,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x231|y231|z231",
-               "Value":13229041,
+               "Value":-3745296.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Radar zoom level lines Custom Color."
@@ -3004,7 +3004,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z138",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Radar Bodies in Supercruice"
@@ -3015,7 +3015,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x241|y241|z241|w241",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Radar Bodies in Supercruise. (* With Alpha)"
@@ -3026,7 +3026,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x242|y242|z242|w242",
-               "Value":4370175,
+               "Value":-13063425.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Radar Bodies in Supercruise. (* With Alpha)"
@@ -3037,7 +3037,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x243|y243|z243|w243",
-               "Value":16229473,
+               "Value":-549032.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Radar Bodies in Supercruise. (* With Alpha)"
@@ -3048,7 +3048,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x244|y244|z244|w244",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Object Lines and coasters in Supercruise."
@@ -3059,7 +3059,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y139",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Radar Objects in Normal Flight"
@@ -3070,7 +3070,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x245|y245|z245|w245",
-               "Value":4221080,
+               "Value":-13213550.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"ORANGE Squares in both flight modes; Orange object lines and coasters in normal flight.\r\n* Alpha"
@@ -3081,7 +3081,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x246|y246|z246|w246",
-               "Value":32512,
+               "Value":-16746496.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"GREEN Squares, Lines, and Coasters in both flight modes.\r\n* Alpha"
@@ -3092,7 +3092,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x247|y247|z247|w247",
-               "Value":16711680,
+               "Value":-65536.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"RED Squares, Lines, and Coasters in both flight modes.\r\n* Alpha"
@@ -3103,7 +3103,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x238|y238|z238|w238",
-               "Value":3847167,
+               "Value":-802181121.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"CYAN Squares, Lines and Coasters in both flight modes (SRV/Fighter/Wing).\r\n*Alpha"
@@ -3114,7 +3114,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x196|y196|z196|w196",
-               "Value":16761735,
+               "Value":-16256.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Scanned by Neutral Target. *Alpha"
@@ -3125,7 +3125,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x114",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Radar Objects Squares Overall Brightness"
@@ -3136,7 +3136,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"y115",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Radar Objects Lines / Stalks Overall Brightness"
@@ -3147,7 +3147,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x113",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Radar Object Coaster Overall Brightness"
@@ -3158,7 +3158,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w150",
-               "Value":102,
+               "Value":102.0,
                "ValueType":"Preset",
                "Type":"RadarAsteroidsMode",
                "Description":"Mode for Asteroid outlines on radar"
@@ -3169,7 +3169,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w137",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Asteroid outline, altitude line and coaster Brightness\r\nNote the brightness depends very much on your base colour"
@@ -3180,7 +3180,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x136",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Heat Bar and Speed Bar"
@@ -3191,7 +3191,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x221|y221|z221",
-               "Value":42970,
+               "Value":-16735528.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Heat Bar and Speed Bar."
@@ -3202,7 +3202,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w221",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Heat Bar and Speed Bar"
@@ -3213,7 +3213,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x222|y222|z222",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Optimal Speed Bar Colour (values are relative to Main Colour; can be negative to reduce a colour from the Main Colour)"
@@ -3224,7 +3224,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w222",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Overall Brightness (of all Outer Radar Components)"
@@ -3235,7 +3235,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w210",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"SRV Scanner Colour"
@@ -3246,7 +3246,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x210|y210|z210",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"SRV Scanner Primary Colour, object detection colour."
@@ -3257,7 +3257,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x211|y211|z211",
-               "Value":6132694,
+               "Value":-11235884.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"SRV Scanner Secondary Colour, scanner sweep colour."
@@ -3268,7 +3268,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w211",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"SRV Scanner - Overall Alpha"
@@ -3279,7 +3279,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w73",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"SRV Turret, Small image of SRV on radar, plus misc elements"
@@ -3290,7 +3290,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x147|y147|z147|w147",
-               "Value":8769791,
+               "Value":-8466945.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for SRV Turret, Small image of SRV on radar, plus misc elements. *Alpha*"
@@ -3301,7 +3301,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w70",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"SRV Turret, Distributor Brightness Boost.\r\nFDev applies an odd colour dampening filter to the SRV Turret screen.\r\nUse this value to boost the colour of the distributor (it won't look exactly the same as the ship/SRV distributor due to the filter)"
@@ -3312,7 +3312,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w135",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Compass Colour"
@@ -3323,7 +3323,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x219|y219|z219",
-               "Value":9615587,
+               "Value":-7555871.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Compass Custom Color."
@@ -3334,7 +3334,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w219",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Compass Background Booster"
@@ -3345,7 +3345,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x220|y220|z220",
-               "Value":16769979,
+               "Value":-7753.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Compass Dot Custom Color."
@@ -3367,7 +3367,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w138",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Mid-HUD Station & Carrier Landing / Take-off, plus Supercruise Drop, Text and Bars"
@@ -3378,7 +3378,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x184|y184|z184",
-               "Value":9615587,
+               "Value":-7555871.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Mid-HUD Station & Carrier Landing / Take-off, plus Supercruise Drop, Text and Bars. (*ALPHA)"
@@ -3400,7 +3400,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"z99",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Middle screen Popup Messages (Ship Scan Detected, etc) Background Opacity, behind Text and symbols (cloud-shaped background)"
@@ -3411,7 +3411,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w229",
-               "Value":103,
+               "Value":103.0,
                "ValueType":"Preset",
                "Type":"PlanetaryLandingMode",
                "Description":"Mode for Landed Text (usually blue)"
@@ -3433,21 +3433,10 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y104",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Speeding Warning (lines only)"
-            },
-            {
-               "Category":"Warnings - Speeding",
-               "Title":"FSD Cooldown and Escape Vector",
-               "File":"Startup-Profile",
-               "Section":"Constants",
-               "Key":"x109",
-               "Value":100,
-               "ValueType":"Preset",
-               "Type":"AdvancedMode",
-               "Description":"Mode for FSD Cooldown and Escape Vector"
             },
             {
                "Category":"Warnings - Speeding",
@@ -3455,7 +3444,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x172|y172|z172",
-               "Value":15794176,
+               "Value":-1048576.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Speeding Warning (lines only)"
@@ -3474,10 +3463,21 @@
             {
                "Category":"Warnings - Speeding",
                "Title":"FSD Cooldown and Escape Vector",
+               "File":"Startup-Profile",
+               "Section":"Constants",
+               "Key":"x109",
+               "Value":100.0,
+               "ValueType":"Preset",
+               "Type":"AdvancedMode",
+               "Description":"Mode for FSD Cooldown and Escape Vector"
+            },
+            {
+               "Category":"Warnings - Speeding",
+               "Title":"FSD Cooldown and Escape Vector",
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x149|y149|z149|w149",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for FSD Cooldown and Escape Vector *ALPHA"
@@ -3488,7 +3488,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y133",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for FSD Charging Bar."
@@ -3499,7 +3499,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x182|y182|z182|w182",
-               "Value":4181757,
+               "Value":-13317123.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for FSD Charging Bar (*Alpha)."
@@ -3516,7 +3516,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y136",
-               "Value":101,
+               "Value":101.0,
                "ValueType":"Preset",
                "Type":"PowerDistributor",
                "Description":"Power Distributor Mode"
@@ -3527,7 +3527,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x223|y223|z223",
-               "Value":9294316,
+               "Value":-7876885.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Top Block of Tri-Colour Distributor, or Standard (single colour)"
@@ -3538,7 +3538,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w223",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Top Block of Tri-Colour Distributor, or Standard (single colour)"
@@ -3549,7 +3549,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x224|y224|z224",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color values for Middle block of Tri-Distributor."
@@ -3560,7 +3560,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w224",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness (alpha) for Middle block"
@@ -3571,7 +3571,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x225|y225|z225",
-               "Value":12779520,
+               "Value":-4194304.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color values for Bottom block of Tri-Distributor."
@@ -3582,7 +3582,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w225",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Bottom block"
@@ -3593,7 +3593,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x47|y47|z47",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Colour 1: Top Colour of Gradient Distributor."
@@ -3604,7 +3604,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w47",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"4X",
                "Description":"Colour 1 dominance (values > 1.0 will increase dominance, values < 1.0 will decrease dominance)"
@@ -3615,7 +3615,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x46|y46|z46",
-               "Value":825798,
+               "Value":-16608317.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Colour 2: Bottom colour of Gradient Distributor."
@@ -3626,7 +3626,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w46",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Overall Brightness of the Gradient Distributor"
@@ -3637,7 +3637,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w134",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Power Distributor Pips Mode"
@@ -3648,7 +3648,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x214|y214|z214",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Power Distributor Pipsr."
@@ -3659,7 +3659,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w214",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Power Distributor Pips"
@@ -3670,7 +3670,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x122|y122|z122|w122",
-               "Value":9680868,
+               "Value":-1098009630.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Non-Active Pips (Distributor)."
@@ -3681,7 +3681,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z136",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Distributor Selection Blocks Mode"
@@ -3692,7 +3692,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x230|y230|z230",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Distributor Selection Blocks."
@@ -3703,7 +3703,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w230",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Distributor Selection Blocks"
@@ -3714,7 +3714,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w133",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"RST bars [..] under distributor"
@@ -3725,7 +3725,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x227|y227|z227",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for RST bars under distributor."
@@ -3736,7 +3736,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w227",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for RST Bars"
@@ -3753,7 +3753,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"w106",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Signature Bar Mode"
@@ -3764,7 +3764,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x206|y206|z206",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Primary Colour, outer part of signal"
@@ -3775,7 +3775,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x207|y207|z207",
-               "Value":16777215,
+               "Value":-1.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Secondary Colour, middle of signal (relative to Primary Colour)"
@@ -3786,7 +3786,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w207",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Overall Alpha (Transparency) for the Signature Bar"
@@ -3797,7 +3797,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"y135",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Fuel Bar Mode"
@@ -3808,7 +3808,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x216|y216|z216",
-               "Value":9680868,
+               "Value":-7490590.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Colour for Fuel Bar"
@@ -3819,7 +3819,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w216",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Fuel Bar"
@@ -3830,7 +3830,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x94|y94|z94",
-               "Value":16761600,
+               "Value":-16384.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"(must have a system programmed into your Nav computer to see this element)"
@@ -3841,7 +3841,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"w94",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Next jump, (cannot make invisible, turns black at 0.0)"
@@ -3852,7 +3852,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"x133",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for scooping rate / amount, not heat level"
@@ -3863,7 +3863,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x145|y145|z145|w145",
-               "Value":49919,
+               "Value":-16728065.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Colour for Fuel Scoop *Alpha"
@@ -3874,7 +3874,7 @@
                "File":"Startup-Profile",
                "Section":"Constants",
                "Key":"z135",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Mode for Status Lights (Mass Lock, Landing Gear, Cargo Scoop)."
@@ -3885,7 +3885,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x217|y217|z217|w217",
-               "Value":9680868,
+               "Value":-1098009630.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Light Off State.  **ALPHA"
@@ -3896,7 +3896,7 @@
                "File":"Advanced",
                "Section":"Constants",
                "Key":"x218|y218|z218|w218",
-               "Value":12505318,
+               "Value":-4534811.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Light ON State. **ALPHA"
@@ -3913,7 +3913,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x30",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Note: XML (will be faking an orange base to match ship HUD)."
@@ -3924,7 +3924,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x31|y31|z31",
-               "Value":5364991,
+               "Value":-12068097.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Panel."
@@ -3946,7 +3946,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x157",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Apply opacity setting to other elements such as dialog panels or nameplates."
@@ -3957,7 +3957,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"w121",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"Preset",
                "Type":"SuitHUDPanel",
                "Description":"Option to Turn Off HUD Elements or Hide Only Inactive Parts on Station Concourse."
@@ -3968,7 +3968,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"w109",
-               "Value":0,
+               "Value":0.0,
                "ValueType":"ONOFF",
                "Type":"ONOFF",
                "Description":"Option to Turn off the dot in the middle of the screen on station concourse.\r\nNote: Need to also disable Foot HUD elements while on a station concourse."
@@ -3979,7 +3979,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"y30",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Color Mode for Shields"
@@ -3990,7 +3990,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x32|y32|z32|w32",
-               "Value":4569300,
+               "Value":-12864302.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Shield Inner Ring (*alpha)."
@@ -4001,7 +4001,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x33|y33|z33|w33",
-               "Value":5364991,
+               "Value":-12068097.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Shield Middle Ring (*alpha)."
@@ -4012,7 +4012,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x34|y34|z34|w34",
-               "Value":9825023,
+               "Value":-7345665.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Shield Outer Ring (*alpha)."
@@ -4023,7 +4023,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x35|y35|z35|w35",
-               "Value":16711680,
+               "Value":-65536.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Shield Down (*alpha)."
@@ -4034,7 +4034,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x36|y36|z36|w36",
-               "Value":16711680,
+               "Value":-65536.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Shield Restoring Animation (*alpha)."
@@ -4045,7 +4045,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"z30",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Cyan-ish (Odyssey) text color replacement\r\nNote: XML (will be faking an orange base to match ship HUD)."
@@ -4056,7 +4056,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x37|y37|z37|w37",
-               "Value":10413823,
+               "Value":-6691329.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Texts. (*Alpha)"
@@ -4067,7 +4067,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"w30",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"AdvancedMode",
                "Description":"Highlighted / inverted text and icon color."
@@ -4078,7 +4078,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x38|y38|z38|w38",
-               "Value":2434423,
+               "Value":-15132304.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for On-foot Highlighted Texts. (*Alpha)"
@@ -4089,7 +4089,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"w249",
-               "Value":100,
+               "Value":100.0,
                "ValueType":"Preset",
                "Type":"ShortMode",
                "Description":"Energy and O2 (oxygen) Bars and Symbols."
@@ -4100,7 +4100,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x126|y126|z126",
-               "Value":16777215,
+               "Value":-1.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for O2 (oxygen) Bars and Symbols."
@@ -4111,7 +4111,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"w126",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for O2 (oxygen) Bars and Symbols."
@@ -4122,7 +4122,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"x127|y127|z127",
-               "Value":5364991,
+               "Value":-12068097.0,
                "ValueType":"Color",
                "Type":"CustomColor",
                "Description":"Custom Color for Energy Bars and Symbols."
@@ -4133,7 +4133,7 @@
                "File":"SuitHud",
                "Section":"Constants",
                "Key":"w127",
-               "Value":1,
+               "Value":1.0,
                "ValueType":"Brightness",
                "Type":"2X",
                "Description":"Brightness for Energy Bars and Symbols."
@@ -4150,622 +4150,622 @@
       {
          "Type":"SuitHUDPanel",
          "Name":"OFF",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"SuitHUDPanel",
          "Name":"ON - Default",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"SuitHUDPanel",
          "Name":"Minimalist",
-         "Index":2
+         "Index":2.0
       },
       {
          "Type":"FSSGasGiantIcons",
          "Name":"Orange Gas Giant Icons (Elite Default)",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"FSSGasGiantIcons",
          "Name":"Blue Gas Giant Icons (Previous Color)",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"ProbeTrailMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"ProbeTrailMode",
          "Name":"Classic",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"ProbeTrailMode",
          "Name":"Boosted",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"ProbeTrailMode",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"EnvDestTargetsMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"EnvDestTargetsMode",
          "Name":"Mode 1 - Circle and Text with Destination Colors",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"EnvDestTargetsMode",
          "Name":"Mode 2 - Circle with Destination Colors and Text with Main Text Color",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"ProbeVariationMode",
          "Name":"Elite Default",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"ProbeVariationMode",
          "Name":"Reduced Color Variations",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"ShieldDepletedMode",
          "Name":"Invisible",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"ShieldDepletedMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"ShieldDissolving",
          "Name":"Dissolve",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"ShieldDissolving",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"GlitchingHUDmode",
          "Name":"Default ELite",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"GlitchingHUDmode",
          "Name":"Random colours",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"AmbientLightingMode",
          "Name":"Extended Lighting (Elite Default)",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"AmbientLightingMode",
          "Name":"Old style (Primary Colour less dominant)",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"RankBoxesMode",
          "Name":"Custom CQC rank box only",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"RankBoxesMode",
          "Name":"All rank boxes",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"RankBoxesMode",
          "Name":"Standard (Orange becomes XML)",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"AdvancedMode",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"AdvancedMode",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"AdvancedMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"ShortMode",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"ShortMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"SCSnowMode",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"SCSnowMode",
          "Name":"Rainbow (changes colour with direction)",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"SCSnowMode",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"SCSnowMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"GalMapFogMode",
          "Name":"Fog Reduction Level 1",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"GalMapFogMode",
          "Name":"Fog Reduction Level 2",
-         "Index":2
+         "Index":2.0
       },
       {
          "Type":"GalMapFogMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"RadarAsteroidsMode",
          "Name":"Same colour as Neutral Ship on radar",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"RadarAsteroidsMode",
          "Name":"Same colour as Radar outer ring",
-         "Index":102
+         "Index":102.0
       },
       {
          "Type":"RadarAsteroidsMode",
          "Name":"Same colour as Hull Blocks",
-         "Index":103
+         "Index":103.0
       },
       {
          "Type":"RadarAsteroidsMode",
          "Name":"XML",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"RadarAsteroidsMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"CHUD-AHUD-Text",
          "Name":"Same as Custom Red bars aounr CHUD/AHUD",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"CHUD-AHUD-Text",
          "Name":"Same as Main Text colour",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"CHUD-AHUD-Text",
          "Name":"XML",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"CHUD-AHUD-Text",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"FSSColorMode",
          "Name":"Off",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"FSSColorMode",
          "Name":"Same colour as FSS Scanning Glow Blobs",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"FSSColorMode",
          "Name":"Same colour as FSS Cyan Elements / Main Reticle",
-         "Index":2
+         "Index":2.0
       },
       {
          "Type":"FSSColorMode",
          "Name":"Same colour as FSS Centre Circle",
-         "Index":3
+         "Index":3.0
       },
       {
          "Type":"FSSColorMode2",
          "Name":"Same colour as FSS Scanning Glow Blobs",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"FSSColorMode2",
          "Name":"Same colour as FSS Cyan Elements / Main Reticle",
-         "Index":2
+         "Index":2.0
       },
       {
          "Type":"FSSColorMode2",
          "Name":"Same colour as FSS Centre Circle",
-         "Index":3
+         "Index":3.0
       },
       {
          "Type":"FSSColorMode2",
          "Name":"Default (white)",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"TargetingPanelTextMode",
          "Name":"Colour matched with alignment bars",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"TargetingPanelTextMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"TextModeShort",
          "Name":"Use Custom Colour",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"TextModeShort",
          "Name":"Use Main Text on panel colour",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"PlanetaryLandingMode",
          "Name":"Same as Custom Main Text (orange text swap)",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"PlanetaryLandingMode",
          "Name":"Same as Custom Blue Text Colour Swap",
-         "Index":102
+         "Index":102.0
       },
       {
          "Type":"PlanetaryLandingMode",
          "Name":"Same as Custom AHUD Text colour",
-         "Index":103
+         "Index":103.0
       },
       {
          "Type":"PlanetaryLandingMode",
          "Name":"XML",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"PlanetaryLandingMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"AltitudeBarText",
          "Name":"Same as Custom Main Text Color",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"AltitudeBarText",
          "Name":"Same as Latitude / Longitude Coordinates Text Colour",
-         "Index":102
+         "Index":102.0
       },
       {
          "Type":"TextBackgroundShadowsGlow",
          "Name":"Black",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"TextBackgroundShadowsGlow",
          "Name":"Text colour Glow (default)",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"GalaxyMapMode",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"GalaxyMapMode",
          "Name":"Grey",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"GalaxyMapMode",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"GalaxyMapMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"PowersMode",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"PowersMode",
          "Name":"Grey",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"PowersMode",
          "Name":"True powers colours",
-         "Index":102
+         "Index":102.0
       },
       {
          "Type":"PowersMode",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"PowersMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"AmbientLights",
          "Name":"Custom Single Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"AmbientLights",
          "Name":"Custom Bi-colour",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"AmbientLights",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"AmbientLights",
          "Name":"Elite default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"CabinLightingStyle",
          "Name":"Restricted",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"CabinLightingStyle",
          "Name":"Full",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"CabinLightingStyle",
          "Name":"Complete",
-         "Index":2
+         "Index":2.0
       },
       {
          "Type":"CabinLightingStyle",
          "Name":"Space Disco",
-         "Index":3
+         "Index":3.0
       },
       {
          "Type":"ShipPanelOpacity",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"ShipPanelOpacity",
          "Name":"Space Grey (dark)",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"ShipPanelOpacity",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"ShipPanelOpacity",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"AHUDText",
          "Name":"Use Main Text Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"AHUDText",
          "Name":"Custom",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"AHUDText",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"ShieldColor",
          "Name":"Custom Multi-Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"ShieldColor",
          "Name":"Custom Single Color",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"ShieldColor",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"ShieldColor",
          "Name":"Elite default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"ShieldsDown",
          "Name":"Red - Default Elite",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"ShieldsDown",
          "Name":"Black - Custom",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"PowerDistributor",
          "Name":"Custom Single Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"PowerDistributor",
          "Name":"Custom Bi-Colour Gradient",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"PowerDistributor",
          "Name":"Custom Tri-colour (Non Gradient)",
-         "Index":102
+         "Index":102.0
       },
       {
          "Type":"PowerDistributor",
          "Name":"Custom Tri-colour Gradient",
-         "Index":103
+         "Index":103.0
       },
       {
          "Type":"PowerDistributor",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"PowerDistributor",
          "Name":"Elite default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"CausticEffect",
          "Name":"Original Elite yellow/green colour",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"CausticEffect",
          "Name":"Custom Color",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"RankIcon",
          "Name":"Use Main Text Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"RankIcon",
          "Name":"Neutral target holo colour",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"RankIcon",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"RankIcon",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"SC_SideLines",
          "Name":"Off",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"SC_SideLines",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"SC_SideLines",
          "Name":"XML (User Defined)",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"SC_SideLines",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"SpaceDustMode",
          "Name":"Elite Default Mode (with original length and brightness)",
-         "Index":0
+         "Index":0.0
       },
       {
          "Type":"SpaceDustMode",
          "Name":"Custom Color",
-         "Index":1
+         "Index":1.0
       },
       {
          "Type":"SpaceDustMode",
          "Name":"MultiColour Mode",
-         "Index":2
+         "Index":2.0
       },
       {
          "Type":"HullGaugeMode",
          "Name":"Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"HullGaugeMode",
          "Name":"Custom Shaded",
-         "Index":101
+         "Index":101.0
       },
       {
          "Type":"HullGaugeMode",
          "Name":"XML",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"HullGaugeMode",
          "Name":"Elite Default",
-         "Index":200
+         "Index":200.0
       },
       {
          "Type":"FSSMissionIcons",
          "Name":"Use Mission Panel Custom Color",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"FSSMissionIcons",
          "Name":"XML",
-         "Index":199
+         "Index":199.0
       },
       {
          "Type":"OtherShipTarget",
          "Name":"Use Radar Colors",
-         "Index":100
+         "Index":100.0
       },
       {
          "Type":"OtherShipTarget",
          "Name":"Elite default",
-         "Index":200
+         "Index":200.0
       }
    ],
    "xml_profile":[
@@ -4779,7 +4779,7 @@
       },
       {
          "key":"z150",
-         "value":1
+         "value":1.0
       },
       {
          "key":"x151",
@@ -4787,23 +4787,23 @@
       },
       {
          "key":"y151",
-         "value":1
+         "value":1.0
       },
       {
          "key":"z151",
-         "value":0
+         "value":0.0
       },
       {
          "key":"x152",
-         "value":1
+         "value":1.0
       },
       {
          "key":"y152",
-         "value":0
+         "value":0.0
       },
       {
          "key":"z152",
-         "value":0
+         "value":0.0
       }
    ],
    "path": null

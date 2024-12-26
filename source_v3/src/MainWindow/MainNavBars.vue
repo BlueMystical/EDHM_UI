@@ -1,27 +1,29 @@
 <template>
   <div id="Container">
     <!-- Top Navbar -->
-    <nav id="TopNavBar" class="navbar bg-dark border-body fixed-top bg-body-tertiary" data-bs-theme="dark">
+    <nav id="TopNavBar" class="navbar bg-dark text-light border-body fixed-top bg-body-tertiary" data-bs-theme="dark">
       <div class="container-fluid d-flex justify-content-between align-items-center">
 
         <!-- Main Menu -->
         <div class="nav-item">
-          <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style"
-            @change="menuClicked($event.target.value)">
-            <option default value="mnuDummy">Main Menu</option>
-            <option value="mnuSettings">Settings</option>
-            <option value="mnuOpenGame">Open Game Folder</option>
-            <option value="" disabled>──────────</option>
-            <option value="mnuShipyard">Shipyard</option>
-            <option value="mnu3PModsManager">3PMods (Plugins)</option>
-            <option value="" disabled>──────────</option>
-            <option value="mnuInstallMod">Install EDHM</option>
-            <option value="mnuUninstallMod">Un-install EDHM</option>
-            <option value="" disabled>──────────</option>
-            <option value="mnuCheckUpdates">Check for Updates</option>
-            <option value="mnuGoToDiscord">Help</option>
-            <option value="mnuAbout">About</option>
-          </select>
+          <div class="input-group mb-3">
+            <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style"
+              @change="menuClicked($event.target.value)">
+              <option default value="mnuDummy">Main Menu</option>
+              <option value="mnuSettings">Settings</option>
+              <option value="mnuOpenGame">Open Game Folder</option>
+              <option value="" disabled>──────────</option>
+              <option value="mnuShipyard">Shipyard</option>
+              <option value="mnu3PModsManager">3PMods (Plugins)</option>
+              <option value="" disabled>──────────</option>
+              <option value="mnuInstallMod">Install EDHM</option>
+              <option value="mnuUninstallMod">Un-install EDHM</option>
+              <option value="" disabled>──────────</option>
+              <option value="mnuCheckUpdates">Check for Updates</option>
+              <option value="mnuGoToDiscord">Help</option>
+              <option value="mnuAbout">About</option>
+            </select>
+          </div>
         </div>
 
         <!-- Navbar for Buttons on the right side -->
@@ -141,6 +143,10 @@
       </div>
     </nav>
   </div>
+
+  <div v-if="showSpinner" class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
 </template>
 
 <script>
@@ -163,6 +169,20 @@ export default {
       type: Object,
       required: true
     }
+  },
+  components: {
+    HUD_Areas,
+    ThemeTab,
+    PropertiesTab,
+    UserSettingsTab,
+    GlobalSettingsTab
+  },
+  data() {
+    return {
+      activeTab: 'themes',
+      showFavorites: false,
+      showSpinner: true,
+    };
   },
   setup(props) {
     //console.log(props);
@@ -190,16 +210,16 @@ export default {
         themeTemplate.credits.description = "Currently Applied Colors in Game"; // theme.file.credits.description;
         themeTemplate.credits.preview = ""; // theme.file.credits.preview;
         themeTemplate.path = themePath;
-        themeTemplate.version = '19.05'; //<- TODO: Load version from EDHM
+        themeTemplate.version = props.settings.Version_ODYSS; //<- Load version from EDHM
 
         eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
         //eventBus.emit('RoastMe', { title: 'Theme Loaded', message: 'Current Settings'}); //<- this event will be heard in 'App.vue'
 
         // Provide the themeTemplate data to be accessible by all components 
         provide('themeTemplate', themeTemplate);
-
+ 
       } catch (error) {
-        console.error('Error retrieving Active Instance:', error);
+        console.error(error);
         // Handle the error (e.g., show error message)
       }
     });
@@ -282,22 +302,6 @@ export default {
       History_LoadElements
     };
   },
-  components: {
-    HUD_Areas,
-    ThemeTab,
-    PropertiesTab,
-    UserSettingsTab,
-    GlobalSettingsTab
-  },
-  data() {
-    return {
-      activeTab: 'themes',
-      showFavorites: false,
-      tooltipVisible: false,
-      tooltipText: '',
-      showSpinner: false, // Initially hide the spinner
-    };
-  },
   methods: {
     setActiveTab(tab) {
       this.activeTab = tab;
@@ -310,14 +314,60 @@ export default {
     },
 
    
+    async LoadTheme(theme) {
+      /* Happens when a Theme in the list is Selected  */
+      //console.log('Theme Selected: ', theme);    console.log(theme.file.path);
+      this.showSpinner = true;
 
+      const ThemeINIs = await window.api.LoadThemeINIs(theme.file.path);          //console.log('ThemeINIs:', ThemeINIs);
+      
+      themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+      themeTemplate.credits.theme = theme.file.credits.theme;
+      themeTemplate.credits.author = theme.file.credits.author;
+      themeTemplate.credits.description = theme.file.credits.description;
+      themeTemplate.credits.preview = theme.file.credits.preview;
+      themeTemplate.path = theme.file.path;
+      themeTemplate.version = props.settings.Version_ODYSS;; //<- TODO: Load version from EDHM
+
+      //console.log('Theme Changed: ', themeTemplate);
+      eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+
+      //console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
+
+      //console.log('z103: ', themeTemplate.ui_groups[1].Elements[0].Value   );
+      //console.log('z103: ->', defaultTemplate.ui_groups[1].Elements[0].Value   );
+
+      this.showSpinner = false;
+    },
+    async applyTheme() {
+      this.showSpinner = true;
+      console.log('Apply Theme button clicked');
+      // Add your theme application logic here
+
+      const ActiveInstance = await window.api.getActiveInstance(); 
+      console.log(ActiveInstance);
+      //window.api.applyTemplateToGame(themeTemplate, ActiveInstance.path);
+
+      setTimeout(() => {
+          this.loading = false;
+          eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
+      }, 3000);
+
+      eventBus.emit('ShowDialog', { title: 'Confirmation', message: 'First Line<br>Second Line' }); //<- this event will be heard in 'App.vue'
+      //this.showSpinner = false;
+    },
     addNewTheme(event) {
       console.log('Add New Theme button clicked');
       this.applyIconColor(event.target);
+
+      eventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
     },
     exportTheme(event) {
       console.log('Export Theme button clicked');
       this.applyIconColor(event.target);
+
+      eventBus.emit('RoastMe', { type: 'Error', message: '<p>This is normal text - <b>and this is bold text</b>.</p>' }); //<- this event will be heard in 'App.vue'
+
       if (themeTemplate != null && themeTemplate.credits.theme != "Current Settings") {
         console.log('Exporting theme: ', themeTemplate.credits.theme);
         
@@ -328,21 +378,22 @@ export default {
     saveTheme(event) {
       //console.log('Save Theme button clicked');
       this.applyIconColor(event.target);
+      
       if (themeTemplate != null && themeTemplate.credits.theme != "Current Settings") {
-        console.log('Saving theme: ', themeTemplate.credits.theme);
         const jsonPath = window.api.joinPath(themeTemplate.path, 'Theme.json');
         window.api.writeJsonFile(jsonPath, themeTemplate, true);
 
-        eventBus.emit('RoastMe', { title: 'Theme Saved!', message: themeTemplate.credits.theme}); //<- this event will be heard in 'App.vue'
+        eventBus.emit('RoastMe', { type: 'Success', message: `Theme Saved!:\r\n ${themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
 
       } else {
-        console.error('Current Settings can not be saved');
+        eventBus.emit('RoastMe', { type: 'Error', message: 'Current Settings can not be saved' });
       }
       //
     },
     toggleFavorites(event) {
       console.log('Favorites toggled:', this.showFavorites);
       this.applyIconColor(event.target);
+      eventBus.emit('RoastMe', { type: 'Warning', message: 'First Line\r\nSecond Line\r\nThird Line' });
     },
     applyIconColor(button) {
       const icon = button.querySelector('i');
@@ -354,17 +405,6 @@ export default {
       }
     },
 
-    showTooltip(event) {
-      this.tooltipText = event.target.getAttribute('data-description');
-      this.tooltipVisible = true;
-    },
-    hideTooltip() {
-      this.tooltipVisible = false;
-    },
-    applyTheme() {
-      console.log('Apply Theme button clicked');
-      // Add your theme application logic here
-    },
     handleHistoryChange(event) {
       // Click an item on the History Box
       const selectedValue = event.target.value;
@@ -396,50 +436,25 @@ export default {
         console.error('Failed to add theme to history:', error);
       }
     },
-
-    showSpinner() {
-      this.showSpinner = true;
+    showHideSpinner(status) {
+      //console.log('showHideSpinner: ', status.visible);
+      this.showSpinner = status.visible;
+      //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
     },
+    
 
-    hideSpinner() {
-      this.showSpinner = false;
-    },
-
-    async LoadTheme(theme) {
-      /* Happens when a Theme in the list is Selected  */
-      //console.log('Theme Selected: ', theme);    console.log(theme.file.path);
-      this.showSpinner = true;
-
-      const ThemeINIs = await window.api.LoadThemeINIs(theme.file.path);          //console.log('ThemeINIs:', ThemeINIs);
-      
-      themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-      themeTemplate.credits.theme = theme.file.credits.theme;
-      themeTemplate.credits.author = theme.file.credits.author;
-      themeTemplate.credits.description = theme.file.credits.description;
-      themeTemplate.credits.preview = theme.file.credits.preview;
-      themeTemplate.path = theme.file.path;
-      themeTemplate.version = '19.05'; //<- TODO: Load version from EDHM
-
-      //console.log('Theme Changed: ', themeTemplate);
-      eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
-
-      //console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
-
-      //console.log('z103: ', themeTemplate.ui_groups[1].Elements[0].Value   );
-      //console.log('z103: ->', defaultTemplate.ui_groups[1].Elements[0].Value   );
-
-      this.showSpinner = false;
-    }
   },
   mounted() {
     // Listen for that happens when the User clicks on one of the 'MainTabBar'
     eventBus.on('setActiveTab', this.setActiveTab);
     eventBus.on('ThemeClicked', this.LoadTheme);
+    eventBus.on('ShowSpinner', this.showHideSpinner);
   },
   beforeUnmount() {
     // Clean up the event listener
     eventBus.off('setActiveTab', this.setActiveTab);
     eventBus.off('ThemeClicked', this.LoadTheme);
+    eventBus.off('ShowSpinner', this.showHideSpinner);
   }
 };
 </script>
