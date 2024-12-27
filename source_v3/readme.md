@@ -3,19 +3,23 @@
 v3 is not an update but a Complete Rework of all functionalities.<br>
 App is made with Electron Forge Vite-Vue and Bootstrap
 
-* https://www.electronjs.org
-* https://www.electronforge.io
-* https://electron-vite.org
-* https://github.com/SimulatedGREG/electron-vue
-* https://getbootstrap.com
-
 [License: GPL-3.0+](https://raw.githubusercontent.com/BlueMystical/EDHM_UI/main/license.txt)
+
+## Frameworks Documentation:
+
+* [Electron JS](https://www.electronjs.org)
+* [Electron Forge](https://www.electronforge.io)
+* [Electron Vite](https://electron-vite.org)
+* [Electron Vue](https://github.com/SimulatedGREG/electron-vue)
+* [Bootstrap](https://getbootstrap.com)
 
 ## Requeriments (For Development):
 - NODE:   [Download](https://nodejs.org/en/download/prebuilt-installer)
-- NPM:    Comes with Node check the [Documentation](https://docs.npmjs.com/cli/v11/commands/npm)
+- NPM:    Comes with Node, check the [Documentation](https://docs.npmjs.com/cli/v11/commands/npm)
 - Visual Studio Code [Download](https://code.visualstudio.com/)
-- Official Vue VSCode Extension:  Click Yes when VSCode asks for this.
+- Vue VSCode Extension:  Click Yes when VSCode asks for this.
+- GitHub Desktop: [Download](https://github.com/apps/desktop) Only If you intent to contribute with Coding.
+- Open a Terminal (System Symbol NOT PowerShell) as Administrator.
 
 Check your Node and NPM Versions:
 ```
@@ -37,7 +41,7 @@ To use this project, you can do the following:
    
     You only need the [source_v3](https://github.com/BlueMystical/EDHM_UI/tree/main/source_v3) folder.
 
-2. Open a Terminal (System Symbol) as Admin and navigate to the folder where you unpacked the repo:
+2. On the Terminal, navigate to the folder where you unpacked the repo:
    ```
    cd [Full Path to the Repo]\EDHM_UI\source_v3
    ```
@@ -54,4 +58,6 @@ To use this project, you can do the following:
    npm start
    ```
 ![image](https://github.com/user-attachments/assets/c6e5950f-9039-45f3-b9f5-09ffa508fde2)
+
+[Buy me a Coffe](https://buymeacoffee.com/blue.mystic)
 

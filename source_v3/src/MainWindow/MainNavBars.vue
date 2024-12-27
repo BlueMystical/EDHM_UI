@@ -299,7 +299,8 @@ export default {
       gameMenuItems,
       selectGame,
       historyOptions,
-      History_LoadElements
+      History_LoadElements,
+      History_AddSettings
     };
   },
   methods: {
@@ -344,8 +345,8 @@ export default {
       console.log('Apply Theme button clicked');
       // Add your theme application logic here
 
-      const ActiveInstance = await window.api.getActiveInstance(); 
-      console.log(ActiveInstance);
+      //const ActiveInstance = await window.api.getActiveInstance(); 
+      //console.log(ActiveInstance);
       //window.api.applyTemplateToGame(themeTemplate, ActiveInstance.path);
 
       setTimeout(() => {
@@ -353,14 +354,31 @@ export default {
           eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
       }, 3000);
 
-      eventBus.emit('ShowDialog', { title: 'Confirmation', message: 'First Line<br>Second Line' }); //<- this event will be heard in 'App.vue'
-      //this.showSpinner = false;
+      eventBus.emit('ShowDialog', { title: 'Confirmation', message: 'Are you sure you want to proceed?', }, (result) => { 
+        console.log(result); 
+        // Handle the result here (e.g., 'Confirmed' or 'Cancelled'
+      });
+
+      this.showSpinner = false;
     },
     addNewTheme(event) {
       console.log('Add New Theme button clicked');
       this.applyIconColor(event.target);
 
-      eventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
+      //eventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
+
+      try {
+        // Intentionally throw an error to test the error toast
+        throw new Error('This is a custom error message for testing purposes.');
+      } catch (error) {
+        // Show the custom error toast
+        this.showToast({
+          type: 'ErrMsg',
+          title: 'Custom Error',
+          message: error.message,
+          stack: error.stack,
+        });
+      }
     },
     exportTheme(event) {
       console.log('Export Theme button clicked');
@@ -378,18 +396,18 @@ export default {
     saveTheme(event) {
       //console.log('Save Theme button clicked');
       this.applyIconColor(event.target);
+      eventBus.emit('RoastMe', { type: 'Info', message: `Theme Saved!:\r\n ${themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
       
       if (themeTemplate != null && themeTemplate.credits.theme != "Current Settings") {
         const jsonPath = window.api.joinPath(themeTemplate.path, 'Theme.json');
         window.api.writeJsonFile(jsonPath, themeTemplate, true);
-
-        eventBus.emit('RoastMe', { type: 'Success', message: `Theme Saved!:\r\n ${themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
 
       } else {
         eventBus.emit('RoastMe', { type: 'Error', message: 'Current Settings can not be saved' });
       }
       //
     },
+
     toggleFavorites(event) {
       console.log('Favorites toggled:', this.showFavorites);
       this.applyIconColor(event.target);
@@ -445,7 +463,7 @@ export default {
 
   },
   mounted() {
-    // Listen for that happens when the User clicks on one of the 'MainTabBar'
+     /* EVENTS WE LISTEN TO HERE:  */
     eventBus.on('setActiveTab', this.setActiveTab);
     eventBus.on('ThemeClicked', this.LoadTheme);
     eventBus.on('ShowSpinner', this.showHideSpinner);
