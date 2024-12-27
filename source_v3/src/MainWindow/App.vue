@@ -31,15 +31,15 @@
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">{{ toastTitle }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" v-html="toastMessage"></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelButton">Cancel</button>
-            <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+          <div class="modal-footer input-group" role="group">
+            <button id="cancelButton"  type="button" class="btn btn btn-outline-primary" data-bs-dismiss="modal" >Cancel</button>
+            <button id="confirmButton" type="button" class="btn btn btn-primary" >Confirm</button>       
           </div>
         </div>
       </div>
@@ -49,17 +49,19 @@
     <!-- Container for Bottom Colored Toasts -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
 
-        <!-- Error Message Toast Notification -->
-      <div id="liveToast-ErrMsg" class="toast align-items-center bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <!-- Error Message Toast Notification -->
+      <div id="liveToast-ErrMsg" class="toast align-items-center bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" style="width: 650px;">
         <div class="d-flex align-items-center" style="height: 100%;">
           <i class="bi bi-bug" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
-          <div class="toast-body">
+          <div class="toast-body" >
             <h5>{{ toasts.ErrMsg.title }}</h5>
             <p v-html="toasts.ErrMsg.message"></p>
-            <pre v-html="toasts.ErrMsg.stack"></pre>
-            <button type="button" class="btn btn-secondary" @click="copyToClipboard(toasts.ErrMsg.message + '\n\n' + toasts.ErrMsg.stack)">Copy Error</button>
+            <pre class="bg-danger" v-html="toasts.ErrMsg.stack" style="width: 550px;"></pre>
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-light" @click="copyToClipboard(toasts.ErrMsg.message + '\n\n' + toasts.ErrMsg.stack)">Copy Error</button>
+              <button type="button" class="btn btn-outline-light" data-bs-dismiss="toast" aria-label="Close">Close</button>
+            </div>            
           </div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       </div>
 
@@ -132,7 +134,6 @@ export default {
      * Displays a Colored Toast Notification at Bottom Right corner of the Window
      * @param data Configuration Object: { title: '', message: ''}
      */
-
     showToast(data) {
       const { type, title, message, stack } = data;
       const toastType = type.charAt(0).toUpperCase() + type.slice(1);
@@ -165,7 +166,7 @@ export default {
           console.error('Failed to copy to clipboard: ', err);
         });
     },
- /**
+    /**
      * Displays a configurable Modal Dialog Centered on the Window
      * @param data Configuration Object: { title: '', message: ''}
      */
@@ -261,7 +262,7 @@ export default {
   beforeUnmount() {
     // Clean up the event listener
     eventBus.off('RoastMe', this.showToast);
-    eventBus.off('ShowDialog');
+    eventBus.off('ShowDialog', this.dialogConfirm);
   },
 };
 </script>
@@ -295,9 +296,6 @@ export default {
   overflow-x: auto;
 }
 
-.btn-secondary {
-  margin-top: 10px;
-}
 </style>
 
 

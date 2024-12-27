@@ -349,12 +349,12 @@ export default {
       //console.log(ActiveInstance);
       //window.api.applyTemplateToGame(themeTemplate, ActiveInstance.path);
 
-      setTimeout(() => {
+  /*    setTimeout(() => {
           this.loading = false;
           eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
-      }, 3000);
+      }, 3000);*/
 
-      eventBus.emit('ShowDialog', { title: 'Confirmation', message: 'Are you sure you want to proceed?', }, (result) => { 
+      eventBus.emit('ShowDialog', { title: 'Confirmation', message: 'Are you sure you want to proceed?' }, (result) => { 
         console.log(result); 
         // Handle the result here (e.g., 'Confirmed' or 'Cancelled'
       });
@@ -372,9 +372,9 @@ export default {
         throw new Error('This is a custom error message for testing purposes.');
       } catch (error) {
         // Show the custom error toast
-        this.showToast({
+        eventBus.emit('RoastMe', {
           type: 'ErrMsg',
-          title: 'Custom Error',
+          title: 'Unexpected Error',
           message: error.message,
           stack: error.stack,
         });
