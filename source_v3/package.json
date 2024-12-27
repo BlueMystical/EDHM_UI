@@ -36,6 +36,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "dompurify": "^3.2.3",
     "electron-squirrel-startup": "^1.0.1",
     "ini": "^5.0.0",
     "mitt": "^3.0.1",

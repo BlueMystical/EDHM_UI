@@ -102,10 +102,10 @@
        {
           "id":"Foot_HUD",
           "title":"Suit & Onfoot",
-          "x":1335,
-          "y":369,
-          "width":265,
-          "height":294
+          "x":1334,
+          "y":368,
+          "width":234,
+          "height":300
        }
     ]
  }

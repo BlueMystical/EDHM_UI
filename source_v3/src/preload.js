@@ -13,7 +13,9 @@ const getParentFolder = (filePath) => {
 
 contextBridge.exposeInMainWorld('api', {
   getAppVersion: async () => ipcRenderer.invoke('get-app-version'),
-  logEvent: (message, stackTrace = '') => ipcRenderer.invoke('log-event', message, stackTrace),
+  logError: (...args) => ipcRenderer.invoke('logError', ...args),
+
+  ShowDialog: (options) => ipcRenderer.invoke('ShowDialog', options),
 
   joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
   resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
@@ -35,7 +37,6 @@ contextBridge.exposeInMainWorld('api', {
 
   applyIniValuesToTemplate: async (template, iniValues) => ipcRenderer.invoke('apply-ini-values', template, iniValues),
   applyTemplateToGame: async (template, gamePath) => ipcRenderer.invoke('applyTemplateToGame', template, gamePath),
-  //reverseGammaCorrected: async (gammaR, gammaG, gammaB) => ipcRenderer.invoke('reverseGammaCorrected', gammaR, gammaG, gammaB),
  
   
   loadIniFile: async (filePath) => ipcRenderer.invoke('loadIniFile', filePath),

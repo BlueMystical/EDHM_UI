@@ -134,6 +134,8 @@
 
         <!-- App Version Label -->
         <span class="navbar-text mx-3" id="lblVersion">App Version: {{ appVersion }}</span>
+        <!-- Mod Version Label -->
+        <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
 
         <!-- Search Box -->
         <form class="d-flex ms-auto">
@@ -187,6 +189,7 @@ export default {
   setup(props) {
     //console.log(props);
     const appVersion = ref('');
+    const modVersion = ref('');
     const selectedGame = ref(props.settings.ActiveInstance || 'Select a Game'); // Set initial value from settings
     const gameMenuItems = ref( // Populate game instances with the `instance` values from `Settings`
       props.settings.GameInstances.flatMap(instance => instance.games.map(game => game.instance))
@@ -197,6 +200,7 @@ export default {
     onMounted(async () => {
       try {
         appVersion.value = await window.api.getAppVersion();
+        modVersion.value = props.settings.Version_ODYSS;
         await History_LoadElements();
 
         // Loads the 'Current Settings' from the Ini files:
@@ -219,8 +223,7 @@ export default {
         provide('themeTemplate', themeTemplate);
  
       } catch (error) {
-        console.error(error);
-        // Handle the error (e.g., show error message)
+        eventBus.emit('ShowError', error);
       }
     });
 
@@ -263,8 +266,7 @@ export default {
         //console.log(historyOptions.value);
 
       } catch (error) {
-        console.error('Failed to load history elements:', error);
-        window.api.logEvent(error);
+        eventBus.emit('ShowError', error);
       }
     };
     const History_AddSettings = async (theme) => {
@@ -289,12 +291,12 @@ export default {
 
         await this.History_LoadElements();
       } catch (error) {
-        console.error('Failed to add theme to history:', error);
-        window.api.logEvent(error.message, error.stack);
+        eventBus.emit('ShowError', error);
       }
     };
     return {
       appVersion,
+      modVersion,
       selectedGame,
       gameMenuItems,
       selectGame,
@@ -354,10 +356,20 @@ export default {
           eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
       }, 3000);*/
 
-      eventBus.emit('ShowDialog', { title: 'Confirmation', message: 'Are you sure you want to proceed?' }, (result) => { 
-        console.log(result); 
-        // Handle the result here (e.g., 'Confirmed' or 'Cancelled'
-      });
+      const options = {
+        type: 'none', //<- none, info, error, question, warning
+        buttons: ['Cancel', 'Yes, please', 'No, thanks'],
+        defaultId: 1,
+        title: 'Question',
+        message: 'Do you want to proceed?',
+        detail: 'It does not really matter',
+        cancelId: 0,
+        checkboxLabel: 'Remember my answer', checkboxChecked: false,
+      }; 
+      const result = await window.api.ShowDialog(options); 
+
+      console.log('User clicked:', result.response); // Index of the button clicked
+      console.log('Checkbox checked:', result.checkboxChecked); // Boolean for checkbox state
 
       this.showSpinner = false;
     },
@@ -372,12 +384,7 @@ export default {
         throw new Error('This is a custom error message for testing purposes.');
       } catch (error) {
         // Show the custom error toast
-        eventBus.emit('RoastMe', {
-          type: 'ErrMsg',
-          title: 'Unexpected Error',
-          message: error.message,
-          stack: error.stack,
-        });
+        eventBus.emit('ShowError', error);
       }
     },
     exportTheme(event) {
@@ -451,7 +458,7 @@ export default {
         // Reload history options
         await this.History_LoadElements();
       } catch (error) {
-        console.error('Failed to add theme to history:', error);
+        eventBus.emit('ShowError', error);
       }
     },
     showHideSpinner(status) {

@@ -63,6 +63,10 @@ const Info = (...args) => logEvent(LOG_TYPES.INFO, ...args);
 const Error = (...args) => logEvent(LOG_TYPES.ERROR, ...args);
 const Warning = (...args) => logEvent(LOG_TYPES.WARNING, ...args);
 
+ipcMain.handle('logError', async (event, ...args) => {
+  return await Error(...args);
+});
+
 // Default export for easy access
 export default {
   Error,

@@ -29,21 +29,9 @@
     </div>-->
 
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content bg-dark">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">{{ toastTitle }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" v-html="toastMessage"></div>
-          <div class="modal-footer input-group" role="group">
-            <button id="cancelButton"  type="button" class="btn btn btn-outline-primary" data-bs-dismiss="modal" >Cancel</button>
-            <button id="confirmButton" type="button" class="btn btn btn-primary" >Confirm</button>       
-          </div>
-        </div>
-      </div>
-    </div>
+    <ModalDialog ref="modalDialog" />
+
+
 
 
     <!-- Container for Bottom Colored Toasts -->
@@ -108,18 +96,22 @@
 
 <script>
 import MainNavBars from './MainNavBars.vue';
+import ModalDialog from './Components/ModalDialog.vue'
 import eventBus from '../EventBus';
 
 export default {
   name: 'App',
   components: {
     MainNavBars,
+    ModalDialog
   },
   data() {
     return {
       loading: true,
       settings: null,
       InstallStatus: null,
+      modalTitle: '',
+      modalMessage: '',
       toasts: {
         Error: { title: '', message: '' },
         Success: { title: '', message: '' },
@@ -130,7 +122,7 @@ export default {
     };
   },
   methods: {
-      /**
+    /**
      * Displays a Colored Toast Notification at Bottom Right corner of the Window
      * @param data Configuration Object: { title: '', message: ''}
      */
@@ -152,6 +144,36 @@ export default {
           toastBootstrap = new bootstrap.Toast(toast, { autohide: false });
           toastBootstrap.show();
         }
+
+        if (toastType === 'ErrMsg') {
+          window.api.logError(error.message, error.stack);
+        }
+      } else {
+        console.error(`Toast type "${type}" not recognized.`);
+      }
+    },
+    showError(error) {
+      const toastType = 'ErrMsg';
+
+      if (this.toasts[toastType]) {
+
+        this.toasts[toastType].title = 'Unexpected Error';
+        this.toasts[toastType].message = error.message;
+        this.toasts[toastType].stack = error.stack;
+
+        const toast = document.getElementById(`liveToast-${toastType}`);
+        let toastBootstrap = bootstrap.Toast.getInstance(toast);
+
+        if (toastBootstrap) {
+          toastBootstrap.show();
+        } else {
+          toastBootstrap = new bootstrap.Toast(toast, { autohide: false });
+          toastBootstrap.show();
+        }
+
+        window.api.logError(error.message, error.stack);
+        console.error(error.message, error.stack);
+
       } else {
         console.error(`Toast type "${type}" not recognized.`);
       }
@@ -166,56 +188,17 @@ export default {
           console.error('Failed to copy to clipboard: ', err);
         });
     },
-    /**
-     * Displays a configurable Modal Dialog Centered on the Window
-     * @param data Configuration Object: { title: '', message: ''}
-     */
-    dialogConfirm(data) {
-      return new Promise((resolve) => {
-        this.toastTitle = data.title;
-        this.toastMessage = data.message;
-        this.isHtmlContent = /<\/?[a-z][\s\S]*>/i.test(data.message);
+    showModal() { 
+      this.$refs.modalDialog.dialogConfirm(
+        { 
+          title: 'Your Title', 
+          message: 'Your Message', 
+        }) .then((result) => { 
+          console.log('Modal result:', result); 
+        }); 
+      },
 
-        const modalElement = document.getElementById('staticBackdrop');
-        let exampleModal = bootstrap.Modal.getInstance(modalElement);
 
-        if (!exampleModal) {
-          exampleModal = new bootstrap.Modal(modalElement, {
-            backdrop: 'static',
-            keyboard: true,
-          });
-        }
-
-        const handleConfirm = () => {
-          exampleModal.hide();
-          resolve('Confirmed');
-        };
-
-        const handleCancel = () => {
-          exampleModal.hide();
-          resolve('Cancelled');
-        };
-
-        modalElement.addEventListener('shown.bs.modal', () => {
-          const modalTitle = modalElement.querySelector('.modal-title');
-          modalTitle.textContent = data.title;
-
-          const confirmButton = modalElement.querySelector('#confirmButton');
-          const cancelButton = modalElement.querySelector('#cancelButton');
-
-          confirmButton.addEventListener('click', handleConfirm);
-          cancelButton.addEventListener('click', handleCancel);
-        });
-
-        modalElement.addEventListener('hidden.bs.modal', () => {
-          exampleModal.dispose();
-          modalElement.querySelector('#confirmButton').removeEventListener('click', handleConfirm);
-          modalElement.querySelector('#cancelButton').removeEventListener('click', handleCancel);
-        });
-
-        exampleModal.show();
-      });
-    }
   },
   async mounted() {
     try {
@@ -254,15 +237,20 @@ export default {
 
      /* EVENTS WE LISTEN TO HERE:  */
     eventBus.on('RoastMe', this.showToast);
+    eventBus.on('ShowError', this.showError);
+
+    eventBus.on('modal-confirmed', () => { console.log('Modal confirmed'); }); 
+    eventBus.on('modal-cancelled', () => { console.log('Modal cancelled'); });
+
     // Listen for events with callback support 
-    eventBus.on('ShowDialog', (data, callback) => {
-      this.dialogConfirm(data).then(callback);
-    });
+    //eventBus.on('ShowDialog', (data, callback) => { this.dialogConfirm(data).then(callback); });
   },
   beforeUnmount() {
     // Clean up the event listener
     eventBus.off('RoastMe', this.showToast);
-    eventBus.off('ShowDialog', this.dialogConfirm);
+    eventBus.off('ShowError', this.showError);
+
+    eventBus.off('modal-confirmed'); eventBus.off('modal-cancelled');
   },
 };
 </script>
