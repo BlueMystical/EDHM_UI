@@ -1,7 +1,10 @@
-import * as ini from 'ini';
-import * as fs from 'fs';
+//import * as ini from 'ini';
+//import * as fs from 'fs';
 import { ipcMain } from 'electron';
 import path from 'node:path';
+
+import { writeFile , readFile } from 'node:fs/promises';
+import { stringify , parse } from 'ini';
 
 /**
  * Loads the INI file from the specified path.
@@ -9,17 +12,59 @@ import path from 'node:path';
  * @param {string} filePath - The path to the INI file.
  * @returns {object} - The parsed INI data as an object, or an empty object on error.
  */
-function loadIniFile(filePath) {
+async function loadIniFile(filePath) {
   let _ret = {};
     try {
-        const data = fs.readFileSync(filePath, 'utf-8');
-        _ret = ini.parse(data, { comment: ';' });
+        //const data = fs.readFileSync(filePath, 'utf-8');
+        //_ret = ini.parse(data, { comment: ';' });
+
+        //  Read INI file as text
+        let text = await readFile(filePath, {
+          encoding : 'utf-8'
+        });
+
+        //  Parse text data to object
+        _ret = parse(text);
+
     } catch (error) {
         console.error(`Error loading INI file: ${filePath}`, error);
         throw error;
     }
     return _ret;
 }
+
+/**
+* Saves the modified INI object to the file.
+*
+* @param {string} filePath - The path to the INI file.
+* @param {object} iniData - The modified INI data as an object.
+*/
+async function saveIniFile(filePath, iniData) {
+  let _ret = false;
+    try { 
+      if (iniData) {
+        const text = stringify(iniData,{ 
+            //section : 'section',    //<- Identifier to use for global items
+            whitespace : true ,     //<- Whether to insert spaces before & after `=`
+            sort : false ,          //<- Whether to sort all sections & their keys alphabetically.
+            bracketedArray : true   //<- Whether to append `[]` to array keys.
+        });
+
+        console.log(text);
+        
+        //  Write INI file as text      
+        await writeFile(filePath, text); _ret = true;
+
+      } else {
+        throw new Error('404 - No Data to save!');
+      }
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+    return _ret;
+}
+
 
 /**
  * Gets a specific value from a section in the INI object.
@@ -49,24 +94,7 @@ function setValueInSection(iniData, section, key, value) {
     iniData[section][key] = value;
 }
 
-/**
-* Saves the modified INI object to the file.
-*
-* @param {string} filePath - The path to the INI file.
-* @param {object} iniData - The modified INI data as an object.
-*/
-function saveIniFile(filePath, iniData) {
-  let _ret = false;
-    try {
-      // Write back to INI format, preserving comments 
-        fs.writeFileSync(filePath, ini.stringify(iniData));
-        _ret = true;
-    } catch (error) {
-        console.error(`Error saving INI file: ${filePath}`, error);
-        throw error;
-    }
-    return _ret;
-}
+
 
 /**
  * Finds a Key/Value in an INI file

@@ -349,29 +349,26 @@ export default {
         const ActiveInstance = await window.api.getActiveInstance(); 
         console.log('1. ActiveInstance:', ActiveInstance);
         console.log('2. ThemeTemplate:', themeTemplate);
-        const GamePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
-        console.log('3. GamePath:', GamePath);
-        console.log('4. Get Default Inis...');
+
+        console.log('3. Preparing all the Paths:');
+        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini'); 
+        const defaultInisPath = await window.api.getAssetPath('data/ODY');  
+              
+        const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);  
+        console.log('4. Get Default Inis:', defaultINIs);
+
+        console.log('5. Applying Changes to the INIs...');
+        const updatedInis = await window.api.ApplyTemplateValuesToIni(themeTemplate, defaultINIs);
+        console.log('updatedInis:', updatedInis);
         
-        const defaultINIs = await window.api.LoadThemeINIs(GamePath);  
-        console.log('defaultINIs:', defaultINIs);
-        defaultINIs.Advanced.Constants.w29 = 94.7; //<- Value modification TEST
-
-        const AdvancedPath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'Advanced.ini');
-        const StartupPath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'Startup-Profile.ini');
-        const SuitHudPath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'SuitHud.ini');
-        const XMLProfilePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'XML-Profile.ini');
-
-        await window.api.saveIniFile(AdvancedPath, defaultINIs.Advanced);
-        await window.api.saveIniFile(StartupPath, defaultINIs.StartupProfile);
-        await window.api.saveIniFile(SuitHudPath, defaultINIs.SuitHud);
-        await window.api.saveIniFile(XMLProfilePath, defaultINIs.XMLProfile);
+        console.log('6. Saving the INI files..');
+        await window.api.SaveThemeINIs(GamePath, defaultINIs);
 
       } catch (error) {
-        eventBus.emit('ShowError', error);
+          eventBus.emit('ShowError', error);
       } finally { this.showSpinner = false; }
       
-      //window.api.applyTemplateToGame(themeTemplate, ActiveInstance.path);
+
 
   /*    setTimeout(() => {
           this.loading = false;

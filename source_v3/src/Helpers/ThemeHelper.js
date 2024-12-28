@@ -112,6 +112,29 @@ const LoadThemeINIs = async (folderPath) => {
   }
 };
 
+/**
+ * Save the modified INI files back to their original location
+ * @param {string} folderPath Full path to the Folder containing the INI files
+ * @param {object} themeINIs Object containing the INI data
+ * @returns boolean
+ */
+const SaveThemeINIs = async (folderPath, themeINIs) => {
+  try {
+
+    await Promise.all([
+      await ini.saveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), StartupProfile),
+      await ini.saveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), Advanced),
+      await ini.saveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), SuitHud),
+      await ini.saveIniFile(getIniFilePath(folderPath, 'XML-Profile.ini'), XmlProfile),
+    ]);
+    return true;
+
+  } catch (error) {
+    console.error('Error saving INI files:', error);
+    throw error;
+  }
+};
+
 const ApplyIniValuesToTemplate = (template, iniValues) => {
   console.log('ApplyIniValuesToTemplate..');
   try {
@@ -125,12 +148,13 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                  { key: 'x127', value: '0.063' },
                  { key: 'y127', value: '0.7011' },
                  { key: 'z127', value: '1' }
-               ],
+               ] 
+                 or
                foundValue: 100.0 */
 
             if (foundValue != null) {
               if (Array.isArray(foundValue) && foundValue.length > 2) {
-                const colorKeys = iniKey.split("|"); //<- iniKey === "x159|y159|z159"
+                const colorKeys = iniKey.split("|"); //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
                 const colorComponents = colorKeys.map(key => {
                   const foundValueObj = foundValue.find(obj => obj.key === key);
                   return foundValueObj ? foundValueObj.value : undefined;
@@ -138,7 +162,7 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
 
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
                   const color = reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  element.Value = getColorDecimalValue(color);
+                  element.Value = getColorDecimalValue(color);    
                   //console.log("Value:", element.Value);
                 } else {
                   Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
@@ -176,14 +200,71 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
   return template;
 };
 
-const applyTemplateToInis = async (template, iniValues) => {
+const ApplyTemplateValuesToIni = (template, iniValues) => {
   try {
-    if (fileHelper.checkFileExists()) {
+    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
+      for (const group of template.ui_groups) {
+        if (group.Elements != null) {
+          for (const element of group.Elements) {
+            const iniKey = element.Key;
+            const foundValue = ini.findValueByKey(iniValues, element);
+            /* foundValue: [
+                 { key: 'x127', value: '0.063' },
+                 { key: 'y127', value: '0.7011' },
+                 { key: 'z127', value: '1' }
+               ] 
+                 or
+               foundValue: 100.0 */
 
+            if (foundValue != null) {
+              if (Array.isArray(foundValue) && foundValue.length > 2) {
+                const colorKeys = iniKey.split("|"); //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
+                const colorComponents = intToRGB(element.Value);
+                console.log('colorComponents:', colorComponents);
+
+             /*   const colorComponents = colorKeys.map(key => {
+                  const foundValueObj = foundValue.find(obj => obj.key === key);
+                  return foundValueObj ? foundValueObj.value : undefined;
+                }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
+*/
+                if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                  const color = reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                  element.Value = getColorDecimalValue(color);    
+                  //console.log("Value:", element.Value);
+                } else {
+                  Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
+                }
+
+              } else {
+                element.Value = parseFloat(foundValue);
+              }
+            } else {
+              Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
+            }
+          }
+        }
+      }
+    }
+
+    // Handle xml_profile (if it exists)
+    if (template.xml_profile && iniValues.XmlProfile && iniValues.XmlProfile.constants) {
+      for (const xmlProfileEntry of template.xml_profile) {
+        if (iniValues.XmlProfile.constants[xmlProfileEntry.key]) {
+          try {
+            const iniValue = iniValues.XmlProfile.constants[xmlProfileEntry.key];
+            if (!isNaN(parseFloat(iniValue))) {
+              xmlProfileEntry.value = parseFloat(iniValue);
+            }
+          } catch (error) {
+            console.error(`Error parsing value for xml_profile - ${xmlProfileEntry.key}:`, error);
+          }
+        }
+      }
     }
   } catch (error) {
     throw error;
   }
+  return iniValues;
 };
 
 
@@ -258,34 +339,30 @@ function rgbToHex(r, g, b) {
   return `#${red}${green}${blue}`;
 };
 
+function linearizeSRGB(value) {
+  value /= 255; // Normalize to [0, 1]
+  return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+}
+function getGammaCorrectedRGBA(color, gammaValue = 2.4) {
+  const [r, g, b, a] = [color.r, color.g, color.b, color.a]; // Assume 0-255 range
+
+  // Linearize sRGB
+  const linearizedR = linearizeSRGB(r);
+  const linearizedG = linearizeSRGB(g);
+  const linearizedB = linearizeSRGB(b);
+
+  // Apply gamma correction (assuming linearized sRGB values)
+  const correctedR = convert_sRGB_ToLinear(linearizedR, gammaValue);
+  const correctedG = convert_sRGB_ToLinear(linearizedG, gammaValue);
+  const correctedB = convert_sRGB_ToLinear(linearizedB, gammaValue);
+
+  // Normalize alpha to [0, 1]
+  const correctedA = a / 255;
+
+  return [correctedR, correctedG, correctedB, correctedA];
+}
 
 
-
-//  const colorInt = -23296;
-//const rgb = intToRGB(colorInt);
-//  console.log(`RGB: (${rgb.r}, ${rgb.g}, ${rgb.b})`);
-
-function getGammaCorrectedRgba(color, gammaValue = 2.4) {
-  const result = [0, 0, 0, color.alpha / 255]; // Initialize result with alpha
-
-  try {
-    // Convert to approximate linear sRGB (assuming sRGB space)
-    const linearSrgb = {
-      r: color.r / 255,
-      g: color.g / 255,
-      b: color.b / 255,
-    };
-
-    // Apply gamma correction (assuming power function)
-    result[0] = Math.round(Math.pow(linearSrgb.r, gammaValue), 4);
-    result[1] = Math.round(Math.pow(linearSrgb.g, gammaValue), 4);
-    result[2] = Math.round(Math.pow(linearSrgb.b, gammaValue), 4);
-  } catch (error) {
-    throw error;
-  }
-
-  return result;
-};
 
 function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
   const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
@@ -365,6 +442,14 @@ ipcMain.handle('LoadThemeINIs', async (event, folderPath) => {
   } catch (error) {
     throw error;
   }  
+}); 
+
+ipcMain.handle('SaveThemeINIs', async (event, folderPath, themeINIs) => {
+  try {
+    return SaveThemeINIs(folderPath, themeINIs);
+  } catch (error) {
+    throw error;
+  }  
 });
 
 ipcMain.handle('reverseGammaCorrected', async (event, gammaR, gammaG, gammaB) => {
@@ -383,14 +468,14 @@ ipcMain.handle('apply-ini-values', async (event, template, iniValues) => {
     throw error;
   }  
 });
-ipcMain.handle('applyTemplateToGame', async (event, template, iniValues) => {
+ipcMain.handle('ApplyTemplateValuesToIni', async (event, template, iniValues) => {
   try {
-    const updatedTemplate = await applyTemplateToGame(template, gamePath);
-  return updatedTemplate;
+    const updatedTemplate = await ApplyTemplateValuesToIni(template, iniValues);
+    return updatedTemplate;
   } catch (error) {
     throw error;
   }  
 });
 
 
-export default { getThemes, LoadThemeINIs, ApplyIniValuesToTemplate };
+export default { getThemes, LoadThemeINIs, SaveThemeINIs, ApplyIniValuesToTemplate, ApplyTemplateValuesToIni };

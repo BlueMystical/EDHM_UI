@@ -26,6 +26,7 @@ contextBridge.exposeInMainWorld('api', {
   
   getThemes: async (dirPath) => ipcRenderer.invoke('get-themes', dirPath),
   LoadThemeINIs: async (folderPath) => ipcRenderer.invoke('LoadThemeINIs', folderPath),
+  SaveThemeINIs: async (folderPath, themeINIs) => ipcRenderer.invoke('SaveThemeINIs', folderPath, themeINIs),
 
   initializeSettings: async () => ipcRenderer.invoke('initialize-settings'),
   InstallStatus: async () => ipcRenderer.invoke('InstallStatus'),
@@ -36,7 +37,7 @@ contextBridge.exposeInMainWorld('api', {
   getActiveInstance: () => ipcRenderer.invoke('active-instance'),
 
   applyIniValuesToTemplate: async (template, iniValues) => ipcRenderer.invoke('apply-ini-values', template, iniValues),
-  applyTemplateToGame: async (template, gamePath) => ipcRenderer.invoke('applyTemplateToGame', template, gamePath),
+  ApplyTemplateValuesToIni: async (template, iniValues) => ipcRenderer.invoke('ApplyTemplateValuesToIni', template, iniValues),
  
   
   loadIniFile: async (filePath) => ipcRenderer.invoke('loadIniFile', filePath),
