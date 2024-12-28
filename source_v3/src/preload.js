@@ -40,7 +40,7 @@ contextBridge.exposeInMainWorld('api', {
  
   
   loadIniFile: async (filePath) => ipcRenderer.invoke('loadIniFile', filePath),
-  saveIniFile: async (filePath) => ipcRenderer.invoke('saveIniFile', filePath),
+  saveIniFile: async (filePath, iniData) => ipcRenderer.invoke('saveIniFile', filePath, iniData),
   getValueFromSection: (iniData, section, key, defaultValue) => ipcRenderer.invoke('getValueFromSection', iniData, section, key, defaultValue),
   setValueInSection: (iniData, section, key, value) => ipcRenderer.invoke('setValueInSection', iniData, section, key, value),
 

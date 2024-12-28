@@ -15,63 +15,67 @@ import eventBus from '../EventBus';
  * @returns {Promise<Array>} A promise that resolves to an array of themes.
  */
 const getThemes = async (dirPath) => {
-  const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
-  const files = [];
+  try {
+    const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
+    const files = [];
 
-  for (const dirent of subfolders) {
-    if (dirent.isDirectory()) {
-      const subfolderPath = path.join(dirPath, dirent.name);
-      //console.log('Processing subfolder:', subfolderPath);
+    for (const dirent of subfolders) {
+      if (dirent.isDirectory()) {
+        const subfolderPath = path.join(dirPath, dirent.name);
+        //console.log('Processing subfolder:', subfolderPath);
 
-      const previewFilePath = path.join(subfolderPath, 'PREVIEW.jpg');
-      let creditsFilePath = null;
+        const previewFilePath = path.join(subfolderPath, 'PREVIEW.jpg');
+        let creditsFilePath = null;
 
-      try {
-        // Check for PREVIEW.jpg
-        const previewExists = await fs.promises.access(previewFilePath, fs.constants.F_OK).then(() => true).catch(() => false);
+        try {
+          // Check for PREVIEW.jpg
+          const previewExists = await fs.promises.access(previewFilePath, fs.constants.F_OK).then(() => true).catch(() => false);
 
-        // Find any .credits file
-        const allFiles = await fs.promises.readdir(subfolderPath);
-        const creditsFile = allFiles.find(file => file.endsWith('.credits'));
+          // Find any .credits file
+          const allFiles = await fs.promises.readdir(subfolderPath);
+          const creditsFile = allFiles.find(file => file.endsWith('.credits'));
 
-        if (creditsFile) {
-          creditsFilePath = path.join(subfolderPath, creditsFile);
-        }
-
-        //console.log('Preview exists:', previewExists, 'Credits file found:', !!creditsFilePath);
-
-        if (previewExists) {
-          let creditsJson = { name: dirent.name }; // Default to folder name if credits file is missing
-          if (creditsFilePath) {
-            const creditsData = await fs.promises.readFile(creditsFilePath, 'utf-8');
-            try {
-              creditsJson = JSON.parse(creditsData);
-            } catch {
-              creditsJson = {
-                "theme": dirent.name,
-                "author": "Unknown",
-                "description": "** .Credits file missing or Invalid **",
-                "preview": "",
-                "color": []
-              };
-            }
+          if (creditsFile) {
+            creditsFilePath = path.join(subfolderPath, creditsFile);
           }
-          files.push({
-            path: subfolderPath,
-            thumbnail: 'PREVIEW.jpg', //previewFilePath,
-            credits: creditsJson
-          });
-          //console.log('Added file:', { preview: previewFilePath, credits: creditsJson });
-        }
 
-      } catch (error) {
-        Log.Error(error.message, error.stack);
+          //console.log('Preview exists:', previewExists, 'Credits file found:', !!creditsFilePath);
+
+          if (previewExists) {
+            let creditsJson = { name: dirent.name }; // Default to folder name if credits file is missing
+            if (creditsFilePath) {
+              const creditsData = await fs.promises.readFile(creditsFilePath, 'utf-8');
+              try {
+                creditsJson = JSON.parse(creditsData);
+              } catch {
+                creditsJson = {
+                  "theme": dirent.name,
+                  "author": "Unknown",
+                  "description": "** .Credits file missing or Invalid **",
+                  "preview": "",
+                  "color": []
+                };
+              }
+            }
+            files.push({
+              path: subfolderPath,
+              thumbnail: 'PREVIEW.jpg', //previewFilePath,
+              credits: creditsJson
+            });
+            //console.log('Added file:', { preview: previewFilePath, credits: creditsJson });
+          }
+
+        } catch (error) {
+          Log.Error(error.message, error.stack);
+        }
       }
     }
-  }
 
-  //console.log('All files:', files);
-  return files;
+    //console.log('All files:', files);
+    return files;
+  } catch (error) {
+    throw error;
+  }  
 };
 
 const getIniFilePath = (basePath, fileName) => {
@@ -104,8 +108,7 @@ const LoadThemeINIs = async (folderPath) => {
     }
 
   } catch (error) {
-    Log.Error(error);
-    return null;
+    throw error;
   }
 };
 
@@ -168,7 +171,7 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
       }
     }
   } catch (error) {
-    Log.Error(error);
+    throw error;
   }
   return template;
 };
@@ -179,7 +182,6 @@ const applyTemplateToInis = async (template, iniValues) => {
 
     }
   } catch (error) {
-    Log.Error(error);
     throw error;
   }
 };
@@ -219,20 +221,23 @@ function RGBAtoColor(colorComponents) {
 
 function getColorDecimalValue(color) {
   // Convert RGB to a single decimal value (e.g., for use with some UI libraries)
-  // This is a simple example, you might need to adjust based on your specific needs
   return (color.r << 16) + (color.g << 8) + color.b;
 };
 
 function intToHex(int) {
-  // Ensure unsigned 32-bit
-  int >>>= 0;
+  try {
+    // Ensure unsigned 32-bit
+    int >>>= 0;
 
-  // Convert each component to a two-digit hex string
-  const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
-  const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
-  const b = (int & 0xFF).toString(16).padStart(2, '0');
+    // Convert each component to a two-digit hex string
+    const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
+    const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
+    const b = (int & 0xFF).toString(16).padStart(2, '0');
 
-  return `#${r}${g}${b}`;
+    return `#${r}${g}${b}`;
+  } catch (error) {
+    throw error;
+  }  
 };
 
 function intToRGB(int) {
@@ -261,9 +266,6 @@ function rgbToHex(r, g, b) {
 //  console.log(`RGB: (${rgb.r}, ${rgb.g}, ${rgb.b})`);
 
 function getGammaCorrectedRgba(color, gammaValue = 2.4) {
-  // No ColorManagment library assumed in JavaScript
-  // Basic conversion based on sRGB to linear approximation
-
   const result = [0, 0, 0, color.alpha / 255]; // Initialize result with alpha
 
   try {
@@ -279,7 +281,7 @@ function getGammaCorrectedRgba(color, gammaValue = 2.4) {
     result[1] = Math.round(Math.pow(linearSrgb.g, gammaValue), 4);
     result[2] = Math.round(Math.pow(linearSrgb.b, gammaValue), 4);
   } catch (error) {
-    console.error("Error converting color to gamma corrected RGBA:", error);
+    throw error;
   }
 
   return result;
@@ -307,22 +309,26 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
       result.a = safeRound(gammaA * 255);
     }
   } catch (error) {
-    console.error("Error converting gamma corrected values to color:", error);
+    throw error;
   }
 
   return result;
 };
 
 function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
-  if (!Array.isArray(gammaComponents) || gammaComponents.length < 3) {
-    console.log(gammaComponents);
-    throw new Error("Invalid gamma components list (requires at least 3 elements)");
-  }
-
-  const [gammaR, gammaG, gammaB, ...remaining] = gammaComponents;
-  const gammaA = remaining.length > 0 ? remaining[0] : 1.0;
-
-  return reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
+  try {
+    if (!Array.isArray(gammaComponents) || gammaComponents.length < 3) {
+      console.log(gammaComponents);
+      throw new Error("Invalid gamma components list (requires at least 3 elements)");
+    }
+  
+    const [gammaR, gammaG, gammaB, ...remaining] = gammaComponents;
+    const gammaA = remaining.length > 0 ? remaining[0] : 1.0;
+  
+    return reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
+  } catch (error) {
+    throw error;
+  }  
 };
 
 function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
@@ -349,25 +355,41 @@ ipcMain.handle('get-themes', async (event, dirPath) => {
     const files = await getThemes(resolvedPath);
     return files;
   } catch (error) {
-    Log.Error(error);
+    throw error;
   }
 });
 
 ipcMain.handle('LoadThemeINIs', async (event, folderPath) => {
-  return LoadThemeINIs(folderPath);
+  try {
+    return LoadThemeINIs(folderPath);
+  } catch (error) {
+    throw error;
+  }  
 });
 
 ipcMain.handle('reverseGammaCorrected', async (event, gammaR, gammaG, gammaB) => {
-  return reverseGammaCorrected(gammaR, gammaG, gammaB);
+  try {
+    return reverseGammaCorrected(gammaR, gammaG, gammaB);
+  } catch (error) {
+    throw error;
+  }  
 });
 
 ipcMain.handle('apply-ini-values', async (event, template, iniValues) => {
-  const updatedTemplate = await ApplyIniValuesToTemplate(template, iniValues);
+  try {
+    const updatedTemplate = await ApplyIniValuesToTemplate(template, iniValues);
   return updatedTemplate;
+  } catch (error) {
+    throw error;
+  }  
 });
 ipcMain.handle('applyTemplateToGame', async (event, template, iniValues) => {
-  const updatedTemplate = await applyTemplateToGame(template, gamePath);
+  try {
+    const updatedTemplate = await applyTemplateToGame(template, gamePath);
   return updatedTemplate;
+  } catch (error) {
+    throw error;
+  }  
 });
 
 

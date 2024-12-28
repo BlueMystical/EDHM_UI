@@ -10,13 +10,15 @@ import path from 'node:path';
  * @returns {object} - The parsed INI data as an object, or an empty object on error.
  */
 function loadIniFile(filePath) {
+  let _ret = {};
     try {
         const data = fs.readFileSync(filePath, 'utf-8');
-        return ini.parse(data);
+        _ret = ini.parse(data, { comment: ';' });
     } catch (error) {
         console.error(`Error loading INI file: ${filePath}`, error);
-        return {};
+        throw error;
     }
+    return _ret;
 }
 
 /**
@@ -54,13 +56,16 @@ function setValueInSection(iniData, section, key, value) {
 * @param {object} iniData - The modified INI data as an object.
 */
 function saveIniFile(filePath, iniData) {
+  let _ret = false;
     try {
+      // Write back to INI format, preserving comments 
         fs.writeFileSync(filePath, ini.stringify(iniData));
-        return true;
+        _ret = true;
     } catch (error) {
         console.error(`Error saving INI file: ${filePath}`, error);
-        return false;
+        throw error;
     }
+    return _ret;
 }
 
 /**
@@ -125,17 +130,33 @@ function findValueByKey(data, searchItem) {
 // Expose functions through ipcMain
 
 ipcMain.handle('loadIniFile', async (event, filePath) => {
+  try {
     return await loadIniFile(filePath);
+  } catch (error) {
+    throw error;
+  }    
 });
-ipcMain.handle('saveIniFile', async (event, filePath) => {
-    return await saveIniFile(filePath);
+ipcMain.handle('saveIniFile', async (event, filePath, iniData) => {
+  try {
+    return saveIniFile(filePath, iniData);
+  } catch (error) {
+    throw error;
+  }    
 });
 
 ipcMain.handle('getValueFromSection', async (event, iniData, section, key, defaultValue) => {
+  try {
     return getValueFromSection(iniData, section, key, defaultValue);
+  } catch (error) {
+    throw error;
+  }    
 });
 ipcMain.handle('setValueInSection', async (event, iniData, section, key, value) => {
+  try {
     return setValueInSection(iniData, section, key, value);
+  } catch (error) {
+    throw error;
+  }    
 });
 
 export default { loadIniFile, saveIniFile, getValueFromSection, setValueInSection, findValueByKey }

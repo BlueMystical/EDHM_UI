@@ -163,6 +163,7 @@ import GlobalSettingsTab from './GlobalSettingsTab.vue';
 
 import defaultTemplate from '../data/ED_Odissey_ThemeTemplate.json';
 let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate)); 
+let programSettings = null;
 
 export default {
   name: 'MainNavBars',
@@ -188,12 +189,14 @@ export default {
   },
   setup(props) {
     //console.log(props);
+   
     const appVersion = ref('');
     const modVersion = ref('');
     const selectedGame = ref(props.settings.ActiveInstance || 'Select a Game'); // Set initial value from settings
     const gameMenuItems = ref( // Populate game instances with the `instance` values from `Settings`
       props.settings.GameInstances.flatMap(instance => instance.games.map(game => game.instance))
     );
+    programSettings = props.settings;
     const historyOptions = ref([]);
     const selectedHistory = ref('dummy'); // Initialize with the dummy value
 
@@ -299,6 +302,7 @@ export default {
       modVersion,
       selectedGame,
       gameMenuItems,
+      programSettings,
       selectGame,
       historyOptions,
       History_LoadElements,
@@ -319,45 +323,65 @@ export default {
    
     async LoadTheme(theme) {
       /* Happens when a Theme in the list is Selected  */
-      //console.log('Theme Selected: ', theme);    console.log(theme.file.path);
       this.showSpinner = true;
-
-      const ThemeINIs = await window.api.LoadThemeINIs(theme.file.path);          //console.log('ThemeINIs:', ThemeINIs);
+      try {
+        const ThemeINIs = await window.api.LoadThemeINIs(theme.file.path);          //console.log('ThemeINIs:', ThemeINIs);
       
-      themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-      themeTemplate.credits.theme = theme.file.credits.theme;
-      themeTemplate.credits.author = theme.file.credits.author;
-      themeTemplate.credits.description = theme.file.credits.description;
-      themeTemplate.credits.preview = theme.file.credits.preview;
-      themeTemplate.path = theme.file.path;
-      themeTemplate.version = props.settings.Version_ODYSS;; //<- TODO: Load version from EDHM
+        themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+        themeTemplate.credits.theme = theme.file.credits.theme;
+        themeTemplate.credits.author = theme.file.credits.author;
+        themeTemplate.credits.description = theme.file.credits.description;
+        themeTemplate.credits.preview = theme.file.credits.preview;
+        themeTemplate.path = theme.file.path;  
+        themeTemplate.version =  this.programSettings.Version_ODYSS;  //console.log(programSettings);
 
-      //console.log('Theme Changed: ', themeTemplate);
-      eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+        eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
 
-      //console.log(themeTemplate.ui_groups[7].Elements[5].Key, themeTemplate.ui_groups[7].Elements[5].Value);   
-
-      //console.log('z103: ', themeTemplate.ui_groups[1].Elements[0].Value   );
-      //console.log('z103: ->', defaultTemplate.ui_groups[1].Elements[0].Value   );
-
-      this.showSpinner = false;
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      } finally { this.showSpinner = false; }
     },
     async applyTheme() {
+      //console.log('Apply Theme button clicked');
       this.showSpinner = true;
-      console.log('Apply Theme button clicked');
-      // Add your theme application logic here
+      try {
 
-      //const ActiveInstance = await window.api.getActiveInstance(); 
-      //console.log(ActiveInstance);
+        const ActiveInstance = await window.api.getActiveInstance(); 
+        console.log('1. ActiveInstance:', ActiveInstance);
+        console.log('2. ThemeTemplate:', themeTemplate);
+        const GamePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+        console.log('3. GamePath:', GamePath);
+        console.log('4. Get Default Inis...');
+        
+        const defaultINIs = await window.api.LoadThemeINIs(GamePath);  
+        console.log('defaultINIs:', defaultINIs);
+        defaultINIs.Advanced.Constants.w29 = 94.7; //<- Value modification TEST
+
+        const AdvancedPath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'Advanced.ini');
+        const StartupPath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'Startup-Profile.ini');
+        const SuitHudPath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'SuitHud.ini');
+        const XMLProfilePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini', 'XML-Profile.ini');
+
+        await window.api.saveIniFile(AdvancedPath, defaultINIs.Advanced);
+        await window.api.saveIniFile(StartupPath, defaultINIs.StartupProfile);
+        await window.api.saveIniFile(SuitHudPath, defaultINIs.SuitHud);
+        await window.api.saveIniFile(XMLProfilePath, defaultINIs.XMLProfile);
+
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      } finally { this.showSpinner = false; }
+      
       //window.api.applyTemplateToGame(themeTemplate, ActiveInstance.path);
 
   /*    setTimeout(() => {
           this.loading = false;
           eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
-      }, 3000);*/
+      }, 3000); */
 
+      /*
       const options = {
         type: 'none', //<- none, info, error, question, warning
+        //icon: image,
         buttons: ['Cancel', 'Yes, please', 'No, thanks'],
         defaultId: 1,
         title: 'Question',
@@ -370,8 +394,8 @@ export default {
 
       console.log('User clicked:', result.response); // Index of the button clicked
       console.log('Checkbox checked:', result.checkboxChecked); // Boolean for checkbox state
-
-      this.showSpinner = false;
+*/
+      
     },
     addNewTheme(event) {
       console.log('Add New Theme button clicked');

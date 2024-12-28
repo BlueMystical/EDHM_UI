@@ -5,10 +5,6 @@ const os = require('os');
 const ini = require('ini');
 
 
-
-
-
-
 /**
  * Resolves environment variables in a given path string.
  *
@@ -16,38 +12,42 @@ const ini = require('ini');
  * @returns {string} The resolved path, or the original path if no replacements were made.
  */
 const resolveEnvVariables = (inputPath) => {
-  if (typeof inputPath !== 'string') {
-    console.warn("Input path must be a string. Returning original input:", inputPath);
-    return inputPath;
-  }
-
-  if (!inputPath.includes('%')) {
-    // Optimization: if no % characters, no need to do any replacements
-    return inputPath;
-  }
-
-  const envVars = {
-    '%USERPROFILE%': os.homedir(),
-    '%APPDATA%': process.env.APPDATA,
-    '%LOCALAPPDATA%': process.env.LOCALAPPDATA,
-    '%PROGRAMFILES%': process.env.PROGRAMFILES,
-    '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'],
-    '%PROGRAMDATA%': process.env.PROGRAMDATA, // Added %PROGRAMDATA%
-    '%APPDIR%': app.getAppPath(),
-  };
-
-  let resolvedPath = inputPath;
-
-  for (const [key, value] of Object.entries(envVars)) {
-    if (value) {
-      // Use a regular expression for more robust replacement
-      const regex = new RegExp(key.replace(/%/g, '\\%'), 'gi'); // Escape % for regex
-      resolvedPath = resolvedPath.replace(regex, value);
+  try {
+    if (typeof inputPath !== 'string') {
+      console.warn("Input path must be a string. Returning original input:", inputPath);
+      return inputPath;
     }
-  }
-
-  console.log('Resolved path:', resolvedPath);
-  return resolvedPath;
+  
+    if (!inputPath.includes('%')) {
+      // Optimization: if no % characters, no need to do any replacements
+      return inputPath;
+    }
+  
+    const envVars = {
+      '%USERPROFILE%': os.homedir(),
+      '%APPDATA%': process.env.APPDATA,
+      '%LOCALAPPDATA%': process.env.LOCALAPPDATA,
+      '%PROGRAMFILES%': process.env.PROGRAMFILES,
+      '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'],
+      '%PROGRAMDATA%': process.env.PROGRAMDATA, // Added %PROGRAMDATA%
+      '%APPDIR%': app.getAppPath(),
+    };
+  
+    let resolvedPath = inputPath;
+  
+    for (const [key, value] of Object.entries(envVars)) {
+      if (value) {
+        // Use a regular expression for more robust replacement
+        const regex = new RegExp(key.replace(/%/g, '\\%'), 'gi'); // Escape % for regex
+        resolvedPath = resolvedPath.replace(regex, value);
+      }
+    }
+  
+    console.log('Resolved path:', resolvedPath);
+    return resolvedPath;
+  } catch (error) {
+    throw error;
+  }  
 };
 
 /**
@@ -59,11 +59,15 @@ const resolveEnvVariables = (inputPath) => {
  * @returns {string} The absolute path to the asset.
  */
 function getAssetPath(assetPath) {
-  if (process.env.NODE_ENV === 'development') {
-    return path.join(__dirname, '../../src', assetPath); // Dev path
-  } else {
-    return path.join(process.resourcesPath, assetPath); // Correct Prod path
-  }
+  try {
+    if (process.env.NODE_ENV === 'development') {
+      return path.join(__dirname, '../../src', assetPath); // Dev path
+    } else {
+      return path.join(process.resourcesPath, assetPath); // Correct Prod path
+    }
+  } catch (error) {
+    throw error;
+  }  
 }
 
 /**
@@ -76,8 +80,8 @@ const ensureDirectoryExists = (DirectoryPath) => {
     if (!fs.existsSync(resolvedPath)) {
       fs.mkdirSync(resolvedPath, { recursive: true });
     }
-  } catch (err) {
-    console.error('Failed to create log directory:', err);
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -93,7 +97,7 @@ const checkFileExists = (filePath) => {
       return false; //File does not exist
     }
   } catch (error) {
-    console.error('Error checking file existence:', error);
+    throw error;
   }
 };
 
@@ -116,7 +120,7 @@ const loadJsonFile = (filePath) => {
     return JSON.parse(data);
   } catch (err) {
     console.error(`Error loading JSON file: ${resolvedPath}`, err);
-    return null;
+    throw err;
   }
 };
 
@@ -134,8 +138,8 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
 
     const options = prettyPrint ? { spaces: 4 } : null;
     fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
-  } catch (err) {
-    console.error(`Error writing JSON file: ${resolvedPath}`, err);
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -162,11 +166,13 @@ const options = {
     checkboxLabel: 'Remember my answer', checkboxChecked: false,
   }; 
 */
-  const result = await dialog.showMessageBox(options);
-  return result;
+  try {
+    const result = await dialog.showMessageBox(options);
+    return result;
+  } catch (error) {
+    throw error;
+  }  
 });
-
-
 
 // Returns the local path (Cross-platform compatible) of the given path who is using Env.Vars.
 ipcMain.handle('resolve-env-variables', async (event, inputPath) => {
@@ -218,13 +224,19 @@ ipcMain.handle('get-local-file-url', async (event, localPath) => {
   }
 });
 
-
-
 ipcMain.handle('get-json-file', async (event, jsonPath) => {
-  return loadJsonFile(jsonPath);
+  try {
+    return loadJsonFile(jsonPath);
+  } catch (error) {
+    throw error;
+  }  
 });
 ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
-  return writeJsonFile(filePath, data, prettyPrint);
+  try {
+    return writeJsonFile(filePath, data, prettyPrint);
+  } catch (error) {
+    throw error;
+  }  
 });
 
 ipcMain.handle('is-not-null-obj', async (event, obj) => {
