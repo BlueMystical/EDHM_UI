@@ -228,8 +228,9 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
                 }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
 */
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
-                  const color = reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  element.Value = getColorDecimalValue(color);    
+                  const sRGBcolor = GetGammaCorrected_RGBA(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                  console.log("sRGBcolor:", sRGBcolor);
+                  //element.Value = getColorDecimalValue(color);    
                   //console.log("Value:", element.Value);
                 } else {
                   Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
@@ -339,28 +340,36 @@ function rgbToHex(r, g, b) {
   return `#${red}${green}${blue}`;
 };
 
-function linearizeSRGB(value) {
-  value /= 255; // Normalize to [0, 1]
-  return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
+  return thesRGBValue <= 0.04045 
+    ? thesRGBValue / 12.92 
+    : Math.pow((thesRGBValue + 0.055) / 1.055, gammaValue);
 }
-function getGammaCorrectedRGBA(color, gammaValue = 2.4) {
-  const [r, g, b, a] = [color.r, color.g, color.b, color.a]; // Assume 0-255 range
 
-  // Linearize sRGB
-  const linearizedR = linearizeSRGB(r);
-  const linearizedG = linearizeSRGB(g);
-  const linearizedB = linearizeSRGB(b);
+function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
+  const normalize = value => value / 255;
 
-  // Apply gamma correction (assuming linearized sRGB values)
-  const correctedR = convert_sRGB_ToLinear(linearizedR, gammaValue);
-  const correctedG = convert_sRGB_ToLinear(linearizedG, gammaValue);
-  const correctedB = convert_sRGB_ToLinear(linearizedB, gammaValue);
+  const gammaCorrected = {
+    r: Math.round(Convert_sRGB_ToLinear(normalize(color.R), gammaValue) * 10000) / 10000,
+    g: Math.round(Convert_sRGB_ToLinear(normalize(color.G), gammaValue) * 10000) / 10000,
+    b: Math.round(Convert_sRGB_ToLinear(normalize(color.B), gammaValue) * 10000) / 10000,
+    a: Math.round(normalize(color.A) * 10000) / 10000 // Alpha remains linear
+  };
 
-  // Normalize alpha to [0, 1]
-  const correctedA = a / 255;
-
-  return [correctedR, correctedG, correctedB, correctedA];
+  return gammaCorrected;
 }
+
+// Example usage:
+/*
+const color = {
+  R: 128,
+  G: 128,
+  B: 128,
+  A: 255
+};
+const correctedColor = GetGammaCorrected_RGBA(color);
+console.log(correctedColor);
+*/
 
 
 
