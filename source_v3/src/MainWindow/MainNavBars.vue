@@ -342,31 +342,34 @@ export default {
       } finally { this.showSpinner = false; }
     },
     async applyTheme() {
-      //console.log('Apply Theme button clicked');
       this.showSpinner = true;
       try {
-
         const ActiveInstance = await window.api.getActiveInstance(); 
         console.log('1. ActiveInstance:', ActiveInstance);
         console.log('2. ThemeTemplate:', themeTemplate);
-
-        console.log('3. Preparing all the Paths:');
+        
         const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini'); 
         const defaultInisPath = await window.api.getAssetPath('data/ODY');  
-              
+        console.log('3. Preparing all the Paths:', GamePath);
+
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);  
         console.log('4. Get Default Inis:', defaultINIs);
-
-        console.log('5. Applying Changes to the INIs...');
+        
         const updatedInis = await window.api.ApplyTemplateValuesToIni(themeTemplate, defaultINIs);
-        console.log('updatedInis:', updatedInis);
+        console.log('5. Applying Changes to the INIs...', updatedInis);
         
         console.log('6. Saving the INI files..');
-        await window.api.SaveThemeINIs(GamePath, defaultINIs);
-
+        const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
+        if (_ret) {
+          eventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${themeTemplate.credits.theme}' Applied!'` });
+        }
+        setTimeout(() => {
+            this.showSpinner = false;       
+          }, 1500);
       } catch (error) {
-          eventBus.emit('ShowError', error);
-      } finally { this.showSpinner = false; }
+        this.showSpinner = false; 
+        eventBus.emit('ShowError', error);
+      } 
       
 
 
@@ -394,21 +397,21 @@ export default {
 */
       
     },
-    addNewTheme(event) {
+    async addNewTheme(event) {
       console.log('Add New Theme button clicked');
       this.applyIconColor(event.target);
 
+      const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
+      const IntValue = 16755200; console.log('IntValue', IntValue);
+      const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
+      const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
+      const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
+
+      // Red x232 =1 ; Green y232 =0.3763 ; Blue z232 =0 ; Alpha w232 =1
       //eventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
 
-      try {
-        // Intentionally throw an error to test the error toast
-        throw new Error('This is a custom error message for testing purposes.');
-      } catch (error) {
-        // Show the custom error toast
-        eventBus.emit('ShowError', error);
-      }
     },
-    exportTheme(event) {
+    async exportTheme(event) {
       console.log('Export Theme button clicked');
       this.applyIconColor(event.target);
 
@@ -421,7 +424,7 @@ export default {
         console.error('Current Settings can not be saved??');
       }
     },
-    saveTheme(event) {
+    async saveTheme(event) {
       //console.log('Save Theme button clicked');
       this.applyIconColor(event.target);
       eventBus.emit('RoastMe', { type: 'Info', message: `Theme Saved!:\r\n ${themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'

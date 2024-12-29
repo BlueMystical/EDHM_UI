@@ -52,8 +52,9 @@ contextBridge.exposeInMainWorld('api', {
 
   //resolvePath: (basePath, ...segments) => path.resolve(basePath, ...segments),
   
-
-
+  GetGammaCorrected_RGBA: async (color, gammaValue) => ipcRenderer.invoke('GetGammaCorrected_RGBA', color, gammaValue),
+  reverseGammaCorrected:  async (color, gammaValue) => ipcRenderer.invoke('reverseGammaCorrected',  color, gammaValue),
+  intToRGBA:  async (colorValue) => ipcRenderer.invoke('intToRGBA',  colorValue),
 
   getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
   getAssetFileUrl: (assetPath) => ipcRenderer.invoke('get-asset-file-url', assetPath),

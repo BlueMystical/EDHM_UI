@@ -1,10 +1,8 @@
-//import * as ini from 'ini';
-//import * as fs from 'fs';
-import { ipcMain } from 'electron';
 import path from 'node:path';
-
-import { writeFile , readFile } from 'node:fs/promises';
+import { ipcMain } from 'electron';
 import { stringify , parse } from 'ini';
+import { writeFile , readFile } from 'node:fs/promises';
+
 
 /**
  * Loads the INI file from the specified path.
@@ -44,16 +42,16 @@ async function saveIniFile(filePath, iniData) {
     try { 
       if (iniData) {
         const text = stringify(iniData,{ 
-            //section : 'section',    //<- Identifier to use for global items
             whitespace : true ,     //<- Whether to insert spaces before & after `=`
             sort : false ,          //<- Whether to sort all sections & their keys alphabetically.
             bracketedArray : true   //<- Whether to append `[]` to array keys.
         });
 
-        console.log(text);
+        //console.log(text);
         
         //  Write INI file as text      
-        await writeFile(filePath, text); _ret = true;
+        await writeFile(filePath, text); 
+        _ret = true;
 
       } else {
         throw new Error('404 - No Data to save!');
@@ -88,10 +86,17 @@ function getValueFromSection(iniData, section, key, defaultValue) {
  * @param {*} value - The new value for the key.
  */
 function setValueInSection(iniData, section, key, value) {
+  let _ret = false;
+  try {
     if (!iniData[section]) {
         iniData[section] = {};
     }
     iniData[section][key] = value;
+    _ret = true;
+  } catch (error) {
+    throw error;
+  }
+  return _ret;
 }
 
 
@@ -104,26 +109,23 @@ function setValueInSection(iniData, section, key, value) {
  */
 function findValueByKey(data, searchItem) {
     /* searchItem: {
-      "Category":"Chat Panel",
-      "Title":"Chat Panel Lines",
-      "File":"Startup-Profile",
-      "Section":"Constants",
-      "Key":"x137",
-      "Value":100,
-      "ValueType":"Preset",
-      "Type":"AdvancedMode",
-      "Description":""
-    } */
-
-    const fileName = searchItem.File.replace(/-/g, '');  // Remove hyphens
-    const section = searchItem.Section.toLowerCase();  // Convert section to lowercase
-    const keys = searchItem.Key.split('|');  // Split multiple keys
-  
-    const fileData = data[fileName];
+        ...
+        "File":"Startup-Profile",
+        "Section":"Constants",
+        "Key":"x137",
+        "Value":100,
+        "ValueType":"Preset",
+        ...
+      } */
     const results = [];
     let keyCount = 0;
   
     try {
+      const fileName = searchItem.File.replace(/-/g, '');  // Remove hyphens
+      const section = searchItem.Section.toLowerCase();  // Convert section to lowercase
+      const keys = searchItem.Key.split('|');  // Split multiple keys  
+      const fileData = data[fileName];
+
       if (fileData) {
         // Find the correct section in a case-insensitive manner
         const sectionKey = Object.keys(fileData).find(
@@ -148,6 +150,7 @@ function findValueByKey(data, searchItem) {
       }
     } catch (error) {
       console.error(error.message);
+      //throw error;
     }
   
     // Return results as an array of key-value pairs, or the single value if only one key

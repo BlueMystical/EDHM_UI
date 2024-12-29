@@ -75,7 +75,7 @@ const getThemes = async (dirPath) => {
     return files;
   } catch (error) {
     throw error;
-  }  
+  }
 };
 
 const getIniFilePath = (basePath, fileName) => {
@@ -122,15 +122,15 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
   try {
 
     await Promise.all([
-      await ini.saveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), StartupProfile),
-      await ini.saveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), Advanced),
-      await ini.saveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), SuitHud),
-      await ini.saveIniFile(getIniFilePath(folderPath, 'XML-Profile.ini'), XmlProfile),
+      await ini.saveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), themeINIs.StartupProfile),
+      await ini.saveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), themeINIs.Advanced),
+      await ini.saveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), themeINIs.SuitHud),
+      await ini.saveIniFile(getIniFilePath(folderPath, 'XML-Profile.ini'), themeINIs.XmlProfile),
     ]);
     return true;
 
   } catch (error) {
-    console.error('Error saving INI files:', error);
+    console.error('Error at ThemeHelper/SaveThemeINIs():', error);
     throw error;
   }
 };
@@ -162,7 +162,7 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
 
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
                   const color = reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  element.Value = getColorDecimalValue(color);    
+                  element.Value = getColorDecimalValue(color);
                   //console.log("Value:", element.Value);
                 } else {
                   Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
@@ -201,46 +201,35 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
 };
 
 const ApplyTemplateValuesToIni = (template, iniValues) => {
+  let stackTrace = '';
   try {
+
     if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
           for (const element of group.Elements) {
+
+            const fileName = element.File.replace(/-/g, '');  // Remove hyphens
+            const section = element.Section;  // Convert section to lowercase
             const iniKey = element.Key;
-            const foundValue = ini.findValueByKey(iniValues, element);
-            /* foundValue: [
-                 { key: 'x127', value: '0.063' },
-                 { key: 'y127', value: '0.7011' },
-                 { key: 'z127', value: '1' }
-               ] 
-                 or
-               foundValue: 100.0 */
 
-            if (foundValue != null) {
-              if (Array.isArray(foundValue) && foundValue.length > 2) {
-                const colorKeys = iniKey.split("|"); //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
-                const colorComponents = intToRGB(element.Value);
-                console.log('colorComponents:', colorComponents);
+            stackTrace = path.join(element.File, element.Section, element.Key) + ' ';
 
-             /*   const colorComponents = colorKeys.map(key => {
-                  const foundValueObj = foundValue.find(obj => obj.key === key);
-                  return foundValueObj ? foundValueObj.value : undefined;
-                }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
-*/
-                if (colorComponents != undefined && !colorComponents.includes(undefined)) {
-                  const sRGBcolor = GetGammaCorrected_RGBA(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  console.log("sRGBcolor:", sRGBcolor);
-                  //element.Value = getColorDecimalValue(color);    
-                  //console.log("Value:", element.Value);
-                } else {
-                  Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
-                }
-
-              } else {
-                element.Value = parseFloat(foundValue);
+            if (iniKey.includes('|')) {
+              //Multi Key
+              const keys = element.Key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
+              if (Array.isArray(keys) && keys.length > 2) {
+                const RGBAcolor = intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                const sRGBcolor = GetGammaCorrected_RGBA(RGBAcolor);
+                // Map keys to values 
+                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
+                keys.forEach((key, index) => {
+                  iniValues[fileName][section][key] = parseFloat(values[index]);
+                });
               }
             } else {
-              Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
+              //Single Key:
+              iniValues[fileName][section][iniKey] = parseFloat(element.Value);
             }
           }
         }
@@ -248,45 +237,21 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
     }
 
     // Handle xml_profile (if it exists)
-    if (template.xml_profile && iniValues.XmlProfile && iniValues.XmlProfile.constants) {
-      for (const xmlProfileEntry of template.xml_profile) {
-        if (iniValues.XmlProfile.constants[xmlProfileEntry.key]) {
-          try {
-            const iniValue = iniValues.XmlProfile.constants[xmlProfileEntry.key];
-            if (!isNaN(parseFloat(iniValue))) {
-              xmlProfileEntry.value = parseFloat(iniValue);
-            }
-          } catch (error) {
-            console.error(`Error parsing value for xml_profile - ${xmlProfileEntry.key}:`, error);
-          }
-        }
+    if (template.xml_profile && iniValues.XmlProfile && iniValues.XmlProfile.Constants) {
+      console.log('We have XML');
+      for (const element of template.xml_profile) {
+        stackTrace = path.join('XmlProfile', 'Constants', element.key) + ' ';
+        const key = element.key;
+        iniValues.XmlProfile.Constants[key] = parseFloat(element.value);
       }
     }
+
   } catch (error) {
-    throw error;
+    throw new Error('At ThemeHelper.js/ApplyTemplateValuesToIni(): ' + stackTrace + error.message);
   }
   return iniValues;
 };
 
-
-
-function deepCopy(obj) {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj;
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(item => deepCopy(item));
-  }
-
-  const copy = {};
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      copy[key] = deepCopy(obj[key]);
-    }
-  }
-  return copy;
-};
 
 /*--------- Color Conversion Methods ---------------------*/
 function RGBAtoColor(colorComponents) {
@@ -319,15 +284,7 @@ function intToHex(int) {
     return `#${r}${g}${b}`;
   } catch (error) {
     throw error;
-  }  
-};
-
-function intToRGB(int) {
-  int >>>= 0; // Ensure unsigned 32-bit
-  const r = (int >> 16) & 0xFF;
-  const g = (int >> 8) & 0xFF;
-  const b = int & 0xFF;
-  return { r, g, b };
+  }
 };
 
 function rgbToHex(r, g, b) {
@@ -340,39 +297,38 @@ function rgbToHex(r, g, b) {
   return `#${red}${green}${blue}`;
 };
 
+// Function to convert an integer value to RGBA components
+function intToRGBA(colorInt) {
+  const r = (colorInt >> 16) & 0xFF;
+  const g = (colorInt >> 8) & 0xFF;
+  const b = colorInt & 0xFF;
+  const a = ((colorInt >> 24) & 0xFF) || 255; // Default alpha to 255 if not present
+
+  return { r, g, b, a };
+}
+
+// Function to convert sRGB to Linear RGB using gamma correction
 function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
-  return thesRGBValue <= 0.04045 
-    ? thesRGBValue / 12.92 
+  return thesRGBValue <= 0.04045
+    ? thesRGBValue / 12.92
     : Math.pow((thesRGBValue + 0.055) / 1.055, gammaValue);
 }
 
+// Function to get gamma corrected RGBA
 function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
   const normalize = value => value / 255;
 
   const gammaCorrected = {
-    r: Math.round(Convert_sRGB_ToLinear(normalize(color.R), gammaValue) * 10000) / 10000,
-    g: Math.round(Convert_sRGB_ToLinear(normalize(color.G), gammaValue) * 10000) / 10000,
-    b: Math.round(Convert_sRGB_ToLinear(normalize(color.B), gammaValue) * 10000) / 10000,
-    a: Math.round(normalize(color.A) * 10000) / 10000 // Alpha remains linear
+    r: Math.round(Convert_sRGB_ToLinear(normalize(color.r), gammaValue) * 10000) / 10000,
+    g: Math.round(Convert_sRGB_ToLinear(normalize(color.g), gammaValue) * 10000) / 10000,
+    b: Math.round(Convert_sRGB_ToLinear(normalize(color.b), gammaValue) * 10000) / 10000,
+    a: Math.round(normalize(color.a) * 10000) / 10000 // Alpha remains linear
   };
 
   return gammaCorrected;
 }
 
-// Example usage:
-/*
-const color = {
-  R: 128,
-  G: 128,
-  B: 128,
-  A: 255
-};
-const correctedColor = GetGammaCorrected_RGBA(color);
-console.log(correctedColor);
-*/
-
-
-
+// Function to reverse the gamma correction for comparison
 function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
   const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
 
@@ -399,7 +355,15 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
   }
 
   return result;
-};
+}
+
+// Helper function for safe rounding
+function safeRound(value) {
+  return isNaN(value) ? 0 : Math.round(value);
+}
+
+
+
 
 function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
   try {
@@ -407,14 +371,14 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
       console.log(gammaComponents);
       throw new Error("Invalid gamma components list (requires at least 3 elements)");
     }
-  
+
     const [gammaR, gammaG, gammaB, ...remaining] = gammaComponents;
     const gammaA = remaining.length > 0 ? remaining[0] : 1.0;
-  
+
     return reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
   } catch (error) {
     throw error;
-  }  
+  }
 };
 
 function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
@@ -429,9 +393,7 @@ function convert_sRGB_ToLinear(thesRGBValue, _GammaValue = 2.4) {
     : Math.pow((thesRGBValue + 0.055) / 1.055, _GammaValue);
 };
 
-function safeRound(value) {
-  return isNaN(value) ? 0 : Math.round(value);
-};
+
 
 
 /*--------- Expose Methods via IPC Handlers: ---------------------*/
@@ -450,32 +412,47 @@ ipcMain.handle('LoadThemeINIs', async (event, folderPath) => {
     return LoadThemeINIs(folderPath);
   } catch (error) {
     throw error;
-  }  
-}); 
+  }
+});
 
 ipcMain.handle('SaveThemeINIs', async (event, folderPath, themeINIs) => {
   try {
     return SaveThemeINIs(folderPath, themeINIs);
   } catch (error) {
     throw error;
-  }  
+  }
 });
 
-ipcMain.handle('reverseGammaCorrected', async (event, gammaR, gammaG, gammaB) => {
+ipcMain.handle('reverseGammaCorrected', async (event, color, gammaValue) => {
   try {
-    return reverseGammaCorrected(gammaR, gammaG, gammaB);
+    return reverseGammaCorrected(color.r, color.g, color.b, color.a, gammaValue);
   } catch (error) {
     throw error;
-  }  
+  }
 });
+ipcMain.handle('GetGammaCorrected_RGBA', async (event, color, gammaValue) => {
+  try {
+    return GetGammaCorrected_RGBA(color, gammaValue);
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('intToRGBA', async (event, colorInt) => {
+  try {
+    return intToRGBA(colorInt);
+  } catch (error) {
+    throw error;
+  }
+});
+
 
 ipcMain.handle('apply-ini-values', async (event, template, iniValues) => {
   try {
     const updatedTemplate = await ApplyIniValuesToTemplate(template, iniValues);
-  return updatedTemplate;
+    return updatedTemplate;
   } catch (error) {
     throw error;
-  }  
+  }
 });
 ipcMain.handle('ApplyTemplateValuesToIni', async (event, template, iniValues) => {
   try {
@@ -483,7 +460,7 @@ ipcMain.handle('ApplyTemplateValuesToIni', async (event, template, iniValues) =>
     return updatedTemplate;
   } catch (error) {
     throw error;
-  }  
+  }
 });
 
 
