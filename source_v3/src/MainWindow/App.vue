@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="bg-dark text-light">
+  <div id="app" class="bg-dark text-light" data-bs-theme="dark">
     <div v-if="loading" class="d-flex justify-content-center align-items-center bg-dark text-light"
       style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;">
       <div class="bg-dark text-light" role="status">
@@ -31,7 +31,7 @@
     <!-- Modal -->
     <ModalDialog ref="modalDialog" />
 
-
+    <SettingsEditor @save="saveConfig" />
 
 
     <!-- Container for Bottom Colored Toasts -->
@@ -96,14 +96,16 @@
 
 <script>
 import MainNavBars from './MainNavBars.vue';
-import ModalDialog from './Components/ModalDialog.vue'
+import ModalDialog from './Components/ModalDialog.vue';
 import eventBus from '../EventBus';
+import SettingsEditor from './SettingsEditor.vue';
 
 export default {
   name: 'App',
   components: {
     MainNavBars,
-    ModalDialog
+    ModalDialog,
+    SettingsEditor
   },
   data() {
     return {
@@ -198,6 +200,9 @@ export default {
         }); 
       },
 
+      saveConfig(newConfig) { // Handle the updated config here 
+      console.log('Config saved:', newConfig); 
+    }
 
   },
   async mounted() {

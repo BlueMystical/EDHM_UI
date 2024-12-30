@@ -15,11 +15,16 @@ contextBridge.exposeInMainWorld('api', {
   getAppVersion: async () => ipcRenderer.invoke('get-app-version'),
   logError: (...args) => ipcRenderer.invoke('logError', ...args),
 
-  ShowDialog: (options) => ipcRenderer.invoke('ShowDialog', options),
+  ShowMessageBox: (options) => ipcRenderer.invoke('ShowMessageBox', options),
+  ShowOpenDialog: (options) => ipcRenderer.invoke('ShowOpenDialog', options),
+  ShowSaveDialog: (options) => ipcRenderer.invoke('ShowSaveDialog', options),
+
+  checkProcess: async (processName) => ipcRenderer.invoke('checkProcess', processName),
 
   joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
   resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
   getParentFolder: (filePath) => getParentFolder(filePath),
+  openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
 
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
   writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),

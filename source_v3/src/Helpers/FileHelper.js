@@ -2,7 +2,56 @@ const { app, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
+const ps = require('ps-node');
 const ini = require('ini');
+const { exec } = require('child_process');
+
+
+/**
+ * Open the File Explorer showing a selected Folder
+ * @param {*} filePath Folder to select
+ */
+function openPathInExplorer(filePath) {
+    const normalizedPath = resolveEnvVariables(
+      path.normalize(filePath)); // Normalize path to avoid issues
+
+    let command;
+
+    if (os.platform() === 'win32') {
+        command = `start "" "${normalizedPath}"`;
+    } else if (os.platform() === 'darwin') {
+        command = `open "${normalizedPath}"`;
+    } else {
+        command = `xdg-open "${normalizedPath}"`;
+    }
+
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error opening path: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.error(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`Path opened successfully: ${stdout}`);
+    });
+};
+
+
+function callProgram(programPath) {
+    exec(`"${programPath}"`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error calling program: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.error(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`Program output: ${stdout}`);
+    });
+}
 
 
 /**
@@ -153,7 +202,7 @@ ipcMain.handle('get-app-path', () => {
 });
 
 
-ipcMain.handle('ShowDialog', async (event, options) => {
+ipcMain.handle('ShowMessageBox', async (event, options) => {
   /*
 const options = {
     type: 'warning', //<- none, info, error, question, warning
@@ -171,7 +220,84 @@ const options = {
     return result;
   } catch (error) {
     throw error;
-  }  
+  }
+});
+ipcMain.handle('ShowOpenDialog', async (event, options) => {
+  /*  
+  const options = {
+      title: '',  //The dialog title. Cannot be displayed on some Linux desktop
+      defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
+      buttonLabel : '',  //(optional) - Custom label for the confirmation button
+      filters: [
+        { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+        { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+        { name: 'Custom File Type', extensions: ['as'] },
+        { name: 'All Files', extensions: ['*'] }
+      ],
+      //--- Choose only one: 'openFile', 'openDirectory':
+      properties: ['openFile', 'openDirectory', 'multiSelections', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
+      message: 'This message will only be shown on macOS', // (optional)
+    }; 
+  */
+  try {
+    const result = dialog.showOpenDialogSync(options);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('ShowSaveDialog', async (event, options) => {
+  /*  
+  const options = {
+      title: '',  //The dialog title. Cannot be displayed on some Linux desktop
+      defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
+      buttonLabel : '',  //(optional) - Custom label for the confirmation button
+      filters: [
+        { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+        { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+        { name: 'Custom File Type', extensions: ['as'] },
+        { name: 'All Files', extensions: ['*'] }
+      ],
+      //--- Choose only one: 'openFile', 'openDirectory':
+      properties: ['showHiddenFiles', 'createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent'],
+      message: 'This message will only be shown on macOS', // (optional)
+    }; 
+  */
+  try {
+    const result = dialog.showSaveDialogSync(options);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+});
+
+
+ipcMain.handle('checkProcess', async (event, processName) => {
+  return new Promise((resolve, reject) => {
+    ps.lookup({ command: processName }, (err, resultList) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const process = resultList.find(proc => proc);
+      if (process) {
+        resolve(path.dirname(process.command));
+      } else {
+        resolve(null);
+      }
+    });
+  });
+});
+
+
+ipcMain.handle('openPathInExplorer', async (event, filePath) => {
+  try {
+    const result = openPathInExplorer(filePath);
+    return result;
+  } catch (error) {
+    throw error;
+  }
 });
 
 // Returns the local path (Cross-platform compatible) of the given path who is using Env.Vars.
@@ -243,4 +369,12 @@ ipcMain.handle('is-not-null-obj', async (event, obj) => {
   return isNotNullOrEmpty(obj);
 });
 
-export default { getAssetPath, resolveEnvVariables, ensureDirectoryExists, loadJsonFile, writeJsonFile, checkFileExists };
+export default { 
+  getAssetPath, 
+  resolveEnvVariables, 
+  ensureDirectoryExists, 
+  loadJsonFile, 
+  writeJsonFile, 
+  checkFileExists, 
+  openPathInExplorer 
+};

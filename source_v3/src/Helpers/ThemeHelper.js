@@ -1,12 +1,11 @@
-import { app, ipcMain } from 'electron';
+import { ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'fs';
 
 import ini from './IniHelper.js';
 import fileHelper from './FileHelper';
 import Log from './LoggingHelper.js';
-import settingsHelper from './SettingsHelper.js';
-import eventBus from '../EventBus';
+
 
 /**
  * Retrieves themes from a specified directory path.

@@ -313,10 +313,22 @@ export default {
     setActiveTab(tab) {
       this.activeTab = tab;
     },
-    menuClicked(value) {
+    async menuClicked(value) {
       if (value) {
-        console.log(`Menu ${value} clicked`);
         this.$refs.mainMenuSelect.value = 'mnuDummy'; // Reset the select to "Main Menu"
+        console.log(`Menu ${value} clicked`);
+        
+        const ActiveInstance = await window.api.getActiveInstance(); 
+        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini'); 
+
+        if (value === 'mnuOpenGame') {
+          await window.api.openPathInExplorer(GamePath);
+        }
+        if (value === 'mnuSettings') {
+          eventBus.emit('open-settings-editor');
+          
+        }
+
       }
     },
 
