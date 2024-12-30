@@ -106,6 +106,7 @@
                 </div> <!-- modal-body -->
                 <div class="modal-footer">
                     <div class="btn-group" role="group" aria-label="Default button group">
+                        <button type="button" class="btn btn-outline-secondary" @click="CleanInstall">Clean Install</button>
                         <button type="button" class="btn btn-success" @click="runGameLocationAssistant">Game Location Assistant</button>
                         <button type="button" class="btn btn-primary" @click="save">Save Changes</button>
                     </div>
@@ -130,25 +131,39 @@ export default {
                 HideToTray: false,
                 PlayerJournal: '',
                 UserDataFolder: '',
-            }
+            },
+            ActiveInstance: {}
         };
     },
     created() {
         eventBus.on('open-settings-editor', this.open);
     },
     methods: {
-        async open() {
+        /* Pops up this Component */
+        async open(InstallStatus) {
             this.visible = true;
-            this.config = await window.api.getSettings();
+            if (InstallStatus === 'existingInstall') {
+                this.config = await window.api.getSettings();
+            } else {
+                this.config = await window.api.getDefaultSettings();
+                setTimeout(() => {
+                    eventBus.emit('RoastMe', { type: 'Info', message: 'You can do it manually in the Game Instances..<br> or just click the Green Button.' });    
+                }, 2000); 
+            }    
+            //console.log(this.config);        
         },
         close() {
             this.visible = false;
         },
-        save() {
+        /* Save the Settings */
+        save() {            
             this.$emit('save', this.config);
+            window.api.saveSettings(JSON.stringify(this.config, null, 4));
+            eventBus.emit('SettingsChanged', JSON.parse(JSON.stringify(this.config))); //<- this event will be heard in 'App.vue'  
             this.close();
         },
-        browseFile(instanceIndex, gameIndex) {
+        /* Manually Browse for the Game Executable */
+        browseFile(instanceIndex, gameIndex) {            
             const options = {
                 title: 'Select the Game Executable',
                 defaultPath: 'EliteDangerous64',
@@ -156,7 +171,7 @@ export default {
                     { name: 'Game Exe', extensions: ['exe'] }
                 ],
                 properties: ['openFile', 'multiSelections', 'showHiddenFiles', 'dontAddToRecent'],
-                message: 'Select the Game Executable', // (optional)
+                message: 'Select the Game Executable', 
             };
             window.api.ShowOpenDialog(options).then(filePath => {
                 if (filePath) {
@@ -164,6 +179,7 @@ export default {
                 }
             });
         },
+        /* Browse for the location to store User's data and Themes */
         async browseUserDataFolder() {
             const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
             const options = {
@@ -178,6 +194,7 @@ export default {
                 }
             });
         },
+        /* Browse for the location where the ED Player Journal is located */
         async browseJournalFolder() {
             const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous');
             const options = {
@@ -192,24 +209,32 @@ export default {
                 }
             });
         },
+        /* Cleans html tags */
         sanitizeId(id) {
             return id.replace(/\s/g, '');
         },
-        runGameLocationAssistant() {
-            console.log('Waiting for Game to Start...');
+        /* Adds a new Game Instance to the Settings */
+        async addNewGameInstance(instancePath) {
+            const _ret = await window.api.addNewInstance(instancePath, JSON.parse(JSON.stringify(this.config))); 
+            this.config = _ret;
+            eventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
+        },
+        /* Attepmts to Detect the running Game Process and then sets the Paths */
+        async runGameLocationAssistant() {
             eventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
 
-            this.checkProcess().then(fullPath => {
+            await this.checkProcess().then(fullPath => {
                 if (fullPath) {
                     console.log('Process found at:', fullPath);
                     eventBus.emit('RoastMe', { type: 'Success', message: `Process found at: '${fullPath}''` });
 
-                    //TODO: Instalar el mod en la nueva ubicacion del juego
+                    this.addNewGameInstance(String(fullPath));
+
                 } else {
                     console.log('Process not found.');
                 }
             });
-        },
+        },        
         async checkProcess() {
             return new Promise((resolve, reject) => {
                 const check = async () => {
@@ -224,6 +249,30 @@ export default {
                 };
                 check();
             });
+        },
+        async CleanInstall() {    
+            try {
+                const options = {
+                    type: 'warning', //<- none, info, error, question, warning
+                    buttons: ['Cancel', "Yes, I'm Sure", 'No, take me back!'],
+                    defaultId: 1,
+                    title: 'Question',
+                    message: 'Do you want to proceed?',
+                    detail: "This will wipe the settings of the program to a 'clean State'",
+                    cancelId: 0,
+                }; 
+                const result = await window.api.ShowMessageBox(options); console.log(result);
+                if (result.response === 1) {                
+                    const FilePath = await window.api.joinPath(this.config.UserDataFolder, 'Settings.json');
+                    const ResolvedPath = await window.api.resolveEnvVariables(FilePath);
+                    const _ret = await window.api.deleteFileByAbsolutePath(ResolvedPath);
+                    if (_ret) {
+                        eventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Settings got wiped!<br>You should re-start the App now.' });
+                    }
+                }
+            } catch (error) {
+                eventBus.emit('ShowError', error);
+            }
         }
     },
     beforeDestroy() {

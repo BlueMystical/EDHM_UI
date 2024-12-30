@@ -24,7 +24,8 @@ contextBridge.exposeInMainWorld('api', {
   joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
   resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
   getParentFolder: (filePath) => getParentFolder(filePath),
-  openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
+  openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath), 
+  deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath), 
 
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
   writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
@@ -35,11 +36,15 @@ contextBridge.exposeInMainWorld('api', {
 
   initializeSettings: async () => ipcRenderer.invoke('initialize-settings'),
   InstallStatus: async () => ipcRenderer.invoke('InstallStatus'),
-  getSettings: async () => ipcRenderer.invoke('get-settings'),  
+  getSettings: async () => ipcRenderer.invoke('get-settings'),   
+  getDefaultSettings: async () => ipcRenderer.invoke('getDefaultSettings'), 
   loadSettings: async () => ipcRenderer.invoke('load-settings'),
   saveSettings: async (settings) => ipcRenderer.invoke('save-settings', settings),
+  
+  addNewInstance: async (NewInstancePath, settings) => ipcRenderer.invoke('addNewInstance', NewInstancePath, settings),
 
-  getActiveInstance: () => ipcRenderer.invoke('active-instance'),
+  getActiveInstance: () => ipcRenderer.invoke('active-instance'), 
+  getActiveInstanceEx: () => ipcRenderer.invoke('getActiveInstanceEx'),
 
   applyIniValuesToTemplate: async (template, iniValues) => ipcRenderer.invoke('apply-ini-values', template, iniValues),
   ApplyTemplateValuesToIni: async (template, iniValues) => ipcRenderer.invoke('ApplyTemplateValuesToIni', template, iniValues),

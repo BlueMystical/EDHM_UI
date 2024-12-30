@@ -208,22 +208,24 @@ export default {
 
         // Loads the 'Current Settings' from the Ini files:
         const ActiveInstance = await window.api.getActiveInstance();            //console.log('ActiveInstance', ActiveInstance.path);
-        const themePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
-        const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
+        if (ActiveInstance.path != '') {
+          const themePath = window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+          const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
 
-        themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-        themeTemplate.credits.theme = "Current Settings"; // theme.file.credits.theme;
-        themeTemplate.credits.author = "User"; // theme.file.credits.author;
-        themeTemplate.credits.description = "Currently Applied Colors in Game"; // theme.file.credits.description;
-        themeTemplate.credits.preview = ""; // theme.file.credits.preview;
-        themeTemplate.path = themePath;
-        themeTemplate.version = props.settings.Version_ODYSS; //<- Load version from EDHM
+          themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+          themeTemplate.credits.theme = "Current Settings"; // theme.file.credits.theme;
+          themeTemplate.credits.author = "User"; // theme.file.credits.author;
+          themeTemplate.credits.description = "Currently Applied Colors in Game"; // theme.file.credits.description;
+          themeTemplate.credits.preview = ""; // theme.file.credits.preview;
+          themeTemplate.path = themePath;
+          themeTemplate.version = props.settings.Version_ODYSS; //<- Load version from EDHM
 
-        eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
-        //eventBus.emit('RoastMe', { title: 'Theme Loaded', message: 'Current Settings'}); //<- this event will be heard in 'App.vue'
+          eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+          //eventBus.emit('RoastMe', { title: 'Theme Loaded', message: 'Current Settings'}); //<- this event will be heard in 'App.vue'
 
-        // Provide the themeTemplate data to be accessible by all components 
-        provide('themeTemplate', themeTemplate);
+          // Provide the themeTemplate data to be accessible by all components 
+          provide('themeTemplate', themeTemplate);
+        }      
  
       } catch (error) {
         eventBus.emit('ShowError', error);
@@ -269,7 +271,7 @@ export default {
         //console.log(historyOptions.value);
 
       } catch (error) {
-        eventBus.emit('ShowError', error);
+        //eventBus.emit('ShowError', error);
       }
     };
     const History_AddSettings = async (theme) => {
@@ -325,7 +327,8 @@ export default {
           await window.api.openPathInExplorer(GamePath);
         }
         if (value === 'mnuSettings') {
-          eventBus.emit('open-settings-editor');
+          const InstallStatus = await window.api.InstallStatus();
+          eventBus.emit('open-settings-editor', InstallStatus);
           
         }
 

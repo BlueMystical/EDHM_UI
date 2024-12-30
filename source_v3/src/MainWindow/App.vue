@@ -190,18 +190,33 @@ export default {
           console.error('Failed to copy to clipboard: ', err);
         });
     },
-    showModal() { 
+    showModal() {
       this.$refs.modalDialog.dialogConfirm(
-        { 
-          title: 'Your Title', 
-          message: 'Your Message', 
-        }) .then((result) => { 
-          console.log('Modal result:', result); 
-        }); 
-      },
+        {
+          title: 'Your Title',
+          message: 'Your Message',
+        }).then((result) => {
+          console.log('Modal result:', result);
+        });
+    },
+    getActiveInstance(config) {
 
-      saveConfig(newConfig) { // Handle the updated config here 
-      console.log('Config saved:', newConfig); 
+    },
+
+    /**
+     * Fires when the Settings had been changed
+     * @param newConfig the updated settings
+     */
+    async saveConfig(newConfig) { // Handle the updated config here 
+      console.log('Config saved:', newConfig);
+
+      const gameInstance = await window.api.getActiveInstanceEx();
+      eventBus.emit('loadThemes', gameInstance);  //<- this event will be heard in 'ThemeTab.vue'
+
+      //TODO: Instalar el mod en la nueva ubicacion del juego
+
+      this.showToast({ type: 'Success', message: 'Settings Applied!' });
+      this.showToast({ type: 'Info', message: 'You can close this now.' });
     }
 
   },
@@ -215,10 +230,13 @@ export default {
         case 'existingInstall':
           break;
         case 'freshInstall':
-          this.showToast({ type: 'Success', title: 'Success', message: 'Welcome to the application!' });
+          eventBus.emit('ShowSpinner', { visible: false });
+          this.showToast({ type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
+          eventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
+
           break;
         case 'upgradingUser':
-          this.showToast({ type: 'Success', title: 'Success', message: 'Upgrade Complete!\r\nThe application has been upgraded successfully.' });
+          this.showToast({ type: 'Success', message: 'Upgrade Complete!\r\nThe application has been upgraded successfully.' });
           break;
         default:
           break;
@@ -240,11 +258,13 @@ export default {
       }, 1000);
     }
 
-     /* EVENTS WE LISTEN TO HERE:  */
+    /* EVENTS WE LISTEN TO HERE:  */
     eventBus.on('RoastMe', this.showToast);
     eventBus.on('ShowError', this.showError);
 
-    eventBus.on('modal-confirmed', () => { console.log('Modal confirmed'); }); 
+    eventBus.on('SettingsChanged', this.saveConfig);
+
+    eventBus.on('modal-confirmed', () => { console.log('Modal confirmed'); });
     eventBus.on('modal-cancelled', () => { console.log('Modal cancelled'); });
 
     // Listen for events with callback support 

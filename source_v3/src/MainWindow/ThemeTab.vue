@@ -39,13 +39,11 @@ export default {
     /**
      * LOADS THE LIST OF THEMES FROM THE USER'S THEMES FOLDER
      */
-    async loadThemes() {
+    async loadThemes(gameInstance) {
       try {
         //Gets the Themes Folder from the Active Instance:
         this.loading = true;
-
-        const gameInstance = await window.api.getActiveInstance();
-        //console.log(gameInstance);
+        //console.log('gameInstance: ', gameInstance);
         if (!gameInstance || !gameInstance.themes_folder) {
           throw new Error('Themes folder not found for the active instance.');
         }
@@ -98,7 +96,13 @@ export default {
 
   },
   async mounted() {
-    await this.loadThemes();
+    const gameInstance = await window.api.getActiveInstance();
+    await this.loadThemes(gameInstance);
+
+    eventBus.on('loadThemes', this.loadThemes);    
+  },
+  beforeUnmount() {
+    eventBus.off('loadThemes', this.loadThemes);
   }
 };
 </script>

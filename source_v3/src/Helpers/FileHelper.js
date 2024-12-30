@@ -196,6 +196,58 @@ function isNotNullOrEmpty(obj) {
   return obj && Object.keys(obj).length > 0;
 }
 
+function deleteFolderRecursive(folderPath) {
+  if (fs.existsSync(folderPath)) {
+    fs.readdirSync(folderPath).forEach((file) => {
+      const currentPath = path.join(folderPath, file);
+
+      if (fs.lstatSync(currentPath).isDirectory()) {
+        deleteFolderRecursive(currentPath); // Recursively delete folder contents
+      } else {
+        fs.unlinkSync(currentPath); // Delete file
+      }
+    });
+    fs.rmdirSync(folderPath); // Remove the now-empty folder
+  }
+}
+
+function deleteFileByAbsolutePath(filePath) {
+  let _ret = false;
+  try {
+    fs.unlinkSync(filePath);
+    _ret = true;
+    console.log('File deleted successfully.');
+  } catch (err) {
+    console.error('Error deleting file:', err);
+  }
+  return _ret;
+}
+
+function deleteFilesByType(directoryPath, extension) {
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) {
+      return console.error('Unable to scan directory:', err);
+    }
+
+    files.forEach((file) => {
+      if (path.extname(file) === extension) {
+        const filePath = path.join(directoryPath, file);
+        try {
+          fs.unlinkSync(filePath);
+          console.log(`Deleted: ${filePath}`);
+        } catch (err) {
+          console.error('Error deleting file:', filePath, err);
+        }
+      }
+    });
+  });
+  /* Usage example:
+  const dirPath = '/path/to/your/directory'; // Directory path
+  const fileExtension = '.txt'; // File extension to delete
+  deleteFilesByType(dirPath, fileExtension); */
+}
+
+
 /*----------------------------------------------------------------------------------------------------------------------------*/
 ipcMain.handle('get-app-path', () => {
   return app.getAppPath();
@@ -367,6 +419,10 @@ ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
 
 ipcMain.handle('is-not-null-obj', async (event, obj) => {
   return isNotNullOrEmpty(obj);
+});
+
+ipcMain.handle('deleteFileByAbsolutePath', async (event, filePath) => {
+  return deleteFileByAbsolutePath(filePath);
 });
 
 export default { 

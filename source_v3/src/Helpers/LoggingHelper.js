@@ -1,4 +1,4 @@
-import { app, ipcMain } from 'electron';
+import { ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'fs';
 import fileHelper from './FileHelper'; 
@@ -9,7 +9,8 @@ const LOG_TYPES = {
   WARNING: 'WARNING',
 };
 
-const logPath = path.join(app.getPath('appData'), 'edhm-ui', 'log.txt');
+const logPath = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Errorlog.txt');
+//const logPath = path.join(app.getPath('appData'), 'edhm-ui', 'log.txt');
 const logDirectory = path.dirname(logPath); 
 
 /**
