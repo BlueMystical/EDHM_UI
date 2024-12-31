@@ -347,8 +347,7 @@ export default defineComponent({
       this.properties.splice(0, this.properties.length, ...newProperties);
     },
     updateThemeTemplate(item) {
-
-      console.log('On_ThemeLoaded', item)
+      //console.log('On_ThemeLoaded', item)
       themeTemplate = item;
     },
     getPropertiesForArea(area) {

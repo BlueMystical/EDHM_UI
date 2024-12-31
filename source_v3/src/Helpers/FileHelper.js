@@ -3,8 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const ps = require('ps-node');
-const ini = require('ini');
 const { exec } = require('child_process');
+const AdmZip = require('adm-zip');
 
 
 /**
@@ -247,6 +247,108 @@ function deleteFilesByType(directoryPath, extension) {
   deleteFilesByType(dirPath, fileExtension); */
 }
 
+async function compressFiles(files, outputPath) {
+  const zip = new AdmZip();
+  
+  files.forEach(file => {
+    if (fs.existsSync(file)) {
+      zip.addLocalFile(file);
+    } else {
+      console.error(`File not found: ${file}`);
+    }
+  });
+
+  return new Promise((resolve, reject) => {
+    zip.writeZip(outputPath, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve("Files compressed successfully!");
+      }
+    });
+  });
+}
+
+async function compressFolder(folderPath, outputPath) {
+  const zip = new AdmZip();
+  
+  function addFolderToZip(folderPath, zipFolderPath) {
+    const items = fs.readdirSync(folderPath);
+
+    items.forEach(item => {
+      const itemPath = path.join(folderPath, item);
+      const zipItemPath = path.join(zipFolderPath, item);
+      
+      if (fs.lstatSync(itemPath).isDirectory()) {
+        addFolderToZip(itemPath, zipItemPath);
+      } else {
+        zip.addLocalFile(itemPath, zipFolderPath);
+      }
+    });
+  }
+
+  addFolderToZip(folderPath, path.basename(folderPath));
+
+  return new Promise((resolve, reject) => {
+    zip.writeZip(outputPath, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve("Folder compressed successfully!");
+      }
+    });
+  });
+}
+
+async function decompressFile(zipPath, outputDir) {
+  if (!fs.existsSync(zipPath)) {
+    throw new Error(`ZIP file not found: ${zipPath}`);
+  }
+
+  const zip = new AdmZip(zipPath);
+
+  return new Promise((resolve, reject) => {
+    try {
+      zip.extractAllTo(outputDir, true);
+      resolve("Files decompressed successfully!");
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+
+/**
+ * Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente.
+ * 
+ * @param {string} folderPath - La ruta de la carpeta en la que buscar.
+ * @param {string} fileType - El tipo de archivo a buscar (por ejemplo, '.txt' para archivos de texto).
+ * @returns {Promise<string>} - El archivo más reciente encontrado.
+ */
+async function findLatestFile(folderPath, fileType) {
+  const files = fs.readdirSync(folderPath)
+    .filter(file => path.extname(file) === fileType)
+    .map(file => path.join(folderPath, file));
+  
+  let latestFile = null;
+  let latestTime = 0;
+
+  for (const file of files) {
+    const stats = fs.statSync(file);
+    const modifiedTime = stats.mtimeMs;
+
+    if (modifiedTime > latestTime) {
+      latestTime = modifiedTime;
+      latestFile = file;
+    }
+  }
+
+  if (!latestFile) {
+    throw new Error(`No files of type ${fileType} found in folder ${folderPath}`);
+  }
+
+  return latestFile;
+}
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 ipcMain.handle('get-app-path', () => {
@@ -424,6 +526,41 @@ ipcMain.handle('is-not-null-obj', async (event, obj) => {
 ipcMain.handle('deleteFileByAbsolutePath', async (event, filePath) => {
   return deleteFileByAbsolutePath(filePath);
 });
+
+ipcMain.handle('compress-files', async (event, files, outputPath) => {
+  try {
+    const result = await compressFiles(files, outputPath);
+    return { success: true, message: result };
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('compress-folder', async (event, folderPath, outputPath) => {
+  try {
+    const result = await compressFolder(folderPath, outputPath);
+    return { success: true, message: result };
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('decompress-file', async (event, zipPath, outputDir) => {
+  try {
+    const result = await decompressFile(zipPath, outputDir);
+    return { success: true, message: result };
+  } catch (error) {
+    throw error;
+  }
+});
+
+ipcMain.handle('find-latest-file', async (event, folderPath, fileType) => {
+  try {
+    const result = await findLatestFile(folderPath, fileType);
+    return { success: true, file: result };
+  } catch (error) {
+    throw error;
+  }
+});
+
 
 export default { 
   getAssetPath, 

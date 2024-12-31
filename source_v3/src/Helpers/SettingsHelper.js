@@ -145,7 +145,7 @@ const saveSettings = (settings) => {
     fs.writeFileSync(userSettingsPath, settings, 'utf-8');
 
     programSettings = JSON.parse(settings);
-    //console.log('Settings file saved successfully.', settings);
+    return programSettings;
   } catch (error) {
     throw error;
   }
@@ -251,7 +251,7 @@ ipcMain.handle('getDefaultSettings', () => {
 
 ipcMain.handle('save-settings', (event, settings) => {
   try {
-    saveSettings(settings);
+    return saveSettings(settings);
   } catch (error) {
     throw error;
   }

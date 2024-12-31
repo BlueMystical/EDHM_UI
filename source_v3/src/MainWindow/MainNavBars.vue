@@ -328,8 +328,7 @@ export default {
         }
         if (value === 'mnuSettings') {
           const InstallStatus = await window.api.InstallStatus();
-          eventBus.emit('open-settings-editor', InstallStatus);
-          
+          eventBus.emit('open-settings-editor', InstallStatus);          
         }
 
       }
@@ -505,7 +504,12 @@ export default {
       this.showSpinner = status.visible;
       //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
     },
-    
+    modUpdated(data) {
+      // happens when the mod gets updated
+      this.programSettings = data;
+      console.log('programSettings: ', programSettings);
+      this.modVersion = data.Version_ODYSS;      
+    }
 
   },
   mounted() {
@@ -513,12 +517,14 @@ export default {
     eventBus.on('setActiveTab', this.setActiveTab);
     eventBus.on('ThemeClicked', this.LoadTheme);
     eventBus.on('ShowSpinner', this.showHideSpinner);
+    eventBus.on('modUpdated', this.modUpdated);
   },
   beforeUnmount() {
     // Clean up the event listener
     eventBus.off('setActiveTab', this.setActiveTab);
     eventBus.off('ThemeClicked', this.LoadTheme);
     eventBus.off('ShowSpinner', this.showHideSpinner);
+    eventBus.off('modUpdated', this.modUpdated);
   }
 };
 </script>
