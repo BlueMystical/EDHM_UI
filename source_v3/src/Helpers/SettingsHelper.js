@@ -3,6 +3,7 @@ import path from 'node:path';
 import fs from 'fs';
 import fileHelper from './FileHelper';
 import Log from './LoggingHelper.js';
+import { writeFile } from 'node:fs/promises';
 
 
 let programSettings = null; // Holds the Program Settings in memory
@@ -71,7 +72,9 @@ const loadSettings = () => {
     if (!fs.existsSync(userSettingsPath)) {
       throw new Error(`User settings file not found at: ${userSettingsPath}`);
     }
-    const data = fs.readFileSync(userSettingsPath, 'utf-8');
+    const data = fs.readFileSync(userSettingsPath, { encoding: "utf8", flag: 'r' });
+    //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
+    
     programSettings = JSON.parse(data);
     return programSettings;
   } catch (error) {
@@ -140,9 +143,14 @@ function addNewInstance(NewInstancePath, settings) {
  * Save changes on the settings back to the JSON file
  * @param {*} settings must 'JSON.stringify' the object before sending it here
  */
-const saveSettings = (settings) => {
+async function saveSettings (settings) {
   try {
-    fs.writeFileSync(userSettingsPath, settings, 'utf-8');
+    //console.log(settings);
+    await writeFile(userSettingsPath, settings, { encoding: "utf8", flag: 'w' });
+    console.log('Settings Saved Successfully');
+
+    //fs.writeFileSync(path, data, { encoding: "utf8", flag: 'a+' }); 
+    //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
 
     programSettings = JSON.parse(settings);
     return programSettings;

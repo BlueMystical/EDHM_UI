@@ -82,7 +82,7 @@
                                         </div>
                                         <div class="col">
                                             <label for="userDataLocation">Themes & User's Data:</label>
-                                            <div id="userDataLocation" class="input-group mb-3">
+                                            <div id="userDataLocation" class="input-group mb-3" disabled>
                                                 <input type="text" class="form-control form-control-sm" placeholder="Pick a Location"
                                                     aria-label="Pick a Location" aria-describedby="button-addon2" v-model="config.UserDataFolder">
                                                 <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="browseUserDataFolder">Browse</button>
@@ -156,10 +156,13 @@ export default {
             this.visible = false;
         },
         /* Save the Settings */
-        save() {            
-            this.$emit('save', this.config);
-            window.api.saveSettings(JSON.stringify(this.config, null, 4));
-            eventBus.emit('SettingsChanged', JSON.parse(JSON.stringify(this.config))); //<- this event will be heard in 'App.vue'  
+        async save() {
+            
+            const jsonString = JSON.stringify(this.config, null, 4);
+            //console.log('Saving Settings:', jsonString);
+           // await window.api.saveSettings(jsonString);
+            //this.$emit('save', this.config);
+            eventBus.emit('SettingsChanged', JSON.parse(jsonString)); //<- this event will be heard in 'App.vue'  
             this.close();
         },
         /* Manually Browse for the Game Executable */

@@ -276,3 +276,6 @@ npx electron-forge make --arch="ia32"
 //-------------------------------------------------------------------------------------------
 run after cloning the Repo:
 npm install
+
+Resolved path: home/bluemystic/edhmv3/src/data/HUD_Type8.json
+File not found: home/bluemystic/edhmv3/src/data/HUD_Type8.json

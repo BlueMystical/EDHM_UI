@@ -51,6 +51,8 @@ export default {
         const ZipFile = await window.api.findLatestFile(ZipPath, '.zip');
         console.log('ZipFile:', ZipFile);
 
+        //TODO: Unzip Themes
+
         if (ZipFile && ZipFile.success) {
           const unzipPath = gameInstance.path;
           const versionMatch = ZipFile.file.match(/v\d+\.\d+/);     console.log('versionMatch', versionMatch[0]);
@@ -65,10 +67,7 @@ export default {
             } else {
               this.settings.Version_HORIZ = versionMatch[0];
             }
-            const updateSettings = await window.api.saveSettings(JSON.stringify(this.settings, null, 4));
-            eventBus.emit('RoastMe', { type: 'Success', message: `EDHM v${versionMatch[0]} Installed.` });
-            eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
-            eventBus.emit('modUpdated', updateSettings); //<- Event listen in MainNavBars.vue
+            
           }
         } else {
           eventBus.emit('ShowError', new Error('404 - Zip File Not Found'));
@@ -93,6 +92,15 @@ export default {
       eventBus.emit('RoastMe', { type: 'Success', message: 'Settings Applied!' });
 
       this.installEDHMmod(gameInstance);
+
+      const jsonString = JSON.stringify(this.settings, null, 4);
+      const updateSettings = await window.api.saveSettings(jsonString);
+
+      eventBus.emit('RoastMe', { type: 'Success', message: `EDHM v${updateSettings.Version_ODYSS} Installed.` });
+      eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
+      eventBus.emit('modUpdated', updateSettings); //<- Event listen in MainNavBars.vue
+
+      //await window.api.saveSettings(jsonString);
 
       if (this.InstallStatus === 'freshInstall') {
         eventBus.emit('RoastMe', { type: 'Info', message: 'You can close this now.' });
@@ -139,7 +147,7 @@ export default {
       }, 1000);
     }
 
-    //eventBus.on('SettingsChanged', this.saveConfig); //No es necesario, al parecer va por Ref..
+    eventBus.on('SettingsChanged', this.saveConfig); //No es necesario, al parecer va por Ref..
   },
   beforeUnmount() {
     // Clean up the event listener
