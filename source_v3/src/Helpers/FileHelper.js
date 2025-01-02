@@ -53,6 +53,18 @@ function callProgram(programPath) {
     });
 }
 
+function getLocalAppDataPath() {
+  switch (process.platform) {
+    case 'win32':
+      return path.join(os.homedir(), 'AppData', 'Local');
+    case 'darwin':
+      return path.join(os.homedir(), 'Library', 'Application Support');
+    case 'linux':
+      return path.join(os.homedir(), '.local', 'share'); 
+    default:
+      throw new Error('Unsupported operating system');
+  }
+}
 
 /**
  * Resolves environment variables in a given path string.
@@ -62,42 +74,68 @@ function callProgram(programPath) {
  */
 const resolveEnvVariables = (inputPath) => {
   try {
-    if (typeof inputPath !== 'string') {
-      console.warn("Input path must be a string. Returning original input:", inputPath);
-      return inputPath;
-    }
-  
-    if (!inputPath.includes('%')) {
-      // Optimization: if no % characters, no need to do any replacements
-      return inputPath;
-    }
-  
+   if (typeof inputPath !== 'string') {
+     console.warn("Input path must be a string. Returning original input:", inputPath);
+     return inputPath;
+   }
+
+   let envVarPath = ''; // Path with resolved Env.Vars
+   let normalPath = ''; // Path with resolved normal Path
+   let resolvedPath = ''; // Final resolved Path
+
+   // 1. Check if we have Environment Variables that we need to resolve
+   let isEnvVar = inputPath.includes('%'); // True if inputPath contains '%'
+
+   if (isEnvVar) {
+     
     const envVars = {
-      '%USERPROFILE%': os.homedir(),
-      '%APPDATA%': process.env.APPDATA,
-      '%LOCALAPPDATA%': process.env.LOCALAPPDATA,
-      '%PROGRAMFILES%': process.env.PROGRAMFILES,
-      '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'],
-      '%PROGRAMDATA%': process.env.PROGRAMDATA, // Added %PROGRAMDATA%
+      '%USERPROFILE%': os.homedir(), 
+      '%APPDATA%': app.getPath('userData'), 
+      '%LOCALAPPDATA%': getLocalAppDataPath(), 
+      '%PROGRAMFILES%': process.env.PROGRAMFILES || process.env['ProgramFiles'], // Handle potential variations
+      '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'], // Handle potential variations
+      '%PROGRAMDATA%': process.env.PROGRAMDATA,
       '%APPDIR%': app.getAppPath(),
     };
-  
-    let resolvedPath = inputPath;
-  
-    for (const [key, value] of Object.entries(envVars)) {
-      if (value) {
-        // Use a regular expression for more robust replacement
-        const regex = new RegExp(key.replace(/%/g, '\\%'), 'gi'); // Escape % for regex
-        resolvedPath = resolvedPath.replace(regex, value);
-      }
-    }
-  
-    console.log('Resolved path:', resolvedPath);
-    return resolvedPath;
-  } catch (error) {
-    throw error;
-  }  
+
+     // Extract and resolve the Env.Var portion from the inputPath
+     envVarPath = inputPath.split('%')[1];   
+     envVarPath = '%' + envVarPath + '%'; // Re-add the % to the Env.Var
+     envVarPath = envVarPath.replace(/%([^%]+)%/g, (match, name) => {
+       return envVars[match] || '';
+     }); 
+     //envVarPath = envVarPath.replace(/%\w+%/g, matched => envVars[matched] || matched);
+   }
+   console.log('EnvVar Path:', envVarPath);
+
+   // Extract the non Env.Var portion of the path
+   let nonEnvVarPart = isEnvVar ? inputPath.replace(/%[\w]+%/, '') : inputPath;
+
+   // Detect separator type
+   let separator = nonEnvVarPart.includes('\\') ? '\\' : '/';
+
+   // Split the path components using the detected separator
+   let pathComponents = nonEnvVarPart.split(separator);
+   pathComponents.forEach(element => {
+     normalPath += path.join(normalPath, element);
+   });
+
+   // Join the path components using path.join to ensure platform separator
+   normalPath = path.join(...pathComponents);
+
+   // Combine envVarPath and normalPath
+   resolvedPath = isEnvVar ? path.join(envVarPath, normalPath) : normalPath;
+
+   console.log('Resolved path:', resolvedPath);
+   return resolvedPath;
+ } catch (error) {
+   throw error;
+ }  
 };
+
+
+
+
 
 /**
  * Gets the absolute path to an asset, handling differences between development and production environments.
@@ -564,7 +602,7 @@ ipcMain.handle('find-latest-file', async (event, folderPath, fileType) => {
 
 export default { 
   getAssetPath, 
-  resolveEnvVariables, 
+  resolveEnvVariables,  
   ensureDirectoryExists, 
   loadJsonFile, 
   writeJsonFile, 

@@ -7,7 +7,10 @@ const path = require('path');
 const getParentFolder = (filePath) => {
   const parts = filePath.split(path.sep);
   parts.pop(); // Remove the last part
-  return parts.join(path.sep);
+  console.log(filePath);
+  return path.dirname;// parts.join(path.sep);
+
+  
 };
 
 
@@ -23,7 +26,7 @@ contextBridge.exposeInMainWorld('api', {
 
   joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
   resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
-  getParentFolder: (filePath) => getParentFolder(filePath),
+  getParentFolder: (filePath) => path.dirname(filePath),
   openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath), 
   deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath), 
 

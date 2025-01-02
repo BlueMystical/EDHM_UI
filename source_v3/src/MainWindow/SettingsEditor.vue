@@ -163,7 +163,7 @@ export default {
             this.close();
         },
         /* Manually Browse for the Game Executable */
-        browseFile(instanceIndex, gameIndex) {            
+       browseFile(instanceIndex, gameIndex) {            
             const options = {
                 title: 'Select the Game Executable',
                 defaultPath: 'EliteDangerous64',
@@ -175,7 +175,8 @@ export default {
             };
             window.api.ShowOpenDialog(options).then(filePath => {
                 if (filePath) {
-                    this.config.GameInstances[instanceIndex].games[gameIndex].path = filePath;
+                    const FolderPath = window.api.getParentFolder(filePath[0]);
+                    this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
                 }
             });
         },
