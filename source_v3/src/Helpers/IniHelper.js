@@ -13,9 +13,6 @@ import { writeFile , readFile } from 'node:fs/promises';
 async function loadIniFile(filePath) {
   let _ret = {};
     try {
-        //const data = fs.readFileSync(filePath, 'utf-8');
-        //_ret = ini.parse(data, { comment: ';' });
-
         //  Read INI file as text
         let text = await readFile(filePath, {
           encoding : 'utf-8'
@@ -25,7 +22,7 @@ async function loadIniFile(filePath) {
         _ret = parse(text);
 
     } catch (error) {
-        console.error(`Error loading INI file: ${filePath}`, error);
+        //console.error(`Error loading INI file: ${filePath}`, error);
         throw error;
     }
     return _ret;
@@ -149,12 +146,15 @@ function findValueByKey(data, searchItem) {
         throw new Error(`File Not Found: ${fileName}`);
       }
     } catch (error) {
-      console.error(error.message);
+      //console.error(error.message);
       //throw error;
     }
   
     // Return results as an array of key-value pairs, or the single value if only one key
-    return results.length === 1 ? results[0].value : results;
+    let _ret = results.length === 1 ? results[0].value : results;
+    if (Array.isArray(_ret) && _ret.length < 1) _ret = null; //<- Empty Arrays not allowed
+
+    return _ret;
   }
 
 /* -----------------------------------------------------------------------------------------------------*/

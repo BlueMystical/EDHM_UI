@@ -106,7 +106,7 @@ const resolveEnvVariables = (inputPath) => {
      }); 
      //envVarPath = envVarPath.replace(/%\w+%/g, matched => envVars[matched] || matched);
    }
-   console.log('EnvVar Path:', envVarPath);
+   //console.log('EnvVar Path:', envVarPath);
 
    // Extract the non Env.Var portion of the path
    let nonEnvVarPart = isEnvVar ? inputPath.replace(/%[\w]+%/, '') : inputPath;
@@ -125,8 +125,7 @@ const resolveEnvVariables = (inputPath) => {
 
    // Combine envVarPath and normalPath
    resolvedPath = isEnvVar ? path.join(envVarPath, normalPath) : normalPath;
-
-   console.log('Resolved path:', resolvedPath);
+   //console.log('Resolved path:', resolvedPath);
    return resolvedPath;
  } catch (error) {
    throw error;
@@ -607,5 +606,6 @@ export default {
   loadJsonFile, 
   writeJsonFile, 
   checkFileExists, 
-  openPathInExplorer 
+  openPathInExplorer ,
+  deleteFilesByType
 };

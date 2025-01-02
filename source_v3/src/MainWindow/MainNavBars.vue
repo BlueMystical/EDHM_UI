@@ -339,15 +339,9 @@ export default {
       /* Happens when a Theme in the list is Selected  */
       this.showSpinner = true;
       try {
-        const ThemeINIs = await window.api.LoadThemeINIs(theme.file.path);          //console.log('ThemeINIs:', ThemeINIs);
-      
-        themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-        themeTemplate.credits.theme = theme.file.credits.theme;
-        themeTemplate.credits.author = theme.file.credits.author;
-        themeTemplate.credits.description = theme.file.credits.description;
-        themeTemplate.credits.preview = theme.file.credits.preview;
-        themeTemplate.path = theme.file.path;  
-        themeTemplate.version =  this.programSettings.Version_ODYSS;  //console.log(programSettings);
+        const template = JSON.parse(JSON.stringify(theme.file));
+        themeTemplate = await window.api.LoadTheme(template.path);
+        console.log('Loaded theme: ', themeTemplate);
 
         eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
 

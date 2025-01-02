@@ -5,6 +5,7 @@ import fs from 'fs';
 import ini from './IniHelper.js';
 import fileHelper from './FileHelper';
 import Log from './LoggingHelper.js';
+import { writeFile } from 'node:fs/promises';
 
 
 /**
@@ -21,60 +22,103 @@ const getThemes = async (dirPath) => {
     for (const dirent of subfolders) {
       if (dirent.isDirectory()) {
         const subfolderPath = path.join(dirPath, dirent.name);
-        //console.log('Processing subfolder:', subfolderPath);
-
-        const previewFilePath = path.join(subfolderPath, 'PREVIEW.jpg');
-        let creditsFilePath = null;
 
         try {
-          // Check for PREVIEW.jpg
-          const previewExists = await fs.promises.access(previewFilePath, fs.constants.F_OK).then(() => true).catch(() => false);
+            const template = await LoadTheme(subfolderPath);
 
-          // Find any .credits file
-          const allFiles = await fs.promises.readdir(subfolderPath);
-          const creditsFile = allFiles.find(file => file.endsWith('.credits'));
-
-          if (creditsFile) {
-            creditsFilePath = path.join(subfolderPath, creditsFile);
-          }
-
-          //console.log('Preview exists:', previewExists, 'Credits file found:', !!creditsFilePath);
-
-          if (previewExists) {
-            let creditsJson = { name: dirent.name }; // Default to folder name if credits file is missing
-            if (creditsFilePath) {
-              const creditsData = await fs.promises.readFile(creditsFilePath, 'utf-8');
-              try {
-                creditsJson = JSON.parse(creditsData);
-              } catch {
-                creditsJson = {
-                  "theme": dirent.name,
-                  "author": "Unknown",
-                  "description": "** .Credits file missing or Invalid **",
-                  "preview": "",
-                  "color": []
-                };
-              }
-            }
             files.push({
               path: subfolderPath,
-              thumbnail: 'PREVIEW.jpg', //previewFilePath,
-              credits: creditsJson
+              thumbnail: 'PREVIEW.jpg',
+              credits: template.credits,
+              theme: template
             });
-            //console.log('Added file:', { preview: previewFilePath, credits: creditsJson });
-          }
+
+            // Theme Migration Tool:
+            const ThemeCleansing = false; //<- Swap to 'true' to save the json and cleanse old files
+            if (ThemeCleansing) {
+              try {
+                // Writes the JSON in the theme folder:
+  
+                const JsonString = JSON.stringify(template, null, 4);
+                await writeFile(
+                  path.join(subfolderPath, 'ThemeSettings.json'), 
+                  JsonString, 
+                  { encoding: "utf8", flag: 'w' }
+                );
+  
+                // Sanitization:
+                fileHelper.deleteFilesByType(subfolderPath, '.ini');
+                fileHelper.deleteFilesByType(subfolderPath, '.credits');
+                //fileHelper.deleteFilesByType(subfolderPath, '.json');
+  
+              } catch (error) {
+                console.error(error);
+              } 
+            }
 
         } catch (error) {
           Log.Error(error.message, error.stack);
+          console.error(error);
         }
       }
     }
-
-    //console.log('All files:', files);
     return files;
+
   } catch (error) {
     throw error;
   }
+};
+
+async function GetCreditsFile(themePath) {
+  let creditsJson = {};
+  try {
+    // Find any .credits file
+    const themeName = path.basename(themePath);
+    const allFiles = await fs.promises.readdir(themePath);
+    const creditsFile = allFiles.find(file => file.endsWith('.credits'));
+
+    if (creditsFile) {
+      const creditsFilePath = path.join(themePath, creditsFile);
+      const creditsData = await fs.promises.readFile(creditsFilePath, 'utf8');
+      try {
+        creditsJson = JSON.parse(creditsData);
+      } catch {
+        creditsJson = {
+          "theme": themeName,
+          "author": "Unknown",
+          "description": "** .Credits file missing or Invalid **",
+          "preview": ""
+        };
+      }
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+  return creditsJson;
+}
+
+const LoadTheme = async (themeFolder) => {
+  let template = {};
+  try {
+    if (fs.existsSync(path.join(themeFolder, 'ThemeSettings.json'))) {
+      // New v3 Format for Themes, single File:
+      template = fileHelper.loadJsonFile( path.join(themeFolder, 'ThemeSettings.json') );
+      template.path = themeFolder;
+
+    } else {
+      // Old fashion format for Themes:
+      const defaultThemePath = fileHelper.getAssetPath('./data/ED_Odissey_ThemeTemplate.json');  
+      const ThemeINIs = await LoadThemeINIs(themeFolder); 
+      template = fileHelper.loadJsonFile(defaultThemePath);
+      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
+      template.credits = await GetCreditsFile(themeFolder);
+      template.path = themeFolder;
+    }
+  } catch (error) {
+    throw error;
+  }
+  return template;
 };
 
 const getIniFilePath = (basePath, fileName) => {
@@ -90,7 +134,7 @@ const getIniFilePath = (basePath, fileName) => {
 const LoadThemeINIs = async (folderPath) => {
   try {
 
-    console.log('Loading Inis from: ', folderPath);
+    //console.log('Loading Inis from: ', folderPath);
     const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
       await ini.loadIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini')),
       await ini.loadIniFile(getIniFilePath(folderPath, 'Advanced.ini')),
@@ -135,13 +179,14 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
 };
 
 const ApplyIniValuesToTemplate = (template, iniValues) => {
-  console.log('ApplyIniValuesToTemplate..');
+  //console.log('ApplyIniValuesToTemplate..');
   try {
     if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
           for (const element of group.Elements) {
             const iniKey = element.Key;
+            const defaultValue = element.Value;
             const foundValue = ini.findValueByKey(iniValues, element);
             /* foundValue: [
                  { key: 'x127', value: '0.063' },
@@ -151,8 +196,14 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                  or
                foundValue: 100.0 */
 
-            if (foundValue != null) {
-              if (Array.isArray(foundValue) && foundValue.length > 2) {
+            if (foundValue != null && foundValue != undefined) {
+
+              if (iniKey === 'x87') {
+                console.log('Key: x87', 'Default:', defaultValue, 'Found:', foundValue);
+              }
+
+              if (Array.isArray(foundValue) && foundValue.length > 0) {
+                
                 const colorKeys = iniKey.split("|"); //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
                 const colorComponents = colorKeys.map(key => {
                   const foundValueObj = foundValue.find(obj => obj.key === key);
@@ -162,16 +213,23 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
                   const color = reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                   element.Value = getColorDecimalValue(color);
-                  //console.log("Value:", element.Value);
-                } else {
-                  Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
+                } else {                  
+                  element.Value = parseFloat(defaultValue);
+                  console.log('Color Conversion Error:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
+                  //Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
                 }
 
               } else {
-                element.Value = parseFloat(foundValue);
+                // No hay Multi-Keys, foundValue: 100.0
+                element.Value = parseFloat(foundValue ?? defaultValue)
+                if (foundValue === null || foundValue === undefined) {
+                  console.log('No Value?:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
+                }
               }
             } else {
-              Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
+              element.Value = parseFloat(defaultValue);
+              console.log('Key Not Found:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
+              //Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
             }
           }
         }
@@ -401,6 +459,15 @@ ipcMain.handle('get-themes', async (event, dirPath) => {
     const resolvedPath = fileHelper.resolveEnvVariables(dirPath);
     const files = await getThemes(resolvedPath);
     return files;
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('LoadTheme', async (event, dirPath) => {
+  try {
+    const resolvedPath = fileHelper.resolveEnvVariables(dirPath);
+    const template = await LoadTheme(resolvedPath);
+    return template;
   } catch (error) {
     throw error;
   }

@@ -39,7 +39,8 @@ contextBridge.exposeInMainWorld('api', {
   compressFolder: (folderPath, outputPath) => ipcRenderer.invoke('compress-folder', folderPath, outputPath),
   decompressFile: (zipPath, outputDir) => ipcRenderer.invoke('decompress-file', zipPath, outputDir),
   
-  getThemes: async (dirPath) => ipcRenderer.invoke('get-themes', dirPath),
+  getThemes: async (dirPath) => ipcRenderer.invoke('get-themes', dirPath), 
+  LoadTheme: async (dirPath) => ipcRenderer.invoke('LoadTheme', dirPath),
   LoadThemeINIs: async (folderPath) => ipcRenderer.invoke('LoadThemeINIs', folderPath),
   SaveThemeINIs: async (folderPath, themeINIs) => ipcRenderer.invoke('SaveThemeINIs', folderPath, themeINIs),
 
