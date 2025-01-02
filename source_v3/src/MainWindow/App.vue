@@ -41,25 +41,39 @@ export default {
         });
     },
 
+    // TODO: Mover esto al Main Process
     async installEDHMmod(gameInstance) {
       // Instalar el mod en la nueva ubicacion del juego
       try {
         eventBus.emit('ShowSpinner', { visible: true });
         eventBus.emit('RoastMe', { type: 'Info', message: 'Installing EDHM files..' });
 
-        const ZipPath = await window.api.getAssetPath('data/ODY');
-        const ZipFile = await window.api.findLatestFile(ZipPath, '.zip');
-        console.log('ZipFile:', ZipFile);
+         //Unzip Themes
+         
+        const programSettings = JSON.parse(JSON.stringify(this.settings));
+        const themesPath = await window.api.resolveEnvVariables(programSettings.UserDataFolder);
+        const unzipPath = await window.api.joinPath(themesPath, 'ODYSS');
+        const themesZipPath = await window.api.getAssetPath('data/ODY/Themes_EDHM_ODYSS.zip');
+        if (themesZipPath) {
+          //console.log('themesZipPath', themesZipPath);    console.log('unzipPath', unzipPath);
+          const _ret = await window.api.decompressFile(themesZipPath, unzipPath);
+          if (_ret.success) {
+            console.log('Themes Installed!');
+          }
+        }
 
-        //TODO: Unzip Themes
+        //TODO: Check for Game Symlinks for 'EDHM-ini' & ShaderFixes
 
-        if (ZipFile && ZipFile.success) {
+        // Unzip EDHM mod:  encontrar el archivo sin importar la version
+        const AssetsPath = await window.api.getAssetPath('data/ODY'); 
+        const edhmZipPath = await window.api.findFileWithPattern(AssetsPath, 'EDHM_Odyssey_*.zip');
+        if (edhmZipPath) {
+          console.log(edhmZipPath);
           const unzipPath = gameInstance.path;
-          const versionMatch = ZipFile.file.match(/v\d+\.\d+/);     console.log('versionMatch', versionMatch[0]);
-          const match = ZipFile.file.match(/_(Odyssey|Horizons)_/); console.log('match', match[1]);
+          const versionMatch = edhmZipPath.file.match(/v\d+\.\d+/);     console.log('versionMatch', versionMatch);
+          const match = edhmZipPath.file.match(/_(Odyssey|Horizons)_/); console.log('match', match);
 
-          const _ret = await window.api.decompressFile(ZipFile.file, unzipPath);
-          console.log('ZipFile:', _ret);
+          const _ret = await window.api.decompressFile(edhmZipPath.file, unzipPath);
           if (_ret.success) {
 
             if (match[1] === 'Odyssey') {
@@ -67,11 +81,14 @@ export default {
             } else {
               this.settings.Version_HORIZ = versionMatch[0];
             }
-            
+            console.log('EDHM Installed!');
           }
         } else {
           eventBus.emit('ShowError', new Error('404 - Zip File Not Found'));
         }
+
+       
+
       } catch (error) {
         eventBus.emit('ShowError', error);
       } finally {

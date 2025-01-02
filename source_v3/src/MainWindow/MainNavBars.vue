@@ -194,7 +194,7 @@ export default {
     const modVersion = ref('');
     const selectedGame = ref(props.settings.ActiveInstance || 'Select a Game'); // Set initial value from settings
     const gameMenuItems = ref( // Populate game instances with the `instance` values from `Settings`
-      props.settings.GameInstances.flatMap(instance => instance.games.map(game => game.instance))
+      props.settings.GameInstances.flatMap(instance => instance.games.map(game => game.instance && game.path != ''))
     );
     programSettings = props.settings;
     const historyOptions = ref([]);
@@ -512,7 +512,7 @@ export default {
     modUpdated(data) {
       // happens when the mod gets updated
       this.programSettings = data;
-      console.log('programSettings: ', programSettings);
+      //console.log('programSettings: ', programSettings);
       this.modVersion = data.Version_ODYSS;      
     }
 

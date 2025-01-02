@@ -387,6 +387,66 @@ async function findLatestFile(folderPath, fileType) {
   return latestFile;
 }
 
+/**
+ * Busca un archivo en una carpeta utilizando un patrón con comodines.
+ * 
+ * @param {string} folderPath - La ruta de la carpeta en la que buscar.
+ * @param {string} pattern - El patrón de búsqueda con comodines (por ejemplo, 'EDHM_Odyssey_*.zip').
+ * @returns {Promise<string>} - El nombre del archivo encontrado.
+ */
+async function findFileWithPattern(folderPath, pattern) {
+  const regexPattern = new RegExp('^' + pattern.replace('*', '.*') + '$');
+  const files = fs.readdirSync(folderPath)
+    .filter(file => regexPattern.test(file))
+    .map(file => path.join(folderPath, file));
+
+  if (files.length === 0) {
+    throw new Error(`No files matching pattern ${pattern} found in folder ${folderPath}`);
+  }
+
+  // Return the first match
+  return files[0];
+
+  /* Ejemplo de uso:
+  findFileWithPattern('/ruta/a/tu/carpeta', 'EDHM_Odyssey_*.zip')
+    .then(file => console.log(`Archivo encontrado: ${file}`))
+    .catch(err => console.error(err)); */
+}
+
+/**
+ * Verifica si un symlink existe y lo crea si no existe.
+ * 
+ * @param {string} targetFolder - La carpeta objetivo a la que debe apuntar el symlink.
+ * @param {string} symlinkPath - La ruta donde se debe crear el symlink.
+ */
+async function ensureSymlink(targetFolder, symlinkPath) {
+  try {
+    const stats = fs.lstatSync(symlinkPath);
+
+    if (stats.isSymbolicLink()) {
+      console.log(`Symlink already exists: ${symlinkPath}`);
+      return;
+    }
+
+    console.log(`Path exists but is not a symlink: ${symlinkPath}`);
+    fs.rmdirSync(symlinkPath, { recursive: true });
+  } catch (err) {
+    if (err.code !== 'ENOENT') {
+      throw err;
+    }
+    // Symlink does not exist, proceed to create it
+  }
+
+  fs.symlinkSync(targetFolder, symlinkPath, 'junction');
+  console.log(`Symlink created: ${symlinkPath} -> ${targetFolder}`);
+
+  /* Ejemplo de uso:
+  ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
+    .then(() => console.log('Proceso completado'))
+    .catch(err => console.error(err)); */
+}
+
+
 /*----------------------------------------------------------------------------------------------------------------------------*/
 ipcMain.handle('get-app-path', () => {
   return app.getAppPath();
@@ -596,8 +656,15 @@ ipcMain.handle('find-latest-file', async (event, folderPath, fileType) => {
   } catch (error) {
     throw error;
   }
+}); 
+ipcMain.handle('findFileWithPattern', async (event, folderPath, pattern) => {
+  try {
+    const result = await findFileWithPattern(folderPath, pattern);
+    return { success: true, file: result };
+  } catch (error) {
+    throw error;
+  }
 });
-
 
 export default { 
   getAssetPath, 
@@ -607,5 +674,7 @@ export default {
   writeJsonFile, 
   checkFileExists, 
   openPathInExplorer ,
-  deleteFilesByType
+  deleteFilesByType,
+  findFileWithPattern,
+  ensureSymlink
 };

@@ -197,10 +197,10 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                foundValue: 100.0 */
 
             if (foundValue != null && foundValue != undefined) {
-
+              /*
               if (iniKey === 'x87') {
                 console.log('Key: x87', 'Default:', defaultValue, 'Found:', foundValue);
-              }
+              }*/
 
               if (Array.isArray(foundValue) && foundValue.length > 0) {
                 

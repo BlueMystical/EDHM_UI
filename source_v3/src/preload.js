@@ -30,7 +30,8 @@ contextBridge.exposeInMainWorld('api', {
   openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath), 
   deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath), 
 
-  findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType),
+  findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType), 
+  findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
 
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
   writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
