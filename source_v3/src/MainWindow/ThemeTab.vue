@@ -43,24 +43,21 @@ export default {
       try {
         //Gets the Themes Folder from the Active Instance:
         this.loading = true;
-        //console.log('gameInstance: ', gameInstance);
-        if (!gameInstance || !gameInstance.themes_folder) {
-          throw new Error('Themes folder not found for the active instance.');
-        }
+        const programSettings = await window.api.getSettings(); //console.log('programSettings: ', programSettings);
+        const dataPath = await window.api.resolveEnvVariables(programSettings.UserDataFolder);
+        const themesPath = await window.api.joinPath(dataPath, 'ODYSS', 'Themes');  
+        const ThumbImage = await window.api.getAssetFileUrl('images/PREVIEW.png');   console.log('ThumbImage:',ThumbImage);
+        const GamePath = await window.api.joinPath(gameInstance.path, 'EDHM-ini'); //<- the Game Folder        
 
+        //console.log('themesPath',themesPath);
         //Loads all Themes in the Directory:
-        const dirPath = gameInstance.themes_folder;
-        const files = await window.api.getThemes(dirPath);
-        const ThumbImage = await window.api.getAssetPath('images/PREVIEW.png'); //console.log('ThumbImage: ', ThumbImage);
-        const GamePath = window.api.joinPath(gameInstance.path, 'EDHM-ini'); //<- the Game Folder     
-
-        //console.log('Theme File: ', files[0]);
+        const files = await window.api.getThemes(themesPath);    //console.log('Theme File: ', files[0]);
 
         // Add the dummy item for 'Current Settings':
         this.images = [{
           id: 0,
           name: "Current Settings",
-          src: ThumbImage, //'images/PREVIEW.png', 
+          src:  ThumbImage, //'images/PREVIEW.png', 
           alt: "Current Settings",
           file: {
             path: GamePath,
@@ -99,7 +96,8 @@ export default {
     const gameInstance = await window.api.getActiveInstance();
     await this.loadThemes(gameInstance);
 
-    eventBus.on('loadThemes', this.loadThemes);    
+    eventBus.on('loadThemes', this.loadThemes);
+
   },
   beforeUnmount() {
     eventBus.off('loadThemes', this.loadThemes);

@@ -16,8 +16,9 @@ import { writeFile } from 'node:fs/promises';
  */
 const getThemes = async (dirPath) => {
   try {
+    console.log('getThemes dirPath: ', dirPath);
     const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
-    const files = [];
+    const files = []; //console.log('subfolders', subfolders);
 
     for (const dirent of subfolders) {
       if (dirent.isDirectory()) {

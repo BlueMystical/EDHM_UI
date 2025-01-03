@@ -5,6 +5,7 @@ const os = require('os');
 const ps = require('ps-node');
 const { exec } = require('child_process');
 const AdmZip = require('adm-zip');
+const url = require('url');
 
 
 /**
@@ -74,63 +75,63 @@ function getLocalAppDataPath() {
  */
 const resolveEnvVariables = (inputPath) => {
   try {
-   if (typeof inputPath !== 'string') {
-     console.warn("Input path must be a string. Returning original input:", inputPath);
-     return inputPath;
-   }
+    if (typeof inputPath !== 'string') {
+      console.warn("Input path must be a string. Returning original input:", inputPath);
+      return inputPath;
+    }
 
-   let envVarPath = ''; // Path with resolved Env.Vars
-   let normalPath = ''; // Path with resolved normal Path
-   let resolvedPath = ''; // Final resolved Path
+    let envVarPath = ''; // Path with resolved Env.Vars
+    let normalPath = ''; // Path with resolved normal Path
+    let resolvedPath = ''; // Final resolved Path
 
-   // 1. Check if we have Environment Variables that we need to resolve
-   let isEnvVar = inputPath.includes('%'); // True if inputPath contains '%'
+    // 1. Check if we have Environment Variables that we need to resolve
+    let isEnvVar = inputPath.includes('%'); // True if inputPath contains '%'
 
-   if (isEnvVar) {
-     
-    const envVars = {
-      '%USERPROFILE%': os.homedir(), 
-      '%APPDATA%': app.getPath('userData'), 
-      '%LOCALAPPDATA%': getLocalAppDataPath(), 
-      '%PROGRAMFILES%': process.env.PROGRAMFILES || process.env['ProgramFiles'], // Handle potential variations
-      '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'], // Handle potential variations
-      '%PROGRAMDATA%': process.env.PROGRAMDATA,
-      '%APPDIR%': app.getAppPath(),
-    };
+    if (isEnvVar) {
+      const envVars = {
+        '%USERPROFILE%': os.homedir(), 
+        '%APPDATA%': app.getPath('userData'), 
+        '%LOCALAPPDATA%': getLocalAppDataPath(), 
+        '%PROGRAMFILES%': process.env.PROGRAMFILES || process.env['ProgramFiles'], // Handle potential variations
+        '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'], // Handle potential variations
+        '%PROGRAMDATA%': process.env.PROGRAMDATA,
+        '%APPDIR%': app.getAppPath(),
+      };
 
-     // Extract and resolve the Env.Var portion from the inputPath
-     envVarPath = inputPath.split('%')[1];   
-     envVarPath = '%' + envVarPath + '%'; // Re-add the % to the Env.Var
-     envVarPath = envVarPath.replace(/%([^%]+)%/g, (match, name) => {
-       return envVars[match] || '';
-     }); 
-     //envVarPath = envVarPath.replace(/%\w+%/g, matched => envVars[matched] || matched);
-   }
-   //console.log('EnvVar Path:', envVarPath);
+      // Extract and resolve the Env.Var portion from the inputPath
+      envVarPath = inputPath.split('%')[1];   
+      envVarPath = '%' + envVarPath + '%'; // Re-add the % to the Env.Var
+      envVarPath = envVarPath.replace(/%([^%]+)%/g, (match, name) => {
+        return envVars[match] || '';
+      }); 
+    }
 
-   // Extract the non Env.Var portion of the path
-   let nonEnvVarPart = isEnvVar ? inputPath.replace(/%[\w]+%/, '') : inputPath;
+    // Extract the non Env.Var portion of the path
+    let nonEnvVarPart = isEnvVar ? inputPath.replace(/%[\w]+%/, '') : inputPath;
 
-   // Detect separator type
-   let separator = nonEnvVarPart.includes('\\') ? '\\' : '/';
+    // Detect separator type
+    let separator = nonEnvVarPart.includes('\\') ? '\\' : '/';
 
-   // Split the path components using the detected separator
-   let pathComponents = nonEnvVarPart.split(separator);
-   pathComponents.forEach(element => {
-     normalPath += path.join(normalPath, element);
-   });
+    // Split the path components using the detected separator
+    let pathComponents = nonEnvVarPart.split(separator);
 
-   // Join the path components using path.join to ensure platform separator
-   normalPath = path.join(...pathComponents);
+    // Ensure normalPath is resolved correctly
+    normalPath = path.join(...pathComponents);
 
-   // Combine envVarPath and normalPath
-   resolvedPath = isEnvVar ? path.join(envVarPath, normalPath) : normalPath;
-   //console.log('Resolved path:', resolvedPath);
-   return resolvedPath;
- } catch (error) {
-   throw error;
- }  
+    // Combine envVarPath and normalPath
+    resolvedPath = isEnvVar ? path.join(envVarPath, normalPath) : normalPath;
+
+    // Ensure the resolved path has the initial slash if needed
+    if (pathComponents[0] === '' || resolvedPath.startsWith('/')) {
+      resolvedPath = '/' + resolvedPath.replace(/^\/+/, '');
+    }
+
+    return resolvedPath;
+  } catch (error) {
+    throw error;
+  }
 };
+
 
 
 
@@ -570,7 +571,7 @@ ipcMain.handle('get-asset-path', async (event, assetPath) => {
     return resolvedPath;
   } catch (error) {
     console.error('Failed to resolve asset path:', error);
-    logEvent(error.message, error.stack);
+    //logEvent(error.message, error.stack);
     throw error;
   }
 });
@@ -583,7 +584,7 @@ ipcMain.handle('get-asset-file-url', async (event, assetPath) => {
     return fileUrl;
   } catch (error) {
     console.error('Failed to resolve asset path:', error);
-    logEvent(error.message, error.stack);
+    //logEvent(error.message, error.stack);
     throw error;
   }
 });
@@ -596,7 +597,7 @@ ipcMain.handle('get-local-file-url', async (event, localPath) => {
     return fileUrl;
   } catch (error) {
     console.error('Failed to resolve local path:', error);
-    logEvent(error.message, error.stack);
+    //logEvent(error.message, error.stack);
     throw error;
   }
 });

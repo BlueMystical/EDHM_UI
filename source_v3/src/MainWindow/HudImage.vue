@@ -10,7 +10,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import eventBus from '../EventBus';
-//import Log from '../Helpers/LoggingHelper';
+
 
 export default {
   name: 'HUD_Areas',
@@ -18,10 +18,10 @@ export default {
 
   },
   data() {
-    const defaultHUDimage = window.api.getAssetPath('images/HUD_Clean.png');    
+    //const defaultHUDimage = window.api.getAssetFileUrl('images/HUD_Clean.png');    
 
     return {
-      imageSrc: defaultHUDimage,
+      imageSrc: '',
       originalWidth: 0,
       originalHeight: 0,
       areas: [
@@ -33,9 +33,15 @@ export default {
     };
   },
   async mounted() {
-    window.addEventListener('resize', this.setupCanvas);
-    await this.loadHUDSettings();
-    this.setupCanvas();
+    try {
+      this.imageSrc = await window.api.getAssetFileUrl('images/HUD_Clean.png');   
+      //console.log(this.imageSrc);
+      window.addEventListener('resize', this.setupCanvas);
+      await this.loadHUDSettings();
+      this.setupCanvas();
+    } catch (error) {
+      console.log(error);
+    }    
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.setupCanvas);
@@ -66,8 +72,8 @@ export default {
             return; // or throw the error if you want to stop execution
           }
         }
-        //console.log("defaultJsonPath:", defaultJsonPath);
-        //console.log("jsonPath:", jsonPath);
+        console.log("defaultJsonPath:", defaultJsonPath);
+        console.log("jsonPath:", jsonPath);
 
         let hudData;
         try {
@@ -86,11 +92,10 @@ export default {
           }
         }
 
-        this.imageSrc = await window.api.getAssetPath(hudData.Image);
+        this.imageSrc = await window.api.getAssetFileUrl(hudData.Image);
         this.areas = hudData.Areas;
       } catch (overallError) {
         console.error('Overall error loading HUD settings:', overallError);
-        window.api.logEvent(error.message, error.stack);
       }
     },
     setupCanvas() {
