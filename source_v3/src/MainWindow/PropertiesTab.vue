@@ -339,7 +339,7 @@ export default defineComponent({
   },
   methods: {
     loadProperties(area) {      
-      console.log('Loading properties for area:', area);
+      //console.log('Loading properties for area:', area);
       this.updateProperties(this.getPropertiesForArea(area));
       this.key++;
     },
@@ -352,7 +352,7 @@ export default defineComponent({
     },
     getPropertiesForArea(area) {
       /* Gets all  Categories and Properties of the Area */
-      console.log('Loaded Template:', themeTemplate);
+      //console.log('Loaded Template:', themeTemplate);
 
       const categorizedProperties = [];
       if (themeTemplate != null && themeTemplate.ui_groups != null) {

@@ -72,8 +72,8 @@ export default {
             return; // or throw the error if you want to stop execution
           }
         }
-        console.log("defaultJsonPath:", defaultJsonPath);
-        console.log("jsonPath:", jsonPath);
+        //console.log("defaultJsonPath:", defaultJsonPath);
+        //console.log("jsonPath:", jsonPath);
 
         let hudData;
         try {

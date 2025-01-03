@@ -35,7 +35,7 @@ const getThemes = async (dirPath) => {
             });
 
             // Theme Migration Tool:
-            const ThemeCleansing = false; //<- Swap to 'true' to save the json and cleanse old files
+            const ThemeCleansing = true; //<- Swap to 'true' to save the json and cleanse old files
             if (ThemeCleansing) {
               try {
                 // Writes the JSON in the theme folder:
@@ -48,8 +48,8 @@ const getThemes = async (dirPath) => {
                 );
   
                 // Sanitization:
-                fileHelper.deleteFilesByType(subfolderPath, '.ini');
-                fileHelper.deleteFilesByType(subfolderPath, '.credits');
+                //fileHelper.deleteFilesByType(subfolderPath, '.ini');
+                //fileHelper.deleteFilesByType(subfolderPath, '.credits');
                 //fileHelper.deleteFilesByType(subfolderPath, '.json');
   
               } catch (error) {

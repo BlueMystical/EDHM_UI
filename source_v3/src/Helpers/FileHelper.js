@@ -8,51 +8,38 @@ const AdmZip = require('adm-zip');
 const url = require('url');
 
 
-/**
- * Open the File Explorer showing a selected Folder
+// #region Path Functions
+
+
+/** Open the File Explorer showing a selected Folder
  * @param {*} filePath Folder to select
  */
 function openPathInExplorer(filePath) {
-    const normalizedPath = resolveEnvVariables(
-      path.normalize(filePath)); // Normalize path to avoid issues
+  const normalizedPath = resolveEnvVariables(
+    path.normalize(filePath)); // Normalize path to avoid issues
 
-    let command;
+  let command;
 
-    if (os.platform() === 'win32') {
-        command = `start "" "${normalizedPath}"`;
-    } else if (os.platform() === 'darwin') {
-        command = `open "${normalizedPath}"`;
-    } else {
-        command = `xdg-open "${normalizedPath}"`;
-    }
+  if (os.platform() === 'win32') {
+      command = `start "" "${normalizedPath}"`;
+  } else if (os.platform() === 'darwin') {
+      command = `open "${normalizedPath}"`;
+  } else {
+      command = `xdg-open "${normalizedPath}"`;
+  }
 
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error opening path: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`Path opened successfully: ${stdout}`);
-    });
+  exec(command, (error, stdout, stderr) => {
+      if (error) {
+          console.error(`Error opening path: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`Path opened successfully: ${stdout}`);
+  });
 };
-
-
-function callProgram(programPath) {
-    exec(`"${programPath}"`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error calling program: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`Program output: ${stdout}`);
-    });
-}
 
 function getLocalAppDataPath() {
   switch (process.platform) {
@@ -67,8 +54,7 @@ function getLocalAppDataPath() {
   }
 }
 
-/**
- * Resolves environment variables in a given path string.
+/** Resolves environment variables in a given path string.
  *
  * @param {string} inputPath The path string containing environment variables.
  * @returns {string} The resolved path, or the original path if no replacements were made.
@@ -84,61 +70,74 @@ const resolveEnvVariables = (inputPath) => {
     let normalPath = ''; // Path with resolved normal Path
     let resolvedPath = ''; // Final resolved Path
 
-    // 1. Check if we have Environment Variables that we need to resolve
-    let isEnvVar = inputPath.includes('%'); // True if inputPath contains '%'
+    // #region Resolve Enviromental Variables if Present
 
+    // Check if we have Environment Variables that we need to resolve
+    let isEnvVar = inputPath.includes('%'); // True if inputPath contains '%'
     if (isEnvVar) {
+
       const envVars = {
         '%USERPROFILE%': os.homedir(), 
         '%APPDATA%': app.getPath('userData'), 
         '%LOCALAPPDATA%': getLocalAppDataPath(), 
-        '%PROGRAMFILES%': process.env.PROGRAMFILES || process.env['ProgramFiles'], // Handle potential variations
-        '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'], // Handle potential variations
+        '%PROGRAMFILES%': process.env.PROGRAMFILES || process.env['ProgramFiles'], 
+        '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'], 
         '%PROGRAMDATA%': process.env.PROGRAMDATA,
         '%APPDIR%': app.getAppPath(),
       };
-
+      
+      // Logging environment variables for debugging
+      //console.log('Environment Variables:', envVars);
+      
       // Extract and resolve the Env.Var portion from the inputPath
       envVarPath = inputPath.split('%')[1];   
       envVarPath = '%' + envVarPath + '%'; // Re-add the % to the Env.Var
-      envVarPath = envVarPath.replace(/%([^%]+)%/g, (match, name) => {
+      envVarPath = envVarPath.replace(/%([^%]+)%/g, (match) => {
+        console.log(`Resolving environment variable: ${match} -> ${envVars[match] || ''}`);
         return envVars[match] || '';
-      }); 
+      });
     }
+
+    // #endregion
+
+    // #region Resolve Absolute paths, if present
 
     // Extract the non Env.Var portion of the path
     let nonEnvVarPart = isEnvVar ? inputPath.replace(/%[\w]+%/, '') : inputPath;
-
-    // Detect separator type
-    let separator = nonEnvVarPart.includes('\\') ? '\\' : '/';
-
-    // Split the path components using the detected separator
+    let separator = path.sep;  // Detect separator type
     let pathComponents = nonEnvVarPart.split(separator);
 
     // Ensure normalPath is resolved correctly
     normalPath = path.join(...pathComponents);
 
+    // #endregion
+
     // Combine envVarPath and normalPath
     resolvedPath = isEnvVar ? path.join(envVarPath, normalPath) : normalPath;
 
     // Ensure the resolved path has the initial slash if needed
-    if (pathComponents[0] === '' || resolvedPath.startsWith('/')) {
+    if (os.platform() === 'linux' && (pathComponents[0] === '' || resolvedPath.startsWith('/'))) {
       resolvedPath = '/' + resolvedPath.replace(/^\/+/, '');
     }
 
+    // Handle initial slash for Linux 
+    if (os.platform() !== 'win32' && resolvedPath.startsWith('/') && !resolvedPath.startsWith('//')) { 
+      resolvedPath = '/' + resolvedPath.replace(/^\/+/, ''); 
+    }
+
     return resolvedPath;
+
   } catch (error) {
     throw error;
   }
 };
 
 
+// #endregion
 
+// #region Assets Handling
 
-
-
-/**
- * Gets the absolute path to an asset, handling differences between development and production environments.
+/** Gets the absolute path to an asset, handling differences between development and production environments.
  * In development, it resolves the path relative to the project's root directory.
  * In production (when the application is packaged), it resolves the path relative to the 'resources' directory.
  *
@@ -157,8 +156,11 @@ function getAssetPath(assetPath) {
   }  
 }
 
-/**
- * If the Directory doesn't exist, it is created.
+// #endregion
+
+// #region Files & Directories
+
+/** If the Directory doesn't exist, it is created.
  * @param {*} DirectoryPath Path to the Directory.
  */
 const ensureDirectoryExists = (DirectoryPath) => {
@@ -172,8 +174,7 @@ const ensureDirectoryExists = (DirectoryPath) => {
   }
 };
 
-/**
- * Verifies is a File Exists
+/** Verifies is a File Exists
  * @param {*} filePath Full path to the File
  */
 const checkFileExists = (filePath) => {
@@ -187,52 +188,6 @@ const checkFileExists = (filePath) => {
     throw error;
   }
 };
-
-
-/**
- * Loads a JSON file from the specified path.
- *
- * @param {string} filePath The path to the JSON file.
- * @returns {Object|null} The parsed JSON object, or null if the file does not exist or cannot be parsed.
- */
-const loadJsonFile = (filePath) => {
-  const resolvedPath = resolveEnvVariables(filePath);
-  try {
-    if (!fs.existsSync(resolvedPath)) {
-      console.warn(`File not found: ${resolvedPath}`);
-      return null;
-    }
-
-    const data = fs.readFileSync(resolvedPath, 'utf8');
-    return JSON.parse(data);
-  } catch (err) {
-    console.error(`Error loading JSON file: ${resolvedPath}`, err);
-    throw err;
-  }
-};
-
-/**
- * Writes an object to a JSON file.
- *
- * @param {string} filePath The path to the JSON file.
- * @param {Object} data The object to be written to the file.
- * @param {boolean} [prettyPrint=true] Whether to pretty-print the JSON output.
- */
-const writeJsonFile = (filePath, data, prettyPrint = true) => {
-  const resolvedPath = resolveEnvVariables(filePath);
-  try {
-    ensureDirectoryExists(path.dirname(resolvedPath)); // Ensure parent directory exists
-
-    const options = prettyPrint ? { spaces: 4 } : null;
-    fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
-  } catch (error) {
-    throw error;
-  }
-};
-
-function isNotNullOrEmpty(obj) {
-  return obj && Object.keys(obj).length > 0;
-}
 
 function deleteFolderRecursive(folderPath) {
   if (fs.existsSync(folderPath)) {
@@ -249,6 +204,10 @@ function deleteFolderRecursive(folderPath) {
   }
 }
 
+/** Deletes the given Directory 
+ * @param {*} filePath Absolute path to the Directory
+ * @returns 
+ */
 function deleteFileByAbsolutePath(filePath) {
   let _ret = false;
   try {
@@ -261,6 +220,10 @@ function deleteFileByAbsolutePath(filePath) {
   return _ret;
 }
 
+/** Deletes all Files of a certain Type  
+ * @param {*} directoryPath Path to the directory containing the files
+ * @param {*} extension File extension, example: '.txt'
+ */
 function deleteFilesByType(directoryPath, extension) {
   fs.readdir(directoryPath, (err, files) => {
     if (err) {
@@ -284,6 +247,141 @@ function deleteFilesByType(directoryPath, extension) {
   const fileExtension = '.txt'; // File extension to delete
   deleteFilesByType(dirPath, fileExtension); */
 }
+
+/** Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente.
+ * 
+ * @param {string} folderPath - La ruta de la carpeta en la que buscar.
+ * @param {string} fileType - El tipo de archivo a buscar (por ejemplo, '.txt' para archivos de texto).
+ * @returns {Promise<string>} - El archivo más reciente encontrado.
+ */
+async function findLatestFile(folderPath, fileType) {
+  const files = fs.readdirSync(folderPath)
+    .filter(file => path.extname(file) === fileType)
+    .map(file => path.join(folderPath, file));
+  
+  let latestFile = null;
+  let latestTime = 0;
+
+  for (const file of files) {
+    const stats = fs.statSync(file);
+    const modifiedTime = stats.mtimeMs;
+
+    if (modifiedTime > latestTime) {
+      latestTime = modifiedTime;
+      latestFile = file;
+    }
+  }
+
+  if (!latestFile) {
+    throw new Error(`No files of type ${fileType} found in folder ${folderPath}`);
+  }
+
+  return latestFile;
+}
+
+/** Busca un archivo en una carpeta utilizando un patrón con comodines.
+ * 
+ * @param {string} folderPath - La ruta de la carpeta en la que buscar.
+ * @param {string} pattern - El patrón de búsqueda con comodines (por ejemplo, 'EDHM_Odyssey_*.zip').
+ * @returns {Promise<string>} - El nombre del archivo encontrado.
+ */
+async function findFileWithPattern(folderPath, pattern) {
+  const regexPattern = new RegExp('^' + pattern.replace('*', '.*') + '$');
+  const files = fs.readdirSync(folderPath)
+    .filter(file => regexPattern.test(file))
+    .map(file => path.join(folderPath, file));
+
+  if (files.length === 0) {
+    throw new Error(`No files matching pattern ${pattern} found in folder ${folderPath}`);
+  }
+
+  // Return the first match
+  return files[0];
+
+  /* Ejemplo de uso:
+  findFileWithPattern('/ruta/a/tu/carpeta', 'EDHM_Odyssey_*.zip')
+    .then(file => console.log(`Archivo encontrado: ${file}`))
+    .catch(err => console.error(err)); */
+}
+
+/** Verifica si un symlink existe y lo crea si no existe.
+ * 
+ * @param {string} targetFolder - La carpeta objetivo a la que debe apuntar el symlink.
+ * @param {string} symlinkPath - La ruta donde se debe crear el symlink.
+ */
+async function ensureSymlink(targetFolder, symlinkPath) {
+  try {
+    const stats = fs.lstatSync(symlinkPath);
+
+    if (stats.isSymbolicLink()) {
+      console.log(`Symlink already exists: ${symlinkPath}`);
+      return 'exists';
+    }
+
+    console.log(`Path exists but is not a symlink: ${symlinkPath}`);
+    fs.rmdirSync(symlinkPath, { recursive: true });
+
+  } catch (err) {
+    if (err.code !== 'ENOENT') { throw err; }
+    // Symlink does not exist, proceed to create it
+  }
+
+  fs.symlinkSync(targetFolder, symlinkPath, 'junction');
+  console.log(`Symlink created: ${symlinkPath} -> ${targetFolder}`);
+  return 'created';
+
+  /* Ejemplo de uso:
+  ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
+    .then(() => console.log('Proceso completado'))
+    .catch(err => console.error(err)); */
+}
+
+// #endregion
+
+// #region JSON Files
+
+/** Loads a JSON file from the specified path.
+ *
+ * @param {string} filePath The path to the JSON file.
+ * @returns {Object|null} The parsed JSON object, or null if the file does not exist or cannot be parsed.
+ */
+const loadJsonFile = (filePath) => {
+  const resolvedPath = resolveEnvVariables(filePath);
+  try {
+    if (!fs.existsSync(resolvedPath)) {
+      console.warn(`File not found: ${resolvedPath}`);
+      return null;
+    }
+
+    const data = fs.readFileSync(resolvedPath, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error(`Error loading JSON file: ${resolvedPath}`, err);
+    throw err;
+  }
+};
+
+/** Writes an object to a JSON file.
+ *
+ * @param {string} filePath The path to the JSON file.
+ * @param {Object} data The object to be written to the file.
+ * @param {boolean} [prettyPrint=true] Whether to pretty-print the JSON output.
+ */
+const writeJsonFile = (filePath, data, prettyPrint = true) => {
+  const resolvedPath = resolveEnvVariables(filePath);
+  try {
+    ensureDirectoryExists(path.dirname(resolvedPath)); // Ensure parent directory exists
+
+    const options = prettyPrint ? { spaces: 4 } : null;
+    fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
+  } catch (error) {
+    throw error;
+  }
+};
+
+// #endregion
+
+// #region ZIP Files
 
 async function compressFiles(files, outputPath) {
   const zip = new AdmZip();
@@ -355,100 +453,30 @@ async function decompressFile(zipPath, outputDir) {
   });
 }
 
+// #endregion
 
-/**
- * Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente.
- * 
- * @param {string} folderPath - La ruta de la carpeta en la que buscar.
- * @param {string} fileType - El tipo de archivo a buscar (por ejemplo, '.txt' para archivos de texto).
- * @returns {Promise<string>} - El archivo más reciente encontrado.
- */
-async function findLatestFile(folderPath, fileType) {
-  const files = fs.readdirSync(folderPath)
-    .filter(file => path.extname(file) === fileType)
-    .map(file => path.join(folderPath, file));
-  
-  let latestFile = null;
-  let latestTime = 0;
 
-  for (const file of files) {
-    const stats = fs.statSync(file);
-    const modifiedTime = stats.mtimeMs;
-
-    if (modifiedTime > latestTime) {
-      latestTime = modifiedTime;
-      latestFile = file;
-    }
-  }
-
-  if (!latestFile) {
-    throw new Error(`No files of type ${fileType} found in folder ${folderPath}`);
-  }
-
-  return latestFile;
+function isNotNullOrEmpty(obj) {
+  return obj && Object.keys(obj).length > 0;
 }
 
-/**
- * Busca un archivo en una carpeta utilizando un patrón con comodines.
- * 
- * @param {string} folderPath - La ruta de la carpeta en la que buscar.
- * @param {string} pattern - El patrón de búsqueda con comodines (por ejemplo, 'EDHM_Odyssey_*.zip').
- * @returns {Promise<string>} - El nombre del archivo encontrado.
- */
-async function findFileWithPattern(folderPath, pattern) {
-  const regexPattern = new RegExp('^' + pattern.replace('*', '.*') + '$');
-  const files = fs.readdirSync(folderPath)
-    .filter(file => regexPattern.test(file))
-    .map(file => path.join(folderPath, file));
-
-  if (files.length === 0) {
-    throw new Error(`No files matching pattern ${pattern} found in folder ${folderPath}`);
-  }
-
-  // Return the first match
-  return files[0];
-
-  /* Ejemplo de uso:
-  findFileWithPattern('/ruta/a/tu/carpeta', 'EDHM_Odyssey_*.zip')
-    .then(file => console.log(`Archivo encontrado: ${file}`))
-    .catch(err => console.error(err)); */
+function callProgram(programPath) {
+  exec(`"${programPath}"`, (error, stdout, stderr) => {
+      if (error) {
+          console.error(`Error calling program: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`Program output: ${stdout}`);
+  });
 }
-
-/**
- * Verifica si un symlink existe y lo crea si no existe.
- * 
- * @param {string} targetFolder - La carpeta objetivo a la que debe apuntar el symlink.
- * @param {string} symlinkPath - La ruta donde se debe crear el symlink.
- */
-async function ensureSymlink(targetFolder, symlinkPath) {
-  try {
-    const stats = fs.lstatSync(symlinkPath);
-
-    if (stats.isSymbolicLink()) {
-      console.log(`Symlink already exists: ${symlinkPath}`);
-      return;
-    }
-
-    console.log(`Path exists but is not a symlink: ${symlinkPath}`);
-    fs.rmdirSync(symlinkPath, { recursive: true });
-  } catch (err) {
-    if (err.code !== 'ENOENT') {
-      throw err;
-    }
-    // Symlink does not exist, proceed to create it
-  }
-
-  fs.symlinkSync(targetFolder, symlinkPath, 'junction');
-  console.log(`Symlink created: ${symlinkPath} -> ${targetFolder}`);
-
-  /* Ejemplo de uso:
-  ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
-    .then(() => console.log('Proceso completado'))
-    .catch(err => console.error(err)); */
-}
-
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
+// #region ipcMain Handlers
+
 ipcMain.handle('get-app-path', () => {
   return app.getAppPath();
 });
@@ -667,15 +695,31 @@ ipcMain.handle('findFileWithPattern', async (event, folderPath, pattern) => {
   }
 });
 
+
+// #endregion
+
 export default { 
   getAssetPath, 
   resolveEnvVariables,  
-  ensureDirectoryExists, 
+
   loadJsonFile, 
   writeJsonFile, 
+
   checkFileExists, 
   openPathInExplorer ,
   deleteFilesByType,
+  deleteFolderRecursive,
+  deleteFileByAbsolutePath,
+
+  findLatestFile,
   findFileWithPattern,
-  ensureSymlink
+  ensureDirectoryExists, 
+  ensureSymlink,
+
+  isNotNullOrEmpty,
+  callProgram,
+
+  compressFiles,
+  compressFolder,
+  decompressFile
 };

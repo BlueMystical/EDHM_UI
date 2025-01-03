@@ -41,94 +41,91 @@ export default {
         });
     },
 
-    // TODO: Mover esto al Main Process
-    async installEDHMmod(gameInstance) {
-      // Instalar el mod en la nueva ubicacion del juego
+
+    /** Fires when the Settings had been changed, called from 'SettingsEditor'
+     * @param newConfig the updated settings
+     */
+    async OnProgramSettings_Changed(newConfig) { 
       try {
+        //console.log('newConfig:', newConfig);
+
         eventBus.emit('ShowSpinner', { visible: true });
         eventBus.emit('RoastMe', { type: 'Info', message: 'Installing EDHM files..' });
 
-         //Unzip Themes
-         
-        const programSettings = JSON.parse(JSON.stringify(this.settings));
-        const themesPath = await window.api.resolveEnvVariables(programSettings.UserDataFolder);
-        const unzipPath = await window.api.joinPath(themesPath, 'ODYSS');
-        const themesZipPath = await window.api.getAssetPath('data/ODY/Themes_EDHM_ODYSS.zip');
-        if (themesZipPath) {
-          //console.log('themesZipPath', themesZipPath);    console.log('unzipPath', unzipPath);
-          const _ret = await window.api.decompressFile(themesZipPath, unzipPath);
-          if (_ret.success) {
-            console.log('Themes Installed!');
-          }
+        const gameInstance = await window.api.getActiveInstanceEx();
+        const EdhmExists = await window.api.CheckEDHMinstalled(gameInstance.path);
+        if (!EdhmExists) {
+          const edhmInstalled = await window.api.installEDHMmod(gameInstance);
+          console.log('edhmInstalled:', edhmInstalled);
+
+          if (edhmInstalled.game === 'ODYSS') {
+            newConfig.Version_ODYSS = edhmInstalled.version;
+          } else {
+            newConfig.Version_HORIZ = edhmInstalled.version;
+          }        
+          this.settings = newConfig;
+        }        
+
+        const jsonString = JSON.stringify(newConfig, null, 4);
+        await window.api.saveSettings(jsonString);
+
+        eventBus.emit('modUpdated', newConfig);     //<- Event listen in MainNavBars.vue
+        eventBus.emit('loadThemes', gameInstance);  //<- this event will be heard in 'ThemeTab.vue'
+
+        eventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
+        eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
+
+        if (this.InstallStatus === 'freshInstall') {
+          eventBus.emit('RoastMe', { type: 'Info', message: 'You can close this now.' });
         }
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      } finally {
+        eventBus.emit('ShowSpinner', { visible: false });
+      }      
+    },
 
-        //TODO: Check for Game Symlinks for 'EDHM-ini' & ShaderFixes
+    async OnGameInstance_Changed(GameInstanceName) {
+      try {
+        eventBus.emit('ShowSpinner', { visible: true });
+        console.log('activeInstance', this.settings.ActiveInstance ); //<- 'ActiveInstance' Changed by Ref.
 
-        // Unzip EDHM mod:  encontrar el archivo sin importar la version
-        const AssetsPath = await window.api.getAssetPath('data/ODY'); 
-        const edhmZipPath = await window.api.findFileWithPattern(AssetsPath, 'EDHM_Odyssey_*.zip');
-        if (edhmZipPath) {
-          console.log(edhmZipPath);
-          const unzipPath = gameInstance.path;
-          const versionMatch = edhmZipPath.file.match(/v\d+\.\d+/);     console.log('versionMatch', versionMatch);
-          const match = edhmZipPath.file.match(/_(Odyssey|Horizons)_/); console.log('match', match);
+        const NewInstance = await window.api.getInstanceByName(GameInstanceName);
+        console.log('NewInstance:', NewInstance);
 
-          const _ret = await window.api.decompressFile(edhmZipPath.file, unzipPath);
-          if (_ret.success) {
+        const EdhmExists = await window.api.CheckEDHMinstalled(NewInstance.path);
+        if (!EdhmExists) {
+          eventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
+          const edhmInstalled = await window.api.installEDHMmod(NewInstance);
 
-            if (match[1] === 'Odyssey') {
-              this.settings.Version_ODYSS = versionMatch[0];
-            } else {
-              this.settings.Version_HORIZ = versionMatch[0];
-            }
-            console.log('EDHM Installed!');
+          if (edhmInstalled.game === 'ODYSS') {
+            this.settings.Version_ODYSS = edhmInstalled.version;
+          } else {
+            this.settings.Version_HORIZ = edhmInstalled.version;
           }
-        } else {
-          eventBus.emit('ShowError', new Error('404 - Zip File Not Found'));
-        }
 
-       
+          eventBus.emit('modUpdated', this.settings);     //<- Event listen in MainNavBars.vue
+          eventBus.emit('loadThemes', NewInstance);  //<- this event will be heard in 'ThemeTab.vue'
+
+          eventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
+          eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
+        }
+        
+        const jsonString = JSON.stringify(this.settings, null, 4);
+        await window.api.saveSettings(jsonString);
 
       } catch (error) {
         eventBus.emit('ShowError', error);
       } finally {
         eventBus.emit('ShowSpinner', { visible: false });
-      }
-    },
-
-    /**
-     * Fires when the Settings had been changed
-     * @param newConfig the updated settings
-     */
-    async saveConfig(newConfig) { // Handle the updated config here 
-      console.log('Config saved:', newConfig);
-
-      const gameInstance = await window.api.getActiveInstanceEx();
-      eventBus.emit('loadThemes', gameInstance);  //<- this event will be heard in 'ThemeTab.vue'
-
-      eventBus.emit('RoastMe', { type: 'Success', message: 'Settings Applied!' });
-
-      this.installEDHMmod(gameInstance);
-
-      const jsonString = JSON.stringify(this.settings, null, 4);
-      const updateSettings = await window.api.saveSettings(jsonString);
-
-      eventBus.emit('RoastMe', { type: 'Success', message: `EDHM v${updateSettings.Version_ODYSS} Installed.` });
-      eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
-      eventBus.emit('modUpdated', updateSettings); //<- Event listen in MainNavBars.vue
-
-      //await window.api.saveSettings(jsonString);
-
-      if (this.InstallStatus === 'freshInstall') {
-        eventBus.emit('RoastMe', { type: 'Info', message: 'You can close this now.' });
-      }
-    },
-
+      } 
+    }
 
   },
   async mounted() {
     try {
       eventBus.emit('ShowSpinner', { visible: true });
+
       this.settings = await window.api.initializeSettings();
       this.InstallStatus = await window.api.InstallStatus();
 
@@ -164,12 +161,14 @@ export default {
       }, 1000);
     }
 
-    eventBus.on('SettingsChanged', this.saveConfig); //No es necesario, al parecer va por Ref..
+    /* LISTENING EVENTS:   */
+    eventBus.on('SettingsChanged', this.OnProgramSettings_Changed); 
+    eventBus.on('GameInsanceChanged', this.OnGameInstance_Changed); 
   },
   beforeUnmount() {
     // Clean up the event listener
-    eventBus.off('ShowError', this.showError);
-    eventBus.off('modal-confirmed'); eventBus.off('modal-cancelled');
+    eventBus.off('SettingsChanged', this.OnProgramSettings_Changed); 
+    eventBus.off('GameInsanceChanged', this.OnGameInstance_Changed); 
   },
 };
 </script>

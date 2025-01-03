@@ -193,9 +193,17 @@ export default {
     const appVersion = ref('');
     const modVersion = ref('');
     const selectedGame = ref(props.settings.ActiveInstance || 'Select a Game'); // Set initial value from settings
-    const gameMenuItems = ref( // Populate game instances with the `instance` values from `Settings`
-      props.settings.GameInstances.flatMap(instance => instance.games.map(game => game.instance && game.path != ''))
+    
+    // Populate game instances with the `instance` values from `Settings`
+    const gameMenuItems = ref( 
+      props.settings.GameInstances.flatMap(instance => 
+        instance.games
+          .filter(game => game.path) // only include games with non-empty 'path'
+          .map(game => game.instance)
+      )
     );
+    //console.log('gameMenuItems:', gameMenuItems);
+
     programSettings = props.settings;
     const historyOptions = ref([]);
     const selectedHistory = ref('dummy'); // Initialize with the dummy value
@@ -213,15 +221,14 @@ export default {
           const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
 
           themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-          themeTemplate.credits.theme = "Current Settings"; // theme.file.credits.theme;
-          themeTemplate.credits.author = "User"; // theme.file.credits.author;
-          themeTemplate.credits.description = "Currently Applied Colors in Game"; // theme.file.credits.description;
-          themeTemplate.credits.preview = ""; // theme.file.credits.preview;
+          themeTemplate.credits.theme = "Current Settings"; 
+          themeTemplate.credits.author = "User"; 
+          themeTemplate.credits.description = "Currently Applied Colors in Game";
+          themeTemplate.credits.preview = ""; 
           themeTemplate.path = themePath;
           themeTemplate.version = props.settings.Version_ODYSS; //<- Load version from EDHM
 
           eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
-          //eventBus.emit('RoastMe', { title: 'Theme Loaded', message: 'Current Settings'}); //<- this event will be heard in 'App.vue'
 
           // Provide the themeTemplate data to be accessible by all components 
           provide('themeTemplate', themeTemplate);
@@ -233,17 +240,17 @@ export default {
     });
 
 
-    /**
-     * When a Game Instance is selected from the '#gameSelect' combo
+    /** When a Game Instance is selected from the '#gameSelect' combo
      */
     const selectGame = (event) => {
-      selectedGame.value = event.target.value;
+      const gameInstanceName = event.target.value;
+      selectedGame.value = gameInstanceName;
       if (props.settings) {
-        props.settings.ActiveInstance = selectedGame.value;
-        window.api.saveSettings(
-          JSON.stringify(props.settings, null, 4));
+        props.settings.ActiveInstance = gameInstanceName.toString();
+        //window.api.saveSettings(JSON.stringify(props.settings, null, 4));
+        eventBus.emit('GameInsanceChanged', gameInstanceName); //<- this event will be heard in 'App.vue'
       }
-      console.log(`Game selected: ${selectedGame.value}`);
+      //console.log(`Game selected: ${selectedGame.value}`);
     };
     const History_LoadElements = async () => {
       try {
@@ -330,6 +337,9 @@ export default {
           const InstallStatus = await window.api.InstallStatus();
           eventBus.emit('open-settings-editor', InstallStatus);          
         }
+        if (value === 'mnuInstallMod') {
+          
+        }
 
       }
     },
@@ -381,7 +391,8 @@ export default {
       
 
 
-  /*    setTimeout(() => {
+  /*   EJEMPLOS ****
+   setTimeout(() => {
           this.loading = false;
           eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
       }, 3000); */
