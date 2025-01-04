@@ -2,11 +2,11 @@ const { app, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-const ps = require('ps-node');
+
 const { exec } = require('child_process');
 const AdmZip = require('adm-zip');
 const url = require('url');
-
+const ps = require('ps-tree');
 
 // #region Path Functions
 
@@ -565,6 +565,8 @@ ipcMain.handle('ShowSaveDialog', async (event, options) => {
 });
 
 
+
+
 ipcMain.handle('checkProcess', async (event, processName) => {
   return new Promise((resolve, reject) => {
     ps.lookup({ command: processName }, (err, resultList) => {
@@ -582,6 +584,7 @@ ipcMain.handle('checkProcess', async (event, processName) => {
     });
   });
 });
+
 
 
 ipcMain.handle('openPathInExplorer', async (event, filePath) => {

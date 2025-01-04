@@ -13,6 +13,7 @@
   "devDependencies": {
     "@electron-forge/cli": "^7.6.0",
     "@electron-forge/maker-deb": "^7.6.0",
+    "@electron-forge/maker-flatpak": "^7.6.0",
     "@electron-forge/maker-rpm": "^7.6.0",
     "@electron-forge/maker-squirrel": "^7.6.0",
     "@electron-forge/maker-zip": "^7.6.0",
@@ -42,7 +43,6 @@
     "ini": "^5.0.0",
     "mitt": "^3.0.1",
     "node-windows": "^1.0.0-beta.8",
-    "ps-node": "^0.1.6"
+    "ps-tree": "^1.2.0"
   }
 }
-

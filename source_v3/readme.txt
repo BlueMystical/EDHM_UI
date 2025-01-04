@@ -251,6 +251,10 @@ npm install --save-dev @electron-forge/maker-rpm
 /* Generate a DMG with Electron Forge to distribute your Electron app on macOS. */
 npm install --save-dev @electron-forge/maker-dmg
 
+/* The Flatpak target builds .flatpak files, which is a packaging format for Linux distributions that allows for sandboxed installation of applications in isolation from the rest of their system */
+https://www.electronforge.io/config/makers/flatpak
+npm install --save-dev @electron-forge/maker-flatpak
+
 // ------------------------------ BUILDING FOR LINUX FROM WINDOWS -------------------------
 // SE REQUIERE UNA MAQUINA CON LINUX PARA CREAR EL PAQUETE DE DISTRIBUCION PARA LINUX
 // Setting up WSL (Windows Subsystem for Linux) will allow you to create a Linux environment directly on your Windows PC.

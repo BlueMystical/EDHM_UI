@@ -62,6 +62,17 @@ module.exports = {
             genericName: 'Modding Tool'
           }
         }
+      },
+      {
+        name: '@electron-forge/maker-flatpak',
+        config: {
+          options: {
+            name: 'EDHM-UI-V3',
+            categories: ['Tools', 'Game'],
+            setupIcon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
+            icon: path.join(__dirname, 'src/images/icon.png'), 
+          }
+        }
       }
     ],
     plugins: [
