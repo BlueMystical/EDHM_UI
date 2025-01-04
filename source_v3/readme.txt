@@ -243,6 +243,7 @@ npm install --save-dev @electron-forge/maker-zip
 
 /* Create a package for Debian-based Linux distributions (Debian,Ubuntu,Mint,Raspbian,Kali Linux, etc..) */
 npm install --save-dev @electron-forge/maker-deb
+sudo apt-get install rpm
 
 /* Create an RPM package for RedHat-based Linux distributions (Red Hat,Fedora,CentOS,Rocky,AlmaLinux,Oracle, etc)  */
 npm install --save-dev @electron-forge/maker-rpm
@@ -277,5 +278,14 @@ npx electron-forge make --arch="ia32"
 run after cloning the Repo:
 npm install
 
-Resolved path: home/bluemystic/edhmv3/src/data/HUD_Type8.json
-File not found: home/bluemystic/edhmv3/src/data/HUD_Type8.json
+// running the installer on Linux:
+sudo apt install ./edhm-ui-v3_3.0.0_amd64.deb
+sudo rpm -i EDHM-UI-V3-3.0.0-1.x86_64.rpm
+
+// Un-install in Debian:
+dpkg --list
+sudo apt-get remove edhm-ui-v3
+sudo apt-get purge edhm-ui-v3
+
+
+

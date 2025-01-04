@@ -365,9 +365,10 @@ export default {
         const ActiveInstance = await window.api.getActiveInstance(); 
         console.log('1. ActiveInstance:', ActiveInstance);
         console.log('2. ThemeTemplate:', themeTemplate);
-        
+
         const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini'); 
-        const defaultInisPath = await window.api.getAssetPath('data/ODY');  
+        const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';      
+        const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);  
         console.log('3. Preparing all the Paths:', GamePath);
 
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);  

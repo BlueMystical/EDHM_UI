@@ -53,10 +53,12 @@ export default {
         eventBus.emit('RoastMe', { type: 'Info', message: 'Installing EDHM files..' });
 
         const gameInstance = await window.api.getActiveInstanceEx();
+        const gameVersion = gameInstance.key === "ED_Odissey" ? newConfig.Version_ODYSS : newConfig.Version_HORIZ ;
         const EdhmExists = await window.api.CheckEDHMinstalled(gameInstance.path);
         if (!EdhmExists) {
           const edhmInstalled = await window.api.installEDHMmod(gameInstance);
           console.log('edhmInstalled:', edhmInstalled);
+          gameVersion = edhmInstalled.version;
 
           if (edhmInstalled.game === 'ODYSS') {
             newConfig.Version_ODYSS = edhmInstalled.version;
@@ -72,7 +74,7 @@ export default {
         eventBus.emit('modUpdated', newConfig);     //<- Event listen in MainNavBars.vue
         eventBus.emit('loadThemes', gameInstance);  //<- this event will be heard in 'ThemeTab.vue'
 
-        eventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
+        eventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${gameVersion} Installed.` });
         eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
 
         if (this.InstallStatus === 'freshInstall') {

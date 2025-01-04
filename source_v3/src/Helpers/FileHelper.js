@@ -104,10 +104,10 @@ const resolveEnvVariables = (inputPath) => {
 
     // Extract the non Env.Var portion of the path
     let nonEnvVarPart = isEnvVar ? inputPath.replace(/%[\w]+%/, '') : inputPath;
-    let separator = path.sep;  // Detect separator type
+    let separator = nonEnvVarPart.includes('\\') ? '\\' : '/';  // Detect separator type
     let pathComponents = nonEnvVarPart.split(separator);
 
-    // Ensure normalPath is resolved correctly
+    // re-assemble the path using the platform path separator
     normalPath = path.join(...pathComponents);
 
     // #endregion
@@ -311,6 +311,12 @@ async function findFileWithPattern(folderPath, pattern) {
  */
 async function ensureSymlink(targetFolder, symlinkPath) {
   try {
+    // Check if the target folder exists, create it if it doesn't
+    if (!fs.existsSync(targetFolder)) {
+      console.log(`Target folder does not exist, creating: ${targetFolder}`);
+      fs.mkdirSync(targetFolder, { recursive: true });
+    }
+
     const stats = fs.lstatSync(symlinkPath);
 
     if (stats.isSymbolicLink()) {
@@ -331,10 +337,13 @@ async function ensureSymlink(targetFolder, symlinkPath) {
   return 'created';
 
   /* Ejemplo de uso:
-  ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
-    .then(() => console.log('Proceso completado'))
-    .catch(err => console.error(err)); */
+ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
+  .then(() => console.log('Proceso completado'))
+  .catch(err => console.error(err)); */
 }
+
+
+
 
 // #endregion
 
@@ -384,6 +393,7 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
 // #region ZIP Files
 
 async function compressFiles(files, outputPath) {
+  // https://www.npmjs.com/package/adm-zip
   const zip = new AdmZip();
   
   files.forEach(file => {
@@ -442,12 +452,15 @@ async function decompressFile(zipPath, outputDir) {
   }
 
   const zip = new AdmZip(zipPath);
+  var zipEntries = zip.getEntries(); // an array of ZipEntry records - add password parameter if entries are password protected
+  //console.log('zipEntries', zipEntries);
 
   return new Promise((resolve, reject) => {
     try {
       zip.extractAllTo(outputDir, true);
       resolve("Files decompressed successfully!");
     } catch (err) {
+      console.log(err);
       reject(err);
     }
   });

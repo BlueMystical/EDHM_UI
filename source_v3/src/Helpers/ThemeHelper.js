@@ -8,8 +8,7 @@ import Log from './LoggingHelper.js';
 import { writeFile } from 'node:fs/promises';
 
 
-/**
- * Retrieves themes from a specified directory path.
+/** * Retrieves themes from a specified directory path.
  * @async
  * @param {string} dirPath - The directory path to search for themes.
  * @returns {Promise<Array>} A promise that resolves to an array of themes.
@@ -127,8 +126,7 @@ const getIniFilePath = (basePath, fileName) => {
   return fileHelper.resolveEnvVariables(joinedPath);
 };
 
-/**
- * Retrieve the INI files asociated to a Theme
+/**  * Retrieve the INI files asociated to a Theme
  * @param {string} folderPath Full path to the Folder containing the INI files
  * @returns Object
  */
@@ -156,8 +154,7 @@ const LoadThemeINIs = async (folderPath) => {
   }
 };
 
-/**
- * Save the modified INI files back to their original location
+/** * Save the modified INI files back to their original location
  * @param {string} folderPath Full path to the Folder containing the INI files
  * @param {object} themeINIs Object containing the INI data
  * @returns boolean
@@ -229,7 +226,7 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
               }
             } else {
               element.Value = parseFloat(defaultValue);
-              console.log('Key Not Found:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
+              //console.log('Key Not Found:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
               //Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
             }
           }
