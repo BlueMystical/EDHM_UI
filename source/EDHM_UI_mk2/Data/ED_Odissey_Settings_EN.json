@@ -347,6 +347,17 @@
         },
         {
           "Category": "Targeting Reticle - Components",
+          "Title": "Out Of Range Reticles",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "y118",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "OutOfRangeReticles",
+          "Description": "Mode for Out Of Range Tri-Bars and Circles Reticles.\r\nNote: Only with Combat Reticles in Custom Colors."
+        },
+        {
+          "Category": "Targeting Reticle - Components",
           "Title": "Missile Lock",
           "File": "Advanced",
           "Section": "Constants",
@@ -2657,7 +2668,17 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Landing Line and Coaster (Orange)*Alpha"
         },
-
+        {
+          "Category": "Landing Hologram",
+          "Title": "Landing Plate Target Mode",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "z123",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "ShortModeB",
+          "Description": "Mode for Landing Plate Target when Landing on a Pad."
+        },
         {
           "Category": "Terrain Hologram",
           "Title": "Landing Terrain Color",
@@ -4186,6 +4207,16 @@
       "Index": 2.0
     },
 
+    {
+      "Type": "OutOfRangeReticles",
+      "Name": "Same as Custom Colors without Glow",
+      "Index": 100.0
+    },
+    {
+      "Type": "OutOfRangeReticles",
+      "Name": "Elite default (Red)",
+      "Index": 200.0
+    },
 
     {
       "Type": "FSSGasGiantIcons",
@@ -4322,6 +4353,16 @@
     },
     {
       "Type": "ShortMode",
+      "Name": "Elite Default",
+      "Index": 200.0
+    },
+    {
+      "Type": "ShortModeB",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "ShortModeB",
       "Name": "Elite Default",
       "Index": 200.0
     },

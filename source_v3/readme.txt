@@ -211,12 +211,13 @@ npm uninstall dotenv
 
 npm install @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 
-
+-----------------------------------------------------------------------------------
 ie4uinit.exe -show          <- Refresca la Cache de Iconos
 npm cache clean --force     <- Refresca la cache de Node
 
 npm install split-pane
 npm install mitt
+npm install adm-zip --save-dev
 
 
 
@@ -239,6 +240,7 @@ npm install --save-dev @electron-forge/maker-squirrel
 /* 	Create a ZIP archive for your Electron app using Electron Forge.
 	The ZIP target builds basic .zip archives containing your packaged application. 
 	There are no platform-specific dependencies for using this maker and it will run on any platform. */
+
 npm install --save-dev @electron-forge/maker-zip
 
 /* Create a package for Debian-based Linux distributions (Debian,Ubuntu,Mint,Raspbian,Kali Linux, etc..) */
@@ -252,14 +254,11 @@ npm install --save-dev @electron-forge/maker-rpm
 npm install --save-dev @electron-forge/maker-dmg
 
 /* The Flatpak target builds .flatpak files, which is a packaging format for Linux distributions that allows for sandboxed installation of applications in isolation from the rest of their system */
+/* You can only build the Flatpak target if you have flatpak, flatpak-builder, and eu-strip (usually part of the elfutils package) installed on your system. */
 https://www.electronforge.io/config/makers/flatpak
 npm install --save-dev @electron-forge/maker-flatpak
 
-// ------------------------------ BUILDING FOR LINUX FROM WINDOWS -------------------------
-// SE REQUIERE UNA MAQUINA CON LINUX PARA CREAR EL PAQUETE DE DISTRIBUCION PARA LINUX
-// Setting up WSL (Windows Subsystem for Linux) will allow you to create a Linux environment directly on your Windows PC.
-// Open PowerShell as an administrator and run the following command:
-wsl --install
+
 
 // ------------------Installing PUBLISHERS-------------------------------------------------
 https://www.electronforge.io/config/publishers/github

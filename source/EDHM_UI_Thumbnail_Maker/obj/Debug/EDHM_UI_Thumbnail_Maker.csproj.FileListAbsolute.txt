@@ -8,3 +8,13 @@ G:\Soft TEST\ED UI mk2\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker
 G:\Soft TEST\ED UI mk2\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.exe
 G:\Soft TEST\ED UI mk2\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.pdb
 G:\Soft TEST\ED UI mk2\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.csprojAssemblyReference.cache
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\bin\Debug\EDHM_UI_Thumbnail_Maker.exe.config
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\bin\Debug\EDHM_UI_Thumbnail_Maker.exe
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\bin\Debug\EDHM_UI_Thumbnail_Maker.pdb
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.csprojAssemblyReference.cache
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.Form1.resources
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.Properties.Resources.resources
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.csproj.GenerateResource.cache
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.csproj.CoreCompileInputs.cache
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.exe
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Thumbnail_Maker\obj\Debug\EDHM_UI_Thumbnail_Maker.pdb

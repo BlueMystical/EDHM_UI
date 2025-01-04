@@ -2,7 +2,7 @@
 <DOCUMENT Type="Advanced Installer" CreateVersion="18.5" version="18.8.1" Modules="professional" RootPath="." Language="en" Id="{305C5696-0D09-4FD3-AC00-C5F2E9C1A1D0}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
-    <ROW Property="AI_CURRENT_YEAR" Value="2024" ValueLocId="-"/>
+    <ROW Property="AI_CURRENT_YEAR" Value="2025" ValueLocId="-"/>
     <ROW Property="AI_EXTERNALUIUNINSTALLERNAME" MultiBuildValue="DefaultBuild:aiui"/>
     <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_DOTNET_VERSION"/>
     <ROW Property="AI_PRODUCTNAME_ARP" Value="EDHM_UI"/>
@@ -20,10 +20,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{61B012A0-9CD4-4BE9-AC58-1E46DB1A9847} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{65FB4A2B-4AE0-4F2B-ADA0-9281A99264F9} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM_UI"/>
-    <ROW Property="ProductVersion" Value="2.2.54.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.2.55.0" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{2949570F-AF20-4990-B258-006A1649A388}"/>
@@ -56,7 +56,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="AIShRegAnswer" ComponentId="{2D8D79A9-F005-4936-95B1-DD31BB7F3851}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
-    <ROW Component="AI_CustomARPName" ComponentId="{F489EDDC-79A2-410B-BE76-2A76413A08FB}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{AD3A9A86-A305-43FB-9C0C-721E98CAF5B8}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="APPDIR" ComponentId="{1428F5F3-0E71-45A1-AC93-1D376C7F0DC2}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="AmbientLights_0.png" ComponentId="{52A436C9-3EAA-4B92-958A-344A6537B298}" Directory_="ED_Horizons_Dir" Attributes="0" KeyPath="AmbientLights_0.png" Type="0"/>
     <ROW Component="ColorManagment.dll" ComponentId="{35162133-6069-4C8C-A522-8283866B1CAE}" Directory_="APPDIR" Attributes="0" KeyPath="ColorManagment.dll"/>
@@ -421,13 +421,11 @@
     <ROW File="ED_Odissey_Advanced.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~2.INI|ED_Odissey_Advanced.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Advanced.ini" SelfReg="false"/>
     <ROW File="HORIZ_EDHMv1.52.b.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="HORIZ_~1.ZIP|HORIZ_EDHM-v1.52.b.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\HORIZ_EDHM-v1.52.b.zip" SelfReg="false"/>
     <ROW File="ED_Horizons_Custom.ini" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.INI|ED_Horizons_Custom.ini" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Custom.ini" SelfReg="false"/>
-    <ROW File="EDHM_UI_Guide.pdf" Component_="EDHM_UI_Guide.pdf" FileName="EDHM_U~1.PDF|EDHM_UI_Guide.pdf" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\EDHM_UI_Guide.pdf" SelfReg="false"/>
     <ROW File="Themes_EDHM_HORIZ.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="THEMES~1.ZIP|Themes_EDHM_HORIZ.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\Themes_EDHM_HORIZ.zip" SelfReg="false"/>
     <ROW File="Themes_EDHM_ODYSS.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="THEMES~2.ZIP|Themes_EDHM_ODYSS.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\Themes_EDHM_ODYSS.zip" SelfReg="false"/>
     <ROW File="ED_Odissey_Global_Settings.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~9.JSO|ED_Odissey_Global_Settings.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Global_Settings.json" SelfReg="false"/>
     <ROW File="EDHM_UI_Thumbnail_Maker.exe" Component_="EDHM_UI_Thumbnail_Maker.exe" FileName="EDHM_U~3.EXE|EDHM_UI_Thumbnail_Maker.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe" SelfReg="false" DigSign="true"/>
     <ROW File="EDHM_UI_Thumbnail_Maker.exe.config" Component_="EDHM_UI_mk2.exe.Config" FileName="EDHM_U~3.CON|EDHM_UI_Thumbnail_Maker.exe.config" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_Thumbnail_Maker.exe.config" SelfReg="false"/>
-    <ROW File="ED_Horizons_Global_Settings.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~2.JSO|ED_Horizons_Global_Settings.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Global_Settings.json" SelfReg="false"/>
     <ROW File="ED_Horizons_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.JSO|ED_Horizons_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Translations.json" SelfReg="false"/>
     <ROW File="ED_Odissey_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~1.JSO|ED_Odissey_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Translations.json" SelfReg="false"/>
     <ROW File="EDHM_UI_mk2.VisualElementsManifest.xml" Component_="EDHM_UI_mk2.VisualElementsManifest.xml" FileName="EDHM_U~1.XML|EDHM_UI_mk2.VisualElementsManifest.xml" Version="65535.65535.65535.65535" Attributes="0" SourcePath="&lt;AI_RES&gt;app.VisualElementsManifest.xml" SelfReg="false"/>
@@ -646,8 +644,8 @@
     <ROW File="DevExpress.XtraVerticalGrid.v24.1.dll" Component_="DevExpress.XtraVerticalGrid.v24.1.dll" FileName="DEVEX~25.DLL|DevExpress.XtraVerticalGrid.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraVerticalGrid.v24.1.dll" SelfReg="false"/>
     <ROW File="mandalay.jpg" Component_="adder.jpg" FileName="mandalay.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mandalay.jpg" SelfReg="false"/>
     <ROW File="DevExpress.XtraEditors.v24.1.xml" Component_="EDHM_UI_mk2.exe.Config" FileName="DEVEXP~1.XML|DevExpress.XtraEditors.v24.1.xml" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v24.1.xml" SelfReg="false"/>
-    <ROW File="ODYSS_EDHMv19.05.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v19.05.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v19.05.zip" SelfReg="false"/>
     <ROW File="cobramkv.jpg" Component_="adder.jpg" FileName="cobramkv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkv.jpg" SelfReg="false"/>
+    <ROW File="ODYSS_EDHMv19.06.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v19.06.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v19.06.zip" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>

@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron';
+import { app, ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'fs';
 
@@ -69,6 +69,29 @@ const getThemes = async (dirPath) => {
   }
 };
 
+const LoadTheme = async (themeFolder) => {
+  let template = {};
+  try {
+    if (fs.existsSync(path.join(themeFolder, 'ThemeSettings.json'))) {
+      // New v3 Format for Themes, single File:
+      template = fileHelper.loadJsonFile( path.join(themeFolder, 'ThemeSettings.json') );
+      template.path = themeFolder;
+
+    } else {
+      // Old fashion format for Themes:
+      const defaultThemePath = fileHelper.getAssetPath('./data/ED_Odissey_ThemeTemplate.json');  
+      const ThemeINIs = await LoadThemeINIs(themeFolder); 
+      template = fileHelper.loadJsonFile(defaultThemePath);
+      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
+      template.credits = await GetCreditsFile(themeFolder);
+      template.path = themeFolder;
+    }
+  } catch (error) {
+    throw error;
+  }
+  return template;
+};
+
 async function GetCreditsFile(themePath) {
   let creditsJson = {};
   try {
@@ -98,28 +121,7 @@ async function GetCreditsFile(themePath) {
   return creditsJson;
 }
 
-const LoadTheme = async (themeFolder) => {
-  let template = {};
-  try {
-    if (fs.existsSync(path.join(themeFolder, 'ThemeSettings.json'))) {
-      // New v3 Format for Themes, single File:
-      template = fileHelper.loadJsonFile( path.join(themeFolder, 'ThemeSettings.json') );
-      template.path = themeFolder;
-
-    } else {
-      // Old fashion format for Themes:
-      const defaultThemePath = fileHelper.getAssetPath('./data/ED_Odissey_ThemeTemplate.json');  
-      const ThemeINIs = await LoadThemeINIs(themeFolder); 
-      template = fileHelper.loadJsonFile(defaultThemePath);
-      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
-      template.credits = await GetCreditsFile(themeFolder);
-      template.path = themeFolder;
-    }
-  } catch (error) {
-    throw error;
-  }
-  return template;
-};
+// #region Ini File Handling
 
 const getIniFilePath = (basePath, fileName) => {
   const joinedPath = path.join(basePath, fileName);
@@ -307,8 +309,11 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
   return iniValues;
 };
 
+// #endregion
 
-/*--------- Color Conversion Methods ---------------------*/
+// #region Color Conversion Methods
+
+
 function RGBAtoColor(colorComponents) {
   if (colorComponents.length === 3) {
     const [r, g, b] = colorComponents.map(parseFloat);
@@ -448,10 +453,73 @@ function convert_sRGB_ToLinear(thesRGBValue, _GammaValue = 2.4) {
     : Math.pow((thesRGBValue + 0.055) / 1.055, _GammaValue);
 };
 
+// #endregion
 
 
+// #region --------- Expose Methods via IPC Handlers: ---------------------
+//  they can be accesed like this:   const files = await window.api.getThemes(dirPath);
 
-/*--------- Expose Methods via IPC Handlers: ---------------------*/
+ipcMain.handle('get-app-version', async () => {
+  const appPath = app.getAppPath();
+  const packageJsonPath = path.join(appPath, 'package.json');
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  return packageJson.version;
+});
+
+ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemember) => {
+  try {
+    historyFolder = fileHelper.resolveEnvVariables(historyFolder);
+    // Ensure History folder exists
+    if (!fs.existsSync(historyFolder)) {
+      fs.mkdirSync(historyFolder, { recursive: true });
+    }
+
+    // Read and sort .json files by modification date
+    const files = fs.readdirSync(historyFolder)
+      .filter(file => file.endsWith('.json'))
+      .map(file => ({
+        name: file,
+        path: path.join(historyFolder, file),
+        time: fs.statSync(path.join(historyFolder, file)).mtime.getTime()
+      }))
+      .sort((a, b) => b.time - a.time)
+      .slice(0, numberOfSavesToRemember);
+
+    return files.map(file => ({
+      name: file.name,
+      path: file.path,
+      date: new Date(file.name.substring(0, 4), file.name.substring(4, 6) - 1, file.name.substring(6, 8), file.name.substring(8, 10), file.name.substring(10, 12), file.name.substring(12, 14)).toLocaleString()
+    }));
+  } catch (error) {
+    console.error('Failed to load history elements:', error);
+    Log.Error(error.message, error.stack);
+    throw error;
+  }
+});
+
+ipcMain.handle('save-history', async (event, historyFolder, theme) => {
+  try {
+    historyFolder = fileHelper.resolveEnvVariables(historyFolder);
+    // Ensure History folder exists
+    if (!fs.existsSync(historyFolder)) {
+      fs.mkdirSync(historyFolder, { recursive: true });
+    }
+
+    // File with timestamp in the name
+    const filePath = path.join(historyFolder, `${new Date().toISOString().replace(/[:.-]/g, '')}.json`);
+
+    // Save the data in JSON format
+    fs.writeFileSync(filePath, JSON.stringify(theme, null, 2));
+    console.log('Theme added to history:', filePath);
+
+    return true;
+  } catch (error) {
+    console.error('Failed to add theme to history:', error);
+    Log.Error(error.message, error.stack);
+    throw error;
+  }
+});
+
 ipcMain.handle('get-themes', async (event, dirPath) => {
   try {
     const resolvedPath = fileHelper.resolveEnvVariables(dirPath);
@@ -527,5 +595,6 @@ ipcMain.handle('ApplyTemplateValuesToIni', async (event, template, iniValues) =>
   }
 });
 
+// #endregion
 
 export default { getThemes, LoadThemeINIs, SaveThemeINIs, ApplyIniValuesToTemplate, ApplyTemplateValuesToIni };

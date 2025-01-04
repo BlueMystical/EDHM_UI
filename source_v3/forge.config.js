@@ -2,13 +2,14 @@ const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 const path = require('path');
 
+
 module.exports = {
     packagerConfig: {
-      asar: true,
+      asar: true, //<- packs all dependencies in a file
       extraResource: [
         'src/data',
-        'src/images', // Keep images here if needed
-        'public', // Keep public folder if needed
+        'src/images', 
+        'public', 
       ],
       icon: 'src/images/ED_TripleElite.ico',
       appCategoryType: 'public.app-category.developer-tools',
@@ -24,7 +25,8 @@ module.exports = {
         name: '@electron-forge/maker-squirrel',
         config: {
           name: 'EDHM-UI-V3',
-          exe: 'EDHM-UI.exe',
+          //exe: 'EDHM-UI.exe',
+          //appDirectory: '',
           iconUrl: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
           setupIcon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
           setupExe: 'EDHM-UI-Installer.exe',
@@ -35,17 +37,18 @@ module.exports = {
           certificatePassword: '@Namllohj1975'
         }
       },
-      {
+/*      {
         name: '@electron-forge/maker-deb',
         config: {
           options: {
             name: 'EDHM-UI-V3',
+            productName: 'EDHM-UI-V3',
+            genericName: 'Modding Tool',
             maintainer: 'Blue Mystic <bluemystic.play@gmail.com>',
-            homepage: 'https://bluemystic.com',
-            productName: 'EDHM-UI',
+            description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
             icon: path.join(__dirname, 'src/images/icon.png'), 
-            setupIcon: path.join(__dirname, 'src/images/icon.png'),
-            genericName: 'Modding Tool'
+            setupIcon: path.join(__dirname, 'src/images/icon.png'), 
+            version: '3.0.0'
           }
         }
       },
@@ -54,12 +57,13 @@ module.exports = {
         config: {
           options: {
             name: 'EDHM-UI-V3',
+            productName: 'EDHM-UI-V3',
+            genericName: 'Modding Tool',
             maintainer: 'Blue Mystic <bluemystic.play@gmail.com>',
-            homepage: 'https://bluemystic.com',
-            productName: 'EDHM-UI',
+            description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
             icon: path.join(__dirname, 'src/images/icon.png'), 
-            setupIcon: path.join(__dirname, 'src/images/icon.png'),
-            genericName: 'Modding Tool'
+            setupIcon: path.join(__dirname, 'src/images/icon.png'), 
+            version: '3.0.0'
           }
         }
       },
@@ -73,7 +77,14 @@ module.exports = {
             icon: path.join(__dirname, 'src/images/icon.png'), 
           }
         }
-      }
+      },
+      {
+        "name": "@electron-forge/maker-zip",
+        "platforms": ["darwin", "linux"], // optional
+        "config": {
+            // Config here
+        }
+      }*/
     ],
     plugins: [
       {

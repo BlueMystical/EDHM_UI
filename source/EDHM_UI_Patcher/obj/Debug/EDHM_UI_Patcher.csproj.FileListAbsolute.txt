@@ -37,3 +37,42 @@ G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CoreComp
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CopyComplete
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.exe
 G:\Soft TEST\ED UI mk2\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.pdb
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe.config
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.exe
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\EDHM_UI_Patcher.pdb
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.Desktop.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Images.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Printing.v24.1.Core.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Utils.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraBars.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraEditors.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraLayout.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\Ionic.Zip.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Drawing.v24.1.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Core.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Drawing.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Sparkline.v24.1.Core.dll
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.Desktop.v24.1.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Data.v24.1.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Printing.v24.1.Core.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Utils.v24.1.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraBars.v24.1.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraEditors.v24.1.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.XtraLayout.v24.1.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.pdb
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\Newtonsoft.Json.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Drawing.v24.1.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Core.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Pdf.v24.1.Drawing.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\bin\Debug\DevExpress.Sparkline.v24.1.Core.xml
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csprojAssemblyReference.cache
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\Chart_Test.PerformanceChart.resources
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Form1.resources
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.Properties.Resources.resources
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.GenerateResource.cache
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CoreCompileInputs.cache
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.csproj.CopyComplete
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.exe
+G:\@Proyectos\EDHM_UI\source\EDHM_UI_Patcher\obj\Debug\EDHM_UI_Patcher.pdb
