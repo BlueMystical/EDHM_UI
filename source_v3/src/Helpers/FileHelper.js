@@ -4,9 +4,9 @@ const fs = require('fs');
 const os = require('os');
 
 const { exec } = require('child_process');
-const AdmZip = require('adm-zip');
 const url = require('url');
-const ps = require('ps-tree');
+import psList from 'ps-list';
+const zl = require("zip-lib");
 
 // #region Path Functions
 
@@ -393,56 +393,16 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
 // #region ZIP Files
 
 async function compressFiles(files, outputPath) {
-  // https://www.npmjs.com/package/adm-zip
-  const zip = new AdmZip();
-  
-  files.forEach(file => {
-    if (fs.existsSync(file)) {
-      zip.addLocalFile(file);
-    } else {
-      console.error(`File not found: ${file}`);
-    }
-  });
-
-  return new Promise((resolve, reject) => {
-    zip.writeZip(outputPath, err => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve("Files compressed successfully!");
-      }
-    });
-  });
+//TODO: Implement this function
 }
 
 async function compressFolder(folderPath, outputPath) {
-  const zip = new AdmZip();
-  
-  function addFolderToZip(folderPath, zipFolderPath) {
-    const items = fs.readdirSync(folderPath);
-
-    items.forEach(item => {
-      const itemPath = path.join(folderPath, item);
-      const zipItemPath = path.join(zipFolderPath, item);
-      
-      if (fs.lstatSync(itemPath).isDirectory()) {
-        addFolderToZip(itemPath, zipItemPath);
-      } else {
-        zip.addLocalFile(itemPath, zipFolderPath);
-      }
-    });
-  }
-
-  addFolderToZip(folderPath, path.basename(folderPath));
-
-  return new Promise((resolve, reject) => {
-    zip.writeZip(outputPath, err => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve("Folder compressed successfully!");
-      }
-    });
+  zl.archiveFolder(folderPath, outputPath).then(function () {
+      console.log("done");
+      return true;
+  }, function (err) {
+      console.log(err);
+      throw err;
   });
 }
 
@@ -451,19 +411,15 @@ async function decompressFile(zipPath, outputDir) {
     throw new Error(`ZIP file not found: ${zipPath}`);
   }
 
-  const zip = new AdmZip(zipPath);
-  var zipEntries = zip.getEntries(); // an array of ZipEntry records - add password parameter if entries are password protected
-  //console.log('zipEntries', zipEntries);
+  zl.extract(zipPath, outputDir).then(function () {
+    console.log("done");
+    return true;
 
-  return new Promise((resolve, reject) => {
-    try {
-      zip.extractAllTo(outputDir, true);
-      resolve("Files decompressed successfully!");
-    } catch (err) {
-      console.log(err);
-      reject(err);
-    }
+  }, function (err) {
+    console.log(err);
+    throw err;
   });
+
 }
 
 // #endregion
@@ -490,8 +446,11 @@ function callProgram(programPath) {
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
 
-ipcMain.handle('get-app-path', () => {
-  return app.getAppPath();
+ipcMain.handle('get-app-version', async () => {
+  const appPath = app.getAppPath();
+  const packageJsonPath = path.join(appPath, 'package.json');
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  return packageJson.version;
 });
 
 
@@ -565,25 +524,19 @@ ipcMain.handle('ShowSaveDialog', async (event, options) => {
 });
 
 
-
-
 ipcMain.handle('checkProcess', async (event, processName) => {
-  return new Promise((resolve, reject) => {
-    ps.lookup({ command: processName }, (err, resultList) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+  const processes = await psList();
+  const process = processes.find(p => p.cmd.includes(processName));
 
-      const process = resultList.find(proc => proc);
-      if (process) {
-        resolve(path.dirname(process.command));
-      } else {
-        resolve(null);
-      }
-    });
-  });
+  if (process) {
+      console.log(`${processName} is running at path: ${process.cmd}`);
+      return process.cmd;
+  } else {
+      console.log(`${processName} is not running`);
+      return null;
+  }
 });
+
 
 
 

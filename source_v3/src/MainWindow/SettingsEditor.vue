@@ -223,36 +223,25 @@ export default {
             this.config = _ret;
             eventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
         },
-        /* Attepmts to Detect the running Game Process and then sets the Paths */
+        /* Attempts to Detect the running Game Process and then sets the Paths */
         async runGameLocationAssistant() {
             eventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
 
-            await this.checkProcess().then(fullPath => {
-                if (fullPath) {
-                    console.log('Process found at:', fullPath);
-                    eventBus.emit('RoastMe', { type: 'Success', message: `Process found at: '${fullPath}''` });
+            const fullPath = await this.checkIfProcessRunning('EliteDangerous64.exe');
+            if (fullPath) {
+                console.log('Process found at:', fullPath);
+                eventBus.emit('RoastMe', { type: 'Success', message: `Process found at: '${fullPath}'` });
 
-                    this.addNewGameInstance(String(fullPath));
+                this.addNewGameInstance(String(fullPath));
+            } else {
+                console.log('Process not found.');
+                eventBus.emit('RoastMe', { type: 'Error', message: 'Process not found.' });
+            }
+        },
 
-                } else {
-                    console.log('Process not found.');
-                }
-            });
-        },        
-        async checkProcess() {
-            return new Promise((resolve, reject) => {
-                const check = async () => {
-                    const processPath = await window.api.checkProcess('EliteDangerous64.exe');
-                    if (processPath) {
-                        resolve(processPath);
-                    } else {
-                        setTimeout(() => {
-                            requestAnimationFrame(check);
-                        }, 3000); // Check every 3 seconds
-                    }
-                };
-                check();
-            });
+        async checkIfProcessRunning(processName) {
+            const fullPath = await window.api.checkProcess(processName);
+            return fullPath;
         },
         async CleanInstall() {    
             try {

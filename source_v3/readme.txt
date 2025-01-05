@@ -217,7 +217,8 @@ npm cache clean --force     <- Refresca la cache de Node
 
 npm install split-pane
 npm install mitt
-npm install adm-zip --save-dev
+npm install zip-lib
+npm install procs
 
 
 

@@ -459,12 +459,6 @@ function convert_sRGB_ToLinear(thesRGBValue, _GammaValue = 2.4) {
 // #region --------- Expose Methods via IPC Handlers: ---------------------
 //  they can be accesed like this:   const files = await window.api.getThemes(dirPath);
 
-ipcMain.handle('get-app-version', async () => {
-  const appPath = app.getAppPath();
-  const packageJsonPath = path.join(appPath, 'package.json');
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-  return packageJson.version;
-});
 
 ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemember) => {
   try {

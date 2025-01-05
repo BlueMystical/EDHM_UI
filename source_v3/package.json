@@ -35,7 +35,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "adm-zip": "^0.5.16",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "dompurify": "^3.2.3",
@@ -43,6 +42,6 @@
     "ini": "^5.0.0",
     "mitt": "^3.0.1",
     "node-windows": "^1.0.0-beta.8",
-    "ps-tree": "^1.2.0"
+    "zip-lib": "^1.0.5"
   }
 }
