@@ -48,6 +48,9 @@ function createWindow() {
   });
 }
 
+// run this as early in the main process as possible
+//if (require('electron-squirrel-startup')) app.quit();
+
 app.on('ready', () => {
   //log.info('App is ready');
   createWindow();

@@ -523,6 +523,7 @@ ipcMain.handle('get-themes', async (event, dirPath) => {
     throw error;
   }
 });
+
 ipcMain.handle('LoadTheme', async (event, dirPath) => {
   try {
     const resolvedPath = fileHelper.resolveEnvVariables(dirPath);
@@ -556,6 +557,7 @@ ipcMain.handle('reverseGammaCorrected', async (event, color, gammaValue) => {
     throw error;
   }
 });
+
 ipcMain.handle('GetGammaCorrected_RGBA', async (event, color, gammaValue) => {
   try {
     return GetGammaCorrected_RGBA(color, gammaValue);
@@ -563,6 +565,7 @@ ipcMain.handle('GetGammaCorrected_RGBA', async (event, color, gammaValue) => {
     throw error;
   }
 });
+
 ipcMain.handle('intToRGBA', async (event, colorInt) => {
   try {
     return intToRGBA(colorInt);

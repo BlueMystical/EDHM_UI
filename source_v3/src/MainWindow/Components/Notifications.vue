@@ -135,26 +135,26 @@ export default {
             }
         },
 
-        /** Handles click events on toasts
-         * @param {String} toastType - The type of toast that was clicked
-         */
-        toastClicked(toastType) {
-            console.log(`${toastType} toast clicked!`);
-            closeToast(toastType);
-            // You can perform additional actions here when a toast is clicked
-        },
-
         /** Closes a toast programmatically
          * @param {String} toastType - The type of toast to close
          */
-        closeToast(toastType) {
+         closeToast(toastType) {
             const toast = document.getElementById(`liveToast-${toastType}`);
             const toastBootstrap = bootstrap.Toast.getInstance(toast);
             if (toastBootstrap) {
                 toastBootstrap.hide();
             }
         },
-        
+
+        /** Handles click events on toasts
+         * @param {String} toastType - The type of toast that was clicked
+         */
+        toastClicked(toastType) {
+            console.log(`${toastType} toast clicked!`);
+            this.closeToast(toastType);
+            // You can perform additional actions here when a toast is clicked
+        },
+  
     },
     async mounted() {
         /* EVENTS WE LISTEN TO HERE:  */

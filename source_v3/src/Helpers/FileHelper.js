@@ -1,45 +1,14 @@
-const { app, ipcMain, dialog } = require('electron');
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
+import { app, ipcMain, dialog  } from 'electron'; 
+import { exec } from 'child_process';
+import path from 'node:path'; 
+//import { writeFile , readFile } from 'node:fs/promises'; //
+import fs from 'node:fs'; 
+import os from 'os'; 
+import url from 'url'; 
+import zl from 'zip-lib';
 
-//const { exec } = require('child_process');
-const findProcess = require('find-process');
-const url = require('url');
-const zl = require("zip-lib");
 
 // #region Path Functions
-
-
-/** Open the File Explorer showing a selected Folder
- * @param {*} filePath Folder to select
- */
-function openPathInExplorer(filePath) {
-  const normalizedPath = resolveEnvVariables(
-    path.normalize(filePath)); // Normalize path to avoid issues
-
-  let command;
-
-  if (os.platform() === 'win32') {
-      command = `start "" "${normalizedPath}"`;
-  } else if (os.platform() === 'darwin') {
-      command = `open "${normalizedPath}"`;
-  } else {
-      command = `xdg-open "${normalizedPath}"`;
-  }
-
-  exec(command, (error, stdout, stderr) => {
-      if (error) {
-          console.error(`Error opening path: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`Path opened successfully: ${stdout}`);
-  });
-};
 
 function getLocalAppDataPath() {
   switch (process.platform) {
@@ -132,6 +101,13 @@ const resolveEnvVariables = (inputPath) => {
   }
 };
 
+/** Returns the Parent Folder of the given Path 
+ *  @param {*} givenPath 
+ * @returns 
+ */
+function getParentFolder(givenPath) {
+    return path.dirname(givenPath);
+}
 
 // #endregion
 
@@ -169,6 +145,7 @@ const ensureDirectoryExists = (DirectoryPath) => {
     if (!fs.existsSync(resolvedPath)) {
       fs.mkdirSync(resolvedPath, { recursive: true });
     }
+    return resolvedPath;
   } catch (error) {
     throw error;
   }
@@ -316,6 +293,7 @@ async function ensureSymlink(targetFolder, symlinkPath) {
       console.log(`Target folder does not exist, creating: ${targetFolder}`);
       fs.mkdirSync(targetFolder, { recursive: true });
     }
+    ensureDirectoryExists(targetFolder);
 
     const stats = fs.lstatSync(symlinkPath);
 
@@ -424,11 +402,114 @@ async function decompressFile(zipPath, outputDir) {
 
 // #endregion
 
+// #region Processs & Programs
 
-function isNotNullOrEmpty(obj) {
-  return obj && Object.keys(obj).length > 0;
+/** Detects a running Process and returns its full path. 
+ * @param {*} exeName Program Exe Name: 'EliteDangerous64.exe'
+ * @param {*} callback 
+ */
+function detectProgram(exeName, callback) {
+  try {
+    if (os.platform() === 'win32') {
+      // Windows
+      exec(`wmic process where name="${exeName}" get ExecutablePath`, (error, stdout) => {
+        if (error) {
+          return callback(error, null);
+        }
+        const lines = stdout.trim().split('\n');
+        const exePath = lines[1] ? lines[1].trim() : null;
+        callback(null, exePath);
+      });
+    } else {
+      // Linux
+      exec(`pgrep -f ${exeName}`, (error, stdout) => {
+        if (error) {
+          return callback(error, null);
+        }
+        const pid = stdout.trim();
+        exec(`readlink -f /proc/${pid}/exe`, (error, stdout) => {
+          if (error) {
+            return callback(error, null);
+          }
+          const exePath = stdout.trim();
+          callback(null, exePath);
+        });
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
 }
 
+function terminateProgram(exeName, callback) {
+  if (os.platform() === 'win32') {
+      exec(`taskkill /F /IM ${exeName}`, (error, stdout) => {
+          if (error) {
+              return callback(error, null);
+          }
+          callback(null, stdout);
+      });
+  } else { //<- Linux
+      exec(`pkill -f ${exeName}`, (error, stdout) => {
+          if (error) {
+              return callback(error, null);
+          }
+          callback(null, stdout);
+      });
+  }
+}
+
+/** Open the File Explorer showing a selected Folder
+ * @param {*} filePath Folder to select
+ */
+function openPathInExplorer(filePath) {
+  const normalizedPath = resolveEnvVariables(
+    path.normalize(filePath)); // Normalize path to avoid issues
+
+  let command;
+
+  if (os.platform() === 'win32') {
+      command = `start "" "${normalizedPath}"`;
+  } else if (os.platform() === 'darwin') {
+      command = `open "${normalizedPath}"`;
+  } else {
+      command = `xdg-open "${normalizedPath}"`;
+  }
+
+  exec(command, (error, stdout, stderr) => {
+      if (error) {
+          console.error(`Error opening path: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`Path opened successfully: ${stdout}`);
+  });
+};
+
+// #endregion
+
+/** Null-Empty-Uninstanced verification * 
+ * @param {*} value Object, String or Array
+ * @returns True or False
+ */
+function isNotNullOrEmpty(value) {
+    if (value === null || value === undefined) {
+        return false;
+    }
+
+    if (typeof value === 'string' || Array.isArray(value)) {
+        return value.length > 0;
+    }
+
+    if (typeof value === 'object') {
+        return Object.keys(value).length > 0;
+    }
+
+    return false;
+}
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
@@ -510,25 +591,45 @@ ipcMain.handle('ShowSaveDialog', async (event, options) => {
   }
 });
 
-ipcMain.handle('checkProcess', async (event, processName) => {
+
+ipcMain.handle('detect-program', async (event, exeName) => {
   try {
-    const processes = await findProcess('name', processName);
-    if (processes.length > 0) {
-      const process = processes[0];
-      console.log(`${processName} is running at path: ${process.bin}`);
-      return process.bin;
-    } else {
-      console.log(`${processName} is not running`);
-      return null;
-    }
+    return new Promise((resolve, reject) => {
+      detectProgram(exeName, (error, exePath) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(exePath);
+        }
+      });
+    });
   } catch (error) {
-    console.error('Error occurred in handler for checkProcess:', error);
     throw error;
   }
 });
+ipcMain.handle('start-monitoring', (event, exeName) => {
+  const interval = setInterval(() => {
+      detectProgram(exeName, (error, exePath) => {
+          if (exePath) {
+              event.sender.send('program-detected', exePath);
+              clearInterval(interval); // Stop monitoring once the program is detected
+          }
+      });
+  }, 3000); // Check every 3 seconds
 
-
-
+  return { intervalId: interval[Symbol.toStringTag] };
+});
+ipcMain.handle('terminate-program', async (event, exeName) => {
+  return new Promise((resolve, reject) => {
+      terminateProgram(exeName, (error, result) => {
+          if (error) {
+              reject(error);
+          } else {
+              resolve(result);
+          }
+      });
+  });
+});
 
 
 ipcMain.handle('openPathInExplorer', async (event, filePath) => {
@@ -597,6 +698,7 @@ ipcMain.handle('get-json-file', async (event, jsonPath) => {
     throw error;
   }  
 });
+
 ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
   try {
     return writeJsonFile(filePath, data, prettyPrint);
@@ -677,7 +779,7 @@ export default {
   ensureSymlink,
 
   isNotNullOrEmpty,
-  
+  getParentFolder,
 
   compressFiles,
   compressFolder,

@@ -107,7 +107,7 @@
                 <div class="modal-footer">
                     <div class="btn-group" role="group" aria-label="Default button group">
                         <button type="button" class="btn btn-outline-secondary" @click="CleanInstall">Clean Install</button>
-                        <button type="button" class="btn btn-success" @click="runGameLocationAssistant">Game Location Assistant</button>
+                        <button type="button" class="btn btn-success" @click="runGameLocationAssistant">Game Locator Assistant</button>
                         <button type="button" class="btn btn-primary" @click="save">Save Changes</button>
                     </div>
                     
@@ -136,6 +136,7 @@ export default {
         };
     },
     created() {
+        // Emit the 'open-settings-editor' Event to open this Window
         eventBus.on('open-settings-editor', this.open);
     },
     methods: {
@@ -155,18 +156,16 @@ export default {
         close() {
             this.visible = false;
         },
-        /* Save the Settings */
+        /* Button Click: Save the Settings */
         async save() {
             
             const jsonString = JSON.stringify(this.config, null, 4);
-            //console.log('Saving Settings:', jsonString);
-           // await window.api.saveSettings(jsonString);
-            //this.$emit('save', this.config);
+            await window.api.saveSettings(jsonString);
             eventBus.emit('SettingsChanged', JSON.parse(jsonString)); //<- this event will be heard in 'App.vue'  
             this.close();
         },
         /* Manually Browse for the Game Executable */
-       browseFile(instanceIndex, gameIndex) {            
+        browseFile(instanceIndex, gameIndex) {            
             const options = {
                 title: 'Select the Game Executable',
                 defaultPath: 'EliteDangerous64',
@@ -220,29 +219,46 @@ export default {
         /* Adds a new Game Instance to the Settings */
         async addNewGameInstance(instancePath) {
             const _ret = await window.api.addNewInstance(instancePath, JSON.parse(JSON.stringify(this.config))); 
-            this.config = _ret;
+            this.config = JSON.parse(JSON.stringify(_ret));
             eventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
         },
+
         /* Attempts to Detect the running Game Process and then sets the Paths */
         async runGameLocationAssistant() {
             eventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
 
-            const fullPath = await this.checkIfProcessRunning('EliteDangerous64.exe');
+            // 1. Check if the Game is already Running:
+            const fullPath = await window.api.detectProgram('EliteDangerous64.exe');
+
             if (fullPath) {
                 console.log('Process found at:', fullPath);
-                eventBus.emit('RoastMe', { type: 'Success', message: `Process found at: '${fullPath}'` });
+                eventBus.emit('RoastMe', { type: 'Success', message: `Process found!<br>Game will now Close<br>Don't Panic..` });
 
-                this.addNewGameInstance(String(fullPath));
+                await window.api.terminateProgram('EliteDangerous64.exe');
+                const FolderPath = await window.api.getParentFolder(fullPath);
+                this.addNewGameInstance(FolderPath);
+                
             } else {
                 console.log('Process not found.');
-                eventBus.emit('RoastMe', { type: 'Error', message: 'Process not found.' });
+                eventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
+
+                window.api.startMonitoring('EliteDangerous64.exe');
+                
+                // Event listener for program detection
+                window.api.onProgramDetected(async (event, exePath) => {
+                    console.log(`Executable Path: ${exePath}`);
+                    eventBus.emit('RoastMe', { type: 'Success', message: `Process found!<br>Game will now Close<br>Don't Panic..` });
+
+                    await window.api.terminateProgram('EliteDangerous64.exe');
+                    const FolderPath = await window.api.getParentFolder(exePath);
+                    this.addNewGameInstance(String(FolderPath));
+                });
             }
         },
 
-        async checkIfProcessRunning(processName) {
-            const fullPath = await window.api.checkProcess(processName);
-            return fullPath;
-        },
+        /** Button Click: Clean Install
+         * Deletes the Settings File for a Clean Install
+         */
         async CleanInstall() {    
             try {
                 const options = {
@@ -275,21 +291,21 @@ export default {
 </script>
 
 <style scoped>
-.modal-content {
-  background-color: #343a40;
-  color: #f8f9fa;
-}
-.accordion-button {
-  background-color: #343a40;
-  color: #f8f9fa;
-}
-.accordion-body {
-  background-color: #343a40;
-  color: #f8f9fa;
-}
-.form-control {
-  background-color: #222;
-  color: #f8f9fa;
-  border-color: #666;
-}
+    .modal-content {
+    background-color: #343a40;
+    color: #f8f9fa;
+    }
+    .accordion-button {
+    background-color: #343a40;
+    color: #f8f9fa;
+    }
+    .accordion-body {
+    background-color: #343a40;
+    color: #f8f9fa;
+    }
+    .form-control {
+    background-color: #222;
+    color: #f8f9fa;
+    border-color: #666;
+    }
 </style>

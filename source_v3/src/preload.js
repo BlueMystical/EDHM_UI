@@ -3,6 +3,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 const path = require('path');
 
+
 contextBridge.exposeInMainWorld('api', {
 
   // #region Assets
@@ -19,11 +20,15 @@ contextBridge.exposeInMainWorld('api', {
   ShowOpenDialog: (options) => ipcRenderer.invoke('ShowOpenDialog', options),
   ShowSaveDialog: (options) => ipcRenderer.invoke('ShowSaveDialog', options),
 
-  checkProcess: async (processName) => ipcRenderer.invoke('checkProcess', processName),
+  detectProgram: (exeName) => ipcRenderer.invoke('detect-program', exeName),
+  startMonitoring: (exeName) => ipcRenderer.invoke('start-monitoring', exeName),
+  onProgramDetected: (callback) => ipcRenderer.on('program-detected', callback),
+  terminateProgram: (exeName) => ipcRenderer.invoke('terminate-program', exeName),
 
   joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
-  resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
   getParentFolder: (filePath) => path.dirname(filePath),
+  resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
+  
   openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath), 
   deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath), 
 

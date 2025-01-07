@@ -134,7 +134,7 @@ function addNewInstance(NewInstancePath, settings) {
     settings.ActiveInstance = Instance.instance;
   }
 
-  return settings;
+  return JSON.parse(JSON.stringify(settings));
 };
 
 /** * Save changes on the settings back to the JSON file
@@ -228,49 +228,70 @@ const getInstanceByName = (InstanceFullName) => {
  * @param {*} gameInstance Game instance where to install the mod
  */
 async function installEDHMmod(gameInstance) {
+  console.log('------ Installing Mod --------');
   let Response = { game: '', version: '' };
   try {
 
+    if (!isNotNullOrEmpty(gameInstance.path)) {
+      console.log('gameInstance ->', gameInstance);
+      throw new Error('Instance.path Not Defined!');
+    }
+
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
 
-     //Unzip Themes
+    // #region Un-Zipping Themes
+    
     const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
     const unzipPath = path.join(userDataPath, GameType);
     const themesZipPath = fileHelper.getAssetPath(`data/${GameType}/Themes_EDHM_${GameType}.zip`);
-
     if (themesZipPath) {
       const _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
-      if (_ret.success) {
-        console.log('Themes Installed!');
+      if (_ret) {
+        console.log('Themes Installed ->', unzipPath);
       }
     }
 
+    // #endregion
+
+    // #region SymLinks
+    
     //Check for Game Symlinks for 'EDHM-ini' & ShaderFixes
-    const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM');
-    const SymlinkEdhmIni = await fileHelper.ensureSymlink(path.join(Symlink_TargetFolder, 'EDHM-Ini'), path.join(gameInstance.path, 'EDHM-ini'));
-    const SymlinkShaders = await fileHelper.ensureSymlink(path.join(Symlink_TargetFolder, 'ShaderFixes'), path.join(gameInstance.path, 'ShaderFixes'));
+    const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM'); console.log('Symlink_TargetFolder ->', Symlink_TargetFolder);
+    const edhmSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'EDHM-Ini'));
+    const shaderSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'ShaderFixes'));
+
+    if (!fs.existsSync(edhmSymLinkTarget)) {
+      throw new Error('Could not create the target folder for Simlink "EDHM-Ini".');
+    }
+    
+    const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget,   path.join( gameInstance.path, 'EDHM-ini'));
+    const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join( gameInstance.path, 'ShaderFixes'));
     console.log('SymlinkEdhmIni: ', SymlinkEdhmIni);
     console.log('SymlinkShaders: ', SymlinkShaders);
+    
+    // #endregion
 
-
-    // Unzip EDHM mod:  encontrar el archivo sin importar la version
+    // #region Un-Zipping Mod Files
+    
     const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);  //console.log('AssetsPath', AssetsPath);
-    const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM_*.zip`);
+    const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM*.zip`);
     if (edhmZipFile) {
-      console.log('edhmZipFile: ', edhmZipFile); //<- returns an string with the file path
-      const unzipPath =     gameInstance.path;
-      const versionMatch =  edhmZipFile.match(/v\d+\.\d+/);            console.log('versionMatch', versionMatch[0]);
-      //const gameMatch =     edhmZipFile.match(/_(Odyssey|Horizons)_/); console.log('game', gameMatch[1]);
-
-      const _ret = await fileHelper.decompressFile(edhmZipFile, unzipPath);
+      console.log('edhmZipFile: ', edhmZipFile); 
+      const unzipGamePath = gameInstance.path;
+      const versionMatch =  edhmZipFile.match(/v\d+\.\d+/);      console.log('version', versionMatch[0]);
+      console.log('Unzipin into -> ', unzipGamePath);
+      const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
       console.log('Zip Result: ', _ret);
       console.log('EDHM Installed!');
+
       Response.game = GameType;
       Response.version = versionMatch[0];
 
     } else {
       throw new Error('404 - Zip File Not Found');
     }
+    
+    // #endregion
 
   } catch (error) {
     throw error;
@@ -294,7 +315,25 @@ const containsWord = (str, word) => {
   console.log(containsWord(text, "cat")); // false */
 };
 
+/** Null-Empty-Uninstanced verification * 
+ * @param {*} value Object, String or Array
+ * @returns True or False
+ */
+function isNotNullOrEmpty(value) {
+  if (value === null || value === undefined) {
+      return false;
+  }
 
+  if (typeof value === 'string' || Array.isArray(value)) {
+      return value.length > 0;
+  }
+
+  if (typeof value === 'object') {
+      return Object.keys(value).length > 0;
+  }
+
+  return false;
+}
 
 
 /*----------------------------------------------------------------------------------------------------------------------------*/

@@ -41,7 +41,6 @@ export default {
         });
     },
 
-
     /** Fires when the Settings had been changed, called from 'SettingsEditor'
      * @param newConfig the updated settings
      */
@@ -56,6 +55,7 @@ export default {
         let gameVersion = gameInstance.key === "ED_Odissey" ? newConfig.Version_ODYSS : newConfig.Version_HORIZ ;
         const EdhmExists = await window.api.CheckEDHMinstalled(gameInstance.path);
         if (!EdhmExists) {
+          
           const edhmInstalled = await window.api.installEDHMmod(gameInstance);
           console.log('edhmInstalled:', edhmInstalled);
           gameVersion = edhmInstalled.version;
@@ -130,18 +130,25 @@ export default {
 
       this.settings = await window.api.initializeSettings();
       this.InstallStatus = await window.api.InstallStatus();
+      const ActiveInstance = await window.api.getActiveInstance();
 
       switch (this.InstallStatus) {
         case 'existingInstall':
+          if (ActiveInstance && ActiveInstance.path != "") {
+            // Normal Load, All seems Good
+          } else {
+            // Either the Active Instance or its path is not set:
+            eventBus.emit('ShowSpinner', { visible: false });
+            eventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
+            eventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
+          }
           break;
         case 'freshInstall':
+          // Welcome New User!
           eventBus.emit('ShowSpinner', { visible: false });
           eventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
           eventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
 
-          break;
-        case 'upgradingUser':
-          eventBus.emit('RoastMe', { type: 'Success', message: 'Upgrade Complete!\r\nThe application has been upgraded successfully.' });
           break;
         default:
           break;
