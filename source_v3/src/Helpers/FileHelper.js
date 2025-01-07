@@ -3,9 +3,9 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 
-const { exec } = require('child_process');
+//const { exec } = require('child_process');
+const findProcess = require('find-process');
 const url = require('url');
-import psList from 'ps-list';
 const zl = require("zip-lib");
 
 // #region Path Functions
@@ -429,19 +429,6 @@ function isNotNullOrEmpty(obj) {
   return obj && Object.keys(obj).length > 0;
 }
 
-function callProgram(programPath) {
-  exec(`"${programPath}"`, (error, stdout, stderr) => {
-      if (error) {
-          console.error(`Error calling program: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`Program output: ${stdout}`);
-  });
-}
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
@@ -523,19 +510,23 @@ ipcMain.handle('ShowSaveDialog', async (event, options) => {
   }
 });
 
-
 ipcMain.handle('checkProcess', async (event, processName) => {
-  const processes = await psList();
-  const process = processes.find(p => p.cmd.includes(processName));
-
-  if (process) {
-      console.log(`${processName} is running at path: ${process.cmd}`);
-      return process.cmd;
-  } else {
+  try {
+    const processes = await findProcess('name', processName);
+    if (processes.length > 0) {
+      const process = processes[0];
+      console.log(`${processName} is running at path: ${process.bin}`);
+      return process.bin;
+    } else {
       console.log(`${processName} is not running`);
       return null;
+    }
+  } catch (error) {
+    console.error('Error occurred in handler for checkProcess:', error);
+    throw error;
   }
 });
+
 
 
 
@@ -686,7 +677,7 @@ export default {
   ensureSymlink,
 
   isNotNullOrEmpty,
-  callProgram,
+  
 
   compressFiles,
   compressFolder,

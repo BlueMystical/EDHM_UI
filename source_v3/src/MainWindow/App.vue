@@ -53,7 +53,7 @@ export default {
         eventBus.emit('RoastMe', { type: 'Info', message: 'Installing EDHM files..' });
 
         const gameInstance = await window.api.getActiveInstanceEx();
-        const gameVersion = gameInstance.key === "ED_Odissey" ? newConfig.Version_ODYSS : newConfig.Version_HORIZ ;
+        let gameVersion = gameInstance.key === "ED_Odissey" ? newConfig.Version_ODYSS : newConfig.Version_HORIZ ;
         const EdhmExists = await window.api.CheckEDHMinstalled(gameInstance.path);
         if (!EdhmExists) {
           const edhmInstalled = await window.api.installEDHMmod(gameInstance);

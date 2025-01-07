@@ -218,7 +218,9 @@ npm cache clean --force     <- Refresca la cache de Node
 npm install split-pane
 npm install mitt
 npm install zip-lib
-npm install procs
+npm install find-process
+
+
 
 
 
@@ -258,6 +260,7 @@ npm install --save-dev @electron-forge/maker-dmg
 /* You can only build the Flatpak target if you have flatpak, flatpak-builder, and eu-strip (usually part of the elfutils package) installed on your system. */
 https://www.electronforge.io/config/makers/flatpak
 npm install --save-dev @electron-forge/maker-flatpak
+npm uninstall electron-forge/maker-flatpak
 
 
 
