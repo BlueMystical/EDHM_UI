@@ -3,7 +3,7 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
 
         <!-- General Error Message Dialog -->
-        <div id="liveToast-ErrMsg" class="toast align-items-center bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" style="width: 650px;">
+        <div id="liveToast-ErrMsg" class="toast align-items-center bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" style="width: 650px;" v-on:click="toastClicked('ErrMsg')">
             <div class="d-flex align-items-center" style="height: 100%;">
                 <i class="bi bi-bug" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
                 <div class="toast-body" >
@@ -19,7 +19,7 @@
         </div>
 
         <!-- Error Type Toast Notification -->
-        <div id="liveToast-Error" class="toast align-items-center bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="liveToast-Error" class="toast align-items-center bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" v-on:click="toastClicked('Error')">
             <div class="d-flex align-items-center" style="height: 100%;">
                 <i class="bi bi-exclamation-octagon" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
                 <div class="toast-body" v-html="toasts.Error.message"></div>
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Success Type Toast Notification -->
-        <div id="liveToast-Success" class="toast align-items-center bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="liveToast-Success" class="toast align-items-center bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" v-on:click="toastClicked('Success')">
             <div class="d-flex align-items-center" style="height: 100%;">
                 <i class="bi bi-check-circle" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
                 <div class="toast-body" v-html="toasts.Success.message"></div>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Warning Type Toast Notification -->
-        <div id="liveToast-Warning" class="toast align-items-center bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="liveToast-Warning" class="toast align-items-center bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true" v-on:click="toastClicked('Warning')">
             <div class="d-flex align-items-center" style="height: 100%;">
                 <i class="bi bi-exclamation-circle" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
                 <div class="toast-body text-black" v-html="toasts.Warning.message"></div>
@@ -46,7 +46,7 @@
         </div>
 
         <!-- Info Type Toast Notification -->
-        <div id="liveToast-Info" class="toast align-items-center bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="liveToast-Info" class="toast align-items-center bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true" v-on:click="toastClicked('Info')">
             <div class="d-flex align-items-center" style="height: 100%;">
                 <i class="bi bi-info-circle" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
                 <div class="toast-body text-black" v-html="toasts.Info.message"></div>
@@ -74,8 +74,8 @@ export default {
         }
     },
     methods: {
-        /**
-         * Displays a Colored Toast Notification at Bottom Right corner of the Window
+
+        /** Displays a Colored Toast Notification at Bottom Right corner of the Window
          * @param data Configuration Object: { title: '', message: ''}
          */
         showToast(data) {
@@ -105,6 +105,9 @@ export default {
             }
         },
 
+        /** Displays an Error Toast Notification at Bottom Right corner of the Window
+         * @param {Error} error - The error object to display
+         */
         showError(error) {
             const toastType = 'ErrMsg';
 
@@ -131,19 +134,43 @@ export default {
                 console.error(`Toast type "${type}" not recognized.`);
             }
         },
+
+        /** Handles click events on toasts
+         * @param {String} toastType - The type of toast that was clicked
+         */
+        toastClicked(toastType) {
+            console.log(`${toastType} toast clicked!`);
+            closeToast(toastType);
+            // You can perform additional actions here when a toast is clicked
+        },
+
+        /** Closes a toast programmatically
+         * @param {String} toastType - The type of toast to close
+         */
+        closeToast(toastType) {
+            const toast = document.getElementById(`liveToast-${toastType}`);
+            const toastBootstrap = bootstrap.Toast.getInstance(toast);
+            if (toastBootstrap) {
+                toastBootstrap.hide();
+            }
+        },
+        
     },
     async mounted() {
         /* EVENTS WE LISTEN TO HERE:  */
         eventBus.on('RoastMe', this.showToast);
         eventBus.on('ShowError', this.showError);
+        eventBus.on('closeToast', this.closeToast);
     },
     beforeUnmount() {
         // Clean up the event listener
         eventBus.off('RoastMe', this.showToast);
         eventBus.off('ShowError', this.showError);
+        eventBus.off('closeToast', this.closeToast);
     },
 }
 </script>
+
 
 <style scoped>
 .visually-hidden {
