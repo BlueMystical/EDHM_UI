@@ -1,9 +1,11 @@
 <template>
   <div id="app" class="bg-dark text-light" data-bs-theme="dark">
     
-    <MainNavBars v-if="!loading" :settings="settings" />
+    <MainNavBars v-if="!loading" :settings="settings" :themesLoaded="themesLoaded" />
     <SettingsEditor @save="saveConfig" />
     <Notifications/>
+
+    <SearchBox ref="searchBox" :searchResults="searchResults" @resultClicked="OnSearchBox_Click"/>
 
   </div>
 </template>
@@ -12,14 +14,15 @@
 import eventBus from '../EventBus';
 import MainNavBars from './MainNavBars.vue';
 import SettingsEditor from './SettingsEditor.vue';
+import SearchBox from './Components/SearchBox.vue';
 import Notifications from './Components/Notifications.vue';
-//import WaitSpinner from './Components/WaitSpinner.vue';
 
 export default {
   name: 'App',
   components: {
+    SearchBox,
     MainNavBars,
-    SettingsEditor,
+    SettingsEditor,    
     Notifications
   },
   data() {
@@ -27,6 +30,13 @@ export default {
       loading: true,
       settings: null,
       InstallStatus: null,
+
+      themesLoaded: [],
+      themeTemplate: {},
+
+      searchResults: [],
+      searchQuery: '',
+      isSearchBoxVisible: false
     };
   },
   methods: {
@@ -121,10 +131,71 @@ export default {
       } finally {
         eventBus.emit('ShowSpinner', { visible: false });
       } 
-    }
+    },
+
+    /** Shows the Results of the Search Box 
+     * @param event Contains the data to be shown
+     */
+    OnSearchBox_Shown(event) {
+      try {
+        this.searchResults = event.data;
+        this.$refs.searchBox.show();
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      }
+    },
+    /** When the User Clicks on a Search Result. 
+     * @param result The Result clicked
+     */
+    OnSearchBox_Click(result) { 
+      console.log('Result clicked:', result); 
+      try {
+        if (result.Parent === 'Themes') {
+          eventBus.emit('OnSelectTheme', result.Tag); //<- Event listened on 'ThemeTab.vue'
+        } else {
+          if (result.Parent === 'Global Settings') {
+            
+          } else { //<- It's a Normal HUD Settings
+            // Emit an event with the clicked area 
+            eventBus.emit('areaClicked', { id: result.Parent, title: result.Title } ); //<- Event listen in 'PropertiesTab.vue'
+            //TODO: Ensure Visibility of Selected Item
+            
+            // Emit an event to set the active tab to 'properties' 
+            eventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
+          }
+        }
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      }
+    },
+
+    /** When Themes are Loaded. 
+     * @param event Contains the data of the themes
+     */
+    OnThemesLoaded(event) {
+      try {        
+        this.themesLoaded = event;
+        //console.log('OnThemesLoaded:', this.themesLoaded );
+
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      }
+    },
+        
+    OnTemplateLoaded(event) {
+      try {
+        this.themeTemplate = event;
+        console.log('OnTemplateLoaded:', this.themeTemplate );
+      } catch (error) {
+        
+      }
+    },
 
   },
   async mounted() {
+
+    // #region Check if Mod is Installed:
+    
     try {
       eventBus.emit('ShowSpinner', { visible: true });
 
@@ -169,15 +240,23 @@ export default {
         });
       }, 1000);
     }
+    
+    // #endregion
 
     /* LISTENING EVENTS:   */
     eventBus.on('SettingsChanged', this.OnProgramSettings_Changed); 
     eventBus.on('GameInsanceChanged', this.OnGameInstance_Changed); 
+    eventBus.on('SearchBox', this.OnSearchBox_Shown); 
+    eventBus.on('OnThemesLoaded', this.OnThemesLoaded); 
+    eventBus.on('ThemeLoaded', this.OnTemplateLoaded);
   },
   beforeUnmount() {
     // Clean up the event listener
     eventBus.off('SettingsChanged', this.OnProgramSettings_Changed); 
     eventBus.off('GameInsanceChanged', this.OnGameInstance_Changed); 
+    eventBus.off('SearchBox', this.OnSearchBox_Shown); 
+    eventBus.off('OnThemesLoaded', this.OnThemesLoaded); 
+    eventBus.off('ThemeLoaded', this.OnTemplateLoaded);
   },
 };
 </script>

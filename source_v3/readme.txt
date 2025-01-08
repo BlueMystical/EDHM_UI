@@ -86,20 +86,28 @@ theme-template = {
 ...
 ui_groups: [
   {
+    Name:"Panel_UP",
+    Title:"Panel (Upper)",
     Elements: [
       {
+        Category: "Targeting Reticle",
+        Title: "Mouse Dot",
         File: "Startup-Profile",
         Section: "Constants",
         Key: "x137",
         Value: 100.0,
         ValueType: "Preset",
+        Description: "Mouse Dot (Ship & SRV)"
       },
       {
+        Category: "Targeting Reticle",
+        Title: "Rank Icon",
         File: "Advanced",
         Section: "Constants",
         Key: "x232|y232|z232|w232",
         Value: -16728065.0,
         ValueType: "Color",
+        Description: "Rank icon that appears next to targeted ship (neutral / orange only)"
       },
       ...
     ]

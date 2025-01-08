@@ -76,7 +76,7 @@
 import { ref } from 'vue';
 import eventBus from '../EventBus';
 import { inject, defineComponent, reactive, onMounted } from 'vue';
-import ColorPicker from './ColorPicker.vue';
+import ColorPicker from './Components/ColorPicker.vue';
 
 let themeTemplate = inject('themeTemplate');
 

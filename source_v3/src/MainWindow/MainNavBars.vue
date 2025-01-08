@@ -1,5 +1,7 @@
 <template>
-  <div id="Container">
+  
+  <div id="Container">    
+
     <!-- Top Navbar -->
     <nav id="TopNavBar" class="navbar bg-dark text-light border-body fixed-top bg-body-tertiary" data-bs-theme="dark">
       <div class="container-fluid d-flex justify-content-between align-items-center">
@@ -137,33 +139,40 @@
         <!-- Mod Version Label -->
         <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
 
-        <!-- Search Box -->
-        <form class="d-flex ms-auto">
-          <input class="form-control me-2 main-menu-style" type="search" placeholder="Search" aria-label="Search">
+        <!-- Search Form -->
+        <form class="d-flex ms-auto" @submit.prevent="handleSearch">
+          <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-warning" type="submit">Search</button>
         </form>
+
       </div>
     </nav>
+
+    
   </div>
+  
 
   <div v-if="showSpinner" class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
-    </div>
+  </div>
 </template>
 
 <script>
 import { ref, onMounted, provide } from 'vue';
 
 import eventBus from '../EventBus';
-import HUD_Areas from './HudImage.vue';
 import ThemeTab from './ThemeTab.vue';
+import HUD_Areas from './HudImage.vue';
 import PropertiesTab from './PropertiesTab.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';
-
 import defaultTemplate from '../data/ED_Odissey_ThemeTemplate.json';
-let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate)); 
+
+let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
 let programSettings = null;
+
+const collapseElementList = document.querySelectorAll('.collapse');
+const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
 
 export default {
   name: 'MainNavBars',
@@ -171,6 +180,10 @@ export default {
     settings: {
       type: Object,
       required: true
+    },
+    themesLoaded: {
+        type: Array,
+        required: false
     }
   },
   components: {
@@ -185,18 +198,19 @@ export default {
       activeTab: 'themes',
       showFavorites: false,
       showSpinner: true,
+
     };
   },
   setup(props) {
     //console.log(props);
-   
+
     const appVersion = ref('');
     const modVersion = ref('');
     const selectedGame = ref(props.settings.ActiveInstance || 'Select a Game'); // Set initial value from settings
-    
+
     // Populate game instances with the `instance` values from `Settings`
-    const gameMenuItems = ref( 
-      props.settings.GameInstances.flatMap(instance => 
+    const gameMenuItems = ref(
+      props.settings.GameInstances.flatMap(instance =>
         instance.games
           .filter(game => game.path) // only include games with non-empty 'path'
           .map(game => game.instance)
@@ -221,10 +235,10 @@ export default {
           const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
 
           themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-          themeTemplate.credits.theme = "Current Settings"; 
-          themeTemplate.credits.author = "User"; 
+          themeTemplate.credits.theme = "Current Settings";
+          themeTemplate.credits.author = "User";
           themeTemplate.credits.description = "Currently Applied Colors in Game";
-          themeTemplate.credits.preview = ""; 
+          themeTemplate.credits.preview = "";
           themeTemplate.path = themePath;
           themeTemplate.version = props.settings.Version_ODYSS; //<- Load version from EDHM
 
@@ -232,8 +246,8 @@ export default {
 
           // Provide the themeTemplate data to be accessible by all components 
           provide('themeTemplate', themeTemplate);
-        }      
- 
+        }
+
       } catch (error) {
         eventBus.emit('ShowError', error);
       }
@@ -326,25 +340,24 @@ export default {
       if (value) {
         this.$refs.mainMenuSelect.value = 'mnuDummy'; // Reset the select to "Main Menu"
         console.log(`Menu ${value} clicked`);
-        
-        const ActiveInstance = await window.api.getActiveInstance(); 
-        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini'); 
+
+        const ActiveInstance = await window.api.getActiveInstance();
+        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
 
         if (value === 'mnuOpenGame') {
           await window.api.openPathInExplorer(GamePath);
         }
         if (value === 'mnuSettings') {
           const InstallStatus = await window.api.InstallStatus();
-          eventBus.emit('open-settings-editor', InstallStatus);          
+          eventBus.emit('open-settings-editor', InstallStatus);
         }
         if (value === 'mnuInstallMod') {
-          
+
         }
 
       }
     },
 
-   
     async LoadTheme(theme) {
       /* Happens when a Theme in the list is Selected  */
       this.showSpinner = true;
@@ -353,7 +366,7 @@ export default {
         themeTemplate = await window.api.LoadTheme(template.path);
         console.log('Loaded theme: ', themeTemplate);
 
-        eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue'
+        eventBus.emit('ThemeLoaded', themeTemplate); //<- this event will be heard in 'PropertiesTab.vue' and on 'App.vue'
 
       } catch (error) {
         eventBus.emit('ShowError', error);
@@ -362,41 +375,41 @@ export default {
     async applyTheme() {
       this.showSpinner = true;
       try {
-        const ActiveInstance = await window.api.getActiveInstance(); 
+        const ActiveInstance = await window.api.getActiveInstance();
         console.log('1. ActiveInstance:', ActiveInstance);
         console.log('2. ThemeTemplate:', themeTemplate);
 
-        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini'); 
-        const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';      
-        const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);  
+        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+        const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+        const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);
         console.log('3. Preparing all the Paths:', GamePath);
 
-        const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);  
+        const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
         console.log('4. Get Default Inis:', defaultINIs);
-        
+
         const updatedInis = await window.api.ApplyTemplateValuesToIni(themeTemplate, defaultINIs);
         console.log('5. Applying Changes to the INIs...', updatedInis);
-        
+
         console.log('6. Saving the INI files..');
         const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
         if (_ret) {
           eventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${themeTemplate.credits.theme}' Applied!'` });
         }
         setTimeout(() => {
-            this.showSpinner = false;       
-          }, 1500);
+          this.showSpinner = false;
+        }, 1500);
       } catch (error) {
-        this.showSpinner = false; 
+        this.showSpinner = false;
         eventBus.emit('ShowError', error);
-      } 
-      
+      }
 
 
-  /*   EJEMPLOS ****
-   setTimeout(() => {
-          this.loading = false;
-          eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
-      }, 3000); */
+
+      /*   EJEMPLOS ****
+       setTimeout(() => {
+              this.loading = false;
+              eventBus.emit('ShowSpinner', { visible: false } ); //<- this event will be heard in 'MainNavBars.vue'          
+          }, 3000); */
 
       /*
       const options = {
@@ -415,7 +428,7 @@ export default {
       console.log('User clicked:', result.response); // Index of the button clicked
       console.log('Checkbox checked:', result.checkboxChecked); // Boolean for checkbox state
 */
-      
+
     },
     async addNewTheme(event) {
       console.log('Add New Theme button clicked');
@@ -426,18 +439,18 @@ export default {
       const myPath2 = await window.api.resolveEnvVariables('%USERPROFILE%');
       console.log('%USERPROFILE%:', myPath2);
       const myPath3 = await window.api.resolveEnvVariables('D:\\@Codigo\\EDHM_UI\\source_v3');
-      console.log('myPath3:', myPath3); 
+      console.log('myPath3:', myPath3);
       const myPath4 = await window.api.resolveEnvVariables('%APPDATA%\\EDHM_UI');
       console.log('%APPDATA%:', myPath4);
       const myPath5 = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\EDHM_UI');
       console.log('%LOCALAPPDATA%:', myPath5);
 
-     /* const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
-      const IntValue = 16755200; console.log('IntValue', IntValue);
-      const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
-      const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
-      const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
-*/
+      /* const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
+       const IntValue = 16755200; console.log('IntValue', IntValue);
+       const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
+       const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
+       const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
+ */
       // Red x232 =1 ; Green y232 =0.3763 ; Blue z232 =0 ; Alpha w232 =1
       //eventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
 
@@ -450,7 +463,7 @@ export default {
 
       if (themeTemplate != null && themeTemplate.credits.theme != "Current Settings") {
         console.log('Exporting theme: ', themeTemplate.credits.theme);
-        
+
       } else {
         console.error('Current Settings can not be saved??');
       }
@@ -459,7 +472,7 @@ export default {
       //console.log('Save Theme button clicked');
       this.applyIconColor(event.target);
       eventBus.emit('RoastMe', { type: 'Info', message: `Theme Saved!:\r\n ${themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
-      
+
       if (themeTemplate != null && themeTemplate.credits.theme != "Current Settings") {
         const jsonPath = window.api.joinPath(themeTemplate.path, 'Theme.json');
         window.api.writeJsonFile(jsonPath, themeTemplate, true);
@@ -516,21 +529,93 @@ export default {
         eventBus.emit('ShowError', error);
       }
     },
+
     showHideSpinner(status) {
       //console.log('showHideSpinner: ', status.visible);
       this.showSpinner = status.visible;
       //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
     },
+
     modUpdated(data) {
       // happens when the mod gets updated
       this.programSettings = data;
       //console.log('programSettings: ', programSettings);
-      this.modVersion = data.Version_ODYSS;      
-    }
+      this.modVersion = data.Version_ODYSS;
+    },
+
+    /** Performs a Data Search based on the SearchBox Input 
+     * @param query Input Query (what we are looking for) 
+     */
+    async gatherData(query) {
+
+      // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
+      //console.log('themesLoaded:', this.themesLoaded);
+      //console.log('themeTemplate:', themeTemplate );
+
+      try {
+        //1. Looking on the HUD settings:
+        const allElements = themeTemplate.ui_groups.reduce((acc, group) => {
+          if (group.Elements) {
+            const elementsWithParent = group.Elements.map(element => ({
+              ...element,
+              Parent: group.Name
+            }));
+            return acc.concat(elementsWithParent);
+          }
+          return acc;
+        }, []);
+
+        // 2. Looking on the Themes Loaded:
+        const filteredThemes = this.themesLoaded.filter(theme =>
+          theme.file.credits &&
+          (theme.file.credits.theme.toLowerCase().includes(query.toLowerCase()) ||
+            theme.file.credits.author.toLowerCase().includes(query.toLowerCase()))
+        ).map(theme => ({
+          Parent: 'Themes', // theme.file.credits.theme,
+          Category: "Theme",
+          Title: theme.name,
+          Description: theme.file.credits.description,
+          Tag: theme
+        }));
+
+        //3. Here we Apply the Filter:
+        if (query) {
+          this.searchResults = allElements.filter(element =>
+            element &&
+            element.Title &&
+            element.Category &&
+            element.Description &&
+            (element.Title.toLowerCase().includes(query.toLowerCase()) ||
+              element.Category.toLowerCase().includes(query.toLowerCase()) ||
+              element.Description.toLowerCase().includes(query.toLowerCase()))
+          ).concat(filteredThemes);
+        } else {
+          // If no filter, return them ALL !
+          this.searchResults = allElements.filter(element =>
+            element &&
+            element.Title &&
+            element.Category &&
+            element.Description
+          ).concat(filteredThemes);
+        }
+        //console.log('searchResults:', this.searchResults);
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      }
+    },
+
+    /** Submit Event for the 'Search Form'
+     * After Procesing the Query, the results are sent to the 'App.vue' to be shown.
+     */
+    async handleSearch() {
+      //console.log('Search button click');
+      await this.gatherData(this.searchQuery);
+      eventBus.emit('SearchBox', { data: this.searchResults });//<- this event will be heard in 'App.vue'
+    },
 
   },
   mounted() {
-     /* EVENTS WE LISTEN TO HERE:  */
+    /* EVENTS WE LISTEN TO HERE:  */
     eventBus.on('setActiveTab', this.setActiveTab);
     eventBus.on('ThemeClicked', this.LoadTheme);
     eventBus.on('ShowSpinner', this.showHideSpinner);

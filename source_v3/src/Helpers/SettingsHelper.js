@@ -309,10 +309,6 @@ async function CheckEDHMinstalled(gamePath) {
 
 const containsWord = (str, word) => {
   return str.includes(word);
-  
-/*  const text = "The quick brown fox jumps over the lazy dog";
-  console.log(containsWord(text, "fox")); // true
-  console.log(containsWord(text, "cat")); // false */
 };
 
 /** Null-Empty-Uninstanced verification * 

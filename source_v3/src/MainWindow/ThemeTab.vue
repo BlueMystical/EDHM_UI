@@ -6,13 +6,14 @@
       </div>
     </div>
     <ul v-else>
-      <li v-for="image in images" :key="image.id" class="image-container" @click="handleImageClick(image)"         :class="{ 'selected': image.id === selectedImageId }">
+      <li v-for="image in images" :key="image.id" :id="'image-' + image.id" class="image-container" @click="OnSelectTheme(image)" :class="{ 'selected': image.id === selectedImageId }">
         <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />
         <span class="image-label">{{ image.name }}</span>
       </li>
     </ul>
   </div>
 </template>
+
 
 <script>
 import eventBus from '../EventBus';
@@ -26,23 +27,14 @@ export default {
     };
   },
   methods: {
-    /**
-     * WHEN THE USER CLICKS ON A THEME IN THE LIST
-     * @param image 
-     */
-    handleImageClick(image) {
-      this.selectedImageId = image.id; // Set the selected image ID
-      //console.log('Associated file object:', image.file);
-      eventBus.emit('ThemeClicked', image); //<- this event will be heard in 'MainNavBars.vue'
-    },
 
-    /**
-     * LOADS THE LIST OF THEMES FROM THE USER'S THEMES FOLDER
+    /** LOADS THE LIST OF THEMES FROM THE USER'S THEMES FOLDER
      */
     async loadThemes(gameInstance) {
       try {
         //Gets the Themes Folder from the Active Instance:
         this.loading = true;
+        
         const programSettings = await window.api.getSettings(); //console.log('programSettings: ', programSettings);
         const dataPath = await window.api.resolveEnvVariables(programSettings.UserDataFolder);
         const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';  
@@ -80,8 +72,11 @@ export default {
           }))
         );
 
+        eventBus.emit('OnThemesLoaded', this.images);  //<- this event will be heard in 'App.vue'
+
       } catch (error) {
         console.error('Failed to load files:', error);
+        //eventBus.emit('ShowError', error);  //<- Not needed here
       } finally {
         // Set loading to false with a delay after themes are loaded
         setTimeout(() => {
@@ -90,18 +85,38 @@ export default {
           
         }, 2000);
       }
-    }
+    },
+
+    /** When Fired, Selects and Loads a given Theme   * 
+     * @param theme 
+     */
+     OnSelectTheme(theme) {
+      try {
+        this.selectedImageId = theme.id;
+        this.$nextTick(() => {
+          const selectedElement = document.getElementById('image-' + theme.id);
+          if (selectedElement) {
+            selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+        eventBus.emit('ThemeClicked', theme); //<- this event will be heard in 'MainNavBars.vue'
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      }
+    },
+
 
   },
   async mounted() {
     const gameInstance = await window.api.getActiveInstance();
     await this.loadThemes(gameInstance);
 
-    eventBus.on('loadThemes', this.loadThemes);
-
+    eventBus.on('loadThemes', this.loadThemes);     //<- Event to Initiate, on demeand, the Load of all Themes
+    eventBus.on('OnSelectTheme', this.OnSelectTheme); //<- Event to, on demand, Select a Theme
   },
   beforeUnmount() {
     eventBus.off('loadThemes', this.loadThemes);
+    eventBus.off('OnSelectTheme', this.OnSelectTheme);
   }
 };
 </script>

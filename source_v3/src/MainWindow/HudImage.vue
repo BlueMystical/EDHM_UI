@@ -184,14 +184,14 @@ export default {
       /* WHEN THE USER CLICKS AN AREA  */
       if (this.currentArea) {
         this.clickedArea = this.currentArea;
-        //console.log('Area clicked:', this.currentArea);
+        console.log('Area clicked:', this.currentArea);
         this.highlightClickedArea(this.currentArea);
 
         // Emit an event with the clicked area 
-        eventBus.emit('areaClicked', this.currentArea);
+        eventBus.emit('areaClicked', this.currentArea); //<- Event listen in 'PropertiesTab.vue'
 
         // Emit an event to set the active tab to 'properties' 
-        eventBus.emit('setActiveTab', 'properties');
+        eventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
       }
     },
     drawRect(area) {

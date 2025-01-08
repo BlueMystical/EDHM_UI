@@ -90,14 +90,11 @@ contextBridge.exposeInMainWorld('api', {
   isNotNullOrEmpty: async () => ipcRenderer.invoke('is-not-null-obj'),
   getAppVersion: async () => ipcRenderer.invoke('get-app-version'),
   logError: (...args) => ipcRenderer.invoke('logError', ...args),
-  
-  // #endregion
-
-  
+ 
   GetGammaCorrected_RGBA: async (color, gammaValue) => ipcRenderer.invoke('GetGammaCorrected_RGBA', color, gammaValue),
   reverseGammaCorrected:  async (color, gammaValue) => ipcRenderer.invoke('reverseGammaCorrected',  color, gammaValue),
   intToRGBA:  async (colorValue) => ipcRenderer.invoke('intToRGBA',  colorValue),
 
-  
+    // #endregion
 
 });
