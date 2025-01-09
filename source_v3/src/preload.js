@@ -29,7 +29,8 @@ contextBridge.exposeInMainWorld('api', {
   getParentFolder: (filePath) => path.dirname(filePath),
   resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
   
-  openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath), 
+  openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
+  openUrlInBrowser: (url) => ipcRenderer.invoke('openUrlInBrowser', url),
   deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath), 
 
   findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType), 
@@ -50,6 +51,9 @@ contextBridge.exposeInMainWorld('api', {
   LoadTheme: async (dirPath) => ipcRenderer.invoke('LoadTheme', dirPath),
   LoadThemeINIs: async (folderPath) => ipcRenderer.invoke('LoadThemeINIs', folderPath),
   SaveThemeINIs: async (folderPath, themeINIs) => ipcRenderer.invoke('SaveThemeINIs', folderPath, themeINIs),
+
+  FavoriteTheme: async (theme) => ipcRenderer.invoke('FavoriteTheme', theme),
+  UnFavoriteTheme: async (theme) => ipcRenderer.invoke('UnFavoriteTheme', theme),
 
   applyIniValuesToTemplate: async (template, iniValues) => ipcRenderer.invoke('apply-ini-values', template, iniValues),
   ApplyTemplateValuesToIni: async (template, iniValues) => ipcRenderer.invoke('ApplyTemplateValuesToIni', template, iniValues),

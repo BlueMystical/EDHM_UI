@@ -11,43 +11,23 @@
 import { ref, onMounted } from 'vue';
 import eventBus from '../EventBus';
 
-
 export default {
   name: 'HUD_Areas',
   components: {
 
   },
   data() {
-    //const defaultHUDimage = window.api.getAssetFileUrl('images/HUD_Clean.png');    
-
     return {
       imageSrc: '',
       originalWidth: 0,
       originalHeight: 0,
-      areas: [
-        // HUD Areas
-      ],
+      areas: [], // Hold the areas of interest],
       scaledAreas: [], // Hold the scaled areas
       currentArea: null, //Selected Area
       clickedArea: null // Track the clicked area
-    };
-  },
-  async mounted() {
-    try {
-      this.imageSrc = await window.api.getAssetFileUrl('images/HUD_Clean.png');   
-      //console.log(this.imageSrc);
-      window.addEventListener('resize', this.setupCanvas);
-      await this.loadHUDSettings();
-      this.setupCanvas();
-    } catch (error) {
-      console.log(error);
-    }    
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.setupCanvas);
-  },
-  methods: {
-    
+    }; 
+  },  
+  methods: {    
     async loadHUDSettings() {
       try {
         const defaultJsonPath = await window.api.getAssetPath('data/HUD_Default.json');
@@ -256,7 +236,21 @@ export default {
         this.highlightClickedArea(this.clickedArea);
       }
     }
-  }
+  },
+  async mounted() {
+    try {
+      this.imageSrc = await window.api.getAssetFileUrl('images/HUD_Clean.png');   
+      //console.log(this.imageSrc);
+      window.addEventListener('resize', this.setupCanvas);
+      await this.loadHUDSettings();
+      this.setupCanvas();
+    } catch (error) {
+      console.log(error);
+    }    
+  },
+  beforeUnmount() { //beforeDestroy() {
+    window.removeEventListener('resize', this.setupCanvas);
+  },
 };
 </script>
 

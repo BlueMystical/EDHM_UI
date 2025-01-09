@@ -30,7 +30,8 @@ const getThemes = async (dirPath) => {
               path: subfolderPath,
               thumbnail: 'PREVIEW.jpg',
               credits: template.credits,
-              theme: template
+              theme: template,
+              isFavorite: template.isFavorite
             });
 
             // Theme Migration Tool:
@@ -76,15 +77,18 @@ const LoadTheme = async (themeFolder) => {
       // New v3 Format for Themes, single File:
       template = fileHelper.loadJsonFile( path.join(themeFolder, 'ThemeSettings.json') );
       template.path = themeFolder;
+      template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
 
     } else {
       // Old fashion format for Themes:
       const defaultThemePath = fileHelper.getAssetPath('./data/ED_Odissey_ThemeTemplate.json');  
       const ThemeINIs = await LoadThemeINIs(themeFolder); 
+
       template = fileHelper.loadJsonFile(defaultThemePath);
       template = await ApplyIniValuesToTemplate(template, ThemeINIs);
       template.credits = await GetCreditsFile(themeFolder);
       template.path = themeFolder;
+      template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
     }
   } catch (error) {
     throw error;
@@ -119,7 +123,29 @@ async function GetCreditsFile(themePath) {
     console.log(error);
   }
   return creditsJson;
-}
+};
+
+async function FavoriteTheme(themePath) {
+  try {
+    const dummy = { isFavorite: true };
+    const favFilePath = path.join(themePath, 'IsFavorite.fav');
+    const _ret = fileHelper.writeJsonFile(favFilePath, dummy, false);
+    return _ret;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+async function UnFavoriteTheme(themePath) {
+  try {
+    const favFilePath = path.join(themePath, 'IsFavorite.fav');
+    const _ret = fileHelper.deleteFileByAbsolutePath(favFilePath);
+    return _ret;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
 // #region Ini File Handling
 
@@ -592,6 +618,21 @@ ipcMain.handle('ApplyTemplateValuesToIni', async (event, template, iniValues) =>
   }
 });
 
+ipcMain.handle('FavoriteTheme', async (event, theme) => {
+  try {
+    return FavoriteTheme(theme);
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('UnFavoriteTheme', async (event, theme) => {
+  try {
+    return UnFavoriteTheme(theme);
+  } catch (error) {
+    throw error;
+  }
+});
+
 // #endregion
 
-export default { getThemes, LoadThemeINIs, SaveThemeINIs, ApplyIniValuesToTemplate, ApplyTemplateValuesToIni };
+export default { getThemes, LoadThemeINIs, SaveThemeINIs, ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, FavoriteTheme, UnFavoriteTheme };

@@ -82,7 +82,7 @@ export default {
         await window.api.saveSettings(jsonString);
 
         eventBus.emit('modUpdated', newConfig);     //<- Event listen in MainNavBars.vue
-        eventBus.emit('loadThemes', gameInstance);  //<- this event will be heard in 'ThemeTab.vue'
+        eventBus.emit('loadThemes', newConfig.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
 
         eventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${gameVersion} Installed.` });
         eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
@@ -97,6 +97,9 @@ export default {
       }      
     },
 
+    /** When the User pick a different Game on the Combo. * 
+     * @param GameInstanceName Name of the New Active Instance
+     */
     async OnGameInstance_Changed(GameInstanceName) {
       try {
         eventBus.emit('ShowSpinner', { visible: true });
@@ -117,7 +120,7 @@ export default {
           }
 
           eventBus.emit('modUpdated', this.settings);     //<- Event listen in MainNavBars.vue
-          eventBus.emit('loadThemes', NewInstance);  //<- this event will be heard in 'ThemeTab.vue'
+          eventBus.emit('loadThemes', this.settings.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
 
           eventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
           eventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
@@ -169,7 +172,7 @@ export default {
       }
     },
 
-    /** When Themes are Loaded. 
+    /** When all Themes are Loaded. 
      * @param event Contains the data of the themes
      */
     OnThemesLoaded(event) {
@@ -180,8 +183,7 @@ export default {
       } catch (error) {
         eventBus.emit('ShowError', error);
       }
-    },
-   
+    },   
     /** When the Theme Template is Loaded. 
      * @param event Contains the template of the theme
      */
@@ -190,61 +192,62 @@ export default {
         this.themeTemplate = event;
         //console.log('OnTemplateLoaded:', this.themeTemplate );
       } catch (error) {
-        
+        eventBus.emit('ShowError', error);
+      }
+    },
+
+    /** This is the Start Point of the Program **/
+    async Initialize() {
+      try {
+        eventBus.emit('ShowSpinner', { visible: true });
+
+        this.settings = await window.api.initializeSettings();
+        this.InstallStatus = await window.api.InstallStatus();
+        const ActiveInstance = await window.api.getActiveInstance();
+
+        switch (this.InstallStatus) {
+          case 'existingInstall':
+            if (ActiveInstance && ActiveInstance.path != "") {
+              // Normal Load, All seems Good
+            } else {
+              // Either the Active Instance or its path is not set:
+              eventBus.emit('ShowSpinner', { visible: false });
+              eventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
+              eventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
+            }
+            break;
+          case 'freshInstall':
+            // Welcome New User!
+            eventBus.emit('ShowSpinner', { visible: false });
+            eventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
+            eventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
+
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setTimeout(() => {
+          eventBus.emit('ShowSpinner', { visible: false });
+          this.loading = false;
+
+          this.$nextTick(() => {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+            const dropdownElementList = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+            dropdownElementList.forEach(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
+          });
+        }, 1000);
       }
     },
 
   },
   async mounted() {
 
-    // #region Check if Mod is Installed:
-    
-    try {
-      eventBus.emit('ShowSpinner', { visible: true });
-
-      this.settings = await window.api.initializeSettings();
-      this.InstallStatus = await window.api.InstallStatus();
-      const ActiveInstance = await window.api.getActiveInstance();
-
-      switch (this.InstallStatus) {
-        case 'existingInstall':
-          if (ActiveInstance && ActiveInstance.path != "") {
-            // Normal Load, All seems Good
-          } else {
-            // Either the Active Instance or its path is not set:
-            eventBus.emit('ShowSpinner', { visible: false });
-            eventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
-            eventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
-          }
-          break;
-        case 'freshInstall':
-          // Welcome New User!
-          eventBus.emit('ShowSpinner', { visible: false });
-          eventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
-          eventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
-
-          break;
-        default:
-          break;
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setTimeout(() => {
-        eventBus.emit('ShowSpinner', { visible: false });
-        this.loading = false;
-
-        this.$nextTick(() => {
-          const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-          tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-          const dropdownElementList = document.querySelectorAll('[data-bs-toggle="dropdown"]');
-          dropdownElementList.forEach(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
-        });
-      }, 1000);
-    }
-    
-    // #endregion
+    this.Initialize();
 
     /* LISTENING EVENTS:   */
     eventBus.on('SettingsChanged', this.OnProgramSettings_Changed); 

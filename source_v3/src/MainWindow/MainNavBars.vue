@@ -1,6 +1,6 @@
 <template>
-  
-  <div id="Container">    
+
+  <div id="Container">
 
     <!-- Top Navbar -->
     <nav id="TopNavBar" class="navbar bg-dark text-light border-body fixed-top bg-body-tertiary" data-bs-theme="dark">
@@ -32,25 +32,32 @@
         <div class="nav-item d-flex align-items-center">
           <div class="input-group mb-3">
 
-            <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme">
+            <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme">
               <i class="bi bi-plus-circle"></i>
             </button>
-            <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme">
+            <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme">
               <i class="bi bi-save"></i>
             </button>
-            <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme">
+            <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme">
               <i class="bi bi-floppy"></i>
             </button>
-            <button id="cmdShowFavorites" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites" @mousedown="toggleFavorites">
+
+            <button id="cmdShowFavorites" :class="['btn btn-outline-secondary', { 'text-orange': showFavorites }]"
+              type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites"
+              @mousedown="toggleFavorites">
               <i class="bi bi-star"></i>
             </button>
 
-
             <button id="cmdApplyTheme" class="btn btn-apply-theme" @click="applyTheme">Apply Theme</button>
 
-            <select class="form-select" id="cboHistoryBox" @change="handleHistoryChange" v-model="selectedHistory" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="History Box">
+            <select class="form-select" id="cboHistoryBox" @change="handleHistoryChange" v-model="selectedHistory"
+              data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="History Box">
               <option default value="mnuDummy">.</option>
-              <option v-for="option in historyOptions" :key="option.value" :value="option.value" :data-tag="option.tag">{{ option.text }}</option>
+              <option v-for="option in historyOptions" :key="option.value" :value="option.value" :data-tag="option.tag">
+                {{ option.text }}</option>
             </select>
 
 
@@ -68,13 +75,13 @@
 
         </div>
       </div>
-    </nav>
-
+    </nav><!-- Top Navbar -->
 
     <!-- Middle Div - Content -->
     <div class="middle-div">
 
-      <div v-if="showSpinner" class="d-flex justify-content-center align-items-center position-fixed top-0 left-0 w-100 h-100 bg-dark bg-opacity-75 z-index-999">
+      <div v-if="showSpinner"
+        class="d-flex justify-content-center align-items-center position-fixed top-0 left-0 w-100 h-100 bg-dark bg-opacity-75 z-index-999">
         <div class="spinner-border text-light" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -141,19 +148,18 @@
 
         <!-- Search Form -->
         <form class="d-flex ms-auto" @submit.prevent="handleSearch">
-          <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search" aria-label="Search">
+          <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search"
+            aria-label="Search">
           <button class="btn btn-outline-warning" type="submit">Search</button>
         </form>
 
       </div>
-    </nav>
+    </nav> <!-- Bottom Navbar -->
 
-    
-  </div>
-  
+  </div> <!-- Container -->
 
   <div v-if="showSpinner" class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+    <span class="visually-hidden">Loading...</span>
   </div>
 </template>
 
@@ -198,7 +204,6 @@ export default {
       activeTab: 'themes',
       showFavorites: false,
       showSpinner: true,
-
     };
   },
   setup(props) {
@@ -333,6 +338,15 @@ export default {
     };
   },
   methods: {
+    async toggleFavorites(event) {
+      this.showFavorites = !this.showFavorites;
+      this.programSettings.FavToogle = this.showFavorites;
+      //console.log('Favorites toggled:', this.showFavorites);
+      await window.api.saveSettings(JSON.stringify(this.programSettings, null, 4));
+      eventBus.emit('loadThemes', this.showFavorites);
+
+      return this.showFavorites;
+    },
     setActiveTab(tab) {
       this.activeTab = tab;
     },
@@ -483,11 +497,7 @@ export default {
       //
     },
 
-    toggleFavorites(event) {
-      console.log('Favorites toggled:', this.showFavorites);
-      this.applyIconColor(event.target);
-      eventBus.emit('RoastMe', { type: 'Warning', message: 'First Line\r\nSecond Line\r\nThird Line' });
-    },
+    
     applyIconColor(button) {
       const icon = button.querySelector('i');
       if (icon) {
@@ -623,11 +633,14 @@ export default {
 
   },
   mounted() {
+    this.showFavorites = programSettings.FavToogle;
+
     /* EVENTS WE LISTEN TO HERE:  */
     eventBus.on('setActiveTab', this.setActiveTab);
     eventBus.on('ThemeClicked', this.LoadTheme);
     eventBus.on('ShowSpinner', this.showHideSpinner);
     eventBus.on('modUpdated', this.modUpdated);
+    eventBus.on('OnApplyTheme', this.applyTheme);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -635,12 +648,18 @@ export default {
     eventBus.off('ThemeClicked', this.LoadTheme);
     eventBus.off('ShowSpinner', this.showHideSpinner);
     eventBus.off('modUpdated', this.modUpdated);
+    eventBus.off('OnApplyTheme', this.applyTheme);
   }
 };
 </script>
 
 
 <style scoped>
+.text-orange { /* for the Toggle Favorites Button */
+  color: orange;
+  background-color: #0c0c4d; 
+  border-color: #ffc107;
+}
 body {
   background-color: #1F1F1F;
   color: #fff; /* Optional: Set text color to white */
@@ -650,7 +669,7 @@ body {
 }
 #Container {
   background-color: #1F1F1F;
-  color: #fff; /* Optional: Set text color to white */
+  color: #fff; 
 }
 #cboHistoryBox {
   width: 1px; /* Minimal width for the select element */

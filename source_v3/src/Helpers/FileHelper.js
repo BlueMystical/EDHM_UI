@@ -1,4 +1,4 @@
-import { app, ipcMain, dialog  } from 'electron'; 
+import { app, ipcMain, dialog, shell  } from 'electron'; 
 import { exec } from 'child_process';
 import path from 'node:path'; 
 //import { writeFile , readFile } from 'node:fs/promises'; //
@@ -181,18 +181,15 @@ function deleteFolderRecursive(folderPath) {
   }
 }
 
-/** Deletes the given Directory 
- * @param {*} filePath Absolute path to the Directory
- * @returns 
- */
+/** Deletes the given File 
+ * @param {*} filePath Absolute path to the File */
 function deleteFileByAbsolutePath(filePath) {
   let _ret = false;
   try {
     fs.unlinkSync(filePath);
-    _ret = true;
-    console.log('File deleted successfully.');
+    _ret = true;     console.log('File deleted successfully.');
   } catch (err) {
-    console.error('Error deleting file:', err);
+    throw err;
   }
   return _ret;
 }
@@ -358,6 +355,8 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
 
     const options = prettyPrint ? { spaces: 4 } : null;
     fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
+    return true;
+
   } catch (error) {
     throw error;
   }
@@ -400,6 +399,10 @@ async function decompressFile(zipPath, outputDir) {
 // #endregion
 
 // #region Processs & Programs
+
+export function openUrlInBrowser(url) {
+  shell.openExternal(url);
+}
 
 /** Detects a running Process and returns its full path. 
  * @param {*} exeName Program Exe Name: 'EliteDangerous64.exe'
@@ -752,8 +755,16 @@ ipcMain.handle('findFileWithPattern', async (event, folderPath, pattern) => {
   } catch (error) {
     throw error;
   }
-});
+}); 
 
+ipcMain.handle('openUrlInBrowser', async (event, url) => {
+  try {
+    const result = openUrlInBrowser(url);
+    return { success: true, file: result };
+  } catch (error) {
+    throw error;
+  }
+});
 
 // #endregion
 
