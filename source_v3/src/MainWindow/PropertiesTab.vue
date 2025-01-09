@@ -2,7 +2,8 @@
   <div class="tab-content">
     <div class="scrollable-content">
       <ul class="list-group">
-        <li v-for="(category, index) in properties" :key="index" class="list-group-item">
+
+        <li v-for="(category, index) in properties" :key="index" :id="'li-' + category.name" class="list-group-item">
           <!-- Name of the Category -->
           <p class="category-name">{{ category.name }}</p>
           
@@ -62,11 +63,13 @@
 
                   <!-- Add more controls based on item.valueType as needed -->
                 </td>
+
               </tr>
             </tbody>
           </table>
         </li>
-      </ul>
+
+      </ul> <!-- list-group -->
     </div>
   </div>
 </template>
@@ -82,37 +85,55 @@ let themeTemplate = inject('themeTemplate');
 
 export default defineComponent({
   name: 'PropertiesTab',
+  components: {
+    ColorPicker,
+  },
+  data() {
+    return {
+      themeTemplate,
+      tooltipStyles: [],
+      selectedColor: '#ffffff',
+    };
+  },
   setup() {
-    //const themeTemplate = inject('themeTemplate');
-    const tooltipStyles = reactive([]);
+    // Reactive state
     const properties = reactive([]);
+    const tooltipStyles = reactive([]);
     const key = ref(0);
     const reference = ref(null);
 
 
-    /**
-     * Gets all Presets for the selected Type
-     * @param type Type of Preset
-     */
-    const getPresetsForType = (type) => {
-      return themeTemplate.Presets.filter(preset => preset.Type === type);
+    const intToHexColor = (number) => {
+      return `#${(number >>> 0).toString(16).padStart(6, '0')}`;
     };
 
-    /**
-     * Gets the Description of a Preset
+    return {
+      properties,
+      intToHexColor,
+    };
+  },
+  methods: {
+
+    /**       * Gets all Presets for the selected Type
+     * @param type Type of Preset
+     */
+    getPresetsForType(type) {
+      return themeTemplate.Presets.filter(preset => preset.Type === type);
+    },
+
+    /** Gets the Description of a Preset
      * @param type Type of Preset
      * @param index Value
      */
-    const getPresetNameByIndex = (type, index) => {
+    getPresetNameByIndex(type, index) {
       const preset = themeTemplate.Presets.find(preset => preset.Type === type && preset.Index === index);
       return preset ? preset.Name : null;
-    };
+    },
 
-    /**
-     * Gets the Minimum Value for a Range-slider control
+    /**     * Gets the Minimum Value for a Range-slider control
      * @param type Type of Range
      */
-    const getMinValue = (type) => {
+    getMinValue(type) {
       switch (type) {
         case '2X':
         case '4X':
@@ -120,13 +141,12 @@ export default defineComponent({
         default:
           return 0.0;
       }
-    };
+    },
 
-    /**
-     * Gets the Maximum Value for a Range-slider control
+    /**     * Gets the Maximum Value for a Range-slider control
      * @param type Type of Range
      */
-    const getMaxValue = (type) => {
+    getMaxValue(type) {
       switch (type) {
         case '2X':
           return 2.0;
@@ -135,35 +155,24 @@ export default defineComponent({
         default:
           return 1.0;
       }
-    };
+    },
 
-
-
-     /**
-     * Convert a Color from Number to a Hex HTML string.
-     * @param number Integer Value representing a Color.
-     */
-     const intToHexColor = (number) => {
-        return intToHex(number);
-      };
-
-
-    function safeRound(value) {
+    safeRound(value) {
       return isNaN(value) ? 0 : Math.round(value);
-    };
+    },
 
     //-----------------------------------------------------------------------------
-    function convertSRGBFromLinear(theLinearValue, gammaValue = 2.4) {
-      return theLinearValue <= 0.0031308 ? 
-            theLinearValue * 12.92 : 
-            Math.pow(theLinearValue, 1.0 / gammaValue) * 1.055 - 0.055;
-    };
-    function convertSRGBToLinear(theSRGBValue, gammaValue = 2.4) {
-      return thesRGBValue <= 0.04045 ? 
-            theSRGBValue / 12.92 : 
-            Math.pow((theSRGBValue + 0.055) / 1.055, gammaValue);
-    };
-    function getGammaCorrectedRGBA(color, gammaValue = 2.4) {
+    convertSRGBFromLinear(theLinearValue, gammaValue = 2.4) {
+      return theLinearValue <= 0.0031308 ?
+        theLinearValue * 12.92 :
+        Math.pow(theLinearValue, 1.0 / gammaValue) * 1.055 - 0.055;
+    },
+    convertSRGBToLinear(theSRGBValue, gammaValue = 2.4) {
+      return thesRGBValue <= 0.04045 ?
+        theSRGBValue / 12.92 :
+        Math.pow((theSRGBValue + 0.055) / 1.055, gammaValue);
+    },
+    getGammaCorrectedRGBA(color, gammaValue = 2.4) {
       try {
         const sRGBcolor = {
           r: color.r / 255,
@@ -184,8 +193,8 @@ export default defineComponent({
         console.error("ERROR!", error.message, error.stack);
       }
       return null;
-    };
-    function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
+    },
+    reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
       try {
         console.log(`Input Gamma Values: R=${gammaR}, G=${gammaG}, B=${gammaB}, A=${gammaA}`);
 
@@ -209,23 +218,29 @@ export default defineComponent({
         console.error("ERROR!", error.message, error.stack);
         return { r: 0, g: 0, b: 0, a: 1 }; // Return default value in case of error
       }
-    };
+    },
 
     //-----------------------------------------------------------------------------
-    function intToHex(int) {
+    /**     * Convert a Color from Number to a Hex HTML string.
+     * @param number Integer Value representing a Color.
+     */
+    intToHexColor(number) {
+      return intToHex(number);
+    },
+    intToHex(int) {
       // Ensure unsigned 32-bit
       int >>>= 0;
-      
+
       // Convert each component to a two-digit hex string
       const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
       const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
       const b = (int & 0xFF).toString(16).padStart(2, '0');
-      
+
       return `#${r}${g}${b}`;
-    };
-    function intToRGB(num) {
+    },
+    intToRGB(num) {
       // Convert the signed integer to an unsigned integer
-      const unsignedNum = num >>> 0; 
+      const unsignedNum = num >>> 0;
 
       // Extract red, green, and blue components
       const r = (unsignedNum >> 16) & 0xFF;
@@ -233,8 +248,8 @@ export default defineComponent({
       const b = unsignedNum & 0xFF;
 
       return { r, g, b };
-    };
-    function rgbToHex(r, g, b, a = 1) {
+    },
+    rgbToHex(r, g, b, a = 1) {
       // Ensure values are within valid range
       r = Math.max(0, Math.min(255, r));
       g = Math.max(0, Math.min(255, g));
@@ -245,47 +260,46 @@ export default defineComponent({
       const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
 
       // Convert RGB to hexadecimal
-      const hex = "#" + 
-        r.toString(16).padStart(2, '0') + 
-        g.toString(16).padStart(2, '0') + 
+      const hex = "#" +
+        r.toString(16).padStart(2, '0') +
+        g.toString(16).padStart(2, '0') +
         b.toString(16).padStart(2, '0');
 
       return a < 1 ? hex + alphaHex : hex; // Return hex with alpha if alpha is less than 1
-    };
+    },
 
 
-    /**
-     * Gets the path for an Element Image
+    /**     * Gets the path for an Element Image
      * @param key The file name of the image matches the 'key' of the Element.
      */
-     const getImagePath = (key) => {
+    getImagePath(key) {
       const imageKey = key.replace(/\|/g, '_');
       return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
-    };
+    },
 
-    const hideImage = (event) => {
+    hideImage(event) {
       event.target.style.display = 'none';
-    };
+    },
 
     /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
-    const updatePresetValue = (item, value) => {
+    updatePresetValue(item, value) {
       item.value = value;
       saveToThemeTemplate(item);
-    };
-    const updateBrightnessValue = (item, event) => {
+    },
+    updateBrightnessValue(item, event) {
       item.value = parseFloat(event.target.value);
       saveToThemeTemplate(item);
-    };
-    const updateColorValue = (item, color) => {
+    },
+    updateColorValue(item, color) {
       item.value = parseInt(color.slice(1), 16);
       saveToThemeTemplate(item);
-    };
-    const toggleOnOffValue = (item) => {
+    },
+    toggleOnOffValue(item) {
       // Toggle the boolean value
       item.value = item.value === 1 ? 0 : 1;
       saveToThemeTemplate(item);
-    };
-    const saveToThemeTemplate = (item) => {
+    },
+    saveToThemeTemplate(item) {
       /* Here the changes in controls are stored back into the 'themeTemplate' object  */
       themeTemplate.ui_groups.forEach(group => {
         if (group && group.Elements) {
@@ -296,49 +310,10 @@ export default defineComponent({
           }
         }
       });
-    };
- 
-    onMounted(() => {
-      //checkImagesExistence();
-      
-    });
+    },
 
-    return {
-      themeTemplate,
-      properties,
-      tooltipStyles,
-      getImagePath, hideImage,
-      getPresetsForType,
-      getPresetNameByIndex,
-      getMinValue,
-      getMaxValue,
-      updatePresetValue,
-      updateBrightnessValue,
-      updateColorValue,
-      toggleOnOffValue,
-      intToHexColor,
-    };
-  },
-  components: {
-    ColorPicker,
-  },
-  data() {
-    return {
-      themeTemplate,
-      tooltipStyles: [],
-      selectedColor: '#ffffff',
-    };
-  },
-  mounted() {
-    eventBus.on('areaClicked', this.loadProperties);
-    eventBus.on('ThemeLoaded', this.updateThemeTemplate);
-  },
-  beforeUnmount() {
-    eventBus.off('areaClicked', this.loadProperties);
-    eventBus.off('ThemeLoaded', this.updateThemeTemplate);
-  },
-  methods: {
-    loadProperties(area) {      
+
+    loadProperties(area) {
       //console.log('Loading properties for area:', area);
       this.updateProperties(this.getPropertiesForArea(area));
       this.key++;
@@ -404,7 +379,34 @@ export default defineComponent({
       item.value = event.target.value;
     },
 
-  }
+    /** When a Category is Selected, it scrolls to the selected Category     * 
+     * @param category Name of the Category
+     */
+    OnSelectCategory(category) {
+      //console.log('Category Selected:', category);
+      try {
+        this.$nextTick(() => {
+          const selectedElement = document.getElementById('li-' + category);
+          if (selectedElement) {
+            selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+      } catch (error) {
+        eventBus.emit('ShowError', error);        
+      }
+    },
+
+  },
+  mounted() {
+    eventBus.on('areaClicked', this.loadProperties);
+    eventBus.on('ThemeLoaded', this.updateThemeTemplate);
+    eventBus.on('OnSelectCategory', this.OnSelectCategory);
+  },
+  beforeUnmount() {
+    eventBus.off('areaClicked', this.loadProperties);
+    eventBus.off('ThemeLoaded', this.updateThemeTemplate);
+    eventBus.off('OnSelectCategory', this.OnSelectCategory);
+  },
 });
 </script>
 

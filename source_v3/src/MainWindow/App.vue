@@ -157,11 +157,11 @@ export default {
             
           } else { //<- It's a Normal HUD Settings
             // Emit an event with the clicked area 
-            eventBus.emit('areaClicked', { id: result.Parent, title: result.Title } ); //<- Event listen in 'PropertiesTab.vue'
-            //TODO: Ensure Visibility of Selected Item
-            
+            eventBus.emit('areaClicked', { id: result.Parent, title: result.Title } ); //<- Event listen in 'PropertiesTab.vue'           
             // Emit an event to set the active tab to 'properties' 
             eventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
+            // Ensure Visibility of Selected Item
+            eventBus.emit('OnSelectCategory', result.Category); //<- Event listen in 'PropertiesTab.vue'
           }
         }
       } catch (error) {
@@ -181,11 +181,14 @@ export default {
         eventBus.emit('ShowError', error);
       }
     },
-        
+   
+    /** When the Theme Template is Loaded. 
+     * @param event Contains the template of the theme
+     */
     OnTemplateLoaded(event) {
       try {
         this.themeTemplate = event;
-        console.log('OnTemplateLoaded:', this.themeTemplate );
+        //console.log('OnTemplateLoaded:', this.themeTemplate );
       } catch (error) {
         
       }

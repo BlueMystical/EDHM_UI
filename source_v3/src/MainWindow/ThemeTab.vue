@@ -182,7 +182,7 @@ ul {
 }
 
 .selected .img-thumbnail {
-  border-color: #00bfff;
+  border: 3px solid #00bfff;
   box-shadow: 0 0 10px #00bfff;
 }
 

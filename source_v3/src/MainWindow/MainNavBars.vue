@@ -548,6 +548,9 @@ export default {
      */
     async gatherData(query) {
 
+      //console.log('Search Query:', query);
+      const searchQuery = query.trim().toLowerCase();
+
       // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
       //console.log('themesLoaded:', this.themesLoaded);
       //console.log('themeTemplate:', themeTemplate );
@@ -568,8 +571,8 @@ export default {
         // 2. Looking on the Themes Loaded:
         const filteredThemes = this.themesLoaded.filter(theme =>
           theme.file.credits &&
-          (theme.file.credits.theme.toLowerCase().includes(query.toLowerCase()) ||
-            theme.file.credits.author.toLowerCase().includes(query.toLowerCase()))
+          (theme.file.credits.theme && typeof theme.file.credits.theme.toLowerCase === 'function' && theme.file.credits.theme.toLowerCase().includes(searchQuery)) ||
+          (theme.file.credits.author && typeof theme.file.credits.author.toLowerCase === 'function' && theme.file.credits.author.toLowerCase().includes(searchQuery))
         ).map(theme => ({
           Parent: 'Themes', // theme.file.credits.theme,
           Category: "Theme",
@@ -578,17 +581,21 @@ export default {
           Tag: theme
         }));
 
+
         //3. Here we Apply the Filter:
         if (query) {
+
           this.searchResults = allElements.filter(element =>
             element &&
-            element.Title &&
-            element.Category &&
-            element.Description &&
-            (element.Title.toLowerCase().includes(query.toLowerCase()) ||
-              element.Category.toLowerCase().includes(query.toLowerCase()) ||
-              element.Description.toLowerCase().includes(query.toLowerCase()))
+            element.Title && typeof element.Title.toLowerCase === 'function' &&
+            element.Category && typeof element.Category.toLowerCase === 'function' &&
+            element.Description && typeof element.Description.toLowerCase === 'function' &&
+            (element.Title.toLowerCase().includes(searchQuery) ||
+            element.Category.toLowerCase().includes(searchQuery) ||
+            element.Description.toLowerCase().includes(searchQuery))
           ).concat(filteredThemes);
+
+
         } else {
           // If no filter, return them ALL !
           this.searchResults = allElements.filter(element =>
@@ -602,6 +609,7 @@ export default {
       } catch (error) {
         eventBus.emit('ShowError', error);
       }
+      // After this, control pass to 'OnSearchBox_Click'
     },
 
     /** Submit Event for the 'Search Form'

@@ -8,7 +8,7 @@
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1" style="color:gold;">{{ result.Title }}</h5>
                         </div>
-                        <p class="mb-1">{{ result.Category }}</p>
+                        <p class="mb-1" style="color: darkorange;">{{ result.Category }}</p>
                         <small>{{ result.Description }}</small>
                     </a>
                 </div> <!-- list-group -->

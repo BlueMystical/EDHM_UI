@@ -220,9 +220,11 @@ npm uninstall dotenv
 npm install @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 
 -----------------------------------------------------------------------------------
+********** CLEAR CACHE *************************
 ie4uinit.exe -show          <- Refresca la Cache de Iconos
 npm cache clean --force     <- Refresca la cache de Node
 
+-----------------------------------------------------------------------------------
 npm install split-pane
 npm install mitt
 npm install zip-lib
