@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import eventBus from '../EventBus';
+import EventBus from '../EventBus';
 
 export default {
     name: 'SettingsEditor',
@@ -137,7 +137,7 @@ export default {
     },
     created() {
         // Emit the 'open-settings-editor' Event to open this Window
-        eventBus.on('open-settings-editor', this.open);
+        EventBus.on('open-settings-editor', this.open);
     },
     methods: {
         /* Pops up this Component */
@@ -148,7 +148,7 @@ export default {
             } else {
                 this.config = await window.api.getDefaultSettings();
                 setTimeout(() => {
-                    eventBus.emit('RoastMe', { type: 'Info', message: 'You can do it manually in the Game Instances..<br> or just click the Green Button.' });    
+                    EventBus.emit('RoastMe', { type: 'Info', message: 'You can do it manually in the Game Instances..<br> or just click the Green Button.' });    
                 }, 2000); 
             }    
             //console.log(this.config);        
@@ -161,7 +161,7 @@ export default {
             
             const jsonString = JSON.stringify(this.config, null, 4);
             await window.api.saveSettings(jsonString);
-            eventBus.emit('SettingsChanged', JSON.parse(jsonString)); //<- this event will be heard in 'App.vue'  
+            EventBus.emit('SettingsChanged', JSON.parse(jsonString)); //<- this event will be heard in 'App.vue'  
             this.close();
         },
         /* Manually Browse for the Game Executable */
@@ -220,19 +220,19 @@ export default {
         async addNewGameInstance(instancePath) {
             const _ret = await window.api.addNewInstance(instancePath, JSON.parse(JSON.stringify(this.config))); 
             this.config = JSON.parse(JSON.stringify(_ret));
-            eventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
+            EventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
         },
 
         /* Attempts to Detect the running Game Process and then sets the Paths */
         async runGameLocationAssistant() {
-            eventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
+            EventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
 
             // 1. Check if the Game is already Running:
             const fullPath = await window.api.detectProgram('EliteDangerous64.exe');
 
             if (fullPath) {
                 console.log('Process found at:', fullPath);
-                eventBus.emit('RoastMe', { type: 'Success', message: `Process found!<br>Game will now Close<br>Don't Panic..` });
+                EventBus.emit('RoastMe', { type: 'Success', message: `Process found!<br>Game will now Close<br>Don't Panic..` });
 
                 await window.api.terminateProgram('EliteDangerous64.exe');
                 const FolderPath = await window.api.getParentFolder(fullPath);
@@ -240,14 +240,14 @@ export default {
                 
             } else {
                 console.log('Process not found.');
-                eventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
+                EventBus.emit('RoastMe', { type: 'Info', message: 'Waiting for Game to Start...<br>Leave the game running at menus and return here.' });
 
                 window.api.startMonitoring('EliteDangerous64.exe');
                 
                 // Event listener for program detection
                 window.api.onProgramDetected(async (event, exePath) => {
                     console.log(`Executable Path: ${exePath}`);
-                    eventBus.emit('RoastMe', { type: 'Success', message: `Process found!<br>Game will now Close<br>Don't Panic..` });
+                    EventBus.emit('RoastMe', { type: 'Success', message: `Process found!<br>Game will now Close<br>Don't Panic..` });
 
                     await window.api.terminateProgram('EliteDangerous64.exe');
                     const FolderPath = await window.api.getParentFolder(exePath);
@@ -276,16 +276,16 @@ export default {
                     const ResolvedPath = await window.api.resolveEnvVariables(FilePath);
                     const _ret = await window.api.deleteFileByAbsolutePath(ResolvedPath);
                     if (_ret) {
-                        eventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Settings got wiped!<br>You should re-start the App now.' });
+                        EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Settings got wiped!<br>You should re-start the App now.' });
                     }
                 }
             } catch (error) {
-                eventBus.emit('ShowError', error);
+                EventBus.emit('ShowError', error);
             }
         }
     },
     beforeDestroy() {
-        eventBus.off('open-settings-editor', this.open);
+        EventBus.off('open-settings-editor', this.open);
     }
 }
 </script>

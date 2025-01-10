@@ -1,6 +1,5 @@
-// To send and receive Events among the components
+//---------------- To send and receive Events among the components ----------------
+
 import mitt from 'mitt';
-
-const eventBus = mitt();
-
-export default eventBus;
+const EventBus = mitt();
+export default EventBus;

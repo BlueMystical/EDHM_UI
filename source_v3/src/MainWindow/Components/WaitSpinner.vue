@@ -7,7 +7,7 @@
     </div>
 </template>
 <script>
-import eventBus from '../../EventBus';
+import EventBus from '../../EventBus';
 export default {
     name: 'WaitSpinner',
     components: {},
@@ -19,14 +19,14 @@ export default {
     methods: {
         showHideSpinner(status) {
             this.showSpinner = status.visible;
-            //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
+            //EXAMPLE: ->    EventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
         },
     },
     mounted() {
-        eventBus.on('ShowSpinner', this.showHideSpinner);
+        EventBus.on('ShowSpinner', this.showHideSpinner);
     },
     beforeUnmount() {
-        eventBus.off('ShowSpinner', this.showHideSpinner);
+        EventBus.off('ShowSpinner', this.showHideSpinner);
     }
 }
 </script>

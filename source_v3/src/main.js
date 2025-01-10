@@ -3,10 +3,10 @@ import path from 'node:path';
 import fs from 'fs';
 
 import Log from './Helpers/LoggingHelper.js';
-import fileHelper from './Helpers/FileHelper'; 
+import fileHelper from './Helpers/FileHelper.js'; 
 import settingsHelper from './Helpers/SettingsHelper.js'; 
-import ini from './Helpers/IniHelper.js'; 
-import Tmanager from './Helpers/ThemeHelper.js'; 
+import iniHelper from './Helpers/IniHelper.js'; 
+import themeHelper from './Helpers/ThemeHelper.js'; 
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -30,11 +30,11 @@ function createWindow() {
   });
 
   // Disable the menu bar
- Menu.setApplicationMenu(null);
+// Menu.setApplicationMenu(null);
 
   mainWindow.webContents.on('did-finish-load', () => {
     // Open the DevTools.
-    mainWindow.webContents.openDevTools(); 
+    //mainWindow.webContents.openDevTools(); 
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {

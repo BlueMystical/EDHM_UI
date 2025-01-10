@@ -162,6 +162,8 @@ async function saveSettings (settings) {
 const getActiveInstance = () => {
   try {
     if (programSettings != null) {
+      //console.log('SettingsHelper.getActiveInstance.programSettings: ', programSettings);
+
       const instanceName = programSettings.ActiveInstance;
       const gameInstance = programSettings.GameInstances
         .flatMap(instance => instance.games)

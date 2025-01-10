@@ -9,7 +9,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import eventBus from '../EventBus';
+import EventBus from '../EventBus';
 
 export default {
   name: 'HUD_Areas',
@@ -168,10 +168,10 @@ export default {
         this.highlightClickedArea(this.currentArea);
 
         // Emit an event with the clicked area 
-        eventBus.emit('areaClicked', this.currentArea); //<- Event listen in 'PropertiesTab.vue'
+        EventBus.emit('areaClicked', this.currentArea); //<- Event listen in 'PropertiesTab.vue'
 
         // Emit an event to set the active tab to 'properties' 
-        eventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
+        EventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
       }
     },
     drawRect(area) {
@@ -235,21 +235,27 @@ export default {
       if (this.clickedArea) {
         this.highlightClickedArea(this.clickedArea);
       }
-    }
+    },
+
+    async OnInitialize(event) {
+      console.log('Initializing HUD image...');
+      await this.loadHUDSettings();
+      this.setupCanvas();
+    },
   },
   async mounted() {
     try {
-      this.imageSrc = await window.api.getAssetFileUrl('images/HUD_Clean.png');   
-      //console.log(this.imageSrc);
+      this.imageSrc = await window.api.getAssetFileUrl('images/HUD_Clean.png');         //console.log(this.imageSrc);
       window.addEventListener('resize', this.setupCanvas);
-      await this.loadHUDSettings();
-      this.setupCanvas();
+      EventBus.on('InitializeHUDimage', this.OnInitialize);
+
     } catch (error) {
       console.log(error);
     }    
   },
   beforeUnmount() { //beforeDestroy() {
     window.removeEventListener('resize', this.setupCanvas);
+    EventBus.off('InitializeHUDimage', this.OnInitialize);
   },
 };
 </script>

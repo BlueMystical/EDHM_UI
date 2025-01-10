@@ -72,6 +72,31 @@ C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dan
 ├── d3dx.ini                          <- 3DMigoto INI config
 └── d3d11.dll                         <- 3DMigoto
 ------------------------------------------------------------------------------------------
+** APP'S HIERARCHY:
+* Renderer Process:
+├── renderer.js
+│     ├── App.vue
+│     │     ├── SettingsEditor.vue
+│     │     ├── SearchBox.vue
+│     │     ├── Notifications.vue
+│     │     └── MainNavBars.vue
+│     │          ├── HudImage.vue
+│     │          ├── ThemeTab.vue
+│     │          ├── PropertiesTab.vue
+│     │          ├── UserSettingsTab.vue
+│     │          └── GlobalSettingsTab.vue
+│     └── EventBus.js
+└── preload.js
+
+* Main Process:
+├── main.js
+│     ├── LoggingHelper.js
+│     ├── FileHelper.js
+│     ├── SettingsHelper.js
+│     ├── IniHelper.js
+│     └── ThemeHelper.js
+└── preload.js
+------------------------------------------------------------------------------------------
 ** ENVIROMENT VARIABLES on Crossplatform:
 
 Variable            Windows           macOS/Linux           Cross-Platform Equivalent

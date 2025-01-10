@@ -37,7 +37,7 @@
 
 
 <script>
-import eventBus from '../EventBus';
+import EventBus from '../EventBus';
 
 // Enable Collapse for the Context Menu
 const collapseElementList = document.querySelectorAll('.collapse');
@@ -67,6 +67,12 @@ export default {
     }
   },
   methods: {
+
+    async OnInitialize(event) {
+      console.log('Initializing ThemeTab..');
+      this.programSettings = event; // await window.api.getSettings();
+      await this.loadThemes(this.programSettings.FavToogle);
+    },
 
     /** LOADS THE LIST OF THEMES FROM THE USER'S THEMES FOLDER
      */
@@ -114,16 +120,16 @@ export default {
             }))
         );
 
-        eventBus.emit('OnThemesLoaded', this.images);  //<- this event will be heard in 'App.vue'
+        EventBus.emit('OnThemesLoaded', this.images);  //<- this event will be heard in 'App.vue'
 
       } catch (error) {
         console.error('Failed to load files:', error);
-        //eventBus.emit('ShowError', error);  //<- Not needed here
+        //EventBus.emit('ShowError', error);  //<- Not needed here
       } finally {
         // Set loading to false with a delay after themes are loaded
         setTimeout(() => {
           this.loading = false;
-          eventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
+          EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
 
         }, 2000);
       }
@@ -135,7 +141,7 @@ export default {
     OnSelectTheme(theme) {
       try {
         this.selectedImageId = theme.id;
-        this.selectedTheme = theme;  //console.log(this.selectedTheme);
+        this.selectedTheme = theme;  console.log(this.selectedTheme);
 
         this.$nextTick(() => {
           const selectedElement = document.getElementById('image-' + theme.id);
@@ -143,9 +149,10 @@ export default {
             selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
         });
-        eventBus.emit('ThemeClicked', theme); //<- this event will be heard in 'MainNavBars.vue'
+        EventBus.emit('ThemeClicked', theme); //<- this event will be heard in 'MainNavBars.vue'
+
       } catch (error) {
-        eventBus.emit('ShowError', error);
+        EventBus.emit('ShowError', error);
       }
     },
 
@@ -184,7 +191,7 @@ export default {
         if (this.selectedTheme) {        
           switch (action) {
             case 'ApplyTheme':
-              eventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'MainNavBars.vue'
+              EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'MainNavBars.vue'
               break;
             case 'ThemePreview':
               if (this.selectedTheme.file.credits.preview) {
@@ -198,17 +205,27 @@ export default {
               console.log(this.selectedTheme.file.path);
               const _ret = await window.api.FavoriteTheme(this.selectedTheme.file.path);
               this.selectedTheme.file.isFavorite = _ret;
+              if (_ret) {
+                EventBus.emit('RoastMe', { type: 'Success', message: 'Theme added to Favorites' });	
+              } else {
+                EventBus.emit('RoastMe', { type: 'Warning', message: 'Failure adding to Favorites' });
+              }
               break;
             case 'UnFavorite':
               const _ret2 = await window.api.UnFavoriteTheme(this.selectedTheme.file.path);
               this.selectedTheme.file.isFavorite = _ret2;
+              if (_ret) {
+                EventBus.emit('RoastMe', { type: 'Success', message: 'Theme removed from Favorites' });	
+              } else {
+                EventBus.emit('RoastMe', { type: 'Warning', message: 'Failure removing from Favorites' });
+              }
               break;
             default:
               break;
           }
         }
       } catch (error) {
-        eventBus.emit('ShowError', error);
+        EventBus.emit('ShowError', error);
       }
     },
     hideContextMenu() {
@@ -222,17 +239,17 @@ export default {
 
   },
   async mounted() {
-    this.programSettings = await window.api.getSettings();
-    await this.loadThemes(this.programSettings.FavToogle);
 
     /** EVENT LISTENERS */
     document.addEventListener('click', this.hideContextMenu);
-    eventBus.on('loadThemes', this.loadThemes);     //<- Event to Initiate, on demeand, the Load of all Themes
-    eventBus.on('OnSelectTheme', this.OnSelectTheme); //<- Event to, on demand, Select a Theme
+    EventBus.on('loadThemes', this.loadThemes);     //<- Event to Initiate, on demeand, the Load of all Themes
+    EventBus.on('OnSelectTheme', this.OnSelectTheme); //<- Event to, on demand, Select a Theme
+    EventBus.on('OnInitializeThemes', this.OnInitialize); //<- Event listened on App.vue to Initiate the Load of all Themes 
   },
   beforeUnmount() {
-    eventBus.off('loadThemes', this.loadThemes);
-    eventBus.off('OnSelectTheme', this.OnSelectTheme);
+    EventBus.off('loadThemes', this.loadThemes);
+    EventBus.off('OnSelectTheme', this.OnSelectTheme);
+    EventBus.off('OnInitializeThemes', this.OnInitialize);
   }
 };
 </script>

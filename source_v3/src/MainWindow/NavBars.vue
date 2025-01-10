@@ -1,0 +1,801 @@
+<template>
+<div id="Container">
+
+<!-- Top Navbar -->
+<nav id="TopNavBar" class="navbar bg-dark text-light border-body fixed-top bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+
+    <!-- Main Menu -->
+    <div class="nav-item">
+      <div class="input-group mb-3">
+        <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style"
+          @change="OnmenuClicked($event.target.value)">
+          <option default value="mnuDummy">Main Menu</option>
+          <option value="mnuSettings">Settings</option>
+          <option value="mnuOpenGame">Open Game Folder</option>
+          <option value="" disabled>──────────</option>
+          <option value="mnuShipyard">Shipyard</option>
+          <option value="mnu3PModsManager">3PMods (Plugins)</option>
+          <option value="" disabled>──────────</option>
+          <option value="mnuInstallMod">Install EDHM</option>
+          <option value="mnuUninstallMod">Un-install EDHM</option>
+          <option value="" disabled>──────────</option>
+          <option value="mnuCheckUpdates">Check for Updates</option>
+          <option value="mnuGoToDiscord">Help</option>
+          <option value="mnuAbout">About</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Navbar for Buttons on the right side -->
+    <div class="nav-item d-flex align-items-center">
+      <div class="input-group mb-3">
+
+        <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+          data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme">
+          <i class="bi bi-plus-circle"></i>
+        </button>
+        <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+          data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme">
+          <i class="bi bi-save"></i>
+        </button>
+        <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+          data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme">
+          <i class="bi bi-floppy"></i>
+        </button>
+
+        <button id="cmdShowFavorites" :class="['btn btn-outline-secondary', { 'text-orange': showFavorites }]"
+          type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites"
+          @mousedown="toggleFavorites">
+          <i class="bi bi-star"></i>
+        </button>
+
+        <button id="cmdApplyTheme" class="btn btn-apply-theme" @click="applyTheme">Apply Theme</button>
+
+        <select class="form-select" id="cboHistoryBox" @change="OnHistoryBox_Click" v-model="selectedHistory"
+          data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="History Box">
+          <option default value="mnuDummy">.</option>
+          <option v-for="option in historyOptions" :key="option.value" :value="option.value" :data-tag="option.tag">
+            {{ option.text }}</option>
+        </select>
+
+      </div>
+
+    </div>
+  </div>
+</nav><!-- Top Navbar -->
+
+<!-- Middle Div - Content -->
+<div class="middle-div">
+
+  <div v-if="showSpinner"
+    class="d-flex justify-content-center align-items-center position-fixed top-0 left-0 w-100 h-100 bg-dark bg-opacity-75 z-index-999">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- The Ship's HUD image -->
+  <div class="row no-gutters full-height m-0 h-100">
+    <div class="col-8 h-100">
+      <HUD_Areas />
+    </div>
+
+    <div class="col-4 border border-secondary d-flex flex-column h-100">
+      <!-- This contains the Controls of the Tabs -->
+      <!-- Ensure each tab component has the class "tab-content" -->
+        <div id="MainTabBarControls" class="content flex-grow-1 d-flex flex-column overflow-hidden">
+        <ThemeTab v-show="activeTab === 'themes'" class="tab-content" />
+        <PropertiesTab v-show="activeTab === 'properties'" class="tab-content" />
+        <UserSettingsTab v-show="activeTab === 'settings'" class="tab-content" />
+        <GlobalSettingsTab v-show="activeTab === 'global-settings'" class="tab-content" />
+        </div>
+
+      <!-- These are the TabBar buttons -->
+      <nav id="MainTabBar" class="navbar navbar-expand-sm navbar-dark bg-dark custom-navbar">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'themes' }"
+              @click.prevent="setActiveTab('themes')">Themes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'properties' }"
+              @click.prevent="setActiveTab('properties')">Properties</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'settings' }"
+              @click.prevent="setActiveTab('settings')">User Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'global-settings' }"
+              @click.prevent="setActiveTab('global-settings')">Global Settings</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom navbar-thin" data-bs-theme="dark">
+  <div class="container-fluid">
+    <!-- Main Menu -->
+    <div class="navbar-nav">
+      <!-- Game Selection Dropdown -->
+      <div class="nav-item">
+        <select id="gameSelect" class="form-select game-dropdown-border main-menu-style" v-model="selectedGame"
+          @change="OnGameInstanceChange">
+          <option v-for="(game, index) in gameMenuItems" :key="index" :value="game">{{ game }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- App Version Label -->
+    <span class="navbar-text mx-3" id="lblVersion">App Version: {{ appVersion }}</span>
+    <!-- Mod Version Label -->
+    <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
+
+    <!-- Search Form -->
+    <form class="d-flex ms-auto" @submit.prevent="OnSearchBox_Click">
+      <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search"
+        aria-label="Search">
+      <button class="btn btn-outline-warning" type="submit">Search</button>
+    </form>
+
+  </div>
+</nav> <!-- Bottom Navbar -->
+
+</div> <!-- Container -->
+
+<div v-if="showSpinner" class="spinner-border text-primary" role="status">
+<span class="visually-hidden">Loading...</span>
+</div>
+</template>
+<script>
+import { ref } from 'vue';
+
+import EventBus from '../EventBus';
+import ThemeTab from './ThemeTab.vue';
+import HUD_Areas from './HudImage.vue';
+import PropertiesTab from './PropertiesTab.vue';
+import UserSettingsTab from './UserSettingsTab.vue';
+import GlobalSettingsTab from './GlobalSettingsTab.vue';
+
+import defaultTemplate from '../data/ED_Odissey_ThemeTemplate.json';
+let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
+
+export default {
+    name: 'NavBarsBody',
+    props: {
+        themesLoaded: {
+            type: Array,
+            required: false
+        }
+    },
+    data() {
+        return {
+            activeTab: '',
+            showFavorites: false,
+            showSpinner: true,
+
+            programSettings: {},
+            themeTemplate: {},
+            ActiveInstance: {},
+
+            historyOptions: [],
+            selectedHistory: '',
+
+            searchResults: [],
+
+            appVersion: '',
+            modVersion: '',
+            selectedGame: '',
+            gameMenuItems: [],
+
+        };
+    },
+    setup(props) {
+
+    },
+    components: {
+        HUD_Areas,
+        ThemeTab,
+        PropertiesTab,
+        UserSettingsTab,
+        GlobalSettingsTab
+    },
+    methods: {
+
+      async OnInitialize(settings) {
+            try {
+                console.log('Initializing NavBars..');
+
+                this.programSettings = settings;
+                this.appVersion = await window.api.getAppVersion();
+                this.modVersion = settings.Version_ODYSS;
+                this.ActiveInstance = await window.api.getActiveInstance();
+                this.selectedGame = this.ActiveInstance.instance;
+                this.showFavorites = settings.FavToogle;
+                this.activeTab = ref('themes');
+
+                // Populate game instances with the `instance` values from `Settings`
+                this.gameMenuItems = ref(
+                    settings.GameInstances.flatMap(instance =>
+                        instance.games
+                            .filter(game => game.path) // only include games with non-empty 'path'
+                            .map(game => game.instance)
+                    )
+                );
+                //console.log('gameMenuItems:', gameMenuItems);
+
+                await this.LoadCurrentSettings();
+                await this.History_LoadElements();
+
+            } catch (error) {
+                EventBus.emit('ShowError', error);
+            } finally {
+                this.showSpinner = false;
+            }
+        },
+
+        /** Toggles the Favorites list
+         * @param event 
+         */
+        async toggleFavorites(event) {
+            this.showFavorites = !this.showFavorites;
+            this.programSettings.FavToogle = this.showFavorites;
+
+            await window.api.saveSettings(JSON.stringify(this.programSettings, null, 4));
+            EventBus.emit('loadThemes', this.showFavorites); //<- Event listened at 'ThemeTab.vue'
+
+            //console.log('Favorites toggled:', this.showFavorites);
+            return this.showFavorites;
+        },
+        /** Sets the Active Tab
+         * @param tab Tab's Name
+         */
+        setActiveTab(tab) {
+            this.activeTab = ref(tab);
+        },
+
+        /** Main Menu Click Events 
+         * @param value id of the clicked menu
+         */
+        async OnmenuClicked(value) {
+            if (value) {
+                this.$refs.mainMenuSelect.value = 'mnuDummy'; // Reset the select to "Main Menu"
+                console.log(`Menu ${value} clicked`);
+
+                const ActiveInstance = await window.api.getActiveInstance();
+                const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+
+                if (value === 'mnuOpenGame') {
+                    await window.api.openPathInExplorer(GamePath);
+                }
+                if (value === 'mnuSettings') {
+                    const InstallStatus = await window.api.InstallStatus();
+                    EventBus.emit('open-settings-editor', InstallStatus);
+                }
+                if (value === 'mnuInstallMod') {
+
+                }
+            }
+        },
+
+        /**
+         * 
+         * @param theme 
+         */
+        async LoadTheme(theme) {
+            console.log('LoadTheme',theme);
+            /* Happens when a Theme in the list is Selected  */
+            this.showSpinner = true;
+            try {
+                const template = JSON.parse(JSON.stringify(theme.file));
+                this.themeTemplate = await window.api.LoadTheme(template.path);     //console.log('Loaded theme: ', this.themeTemplate);
+
+                EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard in 'PropertiesTab.vue' and on 'App.vue'
+
+            } catch (error) {
+                EventBus.emit('ShowError', error);
+            } finally { this.showSpinner = false; }
+        },
+        async applyTheme() {
+            this.showSpinner = true;
+            try {
+                this.ActiveInstance = await window.api.getActiveInstance();
+                console.log('1. ActiveInstance:', this.ActiveInstance);
+                console.log('2. ThemeTemplate:', this.themeTemplate);
+
+                const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
+                const GameType = this.ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+                const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);
+                console.log('3. Preparing all the Paths:', GamePath);
+
+                const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
+                console.log('4. Get Default Inis:', defaultINIs);
+
+                const updatedInis = await window.api.ApplyTemplateValuesToIni(this.themeTemplate, defaultINIs);
+                console.log('5. Applying Changes to the INIs...', updatedInis);
+
+                console.log('6. Saving the INI files..');
+                const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
+                if (_ret) {
+                    EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Applied!'` });
+                }
+                setTimeout(() => {
+                    this.showSpinner = false;
+                }, 1500);
+            } catch (error) {
+                this.showSpinner = false;
+                EventBus.emit('ShowError', error);
+            }
+        },
+        async addNewTheme(event) {
+            console.log('Add New Theme button clicked');
+
+            /* const myPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
+             console.log('myPath:', myPath);
+             const myPath2 = await window.api.resolveEnvVariables('%USERPROFILE%');
+             console.log('%USERPROFILE%:', myPath2);
+             const myPath3 = await window.api.resolveEnvVariables('D:\\@Codigo\\EDHM_UI\\source_v3');
+             console.log('myPath3:', myPath3);
+             const myPath4 = await window.api.resolveEnvVariables('%APPDATA%\\EDHM_UI');
+             console.log('%APPDATA%:', myPath4);
+             const myPath5 = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\EDHM_UI');
+             console.log('%LOCALAPPDATA%:', myPath5);*/
+
+            /* const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
+             const IntValue = 16755200; console.log('IntValue', IntValue);
+             const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
+             const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
+             const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
+       */
+            // Red x232 =1 ; Green y232 =0.3763 ; Blue z232 =0 ; Alpha w232 =1
+            //EventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
+
+        },
+        async exportTheme(event) {
+            console.log('Export Theme button clicked');
+
+            EventBus.emit('RoastMe', { type: 'Error', message: '<p>This is normal text - <b>and this is bold text</b>.</p>' }); //<- this event will be heard in 'App.vue'
+
+            if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
+                console.log('Exporting theme: ', this.themeTemplate.credits.theme);
+
+            } else {
+                console.error('Current Settings can not be saved??');
+            }
+        },
+        async saveTheme(event) {
+            //console.log('Save Theme button clicked');
+            EventBus.emit('RoastMe', { type: 'Info', message: `Theme Saved!:\r\n ${this.themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
+
+            if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
+                const jsonPath = window.api.joinPath(this.themeTemplate.path, 'Theme.json');
+                window.api.writeJsonFile(jsonPath, this.themeTemplate, true);
+
+            } else {
+                EventBus.emit('RoastMe', { type: 'Error', message: 'Current Settings can not be saved' });
+            }
+            //
+        },
+        async LoadCurrentSettings() {
+            try {
+                if (this.ActiveInstance.path != '') {
+                    const themePath = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
+                    const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
+
+                    themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+                    themeTemplate.credits.theme = "Current Settings";
+                    themeTemplate.credits.author = "User";
+                    themeTemplate.credits.description = "Currently Applied Colors in Game";
+                    themeTemplate.credits.preview = "";
+                    themeTemplate.path = themePath;
+                    themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM
+
+                    EventBus.emit('ThemeLoaded', themeTemplate);   //<- Event Listened at 'PropertiesTab.vue' and 'App.vue'
+                    // Provide the themeTemplate data to be accessible by all components 
+                    //EventBus.emit('OnSelectTheme', themeTemplate); //<- Event Listened at ThemeTab.vue
+                                   
+                    //provide('themeTemplate', themeTemplate);
+                }
+            } catch (error) {
+                EventBus.emit('ShowError', error);
+            }
+        },
+
+        OnHistoryBox_Click(event) {
+            // Click an item on the History Box
+            const selectedValue = event.target.value;
+            const selectedOption = event.target.options[event.target.selectedIndex];
+            const tag = selectedOption.getAttribute('data-tag');
+
+            console.log('History option changed to:', selectedValue);
+            console.log('TODO: Selected file path (tag):', tag);
+
+            document.querySelector('#cboHistoryBox').value = 'mnuDummy';  // Reset the select 
+        },
+        async History_LoadElements() {
+            try {
+                const NumberOfSavesToRemember = this.programSettings.SavesToRemember;
+                const themesFolder = this.ActiveInstance.themes_folder;       //console.log('themesFolder:', themesFolder);
+
+                if (themesFolder) {
+                  const UserDocsPath = window.api.getParentFolder(themesFolder);
+                  const HistoryFolder = window.api.joinPath(UserDocsPath, 'History'); //console.log('HistoryFolder:', HistoryFolder);
+                  const files = await window.api.loadHistory(HistoryFolder, NumberOfSavesToRemember); //console.log(files);        
+
+                  this.historyOptions = ref(
+                      files.map(file => ({
+                          value: file.name,
+                          text: file.date,
+                          tag: file.path  // Add the file path as a tag
+                      }))
+                  );
+                  //console.log(historyOptions.value);
+                }
+
+            } catch (error) {
+                console.error(error);
+                EventBus.emit('ShowError', error);
+            }
+        },
+        async History_AddSettings(theme) {
+            try {
+                //TODO: Save the current settings to the History folder
+
+                const ActiveInstance = this.programSettings.ActiveInstance;
+                const gameInstances = this.programSettings.GameInstances;
+
+                const activeInstanceSettings = gameInstances.find(instance => instance.games.some(game => game.instance === ActiveInstance));
+                const themesFolder = activeInstanceSettings.games[0]?.themes_folder;
+
+                console.log('themesFolder:', themesFolder);
+
+                if (!themesFolder) {
+                    throw new Error('Themes folder is undefined');
+                }
+
+                const UserDocsPath = window.api.resolvePath(themesFolder, '..');
+                const HistoryFolder = window.api.joinPath(UserDocsPath, 'History');
+
+                await window.api.saveHistory(HistoryFolder, theme);
+                await this.History_LoadElements();
+
+            } catch (error) {
+                EventBus.emit('ShowError', error);
+            }
+        },
+
+        /** Performs a Data Search based on the SearchBox Input 
+         * @param query Input Query (what we are looking for) 
+         */
+        async gatherData(query) {
+
+            //console.log('Search Query:', query);
+            const searchQuery = query.trim().toLowerCase();
+
+            // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
+            //console.log('themesLoaded:', this.themesLoaded);
+            //console.log('themeTemplate:', themeTemplate );
+
+            try {
+                //1. Looking on the HUD settings:
+                const allElements = themeTemplate.ui_groups.reduce((acc, group) => {
+                    if (group.Elements) {
+                        const elementsWithParent = group.Elements.map(element => ({
+                            ...element,
+                            Parent: group.Name
+                        }));
+                        return acc.concat(elementsWithParent);
+                    }
+                    return acc;
+                }, []);
+
+                // 2. Looking on the Themes Loaded:
+                const filteredThemes = this.themesLoaded.filter(theme =>
+                    theme.file.credits &&
+                    (theme.file.credits.theme && typeof theme.file.credits.theme.toLowerCase === 'function' && theme.file.credits.theme.toLowerCase().includes(searchQuery)) ||
+                    (theme.file.credits.author && typeof theme.file.credits.author.toLowerCase === 'function' && theme.file.credits.author.toLowerCase().includes(searchQuery))
+                ).map(theme => ({
+                    Parent: 'Themes', // theme.file.credits.theme,
+                    Category: "Theme",
+                    Title: theme.name,
+                    Description: theme.file.credits.description,
+                    Tag: theme
+                }));
+
+
+                //3. Here we Apply the Filter:
+                if (query) {
+
+                    this.searchResults = allElements.filter(element =>
+                        element &&
+                        element.Title && typeof element.Title.toLowerCase === 'function' &&
+                        element.Category && typeof element.Category.toLowerCase === 'function' &&
+                        element.Description && typeof element.Description.toLowerCase === 'function' &&
+                        (element.Title.toLowerCase().includes(searchQuery) ||
+                            element.Category.toLowerCase().includes(searchQuery) ||
+                            element.Description.toLowerCase().includes(searchQuery))
+                    ).concat(filteredThemes);
+
+
+                } else {
+                    // If no filter, return them ALL !
+                    this.searchResults = allElements.filter(element =>
+                        element &&
+                        element.Title &&
+                        element.Category &&
+                        element.Description
+                    ).concat(filteredThemes);
+                }
+                //console.log('searchResults:', this.searchResults);
+            } catch (error) {
+                eventBus.emit('ShowError', error);
+            }
+            // After this, control pass to 'OnSearchBox_Click'
+        },
+
+        /** Submit Event for the 'Search Form'
+        * After Procesing the Query, the results are sent to the 'App.vue' to be shown.
+        */
+        async OnSearchBox_Click() {
+            //console.log('Search button click');
+            await this.gatherData(this.searchQuery);
+            EventBus.emit('SearchBox', { data: this.searchResults });//<- this event will be heard in 'App.vue'
+        },
+
+        /** When a Game Instance is selected from the '#gameSelect' combo
+         */
+        OnGameInstanceChange(event) {
+            const gameInstanceName = event.target.value;
+            this.selectedGame = gameInstanceName;
+            if (this.programSettings) {
+                this.programSettings.ActiveInstance = gameInstanceName.toString();
+                EventBus.emit('GameInsanceChanged', gameInstanceName); //<- this event will be heard in 'App.vue'
+            }
+            //console.log(`Game selected: ${selectedGame.value}`);
+        },
+
+        showHideSpinner(status) {
+            //console.log('showHideSpinner: ', status.visible);
+            this.showSpinner = status.visible;
+            //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
+        },
+
+        OnModUpdated(data) {
+            // happens when the mod gets updated
+            this.programSettings = data;
+            //console.log('programSettings: ', programSettings);
+            this.modVersion = data.Version_ODYSS;
+        },
+
+        
+
+    },
+    mounted() {
+        /* EVENTS WE LISTEN TO HERE:  */
+        EventBus.on('InitializeNavBars', this.OnInitialize);
+        EventBus.on('setActiveTab', this.setActiveTab);
+        EventBus.on('ThemeClicked', this.LoadTheme);
+        EventBus.on('ShowSpinner', this.showHideSpinner);
+        EventBus.on('modUpdated', this.OnModUpdated);
+        EventBus.on('OnApplyTheme', this.applyTheme);
+    },
+    beforeUnmount() {
+        // Clean up the event listener
+        EventBus.off('InitializeNavBars', this.OnInitialize);
+        EventBus.off('setActiveTab', this.setActiveTab);
+        EventBus.off('ThemeClicked', this.LoadTheme);
+        EventBus.off('ShowSpinner', this.showHideSpinner);
+        EventBus.off('modUpdated', this.OnModUpdated);
+        EventBus.off('OnApplyTheme', this.applyTheme);
+    }
+}
+</script>
+<style scoped>
+body {
+  background-color: #1F1F1F;
+  color: #fff; /* Optional: Set text color to white */
+}
+.z-index-999 {
+  z-index: 999; /* Ensure the spinner is on top of other elements */
+}
+#Container {
+  background-color: #1F1F1F;
+  color: #fff; 
+}
+#cboHistoryBox {
+  width: 1px; /* Minimal width for the select element */
+}
+
+#cboHistoryBox option {
+  white-space: nowrap; /* Prevent line breaks */
+}
+
+#TopNavBar {
+  height: 62px;
+  background-color: #1F1F1F;
+}
+
+.tab-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;  
+  width: 32%;
+}
+
+.text-orange { /* for the Toggle Favorites Button */
+  color: orange;
+  background-color: #0c0c4d; 
+  border-color: #ffc107;
+}
+
+.main-menu-style {
+  border: 2px solid orange;
+  /* Add an orange border */
+}
+
+.middle-div {
+  border: 2px solid orange;
+  position: fixed;
+  top: 62px;
+  /* Height of the top navbar */
+  bottom: 56px;
+  /* Height of the bottom navbar */
+  left: 0;
+  right: 0;
+  background-color: #1F1F1F;
+  /* Dark background */
+  overflow-y: auto;
+  /* Enable scrolling */
+  scrollbar-width: thin;
+  /* For Firefox */
+  scrollbar-color: #343a40 #1e1e1e;
+  /* For Firefox */
+}
+
+.btn-outline-secondary i { transition: color 0.3s ease-in-out; } 
+.btn-outline-secondary:active i { color: Dodgerblue !important;}
+
+.full-height {
+  height: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+/* For WebKit browsers */
+.middle-div::-webkit-scrollbar {
+  width: 8px;
+  /* Width of the scrollbar */
+}
+
+.middle-div::-webkit-scrollbar-thumb {
+  background-color: #1F1F1F;
+  /* Color of the scrollbar */
+  border-radius: 10px;
+  /* Rounded corners */
+}
+
+.middle-div::-webkit-scrollbar-track {
+  background-color: #1F1F1F;
+  /* Color of the track */
+}
+
+/* Styles for the Apply Theme Button */
+.btn-apply-theme {
+  background-color: darkorange;
+  color: rgb(12, 12, 12);
+  border: none;
+}
+
+.btn-apply-theme:hover {
+  background-color: orangered;
+  color: white;
+}
+
+/* Styles for MainTabBar nav */
+.custom-navbar {
+  border: 1px solid rgb(110, 73, 2);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  color: #f8f9fa;
+  /* Light text color for contrast */
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #f8f9fa;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+  /* Ensure rounded corners */
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  background-color: orangered;
+  color: white;
+  border-radius: 5px;
+  /* Ensure rounded corners on hover */
+}
+
+.navbar-nav .nav-item .active-nav-item {
+  background-color: darkorange;
+  color: #000000;
+  /* Dark text color for contrast */
+  border-radius: 5px;
+}
+
+
+/* ----- Styles for the Buttons on the top bar  --------- */
+.btn-icon {
+  color: #ffffff;
+  /* Default icon color */
+  border: none;
+  background: none;
+  padding: 5px;
+  margin: 0 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  color: orange;
+  /* Change icon color on hover */
+}
+
+.btn-icon:active {
+  color: dodgerblue;
+  /* Change icon color on click */
+}
+
+.lblInfo {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  /* Clear text color */
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: right;
+  /* Right align text */
+  white-space: nowrap;
+  transform: translateX(-100%);
+  /* Spread text to the left */
+  z-index: 10;
+  margin-right: 10px;
+  /* Adjust as needed for tooltip position */
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.lblInfo.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+.separator {
+  width: 10px;
+  height: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+</style>

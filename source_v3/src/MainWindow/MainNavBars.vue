@@ -655,11 +655,7 @@ export default {
 
 
 <style scoped>
-.text-orange { /* for the Toggle Favorites Button */
-  color: orange;
-  background-color: #0c0c4d; 
-  border-color: #ffc107;
-}
+
 body {
   background-color: #1F1F1F;
   color: #fff; /* Optional: Set text color to white */
@@ -684,6 +680,11 @@ body {
   background-color: #1F1F1F;
 }
 
+.text-orange { /* for the Toggle Favorites Button */
+  color: orange;
+  background-color: #0c0c4d; 
+  border-color: #ffc107;
+}
 
 .main-menu-style {
   border: 2px solid orange;

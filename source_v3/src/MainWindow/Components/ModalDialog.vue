@@ -18,7 +18,7 @@
   
   <script>
   import DOMPurify from 'dompurify';
-  import eventBus from '../../EventBus';
+  import EventBus from '../../EventBus';
   
   export default {
     name: 'ModalDialog',
@@ -69,7 +69,7 @@
           const handleConfirm = () => {
             try {
               exampleModal.hide();
-              EventBus.$emit('modal-confirmed'); // Emit event
+              EventBus.emit('modal-confirmed'); // Emit event
               resolve('Confirmed');
             } catch (error) {
               // Handle error
@@ -81,7 +81,7 @@
           const handleCancel = () => {
             try {
               exampleModal.hide();
-              EventBus.$emit('modal-cancelled'); // Emit event
+              EventBus.emit('modal-cancelled'); // Emit event
               resolve('Cancelled');
             } catch (error) {
               // Handle error

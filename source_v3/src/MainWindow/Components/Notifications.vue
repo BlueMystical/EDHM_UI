@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import eventBus from '../../EventBus';
+import EventBus from '../../EventBus';
 export default {
     name: 'Notifications',
     components: {},
@@ -158,15 +158,15 @@ export default {
     },
     async mounted() {
         /* EVENTS WE LISTEN TO HERE:  */
-        eventBus.on('RoastMe', this.showToast);
-        eventBus.on('ShowError', this.showError);
-        eventBus.on('closeToast', this.closeToast);
+        EventBus.on('RoastMe', this.showToast);
+        EventBus.on('ShowError', this.showError);
+        EventBus.on('closeToast', this.closeToast);
     },
     beforeUnmount() {
         // Clean up the event listener
-        eventBus.off('RoastMe', this.showToast);
-        eventBus.off('ShowError', this.showError);
-        eventBus.off('closeToast', this.closeToast);
+        EventBus.off('RoastMe', this.showToast);
+        EventBus.off('ShowError', this.showError);
+        EventBus.off('closeToast', this.closeToast);
     },
 }
 </script>

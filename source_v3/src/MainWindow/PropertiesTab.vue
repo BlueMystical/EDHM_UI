@@ -411,6 +411,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 .category-name {
   color: darkorange;
   font-size: 18px;
@@ -418,11 +419,13 @@ export default defineComponent({
 }
 
 .tab-content {
+  background-color: #212529;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-
+  position: absolute;
+  top: 0;
 }
 
 .scrollable-content {
