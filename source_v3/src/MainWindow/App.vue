@@ -133,7 +133,7 @@ export default {
         }        
 
         const jsonString = JSON.stringify(newConfig, null, 4);
-        await window.api.saveSettings(jsonString);
+        this.settings = await window.api.saveSettings(jsonString);
 
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue

@@ -24,11 +24,22 @@ const getThemes = async (dirPath) => {
         const subfolderPath = path.join(dirPath, dirent.name);
 
         try {
+            // Check if the folder contains a Large Preview file
+            let preview_url = '';
             const template = await LoadTheme(subfolderPath);
+            if (fileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.png'))) {
+              console.log('Found a PNG:', dirent.name + '.png');
+              preview_url = `file:///${path.join(subfolderPath, dirent.name + '.png')}`;
+            } else {
+              //if (template.credits && template.credits.preview) {
+              //  preview_url = template.credits.preview;
+              //}
+            }
 
             files.push({
               path: subfolderPath,
               thumbnail: 'PREVIEW.jpg',
+              preview: preview_url,
               credits: template.credits,
               theme: template,
               isFavorite: template.isFavorite

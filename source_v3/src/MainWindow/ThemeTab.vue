@@ -60,7 +60,7 @@ export default {
   computed: {
     /** Check if the selected theme has a preview available */
     isPreviewAvailable() {
-      return this.selectedTheme && this.selectedTheme.file && this.selectedTheme.file.credits && this.selectedTheme.file.credits.preview;
+      return this.selectedTheme && this.selectedTheme.preview;
     },
     isFavorite() {
       return this.selectedTheme && this.selectedTheme.file && this.selectedTheme.file.isFavorite;
@@ -90,13 +90,14 @@ export default {
 
         //console.log('themesPath',themesPath);
         //Loads all Themes in the Directory:
-        const files = await window.api.getThemes(themesPath);    //console.log('Theme File: ', files[0]);
+        const files = await window.api.getThemes(themesPath);    console.log('Theme File: ', files[4]);
 
         // Add the dummy item for 'Current Settings':
         this.images = [{
           id: 0,
           name: "Current Settings",
           src: ThumbImage, //'images/PREVIEW.png', 
+          preview: '',
           alt: "Current Settings",
           file: {
             path: GamePath,
@@ -115,6 +116,7 @@ export default {
               id: index + 1,
               name: file.credits.theme,
               src: `file:///${window.api.joinPath(file.path, file.thumbnail)}`,
+              preview: file.preview,
               alt: file.credits.theme,
               file: file
             }))
@@ -194,8 +196,9 @@ export default {
               EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'MainNavBars.vue'
               break;
             case 'ThemePreview':
-              if (this.selectedTheme.file.credits.preview) {
-                window.api.openUrlInBrowser(this.selectedTheme.file.credits.preview);              
+              console.log(this.selectedTheme);
+              if (this.selectedTheme.preview) {
+                window.api.openUrlInBrowser(this.selectedTheme.preview);              
               }
               break;
             case 'OpenFolder':
