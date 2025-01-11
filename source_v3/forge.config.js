@@ -2,21 +2,20 @@ const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 const path = require('path');
 
-
 module.exports = {
     packagerConfig: {
-      asar: true, //<- packs all dependencies in a file
+      asar: true,
       extraResource: [
         'src/data',
         'src/images', 
         'public', 
       ],
-      icon: 'src/images/ED_TripleElite.ico',
+      icon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
       appCategoryType: 'public.app-category.developer-tools',
       win32metadata: {
         CompanyName: 'BlueMystic Corp.',
         FileDescription: 'Mod for Elite Dangerous to customize the HUD of any ship.',
-        ProductName: 'EDHM-UI-V3',
+        ProductName: 'EDHM-UI-V3', // Ensure this matches the shortcut name
         "requested-execution-level": "highestAvailable"
       }
     },
@@ -26,9 +25,9 @@ module.exports = {
         config: {
           name: 'EDHM-UI-V3',
           authors: 'Blue Mystic',
-          description: 'Mod for Elite Dangerous to customize the HUD of any ship.',        
+          description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
           setupExe: 'EDHM-UI-Installer.exe',
-          shortcutFolderName: 'EDHM-UI-V3',    
+          shortcutFolderName: 'EDHM-UI-V3',
           appCopyright: 'Blue Mystic - 2025',
           icon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
           iconUrl: path.join(__dirname, 'src/images/ED_TripleElite.ico'),

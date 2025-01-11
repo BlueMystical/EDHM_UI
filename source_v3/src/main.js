@@ -29,6 +29,9 @@ function createWindow() {
     Log.Error('Failed to load main window content:', err);
   });
 
+  mainWindow.setIcon(path.join(__dirname, 'images/icon.png')) //<--- This goes below your win.loadfile
+  if (require('electron-squirrel-startup')) app.quit(); //<--Add this at the bottom
+
   // Disable the menu bar
 // Menu.setApplicationMenu(null);
 

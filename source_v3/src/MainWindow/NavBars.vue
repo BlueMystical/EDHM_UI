@@ -161,7 +161,7 @@ import PropertiesTab from './PropertiesTab.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';
 
-import defaultTemplate from '../data/ED_Odissey_ThemeTemplate.json';
+import defaultTemplate from '../data/ODYSS/ThemeTemplate.json';
 let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
 
 export default {
@@ -315,7 +315,7 @@ export default {
                 const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
                 console.log('4. Get Default Inis:', defaultINIs);
 
-                const updatedInis = await window.api.ApplyTemplateValuesToIni(this.themeTemplate, defaultINIs);
+                const updatedInis = await window.api.ApplyTemplateValuesToIni(JSON.parse(JSON.stringify(this.themeTemplate)), defaultINIs);
                 console.log('5. Applying Changes to the INIs...', updatedInis);
 
                 console.log('6. Saving the INI files..');
@@ -328,6 +328,8 @@ export default {
                 }, 1500);
             } catch (error) {
                 this.showSpinner = false;
+                console.log(error.message); // Check if the error message is defined 
+                console.log(error.stack); // Check the stack trace
                 EventBus.emit('ShowError', error);
             }
         },
