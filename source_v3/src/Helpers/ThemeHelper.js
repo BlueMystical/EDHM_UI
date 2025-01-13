@@ -3,8 +3,8 @@ import path from 'node:path';
 import fs from 'fs';
 
 import ini from './IniHelper.js';
-import fileHelper from './FileHelper';
 import Log from './LoggingHelper.js';
+import fileHelper from './FileHelper';
 import { writeFile } from 'node:fs/promises';
 
 
@@ -50,18 +50,19 @@ const getThemes = async (dirPath) => {
             if (ThemeCleansing) {
               try {
                 // Writes the JSON in the theme folder:
-  
-                const JsonString = JSON.stringify(template, null, 4);
-                await writeFile(
-                  path.join(subfolderPath, 'ThemeSettings.json'), 
-                  JsonString, 
-                  { encoding: "utf8", flag: 'w' }
-                );
+                if (!fileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
+                  const JsonString = JSON.stringify(template, null, 4);
+                  await writeFile(
+                    path.join(subfolderPath, 'ThemeSettings.json'), 
+                    JsonString, 
+                    { encoding: "utf8", flag: 'w' }
+                  );
+                }                
   
                 // Sanitization:
                 //fileHelper.deleteFilesByType(subfolderPath, '.ini');
                 //fileHelper.deleteFilesByType(subfolderPath, '.credits');
-                //fileHelper.deleteFilesByType(subfolderPath, '.json');
+                //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
   
               } catch (error) {
                 console.error(error);
@@ -81,6 +82,9 @@ const getThemes = async (dirPath) => {
   }
 };
 
+/** Loads a Theme from a specified folder path. * 
+ * @param {*} themeFolder Path to the folder containing the Theme files
+ */
 const LoadTheme = async (themeFolder) => {
   let template = {};
   try {
@@ -92,7 +96,7 @@ const LoadTheme = async (themeFolder) => {
 
     } else {
       // Old fashion format for Themes:
-      const defaultThemePath = fileHelper.getAssetPath('./data/ED_Odissey_ThemeTemplate.json');  
+      const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');  
       const ThemeINIs = await LoadThemeINIs(themeFolder); 
 
       template = fileHelper.loadJsonFile(defaultThemePath);

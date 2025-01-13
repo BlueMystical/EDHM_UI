@@ -240,12 +240,13 @@ async function installEDHMmod(gameInstance) {
     }
 
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+    const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);  //console.log('AssetsPath', AssetsPath);
+    const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
 
     // #region Un-Zipping Themes
-    
-    const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
+
     const unzipPath = path.join(userDataPath, GameType);
-    const themesZipPath = fileHelper.getAssetPath(`data/${GameType}/Themes_EDHM_${GameType}.zip`);
+    const themesZipPath = path.join(`${GameType}/${GameType}_EDHM-Themes.zip`); //<- ODYSS_EDHM-Themes.zip
     if (themesZipPath) {
       const _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
       if (_ret) {
@@ -274,9 +275,8 @@ async function installEDHMmod(gameInstance) {
     // #endregion
 
     // #region Un-Zipping Mod Files
-    
-    const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);  //console.log('AssetsPath', AssetsPath);
-    const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM*.zip`);
+
+    const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM*.zip`); //<- ODYSS_EDHM-v19.06.zip
     if (edhmZipFile) {
       console.log('edhmZipFile: ', edhmZipFile); 
       const unzipGamePath = gameInstance.path;
