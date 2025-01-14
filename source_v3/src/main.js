@@ -20,7 +20,6 @@ function createWindow() {
       nodeIntegration: true,
       webSecurity: false
     },
-    icon: path.join(__dirname, 'images/icon.png')
   });
   //log.info('Loading main window content...');
   mainWindow.loadURL(

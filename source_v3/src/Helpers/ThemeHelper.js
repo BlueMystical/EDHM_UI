@@ -5,6 +5,7 @@ import fs from 'fs';
 import ini from './IniHelper.js';
 import Log from './LoggingHelper.js';
 import fileHelper from './FileHelper';
+import settingsHelper from './SettingsHelper.js'
 import { writeFile } from 'node:fs/promises';
 
 
@@ -161,6 +162,62 @@ async function UnFavoriteTheme(themePath) {
     throw error;
   }
 };
+
+/** Returns the Currently Applied Theme Settings as a ThemeTemplate
+ * @param {*} themePath Full path to the Game Instance
+ */
+async function GetCurrentSettingsTheme(themePath) {
+  try {
+    const ThemeINIs = LoadThemeINIs(themePath);
+    const defaultSettingsPath = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
+
+    let themeTemplate = fileHelper.loadJsonFile(defaultSettingsPath);
+    themeTemplate = ApplyIniValuesToTemplate(themeTemplate, ThemeINIs); 
+    themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+    themeTemplate.credits.theme = "Current Settings";
+    themeTemplate.credits.author = "User";
+    themeTemplate.credits.description = "Currently Applied Colors in Game";
+    themeTemplate.credits.preview = "";
+    themeTemplate.path = themePath;
+
+    return themeTemplate;
+
+  } catch (error) {
+    console.log(error);
+    throw error;    
+  }
+  return null;
+};
+
+async function CreateNewTheme(credits) {
+  try {
+    const gameInstance = await settingsHelper.getActiveInstance();  
+    const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+    const settings = await settingsHelper.loadSettings();      
+    const dataPath = fileHelper.resolveEnvVariables(settings.UserDataFolder);    
+    const themesPath = path.join(dataPath, GameType, 'Themes', credits.theme);
+
+    if (fileHelper.ensureDirectoryExists(themesPath)) {
+
+      const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
+      CurrentSettings.credits.theme = credits.theme;
+      CurrentSettings.credits.author = credits.author;
+      CurrentSettings.credits.description = credits.description;      
+      CurrentSettings.version = settings.Version_ODYSS; 
+      CurrentSettings.game = gameInstance.key;
+      CurrentSettings.path = '';      
+
+      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings, true);
+      fileHelper.base64ToJpeg(credits.preview, path.join(themesPath, `${credits.theme}.jpg`));
+      fileHelper.base64ToJpeg(credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
+
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 // #region Ini File Handling
 
@@ -648,6 +705,14 @@ ipcMain.handle('UnFavoriteTheme', async (event, theme) => {
   }
 });
 
+ipcMain.handle('CreateNewTheme', async (event, credits) => {
+  try {
+    return CreateNewTheme(credits);
+  } catch (error) {
+    throw error;
+  }
+});
+
 // #endregion
 
-export default { getThemes, LoadThemeINIs, SaveThemeINIs, ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, FavoriteTheme, UnFavoriteTheme };
+export default { getThemes, LoadThemeINIs, SaveThemeINIs, ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, FavoriteTheme, UnFavoriteTheme, CreateNewTheme };

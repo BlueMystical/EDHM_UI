@@ -445,9 +445,10 @@ export default {
 
     },
     async addNewTheme(event) {
+      eventBus.emit('ShowThemeImageEditor', event); //<- Event Listened on App.vue
       console.log('Add New Theme button clicked');
-      this.applyIconColor(event.target);
-
+      
+/*
       const myPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
       console.log('myPath:', myPath);
       const myPath2 = await window.api.resolveEnvVariables('%USERPROFILE%');
@@ -457,16 +458,9 @@ export default {
       const myPath4 = await window.api.resolveEnvVariables('%APPDATA%\\EDHM_UI');
       console.log('%APPDATA%:', myPath4);
       const myPath5 = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\EDHM_UI');
-      console.log('%LOCALAPPDATA%:', myPath5);
+      console.log('%LOCALAPPDATA%:', myPath5);*/
 
-      /* const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
-       const IntValue = 16755200; console.log('IntValue', IntValue);
-       const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
-       const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
-       const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
- */
-      // Red x232 =1 ; Green y232 =0.3763 ; Blue z232 =0 ; Alpha w232 =1
-      //eventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
+      eventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
 
     },
     async exportTheme(event) {

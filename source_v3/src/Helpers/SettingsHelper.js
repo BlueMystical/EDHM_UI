@@ -432,4 +432,4 @@ ipcMain.handle('CheckEDHMinstalled', (event, gamePath) => {
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName };
+export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance };

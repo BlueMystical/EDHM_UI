@@ -334,7 +334,8 @@ export default {
             }
         },
         async addNewTheme(event) {
-            console.log('Add New Theme button clicked');
+          EventBus.emit('OnCreateTheme', event); //<- Event Listened on App.vue
+          console.log('Add New Theme button clicked');
 
             /* const myPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
              console.log('myPath:', myPath);

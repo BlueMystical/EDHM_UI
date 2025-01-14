@@ -362,6 +362,23 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
   }
 };
 
+function base64ToJpeg(base64Data, filePath) {
+  try {
+    // Remove the base64 header if present
+    const base64String = base64Data.replace(/^data:image\/jpeg;base64,/, '');
+    
+    // Decode base64 string to buffer
+    const buffer = Buffer.from(base64String, 'base64');
+    
+    // Write the buffer to disk as a JPEG file
+    fs.writeFileSync(filePath, buffer);
+    return true;
+
+  } catch (error) {
+    throw error;
+  }  
+}
+
 // #endregion
 
 // #region ZIP Files
@@ -791,5 +808,7 @@ export default {
 
   compressFiles,
   compressFolder,
-  decompressFile
+  decompressFile,
+
+  base64ToJpeg
 };

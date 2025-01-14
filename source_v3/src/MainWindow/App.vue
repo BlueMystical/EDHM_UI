@@ -6,7 +6,11 @@
     <Notifications/>
 
     <SearchBox ref="searchBox" :searchResults="searchResults" @resultClicked="OnSearchBox_Click"/>
-
+    
+    <!-- Theme Image Editor Modal -->
+    <ThemeImageEditor v-if="showThemeImageEditorModal" @save="handleImageEditorSave" @close="closeThemeImageEditor" />
+    <ThemeEditor v-if="showThemeEditor" :themeEditorData="themeEditorData" @submit="handleThemeEditorSubmit" @close="closeThemeEditor" />
+  
   </div>
 </template>
 
@@ -16,6 +20,8 @@ import NavBarsBody from './NavBars.vue';
 import SettingsEditor from './SettingsEditor.vue';
 import SearchBox from './Components/SearchBox.vue';
 import Notifications from './Components/Notifications.vue';
+import ThemeImageEditor from './Components/ThemeImageEditor.vue';
+import ThemeEditor from './Components/ThemeEditor.vue';
 
 export default {
   name: 'App',
@@ -23,7 +29,9 @@ export default {
     SearchBox,
     NavBarsBody,
     SettingsEditor,    
-    Notifications
+    Notifications,
+    ThemeImageEditor,
+    ThemeEditor
   },
   data() {
     return {
@@ -36,7 +44,19 @@ export default {
 
       searchResults: [],
       searchQuery: '',
-      isSearchBoxVisible: false
+      isSearchBoxVisible: false,
+
+      showThemeImageEditorModal: false,
+      previewImage: null,
+      thumbnailImage: null,
+
+      showThemeEditor: false,
+      themeEditorData: {
+        theme: '',
+        author: '',
+        description: '',
+        preview: ''
+      }
     };
   },
   methods: {
@@ -257,8 +277,54 @@ export default {
       }
     },
 
-   
+    // #region Theme Editor
+    
+    OnCreateTheme() {
+      this.showThemeImageEditorModal = true;
+    },    
+    handleImageEditorSave(images) {
+      // STEP 1:  GET THE IMAGES FOR PREVIEW & THUMBNAIL
+      this.previewImage = images.previewImage;
+      this.thumbnailImage = images.thumbnailImage;
+      this.closeThemeImageEditor();
 
+      this.themeEditorData = {
+        theme: 'New Theme Name',
+        author: 'Unknown',
+        description: 'This is a new EDHM Theme',
+        preview: this.previewImage,
+        thumb: this.thumbnailImage
+      };
+      this.showThemeEditor = true;
+    },    
+    async handleThemeEditorSubmit(data) {   
+      if (data instanceof SubmitEvent) {
+        return; // Ignore the SubmitEvent
+      }   
+      //console.log('Data:', data);
+      this.closeThemeEditor();
+
+      //STEP 2:  GET THE NEW THEME'S META-DATA      
+      const NewThemeData = JSON.parse(JSON.stringify(data));
+      console.log('Modified Data:', NewThemeData);
+
+      //STEP 3: WRITE THE NEW THEME
+      const _ret = await window.api.CreateNewTheme(NewThemeData);
+      console.log('CreateNewTheme:', _ret);
+      if (_ret) {
+        EventBus.emit('loadThemes', false);  //<- this event will be heard in 'ThemeTab.vue'
+        EventBus.emit('RoastMe', { type: 'Success', message: `New Theme: '${NewThemeData.theme}' Created.` });
+      }
+
+    },
+    closeThemeEditor() {
+      this.showThemeEditor = false;
+    },
+    closeThemeImageEditor() {
+      this.showThemeImageEditorModal = false;
+    },
+
+    // #endregion
   },
   async mounted() {
 
@@ -269,7 +335,9 @@ export default {
     EventBus.on('GameInsanceChanged', this.OnGameInstance_Changed); 
     EventBus.on('SearchBox', this.OnSearchBox_Shown); 
     EventBus.on('OnThemesLoaded', this.OnThemesLoaded); 
-    EventBus.on('ThemeLoaded', this.OnTemplateLoaded);
+    EventBus.on('ThemeLoaded', this.OnTemplateLoaded); 
+
+    EventBus.on('OnCreateTheme', this.OnCreateTheme);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -278,6 +346,8 @@ export default {
     EventBus.off('SearchBox', this.OnSearchBox_Shown); 
     EventBus.off('OnThemesLoaded', this.OnThemesLoaded); 
     EventBus.off('ThemeLoaded', this.OnTemplateLoaded);
+
+    EventBus.off('OnCreateTheme', this.OnCreateTheme);
   },
 };
 </script>
