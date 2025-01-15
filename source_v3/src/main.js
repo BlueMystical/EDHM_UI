@@ -36,7 +36,7 @@ function createWindow() {
 
   mainWindow.webContents.on('did-finish-load', () => {
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools(); 
+    mainWindow.webContents.openDevTools(); 
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
@@ -48,10 +48,8 @@ function createWindow() {
     //log.error('Window crashed');
     Log.Error('Window crashed');
   });
-}
 
-// run this as early in the main process as possible
-//if (require('electron-squirrel-startup')) app.quit();
+}
 
 app.on('ready', () => {
   //log.info('App is ready');

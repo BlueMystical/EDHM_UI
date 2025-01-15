@@ -362,7 +362,12 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
   }
 };
 
-function base64ToJpeg(base64Data, filePath) {
+
+// #endregion
+
+// #region Images
+
+function SaveImageAsJpeg(base64Data, filePath) {
   try {
     // Remove the base64 header if present
     const base64String = base64Data.replace(/^data:image\/jpeg;base64,/, '');
@@ -377,9 +382,37 @@ function base64ToJpeg(base64Data, filePath) {
   } catch (error) {
     throw error;
   }  
-}
+};
+
+/** Takes a base64 image and writes it as a JPG image file
+ * @param {*} base64Image image's data
+ * @param {*} outputPath full path to save the image
+ */
+function base64ToJpg(base64Image, outputPath) {
+  try {
+    // Split the base64 string to remove the "data:image/..." part
+    const base64Data = base64Image.split(';base64,').pop();
+
+    // Convert base64 string to binary data
+    const binaryData = Buffer.from(base64Data, 'base64');
+
+    // Write the binary data to a file
+    fs.writeFile(outputPath, binaryData, { encoding: 'binary' }, (err) => {
+      if (err) {
+        console.error('Error writing file:', err);
+        return false;
+      } else {
+        return true;
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 // #endregion
+
 
 // #region ZIP Files
 
@@ -783,6 +816,14 @@ ipcMain.handle('openUrlInBrowser', async (event, url) => {
   }
 });
 
+ipcMain.handle('convertImageToJpg', async (event, base64Image) => {
+  try {
+    return convertImageToJpg(base64Image);
+  } catch (error) {
+    throw error;
+  }
+});
+
 // #endregion
 
 export default { 
@@ -810,5 +851,6 @@ export default {
   compressFolder,
   decompressFile,
 
-  base64ToJpeg
+  SaveImageAsJpeg,
+  base64ToJpg
 };

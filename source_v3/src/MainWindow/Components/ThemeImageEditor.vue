@@ -77,6 +77,7 @@ export default {
                     reader.readAsDataURL(blob);
                 }
             }
+            this.generateThumbnail();
         },
         handleDrop(event) {
             event.preventDefault();
@@ -91,9 +92,10 @@ export default {
                             this.initializeCropArea();
                         });
                     };
-                    reader.readAsDataURL(file);
+                    reader.readAsDataURL(file);                                       
                 }
             }
+            this.generateThumbnail();
         },
         initializeCropArea() {
             const cropArea = this.$refs.cropArea;
@@ -185,7 +187,6 @@ export default {
             img.onload = () => {
                 const cropArea = this.$refs.cropArea;
                 const rect = cropArea.getBoundingClientRect();
-                const parentRect = cropArea.parentElement.getBoundingClientRect();
                 const imageRect = this.$refs.previewImage.getBoundingClientRect();
 
                 // Calculate the actual image dimensions within the container
@@ -198,23 +199,16 @@ export default {
                 const cropWidth = rect.width * scaleX;
                 const cropHeight = rect.height * scaleY;
 
-                // Create a temporary canvas to crop the image
-                const tempCanvas = document.createElement('canvas');
-                const tempCtx = tempCanvas.getContext('2d');
-                tempCanvas.width = cropWidth;
-                tempCanvas.height = cropHeight;
-                tempCtx.imageSmoothingEnabled = true;
-                tempCtx.imageSmoothingQuality = 'high';
-                tempCtx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
-
-                // Resize the cropped image to 360x71 pixels with high quality
+                // Create a temporary canvas to crop and resize the image directly
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 canvas.width = 360;
                 canvas.height = 71;
                 ctx.imageSmoothingEnabled = true;
                 ctx.imageSmoothingQuality = 'high';
-                ctx.drawImage(tempCanvas, 0, 0, cropWidth, cropHeight, 0, 0, 360, 71);
+
+                // Draw the cropped and resized image directly on the canvas
+                ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, 360, 71);
 
                 this.thumbnailImage = canvas.toDataURL('image/png');
             };

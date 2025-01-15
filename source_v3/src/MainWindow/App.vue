@@ -56,7 +56,8 @@ export default {
         author: '',
         description: '',
         preview: ''
-      }
+      },
+      editingTheme: null,
     };
   },
   methods: {
@@ -279,43 +280,63 @@ export default {
 
     // #region Theme Editor
     
-    OnCreateTheme() {
+    OnCreateTheme(e) {
+      if (e && e.theme != null) {
+        //We are Editing a Theme
+        console.log(e.theme);
+        this.editingTheme = e.theme;
+        //this.previewImage = images.previewImage;
+        //this.thumbnailImage = images.thumbnailImage;
+      } else {
+        // We are Creating a new Theme:
+        this.previewImage = null;
+        this.thumbnailImage = null;
+        this.editingTheme = null;
+      }
       this.showThemeImageEditorModal = true;
     },    
     handleImageEditorSave(images) {
       // STEP 1:  GET THE IMAGES FOR PREVIEW & THUMBNAIL
-      this.previewImage = images.previewImage;
-      this.thumbnailImage = images.thumbnailImage;
-      this.closeThemeImageEditor();
+      if (this.editingTheme) {
+        
+      } else {
+        this.previewImage = images.previewImage;
+        this.thumbnailImage = images.thumbnailImage;
+        this.closeThemeImageEditor();
 
-      this.themeEditorData = {
-        theme: 'New Theme Name',
-        author: 'Unknown',
-        description: 'This is a new EDHM Theme',
-        preview: this.previewImage,
-        thumb: this.thumbnailImage
-      };
+        this.themeEditorData = {
+          theme: 'New Theme Name',
+          author: 'Unknown',
+          description: 'This is a new EDHM Theme',
+          preview: this.previewImage,
+          thumb: this.thumbnailImage
+        };
+      }
+      
       this.showThemeEditor = true;
     },    
     async handleThemeEditorSubmit(data) {   
-      if (data instanceof SubmitEvent) {
-        return; // Ignore the SubmitEvent
-      }   
-      //console.log('Data:', data);
-      this.closeThemeEditor();
+      try {
+        if (data instanceof SubmitEvent) {
+          return; // Ignore the SubmitEvent
+        }   
+        console.log('Data:', data);
+        this.closeThemeEditor();
 
-      //STEP 2:  GET THE NEW THEME'S META-DATA      
-      const NewThemeData = JSON.parse(JSON.stringify(data));
-      console.log('Modified Data:', NewThemeData);
+        //STEP 2:  GET THE NEW THEME'S META-DATA      
+        const NewThemeData = JSON.parse(JSON.stringify(data));
+        console.log('Modified Data:', NewThemeData);
 
-      //STEP 3: WRITE THE NEW THEME
-      const _ret = await window.api.CreateNewTheme(NewThemeData);
-      console.log('CreateNewTheme:', _ret);
-      if (_ret) {
-        EventBus.emit('loadThemes', false);  //<- this event will be heard in 'ThemeTab.vue'
-        EventBus.emit('RoastMe', { type: 'Success', message: `New Theme: '${NewThemeData.theme}' Created.` });
+        //STEP 3: WRITE THE NEW THEME
+        const _ret = await window.api.CreateNewTheme(NewThemeData);
+        console.log('CreateNewTheme:', _ret);
+        if (_ret) {
+          EventBus.emit('loadThemes', false);  //<- this event will be heard in 'ThemeTab.vue'
+          EventBus.emit('RoastMe', { type: 'Success', message: `New Theme: '${NewThemeData.credits.theme}' Created.` });
+        }
+      } catch (error) {
+        EventBus.emit('ShowError', error);
       }
-
     },
     closeThemeEditor() {
       this.showThemeEditor = false;
@@ -333,11 +354,12 @@ export default {
     /* LISTENING EVENTS:   */
     EventBus.on('SettingsChanged', this.OnProgramSettings_Changed); 
     EventBus.on('GameInsanceChanged', this.OnGameInstance_Changed); 
-    EventBus.on('SearchBox', this.OnSearchBox_Shown); 
     EventBus.on('OnThemesLoaded', this.OnThemesLoaded); 
-    EventBus.on('ThemeLoaded', this.OnTemplateLoaded); 
+    EventBus.on('ThemeLoaded', this.OnTemplateLoaded);
+    EventBus.on('SearchBox', this.OnSearchBox_Shown);    
 
     EventBus.on('OnCreateTheme', this.OnCreateTheme);
+    EventBus.on('OnEditTheme', this.OnCreateTheme);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -348,6 +370,7 @@ export default {
     EventBus.off('ThemeLoaded', this.OnTemplateLoaded);
 
     EventBus.off('OnCreateTheme', this.OnCreateTheme);
+    EventBus.off('OnEditTheme', this.OnCreateTheme);
   },
 };
 </script>

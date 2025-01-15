@@ -23,11 +23,11 @@
     id="contextMenu">
     <div class="card card-body">
       <ul class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenuAction('ApplyTheme')">Apply Theme</a>
+        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenu_Click('ApplyTheme')">Apply Theme</a>
         <a href="#" class="list-group-item list-group-item-action" :class="{ 'disabled': !isPreviewAvailable }" 
-             @click="isPreviewAvailable ? onContextMenuAction('ThemePreview') : null">Theme Preview</a>
-        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenuAction('OpenFolder')">Open Theme Folder</a>
-        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenuAction(isFavorite ? 'UnFavorite' : 'Favorite')">
+             @click="isPreviewAvailable ? onContextMenu_Click('ThemePreview') : null">Theme Preview</a>
+        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a>
+        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')">
           {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a>
       </ul>
     </div>
@@ -84,13 +84,12 @@ export default {
         const gameInstance = await window.api.getActiveInstance();        
         const dataPath = await window.api.resolveEnvVariables(this.programSettings.UserDataFolder);
         const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-        const themesPath = await window.api.joinPath(dataPath, GameType, 'Themes');
+        const themesPath = await window.api.joinPath(dataPath, GameType, 'Themes'); //console.log('themesPath',themesPath);
         const ThumbImage = await window.api.getAssetFileUrl('images/PREVIEW.png');  // console.log('ThumbImage:',ThumbImage);
-        const GamePath = await window.api.joinPath(gameInstance.path, 'EDHM-ini'); //<- the Game Folder        
-
-        //console.log('themesPath',themesPath);
+        const GamePath = await window.api.joinPath(gameInstance.path, 'EDHM-ini');  //<- the Game Folder        
+        
         //Loads all Themes in the Directory:
-        const files = await window.api.getThemes(themesPath);    console.log('Theme File: ', files[4]);
+        const files = await window.api.getThemes(themesPath);    //console.log('Theme File: ', files[4]);
 
         // Add the dummy item for 'Current Settings':
         this.images = [{
@@ -141,18 +140,23 @@ export default {
      * @param theme 
      */
     OnSelectTheme(theme) {
-      try {
-        this.selectedImageId = theme.id;
-        this.selectedTheme = theme;  console.log(this.selectedTheme);
+      try {   
+        if (theme) {
+          const searchIndex = theme.id;  //console.log('searchIndex: ', searchIndex);
+          const selectedItem = this.images.find(item => item.id === searchIndex);   //console.log('selectedItem: ', selectedItem);
+          if (selectedItem) {
+            this.selectedImageId = searchIndex;
+            this.selectedTheme = selectedItem;
 
-        this.$nextTick(() => {
-          const selectedElement = document.getElementById('image-' + theme.id);
-          if (selectedElement) {
-            selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-        });
-        EventBus.emit('ThemeClicked', theme); //<- this event will be heard in 'MainNavBars.vue'
-
+            this.$nextTick(() => {
+              const selectedElement = document.getElementById('image-' + selectedItem.id);
+              if (selectedElement) {
+                selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }
+            });
+            EventBus.emit('ThemeClicked', selectedItem); //<- this event will be heard in 'MainNavBars.vue'
+          }          
+        }
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
@@ -181,7 +185,7 @@ export default {
     /** When the User clicks on one of the Context menus * 
     * @param action Name of the clicked menu
     */
-    async onContextMenuAction(action) {
+    async onContextMenu_Click(action) {
       try {
         this.showContextMenu = false;
         const contextMenu = this.$refs.contextMenu;
@@ -196,7 +200,7 @@ export default {
               EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'MainNavBars.vue'
               break;
             case 'ThemePreview':
-              console.log(this.selectedTheme);
+              //console.log(this.selectedTheme);
               if (this.selectedTheme.preview) {
                 window.api.openUrlInBrowser(this.selectedTheme.preview);              
               }

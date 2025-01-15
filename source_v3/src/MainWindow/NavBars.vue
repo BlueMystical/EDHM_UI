@@ -8,8 +8,7 @@
     <!-- Main Menu -->
     <div class="nav-item">
       <div class="input-group mb-3">
-        <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style"
-          @change="OnmenuClicked($event.target.value)">
+        <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style" @change="MainMenu_Click($event.target.value)">
           <option default value="mnuDummy">Main Menu</option>
           <option value="mnuSettings">Settings</option>
           <option value="mnuOpenGame">Open Game Folder</option>
@@ -29,24 +28,29 @@
 
     <!-- Navbar for Buttons on the right side -->
     <div class="nav-item d-flex align-items-center">
+      <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto" style="padding-top: -4px;">{{ statusText }}</span>
+
       <div class="input-group mb-3">
 
         <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme">
+          data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme_Click">
           <i class="bi bi-plus-circle"></i>
         </button>
+        <button id="cmdEditTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+          data-bs-placement="bottom" data-bs-title="Edit Theme" @mousedown="editTheme_Click">
+          <i class="bi bi-pencil-square"></i>
+        </button>
         <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme">
+          data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme_Click">
           <i class="bi bi-save"></i>
         </button>
         <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme">
+          data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme_Click">
           <i class="bi bi-floppy"></i>
         </button>
 
         <button id="cmdShowFavorites" :class="['btn btn-outline-secondary', { 'text-orange': showFavorites }]"
-          type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites"
-          @mousedown="toggleFavorites">
+          type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites" @mousedown="toggleFavorites_click">
           <i class="bi bi-star"></i>
         </button>
 
@@ -164,437 +168,475 @@ import GlobalSettingsTab from './GlobalSettingsTab.vue';
 import defaultTemplate from '../data/ODYSS/ThemeTemplate.json';
 let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
 
+const isEmpty = obj => Object.keys(obj).length === 0;
+
+
 export default {
-    name: 'NavBarsBody',
-    props: {
-        themesLoaded: {
-            type: Array,
-            required: false
-        }
-    },
-    data() {
-        return {
-            activeTab: '',
-            showFavorites: false,
-            showSpinner: true,
-
-            programSettings: {},
-            themeTemplate: {},
-            ActiveInstance: {},
-
-            historyOptions: [],
-            selectedHistory: '',
-
-            searchResults: [],
-
-            appVersion: '',
-            modVersion: '',
-            selectedGame: '',
-            gameMenuItems: [],
-
-        };
-    },
-    setup(props) {
-
-    },
-    components: {
-        HUD_Areas,
-        ThemeTab,
-        PropertiesTab,
-        UserSettingsTab,
-        GlobalSettingsTab
-    },
-    methods: {
-
-      async OnInitialize(settings) {
-            try {
-                console.log('Initializing NavBars..');
-
-                this.programSettings = settings;
-                this.appVersion = await window.api.getAppVersion();
-                this.modVersion = settings.Version_ODYSS;
-                this.ActiveInstance = await window.api.getActiveInstance();
-                this.selectedGame = this.ActiveInstance.instance;
-                this.showFavorites = settings.FavToogle;
-                this.activeTab = ref('themes');
-
-                // Populate game instances with the `instance` values from `Settings`
-                this.gameMenuItems = ref(
-                    settings.GameInstances.flatMap(instance =>
-                        instance.games
-                            .filter(game => game.path) // only include games with non-empty 'path'
-                            .map(game => game.instance)
-                    )
-                );
-                //console.log('gameMenuItems:', gameMenuItems);
-
-                await this.LoadCurrentSettings();
-                await this.History_LoadElements();
-
-            } catch (error) {
-                EventBus.emit('ShowError', error);
-            } finally {
-                this.showSpinner = false;
-            }
-        },
-
-        /** Toggles the Favorites list
-         * @param event 
-         */
-        async toggleFavorites(event) {
-            this.showFavorites = !this.showFavorites;
-            this.programSettings.FavToogle = this.showFavorites;
-
-            await window.api.saveSettings(JSON.stringify(this.programSettings, null, 4));
-            EventBus.emit('loadThemes', this.showFavorites); //<- Event listened at 'ThemeTab.vue'
-
-            //console.log('Favorites toggled:', this.showFavorites);
-            return this.showFavorites;
-        },
-        /** Sets the Active Tab
-         * @param tab Tab's Name
-         */
-        setActiveTab(tab) {
-            this.activeTab = ref(tab);
-        },
-
-        /** Main Menu Click Events 
-         * @param value id of the clicked menu
-         */
-        async OnmenuClicked(value) {
-            if (value) {
-                this.$refs.mainMenuSelect.value = 'mnuDummy'; // Reset the select to "Main Menu"
-                console.log(`Menu ${value} clicked`);
-
-                const ActiveInstance = await window.api.getActiveInstance();
-                const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
-
-                if (value === 'mnuOpenGame') {
-                    await window.api.openPathInExplorer(GamePath);
-                }
-                if (value === 'mnuSettings') {
-                    const InstallStatus = await window.api.InstallStatus();
-                    EventBus.emit('open-settings-editor', InstallStatus);
-                }
-                if (value === 'mnuInstallMod') {
-
-                }
-            }
-        },
-
-        /**
-         * 
-         * @param theme 
-         */
-        async LoadTheme(theme) {
-            console.log('LoadTheme',theme);
-            /* Happens when a Theme in the list is Selected  */
-            this.showSpinner = true;
-            try {
-                const template = JSON.parse(JSON.stringify(theme.file));
-                this.themeTemplate = await window.api.LoadTheme(template.path);     //console.log('Loaded theme: ', this.themeTemplate);
-
-                EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard in 'PropertiesTab.vue' and on 'App.vue'
-
-            } catch (error) {
-                EventBus.emit('ShowError', error);
-            } finally { this.showSpinner = false; }
-        },
-        async applyTheme() {
-            this.showSpinner = true;
-            try {
-                this.ActiveInstance = await window.api.getActiveInstance();
-                console.log('1. ActiveInstance:', this.ActiveInstance);
-                console.log('2. ThemeTemplate:', this.themeTemplate);
-
-                const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
-                const GameType = this.ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-                const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);
-                console.log('3. Preparing all the Paths:', GamePath);
-
-                const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
-                console.log('4. Get Default Inis:', defaultINIs);
-
-                const updatedInis = await window.api.ApplyTemplateValuesToIni(JSON.parse(JSON.stringify(this.themeTemplate)), defaultINIs);
-                console.log('5. Applying Changes to the INIs...', updatedInis);
-
-                console.log('6. Saving the INI files..');
-                const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
-                if (_ret) {
-                    EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Applied!'` });
-                }
-                setTimeout(() => {
-                    this.showSpinner = false;
-                }, 1500);
-            } catch (error) {
-                this.showSpinner = false;
-                console.log(error.message); // Check if the error message is defined 
-                console.log(error.stack); // Check the stack trace
-                EventBus.emit('ShowError', error);
-            }
-        },
-        async addNewTheme(event) {
-          EventBus.emit('OnCreateTheme', event); //<- Event Listened on App.vue
-          console.log('Add New Theme button clicked');
-
-            /* const myPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
-             console.log('myPath:', myPath);
-             const myPath2 = await window.api.resolveEnvVariables('%USERPROFILE%');
-             console.log('%USERPROFILE%:', myPath2);
-             const myPath3 = await window.api.resolveEnvVariables('D:\\@Codigo\\EDHM_UI\\source_v3');
-             console.log('myPath3:', myPath3);
-             const myPath4 = await window.api.resolveEnvVariables('%APPDATA%\\EDHM_UI');
-             console.log('%APPDATA%:', myPath4);
-             const myPath5 = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\EDHM_UI');
-             console.log('%LOCALAPPDATA%:', myPath5);*/
-
-            /* const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
-             const IntValue = 16755200; console.log('IntValue', IntValue);
-             const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
-             const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
-             const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
-       */
-            // Red x232 =1 ; Green y232 =0.3763 ; Blue z232 =0 ; Alpha w232 =1
-            //EventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
-
-        },
-        async exportTheme(event) {
-            console.log('Export Theme button clicked');
-
-            EventBus.emit('RoastMe', { type: 'Error', message: '<p>This is normal text - <b>and this is bold text</b>.</p>' }); //<- this event will be heard in 'App.vue'
-
-            if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
-                console.log('Exporting theme: ', this.themeTemplate.credits.theme);
-
-            } else {
-                console.error('Current Settings can not be saved??');
-            }
-        },
-        async saveTheme(event) {
-            //console.log('Save Theme button clicked');
-            EventBus.emit('RoastMe', { type: 'Info', message: `Theme Saved!:\r\n ${this.themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
-
-            if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
-                const jsonPath = window.api.joinPath(this.themeTemplate.path, 'Theme.json');
-                window.api.writeJsonFile(jsonPath, this.themeTemplate, true);
-
-            } else {
-                EventBus.emit('RoastMe', { type: 'Error', message: 'Current Settings can not be saved' });
-            }
-            //
-        },
-        async LoadCurrentSettings() {
-            try {
-                if (this.ActiveInstance.path != '') {
-                    const themePath = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
-                    const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
-
-                    themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
-                    themeTemplate.credits.theme = "Current Settings";
-                    themeTemplate.credits.author = "User";
-                    themeTemplate.credits.description = "Currently Applied Colors in Game";
-                    themeTemplate.credits.preview = "";
-                    themeTemplate.path = themePath;
-                    themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM
-
-                    EventBus.emit('ThemeLoaded', themeTemplate);   //<- Event Listened at 'PropertiesTab.vue' and 'App.vue'
-                    // Provide the themeTemplate data to be accessible by all components 
-                    //EventBus.emit('OnSelectTheme', themeTemplate); //<- Event Listened at ThemeTab.vue
-                                   
-                    //provide('themeTemplate', themeTemplate);
-                }
-            } catch (error) {
-                EventBus.emit('ShowError', error);
-            }
-        },
-
-        OnHistoryBox_Click(event) {
-            // Click an item on the History Box
-            const selectedValue = event.target.value;
-            const selectedOption = event.target.options[event.target.selectedIndex];
-            const tag = selectedOption.getAttribute('data-tag');
-
-            console.log('History option changed to:', selectedValue);
-            console.log('TODO: Selected file path (tag):', tag);
-
-            document.querySelector('#cboHistoryBox').value = 'mnuDummy';  // Reset the select 
-        },
-        async History_LoadElements() {
-            try {
-                const NumberOfSavesToRemember = this.programSettings.SavesToRemember;
-                const themesFolder = this.ActiveInstance.themes_folder;       //console.log('themesFolder:', themesFolder);
-
-                if (themesFolder) {
-                  const UserDocsPath = window.api.getParentFolder(themesFolder);
-                  const HistoryFolder = window.api.joinPath(UserDocsPath, 'History'); //console.log('HistoryFolder:', HistoryFolder);
-                  const files = await window.api.loadHistory(HistoryFolder, NumberOfSavesToRemember); //console.log(files);        
-
-                  this.historyOptions = ref(
-                      files.map(file => ({
-                          value: file.name,
-                          text: file.date,
-                          tag: file.path  // Add the file path as a tag
-                      }))
-                  );
-                  //console.log(historyOptions.value);
-                }
-
-            } catch (error) {
-                console.error(error);
-                EventBus.emit('ShowError', error);
-            }
-        },
-        async History_AddSettings(theme) {
-            try {
-                //TODO: Save the current settings to the History folder
-
-                const ActiveInstance = this.programSettings.ActiveInstance;
-                const gameInstances = this.programSettings.GameInstances;
-
-                const activeInstanceSettings = gameInstances.find(instance => instance.games.some(game => game.instance === ActiveInstance));
-                const themesFolder = activeInstanceSettings.games[0]?.themes_folder;
-
-                console.log('themesFolder:', themesFolder);
-
-                if (!themesFolder) {
-                    throw new Error('Themes folder is undefined');
-                }
-
-                const UserDocsPath = window.api.resolvePath(themesFolder, '..');
-                const HistoryFolder = window.api.joinPath(UserDocsPath, 'History');
-
-                await window.api.saveHistory(HistoryFolder, theme);
-                await this.History_LoadElements();
-
-            } catch (error) {
-                EventBus.emit('ShowError', error);
-            }
-        },
-
-        /** Performs a Data Search based on the SearchBox Input 
-         * @param query Input Query (what we are looking for) 
-         */
-        async gatherData(query) {
-
-            //console.log('Search Query:', query);
-            const searchQuery = query.trim().toLowerCase();
-
-            // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
-            //console.log('themesLoaded:', this.themesLoaded);
-            //console.log('themeTemplate:', themeTemplate );
-
-            try {
-                //1. Looking on the HUD settings:
-                const allElements = themeTemplate.ui_groups.reduce((acc, group) => {
-                    if (group.Elements) {
-                        const elementsWithParent = group.Elements.map(element => ({
-                            ...element,
-                            Parent: group.Name
-                        }));
-                        return acc.concat(elementsWithParent);
-                    }
-                    return acc;
-                }, []);
-
-                // 2. Looking on the Themes Loaded:
-                const filteredThemes = this.themesLoaded.filter(theme =>
-                    theme.file.credits &&
-                    (theme.file.credits.theme && typeof theme.file.credits.theme.toLowerCase === 'function' && theme.file.credits.theme.toLowerCase().includes(searchQuery)) ||
-                    (theme.file.credits.author && typeof theme.file.credits.author.toLowerCase === 'function' && theme.file.credits.author.toLowerCase().includes(searchQuery))
-                ).map(theme => ({
-                    Parent: 'Themes', // theme.file.credits.theme,
-                    Category: "Theme",
-                    Title: theme.name,
-                    Description: theme.file.credits.description,
-                    Tag: theme
-                }));
-
-
-                //3. Here we Apply the Filter:
-                if (query) {
-
-                    this.searchResults = allElements.filter(element =>
-                        element &&
-                        element.Title && typeof element.Title.toLowerCase === 'function' &&
-                        element.Category && typeof element.Category.toLowerCase === 'function' &&
-                        element.Description && typeof element.Description.toLowerCase === 'function' &&
-                        (element.Title.toLowerCase().includes(searchQuery) ||
-                            element.Category.toLowerCase().includes(searchQuery) ||
-                            element.Description.toLowerCase().includes(searchQuery))
-                    ).concat(filteredThemes);
-
-
-                } else {
-                    // If no filter, return them ALL !
-                    this.searchResults = allElements.filter(element =>
-                        element &&
-                        element.Title &&
-                        element.Category &&
-                        element.Description
-                    ).concat(filteredThemes);
-                }
-                //console.log('searchResults:', this.searchResults);
-            } catch (error) {
-                eventBus.emit('ShowError', error);
-            }
-            // After this, control pass to 'OnSearchBox_Click'
-        },
-
-        /** Submit Event for the 'Search Form'
-        * After Procesing the Query, the results are sent to the 'App.vue' to be shown.
-        */
-        async OnSearchBox_Click() {
-            //console.log('Search button click');
-            await this.gatherData(this.searchQuery);
-            EventBus.emit('SearchBox', { data: this.searchResults });//<- this event will be heard in 'App.vue'
-        },
-
-        /** When a Game Instance is selected from the '#gameSelect' combo
-         */
-        OnGameInstanceChange(event) {
-            const gameInstanceName = event.target.value;
-            this.selectedGame = gameInstanceName;
-            if (this.programSettings) {
-                this.programSettings.ActiveInstance = gameInstanceName.toString();
-                EventBus.emit('GameInsanceChanged', gameInstanceName); //<- this event will be heard in 'App.vue'
-            }
-            //console.log(`Game selected: ${selectedGame.value}`);
-        },
-
-        showHideSpinner(status) {
-            //console.log('showHideSpinner: ', status.visible);
-            this.showSpinner = status.visible;
-            //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
-        },
-
-        OnModUpdated(data) {
-            // happens when the mod gets updated
-            this.programSettings = data;
-            //console.log('programSettings: ', programSettings);
-            this.modVersion = data.Version_ODYSS;
-        },
-
-        
-
-    },
-    mounted() {
-        /* EVENTS WE LISTEN TO HERE:  */
-        EventBus.on('InitializeNavBars', this.OnInitialize);
-        EventBus.on('setActiveTab', this.setActiveTab);
-        EventBus.on('ThemeClicked', this.LoadTheme);
-        EventBus.on('ShowSpinner', this.showHideSpinner);
-        EventBus.on('modUpdated', this.OnModUpdated);
-        EventBus.on('OnApplyTheme', this.applyTheme);
-    },
-    beforeUnmount() {
-        // Clean up the event listener
-        EventBus.off('InitializeNavBars', this.OnInitialize);
-        EventBus.off('setActiveTab', this.setActiveTab);
-        EventBus.off('ThemeClicked', this.LoadTheme);
-        EventBus.off('ShowSpinner', this.showHideSpinner);
-        EventBus.off('modUpdated', this.OnModUpdated);
-        EventBus.off('OnApplyTheme', this.applyTheme);
+  name: 'NavBarsBody',
+  props: {
+    themesLoaded: {
+      type: Array,
+      required: false
     }
+  },
+  data() {
+    return {
+      activeTab: '',
+      statusText: '',
+      showFavorites: false,
+      showSpinner: true,
+
+      programSettings: {},
+      themeTemplate: {},
+      ActiveInstance: {},
+
+      historyOptions: [],
+      selectedHistory: '',
+
+      searchResults: [],
+
+      appVersion: '',
+      modVersion: '',
+      selectedGame: '',
+      gameMenuItems: [],
+
+    };
+  },
+  setup(props) {
+
+  },
+  components: {
+    HUD_Areas,
+    ThemeTab,
+    PropertiesTab,
+    UserSettingsTab,
+    GlobalSettingsTab
+  },
+  methods: {
+
+    async OnInitialize(settings) {
+      try {
+        console.log('Initializing NavBars..');
+
+        this.programSettings = settings;
+        this.appVersion = await window.api.getAppVersion();
+        this.modVersion = settings.Version_ODYSS;
+        this.ActiveInstance = await window.api.getActiveInstance();
+        this.selectedGame = this.ActiveInstance.instance;
+        this.showFavorites = settings.FavToogle;
+        this.activeTab = ref('themes');
+
+        // Populate game instances with the `instance` values from `Settings`
+        this.gameMenuItems = ref(
+          settings.GameInstances.flatMap(instance =>
+            instance.games
+              .filter(game => game.path) // only include games with non-empty 'path'
+              .map(game => game.instance)
+          )
+        );  //console.log('gameMenuItems:', gameMenuItems);
+
+        await this.LoadCurrentSettings();
+        await this.History_LoadElements();
+
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      } finally {
+        this.showSpinner = false;
+      }
+    },
+    
+    /** Sets the Active Tab
+     * @param tab Tab's Name
+     */
+    setActiveTab(tab) {
+      this.activeTab = ref(tab);
+    },
+
+    /**  when a Theme in the list is Selected
+     * @param theme Data of selected Theme
+     */
+    async LoadTheme(theme) {
+      console.log('LoadTheme', theme);
+      /* Happens  */
+      this.showSpinner = true;
+      try {
+        if (theme && theme.file) {
+          const template = JSON.parse(JSON.stringify(theme.file));
+          this.themeTemplate = await window.api.LoadTheme(template.path);     //console.log('Loaded theme: ', this.themeTemplate);
+          themeTemplate = this.themeTemplate;
+
+          EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard in 'PropertiesTab.vue' and on 'App.vue'
+          this.statusText = 'Theme: ' + theme.name;
+        }      
+      } catch (error) {
+        console.log(error.message);
+        console.log(error.stack);
+        EventBus.emit('ShowError', new Error(error.message + error.stack));
+      } finally { this.showSpinner = false; }
+    },
+    async applyTheme() {
+      this.showSpinner = true;
+      try {
+        this.ActiveInstance = await window.api.getActiveInstance();
+        console.log('1. ActiveInstance:', this.ActiveInstance);
+        console.log('2. ThemeTemplate:', this.themeTemplate);
+
+        const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
+        const GameType = this.ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+        const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);
+        console.log('3. Preparing all the Paths:', GamePath);
+
+        const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
+        console.log('4. Get Default Inis:', defaultINIs);
+
+        const updatedInis = await window.api.ApplyTemplateValuesToIni(JSON.parse(JSON.stringify(this.themeTemplate)), defaultINIs);
+        console.log('5. Applying Changes to the INIs...', updatedInis);
+
+        console.log('6. Saving the INI files..');
+        const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
+        if (_ret) {
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Applied!'` });
+        }
+        setTimeout(() => {
+          this.showSpinner = false;
+        }, 1500);
+      } catch (error) {
+        this.showSpinner = false;
+        console.log(error.message); // Check if the error message is defined 
+        console.log(error.stack); // Check the stack trace
+        EventBus.emit('ShowError', error);
+      }
+    },
+    async LoadCurrentSettings() {
+      try {
+        if (this.ActiveInstance.path != '') {
+          const themePath = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
+          const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
+
+          themeTemplate = await window.api.applyIniValuesToTemplate(JSON.parse(JSON.stringify(themeTemplate)), ThemeINIs);   console.log('ThemeTemplate: ', themeTemplate);  
+          console.log('themeTemplate', themeTemplate);
+          themeTemplate.credits.theme = "Current Settings";
+          themeTemplate.credits.author = "User";
+          themeTemplate.credits.description = "Currently Applied Colors in Game";
+          themeTemplate.credits.preview = "";
+          themeTemplate.path = themePath;
+          themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM
+
+          if (themeTemplate && !isEmpty(themeTemplate)) {
+            this.themeTemplate = themeTemplate;
+
+            EventBus.emit('ThemeLoaded', themeTemplate);   //<- Event Listened at 'PropertiesTab.vue' and 'App.vue'
+            EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'
+            
+            return JSON.parse(JSON.stringify(themeTemplate)); 
+          } 
+        }
+      } catch (error) {
+        EventBus.emit('ShowError', new Error(error.message + error.stack));
+      }
+    },
+
+    /** Main Menu Click Events 
+     * @param value id of the clicked menu
+     */
+    async MainMenu_Click(value) {
+      if (value) {
+        this.$refs.mainMenuSelect.value = 'mnuDummy'; // Reset the select to "Main Menu"
+        console.log(`Menu ${value} clicked`);
+
+        const ActiveInstance = await window.api.getActiveInstance();
+        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+
+        if (value === 'mnuOpenGame') {
+          await window.api.openPathInExplorer(GamePath);
+        }
+        if (value === 'mnuSettings') {
+          const InstallStatus = await window.api.InstallStatus();
+          EventBus.emit('open-settings-editor', InstallStatus);
+        }
+        if (value === 'mnuInstallMod') {
+
+        }
+      }
+    },
+    async addNewTheme_Click(event) {
+
+      const options = {
+        type: 'question', //<- none, info, error, question, warning
+        buttons: ['Cancel', 'Yes, I am sure', 'No, take me back'],
+        defaultId: 1,
+        title: 'Question',
+        message: 'Do you want to proceed?',
+        detail: 'This will take your currently applied settings to build a new theme',
+        cancelId: 0
+      }; 
+      const result = await window.api.ShowMessageBox(options); //console.log(result);
+      if (result && result.response === 1) {
+        EventBus.emit('OnCreateTheme', { theme: null }); //<- Event Listened on App.vue
+      }
+
+      /* const myPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
+       console.log('myPath:', myPath);
+       const myPath2 = await window.api.resolveEnvVariables('%USERPROFILE%');
+       console.log('%USERPROFILE%:', myPath2);
+       const myPath3 = await window.api.resolveEnvVariables('D:\\@Codigo\\EDHM_UI\\source_v3');
+       console.log('myPath3:', myPath3);
+       const myPath4 = await window.api.resolveEnvVariables('%APPDATA%\\EDHM_UI');
+       console.log('%APPDATA%:', myPath4);
+       const myPath5 = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\EDHM_UI');
+       console.log('%LOCALAPPDATA%:', myPath5);*/
+
+      /* const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
+       const IntValue = 16755200; console.log('IntValue', IntValue);
+       const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
+       const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
+       const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
+ */
+      // Red x232 =1 ; Green y232 =0.3763 ; Blue z232 =0 ; Alpha w232 =1
+      //EventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
+
+    },
+    async editTheme_Click(event) {
+      console.log(themeTemplate && !isEmpty(themeTemplate));
+
+      if (themeTemplate && !isEmpty(themeTemplate)) {
+        const tName = themeTemplate.credits.theme; console.log(tName);
+        if (tName != "Current Settings") {
+          console.log('Editing theme: ', tName);
+          EventBus.emit('OnEditTheme', { theme: JSON.parse(JSON.stringify(themeTemplate)) }); //<- Event Listened on App.vue
+        }
+        else {
+          this.statusText = 'Current Settings can not be Edited!';
+          console.log('Current Settings can not be Edited!');
+        }
+      } 
+    },
+    async exportTheme_Click(event) {
+      console.log('Export Theme button clicked');
+
+      EventBus.emit('RoastMe', { type: 'Error', message: '<p>This is normal text - <b>and this is bold text</b>.</p>' });
+
+      if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
+        console.log('Exporting theme: ', this.themeTemplate.credits.theme);
+
+      } else {
+        console.error('Current Settings can not be saved??');
+      }
+    },
+    async saveTheme_Click(event) {
+      //console.log('Save Theme button clicked');
+      EventBus.emit('RoastMe', { type: 'Info', message: `Theme Saved!:\r\n ${this.themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
+
+      if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
+        const jsonPath = window.api.joinPath(this.themeTemplate.path, 'Theme.json');
+        window.api.writeJsonFile(jsonPath, this.themeTemplate, true);
+
+      } else {
+        EventBus.emit('RoastMe', { type: 'Error', message: 'Current Settings can not be saved' });
+      }
+      //
+    },
+    /** Toggles the Favorites list
+     * @param event 
+     */
+    async toggleFavorites_click(event) {
+      this.showFavorites = !this.showFavorites;
+      this.programSettings.FavToogle = this.showFavorites;
+
+      await window.api.saveSettings(JSON.stringify(this.programSettings, null, 4));
+      EventBus.emit('loadThemes', this.showFavorites); //<- Event listened at 'ThemeTab.vue'
+
+      //console.log('Favorites toggled:', this.showFavorites);
+      return this.showFavorites;
+    },
+
+    OnHistoryBox_Click(event) {
+      // Click an item on the History Box
+      const selectedValue = event.target.value;
+      const selectedOption = event.target.options[event.target.selectedIndex];
+      const tag = selectedOption.getAttribute('data-tag');
+
+      console.log('History option changed to:', selectedValue);
+      console.log('TODO: Selected file path (tag):', tag);
+
+      document.querySelector('#cboHistoryBox').value = 'mnuDummy';  // Reset the select 
+    },
+    async History_LoadElements() {
+      try {
+        const NumberOfSavesToRemember = this.programSettings.SavesToRemember;
+        const themesFolder = this.ActiveInstance.themes_folder;       //console.log('themesFolder:', themesFolder);
+
+        if (themesFolder) {
+          const UserDocsPath = window.api.getParentFolder(themesFolder);
+          const HistoryFolder = window.api.joinPath(UserDocsPath, 'History'); //console.log('HistoryFolder:', HistoryFolder);
+          const files = await window.api.loadHistory(HistoryFolder, NumberOfSavesToRemember); //console.log(files);        
+
+          this.historyOptions = ref(
+            files.map(file => ({
+              value: file.name,
+              text: file.date,
+              tag: file.path  // Add the file path as a tag
+            }))
+          );
+          //console.log(historyOptions.value);
+        }
+
+      } catch (error) {
+        console.error(error);
+        EventBus.emit('ShowError', error);
+      }
+    },
+    async History_AddSettings(theme) {
+      try {
+        //TODO: Save the current settings to the History folder
+
+        const ActiveInstance = this.programSettings.ActiveInstance;
+        const gameInstances = this.programSettings.GameInstances;
+
+        const activeInstanceSettings = gameInstances.find(instance => instance.games.some(game => game.instance === ActiveInstance));
+        const themesFolder = activeInstanceSettings.games[0]?.themes_folder;
+
+        console.log('themesFolder:', themesFolder);
+
+        if (!themesFolder) {
+          throw new Error('Themes folder is undefined');
+        }
+
+        const UserDocsPath = window.api.resolvePath(themesFolder, '..');
+        const HistoryFolder = window.api.joinPath(UserDocsPath, 'History');
+
+        await window.api.saveHistory(HistoryFolder, theme);
+        await this.History_LoadElements();
+
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
+
+    /** Performs a Data Search based on the SearchBox Input 
+     * @param query Input Query (what we are looking for) 
+     */
+    async gatherData(query) {
+
+      //console.log('Search Query:', query);
+      const searchQuery = query.trim().toLowerCase();
+
+      // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
+      //console.log('themesLoaded:', this.themesLoaded);
+      //console.log('themeTemplate:', themeTemplate );
+
+      try {
+        //1. Looking on the HUD settings:
+        const allElements = themeTemplate.ui_groups.reduce((acc, group) => {
+          if (group.Elements) {
+            const elementsWithParent = group.Elements.map(element => ({
+              ...element,
+              Parent: group.Name
+            }));
+            return acc.concat(elementsWithParent);
+          }
+          return acc;
+        }, []);
+
+        // 2. Looking on the Themes Loaded:
+        const filteredThemes = this.themesLoaded.filter(theme =>
+          theme.file.credits &&
+          (theme.file.credits.theme && typeof theme.file.credits.theme.toLowerCase === 'function' && theme.file.credits.theme.toLowerCase().includes(searchQuery)) ||
+          (theme.file.credits.author && typeof theme.file.credits.author.toLowerCase === 'function' && theme.file.credits.author.toLowerCase().includes(searchQuery))
+        ).map(theme => ({
+          Parent: 'Themes', // theme.file.credits.theme,
+          Category: "Theme",
+          Title: theme.name,
+          Description: theme.file.credits.description,
+          Tag: theme
+        }));
+
+
+        //3. Here we Apply the Filter:
+        if (query) {
+
+          this.searchResults = allElements.filter(element =>
+            element &&
+            element.Title && typeof element.Title.toLowerCase === 'function' &&
+            element.Category && typeof element.Category.toLowerCase === 'function' &&
+            element.Description && typeof element.Description.toLowerCase === 'function' &&
+            (element.Title.toLowerCase().includes(searchQuery) ||
+              element.Category.toLowerCase().includes(searchQuery) ||
+              element.Description.toLowerCase().includes(searchQuery))
+          ).concat(filteredThemes);
+
+
+        } else {
+          // If no filter, return them ALL !
+          this.searchResults = allElements.filter(element =>
+            element &&
+            element.Title &&
+            element.Category &&
+            element.Description
+          ).concat(filteredThemes);
+        }
+        //console.log('searchResults:', this.searchResults);
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      }
+      // After this, control pass to 'OnSearchBox_Click'
+    },
+
+    /** Submit Event for the 'Search Form'
+    * After Procesing the Query, the results are sent to the 'App.vue' to be shown.
+    */
+    async OnSearchBox_Click() {
+      //console.log('Search button click');
+      await this.gatherData(this.searchQuery);
+      EventBus.emit('SearchBox', { data: this.searchResults });//<- this event will be heard in 'App.vue'
+    },
+
+    /** When a Game Instance is selected from the '#gameSelect' combo
+     */
+    OnGameInstanceChange(event) {
+      const gameInstanceName = event.target.value;
+      this.selectedGame = gameInstanceName;
+      if (this.programSettings) {
+        this.programSettings.ActiveInstance = gameInstanceName.toString();
+        EventBus.emit('GameInsanceChanged', gameInstanceName); //<- this event will be heard in 'App.vue'
+      }
+      //console.log(`Game selected: ${selectedGame.value}`);
+    },
+
+    showHideSpinner(status) {
+      //console.log('showHideSpinner: ', status.visible);
+      this.showSpinner = status.visible;
+      //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
+    },
+
+    OnModUpdated(data) {
+      // happens when the mod gets updated
+      this.programSettings = data;
+      //console.log('programSettings: ', programSettings);
+      this.modVersion = data.Version_ODYSS;
+    },
+
+
+
+  },
+  mounted() {
+    /* EVENTS WE LISTEN TO HERE:  */
+    EventBus.on('InitializeNavBars', this.OnInitialize);
+    EventBus.on('setActiveTab', this.setActiveTab);
+    EventBus.on('ThemeClicked', this.LoadTheme);
+    EventBus.on('ShowSpinner', this.showHideSpinner);
+    EventBus.on('modUpdated', this.OnModUpdated);
+    EventBus.on('OnApplyTheme', this.applyTheme);
+  },
+  beforeUnmount() {
+    // Clean up the event listener
+    EventBus.off('InitializeNavBars', this.OnInitialize);
+    EventBus.off('setActiveTab', this.setActiveTab);
+    EventBus.off('ThemeClicked', this.LoadTheme);
+    EventBus.off('ShowSpinner', this.showHideSpinner);
+    EventBus.off('modUpdated', this.OnModUpdated);
+    EventBus.off('OnApplyTheme', this.applyTheme);
+  }
 }
 </script>
 <style scoped>

@@ -28,13 +28,8 @@ const getThemes = async (dirPath) => {
             // Check if the folder contains a Large Preview file
             let preview_url = '';
             const template = await LoadTheme(subfolderPath);
-            if (fileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.png'))) {
-              console.log('Found a PNG:', dirent.name + '.png');
-              preview_url = `file:///${path.join(subfolderPath, dirent.name + '.png')}`;
-            } else {
-              //if (template.credits && template.credits.preview) {
-              //  preview_url = template.credits.preview;
-              //}
+            if (fileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
+              preview_url = `file:///${path.join(subfolderPath, dirent.name + '.jpg')}`;
             }
 
             files.push({
@@ -172,8 +167,7 @@ async function GetCurrentSettingsTheme(themePath) {
     const defaultSettingsPath = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
     let themeTemplate = fileHelper.loadJsonFile(defaultSettingsPath);
-    themeTemplate = ApplyIniValuesToTemplate(themeTemplate, ThemeINIs); 
-    themeTemplate = await window.api.applyIniValuesToTemplate(themeTemplate, ThemeINIs);   //console.log('ThemeTemplate: ', themeTemplate);  
+    themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs); 
     themeTemplate.credits.theme = "Current Settings";
     themeTemplate.credits.author = "User";
     themeTemplate.credits.description = "Currently Applied Colors in Game";
@@ -189,29 +183,44 @@ async function GetCurrentSettingsTheme(themePath) {
   return null;
 };
 
+/** Makes a new Theme, saved on the Themes Folder
+ * @param {*} credits Meta-data for the new theme
+ * @returns true is success
+ */
 async function CreateNewTheme(credits) {
   try {
-    const gameInstance = await settingsHelper.getActiveInstance();  
-    const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-    const settings = await settingsHelper.loadSettings();      
-    const dataPath = fileHelper.resolveEnvVariables(settings.UserDataFolder);    
-    const themesPath = path.join(dataPath, GameType, 'Themes', credits.theme);
+    //console.log('credits: ', credits);  
 
+    //1. RESOLVE THE THEMES PATH:
+    const Credits = credits.credits;
+    const gameInstance = await settingsHelper.getActiveInstance();              //console.log('gameInstance: ', gameInstance);  
+    const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';     //console.log('GameType: ', GameType);  
+    const settings = await settingsHelper.loadSettings();                       //console.log('settings: ', settings);    
+    const dataPath = fileHelper.resolveEnvVariables(settings.UserDataFolder);   //console.log('dataPath: ', dataPath);     //<- %USERPROFILE%\EDHM_UI  
+    const themesPath = path.join(dataPath, GameType, 'Themes', Credits.theme);  //console.log('themesPath: ', themesPath); //<- %USERPROFILE%\EDHM_UI\ODYSS\Themes\MyTheme   
+
+    //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
     if (fileHelper.ensureDirectoryExists(themesPath)) {
 
+      //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
       const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
-      CurrentSettings.credits.theme = credits.theme;
-      CurrentSettings.credits.author = credits.author;
-      CurrentSettings.credits.description = credits.description;      
+      CurrentSettings.credits.theme = Credits.theme;
+      CurrentSettings.credits.author = Credits.author;
+      CurrentSettings.credits.description = Credits.description;      
       CurrentSettings.version = settings.Version_ODYSS; 
       CurrentSettings.game = gameInstance.key;
-      CurrentSettings.path = '';      
+      CurrentSettings.path = '';  
 
-      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings, true);
-      fileHelper.base64ToJpeg(credits.preview, path.join(themesPath, `${credits.theme}.jpg`));
-      fileHelper.base64ToJpeg(credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
+      //4. WRITE THE NEW THEME FILES:
+      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
+      fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));      
+      fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
 
-      return true;
+      if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
+        return true;
+      } else {
+        return false;
+      }      
     }
   } catch (error) {
     console.log(error);
