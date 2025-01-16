@@ -8,7 +8,7 @@
     <SearchBox ref="searchBox" :searchResults="searchResults" @resultClicked="OnSearchBox_Click"/>
     
     <!-- Theme Image Editor Modal -->
-    <ThemeImageEditor v-if="showThemeImageEditorModal" @save="handleImageEditorSave" @close="closeThemeImageEditor" />
+    <ThemeImageEditor v-if="showThemeImageEditorModal" :themeEditorData="themeEditorData" @save="handleImageEditorSave" @close="closeThemeImageEditor" />
     <ThemeEditor v-if="showThemeEditor" :themeEditorData="themeEditorData" @submit="handleThemeEditorSubmit" @close="closeThemeEditor" />
   
   </div>
@@ -52,12 +52,13 @@ export default {
 
       showThemeEditor: false,
       themeEditorData: {
-        theme: '',
-        author: '',
-        description: '',
-        preview: ''
+          theme: '',
+          author: '',
+          description: '',
+          preview: null,
+          thumb: null
       },
-      editingTheme: null,
+      editingTheme: null, //<- If Null, its a New Theme, else its Editing an existing theme
     };
   },
   methods: {
@@ -94,8 +95,8 @@ export default {
             break;
         }        
         
-        EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
+        EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null ); //<- Event Listened at HudImage.vue
 
       } catch (error) {
@@ -280,46 +281,70 @@ export default {
 
     // #region Theme Editor
     
-    OnCreateTheme(e) {
+    async OnCreateTheme(e) {
+      //console.log(e);
       if (e && e.theme != null) {
-        //We are Editing a Theme
-        console.log(e.theme);
-        this.editingTheme = e.theme;
-        //this.previewImage = images.previewImage;
-        //this.thumbnailImage = images.thumbnailImage;
+        //******  We are Editing a Theme     **************//
+        const _preview =  window.api.joinPath(e.theme.path, e.theme.credits.theme + '.jpg');
+        const _thumbim =  window.api.joinPath(e.theme.path, 'PREVIEW.jpg');
+        this.previewImage = await window.api.GetImageB64(_preview);
+        this.thumbnailImage = await window.api.GetImageB64(_thumbim);
+        this.editingTheme = e.theme; //<- If Null, its a New Theme, else its Editing an existing theme        
+        this.themeEditorData = {
+          theme: e.theme.credits.theme,
+          author: e.theme.credits.author,
+          description: e.theme.credits.description,
+          preview: this.previewImage,  
+          thumb: this.thumbnailImage
+        };
       } else {
-        // We are Creating a new Theme:
+        //******** We are Creating a new Theme:   **********//
         this.previewImage = null;
         this.thumbnailImage = null;
         this.editingTheme = null;
-      }
-      this.showThemeImageEditorModal = true;
-    },    
-    handleImageEditorSave(images) {
-      // STEP 1:  GET THE IMAGES FOR PREVIEW & THUMBNAIL
-      if (this.editingTheme) {
-        
-      } else {
-        this.previewImage = images.previewImage;
-        this.thumbnailImage = images.thumbnailImage;
-        this.closeThemeImageEditor();
-
         this.themeEditorData = {
-          theme: 'New Theme Name',
+          theme: 'New Theme',
           author: 'Unknown',
           description: 'This is a new EDHM Theme',
           preview: this.previewImage,
           thumb: this.thumbnailImage
         };
       }
-      
+
+      // STEP 0:  SHOW THE IMAGE EDITOR:
+      this.showThemeImageEditorModal = true;
+    },    
+    handleImageEditorSave(images) {
+      // When the Image Editor is closed (by Saving)
+      // STEP 1:  GET THE IMAGES FOR PREVIEW & THUMBNAIL
+      if (this.editingTheme) {
+        this.themeEditorData.preview = images.previewImage;
+        this.previewImage = images.previewImage;
+
+        this.themeEditorData.thumb = images.thumbnailImage;
+        this.thumbnailImage = images.thumbnailImage;
+
+      } else {
+        this.previewImage = images.previewImage;
+        this.thumbnailImage = images.thumbnailImage;        
+
+        this.themeEditorData = {
+          theme: 'New Theme',
+          author: 'Unknown',
+          description: 'This is a new EDHM Theme',
+          preview: this.previewImage,
+          thumb: this.thumbnailImage
+        };
+      }
+      this.closeThemeImageEditor();
+
+      // 1.1 SHOW THE THEME EDITOR:
       this.showThemeEditor = true;
     },    
-    async handleThemeEditorSubmit(data) {   
+    async handleThemeEditorSubmit(data) {  
+      /**** WHEN THE THEME EDITOR IS CLOSED (by Saving) ***** */ 
       try {
-        if (data instanceof SubmitEvent) {
-          return; // Ignore the SubmitEvent
-        }   
+        if (data instanceof SubmitEvent) { return; } // Ignore the SubmitEvent  
         console.log('Data:', data);
         this.closeThemeEditor();
 
@@ -332,7 +357,7 @@ export default {
         console.log('CreateNewTheme:', _ret);
         if (_ret) {
           EventBus.emit('loadThemes', false);  //<- this event will be heard in 'ThemeTab.vue'
-          EventBus.emit('RoastMe', { type: 'Success', message: `New Theme: '${NewThemeData.credits.theme}' Created.` });
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
         }
       } catch (error) {
         EventBus.emit('ShowError', error);

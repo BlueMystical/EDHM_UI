@@ -313,6 +313,8 @@ const containsWord = (str, word) => {
   return str.includes(word);
 };
 
+const isEmpty = obj => Object.keys(obj).length === 0; //<- To Check is something is Empty
+
 /** Null-Empty-Uninstanced verification * 
  * @param {*} value Object, String or Array
  * @returns True or False
@@ -432,4 +434,4 @@ ipcMain.handle('CheckEDHMinstalled', (event, gamePath) => {
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance };
+export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance, isEmpty };

@@ -33,11 +33,12 @@ const getThemes = async (dirPath) => {
             }
 
             files.push({
-              path: subfolderPath,
-              thumbnail: 'PREVIEW.jpg',
-              preview: preview_url,
-              credits: template.credits,
               theme: template,
+              path: subfolderPath,
+              preview: preview_url,
+              thumbnail: 'PREVIEW.jpg',              
+              credits: template.credits,              
+              name: template.credits.theme,
               isFavorite: template.isFavorite
             });
 
@@ -96,7 +97,7 @@ const LoadTheme = async (themeFolder) => {
       const ThemeINIs = await LoadThemeINIs(themeFolder); 
 
       template = fileHelper.loadJsonFile(defaultThemePath);
-      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
+      template = await ApplyIniValuesToTemplate(template, ThemeINIs);      
       template.credits = await GetCreditsFile(themeFolder);
       template.path = themeFolder;
       template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
@@ -168,11 +169,14 @@ async function GetCurrentSettingsTheme(themePath) {
 
     let themeTemplate = fileHelper.loadJsonFile(defaultSettingsPath);
     themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs); 
-    themeTemplate.credits.theme = "Current Settings";
-    themeTemplate.credits.author = "User";
-    themeTemplate.credits.description = "Currently Applied Colors in Game";
-    themeTemplate.credits.preview = "";
-    themeTemplate.path = themePath;
+    themeTemplate.name = "Current Settings";
+    themeTemplate.credits = {
+      theme: "Current Settings",
+      author: "User",
+      description: "Currently Applied Colors in Game",
+      preview: "",
+      path: themePath
+    };
 
     return themeTemplate;
 
@@ -722,6 +726,21 @@ ipcMain.handle('CreateNewTheme', async (event, credits) => {
   }
 });
 
+ipcMain.handle('GetCurrentSettings', async (event, folderPath) => {
+  try {
+    return GetCurrentSettingsTheme(folderPath);
+  } catch (error) {
+    throw error;
+  }
+});
+
 // #endregion
 
-export default { getThemes, LoadThemeINIs, SaveThemeINIs, ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, FavoriteTheme, UnFavoriteTheme, CreateNewTheme };
+export default { 
+  getThemes, 
+  LoadThemeINIs, SaveThemeINIs, 
+  ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, 
+  FavoriteTheme, UnFavoriteTheme, 
+  CreateNewTheme,
+  GetCurrentSettingsTheme
+};

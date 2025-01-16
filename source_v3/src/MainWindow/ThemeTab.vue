@@ -43,6 +43,11 @@ import EventBus from '../EventBus';
 const collapseElementList = document.querySelectorAll('.collapse');
 const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
 
+/** To Check is something is Empty
+ * @param obj Object to check
+ */
+const isEmpty = obj => Object.keys(obj).length === 0;
+
 export default {
   name: 'ThemeTab',
   data() {
@@ -55,6 +60,7 @@ export default {
       programSettings: null,    //<- The Program Settings
       contextMenuX: 0,
       contextMenuY: 0,
+      quequeSelect: null,       //<- Index of a theme to be selected
     };
   },
   computed: {
@@ -72,6 +78,12 @@ export default {
       console.log('Initializing ThemeTab..');
       this.programSettings = event; // await window.api.getSettings();
       await this.loadThemes(this.programSettings.FavToogle);
+
+      //If there is a theme waiting to be selected:
+      if (this.quequeSelect) {
+        this.OnSelectTheme(this.quequeSelect);
+        this.quequeSelect = null;
+      }
     },
 
     /** LOADS THE LIST OF THEMES FROM THE USER'S THEMES FOLDER
@@ -141,22 +153,29 @@ export default {
      */
     OnSelectTheme(theme) {
       try {   
-        if (theme) {
-          const searchIndex = theme.id;  //console.log('searchIndex: ', searchIndex);
-          const selectedItem = this.images.find(item => item.id === searchIndex);   //console.log('selectedItem: ', selectedItem);
-          if (selectedItem) {
-            this.selectedImageId = searchIndex;
-            this.selectedTheme = selectedItem;
+        if (theme && !isEmpty(theme)) {    
+          if (this.images && !isEmpty(this.images)) {
+            const searchIndex = theme.id;                                             //console.log('searchIndex: ', searchIndex);
+            const selectedItem = this.images.find(item => item.id === searchIndex);   //console.log('selectedItem: ', selectedItem);
 
-            this.$nextTick(() => {
-              const selectedElement = document.getElementById('image-' + selectedItem.id);
-              if (selectedElement) {
-                selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              }
-            });
-            EventBus.emit('ThemeClicked', selectedItem); //<- this event will be heard in 'MainNavBars.vue'
-          }          
-        }
+            if (selectedItem) {
+              this.selectedImageId = searchIndex;
+              this.selectedTheme = selectedItem;                                      //console.log('selectedTheme: ', this.selectedTheme);
+
+              this.$nextTick(() => {
+                const selectedElement = document.getElementById('image-' + selectedItem.id);
+                if (selectedElement) {
+                  selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+              });
+              EventBus.emit('ThemeClicked', selectedItem); //<- this event will be heard in 'MainNavBars.vue'
+            } 
+          }                  
+          else {
+            console.log('Themes Not loaded!');
+            this.quequeSelect = theme;
+          }         
+        } 
       } catch (error) {
         EventBus.emit('ShowError', error);
       }

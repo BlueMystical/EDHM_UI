@@ -37,7 +37,9 @@ contextBridge.exposeInMainWorld('api', {
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
 
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
-  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
+  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint), 
+
+  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
 
   compressFiles: (files, outputPath) => ipcRenderer.invoke('compress-files', files, outputPath),
   compressFolder: (folderPath, outputPath) => ipcRenderer.invoke('compress-folder', folderPath, outputPath),
@@ -82,7 +84,8 @@ contextBridge.exposeInMainWorld('api', {
   getActiveInstance: () => ipcRenderer.invoke('active-instance'), 
   getActiveInstanceEx: () => ipcRenderer.invoke('getActiveInstanceEx'),
   getInstanceByName: async (instanceName) => ipcRenderer.invoke('getInstanceByName', instanceName),
-  addNewInstance: async (NewInstancePath, settings) => ipcRenderer.invoke('addNewInstance', NewInstancePath, settings),
+  addNewInstance: async (NewInstancePath, settings) => ipcRenderer.invoke('addNewInstance', NewInstancePath, settings), 
+  GetCurrentSettings: async (folderPath) => ipcRenderer.invoke('GetCurrentSettings', folderPath),
 
   loadHistory: (historyFolder, numberOfSavesToRemember) => ipcRenderer.invoke('load-history', historyFolder, numberOfSavesToRemember),
   saveHistory: (historyFolder, theme) => ipcRenderer.invoke('save-history', historyFolder, theme), 

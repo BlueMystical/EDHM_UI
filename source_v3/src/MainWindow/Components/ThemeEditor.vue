@@ -25,7 +25,10 @@
                 <label for="themeThumbnail" class="form-label">Thumbnail Image</label>
                 <img v-if="themeThumbnail" :src="themeThumbnail" alt="Thumbnail Preview" class="img-thumbnail mt-2">
               </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <div class="input-group mb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="$emit('close')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
             </form>
           </div>
         </div>
@@ -40,8 +43,8 @@ export default {
             theme: '',
             author: '',
             description: '',
-            preview: '',
-            thumb: ''
+            preview: null,
+            thumb: null
         }
     },
     data() {

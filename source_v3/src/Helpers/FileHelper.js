@@ -411,6 +411,26 @@ function base64ToJpg(base64Image, outputPath) {
   }
 };
 
+/** Loads an Image from disk * 
+ * @param {*} imagePath Absolute path to the image
+ * @returns Image data in Base64 format
+ */
+function loadImageAsBase64(imagePath) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(imagePath, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                // Convert the image data to Base64
+                const base64Image = data.toString('base64');
+                // Create a Base64 image URL
+                const base64ImageUrl = `data:image/${path.extname(imagePath).substring(1)};base64,${base64Image}`;
+                resolve(base64ImageUrl);
+            }
+        });
+    });
+};
+
 // #endregion
 
 
@@ -822,6 +842,13 @@ ipcMain.handle('convertImageToJpg', async (event, base64Image) => {
   } catch (error) {
     throw error;
   }
+}); 
+ipcMain.handle('GetImageB64', async (event, filePath) => {
+  try {
+    return loadImageAsBase64(filePath);
+  } catch (error) {
+    throw error;
+  }
 });
 
 // #endregion
@@ -852,5 +879,6 @@ export default {
   decompressFile,
 
   SaveImageAsJpeg,
-  base64ToJpg
+  base64ToJpg,
+  loadImageAsBase64
 };

@@ -3,27 +3,27 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="themeImageEditorModalLabel">Edit Theme Images</h5>
+            <h5 class="modal-title" id="themeImageEditorModalLabel">{{ themeName }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="$emit('close')"></button>
           </div>
           <div class="modal-body">
             <div class="row mb-3 preview-row">
               <div class="col">
 
-                <div class="image-container preview-div" @paste="handlePaste" @dragover.prevent @drop="handleDrop">
-                <img id="previewImage" ref="previewImage" :src="previewImage" alt="Preview Image" v-if="previewImage" />
-                <div id="phPreview" v-else class="placeholder">Preview Area<br>Paste an in-game screenshot here<br>Or Drag and Drop an existing image.<br><br>Waiting for input..</div>
-                <div id="cropArea" v-if="previewImage" class="crop-area" ref="cropArea">
-                    <div class="resize-handle top-left" @mousedown="startResizing('top-left', $event)"></div>
-                    <div class="resize-handle top-right" @mousedown="startResizing('top-right', $event)"></div>
-                    <div class="resize-handle bottom-left" @mousedown="startResizing('bottom-left', $event)"></div>
-                    <div class="resize-handle bottom-right" @mousedown="startResizing('bottom-right', $event)"></div>
-                    <div class="resize-handle top" @mousedown="startResizing('top', $event)"></div>
-                    <div class="resize-handle bottom" @mousedown="startResizing('bottom', $event)"></div>
-                    <div class="resize-handle left" @mousedown="startResizing('left', $event)"></div>
-                    <div class="resize-handle right" @mousedown="startResizing('right', $event)"></div>
-                </div>
-                </div>
+<div class="image-container preview-div" @paste="handlePaste" @dragover.prevent @drop="handleDrop">
+                    <img id="previewImage" ref="previewImage" :src="previewImage" alt="Preview Image" v-if="previewImage" />
+                    <div id="phPreview" v-else class="placeholder">Preview Area<br>Paste an in-game screenshot here<br>Or Drag and Drop an existing image.<br><br>Waiting for input..</div>
+                    <div id="cropArea" v-if="previewImage" class="crop-area" ref="cropArea">
+                        <div class="resize-handle top-left" @mousedown="startResizing('top-left', $event)"></div>
+                        <div class="resize-handle top-right" @mousedown="startResizing('top-right', $event)"></div>
+                        <div class="resize-handle bottom-left" @mousedown="startResizing('bottom-left', $event)"></div>
+                        <div class="resize-handle bottom-right" @mousedown="startResizing('bottom-right', $event)"></div>
+                        <div class="resize-handle top" @mousedown="startResizing('top', $event)"></div>
+                        <div class="resize-handle bottom" @mousedown="startResizing('bottom', $event)"></div>
+                        <div class="resize-handle left" @mousedown="startResizing('left', $event)"></div>
+                        <div class="resize-handle right" @mousedown="startResizing('right', $event)"></div>
+                    </div>
+                </div>  
 
               </div>
             </div>
@@ -34,12 +34,34 @@
                   <div id="phThumbnail" v-else class="placeholder">Thumbnail will be generated from Preview</div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div><!--/Thumbnail-->
+
+            <div class="toast-container position-fixed bottom-0 start-0 p-3">
+                <!-- Info Type Toast Notification -->
+                <div id="Toast-Info" class="toast align-items-center bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true" >
+                    <div class="d-flex align-items-center" style="height: 100%;">
+                        <i class="bi bi-info-circle" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
+                        <div class="toast-body text-black">
+                            <b>Editor for Theme Images:</b><br>
+                            <ul>
+                                <li>Paste or Drop an Screenshot showing your game</li>
+                                <li>Use the Red area to fine-tune your Thumbnail</li>
+                                <li>Click Generate and Save buttons.</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div> <!--/Toast-->
+
+          </div> <!-- /Body -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="$emit('close')">Close</button>
-            <button type="button" class="btn btn-primary" @click="generateThumbnail">Generate Thumbnail</button>
-            <button type="button" class="btn btn-success" @click="saveImages">Save</button>
+            <div class="input-group mb-3">
+                <button type="button" class="btn btn-primary" @click="showInfo">Info</button>
+                <button type="button" class="btn btn-primary" @click="clearImages">Clear</button>
+                <button type="button" class="btn btn-primary" @click="generateThumbnail">Generate Thumbnail</button>
+                <button type="button" class="btn btn-success" @click="saveImages">Save</button>
+            </div>
           </div>
         </div>
       </div>
@@ -48,21 +70,73 @@
 
 <script>
 export default {
+    props: {
+        themeEditorData: {
+            theme: '',
+            author: '',
+            description: '',
+            preview: null,
+            thumb: null
+        }
+    },
     data() {
         return {
-            previewImage: null,
-            thumbnailImage: null,
+            themeName: this.themeEditorData.theme,
+            previewImage: null, //this.themeEditorData.preview,
+            thumbnailImage: null, //this.themeEditorData.thumb,
             cropStartX: 0,
             cropStartY: 0,
             cropEndX: 100,
             cropEndY: 100,
             isDragging: false,
             isResizing: false,
-            resizeDirection: null
+            resizeDirection: null,
+            themeMeta: null,
         };
     },
     methods: {
-        handlePaste(event) {
+        Initialize () {
+            const img = new Image();
+            img.src = this.previewImage;
+            img.onload = () => {
+                // this coyld be wrong
+                this.$nextTick(() => {
+                    this.initializeCropArea();
+                });
+            };
+        },
+
+
+    handleDragOver(event) {
+        event.preventDefault();
+        console.log('Drag over event detected');
+    },
+    handleDrop(event) {
+        event.preventDefault();
+        console.log('Drop event detected');
+        const items = event.dataTransfer.items;
+        for (let item of items) {
+            if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
+                console.log('Image file detected');
+                const file = item.getAsFile();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    console.log('Image file loaded');
+                    this.previewImage = e.target.result;
+                    this.$nextTick(() => {
+                        this.initializeCropArea();
+                    });
+                };
+                reader.readAsDataURL(file);
+            } else {
+                console.log('Non-image file detected');
+            }
+        }
+    },
+
+
+
+      handlePaste(event) {
             const items = (event.clipboardData || window.clipboardData).items;
             for (let item of items) {
                 if (item.type.indexOf('image') !== -1) {
@@ -77,9 +151,8 @@ export default {
                     reader.readAsDataURL(blob);
                 }
             }
-            this.generateThumbnail();
         },
-        handleDrop(event) {
+  /*       handleDrop(event) {
             event.preventDefault();
             const items = event.dataTransfer.items;
             for (let item of items) {
@@ -95,8 +168,10 @@ export default {
                     reader.readAsDataURL(file);                                       
                 }
             }
-            this.generateThumbnail();
         },
+        */
+
+
         initializeCropArea() {
             const cropArea = this.$refs.cropArea;
             const parentRect = cropArea.parentElement.getBoundingClientRect();
@@ -119,6 +194,9 @@ export default {
             this.cropStartX = event.offsetX;
             this.cropStartY = event.offsetY;
         },
+        stopDragging() {
+            this.isDragging = false;
+        },
         dragCropArea(event) {
             if (!this.isDragging) return;
             const cropArea = this.$refs.cropArea;
@@ -128,9 +206,7 @@ export default {
             cropArea.style.width = `${this.cropEndX - this.cropStartX}px`;
             cropArea.style.height = `${this.cropEndY - this.cropStartY}px`;
         },
-        stopDragging() {
-            this.isDragging = false;
-        },
+        
         startResizing(direction, event) {
             this.isResizing = true;
             this.resizeDirection = direction;
@@ -179,6 +255,19 @@ export default {
             this.isResizing = false;
             this.resizeDirection = null;
         },
+
+        showInfo() {
+            const toastLiveExample = document.getElementById('Toast-Info');
+            if (toastLiveExample) {
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                toastBootstrap.show();
+            }
+        },
+        clearImages() {
+            this.previewImage = null;
+            this.thumbnailImage = null;
+        },
+
         generateThumbnail() {
             if (!this.previewImage) return;
 
@@ -220,7 +309,16 @@ export default {
             });
         }
     },
+
     mounted() {
+        this.Initialize ();
+
+
+        document.addEventListener('dragover', (e) => e.preventDefault());
+    document.addEventListener('drop', (e) => e.preventDefault());
+
+
+
         document.addEventListener('mousemove', this.resizeCropArea);
         document.addEventListener('mouseup', this.stopResizing);
     },

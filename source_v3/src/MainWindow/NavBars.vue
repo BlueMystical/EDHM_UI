@@ -168,7 +168,7 @@ import GlobalSettingsTab from './GlobalSettingsTab.vue';
 import defaultTemplate from '../data/ODYSS/ThemeTemplate.json';
 let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
 
-const isEmpty = obj => Object.keys(obj).length === 0;
+const isEmpty = obj => Object.keys(obj).length === 0; //<- To Check is something is Empty
 
 
 export default {
@@ -235,7 +235,7 @@ export default {
           )
         );  //console.log('gameMenuItems:', gameMenuItems);
 
-        await this.LoadCurrentSettings();
+        this.themeTemplate = await this.LoadCurrentSettings();
         await this.History_LoadElements();
 
       } catch (error) {
@@ -256,13 +256,13 @@ export default {
      * @param theme Data of selected Theme
      */
     async LoadTheme(theme) {
-      console.log('LoadTheme', theme);
-      /* Happens  */
+      //console.log('LoadTheme', theme);
       this.showSpinner = true;
       try {
         if (theme && theme.file) {
           const template = JSON.parse(JSON.stringify(theme.file));
           this.themeTemplate = await window.api.LoadTheme(template.path);     //console.log('Loaded theme: ', this.themeTemplate);
+          this.themeTemplate.credits = theme.file.credits;
           themeTemplate = this.themeTemplate;
 
           EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard in 'PropertiesTab.vue' and on 'App.vue'
@@ -311,23 +311,13 @@ export default {
       try {
         if (this.ActiveInstance.path != '') {
           const themePath = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
-          const ThemeINIs = await window.api.LoadThemeINIs(themePath);  //console.log('ThemeINIs:', ThemeINIs);
 
-          themeTemplate = await window.api.applyIniValuesToTemplate(JSON.parse(JSON.stringify(themeTemplate)), ThemeINIs);   console.log('ThemeTemplate: ', themeTemplate);  
-          console.log('themeTemplate', themeTemplate);
-          themeTemplate.credits.theme = "Current Settings";
-          themeTemplate.credits.author = "User";
-          themeTemplate.credits.description = "Currently Applied Colors in Game";
-          themeTemplate.credits.preview = "";
-          themeTemplate.path = themePath;
-          themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM
+          themeTemplate = await window.api.GetCurrentSettings(themePath);
+          themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM  
+          //console.log('LoadCurrentSettings: ', themeTemplate);
 
           if (themeTemplate && !isEmpty(themeTemplate)) {
-            this.themeTemplate = themeTemplate;
-
-            EventBus.emit('ThemeLoaded', themeTemplate);   //<- Event Listened at 'PropertiesTab.vue' and 'App.vue'
-            EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'
-            
+            EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'            
             return JSON.parse(JSON.stringify(themeTemplate)); 
           } 
         }
@@ -397,10 +387,9 @@ export default {
 
     },
     async editTheme_Click(event) {
-      console.log(themeTemplate && !isEmpty(themeTemplate));
-
       if (themeTemplate && !isEmpty(themeTemplate)) {
-        const tName = themeTemplate.credits.theme; console.log(tName);
+        //console.log(themeTemplate);
+        const tName = themeTemplate.credits.theme; //console.log(tName);
         if (tName != "Current Settings") {
           console.log('Editing theme: ', tName);
           EventBus.emit('OnEditTheme', { theme: JSON.parse(JSON.stringify(themeTemplate)) }); //<- Event Listened on App.vue
@@ -412,16 +401,21 @@ export default {
       } 
     },
     async exportTheme_Click(event) {
-      console.log('Export Theme button clicked');
+      if (themeTemplate && !isEmpty(themeTemplate)) {
+        //console.log(themeTemplate);
+        const tName = themeTemplate.credits.theme; //console.log(tName);
+        if (tName != "Current Settings") {
+          console.log('Exporting theme: ', tName);
 
-      EventBus.emit('RoastMe', { type: 'Error', message: '<p>This is normal text - <b>and this is bold text</b>.</p>' });
-
-      if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
-        console.log('Exporting theme: ', this.themeTemplate.credits.theme);
-
-      } else {
-        console.error('Current Settings can not be saved??');
-      }
+            const jsonPath = window.api.joinPath(this.themeTemplate.path, `${tName}.json`);
+            await window.api.writeJsonFile(jsonPath, this.themeTemplate, true);
+            EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${tName}' exported successfully!` });
+        }
+        else {
+          this.statusText = 'Current Settings can not be Edited!';
+          console.log('Current Settings can not be Edited!');
+        }
+      } 
     },
     async saveTheme_Click(event) {
       //console.log('Save Theme button clicked');
