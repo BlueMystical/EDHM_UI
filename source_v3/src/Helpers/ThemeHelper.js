@@ -232,6 +232,37 @@ async function CreateNewTheme(credits) {
   }
 }
 
+async function ExportTheme(themeData) { // 
+  try {
+    //console.log('credits: ', credits);  
+
+    if (themeData && themeData.path) {
+      //1. RESOLVE THE THEMES PATH:
+      
+
+      //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
+      if (fileHelper.ensureDirectoryExists(themesPath)) {
+
+        
+
+        //4. WRITE THE NEW THEME FILES:
+        fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
+        fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));      
+        fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
+
+        if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
+          return true;
+        } else {
+          return false;
+        }      
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 // #region Ini File Handling
 
 const getIniFilePath = (basePath, fileName) => {
@@ -721,6 +752,14 @@ ipcMain.handle('UnFavoriteTheme', async (event, theme) => {
 ipcMain.handle('CreateNewTheme', async (event, credits) => {
   try {
     return CreateNewTheme(credits);
+  } catch (error) {
+    throw error;
+  }
+});
+
+ipcMain.handle('ExportTheme', async (event, themeData) => {
+  try {
+    return ExportTheme(themeData);
   } catch (error) {
     throw error;
   }

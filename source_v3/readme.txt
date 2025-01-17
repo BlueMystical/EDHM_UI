@@ -56,6 +56,7 @@
 { "date":"28/12/2024 15:00:00", "message":"ERR 404 - not found..", "stack-trace":"" }
 ------------------------------------------------------------------------------------------
 ** GAME FILE STRUCTURE (Steam Odyssey):
+
 G:\SteamLibrary\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64
 C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\
 ├── ShaderFixes                       <- [Symlink] full of Shaders

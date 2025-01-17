@@ -618,8 +618,9 @@ ipcMain.handle('ShowOpenDialog', async (event, options) => {
       title: '',  //The dialog title. Cannot be displayed on some Linux desktop
       defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
       buttonLabel : '',  //(optional) - Custom label for the confirmation button
+      
       filters: [
-        { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+        { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
         { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
         { name: 'Custom File Type', extensions: ['as'] },
         { name: 'All Files', extensions: ['*'] }

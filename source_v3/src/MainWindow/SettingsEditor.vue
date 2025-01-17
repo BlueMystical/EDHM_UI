@@ -164,6 +164,10 @@ export default {
             EventBus.emit('SettingsChanged', JSON.parse(jsonString)); //<- this event will be heard in 'App.vue'  
             this.close();
         },
+        async InstallGameInstance(FolderPath){
+            await window.api.terminateProgram('EliteDangerous64.exe');
+            this.addNewGameInstance(FolderPath);
+        },
         /* Manually Browse for the Game Executable */
         browseFile(instanceIndex, gameIndex) {            
             const options = {
@@ -179,6 +183,7 @@ export default {
                 if (filePath) {
                     const FolderPath = window.api.getParentFolder(filePath[0]);
                     this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
+                    InstallGameInstance(FolderPath);
                 }
             });
         },
@@ -194,6 +199,7 @@ export default {
             window.api.ShowOpenDialog(options).then(filePath => {
                 if (filePath) {
                     this.config.UserDataFolder = filePath;
+                    
                 }
             });
         },

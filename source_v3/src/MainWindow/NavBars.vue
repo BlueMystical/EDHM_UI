@@ -13,15 +13,15 @@
           <option value="mnuSettings">Settings</option>
           <option value="mnuOpenGame">Open Game Folder</option>
           <option value="" disabled>──────────</option>
-          <option value="mnuShipyard">Shipyard</option>
-          <option value="mnu3PModsManager">3PMods (Plugins)</option>
+          <option  disabled value="mnuShipyard">Shipyard</option>
+          <option  disabled value="mnu3PModsManager">3PMods (Plugins)</option>
           <option value="" disabled>──────────</option>
-          <option value="mnuInstallMod">Install EDHM</option>
-          <option value="mnuUninstallMod">Un-install EDHM</option>
+          <option  disabled value="mnuInstallMod">Install EDHM</option>
+          <option  disabled value="mnuUninstallMod">Un-install EDHM</option>
           <option value="" disabled>──────────</option>
-          <option value="mnuCheckUpdates">Check for Updates</option>
-          <option value="mnuGoToDiscord">Help</option>
-          <option value="mnuAbout">About</option>
+          <option  disabled value="mnuCheckUpdates">Check for Updates</option>
+          <option  disabled value="mnuGoToDiscord" >Help</option>
+          <option  disabled value="mnuAbout" >About</option>
         </select>
       </div>
     </div>
@@ -149,11 +149,14 @@
   </div>
 </nav> <!-- Bottom Navbar -->
 
+
+  <div v-if="showSpinner" class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+
 </div> <!-- Container -->
 
-<div v-if="showSpinner" class="spinner-border text-primary" role="status">
-<span class="visually-hidden">Loading...</span>
-</div>
+
 </template>
 <script>
 import { ref } from 'vue';
@@ -402,14 +405,15 @@ export default {
     },
     async exportTheme_Click(event) {
       if (themeTemplate && !isEmpty(themeTemplate)) {
-        //console.log(themeTemplate);
+        console.log(themeTemplate);
         const tName = themeTemplate.credits.theme; //console.log(tName);
         if (tName != "Current Settings") {
           console.log('Exporting theme: ', tName);
 
-            const jsonPath = window.api.joinPath(this.themeTemplate.path, `${tName}.json`);
-            await window.api.writeJsonFile(jsonPath, this.themeTemplate, true);
-            EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${tName}' exported successfully!` });
+            const _ret = await window.api.ExportTheme(JSON.parse(JSON.stringify(themeTemplate)));
+            if (_ret) {
+              EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${tName}' exported successfully!` });
+            }            
         }
         else {
           this.statusText = 'Current Settings can not be Edited!';

@@ -1,3 +1,4 @@
+
 <template>
     <div class="modal fade show" id="themeImageEditorModal" tabindex="-1" aria-labelledby="themeImageEditorModalLabel" aria-hidden="true" style="display: block;">
       <div class="modal-dialog modal-lg">
@@ -10,9 +11,9 @@
             <div class="row mb-3 preview-row">
               <div class="col">
 
-<div class="image-container preview-div" @paste="handlePaste" @dragover.prevent @drop="handleDrop">
+                <div class="image-container preview-div" @paste="handlePaste" @dragover="allowDrop" @drop="handleDrop" @dblclick="openFileDialog">
                     <img id="previewImage" ref="previewImage" :src="previewImage" alt="Preview Image" v-if="previewImage" />
-                    <div id="phPreview" v-else class="placeholder">Preview Area<br>Paste an in-game screenshot here<br>Or Drag and Drop an existing image.<br><br>Waiting for input..</div>
+                    <div id="phPreview" v-else class="placeholder placeholder-wave bg-secondary">Preview Area<br>Paste an in-game screenshot here<br>Or Double Click to Open an existing image.<br><br>Waiting for input..</div>
                     <div id="cropArea" v-if="previewImage" class="crop-area" ref="cropArea">
                         <div class="resize-handle top-left" @mousedown="startResizing('top-left', $event)"></div>
                         <div class="resize-handle top-right" @mousedown="startResizing('top-right', $event)"></div>
@@ -23,7 +24,7 @@
                         <div class="resize-handle left" @mousedown="startResizing('left', $event)"></div>
                         <div class="resize-handle right" @mousedown="startResizing('right', $event)"></div>
                     </div>
-                </div>  
+                </div> <!--/Preview--> 
 
               </div>
             </div>
@@ -38,14 +39,15 @@
 
             <div class="toast-container position-fixed bottom-0 start-0 p-3">
                 <!-- Info Type Toast Notification -->
-                <div id="Toast-Info" class="toast align-items-center bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true" >
+                <div id="Toast-Info" class="toast align-items-center bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true" style="width: 550px;">
                     <div class="d-flex align-items-center" style="height: 100%;">
                         <i class="bi bi-info-circle" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
                         <div class="toast-body text-black">
                             <b>Editor for Theme Images:</b><br>
                             <ul>
-                                <li>Paste or Drop an Screenshot showing your game</li>
-                                <li>Use the Red area to fine-tune your Thumbnail</li>
+                                <li>Paste or Open an Screenshot showing your Theme.</li>
+                                <li>Supported Images: 'jpg', 'jpeg', 'png', 'gif'.</li>
+                                <li>Use the Red area to fine-tune your Thumbnail boundaries.</li>
                                 <li>Click Generate and Save buttons.</li>
                             </ul>
                         </div>
@@ -54,8 +56,8 @@
                 </div>
             </div> <!--/Toast-->
 
-          </div> <!-- /Body -->
-          <div class="modal-footer">
+         </div> <!-- /Body -->
+        <div class="modal-footer">
             <div class="input-group mb-3">
                 <button type="button" class="btn btn-primary" @click="showInfo">Info</button>
                 <button type="button" class="btn btn-primary" @click="clearImages">Clear</button>
@@ -66,7 +68,7 @@
         </div>
       </div>
     </div>
-  </template>
+  </template> 
 
 <script>
 export default {
@@ -82,20 +84,20 @@ export default {
     data() {
         return {
             themeName: this.themeEditorData.theme,
-            previewImage: null, //this.themeEditorData.preview,
-            thumbnailImage: null, //this.themeEditorData.thumb,
+            previewImage: this.themeEditorData.preview,
+            thumbnailImage: this.themeEditorData.thumb,
             cropStartX: 0,
             cropStartY: 0,
             cropEndX: 100,
             cropEndY: 100,
-            isDragging: false,
+
             isResizing: false,
             resizeDirection: null,
             themeMeta: null,
         };
     },
     methods: {
-        Initialize () {
+        Initialize() {
             const img = new Image();
             img.src = this.previewImage;
             img.onload = () => {
@@ -106,37 +108,50 @@ export default {
             };
         },
 
+        allowDrop(event) {
+            event.preventDefault();
+            event.dataTransfer.effectAllowed = 'copy'; // or 'move' depending on your needs
+        },
+        handleDrop(event) {
+            event.preventDefault();
+            const file = event.dataTransfer.files[0];
+            const reader = new FileReader();
 
-    handleDragOver(event) {
-        event.preventDefault();
-        console.log('Drag over event detected');
-    },
-    handleDrop(event) {
-        event.preventDefault();
-        console.log('Drop event detected');
-        const items = event.dataTransfer.items;
-        for (let item of items) {
-            if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
-                console.log('Image file detected');
-                const file = item.getAsFile();
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    console.log('Image file loaded');
-                    this.previewImage = e.target.result;
+            reader.onload = (e) => {
+                this.previewImage = e.target.result;
+                this.$nextTick(() => {
+                    this.initializeCropArea();
+                });
+            };
+
+            reader.readAsDataURL(file);
+        },
+
+        async openFileDialog() {
+            const options = {
+                title: 'Select an Screenshot Image:',
+                filters: [
+                    { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
+                ]
+            };
+
+            try {
+                const imgPath = await window.api.ShowOpenDialog(options);
+                //console.log(imgPath);
+                if (imgPath) {
+                    this.previewImage = `file://${imgPath}`;
                     this.$nextTick(() => {
                         this.initializeCropArea();
                     });
-                };
-                reader.readAsDataURL(file);
-            } else {
-                console.log('Non-image file detected');
+                }
+            } catch (error) {
+                // Handle errors, e.g., user canceled the dialog
+                console.error('Error opening file dialog:', error);
             }
-        }
-    },
+        },
 
 
-
-      handlePaste(event) {
+        handlePaste(event) {
             const items = (event.clipboardData || window.clipboardData).items;
             for (let item of items) {
                 if (item.type.indexOf('image') !== -1) {
@@ -152,32 +167,12 @@ export default {
                 }
             }
         },
-  /*       handleDrop(event) {
-            event.preventDefault();
-            const items = event.dataTransfer.items;
-            for (let item of items) {
-                if (item.kind === 'file' && item.type.indexOf('image') !== -1) {
-                    const file = item.getAsFile();
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.previewImage = e.target.result;
-                        this.$nextTick(() => {
-                            this.initializeCropArea();
-                        });
-                    };
-                    reader.readAsDataURL(file);                                       
-                }
-            }
-        },
-        */
-
-
         initializeCropArea() {
             const cropArea = this.$refs.cropArea;
             const parentRect = cropArea.parentElement.getBoundingClientRect();
-            this.cropStartX = 10;
+            this.cropStartX = 30;
             this.cropStartY = parentRect.height - 130; // Position at the bottom
-            this.cropEndX = parentRect.width - 10;
+            this.cropEndX = parentRect.width - 30;
             this.cropEndY = parentRect.height - 20;
 
             cropArea.style.left = `${this.cropStartX}px`;
@@ -194,9 +189,6 @@ export default {
             this.cropStartX = event.offsetX;
             this.cropStartY = event.offsetY;
         },
-        stopDragging() {
-            this.isDragging = false;
-        },
         dragCropArea(event) {
             if (!this.isDragging) return;
             const cropArea = this.$refs.cropArea;
@@ -206,7 +198,11 @@ export default {
             cropArea.style.width = `${this.cropEndX - this.cropStartX}px`;
             cropArea.style.height = `${this.cropEndY - this.cropStartY}px`;
         },
-        
+        stopDragging() {
+            this.isDragging = false;
+        },
+
+
         startResizing(direction, event) {
             this.isResizing = true;
             this.resizeDirection = direction;
@@ -311,13 +307,7 @@ export default {
     },
 
     mounted() {
-        this.Initialize ();
-
-
-        document.addEventListener('dragover', (e) => e.preventDefault());
-    document.addEventListener('drop', (e) => e.preventDefault());
-
-
+        this.Initialize();
 
         document.addEventListener('mousemove', this.resizeCropArea);
         document.addEventListener('mouseup', this.stopResizing);

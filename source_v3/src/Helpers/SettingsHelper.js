@@ -132,6 +132,7 @@ function addNewInstance(NewInstancePath, settings) {
       : path.join(settings.UserDataFolder, "ODYSS", "Themes");
 
     settings.ActiveInstance = Instance.instance;
+    console.log('New Instance Added: ', Instance.instance);
   }
 
   return JSON.parse(JSON.stringify(settings));
@@ -235,18 +236,19 @@ async function installEDHMmod(gameInstance) {
   try {
 
     if (!isNotNullOrEmpty(gameInstance.path)) {
-      console.log('gameInstance ->', gameInstance);
+      console.log('Instance.path Not Defined! ->', gameInstance);
       throw new Error('Instance.path Not Defined!');
     }
 
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-    const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);  //console.log('AssetsPath', AssetsPath);
+    const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);                       //console.log('AssetsPath', AssetsPath);
     const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
 
     // #region Un-Zipping Themes
 
     const unzipPath = path.join(userDataPath, GameType);
-    const themesZipPath = path.join(`${GameType}/${GameType}_EDHM-Themes.zip`); //<- ODYSS_EDHM-Themes.zip
+    const themesZipPath = path.join(AssetsPath, `${GameType}_EDHM-Themes.zip`); //<- ODYSS_EDHM-Themes.zip
+    console.log('themesZipPath', themesZipPath);
     if (themesZipPath) {
       const _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
       if (_ret) {
