@@ -187,8 +187,8 @@ export default {
         const NewInstance = await window.api.getInstanceByName(GameInstanceName);
         console.log('NewInstance:', NewInstance);
 
-        const EdhmExists = await window.api.CheckEDHMinstalled(NewInstance.path);
-        if (!EdhmExists) {
+        //const EdhmExists = await window.api.CheckEDHMinstalled(NewInstance.path);
+        //if (!EdhmExists) {
           EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
           const edhmInstalled = await window.api.installEDHMmod(NewInstance);
 
@@ -206,7 +206,7 @@ export default {
 
           EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
           EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
-        }
+        //}
         
         const jsonString = JSON.stringify(this.settings, null, 4);
         await window.api.saveSettings(jsonString);
@@ -371,6 +371,20 @@ export default {
     },
 
     // #endregion
+
+    /** This will take your currently applied settings and Save them into the Selected Theme * 
+     * @param e Selected Theme Data
+     */
+    async OnUpdateTheme(e) {
+      if (e && e.theme != null) {
+        const NewThemeData = JSON.parse(JSON.stringify(e.theme));
+        const _ret = await window.api.UpdateTheme(NewThemeData);
+        console.log('UpdateTheme:', _ret);
+        if (_ret) {
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
+        }
+      }
+    }
   },
   async mounted() {
 
@@ -385,6 +399,7 @@ export default {
 
     EventBus.on('OnCreateTheme', this.OnCreateTheme);
     EventBus.on('OnEditTheme', this.OnCreateTheme);
+    EventBus.on('OnUpdateTheme', this.OnUpdateTheme);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -396,6 +411,7 @@ export default {
 
     EventBus.off('OnCreateTheme', this.OnCreateTheme);
     EventBus.off('OnEditTheme', this.OnCreateTheme);
+    EventBus.off('OnUpdateTheme', this.OnUpdateTheme);
   },
 };
 </script>

@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'fs';
-
+import { copyFileSync, constants } from 'node:fs';
 import ini from './IniHelper.js';
 import Log from './LoggingHelper.js';
 import fileHelper from './FileHelper';
@@ -137,6 +137,9 @@ async function GetCreditsFile(themePath) {
   return creditsJson;
 };
 
+/** Marks the given theme as a Favorite * 
+ * @param {*} themePath Absolute path to the Theme
+ */
 async function FavoriteTheme(themePath) {
   try {
     const dummy = { isFavorite: true };
@@ -148,6 +151,10 @@ async function FavoriteTheme(themePath) {
     throw error;
   }
 };
+/** Removes the given theme from Favorites * 
+ * @param {*} themePath Absolute path to the Theme
+ * @returns 
+ */
 async function UnFavoriteTheme(themePath) {
   try {
     const favFilePath = path.join(themePath, 'IsFavorite.fav');
@@ -232,29 +239,95 @@ async function CreateNewTheme(credits) {
   }
 }
 
-async function ExportTheme(themeData) { // 
+async function UpdateTheme(themeData) {
   try {
     //console.log('credits: ', credits);  
 
+    //1. RESOLVE THE THEMES PATH:
+    const Credits = themeData.credits;
+    const gameInstance = await settingsHelper.getActiveInstance();              //console.log('gameInstance: ', gameInstance);  
+    const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';     //console.log('GameType: ', GameType);  
+    const settings = await settingsHelper.loadSettings();                       //console.log('settings: ', settings);    
+    const dataPath = fileHelper.resolveEnvVariables(settings.UserDataFolder);   //console.log('dataPath: ', dataPath);     //<- %USERPROFILE%\EDHM_UI  
+    const themesPath = path.join(dataPath, GameType, 'Themes', Credits.theme);  //console.log('themesPath: ', themesPath); //<- %USERPROFILE%\EDHM_UI\ODYSS\Themes\MyTheme   
+
+    //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
+    if (fileHelper.ensureDirectoryExists(themesPath)) {
+
+      //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
+      const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
+      CurrentSettings.credits.theme = Credits.theme;
+      CurrentSettings.credits.author = Credits.author;
+      CurrentSettings.credits.description = Credits.description;      
+      CurrentSettings.version = settings.Version_ODYSS; 
+      CurrentSettings.game = gameInstance.key;
+      CurrentSettings.path = '';  
+
+      //4. WRITE THE NEW THEME FILES:
+      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
+      //fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));      
+      //fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
+
+      if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
+        return true;
+      } else {
+        return false;
+      }      
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+/** Exports the given theme into a ZIP file 
+ * @param {*} themeData Theme to Export
+ * @returns 
+ */
+async function ExportTheme(themeData) { // 
+  try {
+    console.log('Exporting Theme .....');  
+
     if (themeData && themeData.path) {
       //1. RESOLVE THE THEMES PATH:
-      
+      const ThemeName = themeData.credits.theme;
+      const ThemePath = themeData.path;
+      const TempPath = fileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\${ThemeName}`);      
 
       //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-      if (fileHelper.ensureDirectoryExists(themesPath)) {
+      if (fileHelper.ensureDirectoryExists(TempPath)) {
 
+        //3. COPY THE THEME FILES TO A TEMP FOLDER:
+        copyFileSync(path.join(ThemePath, `${ThemeName}.jpg`),    path.join(TempPath, `${ThemeName}.jpg`));
+        copyFileSync(path.join(ThemePath, 'PREVIEW.jpg'),         path.join(TempPath, 'PREVIEW.jpg'));
+        copyFileSync(path.join(ThemePath, 'ThemeSettings.json'),  path.join(TempPath, 'ThemeSettings.json'));    
         
+        //4. Ask the User for Destination Zip File:
+        const options = {
+          fileName: ThemeName, 
+          title: `Exporting Theme '${ThemeName}':`, 
+          defaultPath: path.join(app.getPath('desktop'), `${ThemeName}.zip`),
+          filters: [
+            { name: 'Zip Files', extensions: ['zip'] },
+            { name: 'All Files', extensions: ['*'] }
+          ],          
+          properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
+        }; 
+        let Destination = '';
+        await fileHelper.ShowSaveDialog(options).then(filePath => {
+          if (filePath) {
+            Destination = filePath;
+          }
+        });
+        console.log('Destination: ', Destination);
 
-        //4. WRITE THE NEW THEME FILES:
-        fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
-        fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));      
-        fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
+        //5. COMPRESS THEME FILES:
+        await fileHelper.compressFolder(TempPath, Destination);
 
-        if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
-          return true;
-        } else {
-          return false;
-        }      
+        //6. Clean the Temp trash:
+        fileHelper.deleteFolderRecursive(TempPath);
+
+        return true;  
       }
     }
   } catch (error) {
@@ -756,6 +829,13 @@ ipcMain.handle('CreateNewTheme', async (event, credits) => {
     throw error;
   }
 });
+ipcMain.handle('UpdateTheme', async (event, theme) => {
+  try {
+    return UpdateTheme(theme);
+  } catch (error) {
+    throw error;
+  }
+});
 
 ipcMain.handle('ExportTheme', async (event, themeData) => {
   try {
@@ -780,6 +860,6 @@ export default {
   LoadThemeINIs, SaveThemeINIs, 
   ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, 
   FavoriteTheme, UnFavoriteTheme, 
-  CreateNewTheme,
+  CreateNewTheme, UpdateTheme,
   GetCurrentSettingsTheme
 };

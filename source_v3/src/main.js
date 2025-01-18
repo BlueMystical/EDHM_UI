@@ -36,7 +36,7 @@ function createWindow() {
 
   mainWindow.webContents.on('did-finish-load', () => {
     // Open the DevTools.
-    mainWindow.webContents.openDevTools(); 
+    //mainWindow.webContents.openDevTools(); 
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {

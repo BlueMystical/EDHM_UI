@@ -65,9 +65,11 @@ contextBridge.exposeInMainWorld('api', {
   getValueFromSection: (iniData, section, key, defaultValue) => ipcRenderer.invoke('getValueFromSection', iniData, section, key, defaultValue),
   setValueInSection: (iniData, section, key, value) => ipcRenderer.invoke('setValueInSection', iniData, section, key, value),
 
-  GetCurrentSettingsTheme: async (filePath) => ipcRenderer.invoke('GetCurrentSettingsTheme', filePath), 
+  GetCurrentSettingsTheme: async (filePath) => ipcRenderer.invoke('GetCurrentSettingsTheme', filePath),  
+  CreateNewTheme: async (themeData) => ipcRenderer.invoke('CreateNewTheme', themeData),
   ExportTheme: async (themeData) => ipcRenderer.invoke('ExportTheme', themeData),
-  
+  UpdateTheme: async (themeData) => ipcRenderer.invoke('UpdateTheme', themeData),
+
   // #endregion
 
   // #region Settings 

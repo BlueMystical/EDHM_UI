@@ -16,7 +16,7 @@
           <option  disabled value="mnuShipyard">Shipyard</option>
           <option  disabled value="mnu3PModsManager">3PMods (Plugins)</option>
           <option value="" disabled>──────────</option>
-          <option  disabled value="mnuInstallMod">Install EDHM</option>
+          <option value="mnuInstallMod">Install EDHM</option>
           <option  disabled value="mnuUninstallMod">Un-install EDHM</option>
           <option value="" disabled>──────────</option>
           <option  disabled value="mnuCheckUpdates">Check for Updates</option>
@@ -337,7 +337,7 @@ export default {
         this.$refs.mainMenuSelect.value = 'mnuDummy'; // Reset the select to "Main Menu"
         console.log(`Menu ${value} clicked`);
 
-        const ActiveInstance = await window.api.getActiveInstance();
+        const ActiveInstance = await window.api.getActiveInstance(); console.log('ActiveInstance', ActiveInstance);
         const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
 
         if (value === 'mnuOpenGame') {
@@ -348,12 +348,11 @@ export default {
           EventBus.emit('open-settings-editor', InstallStatus);
         }
         if (value === 'mnuInstallMod') {
-
+          EventBus.emit('GameInsanceChanged', ActiveInstance.instance); //<- this event will be heard in 'App.vue'
         }
       }
     },
     async addNewTheme_Click(event) {
-
       const options = {
         type: 'question', //<- none, info, error, question, warning
         buttons: ['Cancel', 'Yes, I am sure', 'No, take me back'],
@@ -367,27 +366,6 @@ export default {
       if (result && result.response === 1) {
         EventBus.emit('OnCreateTheme', { theme: null }); //<- Event Listened on App.vue
       }
-
-      /* const myPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
-       console.log('myPath:', myPath);
-       const myPath2 = await window.api.resolveEnvVariables('%USERPROFILE%');
-       console.log('%USERPROFILE%:', myPath2);
-       const myPath3 = await window.api.resolveEnvVariables('D:\\@Codigo\\EDHM_UI\\source_v3');
-       console.log('myPath3:', myPath3);
-       const myPath4 = await window.api.resolveEnvVariables('%APPDATA%\\EDHM_UI');
-       console.log('%APPDATA%:', myPath4);
-       const myPath5 = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\EDHM_UI');
-       console.log('%LOCALAPPDATA%:', myPath5);*/
-
-      /* const Key = "x232|y232|z232|w232"; console.log('Key:',Key);  
-       const IntValue = 16755200; console.log('IntValue', IntValue);
-       const RGBAcolor = await window.api.intToRGBA(IntValue); console.log('RGBAcolor', RGBAcolor); //<- {r: 255, g: 170, b: 0, a: 255}
-       const sRGBcolor = await window.api.GetGammaCorrected_RGBA(RGBAcolor, 2.4); console.log('sRGBcolor', sRGBcolor); //<- {r: 1, g: 0.402, b: 0, a: 1}
-       const ShouldBe = { r: 1, g: 0.3763, b: 0, a: 1 }; console.log('ShouldBe', ShouldBe); //<- { r: 1, g: 0.3763, b: 0, a: 1 }
- */
-      // Red x232 =1 ; Green y232 =0.3763 ; Blue z232 =0 ; Alpha w232 =1
-      //EventBus.emit('RoastMe', { type: 'Success', message: 'First Line\r\nSecond Line\r\nThird Line' }); //<- this event will be heard in 'App.vue'
-
     },
     async editTheme_Click(event) {
       if (themeTemplate && !isEmpty(themeTemplate)) {
@@ -410,7 +388,7 @@ export default {
         if (tName != "Current Settings") {
           console.log('Exporting theme: ', tName);
 
-            const _ret = await window.api.ExportTheme(JSON.parse(JSON.stringify(themeTemplate)));
+            const _ret = await window.api.ExportTheme(JSON.parse(JSON.stringify(themeTemplate))); console.log(_ret);
             if (_ret) {
               EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${tName}' exported successfully!` });
             }            
@@ -422,17 +400,30 @@ export default {
       } 
     },
     async saveTheme_Click(event) {
-      //console.log('Save Theme button clicked');
-      EventBus.emit('RoastMe', { type: 'Info', message: `Theme Saved!:\r\n ${this.themeTemplate.credits.theme}` }); //<- this event will be heard in 'App.vue'
-
-      if (this.themeTemplate != null && this.themeTemplate.credits.theme != "Current Settings") {
-        const jsonPath = window.api.joinPath(this.themeTemplate.path, 'Theme.json');
-        window.api.writeJsonFile(jsonPath, this.themeTemplate, true);
-
-      } else {
-        EventBus.emit('RoastMe', { type: 'Error', message: 'Current Settings can not be saved' });
-      }
-      //
+      if (themeTemplate && !isEmpty(themeTemplate)) {
+        //console.log(themeTemplate);
+        const tName = themeTemplate.credits.theme; //console.log(tName);
+        if (tName != "Current Settings") {
+          console.log('Updating theme: ', tName);
+          const options = {
+            type: 'question', //<- none, info, error, question, warning
+            buttons: ['Cancel', 'Yes, I am sure', 'No, take me back'],
+            defaultId: 1,
+            title: 'Question',
+            message: 'Do you want to proceed?',
+            detail: 'This will take your currently applied settings and Save them into the Selected Theme: ' + tName,
+            cancelId: 0
+          }; 
+          const result = await window.api.ShowMessageBox(options); //console.log(result);
+          if (result && result.response === 1) {
+            EventBus.emit('OnUpdateTheme', { theme: JSON.parse(JSON.stringify(themeTemplate)) }); //<- Event Listened on App.vue
+          }
+        }
+        else {
+          this.statusText = 'Current Settings can not be Edited!';
+          console.log('Current Settings can not be Edited!');
+        }
+      }      
     },
     /** Toggles the Favorites list
      * @param event 

@@ -2,6 +2,7 @@ import { app, ipcMain, dialog, shell  } from 'electron';
 import { exec } from 'child_process';
 import path from 'node:path'; 
 //import { writeFile , readFile } from 'node:fs/promises'; //
+import { copyFileSync, constants } from 'node:fs';
 import fs from 'node:fs'; 
 import os from 'os'; 
 import url from 'url'; 
@@ -317,6 +318,58 @@ ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
   .catch(err => console.error(err)); */
 }
 
+async function ShowOpenDialog(options) {
+   /*  
+  const options = {
+      title: '',  //The dialog title. Cannot be displayed on some Linux desktop
+      defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
+      buttonLabel : '',  //(optional) - Custom label for the confirmation button      
+      filters: [
+        { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
+        { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+        { name: 'Custom File Type', extensions: ['as'] },
+        { name: 'All Files', extensions: ['*'] }
+      ],
+      //--- Choose only one: 'openFile', 'openDirectory':
+      properties: ['openFile', 'openDirectory', 'multiSelections', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
+      message: 'This message will only be shown on macOS', // (optional)
+    }; 
+  */
+    try {
+      const result = dialog.showOpenDialogSync(options);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+}
+async function ShowSaveDialog(options) {
+  /*    
+        const options = {
+          fileName: ThemeName, 
+          title: `Exporting Theme '${ThemeName}':`, 
+          defaultPath: path.join(app.getPath('desktop'), `${ThemeName}.zip`),
+          filters: [
+            { name: 'Zip Files', extensions: ['zip'] },
+            { name: 'All Files', extensions: ['*'] }
+          ],          
+          properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
+        }; 
+        let Destination = '';
+        await fileHelper.ShowSaveDialog(options).then(filePath => {
+          if (filePath) {
+            Destination = filePath;
+          }
+        }); 
+        console.log('Destination: ', Destination);
+  */
+    try {
+      const result = dialog.showSaveDialogSync(options);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+}
+
 // #endregion
 
 // #region JSON Files
@@ -433,37 +486,71 @@ function loadImageAsBase64(imagePath) {
 
 // #endregion
 
-
 // #region ZIP Files
 
-async function compressFiles(files, outputPath) {
-//TODO: Implement this function
-}
+// DOCUMENTATION:  https://www.npmjs.com/package/zip-lib
 
-async function compressFolder(folderPath, outputPath) {
-  zl.archiveFolder(folderPath, outputPath).then(function () {
-      console.log("done");
-      return true;
+/** Compress all files in the given Folder
+ * @param {*} folderPath Absolute path to the Origin Folder to Compress
+ * @param {*} outputPath Absolute path to the Destination ZIP file
+ */
+async function compressFiles(folderPath, outputPath) {
+  if (!fs.existsSync(folderPath)) {
+    throw new Error(`404 - Source Folder Not Found: '${folderPath}'`);
+  }
+  zl.archiveFolder(folderPath, outputPath, { addFolderToZip: true }).then(function () {
+    console.log(`ZIP File Created! -> '${outputPath}'`);
+    return true;
   }, function (err) {
-      console.log(err);
-      throw err;
+    console.log(err);
+    throw new Error(err.message + err.stack);
   });
 }
 
-async function decompressFile(zipPath, outputDir) {
-  if (!fs.existsSync(zipPath)) {
-    throw new Error(`ZIP file not found: ${zipPath}`);
+/** Compress a Folder and all files inside. (the folder gets in the ZIP)
+ * @param {*} folderPath Absolute path to the Origin Folder to Compress
+ * @param {*} outputPath Absolute path to the Destination ZIP file
+ */
+async function compressFolder(folderPath, outputPath) {
+  if (!fs.existsSync(folderPath)) {
+    throw new Error(`404 - Source Folder Not Found: '${folderPath}'`);
   }
 
-  zl.extract(zipPath, outputDir).then(function () {
-    console.log("done");
-    return true;
+  const zip = new zl.Zip();
+  const folderName = path.basename(folderPath);
 
+  // Add the folder and its contents
+  zip.addFolder(folderPath, folderName);
+
+  // Generate the ZIP file
+  let _ret = false;
+  await zip.archive(outputPath).then(function () {
+    console.log(`ZIP File Created! -> '${outputPath}'`);
+    _ret =  true;
+  }, function (err) {
+    console.log(err);
+    throw new Error(err.message + err.stack);
+  });
+  return _ret;
+}
+
+/** Un-compress the content of a ZIP file. 
+ * @param {*} zipPath Absolute path to the ZIP file.
+ * @param {*} outputDir Absolute path to the Destination Folder
+ */
+async function decompressFile(zipPath, outputDir) {
+  if (!fs.existsSync(zipPath)) {
+    throw new Error(`404 - ZIP file Not Found: '${zipPath}'`);
+  }
+  let _ret = false;
+  await zl.extract(zipPath, outputDir).then(function () {
+    console.log(`Uncompressed Files -> '${outputDir}'`);
+    _ret =  true;
   }, function (err) {
     console.log(err);
     throw err;
   });
-
+  return _ret;
 }
 
 // #endregion
@@ -636,12 +723,21 @@ ipcMain.handle('ShowOpenDialog', async (event, options) => {
   } catch (error) {
     throw error;
   }
+/*  EXAMPLE:
+    window.api.ShowOpenDialog(options).then(filePath => {
+        if (filePath) {
+            const FolderPath = window.api.getParentFolder(filePath[0]);
+            this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
+            InstallGameInstance(FolderPath);
+        }
+    }); 
+*/
 });
 ipcMain.handle('ShowSaveDialog', async (event, options) => {
   /*  
   const options = {
       title: '',  //The dialog title. Cannot be displayed on some Linux desktop
-      defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
+      defaultPath: app.getPath('desktop'),
       buttonLabel : '',  //(optional) - Custom label for the confirmation button
       filters: [
         { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
@@ -660,6 +756,15 @@ ipcMain.handle('ShowSaveDialog', async (event, options) => {
   } catch (error) {
     throw error;
   }
+  /*  EXAMPLE:
+   await window.api.ShowSaveDialog(options).then(filePath => {
+        if (filePath) {
+            const FolderPath = window.api.getParentFolder(filePath[0]);
+            this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
+            InstallGameInstance(FolderPath);
+        }
+    }); 
+*/
 });
 
 
@@ -874,6 +979,8 @@ export default {
 
   isNotNullOrEmpty,
   getParentFolder,
+  ShowOpenDialog,
+  ShowSaveDialog,
 
   compressFiles,
   compressFolder,

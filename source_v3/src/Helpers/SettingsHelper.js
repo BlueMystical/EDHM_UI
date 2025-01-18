@@ -278,12 +278,13 @@ async function installEDHMmod(gameInstance) {
 
     // #region Un-Zipping Mod Files
 
-    const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM*.zip`); //<- ODYSS_EDHM-v19.06.zip
+    const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM-v*.zip`); //<- ODYSS_EDHM-v19.06.zip
     if (edhmZipFile) {
       console.log('edhmZipFile: ', edhmZipFile); 
       const unzipGamePath = gameInstance.path;
-      const versionMatch =  edhmZipFile.match(/v\d+\.\d+/);      console.log('version', versionMatch[0]);
-      console.log('Unzipin into -> ', unzipGamePath);
+      const versionMatch =  edhmZipFile.match(/v\d+\.\d+/);      console.log('version', versionMatch);
+
+      console.log('Unziping into -> ', unzipGamePath);
       const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
       console.log('Zip Result: ', _ret);
       console.log('EDHM Installed!');
