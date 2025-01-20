@@ -32,8 +32,8 @@
 
       <div class="input-group mb-3">
 
-        <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme_Click">
+        <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" 
+        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme_Click">
           <i class="bi bi-plus-circle"></i>
         </button>
         <button id="cmdEditTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
@@ -170,6 +170,10 @@ import GlobalSettingsTab from './GlobalSettingsTab.vue';
 
 import defaultTemplate from '../data/ODYSS/ThemeTemplate.json';
 let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
+
+//Enable Tooltips:
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 const isEmpty = obj => Object.keys(obj).length === 0; //<- To Check is something is Empty
 

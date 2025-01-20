@@ -59,9 +59,9 @@
          </div> <!-- /Body -->
         <div class="modal-footer">
             <div class="input-group mb-3">
-                <button type="button" class="btn btn-primary" @click="showInfo">Info</button>
-                <button type="button" class="btn btn-primary" @click="clearImages">Clear</button>
-                <button type="button" class="btn btn-primary" @click="generateThumbnail">Generate Thumbnail</button>
+                <button type="button" class="btn btn-secondary" @click="showInfo">Info</button>
+                <button type="button" class="btn btn-secondary" @click="clearImages">Clear</button>
+                <button type="button" class="btn btn-secondary" @click="generateThumbnail">Generate Thumbnail</button>
                 <button type="button" class="btn btn-success" @click="saveImages">Save</button>
             </div>
           </div>

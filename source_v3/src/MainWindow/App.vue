@@ -282,33 +282,37 @@ export default {
     // #region Theme Editor
     
     async OnCreateTheme(e) {
-      //console.log(e);
-      if (e && e.theme != null) {
-        //******  We are Editing a Theme     **************//
-        const _preview =  window.api.joinPath(e.theme.path, e.theme.credits.theme + '.jpg');
-        const _thumbim =  window.api.joinPath(e.theme.path, 'PREVIEW.jpg');
-        this.previewImage = await window.api.GetImageB64(_preview);
-        this.thumbnailImage = await window.api.GetImageB64(_thumbim);
-        this.editingTheme = e.theme; //<- If Null, its a New Theme, else its Editing an existing theme        
-        this.themeEditorData = {
-          theme: e.theme.credits.theme,
-          author: e.theme.credits.author,
-          description: e.theme.credits.description,
-          preview: this.previewImage,  
-          thumb: this.thumbnailImage
-        };
-      } else {
-        //******** We are Creating a new Theme:   **********//
-        this.previewImage = null;
-        this.thumbnailImage = null;
-        this.editingTheme = null;
-        this.themeEditorData = {
-          theme: 'New Theme',
-          author: 'Unknown',
-          description: 'This is a new EDHM Theme',
-          preview: this.previewImage,
-          thumb: this.thumbnailImage
-        };
+      try {
+        //console.log(e);
+        if (e && e.theme != null) {
+          //******  We are Editing a Theme     **************//
+          const _preview =  window.api.joinPath(e.theme.path, e.theme.credits.theme + '.jpg');
+          const _thumbim =  window.api.joinPath(e.theme.path, 'PREVIEW.jpg');
+          this.previewImage = await window.api.GetImageB64(_preview);
+          this.thumbnailImage = await window.api.GetImageB64(_thumbim);
+          this.editingTheme = e.theme; //<- If Null, its a New Theme, else its Editing an existing theme        
+          this.themeEditorData = {
+            theme: e.theme.credits.theme,
+            author: e.theme.credits.author,
+            description: e.theme.credits.description,
+            preview: this.previewImage,  
+            thumb: this.thumbnailImage
+          };
+        } else {
+          //******** We are Creating a new Theme:   **********//
+          this.previewImage = null;
+          this.thumbnailImage = null;
+          this.editingTheme = null;
+          this.themeEditorData = {
+            theme: 'New Theme',
+            author: 'Unknown',
+            description: 'This is a new EDHM Theme',
+            preview: this.previewImage,
+            thumb: this.thumbnailImage
+          };
+        }
+      } catch (error) {
+        EventBus.emit('ShowError', error);
       }
 
       // STEP 0:  SHOW THE IMAGE EDITOR:
