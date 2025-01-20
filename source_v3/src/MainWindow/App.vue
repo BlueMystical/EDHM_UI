@@ -35,22 +35,21 @@ export default {
   },
   data() {
     return {
-      loading: true,
-      settings: null,
+      loading: true,        //<- Flag to Show/hide the Loading Spinner
+      settings: null,       //<- The Program Settings
       InstallStatus: null,
 
-      themesLoaded: [],
+      themesLoaded: [],     
       themeTemplate: {},
 
       searchResults: [],
       searchQuery: '',
-      isSearchBoxVisible: false,
+      isSearchBoxVisible: false, //<- Flag to Show/Hide the SearchBox Results
 
-      showThemeImageEditorModal: false,
+      showThemeImageEditorModal: false, //<- Flag to Show/Hide the Image Editor
       previewImage: null,
       thumbnailImage: null,
-
-      showThemeEditor: false,
+      showThemeEditor: false, //<- Flag to Show/Hide the Theme Editor
       themeEditorData: {
           theme: '',
           author: '',
@@ -157,11 +156,11 @@ export default {
         const jsonString = JSON.stringify(newConfig, null, 4);
         this.settings = await window.api.saveSettings(jsonString);
 
-        EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
-
+        EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
+        
         EventBus.emit('modUpdated', newConfig);     //<- Event listen in MainNavBars.vue
-        EventBus.emit('loadThemes', newConfig.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
+        EventBus.emit('FilterThemes', newConfig.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
 
         EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${gameVersion} Installed.` });
         EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
@@ -174,6 +173,13 @@ export default {
       } finally {
         EventBus.emit('ShowSpinner', { visible: false });
       }      
+    },
+
+    /** Silently Updates changes in the Settings   * 
+     * @param newConfig  the updated settings
+     */
+    OnProgramSettings_Updated(newConfig){
+      this.settings = newConfig;
     },
 
     /** When the User pick a different Game on the Combo. * 
@@ -345,11 +351,11 @@ export default {
       // 1.1 SHOW THE THEME EDITOR:
       this.showThemeEditor = true;
     },    
-    async handleThemeEditorSubmit(data) {  
-      /**** WHEN THE THEME EDITOR IS CLOSED (by Saving) ***** */ 
+    async handleThemeEditorSubmit(data) {
+      /**** WHEN THE THEME EDITOR IS CLOSED (by Saving) ***** */
       try {
         if (data instanceof SubmitEvent) { return; } // Ignore the SubmitEvent  
-        console.log('Data:', data);
+        console.log('Data:', data); //<- credits: { theme: 'ThemeName', author: '', description: '', preview: 'Base64image', thumb: 'Base64image' }
         this.closeThemeEditor();
 
         //STEP 2:  GET THE NEW THEME'S META-DATA      
@@ -362,6 +368,23 @@ export default {
         if (_ret) {
           EventBus.emit('loadThemes', false);  //<- this event will be heard in 'ThemeTab.vue'
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
+
+          if (this.settings.FavToogle) {
+            const options = {
+              type: 'question', //<- none, info, error, question, warning
+              buttons: ['Cancel', "Yes, It's a Favorite", 'No, thanks.'],
+              defaultId: 1,
+              title: 'Favorite?',
+              message: 'Do you want to Favorite this new theme?',
+              detail: `Theme: '${NewThemeData.credits.theme}'`,
+              cancelId: 0
+            };
+            window.api.ShowMessageBox(options).then(result => {
+              if (result && result.response === 1) {
+                EventBus.emit('OnFavoriteTheme', { ThemeName: NewThemeData.credits.theme }); //<- Event Listened on ThemeTab.vue
+              }
+            });
+          }
         }
       } catch (error) {
         EventBus.emit('ShowError', error);
@@ -388,7 +411,8 @@ export default {
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
         }
       }
-    }
+    },
+
   },
   async mounted() {
 
@@ -396,6 +420,7 @@ export default {
 
     /* LISTENING EVENTS:   */
     EventBus.on('SettingsChanged', this.OnProgramSettings_Changed); 
+    EventBus.on('OnUpdateSettings', this.OnProgramSettings_Updated); 
     EventBus.on('GameInsanceChanged', this.OnGameInstance_Changed); 
     EventBus.on('OnThemesLoaded', this.OnThemesLoaded); 
     EventBus.on('ThemeLoaded', this.OnTemplateLoaded);
@@ -408,6 +433,7 @@ export default {
   beforeUnmount() {
     // Clean up the event listener
     EventBus.off('SettingsChanged', this.OnProgramSettings_Changed); 
+    EventBus.off('OnUpdateSettings', this.OnProgramSettings_Updated); 
     EventBus.off('GameInsanceChanged', this.OnGameInstance_Changed); 
     EventBus.off('SearchBox', this.OnSearchBox_Shown); 
     EventBus.off('OnThemesLoaded', this.OnThemesLoaded); 

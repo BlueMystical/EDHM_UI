@@ -9,6 +9,8 @@
 [root] SOURCE-V3 
 ├── public                             <- Files for Public Access
 │   └─ images
+│         ├── ED_TripleElite.ico        
+│         └── [other files]
 ├── node_modules                       <- Platform Aware Dependencies
 ├── out                                <- Compiled Program & Compiled Installer
 ├── src                                <- Source Code
@@ -275,6 +277,8 @@ npx electron-forge start --enable-logging
 
 npm install --save-dev @electron/packager
 npm install --save-dev @electron-forge/maker-squirrel
+npm install --save electron-squirrel-startup 
+
 
 /* 	Create a ZIP archive for your Electron app using Electron Forge.
 	The ZIP target builds basic .zip archives containing your packaged application. 

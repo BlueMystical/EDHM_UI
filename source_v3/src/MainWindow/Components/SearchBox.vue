@@ -1,21 +1,28 @@
+
 <template>
     <div class="search-box-position">
         <div class="collapse collapse-horizontal" id="collapseWidthExample">
             <div class="card card-body search-box-card">
                 <button type="button" class="btn-close" aria-label="Close" @click="hide" style="position: absolute; top: 10px; right: 10px;"></button>
                 <div class="list-group search-box-list">
-                    <a v-for="(result, index) in searchResults" :key="index" href="#" class="list-group-item list-group-item-action" @click="handleClick(result)">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1" style="color:gold;">{{ result.Title }}</h5>
-                        </div>
-                        <p class="mb-1" style="color: darkorange;">{{ result.Category }}</p>
-                        <small>{{ result.Description }}</small>
-                    </a>
+                    <template v-if="searchResults.length > 0">
+                        <a v-for="(result, index) in searchResults" :key="index" href="#" class="list-group-item list-group-item-action" @click="handleClick(result)">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1" style="color:gold;">{{ result.Title }}</h5>
+                            </div>
+                            <p class="mb-1" style="color: darkorange;">{{ result.Category }}</p>
+                            <small>{{ result.Description }}</small>
+                        </a>
+                    </template>
+                    <div v-else class="placeholder bg-secondary">
+                        <p>No results found.</p>
+                    </div>
                 </div> <!-- list-group -->
             </div>  <!-- card-body -->
         </div> <!-- collapse -->
     </div> 
 </template>
+
 
 <script>
 export default {
@@ -63,6 +70,19 @@ export default {
     width: 440px;
     height: 100%;
     overflow-y: auto;
+}
+
+.placeholder {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 /* Custom scrollbar styles */

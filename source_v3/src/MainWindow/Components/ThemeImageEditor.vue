@@ -8,6 +8,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="$emit('close')"></button>
           </div>
           <div class="modal-body">
+            <div id="imgEditorAlert"></div>
             <div class="row mb-3 preview-row">
               <div class="col">
 
@@ -61,7 +62,7 @@
             <div class="input-group mb-3">
                 <button type="button" class="btn btn-secondary" @click="showInfo">Info</button>
                 <button type="button" class="btn btn-secondary" @click="clearImages">Clear</button>
-                <button type="button" class="btn btn-secondary" @click="generateThumbnail">Generate Thumbnail</button>
+                <button type="button" class="btn btn-info" @click="generateThumbnail">Generate Thumbnail</button>
                 <button type="button" class="btn btn-success" @click="saveImages">Save</button>
             </div>
           </div>
@@ -71,6 +72,12 @@
   </template> 
 
 <script>
+
+/** To Check is something is Empty
+ * @param obj Object to check
+ */
+ const isEmpty = obj => Object.keys(obj).length === 0;
+
 export default {
     props: {
         themeEditorData: {
@@ -259,6 +266,23 @@ export default {
                 toastBootstrap.show();
             }
         },
+
+        /** Display an Alert message on the top. * 
+         * @param message Text Message to be shown.
+         * @param type any of -> [primary, secondary, success, danger, warning, info, light, dark]
+         */
+        showAlert(message, type) {
+            const wrapper = document.createElement('div');
+            const alertPlaceholder = document.getElementById('imgEditorAlert');
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('');
+            alertPlaceholder.append(wrapper);
+        },
+
         clearImages() {
             this.previewImage = null;
             this.thumbnailImage = null;
@@ -299,10 +323,14 @@ export default {
             };
         },
         saveImages() {
-            this.$emit('save', {
+            if (this.thumbnailImage && !isEmpty(this.thumbnailImage)) {
+                this.$emit('save', {
                 previewImage: this.previewImage,
                 thumbnailImage: this.thumbnailImage
             });
+            } else {
+                this.showAlert('The Thumbnail Image is Required', 'warning'); 
+            }            
         }
     },
 

@@ -668,6 +668,59 @@ function isNotNullOrEmpty(value) {
     return false;
 }
 
+
+function createWindowsShortcut() {
+  try {
+    const isDev = !app.isPackaged;
+    const shortcutPath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.lnk');
+    const targetPath = path.join(process.env.LOCALAPPDATA, 'EDHM-UI-V3', 'EDHM-UI-V3.exe'); // For production environment 
+    const iconPath = getAssetPath('images/ED_TripleElite.ico');
+    const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
+
+    if (!fs.existsSync(shortcutPath)) {
+      const cmd = `powershell $s=(New-Object -COM WScript.Shell).CreateShortcut('${shortcutPath}');$s.TargetPath='${targetPath}';$s.IconLocation='${iconPath}';$s.Description='${comment}';$s.Save()`;
+
+      exec(cmd, (err) => {
+        if (err) {
+          console.error('Failed to create shortcut:', err);
+        } else {
+          console.log('Shortcut created successfully');
+        }
+      });
+    } else {
+      console.log('Shortcut already exists.');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function createLinuxShortcut() {
+  const desktopFilePath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.desktop');
+  const execPath = resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3\\EDHM-UI-V3.exe'); // path.join(__dirname, 'EDHM-UI-V3');
+  const iconPath = getAssetPath('images/icon.png');
+  const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
+
+  if (!fs.existsSync(desktopFilePath)) {
+    const desktopFileContent = `
+      [Desktop Entry]
+      Name=Your App
+      Exec=${execPath}
+      Icon=${iconPath}
+      Terminal=false
+      Type=Application
+      Comment=${comment}
+      Categories=Utility;
+    `;
+
+    fs.writeFileSync(desktopFilePath, desktopFileContent);
+    fs.chmodSync(desktopFilePath, '755'); // Make the .desktop file executable
+
+    console.log('Shortcut created successfully');
+  }
+}
+
+
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
 
@@ -680,17 +733,21 @@ ipcMain.handle('get-app-version', async () => {
 
 
 ipcMain.handle('ShowMessageBox', async (event, options) => {
-  /*
-const options = {
-    type: 'warning', //<- none, info, error, question, warning
-    buttons: ['Cancel', 'Yes, please', 'No, thanks'],
-    defaultId: 1,
-    title: 'Question',
-    message: 'Do you want to proceed?',
-    detail: 'It does not really matter',
-    cancelId: 0,
-    checkboxLabel: 'Remember my answer', checkboxChecked: false,
-  }; 
+/*  MODO DE USO:
+    const options = {
+      type: 'question', //<- none, info, error, question, warning
+      buttons: ['Cancel', "Yes, It's a Favorite", 'No, thanks.'],
+      defaultId: 1,
+      title: 'Favorite?',
+      message: 'Do you want to Favorite this new theme?',
+      detail: '',
+      cancelId: 0
+    };
+    window.api.ShowMessageBox(options).then(result => {
+      if (result && result.response === 1) {
+        // DO SOMEHTING 
+      }
+    });
 */
   try {
     const result = await dialog.showMessageBox(options);
@@ -957,6 +1014,21 @@ ipcMain.handle('GetImageB64', async (event, filePath) => {
   }
 });
 
+ipcMain.handle('createWindowsShortcut', async (event) => {
+  try {
+    return createWindowsShortcut();
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('createLinuxShortcut', async (event) => {
+  try {
+    return createLinuxShortcut();
+  } catch (error) {
+    throw error;
+  }
+});
+
 // #endregion
 
 export default { 
@@ -988,5 +1060,8 @@ export default {
 
   SaveImageAsJpeg,
   base64ToJpg,
-  loadImageAsBase64
+  loadImageAsBase64,
+
+  createWindowsShortcut,
+  createLinuxShortcut
 };

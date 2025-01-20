@@ -175,7 +175,10 @@ let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-const isEmpty = obj => Object.keys(obj).length === 0; //<- To Check is something is Empty
+/** To Check is something is Empty
+ * @param obj Object to check
+ */
+ const isEmpty = obj => Object.keys(obj).length === 0;
 
 
 export default {
@@ -274,7 +277,7 @@ export default {
 
           EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard in 'PropertiesTab.vue' and on 'App.vue'
           this.statusText = 'Theme: ' + theme.name;
-        }      
+        }
       } catch (error) {
         console.log(error.message);
         console.log(error.stack);
@@ -362,7 +365,7 @@ export default {
         buttons: ['Cancel', 'Yes, I am sure', 'No, take me back'],
         defaultId: 1,
         title: 'Question',
-        message: 'Do you want to proceed?',
+        message: 'Create New Theme?',
         detail: 'This will take your currently applied settings to build a new theme',
         cancelId: 0
       }; 
@@ -387,7 +390,7 @@ export default {
     },
     async exportTheme_Click(event) {
       if (themeTemplate && !isEmpty(themeTemplate)) {
-        console.log(themeTemplate);
+        //console.log(themeTemplate);
         const tName = themeTemplate.credits.theme; //console.log(tName);
         if (tName != "Current Settings") {
           console.log('Exporting theme: ', tName);
@@ -429,6 +432,7 @@ export default {
         }
       }      
     },
+
     /** Toggles the Favorites list
      * @param event 
      */
@@ -437,7 +441,8 @@ export default {
       this.programSettings.FavToogle = this.showFavorites;
 
       await window.api.saveSettings(JSON.stringify(this.programSettings, null, 4));
-      EventBus.emit('loadThemes', this.showFavorites); //<- Event listened at 'ThemeTab.vue'
+      EventBus.emit('OnUpdateSettings', JSON.parse(JSON.stringify(this.programSettings))); //<- Event listened at 'App.vue'
+      EventBus.emit('FilterThemes', this.showFavorites); //<- Event listened at 'ThemeTab.vue'
 
       //console.log('Favorites toggled:', this.showFavorites);
       return this.showFavorites;

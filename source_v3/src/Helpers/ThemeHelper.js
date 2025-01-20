@@ -54,11 +54,12 @@ const getThemes = async (dirPath) => {
                     JsonString, 
                     { encoding: "utf8", flag: 'w' }
                   );
-                }                
+                }
   
-                // Sanitization:
+                // Sanitization: For Themes Exportings
                 //fileHelper.deleteFilesByType(subfolderPath, '.ini');
                 //fileHelper.deleteFilesByType(subfolderPath, '.credits');
+                //fileHelper.deleteFilesByType(subfolderPath, '.fav');
                 //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
   
               } catch (error) {

@@ -8,10 +8,11 @@ import settingsHelper from './Helpers/SettingsHelper.js';
 import iniHelper from './Helpers/IniHelper.js'; 
 import themeHelper from './Helpers/ThemeHelper.js'; 
 
-function createWindow() {
+function createWindow() {  
   const mainWindow = new BrowserWindow({
     width: 1600,
     height: 800,
+    icon: path.join(__dirname, 'images/ED_TripleElite.ico'), 
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -27,9 +28,6 @@ function createWindow() {
   ).catch(err => {
     Log.Error('Failed to load main window content:', err);
   });
-
-  mainWindow.setIcon(path.join(__dirname, 'images/icon.png')) //<--- This goes below your win.loadfile
-  if (require('electron-squirrel-startup')) app.quit(); //<--Add this at the bottom
 
   // Disable the menu bar
 // Menu.setApplicationMenu(null);
@@ -49,11 +47,22 @@ function createWindow() {
     Log.Error('Window crashed');
   });
 
+  try {
+    if (require('electron-squirrel-startup')) app.quit(); 
+  } catch (error) {
+    console.log(error);
+  }  
 }
 
-app.on('ready', () => {
-  //log.info('App is ready');
-  createWindow();
+app.on('ready', () => { 
+  console.log('App is ready');
+  createWindow(); 
+
+  if (process.platform === 'win32') { 
+    fileHelper.createWindowsShortcut.call(this); 
+  } else if (process.platform === 'linux') { 
+    fileHelper.createLinuxShortcut.call(this);
+  } 
 });
 
 app.on('window-all-closed', () => {
@@ -77,11 +86,4 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (reason, promise) => {
   Log.Error(`Uncaught Exception: ${reason}`, '');
 });
-
-
-/* ==================================================================================================*/
-
-/*--------- Expose Methods via IPC Handlers: ---------------------*/
-//  they can be accesed like this:   const files = await window.api.getThemes(dirPath);
-
 

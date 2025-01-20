@@ -10,12 +10,12 @@ module.exports = {
         'src/images', 
         'public', 
       ],
-      icon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
+      icon: path.join(__dirname, 'src/images/ED_TripleElite.ico'), //'public/images/ED_TripleElite.ico'
       appCategoryType: 'public.app-category.developer-tools',
-      win32metadata: {
-        CompanyName: 'BlueMystic Corp.',
+      win32metadata: {        
         FileDescription: 'Mod for Elite Dangerous to customize the HUD of any ship.',
         ProductName: 'EDHM-UI-V3', 
+        CompanyName: 'Blue Mystic',
         "requested-execution-level": "highestAvailable"
       }
     },
@@ -25,18 +25,20 @@ module.exports = {
         config: {
           name: 'EDHM-UI-V3',
           authors: 'Blue Mystic',
-          description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
-          setupExe: 'EDHM-UI-Installer.exe',
-          shortcutFolderName: 'EDHM-UI-V3',
+          appVersion: '3.0.0',
           appCopyright: 'Blue Mystic - 2025',
+          description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
+          setupExe: 'EDHM-UI-V3 Setup.exe',
 
-          shortcutName: 'EDHM-UI-V3', // Set the shortcut name
-          shortcutDesktop: true, 
-          shortcutStartMenu: true, 
+          iconUrl: 'file:///' + path.join(__dirname, 'src/images/ED_TripleElite.ico'),   
+          setupIcon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),       //setupIcon: 'src/images/ED_TripleElite.ico',         
+          icon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),      //icon: 'src/images/ED_TripleElite.ico',
 
-          icon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
-          iconUrl: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
-          setupIcon: path.join(__dirname, 'src/images/ED_TripleElite.ico'),
+          shortcutFolderName: 'EDHM-UI-V3',
+          shortcutName: 'EDHM-UI-V3', 
+          createDesktopShortcut: true, 
+          createStartMenuShortcut: true,
+
           loadingGif: path.join(__dirname, 'src/images/loading.gif'),
 
           certificateFile: './EDHM-UI-V3.pfx',

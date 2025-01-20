@@ -52,7 +52,8 @@ export default {
   name: 'ThemeTab',
   data() {
     return {
-      images: [],               //<- List of Themes
+      themes: [],               //<- Full List of Themes
+      images: [],               //<- Filtered List of Themes
       loading: false,           //<- Flag to show the Spinner
       selectedImageId: null,    //<- Index of the selected Theme
       selectedTheme: null,      //<- The Selected Theme
@@ -60,7 +61,8 @@ export default {
       programSettings: null,    //<- The Program Settings
       contextMenuX: 0,
       contextMenuY: 0,
-      quequeSelect: null,       //<- Index of a theme to be selected
+      quequeSelect: null,       //<- Index of a theme to be selected waiting in a Queque
+      quequeFavorite: null,     //<- Index of a theme to be Favorited waiting in a Queque
     };
   },
   computed: {
@@ -77,34 +79,39 @@ export default {
     async OnInitialize(event) {
       console.log('Initializing ThemeTab..');
       this.programSettings = event; // await window.api.getSettings();
-      await this.loadThemes(this.programSettings.FavToogle);
+      await this.loadThemes();
+      this.FilterThemes(this.programSettings.FavToogle);
 
-      //If there is a theme waiting to be selected:
+      //If there is a theme waiting to be selected or Favorited:
       if (this.quequeSelect) {
         this.OnSelectTheme(this.quequeSelect);
         this.quequeSelect = null;
+      }
+      if (this.quequeFavorite) {
+        await this.DoFavoriteTheme(this.quequeFavorite);
+        this.quequeFavorite = null;
       }
     },
 
     /** LOADS THE LIST OF THEMES FROM THE USER'S THEMES FOLDER
      */
-    async loadThemes(favoritesOnly) {
+    async loadThemes() {
       try {
         //Gets the Themes Folder from the Active Instance:
-        this.loading = true;       
+        this.loading = true;
 
-        const gameInstance = await window.api.getActiveInstance();        
+        const gameInstance = await window.api.getActiveInstance();
         const dataPath = await window.api.resolveEnvVariables(this.programSettings.UserDataFolder);
         const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
         const themesPath = await window.api.joinPath(dataPath, GameType, 'Themes'); //console.log('themesPath',themesPath);
         const ThumbImage = await window.api.getAssetFileUrl('images/PREVIEW.png');  // console.log('ThumbImage:',ThumbImage);
         const GamePath = await window.api.joinPath(gameInstance.path, 'EDHM-ini');  //<- the Game Folder        
-        
+
         //Loads all Themes in the Directory:
         const files = await window.api.getThemes(themesPath);    //console.log('Theme File: ', files[4]);
 
         // Add the dummy item for 'Current Settings':
-        this.images = [{
+        this.themes = [{
           id: 0,
           name: "Current Settings",
           src: ThumbImage, //'images/PREVIEW.png', 
@@ -122,7 +129,7 @@ export default {
           }
         }].concat( // Adding the rest of loaded Themes:          
           files
-            .filter(file => !favoritesOnly || file.isFavorite === favoritesOnly)
+            //.filter(file => !favoritesOnly || file.isFavorite === favoritesOnly)
             .map((file, index) => ({
               id: index + 1,
               name: file.credits.theme,
@@ -133,30 +140,39 @@ export default {
             }))
         );
 
-        EventBus.emit('OnThemesLoaded', this.images);  //<- this event will be heard in 'App.vue'
+        //console.log('Themes Loaded: ', this.themes);
+        EventBus.emit('OnThemesLoaded', this.themes);  //<- this event will be heard in 'App.vue'
 
       } catch (error) {
         console.error('Failed to load files:', error);
         //EventBus.emit('ShowError', error);  //<- Not needed here
       } finally {
         // Set loading to false with a delay after themes are loaded
-        setTimeout(() => {
+        this.loading = false;
+        EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
+      /*  setTimeout(() => {
           this.loading = false;
           EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
-
-        }, 2000);
+        }, 2000); */
       }
     },
 
+    FilterThemes(favoritesOnly) {      
+      if (this.themes && this.themes.length > 0) {
+        this.images = this.themes.filter(theme => !favoritesOnly || theme.file.isFavorite === favoritesOnly);
+      }
+      console.log('Filtering Favorites: ', this.images.length);
+    },
+
     /** When Fired, Selects and Loads a given Theme   * 
-     * @param theme 
+     * @param theme We only need the id (index in the list) -> { id: 0 }
      */
     OnSelectTheme(theme) {
-      try {   
-        if (theme && !isEmpty(theme)) {    
-          if (this.images && !isEmpty(this.images)) {
+      try {
+        if (theme && !isEmpty(theme)) {
+          if (this.themes && !isEmpty(this.themes)) {
             const searchIndex = theme.id;                                             //console.log('searchIndex: ', searchIndex);
-            const selectedItem = this.images.find(item => item.id === searchIndex);   //console.log('selectedItem: ', selectedItem);
+            const selectedItem = this.themes.find(item => item.id === searchIndex);   //console.log('selectedItem: ', selectedItem);
 
             if (selectedItem) {
               this.selectedImageId = searchIndex;
@@ -169,13 +185,50 @@ export default {
                 }
               });
               EventBus.emit('ThemeClicked', selectedItem); //<- this event will be heard in 'MainNavBars.vue'
-            } 
-          }                  
+            }
+          }
           else {
-            console.log('Themes Not loaded!');
+            console.log('Waiting for themes to be loaded..');
             this.quequeSelect = theme;
-          }         
-        } 
+          }
+        }
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
+    /** Makes Favorite a theme. * 
+     * @param pSelectTheme if 'null' favorite the Selected theme, else favorites the given theme (a newly added)
+     */
+     async DoFavoriteTheme(pSelectTheme){
+      try {
+        // Si Estamos favoriteando un nuevo tema:
+        if (pSelectTheme && !isEmpty(pSelectTheme)) {          
+          // - Hay que ver si la lista está cargada, o esperar a que lo esté
+          if (this.themes && !isEmpty(this.themes)) {
+            // - Buscar el tema x nombre en la lista            
+            let foundTheme = this.themes.find(theme => theme.name === pSelectTheme.ThemeName);    //console.log('foundTheme', foundTheme);  
+            // - Seleccionarlo
+            this.OnSelectTheme({ id: foundTheme.id });
+          } else {
+            //No hay temas cargados, esperar a que lo esten e intentar de nuevo
+            this.quequeFavorite = pSelectTheme;
+            return;
+          }
+        }   
+
+        const _ret = await window.api.FavoriteTheme(this.selectedTheme.file.path);
+        if (_ret) {
+          this.selectedTheme.file.isFavorite = true;                                      //console.log('id: ',this.selectedTheme.id);
+          let favTheme = this.themes.find(image => image.id === this.selectedTheme.id);   //console.log('favTheme: ', favTheme);
+          if (favTheme) {
+            favTheme.file.isFavorite = true;
+            this.FilterThemes(true);
+          }
+          EventBus.emit('RoastMe', { type: 'Success', message: 'Theme added to Favorites' });
+        } else {
+          EventBus.emit('RoastMe', { type: 'Warning', message: 'Failure adding to Favorites' });
+        }
+
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
@@ -188,6 +241,7 @@ export default {
     onRightClick(image, event) {
 
       this.OnSelectTheme(image);
+      console.log(event);
 
       this.contextMenuX = event.clientX;
       this.contextMenuY = event.clientY - 20;
@@ -213,39 +267,41 @@ export default {
         }
         console.log('Context Menu:', action);
         // Handle the context menu action
-        if (this.selectedTheme) {        
+        if (this.selectedTheme) {
           switch (action) {
             case 'ApplyTheme':
               EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'MainNavBars.vue'
               break;
+
             case 'ThemePreview':
               //console.log(this.selectedTheme);
               if (this.selectedTheme.preview) {
-                window.api.openUrlInBrowser(this.selectedTheme.preview);              
+                window.api.openUrlInBrowser(this.selectedTheme.preview);
               }
               break;
+
             case 'OpenFolder':
               window.api.openPathInExplorer(this.selectedTheme.file.path);
               break;
+
             case 'Favorite':
-              console.log(this.selectedTheme.file.path);
-              const _ret = await window.api.FavoriteTheme(this.selectedTheme.file.path);
-              this.selectedTheme.file.isFavorite = _ret;
-              if (_ret) {
-                EventBus.emit('RoastMe', { type: 'Success', message: 'Theme added to Favorites' });	
-              } else {
-                EventBus.emit('RoastMe', { type: 'Warning', message: 'Failure adding to Favorites' });
-              }
+              this.DoFavoriteTheme(null);
               break;
+
             case 'UnFavorite':
               const _ret2 = await window.api.UnFavoriteTheme(this.selectedTheme.file.path);
-              this.selectedTheme.file.isFavorite = _ret2;
-              if (_ret) {
-                EventBus.emit('RoastMe', { type: 'Success', message: 'Theme removed from Favorites' });	
+              if (_ret2) {
+                this.selectedTheme.file.isFavorite = false;
+                let favTheme = this.images.find(image => image.id === this.selectedTheme.id);   //console.log('favTheme: ', favTheme);
+                if (favTheme) {
+                  favTheme.file.isFavorite = false;
+                }
+                EventBus.emit('RoastMe', { type: 'Success', message: 'Theme removed from Favorites' });
               } else {
                 EventBus.emit('RoastMe', { type: 'Warning', message: 'Failure removing from Favorites' });
               }
               break;
+
             default:
               break;
           }
@@ -260,7 +316,9 @@ export default {
       if (contextMenu) {
         contextMenu.classList.remove('show');
       }
-    }
+    },
+
+    
 
 
   },
@@ -268,13 +326,17 @@ export default {
 
     /** EVENT LISTENERS */
     document.addEventListener('click', this.hideContextMenu);
-    EventBus.on('loadThemes', this.loadThemes);     //<- Event to Initiate, on demeand, the Load of all Themes
-    EventBus.on('OnSelectTheme', this.OnSelectTheme); //<- Event to, on demand, Select a Theme
+    EventBus.on('loadThemes', this.loadThemes);           //<- Event to Initiate, on demeand, the Load of all Themes
+    EventBus.on('FilterThemes', this.FilterThemes);       //<- Event to Filter the favorite themes
+    EventBus.on('OnSelectTheme', this.OnSelectTheme);     //<- Event to, on demand, Select a Theme
+    EventBus.on('OnFavoriteTheme', this.DoFavoriteTheme); //<- Event to, on demand, Favorite a Theme
     EventBus.on('OnInitializeThemes', this.OnInitialize); //<- Event listened on App.vue to Initiate the Load of all Themes 
   },
   beforeUnmount() {
     EventBus.off('loadThemes', this.loadThemes);
+    EventBus.off('FilterThemes', this.FilterThemes);
     EventBus.off('OnSelectTheme', this.OnSelectTheme);
+    EventBus.off('OnFavoriteTheme', this.DoFavoriteTheme);
     EventBus.off('OnInitializeThemes', this.OnInitialize);
   }
 };
