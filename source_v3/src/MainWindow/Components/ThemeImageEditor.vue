@@ -59,7 +59,7 @@
 
          </div> <!-- /Body -->
         <div class="modal-footer">
-            <div class="input-group mb-3">
+            <div class="btn-group" role="group" >
                 <button type="button" class="btn btn-secondary" @click="showInfo">Info</button>
                 <button type="button" class="btn btn-secondary" @click="clearImages">Clear</button>
                 <button type="button" class="btn btn-info" @click="generateThumbnail">Generate Thumbnail</button>

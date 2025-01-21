@@ -2,7 +2,7 @@ import { app, ipcMain, dialog, shell  } from 'electron';
 import { exec } from 'child_process';
 import path from 'node:path'; 
 //import { writeFile , readFile } from 'node:fs/promises'; //
-import { copyFileSync, constants } from 'node:fs';
+//import { copyFileSync, constants } from 'node:fs';
 import fs from 'node:fs'; 
 import os from 'os'; 
 import url from 'url'; 
@@ -109,6 +109,58 @@ const resolveEnvVariables = (inputPath) => {
 function getParentFolder(givenPath) {
     return path.dirname(givenPath);
 }
+
+function createWindowsShortcut() {
+  try {
+    const isDev = !app.isPackaged;
+    const shortcutPath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.lnk');
+    const targetPath = resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3\\EDHM-UI-V3.exe'); //path.join(process.env.LOCALAPPDATA, 'EDHM-UI-V3', 'EDHM-UI-V3.exe'); // For production environment 
+    const iconPath = getAssetPath('images/ED_TripleElite.ico');
+    const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
+
+    if (!fs.existsSync(shortcutPath)) {
+      const cmd = `powershell $s=(New-Object -COM WScript.Shell).CreateShortcut('${shortcutPath}');$s.TargetPath='${targetPath}';$s.IconLocation='${iconPath}';$s.Description='${comment}';$s.Save()`;
+
+      exec(cmd, (err) => {
+        if (err) {
+          console.error('Failed to create shortcut:', err);
+        } else {
+          console.log('Shortcut created successfully');
+        }
+      });
+    } else {
+      console.log('Shortcut already exists.');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function createLinuxShortcut() {
+  const desktopFilePath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.desktop');
+  const execPath = resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3\\EDHM-UI-V3.exe'); // path.join(__dirname, 'EDHM-UI-V3');
+  const iconPath = getAssetPath('images/icon.png');
+  const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
+
+  if (!fs.existsSync(desktopFilePath)) {
+    const desktopFileContent = `
+      [Desktop Entry]
+      Name=EDHM-UI-V3
+      Exec=${execPath}
+      Icon=${iconPath}
+      Terminal=false
+      Type=Application
+      Comment=${comment}
+      Categories=Utility;
+    `;
+
+    fs.writeFileSync(desktopFilePath, desktopFileContent);
+    fs.chmodSync(desktopFilePath, '755'); // Make the .desktop file executable
+
+    console.log('Shortcut created successfully');
+  }
+}
+
 
 // #endregion
 
@@ -666,58 +718,6 @@ function isNotNullOrEmpty(value) {
     }
 
     return false;
-}
-
-
-function createWindowsShortcut() {
-  try {
-    const isDev = !app.isPackaged;
-    const shortcutPath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.lnk');
-    const targetPath = path.join(process.env.LOCALAPPDATA, 'EDHM-UI-V3', 'EDHM-UI-V3.exe'); // For production environment 
-    const iconPath = getAssetPath('images/ED_TripleElite.ico');
-    const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
-
-    if (!fs.existsSync(shortcutPath)) {
-      const cmd = `powershell $s=(New-Object -COM WScript.Shell).CreateShortcut('${shortcutPath}');$s.TargetPath='${targetPath}';$s.IconLocation='${iconPath}';$s.Description='${comment}';$s.Save()`;
-
-      exec(cmd, (err) => {
-        if (err) {
-          console.error('Failed to create shortcut:', err);
-        } else {
-          console.log('Shortcut created successfully');
-        }
-      });
-    } else {
-      console.log('Shortcut already exists.');
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-function createLinuxShortcut() {
-  const desktopFilePath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.desktop');
-  const execPath = resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3\\EDHM-UI-V3.exe'); // path.join(__dirname, 'EDHM-UI-V3');
-  const iconPath = getAssetPath('images/icon.png');
-  const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
-
-  if (!fs.existsSync(desktopFilePath)) {
-    const desktopFileContent = `
-      [Desktop Entry]
-      Name=Your App
-      Exec=${execPath}
-      Icon=${iconPath}
-      Terminal=false
-      Type=Application
-      Comment=${comment}
-      Categories=Utility;
-    `;
-
-    fs.writeFileSync(desktopFilePath, desktopFileContent);
-    fs.chmodSync(desktopFilePath, '755'); // Make the .desktop file executable
-
-    console.log('Shortcut created successfully');
-  }
 }
 
 

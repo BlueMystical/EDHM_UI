@@ -25,7 +25,7 @@
                 <label for="themeThumbnail" class="form-label">Thumbnail Image</label>
                 <img v-if="themeThumbnail" :src="themeThumbnail" alt="Thumbnail Preview" class="img-thumbnail mt-2">
               </div>
-              <div class="input-group mb-3">
+              <div class="btn-group" role="group" >
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="$emit('close')">Cancel</button>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>

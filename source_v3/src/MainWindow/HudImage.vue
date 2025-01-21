@@ -162,16 +162,18 @@ export default {
     },
     handleClick() {
       /* WHEN THE USER CLICKS AN AREA  */
+      console.log('Area clicked:', this.currentArea);
       if (this.currentArea) {
-        this.clickedArea = this.currentArea;
-        console.log('Area clicked:', this.currentArea);
+        this.clickedArea = this.currentArea;        
         this.highlightClickedArea(this.currentArea);
 
-        // Emit an event with the clicked area 
-        EventBus.emit('areaClicked', this.currentArea); //<- Event listen in 'PropertiesTab.vue'
-
-        // Emit an event to set the active tab to 'properties' 
-        EventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
+        if (this.currentArea.title != "XML Editor") {
+          EventBus.emit('areaClicked', this.currentArea); //<- Event listen in 'PropertiesTab.vue'
+          EventBus.emit('setActiveTab', 'properties');    //<- Event listen in 'MainNavBars.vue'
+        } else {
+          /* OPENING XML EDITOR */
+          EventBus.emit('OnShowXmlEditor', this.currentArea); //<- Event listen in 'App.vue'
+        }        
       }
     },
     drawRect(area) {
@@ -248,7 +250,6 @@ export default {
       this.imageSrc = await window.api.getAssetFileUrl('images/HUD_Clean.png');         //console.log(this.imageSrc);
       window.addEventListener('resize', this.setupCanvas);
       EventBus.on('InitializeHUDimage', this.OnInitialize);
-
     } catch (error) {
       console.log(error);
     }    

@@ -1,5 +1,5 @@
 <template>
-  
+
   <div class="theme-tab"> <!-- theme-container -->
 
     <!-- Loading Spinner -->
@@ -8,30 +8,38 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
+
     <!-- List of Themes -->
-    <ul v-else> 
+    <ul v-else>
       <li v-for="image in images" :key="image.id" :id="'image-' + image.id" class="image-container"
-        @click="OnSelectTheme(image)" @contextmenu.prevent="onRightClick(image, $event)" :class="{ 'selected': image.id === selectedImageId }">
+        :class="{ 'selected': image.id === selectedImageId }" @click="OnSelectTheme(image)"
+        @contextmenu="onRightClick($event, image)">
         <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />
         <span class="image-label">{{ image.name }}</span>
       </li>
     </ul>
+
+    <!-- Context Menu for Themes -->
+    <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu shadow show" ref="contextMenu">
+      <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('ApplyTheme')">Apply Theme</a></li>
+      <li><a class="dropdown-item" href="#" :class="{ 'disabled': !isPreviewAvailable }"
+          @click="isPreviewAvailable ? onContextMenu_Click('ThemePreview') : null">Theme Preview</a></li>
+          <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')">
+          {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a></li>
+          
+      <li><hr class="dropdown-divider"></li>
+      <li><h6 class="dropdown-header">{{ selectedTheme.name }}</h6></li>
+      <p><small class="px-3 disabled">Author: <span v-html="selectedTheme.file.credits.author"></span></small></p>     
+    </ul>
+
   </div> <!-- theme-container -->
 
-  <!-- Context Menu -->
-  <div ref="contextMenu" :style="{ top: contextMenuY + 'px', left: contextMenuX + 'px' }" class="collapse context-menu"
-    id="contextMenu">
-    <div class="card card-body">
-      <ul class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenu_Click('ApplyTheme')">Apply Theme</a>
-        <a href="#" class="list-group-item list-group-item-action" :class="{ 'disabled': !isPreviewAvailable }" 
-             @click="isPreviewAvailable ? onContextMenu_Click('ThemePreview') : null">Theme Preview</a>
-        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a>
-        <a href="#" class="list-group-item list-group-item-action" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')">
-          {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a>
-      </ul>
-    </div>
-  </div>
+  <!-- No quitar esto o se jode el tamaño de los temas, no sé por qué?? -->
+  <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
+
+  
 
 </template>
 
@@ -40,8 +48,12 @@
 import EventBus from '../EventBus';
 
 // Enable Collapse for the Context Menu
-const collapseElementList = document.querySelectorAll('.collapse');
-const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
+//const collapseElementList = document.querySelectorAll('.collapse');
+//const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
+
+// Enable Dropdown for the Context Menu
+const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
 
 /** To Check is something is Empty
  * @param obj Object to check
@@ -55,14 +67,15 @@ export default {
       themes: [],               //<- Full List of Themes
       images: [],               //<- Filtered List of Themes
       loading: false,           //<- Flag to show the Spinner
-      selectedImageId: null,    //<- Index of the selected Theme
       selectedTheme: null,      //<- The Selected Theme
-      showContextMenu: false,   //<- Flag to show the Context Menu
+      selectedImageId: null,    //<- Index of the selected Theme      
+
       programSettings: null,    //<- The Program Settings
-      contextMenuX: 0,
-      contextMenuY: 0,
-      quequeSelect: null,       //<- Index of a theme to be selected waiting in a Queque
       quequeFavorite: null,     //<- Index of a theme to be Favorited waiting in a Queque
+      quequeSelect: null,       //<- Index of a theme to be selected waiting in a Queque
+
+      contextMenuStyle: {},
+      showContextMenuFlag: false //<- Flag to show the Context Menu
     };
   },
   computed: {
@@ -72,7 +85,8 @@ export default {
     },
     isFavorite() {
       return this.selectedTheme && this.selectedTheme.file && this.selectedTheme.file.isFavorite;
-    }
+    },
+
   },
   methods: {
 
@@ -150,14 +164,14 @@ export default {
         // Set loading to false with a delay after themes are loaded
         this.loading = false;
         EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
-      /*  setTimeout(() => {
-          this.loading = false;
-          EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
-        }, 2000); */
+        /*  setTimeout(() => {
+            this.loading = false;
+            EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
+          }, 2000); */
       }
     },
 
-    FilterThemes(favoritesOnly) {      
+    FilterThemes(favoritesOnly) {
       if (this.themes && this.themes.length > 0) {
         this.images = this.themes.filter(theme => !favoritesOnly || theme.file.isFavorite === favoritesOnly);
       }
@@ -199,10 +213,10 @@ export default {
     /** Makes Favorite a theme. * 
      * @param pSelectTheme if 'null' favorite the Selected theme, else favorites the given theme (a newly added)
      */
-     async DoFavoriteTheme(pSelectTheme){
+    async DoFavoriteTheme(pSelectTheme) {
       try {
         // Si Estamos favoriteando un nuevo tema:
-        if (pSelectTheme && !isEmpty(pSelectTheme)) {          
+        if (pSelectTheme && !isEmpty(pSelectTheme)) {
           // - Hay que ver si la lista está cargada, o esperar a que lo esté
           if (this.themes && !isEmpty(this.themes)) {
             // - Buscar el tema x nombre en la lista            
@@ -214,7 +228,7 @@ export default {
             this.quequeFavorite = pSelectTheme;
             return;
           }
-        }   
+        }
 
         const _ret = await window.api.FavoriteTheme(this.selectedTheme.file.path);
         if (_ret) {
@@ -234,33 +248,13 @@ export default {
       }
     },
 
-    /** When Fired, Shows the Context Menu for the Selected Theme and Selects it  * 
-    * @param image The Selected Theme
-    * @param event Mouse Event related
-    */
-    onRightClick(image, event) {
-
-      this.OnSelectTheme(image);
-      console.log(event);
-
-      this.contextMenuX = event.clientX;
-      this.contextMenuY = event.clientY - 20;
-      this.showContextMenu = true;
-
-      this.$nextTick(() => {
-        const contextMenu = this.$refs.contextMenu;
-        if (contextMenu) {
-          contextMenu.classList.add('show');
-        }
-      });
-    },
+    // #region Context Menus
 
     /** When the User clicks on one of the Context menus * 
     * @param action Name of the clicked menu
     */
     async onContextMenu_Click(action) {
       try {
-        this.showContextMenu = false;
         const contextMenu = this.$refs.contextMenu;
         if (contextMenu) {
           contextMenu.classList.remove('show');
@@ -310,22 +304,41 @@ export default {
         EventBus.emit('ShowError', error);
       }
     },
+
+    /** When Fired, Shows the Context Menu for the Selected Theme and Selects it  * 
+    * @param image The Selected Theme
+    * @param event Mouse Event related
+    */
+    onRightClick(event, image) {
+      event.preventDefault(); // Prevent the default context menu
+      this.OnSelectTheme(image);
+      this.showContextMenu(event.clientX, event.clientY); // Show the custom context menu
+    },
+    showContextMenu(x, y) {
+      // Position the context menu
+      this.contextMenuStyle = {
+        top: `${y - 60}px`,
+        left: `${x}px`,
+        display: 'block'
+      };
+      this.showContextMenuFlag = true;
+
+      // Close context menu when clicking outside
+      document.addEventListener('click', this.hideContextMenu);
+    },
     hideContextMenu() {
-      this.showContextMenu = false;
-      const contextMenu = this.$refs.contextMenu;
-      if (contextMenu) {
-        contextMenu.classList.remove('show');
-      }
+      this.showContextMenuFlag = false;
+      document.removeEventListener('click', this.hideContextMenu); // Remove the event listener
     },
 
-    
+    // #endregion
+
 
 
   },
   async mounted() {
 
     /** EVENT LISTENERS */
-    document.addEventListener('click', this.hideContextMenu);
     EventBus.on('loadThemes', this.loadThemes);           //<- Event to Initiate, on demeand, the Load of all Themes
     EventBus.on('FilterThemes', this.FilterThemes);       //<- Event to Filter the favorite themes
     EventBus.on('OnSelectTheme', this.OnSelectTheme);     //<- Event to, on demand, Select a Theme
@@ -359,16 +372,20 @@ export default {
   overflow-y: auto;
   max-height: 100%;
 }
+
 .theme-tab::-webkit-scrollbar {
   width: 8px;
 }
+
 .theme-tab::-webkit-scrollbar-track {
   background: #333;
 }
+
 .theme-tab::-webkit-scrollbar-thumb {
   background-color: #555;
   border-radius: 10px;
 }
+
 .theme-tab::-webkit-scrollbar-thumb:hover {
   background-color: #777;
 }
@@ -395,6 +412,7 @@ ul {
   align-items: center;
   justify-content: center;
 }
+
 .image-container:hover .img-thumbnail {
   border-color: #00bfff;
 }

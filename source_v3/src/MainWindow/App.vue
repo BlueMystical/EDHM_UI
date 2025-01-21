@@ -10,7 +10,8 @@
     <!-- Theme Image Editor Modal -->
     <ThemeImageEditor v-if="showThemeImageEditorModal" :themeEditorData="themeEditorData" @save="handleImageEditorSave" @close="closeThemeImageEditor" />
     <ThemeEditor v-if="showThemeEditor" :themeEditorData="themeEditorData" @submit="handleThemeEditorSubmit" @close="closeThemeEditor" />
-  
+    <XmlEditor ref="xmlEditor" @onCloseModal="onXmlEditorClosed"/>
+
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import SearchBox from './Components/SearchBox.vue';
 import Notifications from './Components/Notifications.vue';
 import ThemeImageEditor from './Components/ThemeImageEditor.vue';
 import ThemeEditor from './Components/ThemeEditor.vue';
+import XmlEditor from './Components/XmlEditor.vue';
 
 export default {
   name: 'App',
@@ -31,7 +33,8 @@ export default {
     SettingsEditor,    
     Notifications,
     ThemeImageEditor,
-    ThemeEditor
+    ThemeEditor,
+    XmlEditor
   },
   data() {
     return {
@@ -413,6 +416,17 @@ export default {
       }
     },
 
+    async OnShowXmlEditor(e) {
+      try {
+        this.$refs.xmlEditor.ShowModal();
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
+    onXmlEditorClosed() { 
+      console.log('XML Editor Closed'); 
+    },
+
   },
   async mounted() {
 
@@ -422,6 +436,7 @@ export default {
     EventBus.on('SettingsChanged', this.OnProgramSettings_Changed); 
     EventBus.on('OnUpdateSettings', this.OnProgramSettings_Updated); 
     EventBus.on('GameInsanceChanged', this.OnGameInstance_Changed); 
+
     EventBus.on('OnThemesLoaded', this.OnThemesLoaded); 
     EventBus.on('ThemeLoaded', this.OnTemplateLoaded);
     EventBus.on('SearchBox', this.OnSearchBox_Shown);    
@@ -429,19 +444,25 @@ export default {
     EventBus.on('OnCreateTheme', this.OnCreateTheme);
     EventBus.on('OnEditTheme', this.OnCreateTheme);
     EventBus.on('OnUpdateTheme', this.OnUpdateTheme);
+
+    EventBus.on('OnShowXmlEditor', this.OnShowXmlEditor);
   },
   beforeUnmount() {
     // Clean up the event listener
     EventBus.off('SettingsChanged', this.OnProgramSettings_Changed); 
     EventBus.off('OnUpdateSettings', this.OnProgramSettings_Updated); 
     EventBus.off('GameInsanceChanged', this.OnGameInstance_Changed); 
+
     EventBus.off('SearchBox', this.OnSearchBox_Shown); 
+
     EventBus.off('OnThemesLoaded', this.OnThemesLoaded); 
     EventBus.off('ThemeLoaded', this.OnTemplateLoaded);
 
     EventBus.off('OnCreateTheme', this.OnCreateTheme);
     EventBus.off('OnEditTheme', this.OnCreateTheme);
     EventBus.off('OnUpdateTheme', this.OnUpdateTheme);
+
+    EventBus.off('OnShowXmlEditor', this.OnShowXmlEditor);
   },
 };
 </script>
