@@ -162,7 +162,7 @@ export default {
     },
     handleClick() {
       /* WHEN THE USER CLICKS AN AREA  */
-      console.log('Area clicked:', this.currentArea);
+      //console.log('Area clicked:', this.currentArea);
       if (this.currentArea) {
         this.clickedArea = this.currentArea;        
         this.highlightClickedArea(this.currentArea);

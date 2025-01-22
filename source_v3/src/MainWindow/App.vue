@@ -42,25 +42,32 @@ export default {
       settings: null,       //<- The Program Settings
       InstallStatus: null,
 
-      themesLoaded: [],     
-      themeTemplate: {},
+      themesLoaded: [],     //<- List of all Loaded Themes
+      themeTemplate: {},    //<- Current Selected Theme
+
+      // #region Search Box
 
       searchResults: [],
       searchQuery: '',
       isSearchBoxVisible: false, //<- Flag to Show/Hide the SearchBox Results
 
+      // #endregion      
+
+      // #region Theme Editors
       showThemeImageEditorModal: false, //<- Flag to Show/Hide the Image Editor
       previewImage: null,
       thumbnailImage: null,
       showThemeEditor: false, //<- Flag to Show/Hide the Theme Editor
       themeEditorData: {
-          theme: '',
-          author: '',
-          description: '',
-          preview: null,
-          thumb: null
+        theme: '',
+        author: '',
+        description: '',
+        preview: null,
+        thumb: null
       },
       editingTheme: null, //<- If Null, its a New Theme, else its Editing an existing theme
+      // #endregion
+
     };
   },
   methods: {
@@ -418,13 +425,22 @@ export default {
 
     async OnShowXmlEditor(e) {
       try {
-        this.$refs.xmlEditor.ShowModal();
+        if (this.themeTemplate) {          
+          const xml = JSON.parse(JSON.stringify(this.themeTemplate.xml_profile));
+          //console.log(xml);
+          const sliderValues = [
+            [xml[0].value, xml[1].value, xml[2].value], 
+            [xml[3].value, xml[4].value, xml[5].value], 
+            [xml[6].value, xml[7].value, xml[8].value]
+          ];
+          this.$refs.xmlEditor.ShowModal(sliderValues);
+        }        
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
     },
-    onXmlEditorClosed() { 
-      console.log('XML Editor Closed'); 
+    onXmlEditorClosed(e) { 
+      console.log('XML Editor Closed: ', e); 
     },
 
   },

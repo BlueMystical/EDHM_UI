@@ -703,6 +703,8 @@ function openPathInExplorer(filePath) {
 /** Null-Empty-Uninstanced verification * 
  * @param {*} value Object, String or Array
  * @returns True or False
+ * @example 
+ * if(myVar && )
  */
 function isNotNullOrEmpty(value) {
     if (value === null || value === undefined) {

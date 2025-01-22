@@ -672,6 +672,8 @@ function convert_sRGB_ToLinear(thesRGBValue, _GammaValue = 2.4) {
 // #endregion
 
 
+
+
 // #region --------- Expose Methods via IPC Handlers: ---------------------
 //  they can be accesed like this:   const files = await window.api.getThemes(dirPath);
 
@@ -852,7 +854,9 @@ ipcMain.handle('GetCurrentSettings', async (event, folderPath) => {
   } catch (error) {
     throw error;
   }
-});
+}); 
+
+
 
 // #endregion
 
@@ -862,5 +866,6 @@ export default {
   ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, 
   FavoriteTheme, UnFavoriteTheme, 
   CreateNewTheme, UpdateTheme,
-  GetCurrentSettingsTheme
+  GetCurrentSettingsTheme,
+  
 };
