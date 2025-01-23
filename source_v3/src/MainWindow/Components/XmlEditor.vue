@@ -73,9 +73,10 @@
                   <textarea id="colorMatrixInput" class="form-control" rows="4" @input="onColorMatrixPaste"
                     spellcheck="false" :value="formattedColorMatrix"></textarea>
                 </div>
-                <div class="mb-3">
 
-                  <div class="input-group mb-3">
+                <div class="mb-3">
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon1">Get XMLs from the No2O site</button>
+                  <!--<div class="input-group mb-3">
                     <label class="input-group-text" for="cboFilters">Filters:</label>
                     <select id="cboFilters" class="form-select" aria-label="Default select example"
                       v-model="selectedFilter" @change="filterSelected">
@@ -84,10 +85,7 @@
                     </select>
                     <input type="text" class="form-control" aria-label="0">
                     <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
-                  </div>
-
-
-
+                  </div> -->
                 </div>
               </div>
             </div><!--/XmlInput-->
@@ -95,16 +93,17 @@
             <!-- Right Side Column -->
             <div class="col-8 d-flex justify-content-center align-items-center ">
               <!-- Hidden Image and Canvas -->
-              <img id="targetImage" ref="image" src="../../images/xml-base.png" class="d-none border" alt="...">
+              <img id="targetImage" ref="image" src="../../images/xml-base.jpg" class="d-none border" alt="...">
               <canvas ref="canvas" class="img-fluid border"></canvas>
+            
             </div><!--/Right Column-->
 
-          </div>
-        </div>
+          </div><!--/Row-->
+        </div><!--/modal-body-->
 
         <div class="modal-footer">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Save changes</button>
           </div>
         </div><!--/Footer-->
@@ -121,13 +120,13 @@ export default {
   data() {
     return {
       sliderValues: [
-        [1.0, 0.0, 0.0], // Row 1: Red, Green, Blue
-        [0.0, 1.0, 0.0], // Row 2: Red, Green, Blue
-        [0.0, 0.0, 1.0], // Row 3: Red, Green, Blue
+        [1.0, 0.0, 0.0], // Row[0]: Red, Green, Blue
+        [0.0, 1.0, 0.0], // Row[1]: Red, Green, Blue
+        [0.0, 0.0, 1.0], // Row[2]: Red, Green, Blue
       ],
       colorMatrix: '', // Placeholder for copied color matrix
-      filters: '',
-      filtersList: '',
+      /* filters: '',
+       filtersList: '',*/
     };
   },
   computed: {
@@ -142,8 +141,8 @@ export default {
     async OnInitialize() {
       this.loadImage();
 
-      this.filters = this.getColorMatrixFilters();
-      this.filtersList = this.filters.getFilterNames();
+      //this.filters = this.getColorMatrixFilters();
+      //this.filtersList = this.filters.getFilterNames();
       //console.log(this.filtersList);
       //const deuteranopiaFilter = this.filters('brightness'); 
       //console.log(deuteranopiaFilter(1));
@@ -180,7 +179,7 @@ export default {
         }
       }
     },
-    
+
     /** Crea una Matrix de Identidad de Color.
      * @returns {number[][]} RGB color Matrix Elements
      */
@@ -242,29 +241,29 @@ export default {
     },
 
     applyColorMatrix() {
-  const canvas = this.$refs.canvas;
-  const ctx = canvas.getContext('2d');
-  const img = this.$refs.image;
+      const canvas = this.$refs.canvas;
+      const ctx = canvas.getContext('2d');
+      const img = this.$refs.image;
 
-  // Check if image is loaded
-  if (!img.complete) {
-    console.error('Image is not loaded yet!');
-    return;
-  }
+      // Check if image is loaded
+      if (!img.complete) {
+        console.error('Image is not loaded yet!');
+        return;
+      }
 
-  // Ensure canvas size matches image
-  canvas.width = img.width;
-  canvas.height = img.height;
+      // Ensure canvas size matches image
+      canvas.width = img.width;
+      canvas.height = img.height;
 
-  // Draw the image onto the canvas
-  ctx.drawImage(img, 0, 0);
+      // Draw the image onto the canvas
+      ctx.drawImage(img, 0, 0);
 
-  // Get the image data
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  const data = imageData.data;
+      // Get the image data
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
 
-  // Define the color matrix (5x5 matrix for RGBA)
-  const matrix = [
+      // Define the color matrix (5x5 matrix for RGBA)
+      const matrix = [
         [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2], 0, 0],
         [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2], 0, 0],
         [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2], 0, 0],
@@ -272,47 +271,47 @@ export default {
         [0, 0, 0, 0, 1]
       ];
 
-  for (let i = 0; i < data.length; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    const a = data[i + 3];
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const a = data[i + 3];
 
-    // Apply the color matrix
-    const newR = 
-      matrix[0][0] * r + 
-      matrix[0][1] * g + 
-      matrix[0][2] * b + 
-      matrix[0][3] * a + 
-      matrix[0][4];
+        // Apply the color matrix
+        const newR =
+          matrix[0][0] * r +
+          matrix[0][1] * g +
+          matrix[0][2] * b +
+          matrix[0][3] * a +
+          matrix[0][4];
 
-    const newG = 
-      matrix[1][0] * r + 
-      matrix[1][1] * g + 
-      matrix[1][2] * b + 
-      matrix[1][3] * a + 
-      matrix[1][4];
+        const newG =
+          matrix[1][0] * r +
+          matrix[1][1] * g +
+          matrix[1][2] * b +
+          matrix[1][3] * a +
+          matrix[1][4];
 
-    const newB = 
-      matrix[2][0] * r + 
-      matrix[2][1] * g + 
-      matrix[2][2] * b + 
-      matrix[2][3] * a + 
-      matrix[2][4];
+        const newB =
+          matrix[2][0] * r +
+          matrix[2][1] * g +
+          matrix[2][2] * b +
+          matrix[2][3] * a +
+          matrix[2][4];
 
-    // Keep alpha unchanged (assuming premultiplied alpha)
-    const newA = a; 
+        // Keep alpha unchanged (assuming premultiplied alpha)
+        const newA = a;
 
-    // Clamp values to 0-255
-    data[i] = Math.max(0, Math.min(255, newR));
-    data[i + 1] = Math.max(0, Math.min(255, newG));
-    data[i + 2] = Math.max(0, Math.min(255, newB));
-    // data[i + 3] = Math.max(0, Math.min(255, newA)); // Uncomment if you need to modify alpha
+        // Clamp values to 0-255
+        data[i] =     Math.max(0, Math.min(255, newR));
+        data[i + 1] = Math.max(0, Math.min(255, newG));
+        data[i + 2] = Math.max(0, Math.min(255, newB));
+        // data[i + 3] = Math.max(0, Math.min(255, newA)); // Uncomment if you need to modify alpha
 
-  }
+      }
 
-  ctx.putImageData(imageData, 0, 0);
-},
+      ctx.putImageData(imageData, 0, 0);
+    },
 
     /*
     applyColorMatrix() {
@@ -365,12 +364,12 @@ export default {
 
     */
 
-    crop (value, min, max) {
+    crop(value, min, max) {
       value = Math.max(value, min);
       value = Math.min(value, max);
       return value;
     },
-    multiply (rgba, m) {
+    multiply(rgba, m) {
       var ret = [], i, row;
       for (i = 0; i < 4; i++) {
         row = 5 * i;
@@ -388,131 +387,59 @@ export default {
        * var result1 = colorMatrix.transform([255, 0, 0, 255], 'invert');
        * var result2 = colorMatrix.transform([255, 0, 0, 255], 'hueRotate', 180);
        */
-    transform (rgba, filter, value) {
+    transform(rgba, filter, value) {
       return multiply(rgba, (api.getFilter(filter))(value));
     },
 
-/*
-    applyColorMatrix() {
-      const canvas = this.$refs.canvas;
-      const ctx = canvas.getContext('2d');
-      const img = this.$refs.image;
+    /*
+        applyColorMatrix() {
+          const canvas = this.$refs.canvas;
+          const ctx = canvas.getContext('2d');
+          const img = this.$refs.image;
+    
+          // Draw the image onto the canvas
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    
+          // Get the image data
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const data = imageData.data;
+    
+          // Define the color matrix (5x5 matrix for RGBA)
+          const matrix = [
+            [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2], 0, 0],    // red scaling 
+            [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2], 0, 0],    // green scaling 
+            [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2], 0, 0],    // blue scaling 
+            [0, 0, 0, 1, 0],    // alpha scaling 
+            [0, 0, 0, 0, 1]     // intensity scaling
+          ];
+    
+          // Apply the color matrix transformation
+          for (let i = 0; i < data.length; i += 4) {
+            const red =   data[i];
+            const green = data[i + 1];
+            const blue =  data[i + 2];
+            const alpha = data[i + 3];
+    
+            // Perform matrix multiplication for each color channel
+            const newRed =    matrix[0][0] * red + matrix[0][1] * green + matrix[0][2] * blue + matrix[0][3] * alpha + matrix[0][4];
+            const newGreen =  matrix[1][0] * red + matrix[1][1] * green + matrix[1][2] * blue + matrix[1][3] * alpha + matrix[1][4];
+            const newBlue =   matrix[2][0] * red + matrix[2][1] * green + matrix[2][2] * blue + matrix[2][3] * alpha + matrix[2][4];
+            const newAlpha =  matrix[3][0] * red + matrix[3][1] * green + matrix[3][2] * blue + matrix[3][3] * alpha + matrix[3][4];  
+    
+            // Clamp values to 0-255
+            data[i] =     Math.max(0, Math.min(255, newRed));
+            data[i + 1] = Math.max(0, Math.min(255, newGreen));
+            data[i + 2] = Math.max(0, Math.min(255, newBlue));
+            data[i + 3] = Math.max(0, Math.min(255, newAlpha));
+    
+          }
+    
+          // Put the image data back onto the canvas
+          ctx.putImageData(imageData, 0, 0);
+        },*/
 
-      // Draw the image onto the canvas
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-      // Get the image data
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
-
-      // Define the color matrix (5x5 matrix for RGBA)
-      const matrix = [
-        [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2], 0, 0],    // red scaling 
-        [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2], 0, 0],    // green scaling 
-        [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2], 0, 0],    // blue scaling 
-        [0, 0, 0, 1, 0],    // alpha scaling 
-        [0, 0, 0, 0, 1]     // intensity scaling
-      ];
-
-      // Apply the color matrix transformation
-      for (let i = 0; i < data.length; i += 4) {
-        const red =   data[i];
-        const green = data[i + 1];
-        const blue =  data[i + 2];
-        const alpha = data[i + 3];
-
-        // Perform matrix multiplication for each color channel
-        const newRed =    matrix[0][0] * red + matrix[0][1] * green + matrix[0][2] * blue + matrix[0][3] * alpha + matrix[0][4];
-        const newGreen =  matrix[1][0] * red + matrix[1][1] * green + matrix[1][2] * blue + matrix[1][3] * alpha + matrix[1][4];
-        const newBlue =   matrix[2][0] * red + matrix[2][1] * green + matrix[2][2] * blue + matrix[2][3] * alpha + matrix[2][4];
-        const newAlpha =  matrix[3][0] * red + matrix[3][1] * green + matrix[3][2] * blue + matrix[3][3] * alpha + matrix[3][4];  
-
-        // Clamp values to 0-255
-        data[i] =     Math.max(0, Math.min(255, newRed));
-        data[i + 1] = Math.max(0, Math.min(255, newGreen));
-        data[i + 2] = Math.max(0, Math.min(255, newBlue));
-        data[i + 3] = Math.max(0, Math.min(255, newAlpha));
-
-      }
-
-      // Put the image data back onto the canvas
-      ctx.putImageData(imageData, 0, 0);
-    },*/
-
-
-    async applyColorMatrix_NEW() {
-
-      const canvas = this.$refs.canvas;
-      const ctx = canvas.getContext('2d');
-      const img = this.$refs.image;
-      const matrix = [
-        [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2], 0, 0],    // red scaling 
-        [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2], 0, 0],    // green scaling 
-        [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2], 0, 0],    // blue scaling 
-        [0, 0, 0, 1, 0],    // alpha scaling 
-        [0, 0, 0, 0, 1]     // intensity scaling
-      ];
-
-      // Clear the canvas
-      ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height);
-
-      const filteredCanvas = await ApplyColorMatrix(img, matrix);
-      ctx.value.drawImage(filteredCanvas, 0, 0);
-    },
-
-    /**
-     * Applies a color matrix to an image.
-     *
-     * @param {HTMLImageElement} image The image to apply the filter to.
-     * @param {number[][]} colorMatrix The 5x5 color matrix.
-     * @returns {Promise<HTMLCanvasElement>} A promise that resolves to a canvas element containing the filtered image.
-     */
-    async ApplyColorMatrix(image, colorMatrix) {
-      const canvas = this.$refs.canvas;
-      const ctx = canvas.getContext('2d');
-
-      const width = image.width;
-      const height = image.height;
-
-      canvas.width = width;
-      canvas.height = height;
-
-      // Draw the original image onto the canvas
-      ctx.drawImage(image, 0, 0);
-
-      // Create a new image data object from the canvas data
-      const imageData = ctx.getImageData(0, 0, width, height);
-      const data = imageData.data;
-
-      // Apply the color matrix to each pixel
-      for (let i = 0; i < data.length; i += 4) {
-        const red = data[i];
-        const green = data[i + 1];
-        const blue = data[i + 2];
-        const alpha = data[i + 3];
-
-        // Perform matrix multiplication for each color channel
-        const newRed = colorMatrix[0][0] * red + colorMatrix[0][1] * green + colorMatrix[0][2] * blue + colorMatrix[0][3] * alpha + colorMatrix[0][4];
-        const newGreen = colorMatrix[1][0] * red + colorMatrix[1][1] * green + colorMatrix[1][2] * blue + colorMatrix[1][3] * alpha + colorMatrix[1][4];
-        const newBlue = colorMatrix[2][0] * red + colorMatrix[2][1] * green + colorMatrix[2][2] * blue + colorMatrix[2][3] * alpha + colorMatrix[2][4];
-        const newAlpha = colorMatrix[3][0] * red + colorMatrix[3][1] * green + colorMatrix[3][2] * blue + colorMatrix[3][3] * alpha + colorMatrix[3][4];
-
-        // Clamp values to 0-255
-        data[i] = Math.max(0, Math.min(255, newRed));
-        data[i + 1] = Math.max(0, Math.min(255, newGreen));
-        data[i + 2] = Math.max(0, Math.min(255, newBlue));
-        data[i + 3] = Math.max(0, Math.min(255, newAlpha));
-      }
-
-      // Update the canvas data with the modified pixel values
-      ctx.putImageData(imageData, 0, 0);
-
-      return new Promise((resolve) => {
-        resolve(canvas);
-      });
-    },
 
 
     loadImage() {
@@ -771,7 +698,7 @@ export default {
         }
       };
       return {
-        getFilterByName: function (name) { 
+        getFilterByName: function (name) {
           if (filters.hasOwnProperty(name)) {
             return filters[name];
           } else {
@@ -780,7 +707,7 @@ export default {
           }
         },
         getFilterNames: function () {
-          return Object.keys(filters); 
+          return Object.keys(filters);
         }
       };
     },

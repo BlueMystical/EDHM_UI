@@ -1,122 +1,93 @@
 <template>
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content bg-dark">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" v-html="sanitizedMessage"></div>
-          <div class="modal-footer input-group" role="group">
-            <button :id="cancelButtonId" type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">{{ cancelButtonLabel }}</button>
-            <button :id="confirmButtonId" type="button" class="btn btn-primary">{{ confirmButtonLabel }}</button>
-          </div>
+  <!-- Modal -->
+  <div id="ModalDialog" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  import DOMPurify from 'dompurify';
-  import EventBus from '../../EventBus';
-  
-  export default {
-    name: 'ModalDialog',
-    props: {
-      cancelButtonId: {
-        type: String,
-        default: 'cancelButton',
-      },
-      confirmButtonId: {
-        type: String,
-        default: 'confirmButton',
-      },
-      cancelButtonLabel: {
-        type: String,
-        default: 'Cancel',
-      },
-      confirmButtonLabel: {
-        type: String,
-        default: 'Confirm',
-      },
+        <div class="modal-body" style="height: 400px;">
+
+
+          <!-- Define the SVG filter -->
+          <svg width="0" height="0">
+            <filter id="colorMatrixFilter">
+              <feColorMatrix type="matrix" :values="getMatrixValues"/>
+            </filter>
+          </svg>
+          <!-- Apply the filter to the image -->
+          <img id="targetImage" ref="image" :src="originalImageSrc" class="border" :style="{ filter: 'url(#colorMatrixFilter)' }" alt="...">
+
+
+
+        </div><!--/body-->
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Save changes</button>
+        </div><!--/Footer-->
+
+      </div><!--/Content-->
+    </div><!--/Modal-->
+  </div><!--/Backdrop-->
+</template>
+
+
+<script>
+export default {
+  name: 'ModalDialog',
+  props: {},
+  data() {
+    return {
+      colorMatrix: [
+        [1.0, 0.0, 0.0], // Row[0]: Red, Green, Blue
+        [0.0, 1.0, 0.0], // Row[1]: Red, Green, Blue
+        [0.0, 0.0, -1.0], // Row[2]: Red, Green, Blue
+      ],
+      originalImageSrc: '../../images/xml-base.jpg',
+    }
+  },
+  computed: {
+    getMatrixValues() {      
+      //                                   R                              G                         B             A M
+      let matrixString = this.colorMatrix[0][0] + ' ' + this.colorMatrix[0][1] + ' ' + this.colorMatrix[0][2] + ' 0 0 ';
+      matrixString +=    this.colorMatrix[1][0] + ' ' + this.colorMatrix[1][1] + ' ' + this.colorMatrix[1][2] + ' 0 0 ';
+      matrixString +=    this.colorMatrix[2][0] + ' ' + this.colorMatrix[2][1] + ' ' + this.colorMatrix[2][2] + ' 0 0 ';
+      matrixString += '0 0 0 1 0';
+
+      console.log('Matrix values:', matrixString);
+      return matrixString;
+    }
+  },
+  methods: {
+    ShowModal(matrix) {
+      this.colorMatrix = matrix; // User can pass a different Matrix every time
+      const myModal = new bootstrap.Modal('#ModalDialog', { keyboard: false });
+      myModal.show();
+      //console.log('Matrix:', this.colorMatrix);
     },
-    data() {
-      return {
-        modalTitle: '',
-        modalMessage: '',
-      };
+    save() {
+      this.$emit('onCloseModal', this.colorMatrix);
     },
-    methods: {
-      dialogConfirm(data) {
-        return new Promise((resolve, reject) => {
-          if (!data || !data.title || !data.message) {
-            reject(new Error('Missing required data properties (title, message)'));
-            return;
-          }
-  
-          this.modalTitle = data.title;
-          this.modalMessage = data.message;
-          this.sanitizedMessage = DOMPurify.sanitize(data.message);
-  
-          const modalElement = document.getElementById('staticBackdrop');
-          let exampleModal = bootstrap.Modal.getInstance(modalElement);
-  
-          exampleModal = new bootstrap.Modal(modalElement, {
-            backdrop: 'static',
-            keyboard: true,
-          });
-  
-          const handleConfirm = () => {
-            try {
-              exampleModal.hide();
-              EventBus.emit('modal-confirmed'); // Emit event
-              resolve('Confirmed');
-            } catch (error) {
-              // Handle error
-            } finally {
-              resolve('Confirmed');
-            }
-          };
-  
-          const handleCancel = () => {
-            try {
-              exampleModal.hide();
-              EventBus.emit('modal-cancelled'); // Emit event
-              resolve('Cancelled');
-            } catch (error) {
-              // Handle error
-            } finally {
-              resolve('Cancelled');
-            }
-          };
-  
-          modalElement.addEventListener('shown.bs.modal', () => {
-            const confirmButton = modalElement.querySelector('#' + this.confirmButtonId);
-            const cancelButton = modalElement.querySelector('#' + this.cancelButtonId);
-  
-            confirmButton.removeEventListener('click', handleConfirm);
-            cancelButton.removeEventListener('click', handleCancel);
-  
-            confirmButton.addEventListener('click', handleConfirm);
-            cancelButton.addEventListener('click', handleCancel);
-          });
-  
-          modalElement.addEventListener('hidden.bs.modal', () => {
-            confirmButton.removeEventListener('click', handleConfirm);
-            cancelButton.removeEventListener('click', handleCancel);
-  
-            if (exampleModal) {
-              exampleModal.dispose();
-              exampleModal = null;
-            }
-          });
-  
-          exampleModal.show();
-        });
-      },
+    applyFilter() {
+      // Reset the image source to the original
+      this.$refs.image.src = this.originalImageSrc;
+      
+      // Force Vue to reapply the filter
+      this.$nextTick(() => {
+        this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
+      });
     },
-  };
-  </script>
-  
-  <style scoped></style>
-  
+    
+  },
+  async mounted() {
+    //this.getMatrixValues();
+    this.originalImageSrc = await window.api.getAssetFileUrl('images/xml-base.jpg');
+    this.applyFilter(); 
+  },
+  beforeUnmount() { }
+};
+</script>

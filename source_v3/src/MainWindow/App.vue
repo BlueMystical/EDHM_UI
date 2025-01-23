@@ -12,6 +12,8 @@
     <ThemeEditor v-if="showThemeEditor" :themeEditorData="themeEditorData" @submit="handleThemeEditorSubmit" @close="closeThemeEditor" />
     <XmlEditor ref="xmlEditor" @onCloseModal="onXmlEditorClosed"/>
 
+    <ModalDialog  ref="modalDialog"/>
+
   </div>
 </template>
 
@@ -24,6 +26,7 @@ import Notifications from './Components/Notifications.vue';
 import ThemeImageEditor from './Components/ThemeImageEditor.vue';
 import ThemeEditor from './Components/ThemeEditor.vue';
 import XmlEditor from './Components/XmlEditor.vue';
+import ModalDialog from './Components/ModalDialog.vue';
 
 export default {
   name: 'App',
@@ -34,7 +37,8 @@ export default {
     Notifications,
     ThemeImageEditor,
     ThemeEditor,
-    XmlEditor
+    XmlEditor,
+    ModalDialog
   },
   data() {
     return {
@@ -433,14 +437,30 @@ export default {
             [xml[3].value, xml[4].value, xml[5].value], 
             [xml[6].value, xml[7].value, xml[8].value]
           ];
-          this.$refs.xmlEditor.ShowModal(sliderValues);
+          //this.$refs.xmlEditor.ShowModal(sliderValues);
+
+          
+          this.$refs.modalDialog.ShowModal(sliderValues);
         }        
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
     },
     onXmlEditorClosed(e) { 
-      console.log('XML Editor Closed: ', e); 
+      //console.log('XML Editor Closed: ', e); 
+      this.themeTemplate.xml_profile[0].value = e[0][0];
+      this.themeTemplate.xml_profile[1].value = e[0][1];
+      this.themeTemplate.xml_profile[2].value = e[0][2];
+
+      this.themeTemplate.xml_profile[3].value = e[1][0];
+      this.themeTemplate.xml_profile[4].value = e[1][1];
+      this.themeTemplate.xml_profile[5].value = e[1][2];
+
+      this.themeTemplate.xml_profile[6].value = e[2][0];
+      this.themeTemplate.xml_profile[7].value = e[2][1];
+      this.themeTemplate.xml_profile[8].value = e[2][2];
+      //console.log(this.themeTemplate.xml_profile);
+      this.OnUpdateTheme({ theme: JSON.parse(JSON.stringify(this.themeTemplate)) });
     },
 
   },

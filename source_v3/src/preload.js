@@ -6,6 +6,12 @@ const path = require('path');
 
 contextBridge.exposeInMainWorld('api', {
 
+  applyFilter: (filterId) => {
+    const image = document.getElementById('targetImage');
+    const filter = document.getElementById(filterId);
+    image.style.filter = `url(#${filterId})`;
+  },
+
   // #region Assets
 
   getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
