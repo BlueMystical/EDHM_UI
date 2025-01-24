@@ -12,16 +12,6 @@
         <div class="modal-body" style="height: 400px;">
 
 
-          <!-- Define the SVG filter -->
-          <svg width="0" height="0">
-            <filter id="colorMatrixFilter">
-              <feColorMatrix type="matrix" :values="getMatrixValues"/>
-            </filter>
-          </svg>
-          <!-- Apply the filter to the image -->
-          <img id="targetImage" ref="image" :src="originalImageSrc" class="border" :style="{ filter: 'url(#colorMatrixFilter)' }" alt="...">
-
-
 
         </div><!--/body-->
 
@@ -42,25 +32,11 @@ export default {
   props: {},
   data() {
     return {
-      colorMatrix: [
-        [1.0, 0.0, 0.0], // Row[0]: Red, Green, Blue
-        [0.0, 1.0, 0.0], // Row[1]: Red, Green, Blue
-        [0.0, 0.0, -1.0], // Row[2]: Red, Green, Blue
-      ],
-      originalImageSrc: '../../images/xml-base.jpg',
+      myVar: '',
     }
   },
   computed: {
-    getMatrixValues() {      
-      //                                   R                              G                         B             A M
-      let matrixString = this.colorMatrix[0][0] + ' ' + this.colorMatrix[0][1] + ' ' + this.colorMatrix[0][2] + ' 0 0 ';
-      matrixString +=    this.colorMatrix[1][0] + ' ' + this.colorMatrix[1][1] + ' ' + this.colorMatrix[1][2] + ' 0 0 ';
-      matrixString +=    this.colorMatrix[2][0] + ' ' + this.colorMatrix[2][1] + ' ' + this.colorMatrix[2][2] + ' 0 0 ';
-      matrixString += '0 0 0 1 0';
 
-      console.log('Matrix values:', matrixString);
-      return matrixString;
-    }
   },
   methods: {
     ShowModal(matrix) {
@@ -72,21 +48,9 @@ export default {
     save() {
       this.$emit('onCloseModal', this.colorMatrix);
     },
-    applyFilter() {
-      // Reset the image source to the original
-      this.$refs.image.src = this.originalImageSrc;
-      
-      // Force Vue to reapply the filter
-      this.$nextTick(() => {
-        this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
-      });
-    },
     
   },
   async mounted() {
-    //this.getMatrixValues();
-    this.originalImageSrc = await window.api.getAssetFileUrl('images/xml-base.jpg');
-    this.applyFilter(); 
   },
   beforeUnmount() { }
 };

@@ -26,19 +26,19 @@ import Notifications from './Components/Notifications.vue';
 import ThemeImageEditor from './Components/ThemeImageEditor.vue';
 import ThemeEditor from './Components/ThemeEditor.vue';
 import XmlEditor from './Components/XmlEditor.vue';
-import ModalDialog from './Components/ModalDialog.vue';
+
 
 export default {
   name: 'App',
   components: {
     SearchBox,
     NavBarsBody,
-    SettingsEditor,    
+    SettingsEditor,
     Notifications,
     ThemeImageEditor,
     ThemeEditor,
     XmlEditor,
-    ModalDialog
+
   },
   data() {
     return {
@@ -76,8 +76,8 @@ export default {
   },
   methods: {
 
-     /** This is the Start Point of the Program **/
-     async Initialize() {
+    /** This is the Start Point of the Program **/
+    async Initialize() {
       try {
         console.log('Initializing App..');
         EventBus.emit('ShowSpinner', { visible: true });
@@ -106,11 +106,11 @@ export default {
             break;
           default:
             break;
-        }        
-        
+        }
+
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
-        EventBus.emit('InitializeHUDimage', null ); //<- Event Listened at HudImage.vue
+        EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
 
       } catch (error) {
         console.error(error);
@@ -140,10 +140,12 @@ export default {
         });
     },
 
+    // #region Settings Changed
+    
     /** Fires when the Settings had been changed, called from 'SettingsEditor'
      * @param newConfig the updated settings
      */
-    async OnProgramSettings_Changed(newConfig) { 
+    async OnProgramSettings_Changed(newConfig) {
       try {
         //console.log('newConfig:', newConfig);
 
@@ -151,10 +153,10 @@ export default {
         EventBus.emit('RoastMe', { type: 'Info', message: 'Installing EDHM files..' });
 
         const gameInstance = await window.api.getActiveInstanceEx();
-        let gameVersion = gameInstance.key === "ED_Odissey" ? newConfig.Version_ODYSS : newConfig.Version_HORIZ ;
+        let gameVersion = gameInstance.key === "ED_Odissey" ? newConfig.Version_ODYSS : newConfig.Version_HORIZ;
         const EdhmExists = await window.api.CheckEDHMinstalled(gameInstance.path);
         if (!EdhmExists) {
-          
+
           const edhmInstalled = await window.api.installEDHMmod(gameInstance);
           console.log('edhmInstalled:', edhmInstalled);
           gameVersion = edhmInstalled.version;
@@ -163,16 +165,16 @@ export default {
             newConfig.Version_ODYSS = edhmInstalled.version;
           } else {
             newConfig.Version_HORIZ = edhmInstalled.version;
-          }        
+          }
           this.settings = newConfig;
-        }        
+        }
 
         const jsonString = JSON.stringify(newConfig, null, 4);
         this.settings = await window.api.saveSettings(jsonString);
 
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
-        
+
         EventBus.emit('modUpdated', newConfig);     //<- Event listen in MainNavBars.vue
         EventBus.emit('FilterThemes', newConfig.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
 
@@ -186,16 +188,62 @@ export default {
         EventBus.emit('ShowError', error);
       } finally {
         EventBus.emit('ShowSpinner', { visible: false });
-      }      
+      }
     },
 
     /** Silently Updates changes in the Settings   * 
      * @param newConfig  the updated settings
      */
-    OnProgramSettings_Updated(newConfig){
+    OnProgramSettings_Updated(newConfig) {
       this.settings = newConfig;
     },
 
+    /** When the User pick a different Game on the Combo. * 
+     * @param GameInstanceName Name of the New Active Instance
+     */
+     async OnGameInstance_Changed(GameInstanceName) {
+      try {
+        EventBus.emit('ShowSpinner', { visible: true });
+        console.log('activeInstance', this.settings.ActiveInstance); //<- 'ActiveInstance' Changed by Ref.
+
+        const NewInstance = await window.api.getInstanceByName(GameInstanceName);
+        console.log('NewInstance:', NewInstance);
+
+        //const EdhmExists = await window.api.CheckEDHMinstalled(NewInstance.path);
+        //if (!EdhmExists) {
+        EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
+        const edhmInstalled = await window.api.installEDHMmod(NewInstance);
+
+        if (edhmInstalled.game === 'ODYSS') {
+          this.settings.Version_ODYSS = edhmInstalled.version;
+        } else {
+          this.settings.Version_HORIZ = edhmInstalled.version;
+        }
+
+        EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
+        EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
+
+        EventBus.emit('modUpdated', this.settings);     //<- Event listen in MainNavBars.vue
+        EventBus.emit('loadThemes', this.settings.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
+
+        EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
+        EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
+        //}
+
+        const jsonString = JSON.stringify(this.settings, null, 4);
+        await window.api.saveSettings(jsonString);
+
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      } finally {
+        EventBus.emit('ShowSpinner', { visible: false });
+      }
+    },
+    
+    // #endregion
+
+    // #region Themes changed
+    
     /** This will take your currently applied settings and Save them into the Selected Theme * 
    * @param e Selected Theme Data
    */
@@ -210,48 +258,34 @@ export default {
       }
     },
 
-    /** When the User pick a different Game on the Combo. * 
-     * @param GameInstanceName Name of the New Active Instance
+    /** When all Themes are Loaded. 
+     * @param event Contains the data of the themes
      */
-    async OnGameInstance_Changed(GameInstanceName) {
+     OnThemesLoaded(event) {
       try {
-        EventBus.emit('ShowSpinner', { visible: true });
-        console.log('activeInstance', this.settings.ActiveInstance ); //<- 'ActiveInstance' Changed by Ref.
-
-        const NewInstance = await window.api.getInstanceByName(GameInstanceName);
-        console.log('NewInstance:', NewInstance);
-
-        //const EdhmExists = await window.api.CheckEDHMinstalled(NewInstance.path);
-        //if (!EdhmExists) {
-          EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
-          const edhmInstalled = await window.api.installEDHMmod(NewInstance);
-
-          if (edhmInstalled.game === 'ODYSS') {
-            this.settings.Version_ODYSS = edhmInstalled.version;
-          } else {
-            this.settings.Version_HORIZ = edhmInstalled.version;
-          }
-
-          EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
-          EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
-
-          EventBus.emit('modUpdated', this.settings);     //<- Event listen in MainNavBars.vue
-          EventBus.emit('loadThemes', this.settings.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
-
-          EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
-          EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
-        //}
-        
-        const jsonString = JSON.stringify(this.settings, null, 4);
-        await window.api.saveSettings(jsonString);
+        this.themesLoaded = event;
+        //console.log('OnThemesLoaded:', this.themesLoaded );
 
       } catch (error) {
         EventBus.emit('ShowError', error);
-      } finally {
-        EventBus.emit('ShowSpinner', { visible: false });
-      } 
+      }
     },
+    /** When the Theme Template is Loaded. 
+     * @param event Contains the template of the theme
+     */
+    OnTemplateLoaded(event) {
+      try {
+        this.themeTemplate = event;
+        //console.log('OnTemplateLoaded:', this.themeTemplate );
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
+    
+    // #endregion
 
+    // #region SearchBox
+    
     /** Shows the Results of the Search Box 
      * @param event Contains the data to be shown
      */
@@ -266,18 +300,18 @@ export default {
     /** When the User Clicks on a Search Result. 
      * @param result The Result clicked
      */
-    OnSearchBox_Click(result) { 
-      console.log('Result clicked:', result); 
+    OnSearchBox_Click(result) {
+      console.log('Result clicked:', result);
       try {
         if (result.Parent === 'Themes') {
           EventBus.emit('setActiveTab', 'themes'); //<- Event listen in 'MainNavBars.vue'
           EventBus.emit('OnSelectTheme', result.Tag); //<- Event listened on 'ThemeTab.vue'
         } else {
           if (result.Parent === 'Global Settings') {
-            
+
           } else { //<- It's a Normal HUD Settings
             // Emit an event with the clicked area 
-            EventBus.emit('areaClicked', { id: result.Parent, title: result.Title } ); //<- Event listen in 'PropertiesTab.vue'           
+            EventBus.emit('areaClicked', { id: result.Parent, title: result.Title }); //<- Event listen in 'PropertiesTab.vue'           
             // Emit an event to set the active tab to 'properties' 
             EventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
             // Ensure Visibility of Selected Item
@@ -289,39 +323,17 @@ export default {
       }
     },
 
-    /** When all Themes are Loaded. 
-     * @param event Contains the data of the themes
-     */
-    OnThemesLoaded(event) {
-      try {        
-        this.themesLoaded = event;
-        //console.log('OnThemesLoaded:', this.themesLoaded );
-
-      } catch (error) {
-        EventBus.emit('ShowError', error);
-      }
-    },   
-    /** When the Theme Template is Loaded. 
-     * @param event Contains the template of the theme
-     */
-    OnTemplateLoaded(event) {
-      try {
-        this.themeTemplate = event;
-        //console.log('OnTemplateLoaded:', this.themeTemplate );
-      } catch (error) {
-        EventBus.emit('ShowError', error);
-      }
-    },
-
-    // #region Theme Editor
+    // #endregion
     
+    // #region Theme Editor
+
     async OnCreateTheme(e) {
       try {
         //console.log(e);
         if (e && e.theme != null) {
           //******  We are Editing a Theme     **************//
-          const _preview =  window.api.joinPath(e.theme.path, e.theme.credits.theme + '.jpg');
-          const _thumbim =  window.api.joinPath(e.theme.path, 'PREVIEW.jpg');
+          const _preview = window.api.joinPath(e.theme.path, e.theme.credits.theme + '.jpg');
+          const _thumbim = window.api.joinPath(e.theme.path, 'PREVIEW.jpg');
           this.previewImage = await window.api.GetImageB64(_preview);
           this.thumbnailImage = await window.api.GetImageB64(_thumbim);
           this.editingTheme = e.theme; //<- If Null, its a New Theme, else its Editing an existing theme        
@@ -329,7 +341,7 @@ export default {
             theme: e.theme.credits.theme,
             author: e.theme.credits.author,
             description: e.theme.credits.description,
-            preview: this.previewImage,  
+            preview: this.previewImage,
             thumb: this.thumbnailImage
           };
         } else {
@@ -351,7 +363,7 @@ export default {
 
       // STEP 0:  SHOW THE IMAGE EDITOR:
       this.showThemeImageEditorModal = true;
-    },    
+    },
     handleImageEditorSave(images) {
       // When the Image Editor is closed (by Saving)
       // STEP 1:  GET THE IMAGES FOR PREVIEW & THUMBNAIL
@@ -364,7 +376,7 @@ export default {
 
       } else {
         this.previewImage = images.previewImage;
-        this.thumbnailImage = images.thumbnailImage;        
+        this.thumbnailImage = images.thumbnailImage;
 
         this.themeEditorData = {
           theme: 'New Theme',
@@ -378,7 +390,7 @@ export default {
 
       // 1.1 SHOW THE THEME EDITOR:
       this.showThemeEditor = true;
-    },    
+    },
     async handleThemeEditorSubmit(data) {
       /**** WHEN THE THEME EDITOR IS CLOSED (by Saving) ***** */
       try {
@@ -429,63 +441,84 @@ export default {
 
     // #region XML Editor
 
+    getValue(xml_profile, targetKey) {
+      // Returns the Value of a Key from the xml_profile
+      for (let i = 0; i < xml_profile.length; i++) {
+        if (xml_profile[i].key === targetKey) {
+          return xml_profile[i].value;
+        }
+      }
+      return null; // If the key is not found
+    },
+    setValue(xml_profile, targetKey, newValue) {
+      // Sets the Value of a Key from the xml_profile
+      for (let i = 0; i < xml_profile.length; i++) {
+        if (xml_profile[i].key === targetKey) {
+          xml_profile[i].value = newValue;
+          return true; // If the key is found and the value is set
+        }
+      }
+      return false; // If the key is not found
+    },
+
     async OnShowXmlEditor(e) {
+      /* Shows a Modal Dialog to edit the selected theme XML */
       try {
-        if (this.themeTemplate) {          
+        if (this.themeTemplate) {
           const xml = JSON.parse(JSON.stringify(this.themeTemplate.xml_profile));
-         //console.log(this.themeTemplate.credits.theme, xml);
           const sliderValues = [
-            [xml[0].value, xml[1].value, xml[2].value], 
-            [xml[3].value, xml[4].value, xml[5].value], 
-            [xml[6].value, xml[7].value, xml[8].value]
+            [this.getValue(xml,'x150'), this.getValue(xml,'y150'), this.getValue(xml,'z150') ],
+            [this.getValue(xml,'x151'), this.getValue(xml,'y151'), this.getValue(xml,'z151') ],
+            [this.getValue(xml,'x152'), this.getValue(xml,'y152'), this.getValue(xml,'z152') ]
           ];
-          this.$refs.xmlEditor.ShowModal( { matrix: sliderValues, name: this.themeTemplate.credits.theme });          
-          //this.$refs.modalDialog.ShowModal(sliderValues);
-        }        
+          this.$refs.xmlEditor.ShowModal({ 
+            matrix: sliderValues, 
+            name: this.themeTemplate.credits.theme 
+          });
+        }
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
     },
     async onXmlEditorClosed(e) {
       try {
-        console.log('XML Editor Closed: ', e);
-        this.themeTemplate.xml_profile[0].value = e[0][0];
-        this.themeTemplate.xml_profile[1].value = e[0][1];
-        this.themeTemplate.xml_profile[2].value = e[0][2];
+        //console.log('XML Editor Closed: ', e);
+        this.setValue(this.themeTemplate.xml_profile, 'x150', e[0][0]);
+        this.setValue(this.themeTemplate.xml_profile, 'y150', e[0][1]);
+        this.setValue(this.themeTemplate.xml_profile, 'z150', e[0][2]);
 
-        this.themeTemplate.xml_profile[3].value = e[1][0];
-        this.themeTemplate.xml_profile[4].value = e[1][1];
-        this.themeTemplate.xml_profile[5].value = e[1][2];
+        this.setValue(this.themeTemplate.xml_profile, 'x151', e[1][0]);
+        this.setValue(this.themeTemplate.xml_profile, 'y151', e[1][1]);
+        this.setValue(this.themeTemplate.xml_profile, 'y152', e[1][2]);
 
-        this.themeTemplate.xml_profile[6].value = e[2][0];
-        this.themeTemplate.xml_profile[7].value = e[2][1];
-        this.themeTemplate.xml_profile[8].value = e[2][2];
+        this.setValue(this.themeTemplate.xml_profile, 'x152', e[2][0]);
+        this.setValue(this.themeTemplate.xml_profile, 'y152', e[2][1]);
+        this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2]);
 
-        console.log(this.themeTemplate);
         const _ret = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
         if (_ret) {
-          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Saved.` });
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Saved.<br>Remember to Apply the changes.` });
         }
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
     },
 
-     // #endregion
-  
-    },
+    // #endregion
+
+  },
   async mounted() {
 
     this.Initialize();
 
     /* LISTENING EVENTS:   */
-    EventBus.on('SettingsChanged', this.OnProgramSettings_Changed); 
-    EventBus.on('OnUpdateSettings', this.OnProgramSettings_Updated); 
-    EventBus.on('GameInsanceChanged', this.OnGameInstance_Changed); 
+    EventBus.on('SettingsChanged', this.OnProgramSettings_Changed);
+    EventBus.on('OnUpdateSettings', this.OnProgramSettings_Updated);
+    EventBus.on('GameInsanceChanged', this.OnGameInstance_Changed);
 
-    EventBus.on('OnThemesLoaded', this.OnThemesLoaded); 
+    EventBus.on('OnThemesLoaded', this.OnThemesLoaded);
     EventBus.on('ThemeLoaded', this.OnTemplateLoaded);
-    EventBus.on('SearchBox', this.OnSearchBox_Shown);    
+    EventBus.on('SearchBox', this.OnSearchBox_Shown);
 
     EventBus.on('OnCreateTheme', this.OnCreateTheme);
     EventBus.on('OnEditTheme', this.OnCreateTheme);
@@ -495,13 +528,13 @@ export default {
   },
   beforeUnmount() {
     // Clean up the event listener
-    EventBus.off('SettingsChanged', this.OnProgramSettings_Changed); 
-    EventBus.off('OnUpdateSettings', this.OnProgramSettings_Updated); 
-    EventBus.off('GameInsanceChanged', this.OnGameInstance_Changed); 
+    EventBus.off('SettingsChanged', this.OnProgramSettings_Changed);
+    EventBus.off('OnUpdateSettings', this.OnProgramSettings_Updated);
+    EventBus.off('GameInsanceChanged', this.OnGameInstance_Changed);
 
-    EventBus.off('SearchBox', this.OnSearchBox_Shown); 
+    EventBus.off('SearchBox', this.OnSearchBox_Shown);
 
-    EventBus.off('OnThemesLoaded', this.OnThemesLoaded); 
+    EventBus.off('OnThemesLoaded', this.OnThemesLoaded);
     EventBus.off('ThemeLoaded', this.OnTemplateLoaded);
 
     EventBus.off('OnCreateTheme', this.OnCreateTheme);
@@ -522,7 +555,6 @@ export default {
 .visually-hidden {
   color: #ffffff;
 }
-
 </style>
 
 

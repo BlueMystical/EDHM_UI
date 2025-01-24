@@ -74,6 +74,15 @@ function getValueFromSection(iniData, section, key, defaultValue) {
     return iniData[section] && iniData[section][key] || defaultValue;
 }
 
+function getXmlValueByKey(xml_profile, targetKey) {
+  for (let i = 0; i < xml_profile.length; i++) {
+      if (xml_profile[i].key === targetKey) {
+          return xml_profile[i].value;
+      }
+  }
+  return null; // If the key is not found
+}
+
 /**
  * Sets a value in a section of the INI object.
  *

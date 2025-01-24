@@ -14,8 +14,9 @@
       <li v-for="image in images" :key="image.id" :id="'image-' + image.id" class="image-container"
         :class="{ 'selected': image.id === selectedImageId }" @click="OnSelectTheme(image)"
         @contextmenu="onRightClick($event, image)">
-        <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />
+        <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />        
         <span class="image-label">{{ image.name }}</span>
+        <span v-if="isFavoriteEx(image)" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-warning"><i class="bi bi-star-fill"></i></span>  
       </li>
     </ul>
 
@@ -27,8 +28,7 @@
           <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a></li>
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item" href="#" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')">
-          {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a></li>
-          
+          {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a></li>          
       <li><hr class="dropdown-divider"></li>
       <li><h6 class="dropdown-header">{{ selectedTheme.name }}</h6></li>
       <p><small class="px-3 disabled">Author: <span v-html="selectedTheme.file.credits.author"></span></small></p>     
@@ -46,10 +46,6 @@
 
 <script>
 import EventBus from '../EventBus';
-
-// Enable Collapse for the Context Menu
-//const collapseElementList = document.querySelectorAll('.collapse');
-//const collapseList = [...collapseElementList].map(collapseEl => new bootstrap.Collapse(collapseEl));
 
 // Enable Dropdown for the Context Menu
 const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
@@ -75,7 +71,8 @@ export default {
       quequeSelect: null,       //<- Index of a theme to be selected waiting in a Queque
 
       contextMenuStyle: {},
-      showContextMenuFlag: false //<- Flag to show the Context Menu
+      showContextMenuFlag: false, //<- Flag to show the Context Menu
+      favToogle: false,
     };
   },
   computed: {
@@ -86,7 +83,6 @@ export default {
     isFavorite() {
       return this.selectedTheme && this.selectedTheme.file && this.selectedTheme.file.isFavorite;
     },
-
   },
   methods: {
 
@@ -171,7 +167,11 @@ export default {
       }
     },
 
+    isFavoriteEx(image) {
+      return image && image.file.isFavorite;
+    },
     FilterThemes(favoritesOnly) {
+      this.favToogle = favoritesOnly;
       if (this.themes && this.themes.length > 0) {
         this.images = this.themes.filter(theme => !favoritesOnly || theme.file.isFavorite === favoritesOnly);
       }
@@ -236,7 +236,7 @@ export default {
           let favTheme = this.themes.find(image => image.id === this.selectedTheme.id);   //console.log('favTheme: ', favTheme);
           if (favTheme) {
             favTheme.file.isFavorite = true;
-            this.FilterThemes(true);
+            this.FilterThemes(this.favToogle);
           }
           EventBus.emit('RoastMe', { type: 'Success', message: 'Theme added to Favorites' });
         } else {
@@ -332,8 +332,6 @@ export default {
     },
 
     // #endregion
-
-
 
   },
   async mounted() {
