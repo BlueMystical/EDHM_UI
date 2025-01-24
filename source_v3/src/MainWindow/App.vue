@@ -431,16 +431,14 @@ export default {
       try {
         if (this.themeTemplate) {          
           const xml = JSON.parse(JSON.stringify(this.themeTemplate.xml_profile));
-          //console.log(xml);
+          console.log(this.themeTemplate.name, xml);
           const sliderValues = [
             [xml[0].value, xml[1].value, xml[2].value], 
             [xml[3].value, xml[4].value, xml[5].value], 
             [xml[6].value, xml[7].value, xml[8].value]
           ];
-          //this.$refs.xmlEditor.ShowModal(sliderValues);
-
-          
-          this.$refs.modalDialog.ShowModal(sliderValues);
+          this.$refs.xmlEditor.ShowModal(sliderValues);          
+          //this.$refs.modalDialog.ShowModal(sliderValues);
         }        
       } catch (error) {
         EventBus.emit('ShowError', error);

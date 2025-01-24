@@ -16,17 +16,17 @@
                 <div class="col-4">
                   <label for="redSlider1">Red: {{ sliderValues[0][0] }}</label>
                   <input type="range" id="redSlider1" class="form-range" v-model="sliderValues[0][0]" min="-1" max="2"
-                    step="0.1" @input="applyColorMatrix">
+                    step="0.1" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider1">Green: {{ sliderValues[0][1] }}</label>
                   <input type="range" id="greenSlider1" class="form-range" v-model="sliderValues[0][1]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider1">Blue: {{ sliderValues[0][2] }}</label>
                   <input type="range" id="blueSlider1" class="form-range" v-model="sliderValues[0][2]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
               </div>
 
@@ -34,17 +34,17 @@
                 <div class="col-4">
                   <label for="redSlider2">Red: {{ sliderValues[1][0] }}</label>
                   <input type="range" id="redSlider2" class="form-range" v-model="sliderValues[1][0]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider2">Green: {{ sliderValues[1][1] }}</label>
                   <input type="range" id="greenSlider2" class="form-range" v-model="sliderValues[1][1]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider2">Blue: {{ sliderValues[1][2] }}</label>
                   <input type="range" id="blueSlider2" class="form-range" v-model="sliderValues[1][2]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
               </div>
 
@@ -52,17 +52,17 @@
                 <div class="col-4">
                   <label for="redSlider3">Red: {{ sliderValues[2][0] }}</label>
                   <input type="range" id="redSlider3" class="form-range" v-model="sliderValues[2][0]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider3">Green: {{ sliderValues[2][1] }}</label>
                   <input type="range" id="greenSlider3" class="form-range" v-model="sliderValues[2][1]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider3">Blue: {{ sliderValues[2][2] }}</label>
                   <input type="range" id="blueSlider3" class="form-range" v-model="sliderValues[2][2]" min="-1" max="2"
-                    step="0.01" @input="applyColorMatrix">
+                    step="0.01" @input="applyFilter">
                 </div>
               </div>
 
@@ -92,9 +92,15 @@
 
             <!-- Right Side Column -->
             <div class="col-8 d-flex justify-content-center align-items-center ">
-              <!-- Hidden Image and Canvas -->
-              <img id="targetImage" ref="image" src="../../images/xml-base.jpg" class="d-none border" alt="...">
-              <canvas ref="canvas" class="img-fluid border"></canvas>
+
+              <!-- Define the SVG filter -->
+              <svg width="0" height="0">
+                <filter id="colorMatrixFilter">
+                  <feColorMatrix type="matrix" :values="getMatrixValues"/>
+                </filter>
+              </svg>
+              <!-- Apply the filter to the image -->
+              <img id="targetImage" ref="image" :src="originalImageSrc" class="border" :style="{ filter: 'url(#colorMatrixFilter)' }" alt="...">
             
             </div><!--/Right Column-->
 
@@ -125,6 +131,7 @@ export default {
         [0.0, 0.0, 1.0], // Row[2]: Red, Green, Blue
       ],
       colorMatrix: '', // Placeholder for copied color matrix
+      originalImageSrc: '../../images/xml-base.jpg',
       /* filters: '',
        filtersList: '',*/
     };
@@ -135,6 +142,16 @@ export default {
       const greenMatrix = `<MatrixGreen>${this.sliderValues[1].join(', ')}</MatrixGreen>`;
       const blueMatrix = `<MatrixBlue>${this.sliderValues[2].join(', ')}</MatrixBlue>`;
       return `${redMatrix}\n${greenMatrix}\n${blueMatrix}`;
+    },
+    getMatrixValues() {      
+      //                                   R                              G                         B             A M
+      let matrixString = this.sliderValues[0][0] + ' ' + this.sliderValues[0][1] + ' ' + this.sliderValues[0][2] + ' 0 0 '; //<- R
+      matrixString +=    this.sliderValues[1][0] + ' ' + this.sliderValues[1][1] + ' ' + this.sliderValues[1][2] + ' 0 0 '; //<- G
+      matrixString +=    this.sliderValues[2][0] + ' ' + this.sliderValues[2][1] + ' ' + this.sliderValues[2][2] + ' 0 0 '; //<- B
+      matrixString += '0 0 0 1 0'; //<- A
+
+      console.log('Matrix values:', matrixString);
+      return matrixString;
     }
   },
   methods: {
@@ -236,10 +253,9 @@ export default {
         this.sliderValues[1] = greenMatrix[1].split(',').map(Number);
         this.sliderValues[2] = blueMatrix[1].split(',').map(Number);
       }
-      this.applyColorMatrix();
-
+      this.applyFilter();
     },
-
+/*
     applyColorMatrix() {
       const canvas = this.$refs.canvas;
       const ctx = canvas.getContext('2d');
@@ -311,6 +327,15 @@ export default {
       }
 
       ctx.putImageData(imageData, 0, 0);
+    },*/
+    applyFilter() {
+      // Reset the image source to the original
+      this.$refs.image.src = this.originalImageSrc;
+      
+      // Force Vue to reapply the filter
+      this.$nextTick(() => {
+        this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
+      });
     },
 
     /*
@@ -442,13 +467,14 @@ export default {
 
 
 
-    loadImage() {
+    async loadImage() {
+      this.originalImageSrc = await window.api.getAssetFileUrl('images/xml-base.jpg');
       const img = this.$refs.image;
       img.onload = () => {
-        this.applyColorMatrix();
+        this.applyFilter();
       };
       if (img.complete) {
-        this.applyColorMatrix();
+        this.applyFilter();
       }
     },
 
