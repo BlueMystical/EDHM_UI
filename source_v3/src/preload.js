@@ -1,16 +1,9 @@
 /* THIS IS AN INTERMEDIATE LAYER BETWEEN THE 'MAIN PROCESS' AND THE 'RENDERER PROCESS'  */
 
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, shell  } = require('electron');
 const path = require('path');
 
-
 contextBridge.exposeInMainWorld('api', {
-
-  applyFilter: (filterId) => {
-    const image = document.getElementById('targetImage');
-    const filter = document.getElementById(filterId);
-    image.style.filter = `url(#${filterId})`;
-  },
 
   // #region Assets
 
@@ -75,6 +68,7 @@ contextBridge.exposeInMainWorld('api', {
   CreateNewTheme: async (themeData) => ipcRenderer.invoke('CreateNewTheme', themeData),
   ExportTheme: async (themeData) => ipcRenderer.invoke('ExportTheme', themeData),
   UpdateTheme: async (themeData) => ipcRenderer.invoke('UpdateTheme', themeData), 
+  SaveTheme: async (themeData) => ipcRenderer.invoke('SaveTheme', themeData),
   getColorMatrixFilters: async () => ipcRenderer.invoke('GetColorMatrixFilters'),
 
   // #endregion
@@ -113,6 +107,8 @@ contextBridge.exposeInMainWorld('api', {
   GetGammaCorrected_RGBA: async (color, gammaValue) => ipcRenderer.invoke('GetGammaCorrected_RGBA', color, gammaValue),
   reverseGammaCorrected:  async (color, gammaValue) => ipcRenderer.invoke('reverseGammaCorrected',  color, gammaValue),
   intToRGBA:  async (colorValue) => ipcRenderer.invoke('intToRGBA',  colorValue),
+
+  openUrlInBrowser: (url) => { shell.openExternal(url); },
 
     // #endregion
 

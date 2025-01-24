@@ -240,6 +240,21 @@ async function CreateNewTheme(credits) {
   }
 }
 
+/**
+ * Updates the theme with the provided theme data.
+ * 
+ * @param {Object} themeData - The data for the theme to be updated.
+ * @param {Object} themeData.credits - The credits information for the theme.
+ * @param {string} themeData.credits.theme - The name of the theme.
+ * @param {string} themeData.credits.author - The author of the theme.
+ * @param {string} themeData.credits.description - The description of the theme.
+ * @param {string} themeData.credits.preview - The base64 encoded preview image of the theme.
+ * @param {string} themeData.credits.thumb - The base64 encoded thumbnail image of the theme.
+ * 
+ * @returns {Promise<boolean>} - Returns true if the theme was successfully updated, otherwise false.
+ * 
+ * @throws {Error} - Throws an error if the theme update process fails.
+ */
 async function UpdateTheme(themeData) {
   try {
     //console.log('credits: ', credits);  
@@ -269,6 +284,34 @@ async function UpdateTheme(themeData) {
       //fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));      
       //fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
 
+      if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
+        return true;
+      } else {
+        return false;
+      }      
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+/**
+ * Saves Theme Changes directly into the 'ThemeSettings.json'
+ * @param {*} themeData Data of the Theme
+ * @returns 
+ */
+async function SaveTheme(themeData) {
+  try {
+    //1. RESOLVE THE THEMES PATH:
+    const themesPath = themeData.path;  
+    themeData.path = '';
+
+    //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
+    if (fileHelper.ensureDirectoryExists(themesPath)) {
+
+      //4. WRITE THE NEW THEME FILES:
+      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), themeData);
       if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
         return true;
       } else {
@@ -835,6 +878,13 @@ ipcMain.handle('CreateNewTheme', async (event, credits) => {
 ipcMain.handle('UpdateTheme', async (event, theme) => {
   try {
     return UpdateTheme(theme);
+  } catch (error) {
+    throw error;
+  }
+}); 
+ipcMain.handle('SaveTheme', async (event, theme) => {
+  try {
+    return SaveTheme(theme);
   } catch (error) {
     throw error;
   }

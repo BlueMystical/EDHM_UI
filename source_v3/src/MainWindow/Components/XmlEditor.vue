@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">XML Editor</h5>
+          <h5 class="modal-title">XML Editor [ {{ themeName }} ]</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -15,17 +15,17 @@
               <div class="row">
                 <div class="col-4">
                   <label for="redSlider1">Red: {{ sliderValues[0][0] }}</label>
-                  <input type="range" id="redSlider1" class="form-range" v-model="sliderValues[0][0]" min="-1" max="2"
+                  <input type="range" id="redSlider1" class="form-range" v-model="sliderValues[0][0]" min="-2" max="2"
                     step="0.1" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider1">Green: {{ sliderValues[0][1] }}</label>
-                  <input type="range" id="greenSlider1" class="form-range" v-model="sliderValues[0][1]" min="-1" max="2"
+                  <input type="range" id="greenSlider1" class="form-range" v-model="sliderValues[0][1]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider1">Blue: {{ sliderValues[0][2] }}</label>
-                  <input type="range" id="blueSlider1" class="form-range" v-model="sliderValues[0][2]" min="-1" max="2"
+                  <input type="range" id="blueSlider1" class="form-range" v-model="sliderValues[0][2]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
               </div>
@@ -33,17 +33,17 @@
               <div class="row">
                 <div class="col-4">
                   <label for="redSlider2">Red: {{ sliderValues[1][0] }}</label>
-                  <input type="range" id="redSlider2" class="form-range" v-model="sliderValues[1][0]" min="-1" max="2"
+                  <input type="range" id="redSlider2" class="form-range" v-model="sliderValues[1][0]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider2">Green: {{ sliderValues[1][1] }}</label>
-                  <input type="range" id="greenSlider2" class="form-range" v-model="sliderValues[1][1]" min="-1" max="2"
+                  <input type="range" id="greenSlider2" class="form-range" v-model="sliderValues[1][1]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider2">Blue: {{ sliderValues[1][2] }}</label>
-                  <input type="range" id="blueSlider2" class="form-range" v-model="sliderValues[1][2]" min="-1" max="2"
+                  <input type="range" id="blueSlider2" class="form-range" v-model="sliderValues[1][2]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
               </div>
@@ -51,20 +51,22 @@
               <div class="row">
                 <div class="col-4">
                   <label for="redSlider3">Red: {{ sliderValues[2][0] }}</label>
-                  <input type="range" id="redSlider3" class="form-range" v-model="sliderValues[2][0]" min="-1" max="2"
+                  <input type="range" id="redSlider3" class="form-range" v-model="sliderValues[2][0]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider3">Green: {{ sliderValues[2][1] }}</label>
-                  <input type="range" id="greenSlider3" class="form-range" v-model="sliderValues[2][1]" min="-1" max="2"
+                  <input type="range" id="greenSlider3" class="form-range" v-model="sliderValues[2][1]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider3">Blue: {{ sliderValues[2][2] }}</label>
-                  <input type="range" id="blueSlider3" class="form-range" v-model="sliderValues[2][2]" min="-1" max="2"
+                  <input type="range" id="blueSlider3" class="form-range" v-model="sliderValues[2][2]" min="-2" max="2"
                     step="0.01" @input="applyFilter">
                 </div>
               </div>
+
+              <hr>
 
               <!-- XML Input -->
               <div class="row h-50">
@@ -75,7 +77,7 @@
                 </div>
 
                 <div class="mb-3">
-                  <button class="btn btn-outline-secondary" type="button" id="button-addon1">Get XMLs from the No2O site</button>
+                  <button class="btn btn-secondary" type="button" id="button-addon1" @click="GoToNo2_Click">Get XMLs from the No2O site</button>
                   <!--<div class="input-group mb-3">
                     <label class="input-group-text" for="cboFilters">Filters:</label>
                     <select id="cboFilters" class="form-select" aria-label="Default select example"
@@ -109,7 +111,7 @@
 
         <div class="modal-footer">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Save changes</button>
           </div>
         </div><!--/Footer-->
@@ -132,6 +134,7 @@ export default {
       ],
       colorMatrix: '', // Placeholder for copied color matrix
       originalImageSrc: '../../images/xml-base.jpg',
+      themeName: '',
       /* filters: '',
        filtersList: '',*/
     };
@@ -150,7 +153,7 @@ export default {
       matrixString +=    this.sliderValues[2][0] + ' ' + this.sliderValues[2][1] + ' ' + this.sliderValues[2][2] + ' 0 0 '; //<- B
       matrixString += '0 0 0 1 0'; //<- A
 
-      console.log('Matrix values:', matrixString);
+      //console.log('Matrix values:', matrixString);
       return matrixString;
     }
   },
@@ -172,8 +175,9 @@ export default {
       const labels = ['Red', 'Green', 'Blue'];
       return labels[colIndex];
     },
-    ShowModal(matrix) {
-      this.sliderValues = matrix;
+    ShowModal(data) {
+      this.sliderValues = data.matrix;
+      this.themeName = data.name;
       const myModal = new bootstrap.Modal('#XmlEditorModal', { keyboard: false });
       this.parseColorMatrix();
       myModal.show();
@@ -181,6 +185,12 @@ export default {
     save() {
       console.log(this.sliderValues);
       this.$emit('onCloseModal', this.sliderValues);
+      this.sliderValues = [
+        [1.0, 0.0, 0.0], 
+        [0.0, 1.0, 0.0], 
+        [0.0, 0.0, 1.0],
+      ];
+      this.$refs.image.src = this.originalImageSrc;
     },
 
     filterSelected() {
@@ -338,57 +348,6 @@ export default {
       });
     },
 
-    /*
-    applyColorMatrix() {
-      const canvas = this.$refs.canvas;
-      const ctx = canvas.getContext('2d');
-      const img = this.$refs.image;
-
-      // Draw the image onto the canvas
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-      // Get the image data
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
-
-      // Define the color matrix (5x5 matrix for RGBA)
-      const matrix = [
-        [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2], 0, 0],    // red scaling 
-        [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2], 0, 0],    // green scaling 
-        [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2], 0, 0],    // blue scaling 
-        [0, 0, 0, 1, 0],    // alpha scaling 
-        [0, 0, 0, 0, 1]     // intensity scaling
-      ];
-      //console.log('matrix', matrix);
-
-      // Apply the color matrix transformation
-      for (let i = 0; i < data.length; i += 4) {
-        const red =   data[i];
-        const green = data[i + 1];
-        const blue =  data[i + 2];
-        const alpha = data[i + 3];
-
-        // Perform matrix multiplication for each color channel
-        const newRed =    matrix[0][0] * red + matrix[0][1] * green + matrix[0][2] * blue + matrix[0][3] * alpha + matrix[0][4];
-        const newGreen =  matrix[1][0] * red + matrix[1][1] * green + matrix[1][2] * blue + matrix[1][3] * alpha + matrix[1][4];
-        const newBlue =   matrix[2][0] * red + matrix[2][1] * green + matrix[2][2] * blue + matrix[2][3] * alpha + matrix[2][4];
-        const newAlpha =  matrix[3][0] * red + matrix[3][1] * green + matrix[3][2] * blue + matrix[3][3] * alpha + matrix[3][4];
-
-        // Clamp values to 0-255
-        data[i] =     Math.max(0, Math.min(255, newRed));
-        data[i + 1] = Math.max(0, Math.min(255, newGreen));
-        data[i + 2] = Math.max(0, Math.min(255, newBlue));
-        data[i + 3] = Math.max(0, Math.min(255, newAlpha));
-      }
-
-      // Put the image data back onto the canvas
-      ctx.putImageData(imageData, 0, 0);
-    },
-
-    */
-
     crop(value, min, max) {
       value = Math.max(value, min);
       value = Math.min(value, max);
@@ -415,57 +374,6 @@ export default {
     transform(rgba, filter, value) {
       return multiply(rgba, (api.getFilter(filter))(value));
     },
-
-    /*
-        applyColorMatrix() {
-          const canvas = this.$refs.canvas;
-          const ctx = canvas.getContext('2d');
-          const img = this.$refs.image;
-    
-          // Draw the image onto the canvas
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    
-          // Get the image data
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-    
-          // Define the color matrix (5x5 matrix for RGBA)
-          const matrix = [
-            [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2], 0, 0],    // red scaling 
-            [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2], 0, 0],    // green scaling 
-            [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2], 0, 0],    // blue scaling 
-            [0, 0, 0, 1, 0],    // alpha scaling 
-            [0, 0, 0, 0, 1]     // intensity scaling
-          ];
-    
-          // Apply the color matrix transformation
-          for (let i = 0; i < data.length; i += 4) {
-            const red =   data[i];
-            const green = data[i + 1];
-            const blue =  data[i + 2];
-            const alpha = data[i + 3];
-    
-            // Perform matrix multiplication for each color channel
-            const newRed =    matrix[0][0] * red + matrix[0][1] * green + matrix[0][2] * blue + matrix[0][3] * alpha + matrix[0][4];
-            const newGreen =  matrix[1][0] * red + matrix[1][1] * green + matrix[1][2] * blue + matrix[1][3] * alpha + matrix[1][4];
-            const newBlue =   matrix[2][0] * red + matrix[2][1] * green + matrix[2][2] * blue + matrix[2][3] * alpha + matrix[2][4];
-            const newAlpha =  matrix[3][0] * red + matrix[3][1] * green + matrix[3][2] * blue + matrix[3][3] * alpha + matrix[3][4];  
-    
-            // Clamp values to 0-255
-            data[i] =     Math.max(0, Math.min(255, newRed));
-            data[i + 1] = Math.max(0, Math.min(255, newGreen));
-            data[i + 2] = Math.max(0, Math.min(255, newBlue));
-            data[i + 3] = Math.max(0, Math.min(255, newAlpha));
-    
-          }
-    
-          // Put the image data back onto the canvas
-          ctx.putImageData(imageData, 0, 0);
-        },*/
-
-
 
     async loadImage() {
       this.originalImageSrc = await window.api.getAssetFileUrl('images/xml-base.jpg');
@@ -738,6 +646,9 @@ export default {
       };
     },
 
+    GoToNo2_Click() {
+      window.api.openUrlInBrowser('https://forums.frontier.co.uk/threads/no2o-the-definitive-list-of-1-7-2-2-compatible-hud-colour-color-configs-please-add-yours.259311/');
+    }
 
   },
   mounted() {

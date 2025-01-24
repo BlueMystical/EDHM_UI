@@ -196,6 +196,20 @@ export default {
       this.settings = newConfig;
     },
 
+    /** This will take your currently applied settings and Save them into the Selected Theme * 
+   * @param e Selected Theme Data
+   */
+    async OnUpdateTheme(e) {
+      if (e && e.theme != null) {
+        const NewThemeData = JSON.parse(JSON.stringify(e.theme));
+        const _ret = await window.api.UpdateTheme(NewThemeData);
+        console.log('UpdateTheme:', _ret);
+        if (_ret) {
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
+        }
+      }
+    },
+
     /** When the User pick a different Game on the Combo. * 
      * @param GameInstanceName Name of the New Active Instance
      */
@@ -413,55 +427,53 @@ export default {
 
     // #endregion
 
-    /** This will take your currently applied settings and Save them into the Selected Theme * 
-     * @param e Selected Theme Data
-     */
-    async OnUpdateTheme(e) {
-      if (e && e.theme != null) {
-        const NewThemeData = JSON.parse(JSON.stringify(e.theme));
-        const _ret = await window.api.UpdateTheme(NewThemeData);
-        console.log('UpdateTheme:', _ret);
-        if (_ret) {
-          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
-        }
-      }
-    },
+    // #region XML Editor
 
     async OnShowXmlEditor(e) {
       try {
         if (this.themeTemplate) {          
           const xml = JSON.parse(JSON.stringify(this.themeTemplate.xml_profile));
-          console.log(this.themeTemplate.name, xml);
+         //console.log(this.themeTemplate.credits.theme, xml);
           const sliderValues = [
             [xml[0].value, xml[1].value, xml[2].value], 
             [xml[3].value, xml[4].value, xml[5].value], 
             [xml[6].value, xml[7].value, xml[8].value]
           ];
-          this.$refs.xmlEditor.ShowModal(sliderValues);          
+          this.$refs.xmlEditor.ShowModal( { matrix: sliderValues, name: this.themeTemplate.credits.theme });          
           //this.$refs.modalDialog.ShowModal(sliderValues);
         }        
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
     },
-    onXmlEditorClosed(e) { 
-      //console.log('XML Editor Closed: ', e); 
-      this.themeTemplate.xml_profile[0].value = e[0][0];
-      this.themeTemplate.xml_profile[1].value = e[0][1];
-      this.themeTemplate.xml_profile[2].value = e[0][2];
+    async onXmlEditorClosed(e) {
+      try {
+        console.log('XML Editor Closed: ', e);
+        this.themeTemplate.xml_profile[0].value = e[0][0];
+        this.themeTemplate.xml_profile[1].value = e[0][1];
+        this.themeTemplate.xml_profile[2].value = e[0][2];
 
-      this.themeTemplate.xml_profile[3].value = e[1][0];
-      this.themeTemplate.xml_profile[4].value = e[1][1];
-      this.themeTemplate.xml_profile[5].value = e[1][2];
+        this.themeTemplate.xml_profile[3].value = e[1][0];
+        this.themeTemplate.xml_profile[4].value = e[1][1];
+        this.themeTemplate.xml_profile[5].value = e[1][2];
 
-      this.themeTemplate.xml_profile[6].value = e[2][0];
-      this.themeTemplate.xml_profile[7].value = e[2][1];
-      this.themeTemplate.xml_profile[8].value = e[2][2];
-      //console.log(this.themeTemplate.xml_profile);
-      this.OnUpdateTheme({ theme: JSON.parse(JSON.stringify(this.themeTemplate)) });
+        this.themeTemplate.xml_profile[6].value = e[2][0];
+        this.themeTemplate.xml_profile[7].value = e[2][1];
+        this.themeTemplate.xml_profile[8].value = e[2][2];
+
+        console.log(this.themeTemplate);
+        const _ret = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
+        if (_ret) {
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Saved.` });
+        }
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
     },
 
-  },
+     // #endregion
+  
+    },
   async mounted() {
 
     this.Initialize();
