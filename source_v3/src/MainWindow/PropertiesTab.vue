@@ -102,7 +102,6 @@ export default defineComponent({
     const key = ref(0);
     const reference = ref(null);
 
-
     const intToHexColor = (number) => {
       return `#${(number >>> 0).toString(16).padStart(6, '0')}`;
     };

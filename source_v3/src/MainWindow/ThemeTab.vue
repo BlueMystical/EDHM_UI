@@ -16,7 +16,7 @@
         @contextmenu="onRightClick($event, image)">
         <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />        
         <span class="image-label">{{ image.name }}</span>
-        <span v-if="isFavoriteEx(image)" class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-warning"><i class="bi bi-star-fill"></i></span>  
+        <span v-if="isFavoriteEx(image)" class=" badge rounded-pill text-bg-warning"><i class="bi bi-star-fill"></i></span>  
       </li>
     </ul>
 

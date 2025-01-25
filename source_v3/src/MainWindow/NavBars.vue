@@ -543,7 +543,7 @@ export default {
           (theme.file.credits.author && typeof theme.file.credits.author.toLowerCase === 'function' && theme.file.credits.author.toLowerCase().includes(searchQuery))
         ).map(theme => ({
           Parent: 'Themes', // theme.file.credits.theme,
-          Category: "Theme",
+          Category: "Theme by [" + theme.file.credits.author + ']',
           Title: theme.name,
           Description: theme.file.credits.description,
           Tag: theme

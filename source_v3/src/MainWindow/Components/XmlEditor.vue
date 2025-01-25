@@ -83,8 +83,7 @@
                 <div class="btn-group mb-3" role="group" aria-label="Basic example">
                   <button class="btn btn-outline-secondary" type="button" @click="GoToNo2_Click">Get XML Presets</button>
                   <button class="btn btn-outline-secondary" type="button" @click="ShowInfo_Click">What is a Color Matrix?</button>
-                </div>
-                
+                </div>                
               </div><!--/XmlInput-->
 
             </div><!--/LeftColumn-->
@@ -131,7 +130,7 @@
 
                     <div class="row" style="height: 50px;">
                       <div class="col d-flex justify-content-center align-items-center">Orange Elements</div>
-                      <div class="col border" style="background-color: orange;"></div>
+                      <div class="col border" :style="{ 'background-color': colorTranform[0].default }"></div>
                       <div class="col">→</div>
                       <div class="col border" :style="{ 'background-color': colorTranform[0].hex }"></div>
                       <div class="col d-flex justify-content-center align-items-center">{{ colorTranform[0].rgb }}</div>
@@ -140,7 +139,7 @@
 
                     <div class="row" style="height: 50px;">
                       <div class="col d-flex justify-content-center align-items-center">White Elements</div>
-                      <div class="col border" style="background-color: white;"></div>
+                      <div class="col border" :style="{ 'background-color': colorTranform[1].default }"></div>
                       <div class="col">→</div>
                       <div class="col border" :style="{ 'background-color': colorTranform[1].hex }"></div>
                       <div class="col d-flex justify-content-center align-items-center">{{ colorTranform[1].rgb }}</div>
@@ -149,7 +148,7 @@
 
                     <div class="row" style="height: 50px;">
                       <div class="col d-flex justify-content-center align-items-center">Red Elements</div>
-                      <div class="col border" style="background-color: red;"></div>
+                      <div class="col border" :style="{ 'background-color': colorTranform[2].default }"></div>
                       <div class="col">→</div>
                       <div class="col border" :style="{ 'background-color': colorTranform[2].hex }"></div>
                       <div class="col d-flex justify-content-center align-items-center">{{ colorTranform[2].rgb }}</div>
@@ -158,7 +157,7 @@
 
                     <div class="row" style="height: 50px;">
                       <div class="col d-flex justify-content-center align-items-center">Cyan Elements</div>
-                      <div class="col border" style="background-color: cyan;"></div>
+                      <div class="col border" :style="{ 'background-color': colorTranform[3].default }"></div>
                       <div class="col">→</div>
                       <div class="col border" :style="{ 'background-color': colorTranform[3].hex }"></div>
                       <div class="col d-flex justify-content-center align-items-center">{{ colorTranform[3].rgb }}</div>
@@ -209,14 +208,14 @@ export default {
   data() {
     return {
       sliderValues: [
-        [1.0, 0.0, 0.0], // Row[0]: Red[0][0], Green[0][1], Blue[0][2]
-        [0.0, 1.0, 0.0], // Row[1]: Red[1][0], Green[1][1], Blue[1][2]
-        [0.0, 0.0, 1.0], // Row[2]: Red[2][0], Green[2][1], Blue[2][2]
+        [1.0, 0.0, 0.0], // Red[0]:   Red[0][0], Green[0][1], Blue[0][2]
+        [0.0, 1.0, 0.0], // Green[1]: Red[1][0], Green[1][1], Blue[1][2]
+        [0.0, 0.0, 1.0], // Blue[2]:  Red[2][0], Green[2][1], Blue[2][2]
       ],
       colorMatrix: '', // Placeholder for copied color matrix
       originalImageSrc: '../../images/xml-base.jpg',
       themeName: '', //For Dialog's Title
-      colorTranform: [
+      colorTranform: [ 
         { id: 'Orange', default: '#FFA500', rgb: '255;165;0',   hex: '#FFA500'},
         { id: 'White',  default: '#FFFFFF', rgb: '255;255;255', hex: '#FFFFFF'},
         { id: 'Red',    default: '#FF0000', rgb: '255;0;0',     hex: '#FF0000'},
@@ -325,7 +324,7 @@ export default {
       this.TransformXMLColors();
       this.applyFilter();      
     },
-    /*
+    /*  THIS IS A MANUAL WAY TO APPLY THE XML MATRIX
         applyColorMatrix() {
           const canvas = this.$refs.canvas;
           const ctx = canvas.getContext('2d');

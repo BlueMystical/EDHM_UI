@@ -2,8 +2,9 @@
   <div id="app" class="bg-dark text-light" data-bs-theme="dark">
     
     <NavBarsBody :themesLoaded="themesLoaded" />
-    <SettingsEditor @save="saveConfig" />
     <Notifications/>
+
+    <SettingsEditor @save="saveConfig" />
 
     <SearchBox ref="searchBox" :searchResults="searchResults" @resultClicked="OnSearchBox_Click"/>
     
@@ -11,8 +12,6 @@
     <ThemeImageEditor v-if="showThemeImageEditorModal" :themeEditorData="themeEditorData" @save="handleImageEditorSave" @close="closeThemeImageEditor" />
     <ThemeEditor v-if="showThemeEditor" :themeEditorData="themeEditorData" @submit="handleThemeEditorSubmit" @close="closeThemeEditor" />
     <XmlEditor ref="xmlEditor" @onCloseModal="onXmlEditorClosed"/>
-
-    <ModalDialog  ref="modalDialog"/>
 
   </div>
 </template>
