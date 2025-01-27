@@ -394,7 +394,7 @@ export default {
       /**** WHEN THE THEME EDITOR IS CLOSED (by Saving) ***** */
       try {
         if (data instanceof SubmitEvent) { return; } // Ignore the SubmitEvent  
-        console.log('Data:', data); //<- credits: { theme: 'ThemeName', author: '', description: '', preview: 'Base64image', thumb: 'Base64image' }
+        //console.log('Data:', data); //<- credits: { theme: 'ThemeName', author: '', description: '', preview: 'Base64image', thumb: 'Base64image' }
         this.closeThemeEditor();
 
         //STEP 2:  GET THE NEW THEME'S META-DATA      
@@ -403,9 +403,10 @@ export default {
 
         //STEP 3: WRITE THE NEW THEME
         const _ret = await window.api.CreateNewTheme(NewThemeData);
-        console.log('CreateNewTheme:', _ret);
+        console.log('Saving Theme:', _ret);
         if (_ret) {
-          EventBus.emit('loadThemes', false);  //<- this event will be heard in 'ThemeTab.vue'
+          // Reloading Themes:
+          EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));  //<- this event will be heard in 'ThemeTab.vue'
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
 
           if (this.settings.FavToogle) {

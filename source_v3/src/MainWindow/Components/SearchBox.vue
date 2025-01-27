@@ -18,7 +18,7 @@
                         <small v-html="result.Description"></small>
                     </a>
                 </template>
-                <div v-else class="placeholder bg-secondary">
+                <div v-else class="placeholder bg-secondary text-light h-auto w-auto p-3">
                     <p>No results found.</p>
                 </div>
             </div> <!-- list-group -->
@@ -64,16 +64,4 @@ export default {
 </script>
 
 <style scoped>
-.placeholder {
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 </style>

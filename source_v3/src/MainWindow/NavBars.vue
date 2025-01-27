@@ -19,8 +19,8 @@
           <option value="mnuInstallMod">Install EDHM</option>
           <option  disabled value="mnuUninstallMod">Un-install EDHM</option>
           <option value="" disabled>──────────</option>
-          <option  disabled value="mnuCheckUpdates">Check for Updates</option>
-          <option  disabled value="mnuGoToDiscord" >Help</option>
+          <option  value="mnuGoToDiscord" >Help: Join our Discord</option>
+          <option  disabled value="mnuCheckUpdates">Check for Updates</option>          
           <option  disabled value="mnuAbout" >About</option>
         </select>
       </div>
@@ -279,8 +279,6 @@ export default {
           this.statusText = 'Theme: ' + theme.name;
         }
       } catch (error) {
-        console.log(error.message);
-        console.log(error.stack);
         EventBus.emit('ShowError', new Error(error.message + error.stack));
       } finally { this.showSpinner = false; }
     },
@@ -345,7 +343,7 @@ export default {
         console.log(`Menu ${value} clicked`);
 
         const ActiveInstance = await window.api.getActiveInstance(); console.log('ActiveInstance', ActiveInstance);
-        const GamePath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+        const GamePath = ActiveInstance.path; // await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
 
         if (value === 'mnuOpenGame') {
           await window.api.openPathInExplorer(GamePath);
@@ -356,6 +354,9 @@ export default {
         }
         if (value === 'mnuInstallMod') {
           EventBus.emit('GameInsanceChanged', ActiveInstance.instance); //<- this event will be heard in 'App.vue'
+        }
+        if (value === 'mnuGoToDiscord') {
+          await window.api.openUrlInBrowser('https://discord.gg/ZaRt6bCXvj');
         }
       }
     },
@@ -514,10 +515,12 @@ export default {
     /** Performs a Data Search based on the SearchBox Input 
      * @param query Input Query (what we are looking for) 
      */
-    async gatherData(query) {
+    async DoSearchData(query) {
 
       //console.log('Search Query:', query);
-      const searchQuery = query.trim().toLowerCase();
+      let searchQuery = query.trim().toLowerCase();
+      searchQuery = searchQuery.includes('cutie') ? 'rico' : searchQuery;
+      //console.log(searchQuery);
 
       // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
       //console.log('themesLoaded:', this.themesLoaded);
@@ -534,7 +537,7 @@ export default {
             return acc.concat(elementsWithParent);
           }
           return acc;
-        }, []);
+        }, []);        
 
         // 2. Looking on the Themes Loaded:
         const filteredThemes = this.themesLoaded.filter(theme =>
@@ -575,7 +578,7 @@ export default {
         }
         //console.log('searchResults:', this.searchResults);
       } catch (error) {
-        eventBus.emit('ShowError', error);
+        EventBus.emit('ShowError', error);
       }
       // After this, control pass to 'OnSearchBox_Click'
     },
@@ -585,7 +588,7 @@ export default {
     */
     async OnSearchBox_Click() {
       //console.log('Search button click');
-      await this.gatherData(this.searchQuery);
+      await this.DoSearchData(this.searchQuery);
       EventBus.emit('SearchBox', { data: this.searchResults });//<- this event will be heard in 'App.vue'
     },
 
@@ -604,7 +607,7 @@ export default {
     showHideSpinner(status) {
       //console.log('showHideSpinner: ', status.visible);
       this.showSpinner = status.visible;
-      //EXAMPLE: ->    eventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
+      //EXAMPLE: ->    EventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
     },
 
     OnModUpdated(data) {

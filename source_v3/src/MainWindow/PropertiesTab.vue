@@ -113,7 +113,7 @@ export default defineComponent({
   },
   methods: {
 
-    /**       * Gets all Presets for the selected Type
+    /** Gets all Presets for the selected Type
      * @param type Type of Preset
      */
     getPresetsForType(type) {

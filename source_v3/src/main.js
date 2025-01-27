@@ -30,7 +30,7 @@ function createWindow() {
   });
 
   // Disable the menu bar
-// Menu.setApplicationMenu(null);
+ Menu.setApplicationMenu(null);
 
   mainWindow.webContents.on('did-finish-load', () => {
     // Open the DevTools.

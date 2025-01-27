@@ -493,7 +493,7 @@ function SaveImageAsJpeg(base64Data, filePath) {
  * @param {*} base64Image image's data
  * @param {*} outputPath full path to save the image
  */
-function base64ToJpg(base64Image, outputPath) {
+async function base64ToJpg(base64Image, outputPath) {
   try {
     // Split the base64 string to remove the "data:image/..." part
     const base64Data = base64Image.split(';base64,').pop();
@@ -520,20 +520,29 @@ function base64ToJpg(base64Image, outputPath) {
  * @param {*} imagePath Absolute path to the image
  * @returns Image data in Base64 format
  */
-function loadImageAsBase64(imagePath) {
-    return new Promise((resolve, reject) => {
+async function loadImageAsBase64(imagePath) {
+  try {
+    //console.log('Loading Image: ' + imagePath);
+    if (fs.existsSync(imagePath)) {
+      return new Promise((resolve, reject) => {
         fs.readFile(imagePath, (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                // Convert the image data to Base64
-                const base64Image = data.toString('base64');
-                // Create a Base64 image URL
-                const base64ImageUrl = `data:image/${path.extname(imagePath).substring(1)};base64,${base64Image}`;
-                resolve(base64ImageUrl);
-            }
+          if (err) {
+            reject(err);
+          } else {
+            // Convert the image data to Base64
+            const base64Image = data.toString('base64');
+            // Create a Base64 image URL
+            const base64ImageUrl = `data:image/${path.extname(imagePath).substring(1)};base64,${base64Image}`;
+            resolve(base64ImageUrl);
+          }
         });
-    });
+      });
+    } else {
+      console.log('404 - Not Found: ' + imagePath);
+    }
+  } catch (error) {
+    return null;
+  }
 };
 
 // #endregion

@@ -38,7 +38,7 @@ module.exports = {
           createDesktopShortcut: true, 
           createStartMenuShortcut: true,
 
-          loadingGif: path.join(__dirname, 'src/images/EDHNUIv3.gif'),
+          loadingGif: path.join(__dirname, 'src/images/EDHNUIv3B.gif'),
 
           certificateFile: './EDHM-UI-V3.pfx',
           certificatePassword: '@Namllohj1975'

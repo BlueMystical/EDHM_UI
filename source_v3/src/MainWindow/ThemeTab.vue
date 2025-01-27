@@ -115,7 +115,10 @@ export default {
         const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
         const themesPath = await window.api.joinPath(dataPath, GameType, 'Themes'); //console.log('themesPath',themesPath);
         const ThumbImage = await window.api.getAssetFileUrl('images/PREVIEW.png');  // console.log('ThumbImage:',ThumbImage);
-        const GamePath = await window.api.joinPath(gameInstance.path, 'EDHM-ini');  //<- the Game Folder        
+        const GamePath = await window.api.joinPath(gameInstance.path, 'EDHM-ini');  //<- the Game Folder     
+        
+        this.themes = [];
+        this.images = [];
 
         //Loads all Themes in the Directory:
         const files = await window.api.getThemes(themesPath);    //console.log('Theme File: ', files[4]);
