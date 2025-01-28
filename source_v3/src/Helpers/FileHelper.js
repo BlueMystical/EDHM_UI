@@ -3,11 +3,45 @@ import { exec } from 'child_process';
 import path from 'node:path'; 
 //import { writeFile , readFile } from 'node:fs/promises'; //
 //import { copyFileSync, constants } from 'node:fs';
+
+import https from 'https'
 import fs from 'node:fs'; 
 import os from 'os'; 
 import url from 'url'; 
 import zl from 'zip-lib';
 
+// #region Helper Functions
+
+const containsWord = (str, word) => {
+  return str.includes(word);
+};
+
+/** To Check is something is Empty
+ * @param obj Object to check
+ */
+const isEmpty = obj => Object.keys(obj).length === 0;
+
+/** Null-Empty-Uninstanced verification * 
+ * @param {*} value Object, String or Array
+ * @returns True or False
+ */
+function isNotNullOrEmpty(value) {
+  if (value === null || value === undefined) {
+      return false;
+  }
+
+  if (typeof value === 'string' || Array.isArray(value)) {
+      return value.length > 0;
+  }
+
+  if (typeof value === 'object') {
+      return Object.keys(value).length > 0;
+  }
+
+  return false;
+}
+
+// #endregion
 
 // #region Path Functions
 
@@ -192,7 +226,7 @@ function getAssetPath(assetPath) {
 /** If the Directory doesn't exist, it is created.
  * @param {*} DirectoryPath Path to the Directory.
  */
-const ensureDirectoryExists = (DirectoryPath) => {
+function ensureDirectoryExists (DirectoryPath) {
   try {
     const resolvedPath = resolveEnvVariables(DirectoryPath);
     if (!fs.existsSync(resolvedPath)) {
@@ -707,30 +741,144 @@ function openPathInExplorer(filePath) {
   });
 };
 
-// #endregion
+function runInstaller(installerPath) {
+  let command;
 
-/** Null-Empty-Uninstanced verification * 
- * @param {*} value Object, String or Array
- * @returns True or False
- * @example 
- * if(myVar && )
- */
-function isNotNullOrEmpty(value) {
-    if (value === null || value === undefined) {
-        return false;
+  if (os.platform() === 'win32') {
+    command = `start ${installerPath}`;
+  } else if (os.platform() === 'linux') {
+    if (installerPath.endsWith('.deb')) {
+      command = `sudo dpkg -i ${installerPath}`;
+    } else {
+      // Handle other installer types as needed
+      command = `chmod +x ${installerPath} && sudo ${installerPath}`;
+    }
+  } else {
+    console.error('Unsupported OS');
+    return;
+  }
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error running installer: ${error.message}`);
+      return;
     }
 
-    if (typeof value === 'string' || Array.isArray(value)) {
-        return value.length > 0;
-    }
+    console.log(`Installer stdout: ${stdout}`);
+    console.log(`Installer stderr: ${stderr}`);
 
-    if (typeof value === 'object') {
-        return Object.keys(value).length > 0;
-    }
-
-    return false;
+    // Close the application
+    app.quit();
+  });
 }
 
+
+// #endregion
+
+// #region Updates
+
+/** [For Beta Testings] Check for the Latest Pre-Release published on Github
+ * @param {*} owner 'BlueMystical'
+ * @param {*} repo 'EDHM-UI'
+ * @returns 
+ */
+async function getLatestPreReleaseVersion(owner, repo) {
+  const options = {
+    hostname: 'api.github.com',
+    path: `/repos/${owner}/${repo}/releases`,
+    method: 'GET',
+    headers: { 'User-Agent': 'Node.js' }
+  };
+
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      let data = '';
+
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        const releases = JSON.parse(data);
+        const preReleases = releases.filter(release => release.prerelease);
+        const latestPreRelease = preReleases.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+
+        if (latestPreRelease) {
+          const result = {
+            version: latestPreRelease.tag_name,
+            notes: latestPreRelease.body,
+            assets: latestPreRelease.assets.map(asset => ({
+              name: asset.name,
+              url: asset.browser_download_url
+            }))
+          };
+          resolve(result);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(error);
+    });
+
+    req.end();
+  });
+}
+
+/** Check for the Latest Release published on Github
+ * @param {*} owner 'BlueMystical'
+ * @param {*} repo 'EDHM-UI'
+ * @returns 
+ */
+async function getLatestReleaseVersion(owner, repo) {
+  const options = {
+    hostname: 'api.github.com',
+    path: `/repos/${owner}/${repo}/releases`,
+    method: 'GET',
+    headers: { 'User-Agent': 'Node.js' }
+  };
+
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      let data = '';
+
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        const releases = JSON.parse(data);
+        const latestRelease = releases.find(release => !release.prerelease && !release.draft);
+
+        if (latestRelease) {
+          const result = {
+            version: latestRelease.tag_name,
+            notes: latestRelease.body,
+            assets: latestRelease.assets.map(asset => ({
+              name: asset.name,
+              url: asset.browser_download_url
+            }))
+          };
+          resolve(result);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(error);
+    });
+
+    req.end();
+  });
+}
+
+
+
+// #endregion
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
@@ -935,6 +1083,14 @@ ipcMain.handle('get-local-file-url', async (event, localPath) => {
   }
 });
 
+ipcMain.handle('ensureDirectoryExists', async (event, fullPath) => {
+  try {
+    return ensureDirectoryExists(fullPath);
+  } catch (error) {
+    throw error;
+  }  
+});
+
 ipcMain.handle('get-json-file', async (event, jsonPath) => {
   try {
     return loadJsonFile(jsonPath);
@@ -1040,6 +1196,58 @@ ipcMain.handle('createLinuxShortcut', async (event) => {
   }
 });
 
+ipcMain.handle('getLatestPreReleaseVersion', async (event, owner, repo) => {
+  try {
+    const latestPreRelease = await getLatestPreReleaseVersion(owner, repo);
+    return latestPreRelease;
+  } catch (error) {
+    console.error('Error fetching pre-release version:', error);
+    throw error;
+  }
+});
+ipcMain.handle('getLatestReleaseVersion', async (event, owner, repo) => {
+  try {
+    const latestRelease = await getLatestReleaseVersion(owner, repo);
+    return latestRelease;
+  } catch (error) {
+    console.error('Error fetching latest release version:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('download-asset', async (event, url, dest) => {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(dest);
+    let receivedBytes = 0;
+
+    https.get(url, response => {
+      const totalBytes = parseInt(response.headers['content-length'], 10);
+
+      response.pipe(file);
+      response.on('data', chunk => {
+        receivedBytes += chunk.length;
+        event.sender.send('download-progress', receivedBytes, totalBytes);
+      });
+
+      file.on('finish', () => {
+        file.close(resolve);
+      });
+    }).on('error', err => {
+      fs.unlink(dest, () => reject(err));
+    });
+  });
+});
+
+ipcMain.handle('runInstaller', async (event, installerPath) => {
+  try {
+    const latestRelease = runInstaller(installerPath);
+    return latestRelease;
+  } catch (error) {
+    console.error('Error fetching latest release version:', error);
+    throw error;
+  }
+});
+
 // #endregion
 
 export default { 
@@ -1074,5 +1282,8 @@ export default {
   loadImageAsBase64,
 
   createWindowsShortcut,
-  createLinuxShortcut
+  createLinuxShortcut,
+  terminateProgram,
+  runInstaller,
+
 };

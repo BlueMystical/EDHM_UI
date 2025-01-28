@@ -11,7 +11,9 @@
     <!-- Theme Image Editor Modal -->
     <ThemeImageEditor v-if="showThemeImageEditorModal" :themeEditorData="themeEditorData" @save="handleImageEditorSave" @close="closeThemeImageEditor" />
     <ThemeEditor v-if="showThemeEditor" :themeEditorData="themeEditorData" @submit="handleThemeEditorSubmit" @close="closeThemeEditor" />
+    
     <XmlEditor ref="xmlEditor" @onCloseModal="onXmlEditorClosed"/>
+    
 
   </div>
 </template>
@@ -37,7 +39,7 @@ export default {
     ThemeImageEditor,
     ThemeEditor,
     XmlEditor,
-
+    
   },
   data() {
     return {
@@ -506,6 +508,80 @@ export default {
 
     // #endregion
 
+    // #region Updates
+
+    async LookForUpdates() {
+      // window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestPreRelease => {   //<- For PROD Release
+      window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
+        if (latestRelease) {
+          console.log(latestRelease);
+          this.AnalyseUpdate(latestRelease);
+        } else {
+          console.log('No pre-release version found.');
+        }
+      }).catch(error => {
+        console.error('Error fetching pre-release version:', error);
+        EventBus.emit('ShowError', error);
+      });
+    },
+    async AnalyseUpdate(latesRelease) {
+      try {
+        const localVersion = await window.api.getAppVersion();
+        const serverVersion = latesRelease.version;
+        const isUpdate = this.compareVersions(serverVersion, localVersion); console.log('isUpdate:', isUpdate);
+
+        if (isUpdate) {
+          const options = {
+            type: 'question', //<- none, info, error, question, warning
+            buttons: ['Cancel', "Yes, Download it", 'No, maybe later.'],
+            defaultId: 1,
+            title: 'Update Available: ' + serverVersion,
+            message: 'Do you want to Download and Install the Update?',
+            detail: latesRelease.notes,
+            cancelId: 0
+          };
+          window.api.ShowMessageBox(options).then(result => {
+            if (result && result.response === 1) {
+              EventBus.emit('StartDownload', JSON.parse(JSON.stringify(latesRelease))); //<- Event Listen in 'NavBars.vue'
+            }
+          });
+        }
+        else {
+          EventBus.emit('RoastMe', { type: 'Success', message: 'The Application is Updated!' });
+        }
+
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
+    compareVersions(serverVersion, localVersion) {
+      // Remove non-numeric characters from the beginning
+      serverVersion = serverVersion.replace(/^[^\d]+/, '');
+      localVersion = localVersion.replace(/^[^\d]+/, '');
+
+      // Split the versions into parts
+      const serverParts = serverVersion.split('.').map(Number);
+      const localParts = localVersion.split('.').map(Number);
+
+      // Compare each part of the versions
+      for (let i = 0; i < serverParts.length; i++) {
+        if (serverParts[i] > (localParts[i] || 0)) {
+          return true;
+        } else if (serverParts[i] < (localParts[i] || 0)) {
+          return false;
+        }
+      }
+
+      return false; // versions are equal or local version is higher
+    },
+    OnDonwloadComplete(e) {
+      console.log(e);
+    },
+
+
+    
+    // #endregion
+
   },
   async mounted() {
 
@@ -525,6 +601,7 @@ export default {
     EventBus.on('OnUpdateTheme', this.OnUpdateTheme);
 
     EventBus.on('OnShowXmlEditor', this.OnShowXmlEditor);
+    EventBus.on('LookForUpdates', this.LookForUpdates);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -542,6 +619,7 @@ export default {
     EventBus.off('OnUpdateTheme', this.OnUpdateTheme);
 
     EventBus.off('OnShowXmlEditor', this.OnShowXmlEditor);
+    EventBus.off('LookForUpdates', this.LookForUpdates);
   },
 };
 </script>

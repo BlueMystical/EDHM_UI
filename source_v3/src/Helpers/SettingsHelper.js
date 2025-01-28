@@ -1,9 +1,12 @@
 import { ipcMain } from 'electron';
 import path from 'node:path';
+
 import fs from 'fs';
+import { writeFile, unlink, access } from 'node:fs/promises';
+
 import fileHelper from './FileHelper';
 import Log from './LoggingHelper.js';
-import { writeFile } from 'node:fs/promises';
+
 
 
 let programSettings = null; // Holds the Program Settings in memory
@@ -18,6 +21,41 @@ const InstallationStatus = {
 };
 // Determine the Install Status of the V3 Program:
 let installationStatus = InstallationStatus.EXISTING_INSTALL; // Default status
+
+// #region Helper Functions
+
+const containsWord = (str, word) => {
+  return str.includes(word);
+};
+
+/** To Check is something is Empty
+ * @param obj Object to check
+ */
+const isEmpty = obj => Object.keys(obj).length === 0;
+
+/** Null-Empty-Uninstanced verification * 
+ * @param {*} value Object, String or Array
+ * @returns True or False
+ */
+function isNotNullOrEmpty(value) {
+  if (value === null || value === undefined) {
+      return false;
+  }
+
+  if (typeof value === 'string' || Array.isArray(value)) {
+      return value.length > 0;
+  }
+
+  if (typeof value === 'object') {
+      return Object.keys(value).length > 0;
+  }
+
+  return false;
+}
+
+// #endregion
+
+
 
 /** * Check if the Settings JSON exists, if it does not, creates a default file and returns 'false'
  */
@@ -312,32 +350,62 @@ async function CheckEDHMinstalled(gamePath) {
   }
 };
 
-const containsWord = (str, word) => {
-  return str.includes(word);
-};
-
-const isEmpty = obj => Object.keys(obj).length === 0; //<- To Check is something is Empty
-
-/** Null-Empty-Uninstanced verification * 
- * @param {*} value Object, String or Array
- * @returns True or False
+/** Removes all EDHM Files and Folders from the Game path. * 
+ * @param {*} gameInstance Instance of the Game where EDHM is installed.
+ * @returns true/false
  */
-function isNotNullOrEmpty(value) {
-  if (value === null || value === undefined) {
-      return false;
+async function UninstallEDHMmod(gameInstance) {
+  console.log('------ Un-Installing Mod --------');
+  let fileDeleted = false;
+
+  try {
+    if (!isNotNullOrEmpty(gameInstance.path)) {
+      console.log('Instance.path Not Defined! ->', gameInstance);
+      throw new Error('Instance.path Not Defined!');
+    }
+
+    // Close the Game if is Running:
+    const _R = new Promise((resolve, reject) => {
+        fileHelper.terminateProgram('EliteDangerous64.exe', (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+
+    // List the Files for Deletion:
+    const filesToUnlink = [
+      'EDHM-ini',
+      'ShaderFixes',
+      'd3dx.ini',
+      'd3d11.dll',
+      'd3dcompiler_46.dll',
+      'EDHM-Uninstall.bat',
+    ];
+
+    for (const file of filesToUnlink) {
+      const filePath = path.join(gameInstance.path, file);
+      try {
+        //Delete the File if it Exists:
+        if (await access(filePath).then(() => true).catch(() => false)) {
+          await unlink(filePath);
+          fileDeleted = true;
+        }
+      } catch (err) {
+        //On Error Continue with the next file
+        console.warn(`Failed to delete ${file}:`, err);        
+      }
+    }
+
+  } catch (error) {
+    console.error('Error during uninstallation:', error);
+    throw error;
   }
 
-  if (typeof value === 'string' || Array.isArray(value)) {
-      return value.length > 0;
-  }
-
-  if (typeof value === 'object') {
-      return Object.keys(value).length > 0;
-  }
-
-  return false;
+  return fileDeleted;
 }
-
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
@@ -433,7 +501,15 @@ ipcMain.handle('CheckEDHMinstalled', (event, gamePath) => {
   } catch (error) {
     throw error;
   }
-});
+}); 
+ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
+  try {
+    return UninstallEDHMmod(gameInstance);
+  } catch (error) {
+    throw error;
+  }
+}); 
+
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 

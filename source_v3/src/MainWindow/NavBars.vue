@@ -17,10 +17,10 @@
           <option  disabled value="mnu3PModsManager">3PMods (Plugins)</option>
           <option value="" disabled>──────────</option>
           <option value="mnuInstallMod">Install EDHM</option>
-          <option  disabled value="mnuUninstallMod">Un-install EDHM</option>
+          <option value="mnuUninstallMod">Un-install EDHM</option>
           <option value="" disabled>──────────</option>
           <option  value="mnuGoToDiscord" >Help: Join our Discord</option>
-          <option  disabled value="mnuCheckUpdates">Check for Updates</option>          
+          <option  value="mnuCheckUpdates">Check for Updates</option>          
           <option  disabled value="mnuAbout" >About</option>
         </select>
       </div>
@@ -139,6 +139,8 @@
     <!-- Mod Version Label -->
     <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
 
+    <Updater ref="Updater" @onComplete="OnDonwloadComplete"/>
+
     <!-- Search Form -->
     <form class="d-flex ms-auto" @submit.prevent="OnSearchBox_Click">
       <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search"
@@ -164,10 +166,10 @@ import { ref } from 'vue';
 import EventBus from '../EventBus';
 import ThemeTab from './ThemeTab.vue';
 import HUD_Areas from './HudImage.vue';
+import Updater from './Components/Updater.vue';
 import PropertiesTab from './PropertiesTab.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';
-
 import defaultTemplate from '../data/ODYSS/ThemeTemplate.json';
 let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
 
@@ -216,8 +218,9 @@ export default {
 
   },
   components: {
-    HUD_Areas,
+    Updater,
     ThemeTab,
+    HUD_Areas,    
     PropertiesTab,
     UserSettingsTab,
     GlobalSettingsTab
@@ -342,7 +345,7 @@ export default {
         this.$refs.mainMenuSelect.value = 'mnuDummy'; // Reset the select to "Main Menu"
         console.log(`Menu ${value} clicked`);
 
-        const ActiveInstance = await window.api.getActiveInstance(); console.log('ActiveInstance', ActiveInstance);
+        const ActiveInstance = await window.api.getActiveInstance(); //console.log('ActiveInstance', ActiveInstance);
         const GamePath = ActiveInstance.path; // await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
 
         if (value === 'mnuOpenGame') {
@@ -355,8 +358,17 @@ export default {
         if (value === 'mnuInstallMod') {
           EventBus.emit('GameInsanceChanged', ActiveInstance.instance); //<- this event will be heard in 'App.vue'
         }
+        if (value === 'mnuUninstallMod') {
+          const _ret = window.api.UninstallEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
+          if (_ret) {
+            EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Un-Installed!' });
+          }
+        }
         if (value === 'mnuGoToDiscord') {
           await window.api.openUrlInBrowser('https://discord.gg/ZaRt6bCXvj');
+        }
+        if (value === 'mnuCheckUpdates') {
+          EventBus.emit('LookForUpdates', null ); //<- this event will be heard in 'App.vue'
         }
       }
     },
@@ -617,7 +629,9 @@ export default {
       this.modVersion = data.Version_ODYSS;
     },
 
-
+    OnDownloadStart(data){
+      this.$refs.Updater.StartDownload(data);
+    }
 
   },
   mounted() {
@@ -628,6 +642,7 @@ export default {
     EventBus.on('ShowSpinner', this.showHideSpinner);
     EventBus.on('modUpdated', this.OnModUpdated);
     EventBus.on('OnApplyTheme', this.applyTheme);
+    EventBus.on('StartDownload', this.OnDownloadStart);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -637,6 +652,7 @@ export default {
     EventBus.off('ShowSpinner', this.showHideSpinner);
     EventBus.off('modUpdated', this.OnModUpdated);
     EventBus.off('OnApplyTheme', this.applyTheme);
+    EventBus.off('StartDownload', this.OnDownloadStart);
   }
 }
 </script>

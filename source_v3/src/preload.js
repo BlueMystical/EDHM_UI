@@ -7,9 +7,18 @@ contextBridge.exposeInMainWorld('api', {
 
   // #region Assets
 
+  joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
+  getParentFolder: (filePath) => path.dirname(filePath),
+  resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
+
   getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
   getAssetFileUrl: (assetPath) => ipcRenderer.invoke('get-asset-file-url', assetPath),
   getLocalFileUrl: (assetPath) => ipcRenderer.invoke('get-local-file-url', assetPath),
+
+  getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
+  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint), 
+
+  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
 
   // #endregion
 
@@ -24,10 +33,6 @@ contextBridge.exposeInMainWorld('api', {
   onProgramDetected: (callback) => ipcRenderer.on('program-detected', callback),
   terminateProgram: (exeName) => ipcRenderer.invoke('terminate-program', exeName),
 
-  joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
-  getParentFolder: (filePath) => path.dirname(filePath),
-  resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
-  
   openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
   openUrlInBrowser: (url) => ipcRenderer.invoke('openUrlInBrowser', url),
   deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath), 
@@ -35,10 +40,7 @@ contextBridge.exposeInMainWorld('api', {
   findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType), 
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
 
-  getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
-  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint), 
-
-  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
+  ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath), 
 
   compressFiles: (files, outputPath) => ipcRenderer.invoke('compress-files', files, outputPath),
   compressFolder: (folderPath, outputPath) => ipcRenderer.invoke('compress-folder', folderPath, outputPath),
@@ -95,7 +97,8 @@ contextBridge.exposeInMainWorld('api', {
   
   installEDHMmod: (gameInstance) => ipcRenderer.invoke('installEDHMmod', gameInstance), 
   CheckEDHMinstalled: (gamePath) => ipcRenderer.invoke('CheckEDHMinstalled', gamePath),
-  
+  UninstallEDHMmod: (gameInstance) => ipcRenderer.invoke('UninstallEDHMmod', gameInstance), 
+
   // #endregion
 
   // #region Utility Methods
@@ -111,5 +114,14 @@ contextBridge.exposeInMainWorld('api', {
   openUrlInBrowser: (url) => { shell.openExternal(url); },
 
     // #endregion
+
+    getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo), 
+    getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo), 
+
+    downloadAsset: (url, dest) => ipcRenderer.invoke('download-asset', url, dest),
+    onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, receivedBytes, totalBytes) => callback(receivedBytes, totalBytes)),
+
+    runInstaller: (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
+    
 
 });
