@@ -239,11 +239,7 @@ npm install bootstrap-icons
 npm install --save ini 		//<- For editing INI files
 npm uninstall regedit --save	//<- For accesing Windows Registry
 
-
-npm uninstall electron-log --save
-
-npm uninstall @floating-ui/vue  https://floating-ui.com/docs/getting-started
-npm uninstall dotenv
+npm uninstall axios //<- For Downloading Files
 
 npm install @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 

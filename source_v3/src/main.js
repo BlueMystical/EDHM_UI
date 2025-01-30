@@ -1,6 +1,5 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path from 'node:path';
-import fs from 'fs';
 
 import Log from './Helpers/LoggingHelper.js';
 import fileHelper from './Helpers/FileHelper.js'; 
@@ -10,15 +9,15 @@ import themeHelper from './Helpers/ThemeHelper.js';
 
 function createWindow() {  
   const mainWindow = new BrowserWindow({
-    width: 1600,
-    height: 800,
+    width: 1600, minWidth: 1160,
+    height: 800, minHeight: 553,        
+    
     icon: path.join(__dirname, 'images/ED_TripleElite.ico'), 
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
       enableRemoteModule: false,
-      worldSafeExecuteJavaScript: false, 
       nodeIntegration: true,
+      contextIsolation: true,
       webSecurity: false
     },
   });
@@ -29,12 +28,11 @@ function createWindow() {
     Log.Error('Failed to load main window content:', err);
   });
 
-  // Disable the menu bar
- //Menu.setApplicationMenu(null);
-
   mainWindow.webContents.on('did-finish-load', () => {
     // Open the DevTools.
-    mainWindow.webContents.openDevTools(); 
+    // mainWindow.webContents.openDevTools(); 
+    // Disable the menu bar
+    Menu.setApplicationMenu(null);
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {

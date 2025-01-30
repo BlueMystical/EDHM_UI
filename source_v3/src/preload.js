@@ -118,8 +118,8 @@ contextBridge.exposeInMainWorld('api', {
     getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo), 
     getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo), 
 
-    downloadAsset: (url, dest) => ipcRenderer.invoke('download-asset', url, dest),
-    onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, receivedBytes, totalBytes) => callback(receivedBytes, totalBytes)),
+    downloadFile: (url, filePath) => ipcRenderer.send('download-file', url, filePath),
+    onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, progress) => callback(progress)),
 
     runInstaller: (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
     

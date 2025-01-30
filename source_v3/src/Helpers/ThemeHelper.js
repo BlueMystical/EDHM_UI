@@ -5,6 +5,7 @@ import { copyFileSync, constants } from 'node:fs';
 import ini from './IniHelper.js';
 import Log from './LoggingHelper.js';
 import fileHelper from './FileHelper';
+import Util from './Utils.js';
 import settingsHelper from './SettingsHelper.js'
 import { writeFile } from 'node:fs/promises';
 
@@ -57,9 +58,9 @@ const getThemes = async (dirPath) => {
                 }
   
                 // Sanitization: For Themes Exportings
-                //fileHelper.deleteFilesByType(subfolderPath, '.ini');
-                //fileHelper.deleteFilesByType(subfolderPath, '.credits');
-                //fileHelper.deleteFilesByType(subfolderPath, '.fav');
+               /* fileHelper.deleteFilesByType(subfolderPath, '.ini');
+                fileHelper.deleteFilesByType(subfolderPath, '.credits');
+                fileHelper.deleteFilesByType(subfolderPath, '.fav');*/
                 //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
   
               } catch (error) {
@@ -470,8 +471,8 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                 }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
 
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
-                  const color = reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  element.Value = getColorDecimalValue(color);
+                  const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                  element.Value = Util.getColorDecimalValue(color);
                 } else {                  
                   element.Value = parseFloat(defaultValue);
                   console.log('Color Conversion Error:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
@@ -535,8 +536,8 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
               //Multi Key
               const keys = element.Key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
               if (Array.isArray(keys) && keys.length > 2) {
-                const RGBAcolor = intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                const sRGBcolor = GetGammaCorrected_RGBA(RGBAcolor);
+                const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
                 // Map keys to values 
                 const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
                 keys.forEach((key, index) => {
@@ -569,151 +570,6 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
 };
 
 // #endregion
-
-// #region Color Conversion Methods
-
-
-function RGBAtoColor(colorComponents) {
-  if (colorComponents.length === 3) {
-    const [r, g, b] = colorComponents.map(parseFloat);
-    return `rgb(${r}, ${g}, ${b})`;
-  } else if (colorComponents.length === 4) {
-    const [r, g, b, a] = colorComponents.map(parseFloat);
-    return `rgba(${r}, ${g}, ${b}, ${a})`;
-  } else {
-    throw new Error("Invalid number of color components. Expected 3 or 4.");
-  }
-};
-
-function getColorDecimalValue(color) {
-  // Convert RGB to a single decimal value (e.g., for use with some UI libraries)
-  return (color.r << 16) + (color.g << 8) + color.b;
-};
-
-function intToHex(int) {
-  try {
-    // Ensure unsigned 32-bit
-    int >>>= 0;
-
-    // Convert each component to a two-digit hex string
-    const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
-    const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
-    const b = (int & 0xFF).toString(16).padStart(2, '0');
-
-    return `#${r}${g}${b}`;
-  } catch (error) {
-    throw error;
-  }
-};
-
-function rgbToHex(r, g, b) {
-  // Convert each component to a two-digit hex string
-  const red = r.toString(16).padStart(2, '0');
-  const green = g.toString(16).padStart(2, '0');
-  const blue = b.toString(16).padStart(2, '0');
-
-  // Concatenate the components with '#' to form the HEX color string
-  return `#${red}${green}${blue}`;
-};
-
-// Function to convert an integer value to RGBA components
-function intToRGBA(colorInt) {
-  const r = (colorInt >> 16) & 0xFF;
-  const g = (colorInt >> 8) & 0xFF;
-  const b = colorInt & 0xFF;
-  const a = ((colorInt >> 24) & 0xFF) || 255; // Default alpha to 255 if not present
-
-  return { r, g, b, a };
-}
-
-// Function to convert sRGB to Linear RGB using gamma correction
-function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
-  return thesRGBValue <= 0.04045
-    ? thesRGBValue / 12.92
-    : Math.pow((thesRGBValue + 0.055) / 1.055, gammaValue);
-}
-
-// Function to get gamma corrected RGBA
-function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
-  const normalize = value => value / 255;
-
-  const gammaCorrected = {
-    r: Math.round(Convert_sRGB_ToLinear(normalize(color.r), gammaValue) * 10000) / 10000,
-    g: Math.round(Convert_sRGB_ToLinear(normalize(color.g), gammaValue) * 10000) / 10000,
-    b: Math.round(Convert_sRGB_ToLinear(normalize(color.b), gammaValue) * 10000) / 10000,
-    a: Math.round(normalize(color.a) * 10000) / 10000 // Alpha remains linear
-  };
-
-  return gammaCorrected;
-}
-
-// Function to reverse the gamma correction for comparison
-function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
-  const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
-
-  try {
-    // Undo gamma correction (assuming power function)
-    const invR = Math.pow(gammaR, 1 / gammaValue);
-    const invG = Math.pow(gammaG, 1 / gammaValue);
-    const invB = Math.pow(gammaB, 1 / gammaValue);
-
-    // Approximate linear sRGB (assuming conversion to sRGB space)
-    const linearSrgb = { r: invR, g: invG, b: invB };
-
-    // Convert to RGB (assuming 0-255 range)
-    result.r = safeRound(linearSrgb.r * 255);
-    result.g = safeRound(linearSrgb.g * 255);
-    result.b = safeRound(linearSrgb.b * 255);
-
-    // Handle alpha (if provided)
-    if (gammaA !== undefined) {
-      result.a = safeRound(gammaA * 255);
-    }
-  } catch (error) {
-    throw error;
-  }
-
-  return result;
-}
-
-// Helper function for safe rounding
-function safeRound(value) {
-  return isNaN(value) ? 0 : Math.round(value);
-}
-
-
-
-
-function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
-  try {
-    if (!Array.isArray(gammaComponents) || gammaComponents.length < 3) {
-      console.log(gammaComponents);
-      throw new Error("Invalid gamma components list (requires at least 3 elements)");
-    }
-
-    const [gammaR, gammaG, gammaB, ...remaining] = gammaComponents;
-    const gammaA = remaining.length > 0 ? remaining[0] : 1.0;
-
-    return reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
-  } catch (error) {
-    throw error;
-  }
-};
-
-function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
-  return theLinearValue <= 0.0031308
-    ? theLinearValue * 12.92
-    : Math.pow(theLinearValue, 1.0 / _GammaValue) * 1.055 - 0.055;
-};
-
-function convert_sRGB_ToLinear(thesRGBValue, _GammaValue = 2.4) {
-  return thesRGBValue <= 0.04045
-    ? thesRGBValue / 12.92
-    : Math.pow((thesRGBValue + 0.055) / 1.055, _GammaValue);
-};
-
-// #endregion
-
 
 
 
@@ -813,7 +669,7 @@ ipcMain.handle('SaveThemeINIs', async (event, folderPath, themeINIs) => {
 
 ipcMain.handle('reverseGammaCorrected', async (event, color, gammaValue) => {
   try {
-    return reverseGammaCorrected(color.r, color.g, color.b, color.a, gammaValue);
+    return Util.reverseGammaCorrected(color.r, color.g, color.b, color.a, gammaValue);
   } catch (error) {
     throw error;
   }
@@ -821,7 +677,7 @@ ipcMain.handle('reverseGammaCorrected', async (event, color, gammaValue) => {
 
 ipcMain.handle('GetGammaCorrected_RGBA', async (event, color, gammaValue) => {
   try {
-    return GetGammaCorrected_RGBA(color, gammaValue);
+    return Util.GetGammaCorrected_RGBA(color, gammaValue);
   } catch (error) {
     throw error;
   }
@@ -829,7 +685,7 @@ ipcMain.handle('GetGammaCorrected_RGBA', async (event, color, gammaValue) => {
 
 ipcMain.handle('intToRGBA', async (event, colorInt) => {
   try {
-    return intToRGBA(colorInt);
+    return Util.intToRGBA(colorInt);
   } catch (error) {
     throw error;
   }

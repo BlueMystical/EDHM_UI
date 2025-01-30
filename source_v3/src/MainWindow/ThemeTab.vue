@@ -16,7 +16,9 @@
         @contextmenu="onRightClick($event, image)">
         <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />        
         <span class="image-label">{{ image.name }}</span>
-        <span v-if="isFavoriteEx(image)" class=" badge rounded-pill text-bg-warning"><i class="bi bi-star-fill"></i></span>  
+
+        <!--<span v-if="isFavoriteEx(image)" class="position-absolute top-right badge text-bg-warning"><i class="bi bi-star-fill"></i></span>  -->
+        <div v-if="isFavoriteEx(image)" class="badge-triangle"></div>
       </li>
     </ul>
 
@@ -137,8 +139,9 @@ export default {
               author: "Blue Mystic",
               description: "** THESE ARE THE CURRENTLY APPLIED COLORS **",
               preview: "",
-              theme: "Current Settings"
-            }
+              theme: "Current Settings",              
+            },
+            isFavorite: true
           }
         }].concat( // Adding the rest of loaded Themes:          
           files
@@ -357,13 +360,31 @@ export default {
 </script>
 
 <style scoped>
+
+.badge-triangle {
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-top: 40px solid #ffc107;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.badge-triangle::before {
+  content: '★';
+  position: absolute;
+  top: -50px;
+  right: 0px;
+  font-size: 26px;
+  color: #110ec7;
+}
+
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
-
 .context-menu {
   position: absolute;
   z-index: 1000;

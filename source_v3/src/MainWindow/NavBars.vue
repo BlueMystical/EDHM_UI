@@ -162,7 +162,6 @@
 </template>
 <script>
 import { ref } from 'vue';
-
 import EventBus from '../EventBus';
 import ThemeTab from './ThemeTab.vue';
 import HUD_Areas from './HudImage.vue';
@@ -630,7 +629,7 @@ export default {
     },
 
     OnDownloadStart(data){
-      this.$refs.Updater.StartDownload(data);
+      this.$refs.Updater.startDownload(data);
     }
 
   },

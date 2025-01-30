@@ -78,8 +78,8 @@ export default {
         /** Displays a Colored Toast Notification at Bottom Right corner of the Window
          * @param data Configuration Object: { title: '', message: ''}
          */
-        showToast(data) {
-            const { type, title, message, stack } = data;
+         showToast(data) {
+            const { type, title, message, stack, autoHide = true } = data;
             const toastType = type.charAt(0).toUpperCase() + type.slice(1);
 
             if (this.toasts[toastType]) {
@@ -90,12 +90,16 @@ export default {
                 const toast = document.getElementById(`liveToast-${toastType}`);
                 let toastBootstrap = bootstrap.Toast.getInstance(toast);
 
+                const options = {
+                    autohide: autoHide,
+                    delay: 4000 // Auto-hide delay in milliseconds
+                };
+
                 if (toastBootstrap) {
-                    toastBootstrap.show();
-                } else {
-                    toastBootstrap = new bootstrap.Toast(toast, { autohide: false });
-                    toastBootstrap.show();
+                    toastBootstrap.dispose();
                 }
+                toastBootstrap = new bootstrap.Toast(toast, options);
+                toastBootstrap.show();
 
                 if (toastType === 'ErrMsg') {
                     window.api.logError(error.message, error.stack);
@@ -150,7 +154,7 @@ export default {
          * @param {String} toastType - The type of toast that was clicked
          */
         toastClicked(toastType) {
-            console.log(`${toastType} toast clicked!`);
+            //console.log(`${toastType} toast clicked!`);
             this.closeToast(toastType);
             // You can perform additional actions here when a toast is clicked
         },

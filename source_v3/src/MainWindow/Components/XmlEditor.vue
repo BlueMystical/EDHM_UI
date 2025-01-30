@@ -201,10 +201,11 @@
 </template>
   
 <script>
+import { ref } from 'vue';
 import EventBus from '../../EventBus.js';
+
 export default {
   name: 'XmlEditor',
-  props: {},
   data() {
     return {
       sliderValues: [
@@ -280,7 +281,8 @@ export default {
       this.$refs.image.src = this.originalImageSrc;
     },
     async loadImage() {
-      this.originalImageSrc = await window.api.getAssetFileUrl('images/xml-base.jpg');
+      const img = await window.api.getAssetFileUrl('images/xml-base.jpg');
+      this.originalImageSrc = img;
     },
     applyFilter() {
       // Reset the image source to the original

@@ -6,7 +6,7 @@ import { writeFile, unlink, access } from 'node:fs/promises';
 
 import fileHelper from './FileHelper';
 import Log from './LoggingHelper.js';
-
+import Util from './Utils.js';
 
 
 let programSettings = null; // Holds the Program Settings in memory
@@ -21,39 +21,6 @@ const InstallationStatus = {
 };
 // Determine the Install Status of the V3 Program:
 let installationStatus = InstallationStatus.EXISTING_INSTALL; // Default status
-
-// #region Helper Functions
-
-const containsWord = (str, word) => {
-  return str.includes(word);
-};
-
-/** To Check is something is Empty
- * @param obj Object to check
- */
-const isEmpty = obj => Object.keys(obj).length === 0;
-
-/** Null-Empty-Uninstanced verification * 
- * @param {*} value Object, String or Array
- * @returns True or False
- */
-function isNotNullOrEmpty(value) {
-  if (value === null || value === undefined) {
-      return false;
-  }
-
-  if (typeof value === 'string' || Array.isArray(value)) {
-      return value.length > 0;
-  }
-
-  if (typeof value === 'object') {
-      return Object.keys(value).length > 0;
-  }
-
-  return false;
-}
-
-// #endregion
 
 
 
@@ -273,7 +240,7 @@ async function installEDHMmod(gameInstance) {
   let Response = { game: '', version: '' };
   try {
 
-    if (!isNotNullOrEmpty(gameInstance.path)) {
+    if (!Util.isNotNullOrEmpty(gameInstance.path)) {
       console.log('Instance.path Not Defined! ->', gameInstance);
       throw new Error('Instance.path Not Defined!');
     }
@@ -359,7 +326,7 @@ async function UninstallEDHMmod(gameInstance) {
   let fileDeleted = false;
 
   try {
-    if (!isNotNullOrEmpty(gameInstance.path)) {
+    if (!Util.isNotNullOrEmpty(gameInstance.path)) {
       console.log('Instance.path Not Defined! ->', gameInstance);
       throw new Error('Instance.path Not Defined!');
     }
@@ -513,4 +480,4 @@ ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance, isEmpty };
+export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance };

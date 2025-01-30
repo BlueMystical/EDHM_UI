@@ -1,47 +1,17 @@
 import { app, ipcMain, dialog, shell  } from 'electron'; 
+import EventBus from '../EventBus.js';
 import { exec } from 'child_process';
+import Util from './Utils.js';
 import path from 'node:path'; 
-//import { writeFile , readFile } from 'node:fs/promises'; //
-//import { copyFileSync, constants } from 'node:fs';
-
-import https from 'https'
+import https from 'https';
+import http from 'http';
+import fetch from 'node:fetch';
 import fs from 'node:fs'; 
-import os from 'os'; 
-import url from 'url'; 
 import zl from 'zip-lib';
+import url from 'url'; 
+import os from 'os'; 
 
-// #region Helper Functions
 
-const containsWord = (str, word) => {
-  return str.includes(word);
-};
-
-/** To Check is something is Empty
- * @param obj Object to check
- */
-const isEmpty = obj => Object.keys(obj).length === 0;
-
-/** Null-Empty-Uninstanced verification * 
- * @param {*} value Object, String or Array
- * @returns True or False
- */
-function isNotNullOrEmpty(value) {
-  if (value === null || value === undefined) {
-      return false;
-  }
-
-  if (typeof value === 'string' || Array.isArray(value)) {
-      return value.length > 0;
-  }
-
-  if (typeof value === 'object') {
-      return Object.keys(value).length > 0;
-  }
-
-  return false;
-}
-
-// #endregion
 
 // #region Path Functions
 
@@ -804,12 +774,17 @@ async function getLatestPreReleaseVersion(owner, repo) {
         const latestPreRelease = preReleases.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
 
         if (latestPreRelease) {
+          //console.log(latestPreRelease);
           const result = {
+            release_id: latestPreRelease.id,
             version: latestPreRelease.tag_name,
             notes: latestPreRelease.body,
-            assets: latestPreRelease.assets.map(asset => ({
+            zipball_url: latestPreRelease.zipball_url,
+            assets: latestPreRelease.assets.map(asset => ({              
+              content_type: asset.content_type,
+              url: asset.browser_download_url,
               name: asset.name,
-              url: asset.browser_download_url
+              size: asset.size,     
             }))
           };
           resolve(result);
@@ -854,11 +829,15 @@ async function getLatestReleaseVersion(owner, repo) {
 
         if (latestRelease) {
           const result = {
+            release_id: latestRelease.id,
             version: latestRelease.tag_name,
             notes: latestRelease.body,
-            assets: latestRelease.assets.map(asset => ({
+            zipball_url: latestRelease.zipball_url,
+            assets: latestRelease.assets.map(asset => ({              
+              content_type: asset.content_type,
+              url: asset.browser_download_url,
               name: asset.name,
-              url: asset.browser_download_url
+              size: asset.size,     
             }))
           };
           resolve(result);
@@ -876,12 +855,108 @@ async function getLatestReleaseVersion(owner, repo) {
   });
 }
 
+function DownloadFile(url, filePath){
+  fetch(url).then(res => res.buffer()).then(buffer => {
+      return fs.promises.writeFile(filePath, buffer);
+  }).then(() => {
+      console.log("done");
+  }).catch(err => {
+      console.log(err);
+  });
+}
 
+async function getRemoteFile(url, filePath, progressCallback, headers='') {
+  console.log('Downloading (' + url + ')..');
+
+  try {
+    fs.unlinkSync(filePath); 
+  } catch {} 
+
+  return new Promise((resolve, reject) => {
+    const localFile = fs.createWriteStream(filePath);
+    const client = url.startsWith('https') ? https : http;    
+    if (Util.isEmpty(headers)) {
+      headers = {
+        Acept: 'application/vnd.github+json', 
+      }
+    }
+    const options = {
+      headers: headers,
+      method: 'GET' 
+    };
+    //console.log('headers:', headers);
+    const request = client.get(url, { headers }, (response) => { 
+      
+      console.log('Status Code:', response.statusCode);
+
+      if (response.statusCode === 302) {
+        // Github may Redirect our request:
+        const redirectUrl = response.headers.location;
+        console.log('Redirecting to:', redirectUrl);
+        //return downloadWithAxios(redirectUrl, localFile); 
+        return getRemoteFile(redirectUrl, filePath, progressCallback, { Accept: 'application/octet-stream' }) 
+          .then(resolve) 
+          .catch(reject); 
+      }
+      if (response.statusCode !== 200) {
+        console.log('Headers:', response.headers);
+        fs.unlink(filePath, () => {
+          console.error('Failed to get the file:', response.statusMessage);
+          reject(new Error(`Failed to get '${url}' (${response.statusCode})`));
+        });
+        return;
+      }
+
+      //console.log('Response:', response.headers);
+      response.pipe(localFile);
+
+      const contentLength = parseInt(response.headers['content-length'], 10) || 0;
+      let downloadedBytes = 0;
+
+      response.on('data', (chunk) => {
+        downloadedBytes += chunk.length;
+        console.log(`Downloaded ${downloadedBytes} bytes`);
+        progressCallback(downloadedBytes / contentLength * 100); 
+      });
+
+      response.on('end', () => {
+        console.log("Download complete");
+        localFile.end();
+        progressCallback(100);
+        resolve(); 
+      });
+
+      response.on('error', (err) => {
+        console.error("Download error:", err);
+        localFile.end();
+        reject(err); 
+      });
+
+      
+
+    });
+
+    request.on('error', (err) => { 
+      console.error('Request error:', err); 
+      reject(err); 
+    });
+  });
+}
+
+function showProgress(file, cur, len, total) {
+  if (len) {
+      console.log("Downloading " + file + " - " + (100.0 * cur / len).toFixed(2) 
+          + "% (" + (cur / 1048576).toFixed(2) + " MB) of total size: " 
+          + total.toFixed(2) + " MB");
+  } else {
+      console.log("Downloading " + file + " - " + (cur / 1048576).toFixed(2) + " MB downloaded.");
+  }
+}
 
 // #endregion
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
-// #region ipcMain Handlers
+// #region ipc Handlers (Inter-Process Communication)
 
 ipcMain.handle('get-app-version', async () => {
   const appPath = app.getAppPath();
@@ -1108,7 +1183,7 @@ ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
 });
 
 ipcMain.handle('is-not-null-obj', async (event, obj) => {
-  return isNotNullOrEmpty(obj);
+  return Util.isNotNullOrEmpty(obj);
 });
 
 ipcMain.handle('deleteFileByAbsolutePath', async (event, filePath) => {
@@ -1238,6 +1313,14 @@ ipcMain.handle('download-asset', async (event, url, dest) => {
   });
 });
 
+
+ipcMain.on('download-file', (event, url, filePath) => {
+  getRemoteFile(url, filePath, (progress) => {
+      event.sender.send('download-progress', progress);
+  });
+});
+
+
 ipcMain.handle('runInstaller', async (event, installerPath) => {
   try {
     const latestRelease = runInstaller(installerPath);
@@ -1268,7 +1351,6 @@ export default {
   ensureDirectoryExists, 
   ensureSymlink,
 
-  isNotNullOrEmpty,
   getParentFolder,
   ShowOpenDialog,
   ShowSaveDialog,

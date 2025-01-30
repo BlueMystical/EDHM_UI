@@ -112,6 +112,11 @@ export default {
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
+        
+        // Waits 10 seconds and Look for Updates:
+        setTimeout(() => {
+          this.LookForUpdates();
+        }, 10000);
 
       } catch (error) {
         console.error(error);
@@ -511,7 +516,7 @@ export default {
     // #region Updates
 
     async LookForUpdates() {
-      // window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestPreRelease => {   //<- For PROD Release
+       //window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
       window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
         if (latestRelease) {
           console.log(latestRelease);
@@ -542,7 +547,12 @@ export default {
           };
           window.api.ShowMessageBox(options).then(result => {
             if (result && result.response === 1) {
-              EventBus.emit('StartDownload', JSON.parse(JSON.stringify(latesRelease))); //<- Event Listen in 'NavBars.vue'
+              const url = latesRelease.assets[0].url;
+              window.api.openUrlInBrowser(url);
+              //EventBus.emit('StartDownload', JSON.parse(JSON.stringify(latesRelease))); //<- Event Listen in 'NavBars.vue'
+            }
+            if (result && result.response === 2) {
+              EventBus.emit('RoastMe', { type: 'Info', message: 'There is an Update Available: ' + serverVersion, autoHide: false });
             }
           });
         }
@@ -556,8 +566,8 @@ export default {
     },
     compareVersions(serverVersion, localVersion) {
       // Remove non-numeric characters from the beginning
-      serverVersion = serverVersion.replace(/^[^\d]+/, '');
-      localVersion = localVersion.replace(/^[^\d]+/, '');
+      serverVersion = serverVersion.replace(/^[^\d]+/, '');  console.log('serverVersion:', serverVersion);
+      localVersion = localVersion.replace(/^[^\d]+/, '');     console.log('localVersion:', localVersion);
 
       // Split the versions into parts
       const serverParts = serverVersion.split('.').map(Number);
@@ -578,8 +588,6 @@ export default {
       console.log(e);
     },
 
-
-    
     // #endregion
 
   },

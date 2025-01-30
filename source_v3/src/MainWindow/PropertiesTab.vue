@@ -160,113 +160,6 @@ export default defineComponent({
       return isNaN(value) ? 0 : Math.round(value);
     },
 
-    //-----------------------------------------------------------------------------
-    convertSRGBFromLinear(theLinearValue, gammaValue = 2.4) {
-      return theLinearValue <= 0.0031308 ?
-        theLinearValue * 12.92 :
-        Math.pow(theLinearValue, 1.0 / gammaValue) * 1.055 - 0.055;
-    },
-    convertSRGBToLinear(theSRGBValue, gammaValue = 2.4) {
-      return thesRGBValue <= 0.04045 ?
-        theSRGBValue / 12.92 :
-        Math.pow((theSRGBValue + 0.055) / 1.055, gammaValue);
-    },
-    getGammaCorrectedRGBA(color, gammaValue = 2.4) {
-      try {
-        const sRGBcolor = {
-          r: color.r / 255,
-          g: color.g / 255,
-          b: color.b / 255,
-          a: color.a / 255
-        };
-
-        const gammaCorrected = [
-          Math.round(convertSRGBToLinear(sRGBcolor.r, gammaValue) * 10000) / 10000,
-          Math.round(convertSRGBToLinear(sRGBcolor.g, gammaValue) * 10000) / 10000,
-          Math.round(convertSRGBToLinear(sRGBcolor.b, gammaValue) * 10000) / 10000,
-          Math.round(sRGBcolor.a * 10000) / 10000 // Alpha remains linear
-        ];
-
-        return gammaCorrected;
-      } catch (error) {
-        console.error("ERROR!", error.message, error.stack);
-      }
-      return null;
-    },
-    reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
-      try {
-        console.log(`Input Gamma Values: R=${gammaR}, G=${gammaG}, B=${gammaB}, A=${gammaA}`);
-
-        const invR = convertSRGBFromLinear(gammaR, gammaValue);
-        const invG = convertSRGBFromLinear(gammaG, gammaValue);
-        const invB = convertSRGBFromLinear(gammaB, gammaValue);
-
-        console.log(`Converted Values: invR=${invR}, invG=${invG}, invB=${invB}`);
-
-        const result = {
-          r: safeRound(invR),
-          g: safeRound(invG),
-          b: safeRound(invB),
-          a: safeRound(gammaA)
-        };
-
-        console.log(`Result: ${JSON.stringify(result)}`);
-
-        return result;
-      } catch (error) {
-        console.error("ERROR!", error.message, error.stack);
-        return { r: 0, g: 0, b: 0, a: 1 }; // Return default value in case of error
-      }
-    },
-
-    //-----------------------------------------------------------------------------
-    /**     * Convert a Color from Number to a Hex HTML string.
-     * @param number Integer Value representing a Color.
-     */
-    intToHexColor(number) {
-      return intToHex(number);
-    },
-    intToHex(int) {
-      // Ensure unsigned 32-bit
-      int >>>= 0;
-
-      // Convert each component to a two-digit hex string
-      const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
-      const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
-      const b = (int & 0xFF).toString(16).padStart(2, '0');
-
-      return `#${r}${g}${b}`;
-    },
-    intToRGB(num) {
-      // Convert the signed integer to an unsigned integer
-      const unsignedNum = num >>> 0;
-
-      // Extract red, green, and blue components
-      const r = (unsignedNum >> 16) & 0xFF;
-      const g = (unsignedNum >> 8) & 0xFF;
-      const b = unsignedNum & 0xFF;
-
-      return { r, g, b };
-    },
-    rgbToHex(r, g, b, a = 1) {
-      // Ensure values are within valid range
-      r = Math.max(0, Math.min(255, r));
-      g = Math.max(0, Math.min(255, g));
-      b = Math.max(0, Math.min(255, b));
-      a = Math.max(0, Math.min(1, a));
-
-      // Convert alpha to hexadecimal
-      const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
-
-      // Convert RGB to hexadecimal
-      const hex = "#" +
-        r.toString(16).padStart(2, '0') +
-        g.toString(16).padStart(2, '0') +
-        b.toString(16).padStart(2, '0');
-
-      return a < 1 ? hex + alphaHex : hex; // Return hex with alpha if alpha is less than 1
-    },
-
 
     /**     * Gets the path for an Element Image
      * @param key The file name of the image matches the 'key' of the Element.
@@ -283,20 +176,20 @@ export default defineComponent({
     /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
     updatePresetValue(item, value) {
       item.value = value;
-      saveToThemeTemplate(item);
+      this.saveToThemeTemplate(item);
     },
     updateBrightnessValue(item, event) {
       item.value = parseFloat(event.target.value);
-      saveToThemeTemplate(item);
+      this.saveToThemeTemplate(item);
     },
     updateColorValue(item, color) {
       item.value = parseInt(color.slice(1), 16);
-      saveToThemeTemplate(item);
+      this.saveToThemeTemplate(item);
     },
     toggleOnOffValue(item) {
       // Toggle the boolean value
       item.value = item.value === 1 ? 0 : 1;
-      saveToThemeTemplate(item);
+      this.saveToThemeTemplate(item);
     },
     saveToThemeTemplate(item) {
       /* Here the changes in controls are stored back into the 'themeTemplate' object  */
