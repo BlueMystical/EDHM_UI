@@ -58,9 +58,9 @@ const getThemes = async (dirPath) => {
                 }
   
                 // Sanitization: For Themes Exportings
-               /* fileHelper.deleteFilesByType(subfolderPath, '.ini');
+                fileHelper.deleteFilesByType(subfolderPath, '.ini');
                 fileHelper.deleteFilesByType(subfolderPath, '.credits');
-                fileHelper.deleteFilesByType(subfolderPath, '.fav');*/
+                //fileHelper.deleteFilesByType(subfolderPath, '.fav');
                 //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
   
               } catch (error) {
@@ -256,7 +256,7 @@ async function CreateNewTheme(credits) {
  * 
  * @throws {Error} - Throws an error if the theme update process fails.
  */
-async function UpdateTheme(themeData) {
+async function UpdateTheme(themeData, source) {
   try {
     //console.log('credits: ', credits);  
 
@@ -272,7 +272,8 @@ async function UpdateTheme(themeData) {
     if (fileHelper.ensureDirectoryExists(themesPath)) {
 
       //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
-      const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
+      const CurrentSettings = source;
+     /* const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));*/
       CurrentSettings.credits.theme = Credits.theme;
       CurrentSettings.credits.author = Credits.author;
       CurrentSettings.credits.description = Credits.description;      
@@ -281,10 +282,7 @@ async function UpdateTheme(themeData) {
       CurrentSettings.path = '';  
 
       //4. WRITE THE NEW THEME FILES:
-      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
-      //fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));      
-      //fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
-
+      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings, true);
       if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
         return true;
       } else {
@@ -731,9 +729,9 @@ ipcMain.handle('CreateNewTheme', async (event, credits) => {
     throw error;
   }
 });
-ipcMain.handle('UpdateTheme', async (event, theme) => {
+ipcMain.handle('UpdateTheme', async (event, theme, source) => {
   try {
-    return UpdateTheme(theme);
+    return UpdateTheme(theme, source);
   } catch (error) {
     throw error;
   }

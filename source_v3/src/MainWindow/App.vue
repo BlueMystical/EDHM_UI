@@ -254,11 +254,15 @@ export default {
    * @param e Selected Theme Data
    */
     async OnUpdateTheme(e) {
-      if (e && e.theme != null) {
+      if (e && e.theme != null) { //<-- The Selected Theme
         const NewThemeData = JSON.parse(JSON.stringify(e.theme));
-        const _ret = await window.api.UpdateTheme(NewThemeData);
-        console.log('UpdateTheme:', _ret);
+        const CurrentSettings = JSON.parse(JSON.stringify(e.source));
+
+        const _ret = await window.api.UpdateTheme(NewThemeData, CurrentSettings);
+        console.log('UpdatedTheme:', _ret);
+
         if (_ret) {
+          EventBus.emit('DoReloadTheme', { theme: JSON.parse(JSON.stringify(NewThemeData)) }); //<- Event Listened on ThemeTab.vue
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
         }
       }

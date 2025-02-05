@@ -92,7 +92,7 @@ export default {
 
                 const options = {
                     autohide: autoHide,
-                    delay: 4000 // Auto-hide delay in milliseconds
+                    delay: 3000 // Auto-hide delay in milliseconds
                 };
 
                 if (toastBootstrap) {

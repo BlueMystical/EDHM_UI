@@ -10,12 +10,11 @@
           <table class="table table-bordered table-dark">
             <tbody>
               <tr v-for="(item, itemIndex) in category.items" :key="itemIndex">
-                
-                <td class="tooltip-container"> <!-- The 1st Column -->
 
+                <td class="tooltip-container" id="tooltip-{{ item.key }}"> <!-- The 1st Column -->
                   <!-- Name of the Item and a Tooltip with information -->
                   {{ item.title || "No title available" }}
-                  <div class="custom-tooltip">
+                  <div class="custom-tooltip" :class="{ 'tooltip-top': isTooltipTop, 'tooltip-bottom': !isTooltipTop }">
                     <strong>Key:</strong> {{ item.key }}<br />
                     {{ item.description }}<br />
                     <img :src="getImagePath(item.key)" alt="Image of {{ item.key }}" style="width:270px;height:180px;"
@@ -113,98 +112,6 @@ export default defineComponent({
   },
   methods: {
 
-    /** Gets all Presets for the selected Type
-     * @param type Type of Preset
-     */
-    getPresetsForType(type) {
-      return themeTemplate.Presets.filter(preset => preset.Type === type);
-    },
-
-    /** Gets the Description of a Preset
-     * @param type Type of Preset
-     * @param index Value
-     */
-    getPresetNameByIndex(type, index) {
-      const preset = themeTemplate.Presets.find(preset => preset.Type === type && preset.Index === index);
-      return preset ? preset.Name : null;
-    },
-
-    /**     * Gets the Minimum Value for a Range-slider control
-     * @param type Type of Range
-     */
-    getMinValue(type) {
-      switch (type) {
-        case '2X':
-        case '4X':
-          return 0.0;
-        default:
-          return 0.0;
-      }
-    },
-
-    /**     * Gets the Maximum Value for a Range-slider control
-     * @param type Type of Range
-     */
-    getMaxValue(type) {
-      switch (type) {
-        case '2X':
-          return 2.0;
-        case '4X':
-          return 4.0;
-        default:
-          return 1.0;
-      }
-    },
-
-    safeRound(value) {
-      return isNaN(value) ? 0 : Math.round(value);
-    },
-
-
-    /**     * Gets the path for an Element Image
-     * @param key The file name of the image matches the 'key' of the Element.
-     */
-    getImagePath(key) {
-      const imageKey = key.replace(/\|/g, '_');
-      return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
-    },
-
-    hideImage(event) {
-      event.target.style.display = 'none';
-    },
-
-    /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
-    updatePresetValue(item, value) {
-      item.value = value;
-      this.saveToThemeTemplate(item);
-    },
-    updateBrightnessValue(item, event) {
-      item.value = parseFloat(event.target.value);
-      this.saveToThemeTemplate(item);
-    },
-    updateColorValue(item, color) {
-      item.value = parseInt(color.slice(1), 16);
-      this.saveToThemeTemplate(item);
-    },
-    toggleOnOffValue(item) {
-      // Toggle the boolean value
-      item.value = item.value === 1 ? 0 : 1;
-      this.saveToThemeTemplate(item);
-    },
-    saveToThemeTemplate(item) {
-      /* Here the changes in controls are stored back into the 'themeTemplate' object  */
-      themeTemplate.ui_groups.forEach(group => {
-        if (group && group.Elements) {
-          const element = group.Elements.find(el => el.Key === item.key);
-          if (element) {
-            element.Value = item.value;
-            console.log(`Updated! Key: '${item.key}', Value: '${item.value}''`);
-          }
-        }
-      });
-    },
-
-
     loadProperties(area) {
       //console.log('Loading properties for area:', area);
       this.updateProperties(this.getPropertiesForArea(area));
@@ -213,10 +120,7 @@ export default defineComponent({
     updateProperties(newProperties) {
       this.properties.splice(0, this.properties.length, ...newProperties);
     },
-    updateThemeTemplate(item) {
-      //console.log('On_ThemeLoaded', item)
-      themeTemplate = item;
-    },
+
     getPropertiesForArea(area) {
       /* Gets all  Categories and Properties of the Area */
       //console.log('Loaded Template:', themeTemplate);
@@ -266,11 +170,106 @@ export default defineComponent({
 
       return categorizedProperties;
     },
-    updateBrightnessValue(item, event) {
-      // Updates the Slider value on the little label over the slider
-      item.value = event.target.value;
+
+    /** Gets all Presets for the selected Type
+     * @param type Type of Preset
+     */
+    getPresetsForType(type) {
+      return themeTemplate.Presets.filter(preset => preset.Type === type);
     },
 
+    /** Gets the Description of a Preset
+     * @param type Type of Preset
+     * @param index Value
+     */
+    getPresetNameByIndex(type, index) {
+      const preset = themeTemplate.Presets.find(preset => preset.Type === type && preset.Index === index);
+      return preset ? preset.Name : null;
+    },
+
+    /**     * Gets the Minimum Value for a Range-slider control
+     * @param type Type of Range
+     */
+    getMinValue(type) {
+      switch (type) {
+        case '2X': return -1.0;
+        case '4X':
+          return 0.0;
+        default:
+          return 0.0;
+      }
+    },
+
+    /**     * Gets the Maximum Value for a Range-slider control
+     * @param type Type of Range
+     */
+    getMaxValue(type) {
+      switch (type) {
+        case '2X':
+          return 2.0;
+        case '4X':
+          return 4.0;
+        default:
+          return 1.0;
+      }
+    },
+
+    safeRound(value) {
+      return isNaN(value) ? 0 : Math.round(value);
+    },
+
+
+    /**     * Gets the path for an Element Image
+     * @param key The file name of the image matches the 'key' of the Element.
+     */
+    getImagePath(key) {
+      const imageKey = key.replace(/\|/g, '_');
+      return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
+    },
+
+    hideImage(event) {
+      event.target.style.display = 'none';
+    },
+
+    /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
+    updatePresetValue(item, value) {
+      item.value = value;
+      this.saveToThemeTemplate(item);
+    },
+    updateBrightnessValue(item, event) {
+      item.value = parseFloat(event.target.value);
+      this.saveToThemeTemplate(item);
+    },
+    updateColorValue(item, color) {
+      console.log('Color:', color);
+      item.value = parseInt(color.slice(1), 16);
+      this.saveToThemeTemplate(item);
+    },
+    toggleOnOffValue(item) {
+      // Toggle the boolean value
+      item.value = item.value === 1 ? 0 : 1;
+      this.saveToThemeTemplate(item);
+    },
+    saveToThemeTemplate(item) {
+      /* Here the changes in controls are stored back into the 'themeTemplate' object  */
+      themeTemplate.ui_groups.forEach(group => {
+        if (group && group.Elements) {
+          const element = group.Elements.find(el => el.Key === item.key);
+          if (element) {
+            element.Value = item.value;
+            console.log(`Updated! Key: '${item.key}', Value: '${item.value}''`);
+          }
+        }
+      });
+      this.$emit('onThemeChanged', JSON.parse(JSON.stringify(themeTemplate))); //<- Listened on NavBars.vue
+    },
+
+
+    
+    OnThemeLoaded(item) {
+      //console.log('On_ThemeLoaded', item)
+      themeTemplate = item;
+    },
     /** When a Category is Selected, it scrolls to the selected Category     * 
      * @param category Name of the Category
      */
@@ -291,12 +290,12 @@ export default defineComponent({
   },
   mounted() {
     eventBus.on('areaClicked', this.loadProperties);
-    eventBus.on('ThemeLoaded', this.updateThemeTemplate);
+    eventBus.on('ThemeLoaded', this.OnThemeLoaded);
     eventBus.on('OnSelectCategory', this.OnSelectCategory);
   },
   beforeUnmount() {
     eventBus.off('areaClicked', this.loadProperties);
-    eventBus.off('ThemeLoaded', this.updateThemeTemplate);
+    eventBus.off('ThemeLoaded', this.OnThemeLoaded);
     eventBus.off('OnSelectCategory', this.OnSelectCategory);
   },
 });
@@ -311,14 +310,12 @@ export default defineComponent({
 }
 
 .tab-content {
+  overflow-y: auto;
+  max-height: 100%;
+  width: 100%;
   background-color: #212529;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: hidden;
-  position: absolute;
-  top: 0;
 }
+
 
 .scrollable-content {
   flex-grow: 1;
@@ -326,32 +323,23 @@ export default defineComponent({
   font-family: 'Segoe UI';
   font-size: 12px;
   scrollbar-width: thin;
-  /* For Firefox */
   scrollbar-color: #2c2c2c #121212;
-  /* For Firefox */
 }
-
 .scrollable-content::-webkit-scrollbar {
   width: 8px;
-  /* Adjust width to make it thin */
 }
-
 .scrollable-content::-webkit-scrollbar-thumb {
   background-color: #2c2c2c;
   border-radius: 4px;
 }
-
 .scrollable-content::-webkit-scrollbar-track {
   background-color: #121212;
 }
 
 .list-group-item {
   padding: 2px 2px;
-  /* Reduce padding */
   background-color: transparent;
-  /* Make background transparent */
   border: none;
-  /* Optional: remove border */
   font-family: 'Segoe UI';
   font-size: 14px;
   color: orange;
@@ -364,22 +352,15 @@ export default defineComponent({
 }
 
 .dropdown-column {
-  width: 50%;
-  /* Set width to half the table's width */
+  width: 50%;  /* Set width to half the table's width */
 }
-
 .dropdown-button {
   width: 200px;
-  /* Set fixed width */
   padding: 0.25rem 0.5rem;
-  /* Make it thinner */
   text-align: right;
-  /* Align text to the right */
 }
-
 .dropdown-menu {
-  width: 100%;
-  /* Make the dropdown menu fill the column width */
+  width: 100%;  /* Make the dropdown menu fill the column width */
 }
 
 /* ----------------------------------------------------------*/
@@ -408,7 +389,6 @@ export default defineComponent({
   background-color: transparent;
   /* Set background color to transparent */
 }
-
 .color-picker-container {
   position: relative;
 }
@@ -432,27 +412,18 @@ export default defineComponent({
 /* Styles for the Select Combos */
 .select-combo {
   background-color: #343a40;
-  /* Dark background */
   color: #f8f9fa;
-  /* Light text color */
   border: 1px solid #6c757d;
-  /* Border color */
   border-radius: 5px;
-  /* Rounded corners */
   height: 2rem;
-  /* Make it thin */
   padding: 0.25rem 0.5rem;
-  /* Padding */
   font-size: 0.875rem;
-  /* Font size */
 }
 
 .select-combo:hover,
 .select-combo:focus {
-  background-color: #495057;
-  /* Slightly lighter dark background on hover/focus */
-  border-color: #adb5bd;
-  /* Lighter border color on hover/focus */
+  background-color: #495057;  /* Slightly lighter dark background on hover/focus */
+  border-color: #adb5bd;  /* Lighter border color on hover/focus */
 }
 
 /* ----------------------------------------------------------*/
@@ -463,34 +434,27 @@ export default defineComponent({
   width: 230px;
   height: 50px;
 }
-
+.tooltip-container:hover .custom-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
 .custom-tooltip {
   visibility: hidden;
   width: 350px;
   background-color: #343a40;
-  /* Dark background */
   color: #f8f9fa;
-  /* Clear text color */
   text-align: left;
   border: 1px solid #ff8c00;
-  /* Dark-orange border */
   border-radius: 5px;
   padding: 10px;
   position: absolute;
   z-index: 1;
   top: 100%;
-  /* Position the tooltip below the text */
   left: 90%;
   transform: translateX(-50%);
-  /* Center align the tooltip */
   opacity: 0;
   transition: opacity 0.3s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  /* Add a subtle shadow for better visibility */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);  /* Add a subtle shadow for better visibility */
 }
 
-.tooltip-container:hover .custom-tooltip {
-  visibility: visible;
-  opacity: 1;
-}
 </style>

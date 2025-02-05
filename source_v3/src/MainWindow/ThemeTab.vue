@@ -14,7 +14,7 @@
       <li v-for="image in images" :key="image.id" :id="'image-' + image.id" class="image-container"
         :class="{ 'selected': image.id === selectedImageId }" @click="OnSelectTheme(image)"
         @contextmenu="onRightClick($event, image)">
-        <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />        
+        <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />
         <span class="image-label">{{ image.name }}</span>
 
         <!--<span v-if="isFavoriteEx(image)" class="position-absolute top-right badge text-bg-warning"><i class="bi bi-star-fill"></i></span>  -->
@@ -27,21 +27,30 @@
       <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('ApplyTheme')">Apply Theme</a></li>
       <li><a class="dropdown-item" href="#" :class="{ 'disabled': !isPreviewAvailable }"
           @click="isPreviewAvailable ? onContextMenu_Click('ThemePreview') : null">Theme Preview</a></li>
-          <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="#" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')">
-          {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a></li>          
-      <li><hr class="dropdown-divider"></li>
-      <li><h6 class="dropdown-header">{{ selectedTheme.name }}</h6></li>
-      <p><small class="px-3 disabled">Author: <span v-html="selectedTheme.file.credits.author"></span></small></p>     
+      <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a></li>
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <!--<li><a class="dropdown-item" href="#" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')">
+          {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a></li> -->
+
+      <li><a class="dropdown-item" href="#" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')"
+          :class="{ disabled: isCurrentSettings }">{{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }}
+        </a></li>
+
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+      <li>
+        <h6 class="dropdown-header">{{ selectedTheme.name }}</h6>
+      </li>
+      <p><small class="px-3 disabled">Author: <span v-html="selectedTheme.file.credits.author"></span></small></p>
     </ul>
 
   </div> <!-- theme-container -->
 
   <!-- No quitar esto o se jode el tamaño de los temas, no sé por qué?? -->
-  <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
-
-  
+  <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div> 
 
 </template>
 
@@ -85,14 +94,16 @@ export default {
     isFavorite() {
       return this.selectedTheme && this.selectedTheme.file && this.selectedTheme.file.isFavorite;
     },
+    isCurrentSettings(){
+      return this.selectedTheme && this.selectedTheme.name === "Current Settings";
+    }
   },
   methods: {
 
     async OnInitialize(event) {
       console.log('Initializing ThemeTab..');
       this.programSettings = event; // await window.api.getSettings();
-      await this.loadThemes();
-      this.FilterThemes(this.programSettings.FavToogle);
+      await this.loadThemes();      
 
       //If there is a theme waiting to be selected or Favorited:
       if (this.quequeSelect) {
@@ -136,7 +147,7 @@ export default {
             path: GamePath,
             thumbnail: ThumbImage,
             credits: {
-              author: "Blue Mystic",
+              author: "You",
               description: "** THESE ARE THE CURRENTLY APPLIED COLORS **",
               preview: "",
               theme: "Current Settings",              
@@ -145,7 +156,6 @@ export default {
           }
         }].concat( // Adding the rest of loaded Themes:          
           files
-            //.filter(file => !favoritesOnly || file.isFavorite === favoritesOnly)
             .map((file, index) => ({
               id: index + 1,
               name: file.credits.theme,
@@ -155,6 +165,8 @@ export default {
               file: file
             }))
         );
+
+        this.FilterThemes(this.programSettings.FavToogle);
 
         //console.log('Themes Loaded: ', this.themes);
         EventBus.emit('OnThemesLoaded', this.themes);  //<- this event will be heard in 'App.vue'
@@ -174,7 +186,12 @@ export default {
     },
 
     isFavoriteEx(image) {
-      return image && image.file.isFavorite;
+      if (image && image.file) {
+        return image && image.file.isFavorite;
+      }
+      else {
+        return false;
+      }
     },
     FilterThemes(favoritesOnly) {
       this.favToogle = favoritesOnly;
@@ -251,6 +268,22 @@ export default {
 
       } catch (error) {
         EventBus.emit('ShowError', error);
+      }
+    },
+
+    /** Updates and reloads a theme
+     * @param theme data of the theme  */
+    DoReloadTheme(theme){      
+      const tName = theme.name;
+      if (this.themes && this.themes.length > 0) {
+        const index = this.themes.findIndex(obj => obj.file.name === tName);
+        if (index !== -1) {
+          this.themes[index] = theme;
+          //console.log('Reloaded: ', theme);
+          this.FilterThemes(this.favToogle);
+        } else {
+            console.log(`Object with name ${tName} not found.`);
+        }
       }
     },
 
@@ -341,13 +374,13 @@ export default {
 
   },
   async mounted() {
-
     /** EVENT LISTENERS */
     EventBus.on('loadThemes', this.loadThemes);           //<- Event to Initiate, on demeand, the Load of all Themes
     EventBus.on('FilterThemes', this.FilterThemes);       //<- Event to Filter the favorite themes
-    EventBus.on('OnSelectTheme', this.OnSelectTheme);     //<- Event to, on demand, Select a Theme
-    EventBus.on('OnFavoriteTheme', this.DoFavoriteTheme); //<- Event to, on demand, Favorite a Theme
+    EventBus.on('OnSelectTheme', this.OnSelectTheme);     //<- Command to Select a Theme
+    EventBus.on('OnFavoriteTheme', this.DoFavoriteTheme); //<- Command to Favorite a Theme
     EventBus.on('OnInitializeThemes', this.OnInitialize); //<- Event listened on App.vue to Initiate the Load of all Themes 
+    EventBus.on('DoReloadTheme', this.DoReloadTheme);     //<- Command to Reload an specific theme
   },
   beforeUnmount() {
     EventBus.off('loadThemes', this.loadThemes);
@@ -355,59 +388,29 @@ export default {
     EventBus.off('OnSelectTheme', this.OnSelectTheme);
     EventBus.off('OnFavoriteTheme', this.DoFavoriteTheme);
     EventBus.off('OnInitializeThemes', this.OnInitialize);
+    EventBus.off('DoReloadTheme', this.DoReloadTheme); 
   }
 };
 </script>
 
 <style scoped>
 
-.badge-triangle {
-  width: 0;
-  height: 0;
-  border-left: 40px solid transparent;
-  border-top: 40px solid #ffc107;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.badge-triangle::before {
-  content: '★';
-  position: absolute;
-  top: -50px;
-  right: 0px;
-  font-size: 26px;
-  color: #110ec7;
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.context-menu {
-  position: absolute;
-  z-index: 1000;
-}
-
 .theme-tab {
   overflow-y: auto;
   max-height: 100%;
+  width: 100%;
 }
 
 .theme-tab::-webkit-scrollbar {
   width: 8px;
 }
-
 .theme-tab::-webkit-scrollbar-track {
   background: #333;
 }
-
 .theme-tab::-webkit-scrollbar-thumb {
   background-color: #555;
   border-radius: 10px;
 }
-
 .theme-tab::-webkit-scrollbar-thumb:hover {
   background-color: #777;
 }
@@ -458,5 +461,34 @@ ul {
   background-color: rgba(0, 0, 0, 0.3);
   padding: 1px;
   border-radius: 3px;
+}
+
+.badge-triangle {
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-top: 40px solid #ffc107;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.badge-triangle::before {
+  content: '★';
+  position: absolute;
+  top: -50px;
+  right: 0px;
+  font-size: 26px;
+  color: #110ec7;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.context-menu {
+  position: absolute;
+  z-index: 1000;
 }
 </style>

@@ -48,6 +48,10 @@
           data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme_Click">
           <i class="bi bi-floppy"></i>
         </button>
+        <button id="cmdReloadThemes" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+          data-bs-placement="bottom" data-bs-title="Reload Themes" @mousedown="reloadThemes_Click">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
 
         <button id="cmdShowFavorites" :class="['btn btn-outline-secondary', { 'text-orange': showFavorites }]"
           type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites" @mousedown="toggleFavorites_click">
@@ -79,44 +83,44 @@
     </div>
   </div>
 
-  <!-- The Ship's HUD image -->
   <div class="row no-gutters full-height m-0 h-100">
-    <div class="col-8 h-100">
-      <HUD_Areas />
-    </div>
+    <!-- The Ship's HUD image -->
+    <div class="col-8 h-100"><HUD_Areas /></div>
 
+    <!-- This contains the Controls of the Tabs -->
     <div class="col-4 border border-secondary d-flex flex-column h-100">
-      <!-- This contains the Controls of the Tabs -->
-      <!-- Ensure each tab component has the class "tab-content" -->
-        <div id="MainTabBarControls" class="content flex-grow-1 d-flex flex-column overflow-hidden">
-        <ThemeTab v-show="activeTab === 'themes'" class="tab-content" />
-        <PropertiesTab v-show="activeTab === 'properties'" class="tab-content" />
-        <UserSettingsTab v-show="activeTab === 'settings'" class="tab-content" />
-        <GlobalSettingsTab v-show="activeTab === 'global-settings'" class="tab-content" />
-        </div>
-
-      <!-- These are the TabBar buttons -->
-      <nav id="MainTabBar" class="navbar navbar-expand-sm navbar-dark bg-dark custom-navbar">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'themes' }"
-              @click.prevent="setActiveTab('themes')">Themes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'properties' }"
-              @click.prevent="setActiveTab('properties')">Properties</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'settings' }"
-              @click.prevent="setActiveTab('settings')">User Settings</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" :class="{ 'active-nav-item': activeTab === 'global-settings' }"
-              @click.prevent="setActiveTab('global-settings')">Global Settings</a>
-          </li>
-        </ul>
-      </nav>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs " id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="themes-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" 
+                  type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Themes</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" 
+                  type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Properties</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" 
+                  type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" disabled>User Settings</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="global-settings-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" 
+                  type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Global Settings</button>
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="themes-tab" tabindex="0">
+            <ThemeTab v-show="activeTab === 'themes'" class="tab-content" /></div>
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="properties-tab" tabindex="0">
+            <PropertiesTab v-show="activeTab === 'properties'" class="tab-content" @onThemeChanged="OnThemeValuesChanged"/></div>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="user-settings-tab" tabindex="0">
+          <UserSettingsTab v-show="activeTab === 'settings'" class="tab-content" /></div>
+        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="global-settings-tab" tabindex="0">
+          <GlobalSettingsTab v-show="activeTab === 'global-settings'" class="tab-content" /></div>
+      </div>
     </div>
+
   </div>
 </div>
 
@@ -127,8 +131,7 @@
     <div class="navbar-nav">
       <!-- Game Selection Dropdown -->
       <div class="nav-item">
-        <select id="gameSelect" class="form-select game-dropdown-border main-menu-style" v-model="selectedGame"
-          @change="OnGameInstanceChange">
+        <select id="gameSelect" class="form-select game-dropdown-border main-menu-style" v-model="selectedGame" @change="OnGameInstanceChange">
           <option v-for="(game, index) in gameMenuItems" :key="index" :value="game">{{ game }}</option>
         </select>
       </div>
@@ -139,12 +142,15 @@
     <!-- Mod Version Label -->
     <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
 
-    <Updater ref="Updater" @onComplete="OnDonwloadComplete"/>
+    <!-- Progress bar-->
+    <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Warning example" 
+          :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100" style="width: 600px;">
+      <div class="progress-bar text-bg-warning" :style="{ width: progressValue + '%' }">{{ progressValue }}%</div>
+    </span>
 
     <!-- Search Form -->
     <form class="d-flex ms-auto" @submit.prevent="OnSearchBox_Click">
-      <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search"
-        aria-label="Search">
+      <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-warning" type="submit">Search</button>
     </form>
 
@@ -165,7 +171,7 @@ import { ref } from 'vue';
 import EventBus from '../EventBus';
 import ThemeTab from './ThemeTab.vue';
 import HUD_Areas from './HudImage.vue';
-import Updater from './Components/Updater.vue';
+//import Updater from './Components/Updater.vue';
 import PropertiesTab from './PropertiesTab.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';
@@ -179,8 +185,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 /** To Check is something is Empty
  * @param obj Object to check
  */
- const isEmpty = obj => Object.keys(obj).length === 0;
-
+const isEmpty = obj => Object.keys(obj).length === 0;
 
 export default {
   name: 'NavBarsBody',
@@ -196,6 +201,9 @@ export default {
       statusText: '',
       showFavorites: false,
       showSpinner: true,
+
+      showProgressBar: false,
+      progressValue: 45,
 
       programSettings: {},
       themeTemplate: {},
@@ -217,9 +225,9 @@ export default {
 
   },
   components: {
-    Updater,
+    //Updater,
     ThemeTab,
-    HUD_Areas,    
+    HUD_Areas,
     PropertiesTab,
     UserSettingsTab,
     GlobalSettingsTab
@@ -256,12 +264,15 @@ export default {
         this.showSpinner = false;
       }
     },
-    
+
     /** Sets the Active Tab
      * @param tab Tab's Name
      */
     setActiveTab(tab) {
-      this.activeTab = ref(tab);
+      this.activeTab = ref(tab); console.log(tab);
+      var tabTriggerEl = document.querySelector('#' + tab + '-tab');
+      var tab = new bootstrap.Tab(tabTriggerEl);
+      tab.show();
     },
 
     /**  when a Theme in the list is Selected
@@ -328,8 +339,8 @@ export default {
 
           if (themeTemplate && !isEmpty(themeTemplate)) {
             EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'            
-            return JSON.parse(JSON.stringify(themeTemplate)); 
-          } 
+            return JSON.parse(JSON.stringify(themeTemplate));
+          }
         }
       } catch (error) {
         EventBus.emit('ShowError', new Error(error.message + error.stack));
@@ -367,7 +378,7 @@ export default {
           await window.api.openUrlInBrowser('https://discord.gg/ZaRt6bCXvj');
         }
         if (value === 'mnuCheckUpdates') {
-          EventBus.emit('LookForUpdates', null ); //<- this event will be heard in 'App.vue'
+          EventBus.emit('LookForUpdates', null); //<- this event will be heard in 'App.vue'
         }
       }
     },
@@ -380,7 +391,7 @@ export default {
         message: 'Create New Theme?',
         detail: 'This will take your currently applied settings to build a new theme',
         cancelId: 0
-      }; 
+      };
       const result = await window.api.ShowMessageBox(options); //console.log(result);
       if (result && result.response === 1) {
         EventBus.emit('OnCreateTheme', { theme: null }); //<- Event Listened on App.vue
@@ -398,7 +409,7 @@ export default {
           this.statusText = 'Current Settings can not be Edited!';
           console.log('Current Settings can not be Edited!');
         }
-      } 
+      }
     },
     async exportTheme_Click(event) {
       if (themeTemplate && !isEmpty(themeTemplate)) {
@@ -407,16 +418,16 @@ export default {
         if (tName != "Current Settings") {
           console.log('Exporting theme: ', tName);
 
-            const _ret = await window.api.ExportTheme(JSON.parse(JSON.stringify(themeTemplate))); console.log(_ret);
-            if (_ret) {
-              EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${tName}' exported successfully!` });
-            }            
+          const _ret = await window.api.ExportTheme(JSON.parse(JSON.stringify(themeTemplate))); console.log(_ret);
+          if (_ret) {
+            EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${tName}' exported successfully!` });
+          }
         }
         else {
           this.statusText = 'Current Settings can not be Edited!';
           console.log('Current Settings can not be Edited!');
         }
-      } 
+      }
     },
     async saveTheme_Click(event) {
       if (themeTemplate && !isEmpty(themeTemplate)) {
@@ -432,17 +443,24 @@ export default {
             message: 'Do you want to proceed?',
             detail: 'This will take your currently applied settings and Save them into the Selected Theme: ' + tName,
             cancelId: 0
-          }; 
+          };
           const result = await window.api.ShowMessageBox(options); //console.log(result);
           if (result && result.response === 1) {
-            EventBus.emit('OnUpdateTheme', { theme: JSON.parse(JSON.stringify(themeTemplate)) }); //<- Event Listened on App.vue
+            const curSettings = await this.LoadCurrentSettings();
+            EventBus.emit('OnUpdateTheme', {
+              theme: JSON.parse(JSON.stringify(themeTemplate)),
+              source: curSettings
+            }); //<- Event Listened on App.vue
           }
         }
         else {
           this.statusText = 'Current Settings can not be Edited!';
           console.log('Current Settings can not be Edited!');
         }
-      }      
+      }
+    },
+    reloadThemes_Click(e) {
+      EventBus.emit('loadThemes', e); //<- Listen in ThemeTab.vue
     },
 
     /** Toggles the Favorites list
@@ -548,7 +566,7 @@ export default {
             return acc.concat(elementsWithParent);
           }
           return acc;
-        }, []);        
+        }, []);
 
         // 2. Looking on the Themes Loaded:
         const filteredThemes = this.themesLoaded.filter(theme =>
@@ -628,7 +646,12 @@ export default {
       this.modVersion = data.Version_ODYSS;
     },
 
-    OnDownloadStart(data){
+    OnThemeValuesChanged(e) {
+      // Evento recibido del componente PropertiesTab.vue al cambiar los valores de un tema      
+      themeTemplate = e; //console.log('OnThemeValuesChanged:', e);
+    },
+
+    OnDownloadStart(data) {
       this.$refs.Updater.startDownload(data);
     }
 
@@ -680,12 +703,25 @@ body {
   background-color: #1F1F1F;
 }
 
+#myTabContent {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.tab-pane {
+  flex: 1;
+  overflow: auto; /* Enable scrolling if content exceeds the container size */
+}
+.nav-link.active {
+  color: #ffc107; /* Replace with your desired color */
+}
+
 .tab-content {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   height: 100%;  
-  width: 32%;
+  width: 100%;
 }
 
 .text-orange { /* for the Toggle Favorites Button */
@@ -759,36 +795,29 @@ body {
   color: white;
 }
 
-/* Styles for MainTabBar nav */
+/* Styles for MainTabBar nav *//*
 .custom-navbar {
   border: 1px solid rgb(110, 73, 2);
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   color: #f8f9fa;
-  /* Light text color for contrast */
 }
-
 .navbar-nav .nav-item .nav-link {
   color: #f8f9fa;
   transition: background-color 0.3s, color 0.3s;
   border-radius: 5px;
-  /* Ensure rounded corners */
 }
-
 .navbar-nav .nav-item .nav-link:hover {
   background-color: orangered;
   color: white;
   border-radius: 5px;
-  /* Ensure rounded corners on hover */
 }
-
 .navbar-nav .nav-item .active-nav-item {
   background-color: darkorange;
   color: #000000;
-  /* Dark text color for contrast */
   border-radius: 5px;
 }
-
+*/
 
 /* ----- Styles for the Buttons on the top bar  --------- */
 .btn-icon {

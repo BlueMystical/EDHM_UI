@@ -69,7 +69,7 @@ contextBridge.exposeInMainWorld('api', {
   GetCurrentSettingsTheme: async (filePath) => ipcRenderer.invoke('GetCurrentSettingsTheme', filePath),  
   CreateNewTheme: async (themeData) => ipcRenderer.invoke('CreateNewTheme', themeData),
   ExportTheme: async (themeData) => ipcRenderer.invoke('ExportTheme', themeData),
-  UpdateTheme: async (themeData) => ipcRenderer.invoke('UpdateTheme', themeData), 
+  UpdateTheme: async (themeData, source) => ipcRenderer.invoke('UpdateTheme', themeData, source), 
   SaveTheme: async (themeData) => ipcRenderer.invoke('SaveTheme', themeData),
   getColorMatrixFilters: async () => ipcRenderer.invoke('GetColorMatrixFilters'),
 
