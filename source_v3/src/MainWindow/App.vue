@@ -113,10 +113,12 @@ export default {
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
         
-        // Waits 10 seconds and Look for Updates:
-        setTimeout(() => {
-          this.LookForUpdates();
-        }, 10000);
+        if (this.settings.CheckForUpdates) {
+          // Waits 10 seconds and Look for Updates:
+          setTimeout(() => {
+            this.LookForUpdates();
+          }, 10000);
+        }
 
       } catch (error) {
         console.error(error);

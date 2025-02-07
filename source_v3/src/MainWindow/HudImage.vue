@@ -1,6 +1,6 @@
 <!-- Ship's HUD & Main Navbar -->
 <template>
-  <div id="Container" class="image-container" ref="container" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave" @click="handleClick">
+  <div id="Container" class="image-container" ref="container" @mousemove="OnArea_MouseMove" @mouseleave="OnArea_MouseLeave" @click="OnArea_Click($event)">
     <img :src="imageSrc" alt="HUD Image" ref="image" class="hud-image" @load="setupCanvas" />
     <canvas ref="canvas"></canvas>
   </div>
@@ -48,12 +48,9 @@ export default {
             jsonPath = await window.api.getAssetPath(`data/${hudCover}.json`);
           } catch (assetPathError) {
             console.error(`Error getting asset path for ${hudCover}:`, assetPathError);
-            // Consider displaying a user-friendly error message here
-            return; // or throw the error if you want to stop execution
+            return; 
           }
         }
-        //console.log("defaultJsonPath:", defaultJsonPath);
-        //console.log("jsonPath:", jsonPath);
 
         let hudData;
         try {
@@ -67,7 +64,6 @@ export default {
           } catch (defaultJsonFileError) {
             console.error('Failed to load default HUD settings:', defaultJsonFileError);
             window.api.logEvent('Failed to load default HUD settings:', defaultJsonFileError, 'loadHUDSettings:82');
-            //Handle the error appropriately, maybe show a message to the user
             return;
           }
         }
@@ -136,7 +132,8 @@ export default {
 
       this.clearCanvas();
     },
-    handleMouseMove(event) {
+
+    OnArea_MouseMove(event) {
       /* HIGTLIGHTS THE AREA WHEN THE MOUSE IS OVER  */
       const rect = this.$refs.canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
@@ -155,27 +152,30 @@ export default {
         this.clearCanvas();
       }
     },
-    handleMouseLeave() {
+    OnArea_MouseLeave() {
       /* cleanup when mouse is away */
       this.clearCanvas();
       this.currentArea = null;
     },
-    handleClick() {
+    OnArea_Click(event, setActiveTab = true) {
       /* WHEN THE USER CLICKS AN AREA  */
-      //console.log('Area clicked:', this.currentArea);
+      //console.log('Area clicked:', this.currentArea, setActiveTab);
       if (this.currentArea) {
         this.clickedArea = this.currentArea;        
         this.highlightClickedArea(this.currentArea);
 
         if (this.currentArea.title != "XML Editor") {
           EventBus.emit('areaClicked', this.currentArea); //<- Event listen in 'PropertiesTab.vue'
-          EventBus.emit('setActiveTab', 'properties');    //<- Event listen in 'MainNavBars.vue'
+          if (setActiveTab === true) {
+            EventBus.emit('setActiveTab', 'properties');    //<- Event listen in 'MainNavBars.vue'
+          }
         } else {
           /* OPENING XML EDITOR */
           EventBus.emit('OnShowXmlEditor', this.currentArea); //<- Event listen in 'App.vue'
         }        
       }
     },
+
     drawRect(area) {
       const canvas = this.$refs.canvas;
       const ctx = canvas.getContext('2d');
@@ -243,20 +243,37 @@ export default {
       console.log('Initializing HUD image...');
       await this.loadHUDSettings();
       this.setupCanvas();
+
+      this.DoLoadArea('Panel_UP');
+    },
+
+    DoLoadArea(area){
+      if (this.areas && this.areas.length > 0) {
+       // console.log('Areas:', this.areas);
+        const index = this.areas.findIndex(obj => obj.id === area);
+        if (index !== -1) {
+          this.currentArea = this.areas[index];
+          this.OnArea_Click(null, false);
+        }
+      }
     },
   },
   async mounted() {
     try {
       this.imageSrc = await window.api.getAssetFileUrl('images/HUD_Clean.png');         //console.log(this.imageSrc);
       window.addEventListener('resize', this.setupCanvas);
+
       EventBus.on('InitializeHUDimage', this.OnInitialize);
+      EventBus.on('LoadArea', this.DoLoadArea);
     } catch (error) {
       console.log(error);
     }    
   },
   beforeUnmount() { //beforeDestroy() {
     window.removeEventListener('resize', this.setupCanvas);
+
     EventBus.off('InitializeHUDimage', this.OnInitialize);
+    EventBus.off('LoadArea', this.DoLoadArea);
   },
 };
 </script>

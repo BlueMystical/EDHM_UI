@@ -58,8 +58,8 @@ const getThemes = async (dirPath) => {
                 }
   
                 // Sanitization: For Themes Exportings
-                fileHelper.deleteFilesByType(subfolderPath, '.ini');
-                fileHelper.deleteFilesByType(subfolderPath, '.credits');
+                //fileHelper.deleteFilesByType(subfolderPath, '.ini');
+                //fileHelper.deleteFilesByType(subfolderPath, '.credits');
                 //fileHelper.deleteFilesByType(subfolderPath, '.fav');
                 //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
   
@@ -282,7 +282,8 @@ async function UpdateTheme(themeData, source) {
       CurrentSettings.path = '';  
 
       //4. WRITE THE NEW THEME FILES:
-      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings, true);
+      fs.writeFileSync(path.join(themesPath, 'ThemeSettings.json'), JSON.stringify(CurrentSettings, null, 4));
+
       if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
         return true;
       } else {
@@ -446,13 +447,14 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
             const iniKey = element.Key;
             const defaultValue = element.Value;
             const foundValue = ini.findValueByKey(iniValues, element);
-            /* foundValue: [
-                 { key: 'x127', value: '0.063' },
-                 { key: 'y127', value: '0.7011' },
-                 { key: 'z127', value: '1' }
-               ] 
-                 or
-               foundValue: 100.0 */
+            /* Can be either an Array of Key/Values or a Single Decimal Value
+            foundValue: [
+              { key: 'x127', value: '0.063' },
+              { key: 'y127', value: '0.7011' },
+              { key: 'z127', value: '1' }
+            ] 
+              or
+            foundValue: 100.0 */
 
             if (foundValue != null && foundValue != undefined) {
               /*
@@ -462,17 +464,17 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
 
               if (Array.isArray(foundValue) && foundValue.length > 0) {
                 
-                const colorKeys = iniKey.split("|"); //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
-                const colorComponents = colorKeys.map(key => {
+                const colorKeys = iniKey.split("|");            //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
+                const colorComponents = colorKeys.map(key => {  //<- colorComponents: [ '0.063', '0.7011', '1' ]
                   const foundValueObj = foundValue.find(obj => obj.key === key);
                   return foundValueObj ? foundValueObj.value : undefined;
-                }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                }); 
 
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
                   const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  element.Value = Util.getColorDecimalValue(color);
+                  element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
                 } else {                  
-                  element.Value = parseFloat(defaultValue);
+                  element.Value = parseFloat(defaultValue.toFixed(1)); 
                   console.log('Color Conversion Error:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
                   //Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
                 }
@@ -485,9 +487,8 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                 }
               }
             } else {
-              element.Value = parseFloat(defaultValue);
+              element.Value = parseFloat(defaultValue.toFixed(1)); 
               //console.log('Key Not Found:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
-              //Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
             }
           }
         }
@@ -539,12 +540,12 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
                 // Map keys to values 
                 const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
                 keys.forEach((key, index) => {
-                  iniValues[fileName][section][key] = parseFloat(values[index]);
+                  iniValues[fileName][section][key] = parseFloat(values[index].toFixed(1)); // parseFloat(values[index]);
                 });
               }
             } else {
               //Single Key:
-              iniValues[fileName][section][iniKey] = parseFloat(element.Value);
+              iniValues[fileName][section][iniKey] = parseFloat(element.Value.toFixed(1)); // parseFloat(element.Value);
             }
           }
         }
@@ -557,7 +558,7 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
       for (const element of template.xml_profile) {
         stackTrace = path.join('XmlProfile', 'Constants', element.key) + ' ';
         const key = element.key;
-        iniValues.XmlProfile.Constants[key] = parseFloat(element.value);
+        iniValues.XmlProfile.Constants[key] = parseFloat(element.Value.toFixed(1)); // parseFloat(element.value);
       }
     }
 

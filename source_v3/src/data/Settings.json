@@ -108,5 +108,6 @@
     "GreetMe":false,
     "HideToTray":false,
     "WatchMe":true,
+    "CheckForUpdates": true,
     "LastFolderUsed":""
  }

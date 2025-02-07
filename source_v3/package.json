@@ -41,6 +41,7 @@
     "ini": "^5.0.0",
     "mitt": "^3.0.1",
     "node-windows": "^1.0.0-beta.8",
+    "vanilla-picker": "^2.12.3",
     "zip-lib": "^1.0.5"
   }
 }

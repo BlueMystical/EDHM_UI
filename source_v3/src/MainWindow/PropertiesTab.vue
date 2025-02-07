@@ -1,7 +1,7 @@
 <template>
   <div class="tab-content">
     <div class="scrollable-content">
-      <ul class="list-group">
+      <ul class="list-group" id="listProperties99">
 
         <li v-for="(category, index) in properties" :key="index" :id="'li-' + category.name" class="list-group-item">
           <!-- Name of the Category -->
@@ -27,7 +27,7 @@
                   <!-- Dynamic Preset Select Combo -->
                   <template v-if="item.valueType === 'Preset'">
                     <select class="form-select select-combo" :id="'selectPreset-' + item.key" v-model="item.value"
-                      @change="updatePresetValue(item, $event.target.value)">
+                      @change="OnPresetValueChange(item, $event.target.value)">
                       <option v-for="preset in getPresetsForType(item.type)" :key="preset.Name" :value="preset.Index">
                         {{ preset.Name }}
                       </option>
@@ -39,24 +39,28 @@
                     <div class="range-container">
                       <input type="range" v-model="item.value" :min="getMinValue(item.type)"
                         :max="getMaxValue(item.type)" step="0.01" class="form-range range-input"
-                        @input="updateBrightnessValue(item, $event)" style="height: 10px;" />
+                        @input="OnBrightnessValueChange(item, $event)" style="height: 10px;" />
                       <label class="slider-value-label">{{ item.value }}</label>
                     </div>
                   </template>
 
-                  <!-- Color Picker Control -->
-                  <template v-if="item.valueType === 'Color'">
-                    
-                    <input type="color" :value="intToHexColor(item.value)"
-                      @input="updateColorValue(item, $event.target.value)" class="form-control color-picker" :style="{ backgroundColor: 'transparent' }" /> 
-                    
-                  </template>
+                   <!-- Custom Color Picker Control -->
+                   <div v-if="item.valueType === 'Color'">
+                    <ColorPicker :initial-color="intToHexColorEx(item)" @color-changed="onColorChanged(item, $event)" />
+                  </div>
+
+                  <!-- Bootstrap 5.0 Color Picker Control
+                  <template v-if="item.valueType === 'Color'">                    
+                    <input type="color" :value="intToHexColorEx(item)"
+                      @input="OnColorValueChange(item, $event.target.value)" 
+                      class="form-control color-picker" :style="{ backgroundColor: 'transparent' }" />                     
+                  </template> -->
 
                   <!-- On/Off Swap control -->
                   <template v-if="item.valueType === 'ONOFF'">
                     <div class="form-check form-switch">
                       <input class="form-check-input larger-switch" type="checkbox" :checked="item.value === 1"
-                        @change="toggleOnOffValue(item)" />
+                        @change="OnToggleValueChange(item)" />
                     </div>
                   </template>
 
@@ -79,6 +83,7 @@ import { ref } from 'vue';
 import eventBus from '../EventBus';
 import { inject, defineComponent, reactive, onMounted } from 'vue';
 import ColorPicker from './Components/ColorPicker.vue';
+import Util from '../Helpers/Utils.js';
 
 let themeTemplate = inject('themeTemplate');
 
@@ -102,12 +107,28 @@ export default defineComponent({
     const reference = ref(null);
 
     const intToHexColor = (number) => {
-      return `#${(number >>> 0).toString(16).padStart(6, '0')}`;
+      return  Util.intToHexColor(number);
     };
+    const intToHexColorEx = (item) => {
+      return Util.intToHexColor(item.value); // Just convert, no side effects
+    };
+ /*   const intToHexColorEx = (item) => {
+      const old = item.value;
+      const conv = Util.intToHexColor(old);      
+      //item.value = conv;   
+      if (item.key === 'x61|y61|z61|w61') {
+        console.log('x86: ' + old + ' -> ' + conv )
+      }
+      return conv; // Util.intToHexColor(item.value);
+    };
+*/
+
 
     return {
       properties,
       intToHexColor,
+      intToHexColorEx,
+      
     };
   },
   methods: {
@@ -214,12 +235,7 @@ export default defineComponent({
       }
     },
 
-    safeRound(value) {
-      return isNaN(value) ? 0 : Math.round(value);
-    },
-
-
-    /**     * Gets the path for an Element Image
+    /** Gets the path for an Element Image
      * @param key The file name of the image matches the 'key' of the Element.
      */
     getImagePath(key) {
@@ -232,31 +248,43 @@ export default defineComponent({
     },
 
     /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
-    updatePresetValue(item, value) {
+    OnPresetValueChange(item, value) {
       item.value = value;
-      this.saveToThemeTemplate(item);
+      this.UpdateValueToTemplate(item);
     },
-    updateBrightnessValue(item, event) {
+    OnBrightnessValueChange(item, event) {
       item.value = parseFloat(event.target.value);
-      this.saveToThemeTemplate(item);
+      this.UpdateValueToTemplate(item);
     },
-    updateColorValue(item, color) {
-      console.log('Color:', color);
-      item.value = parseInt(color.slice(1), 16);
-      this.saveToThemeTemplate(item);
+    OnColorValueChange(item, color) {
+      /*  'color' is a HEX string */ //console.log('Hex Color:', color);
+      
+      item.value = Util.hexToSignedInt(color);      
+      this.UpdateValueToTemplate(item);
     },
-    toggleOnOffValue(item) {
+    onColorChanged(item, colorData) {
+      //const hex = colorData.hex; console.log(colorData.rgba);
+      const intValue = Util.hexToSignedInt(hex);
+      console.log('HEX:' + hex + ', INT: ' + intValue);
+
+      // IMPORTANT: Check if the value has *actually* changed
+      if (item.value !== intValue) { // This is the KEY FIX
+        //item.value = intValue;  //<- this is the problem
+        //this.UpdateValueToTemplate(item); // Call this only if value changed!
+      }
+    },
+    OnToggleValueChange(item) {
       // Toggle the boolean value
       item.value = item.value === 1 ? 0 : 1;
-      this.saveToThemeTemplate(item);
+      this.UpdateValueToTemplate(item);
     },
-    saveToThemeTemplate(item) {
+    UpdateValueToTemplate(item) {
       /* Here the changes in controls are stored back into the 'themeTemplate' object  */
       themeTemplate.ui_groups.forEach(group => {
         if (group && group.Elements) {
           const element = group.Elements.find(el => el.Key === item.key);
           if (element) {
-            element.Value = item.value;
+            element.Value = parseFloat(item.value.toFixed(1)); // item.value;
             console.log(`Updated! Key: '${item.key}', Value: '${item.value}''`);
           }
         }
@@ -264,8 +292,6 @@ export default defineComponent({
       this.$emit('onThemeChanged', JSON.parse(JSON.stringify(themeTemplate))); //<- Listened on NavBars.vue
     },
 
-
-    
     OnThemeLoaded(item) {
       //console.log('On_ThemeLoaded', item)
       themeTemplate = item;

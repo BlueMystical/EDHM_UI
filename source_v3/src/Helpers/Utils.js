@@ -58,84 +58,169 @@ function RGBAtoColor(colorComponents) {
         throw new Error("Invalid number of color components. Expected 3 or 4.");
     }
 };
-
-/** Convert RGB to a single decimal value
- * @param {*} color { r, g, b }
+/** Converts an RGB or RGBA or individual r,g,b,a components into a HEX color String with transparency. * 
+ * @param {*} r 
+ * @param {*} g 
+ * @param {*} b 
+ * @param {*} a 
  * @returns 
  */
-function getColorDecimalValue(color) {
-    // Convert RGB to a single decimal value (e.g., for use with some UI libraries)
-    return (color.r << 16) + (color.g << 8) + color.b;
-};
+function rgbaToHex(r, g, b, a) {
+    let rVal = r;
+    let gVal = g;
+    let bVal = b;
+    let aVal = a;
 
-function intToHex(int) {
-    try {
-        // Ensure unsigned 32-bit
-        int >>>= 0;
-
-        // Convert each component to a two-digit hex string
-        const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
-        const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
-        const b = (int & 0xFF).toString(16).padStart(2, '0');
-
-        return `#${r}${g}${b}`;
-    } catch (error) {
-        throw error;
+    if (typeof r === 'object' && r !== null) {
+        ({ r: rVal, g: gVal, b: bVal, a: aVal = 255 } = r); // Destructure, using different variable names
+    } else {
+        aVal = a === undefined ? 255 : a;
     }
-};
 
-/** Convert a Color from Number to a Hex HTML string.
-* @param number Integer Value representing a Color.
-*/
-function intToHexColor(int) {
-    // Ensure unsigned 32-bit
-    int >>>= 0;
+    const componentToHex = (c) => {
+        if (typeof c !== 'number' || isNaN(c) || c < 0 || c > 255) {
+            return "00";
+        }
+        const hex = c.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+    };
 
-    // Convert each component to a two-digit hex string
-    const r = ((int >> 16) & 0xFF).toString(16).padStart(2, '0');
-    const g = ((int >> 8) & 0xFF).toString(16).padStart(2, '0');
-    const b = (int & 0xFF).toString(16).padStart(2, '0');
+    const rHex = componentToHex(rVal);
+    const gHex = componentToHex(gVal);
+    const bHex = componentToHex(bVal);
+    const aHex = componentToHex(aVal);
 
-    return `#${r}${g}${b}`;
+    return aVal === 255 ? `#${rHex}${gHex}${bHex}` : `#${rHex}${gHex}${bHex}${aHex}`;
 }
-function intToRGB(num) {
-    // Convert the signed integer to an unsigned integer
-    const unsignedNum = num >>> 0;
 
-    // Extract red, green, and blue components
-    const r = (unsignedNum >> 16) & 0xFF;
-    const g = (unsignedNum >> 8) & 0xFF;
-    const b = unsignedNum & 0xFF;
+function rgbaToInt(rgba) {
+    // Ensure values are within the valid range (0-255)
+    const r = Math.max(0, Math.min(255, rgba.r));
+    const g = Math.max(0, Math.min(255, rgba.g));
+    const b = Math.max(0, Math.min(255, rgba.b));
+    const a = Math.max(0, Math.min(255, rgba.a));
 
-    return { r, g, b };
+    // Convert each component to its hexadecimal representation (2 digits)
+    const rHex = r.toString(16).padStart(2, '0');
+    const gHex = g.toString(16).padStart(2, '0');
+    const bHex = b.toString(16).padStart(2, '0');
+    const aHex = a.toString(16).padStart(2, '0');
+
+    // Concatenate the hex values to form the ARGB hex string
+    const argbHex = aHex + rHex + gHex + bHex;
+
+    // Convert the ARGB hex string to a signed 32-bit integer
+    const intValue = parseInt(argbHex, 16);
+
+    return intValue;
 }
-// Function to convert an integer value to RGBA components
-function intToRGBA(colorInt) {
-    const r = (colorInt >> 16) & 0xFF;
-    const g = (colorInt >> 8) & 0xFF;
-    const b = colorInt & 0xFF;
-    const a = ((colorInt >> 24) & 0xFF) || 255; // Default alpha to 255 if not present
+
+//---------------------------------------------
+
+/** Converts a signed integer to a HEX color string with optional alpha information.
+ * @param {number} number - The signed integer number.
+ * @returns {string} - The HEX color string. */
+function intToHexColor(number) {
+    // Handle negative numbers by adding 2^32 to ensure positive value within range
+    if (number < 0) {
+        number = 4294967296 + number; // 2^32
+    }
+
+    // Extract the RGBA components
+    const aVal = (number >> 24) & 0xFF; // Extract alpha
+    const rVal = (number >> 16) & 0xFF; // Extract red
+    const gVal = (number >> 8) & 0xFF; // Extract green
+    const bVal = number & 0xFF; // Extract blue
+
+    // Convert components to HEX strings
+    const componentToHex = (c) => {
+        const hex = c.toString(16).toUpperCase();
+        return hex.length === 1 ? "0" + hex : hex;
+    };
+
+    const rHex = componentToHex(rVal);
+    const gHex = componentToHex(gVal);
+    const bHex = componentToHex(bVal);
+    const aHex = componentToHex(aVal);
+
+    // Return HEX color string, including alpha even if it's 255 (opaque)
+    return `#${aHex}${rHex}${gHex}${bHex}`;
+}
+
+/** Converts a signed integer to an RGBA object.
+ * @param {number} number - The signed integer number.
+ * @returns {object} - An object with properties r, g, b, and a. */
+function intToRGBA(number) {
+    // Handle negative numbers by adding 2^32 to ensure positive value within range
+    if (number < 0) {
+        number = 4294967296 + number; // 2^32
+    }
+
+    // Extract the RGBA components
+    const aVal = (number >> 24) & 0xFF; // Extract alpha
+    const rVal = (number >> 16) & 0xFF; // Extract red
+    const gVal = (number >> 8) & 0xFF; // Extract green
+    const bVal = number & 0xFF; // Extract blue
+
+    // Return an object with RGBA properties
+    return {
+        r: rVal,
+        g: gVal,
+        b: bVal,
+        a: aVal // Alpha value remains within the range of 0 to 255
+    };
+}
+
+//---------------------------------------------
+
+/** Converts a HEX color string to RGBA color components. * 
+ * @param {*} hexColor '#ff0000, ff0000, f00, #ff000080 
+ * @returns an object having the RGBA color components. */
+function hexToRgba(hexColor) {
+    hexColor = hexColor.replace("#", "");
+
+    const validLengths = [3, 6, 8];
+    if (!validLengths.includes(hexColor.length)) {
+        return null; // Invalid length
+    }
+
+    if (hexColor.length === 3) {
+        hexColor = hexColor.replace(/(.)/g, "$1$1"); // Expand shorthand
+    }
+
+    const r = parseInt(hexColor.slice(0, 2), 16);
+    const g = parseInt(hexColor.slice(2, 4), 16);
+    const b = parseInt(hexColor.slice(4, 6), 16);
+    const a = hexColor.length === 8 ? parseInt(hexColor.slice(6, 8), 16) : 255; // Alpha last
+
+    if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(a)) {
+        return null; // Invalid hex characters
+    }
 
     return { r, g, b, a };
 }
-function rgbToHex(r, g, b, a = 1) {
-    // Ensure values are within valid range
-    r = Math.max(0, Math.min(255, r));
-    g = Math.max(0, Math.min(255, g));
-    b = Math.max(0, Math.min(255, b));
-    a = Math.max(0, Math.min(1, a));
-
-    // Convert alpha to hexadecimal
-    const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
-
-    // Convert RGB to hexadecimal
-    const hex = "#" +
-        r.toString(16).padStart(2, '0') +
-        g.toString(16).padStart(2, '0') +
-        b.toString(16).padStart(2, '0');
-
-    return a < 1 ? hex + alphaHex : hex; // Return hex with alpha if alpha is less than 1
+/** Converts a HEX color string to a signed (can be negative) Integer number. * 
+ * @param {*} hexColor '#ff0000, ff0000, f00, #ff000080 
+ * @returns a signed Integer number represnting the color  */
+function hexToSignedInt(hexColor) {
+    const rgba = hexToRgba(hexColor);
+    if (!rgba) {
+        return null;
+    }
+    return (rgba.a << 24) | (rgba.r << 16) | (rgba.g << 8) | rgba.b;
 }
+/** Converts a HEX color string to a un-signed (can NOT be negative) Integer number.  
+ * @param {*} hexColor '#ff0000, ff0000, f00, #ff000080 
+ * @returns a un-signed Integer number represnting the color  */
+function hexToUnsignedInt(hexColor) {
+    const rgba = hexToRgba(hexColor);
+    if (!rgba) {
+        return null;
+    }
+    return ((rgba.a << 24) | (rgba.r << 16) | (rgba.g << 8) | rgba.b) >>> 0; // The >>> 0 is essential
+}
+
+//---------------------------------------------
 
 // Function to convert sRGB to Linear RGB using gamma correction
 function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
@@ -211,10 +296,14 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
 
 export default {
     containsWord, isEmpty, isNotNullOrEmpty,
-    copyToClipboard, safeRound, intToHex,
-    intToHexColor, intToRGB, intToRGBA, rgbToHex, RGBAtoColor,
-    GetGammaCorrected_RGBA, reverseGammaCorrected,
-    getColorDecimalValue, reverseGammaCorrectedList,
+    copyToClipboard, safeRound, 
+
+    intToHexColor, intToRGBA, 
+    rgbaToHex, RGBAtoColor, rgbaToInt,
+    hexToRgba, hexToSignedInt, hexToUnsignedInt, 
+
+    GetGammaCorrected_RGBA, reverseGammaCorrected, 
+    reverseGammaCorrectedList,
     convert_sRGB_FromLinear, Convert_sRGB_ToLinear,
     convert_sRGB_FromLinear,
 }
