@@ -224,7 +224,7 @@ namespace BlueControls
 		//The ColorTranslator.ToHtml method does not include the alpha component
 		private string ColorToHtmlWithAlpha(Color color)
 		{
-			return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
+			return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", color.A, color.R, color.G, color.B);
 		}
 
 
@@ -243,6 +243,7 @@ namespace BlueControls
 				B_Value.Text = ColorValue.B.ToString();
 
 				txtHtmlValue.Text = ColorToHtmlWithAlpha(ColorValue);
+
 				lbTime.Text = string.Format("{0}", ColorValue.ToArgb().ToString());
 				lblAlpha.Text = string.Format("A:{0:n1}%", Convert.ToInt32(A_Value.Text) * 100 / 255);
 				IsLoading = false;

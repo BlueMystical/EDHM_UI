@@ -473,6 +473,13 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
                   const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                   element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
+
+                  if (iniKey === 'x159|y159|z159') {
+                    console.log('x159|y159|z159: ' + colorComponents );
+                    console.log('RGB reversed: ', color);
+                    console.log('INT value: ', element.Value);
+                  }
+
                 } else {                  
                   element.Value = parseFloat(defaultValue.toFixed(1)); 
                   console.log('Color Conversion Error:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);

@@ -113,6 +113,11 @@ export default {
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
         
+        if (this.settings.CheckForUpdates === undefined) {
+          // New Property, if is not there, we simply add it and save the change.
+          this.settings.CheckForUpdates = true;
+          await window.api.saveSettings(JSON.stringify(this.settings, null, 4));
+        }
         if (this.settings.CheckForUpdates) {
           // Waits 10 seconds and Look for Updates:
           setTimeout(() => {

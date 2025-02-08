@@ -48,6 +48,7 @@ function copyToClipboard(text) {
  * @returns 
  */
 function RGBAtoColor(colorComponents) {
+    console.log(colorComponents);
     if (colorComponents.length === 3) {
         const [r, g, b] = colorComponents.map(parseFloat);
         return `rgb(${r}, ${g}, ${b})`;
@@ -58,6 +59,19 @@ function RGBAtoColor(colorComponents) {
         throw new Error("Invalid number of color components. Expected 3 or 4.");
     }
 };
+/** Converts an RGBA object to a rgba(..) string.
+ * @param {object} rgba - The RGBA object.
+ * @returns {string} - The rgba(..) string.
+ */
+function rgbaToString(rgba) {
+    const { r, g, b, a } = rgba;
+  
+    // Default alpha value to 1 if it's missing
+    const alpha = a !== undefined ? a / 255 : 1;
+  
+    // Return the rgba string
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
 /** Converts an RGB or RGBA or individual r,g,b,a components into a HEX color String with transparency. * 
  * @param {*} r 
  * @param {*} g 
@@ -93,26 +107,15 @@ function rgbaToHex(r, g, b, a) {
     return aVal === 255 ? `#${rHex}${gHex}${bHex}` : `#${rHex}${gHex}${bHex}${aHex}`;
 }
 
-function rgbaToInt(rgba) {
-    // Ensure values are within the valid range (0-255)
-    const r = Math.max(0, Math.min(255, rgba.r));
-    const g = Math.max(0, Math.min(255, rgba.g));
-    const b = Math.max(0, Math.min(255, rgba.b));
-    const a = Math.max(0, Math.min(255, rgba.a));
+function rgbaToInt(color) {
+    const { r, g, b, a } = color;
+    const alpha = a !== undefined ? a : 255; // If alpha is not provided, assume it's 255 (fully opaque)
 
-    // Convert each component to its hexadecimal representation (2 digits)
-    const rHex = r.toString(16).padStart(2, '0');
-    const gHex = g.toString(16).padStart(2, '0');
-    const bHex = b.toString(16).padStart(2, '0');
-    const aHex = a.toString(16).padStart(2, '0');
+    // Combine RGBA values into a single integer in the correct order
+    const intVal = (alpha << 24) | (r << 16) | (g << 8) | b;
 
-    // Concatenate the hex values to form the ARGB hex string
-    const argbHex = aHex + rHex + gHex + bHex;
-
-    // Convert the ARGB hex string to a signed 32-bit integer
-    const intValue = parseInt(argbHex, 16);
-
-    return intValue;
+    // Convert to signed 32-bit integer
+    return intVal >> 0;
 }
 
 //---------------------------------------------
@@ -121,6 +124,8 @@ function rgbaToInt(rgba) {
  * @param {number} number - The signed integer number.
  * @returns {string} - The HEX color string. */
 function intToHexColor(number) {
+    const oldV = number;
+
     // Handle negative numbers by adding 2^32 to ensure positive value within range
     if (number < 0) {
         number = 4294967296 + number; // 2^32
@@ -143,8 +148,11 @@ function intToHexColor(number) {
     const bHex = componentToHex(bVal);
     const aHex = componentToHex(aVal);
 
+    const hexV = `#${aHex}${rHex}${gHex}${bHex}`;
+    console.log('intToHexColor: ' + oldV + ' -> ' + hexV);
+
     // Return HEX color string, including alpha even if it's 255 (opaque)
-    return `#${aHex}${rHex}${gHex}${bHex}`;
+    return hexV;
 }
 
 /** Converts a signed integer to an RGBA object.
@@ -170,6 +178,27 @@ function intToRGBA(number) {
         a: aVal // Alpha value remains within the range of 0 to 255
     };
 }
+function intToRGBAex(number) {
+    // Handle negative numbers by adding 2^32 to ensure positive value within range
+    if (number < 0) {
+        number = 4294967296 + number; // 2^32
+    }
+
+    // Extract the RGBA components
+    const aVal = ((number >> 24) & 0xFF) / 255; // Extract alpha and scale to 0.0-1.0
+    const rVal = (number >> 16) & 0xFF; // Extract red
+    const gVal = (number >> 8) & 0xFF; // Extract green
+    const bVal = number & 0xFF; // Extract blue
+
+    // Return an object with RGBA properties
+    return {
+        r: rVal,
+        g: gVal,
+        b: bVal,
+        a: aVal // Alpha value scaled to 0.0-1.0
+    };
+}
+
 
 //---------------------------------------------
 
@@ -298,8 +327,8 @@ export default {
     containsWord, isEmpty, isNotNullOrEmpty,
     copyToClipboard, safeRound, 
 
-    intToHexColor, intToRGBA, 
-    rgbaToHex, RGBAtoColor, rgbaToInt,
+    intToHexColor, intToRGBA, intToRGBAex,
+    rgbaToHex, RGBAtoColor, rgbaToInt, rgbaToString,
     hexToRgba, hexToSignedInt, hexToUnsignedInt, 
 
     GetGammaCorrected_RGBA, reverseGammaCorrected, 

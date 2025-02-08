@@ -4,7 +4,7 @@
 
 <script>
 import Picker from 'vanilla-picker';
-//import 'vanilla-picker/dist/vanilla-picker.csp.css';
+import 'vanilla-picker/dist/vanilla-picker.csp.css';
 
 export default {
   props: {
@@ -32,16 +32,20 @@ export default {
   },
   methods: {
     initializePicker() {
+      console.log('Picker Ini-Color: ', this.initialColor);
       const picker = new Picker({
-        parent: this.$refs.colorPickerContainer, // Or document.body if you want it to be a popup:
-        popup: 'left', // Or 'right' if you want it on the right
-        color: this.initialColor,
+        parent: this.$refs.colorPickerContainer,
+        popup: 'left', //<- 'top' | 'bottom' | 'left' | 'right' | false
         editorFormat: 'hex', //<- 'hex' | 'hsl' | 'rgb'
+        alpha: true,
+        editor: true,
+        color: this.initialColor,     //'rgba(255,0,0, 1)',   
         onChange: (color) => {
+          console.log('Picker Color: ', color.rgba);
           const hex = color.hex;
           const rgba = color.rgba;
           this.$emit('color-changed', { rgba, hex });
-          this.$refs.colorPickerContainer.style.backgroundColor = hex;
+          this.drawTransparentColor(rgba);
         },
         onOpen: (color, instance) => {
           // Use querySelectorAll to get all picker elements and apply transform to each
@@ -62,6 +66,29 @@ export default {
 
       this.pickerInstance = picker;
     },
+    drawTransparentColor(rgba) {
+      const canvas = document.createElement('canvas');
+      const container = this.$refs.colorPickerContainer;
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+      const ctx = canvas.getContext('2d');
+
+      // Draw checkerboard pattern for transparency indication
+      const size = 4;
+      for (let y = 0; y < canvas.height; y += size) {
+        for (let x = 0; x < canvas.width; x += size) {
+          ctx.fillStyle = (x / size + y / size) % 2 === 0 ? '#fff' : '#ccc';
+          ctx.fillRect(x, y, size, size);
+        }
+      }
+
+      // Draw the color layer with proper alpha
+      ctx.fillStyle = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      container.style.backgroundImage = `url(${canvas.toDataURL()})`;
+    },
+
   },
   beforeUnmount() {
     if (this.pickerInstance) {
@@ -76,7 +103,7 @@ export default {
 .color-picker-container {
   width: 100%;
   height: 100%;
-  min-height: 38px;
+  min-height: 34px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   cursor: pointer;
@@ -84,5 +111,15 @@ export default {
   align-items: center;
   justify-content: center;
   position: relative;
+  background-size: 100% 100%
+}
+
+.color-canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;  /* Ensure it is behind the color picker */
 }
 </style>

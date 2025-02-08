@@ -46,7 +46,7 @@
 
                    <!-- Custom Color Picker Control -->
                    <div v-if="item.valueType === 'Color'">
-                    <ColorPicker :initial-color="intToHexColorEx(item)" @color-changed="onColorChanged(item, $event)" />
+                    <ColorPicker :initial-color="intToHexColorEx(item)" @color-changed="OnColorValueChange(item, $event)" />
                   </div>
 
                   <!-- Bootstrap 5.0 Color Picker Control
@@ -110,20 +110,14 @@ export default defineComponent({
       return  Util.intToHexColor(number);
     };
     const intToHexColorEx = (item) => {
-      return Util.intToHexColor(item.value); // Just convert, no side effects
+      //return Util.intToHexColor(item.value); // Just convert, no side effects
+      // Input: INT Color Value, Output: RGBA Color object
+      const colorA = item.value;
+      const colorB = Util.intToRGBA(item.value);
+      const colorC = Util.rgbaToString(colorB);
+      console.log('Input: ' + colorA + ', Output: ', colorB);
+      return colorC;
     };
- /*   const intToHexColorEx = (item) => {
-      const old = item.value;
-      const conv = Util.intToHexColor(old);      
-      //item.value = conv;   
-      if (item.key === 'x61|y61|z61|w61') {
-        console.log('x86: ' + old + ' -> ' + conv )
-      }
-      return conv; // Util.intToHexColor(item.value);
-    };
-*/
-
-
     return {
       properties,
       intToHexColor,
@@ -186,7 +180,7 @@ export default defineComponent({
           });
         }
       } else {
-        console.error('No Theme Loaded!');
+        //console.error('No Theme Loaded!');
       }
 
       return categorizedProperties;
@@ -236,8 +230,7 @@ export default defineComponent({
     },
 
     /** Gets the path for an Element Image
-     * @param key The file name of the image matches the 'key' of the Element.
-     */
+     * @param key The file name of the image matches the 'key' of the Element.     */
     getImagePath(key) {
       const imageKey = key.replace(/\|/g, '_');
       return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
@@ -256,21 +249,14 @@ export default defineComponent({
       item.value = parseFloat(event.target.value);
       this.UpdateValueToTemplate(item);
     },
-    OnColorValueChange(item, color) {
-      /*  'color' is a HEX string */ //console.log('Hex Color:', color);
-      
-      item.value = Util.hexToSignedInt(color);      
-      this.UpdateValueToTemplate(item);
-    },
-    onColorChanged(item, colorData) {
-      //const hex = colorData.hex; console.log(colorData.rgba);
+    OnColorValueChange(item, colorData) {
+      const hex = colorData.hex; //console.log(colorData.rgba);
       const intValue = Util.hexToSignedInt(hex);
-      console.log('HEX:' + hex + ', INT: ' + intValue);
-
-      // IMPORTANT: Check if the value has *actually* changed
+      //console.log('HEX:' + hex + ', INT: ' + intValue);
       if (item.value !== intValue) { // This is the KEY FIX
-        //item.value = intValue;  //<- this is the problem
-        //this.UpdateValueToTemplate(item); // Call this only if value changed!
+        let modif = JSON.parse(JSON.stringify(item));
+        modif.value = intValue; 
+        this.UpdateValueToTemplate(modif); // Call this only if value changed!
       }
     },
     OnToggleValueChange(item) {
@@ -285,7 +271,7 @@ export default defineComponent({
           const element = group.Elements.find(el => el.Key === item.key);
           if (element) {
             element.Value = parseFloat(item.value.toFixed(1)); // item.value;
-            console.log(`Updated! Key: '${item.key}', Value: '${item.value}''`);
+            //console.log(`Updated! Key: '${item.key}', Value: '${item.value}''`);
           }
         }
       });

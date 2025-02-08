@@ -45,6 +45,11 @@ namespace ColorConverterSRGB
 			colorControl1.SetColorFrom(color);
 			txRGBint.Value = color.ToArgb();
 		}
+		private void button2_Click(object sender, EventArgs e)
+		{
+			Color color = Color.FromArgb((int)txRGBint.Value);
+			colorControl1.SetColorFrom(color);
+		}
 
 
 		/// <summary>Devuelve 'true' si el color contiene valores RGB validos.</summary>
@@ -184,10 +189,6 @@ namespace ColorConverterSRGB
 			return _ret;
 		}
 
-		private void button2_Click(object sender, EventArgs e)
-		{
-			Color color = Color.FromArgb((int)txRGBint.Value);
-			colorControl1.SetColorFrom(color);
-		}
+		
 	}
 }
