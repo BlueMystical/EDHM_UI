@@ -42,6 +42,34 @@ function copyToClipboard(text) {
 
 // #region Color Conversion Methods
 
+/** Helper function to determine if a color is dark  * 
+ * @param {*} color String for the Color, can be a HEX or a 'rgb(0,0,0,1)'
+ * @returns true or false */
+function isColorDark(color) {
+    // Convert color to RGB if it's a hex code
+    let r, g, b;
+    if (color.startsWith('#')) {
+        // Hex to RGB conversion (simplified - adapt for #RRGGBBAA if needed)
+        r = parseInt(color.slice(1, 3), 16);
+        g = parseInt(color.slice(3, 5), 16);
+        b = parseInt(color.slice(5, 7), 16);
+    } else if (color.startsWith('rgb')) {
+        // Extract RGB values from rgba or rgb string
+        const rgbValues = color.match(/\d+/g);
+        r = parseInt(rgbValues[0]);
+        g = parseInt(rgbValues[1]);
+        b = parseInt(rgbValues[2]);
+    } else {
+        console.error("Invalid color format. Please provide a valid color string.");
+        return false; // Or handle the error as needed
+    }
+
+    // Calculate luminance (a common way to determine darkness)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    return luminance < 0.5; // Adjust threshold as needed (0.5 is a common value)
+}
+
 /**
  * Converts an array of Integers to an RGBA string
  * @param {*} colorComponents Array of Integer Numbers
@@ -65,20 +93,20 @@ function RGBAtoColor(colorComponents) {
  */
 function rgbaToString(rgba) {
     const { r, g, b, a } = rgba;
-  
+
     // Default alpha value to 1 if it's missing
     const alpha = a !== undefined ? a / 255 : 1;
-  
+
     // Return the rgba string
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-  }
+}
+
 /** Converts an RGB or RGBA or individual r,g,b,a components into a HEX color String with transparency. * 
- * @param {*} r 
- * @param {*} g 
- * @param {*} b 
- * @param {*} a 
- * @returns 
- */
+ * @param {*} r If this is a number then is the Red component (0-255). If is an Object the it must contain the rgba components and the other parameters are ignored.
+ * @param {*} g Green component in the range of 0 to 255.
+ * @param {*} b Blue component in the range of 0 to 255.
+ * @param {*} a Alpha can be in the ranges of 0.0 to 1.0 or 0 to 255
+* @returns A HEX color string in #RRGGBBAA format. */
 function rgbaToHex(r, g, b, a) {
     let rVal = r;
     let gVal = g;
@@ -86,9 +114,14 @@ function rgbaToHex(r, g, b, a) {
     let aVal = a;
 
     if (typeof r === 'object' && r !== null) {
-        ({ r: rVal, g: gVal, b: bVal, a: aVal = 255 } = r); // Destructure, using different variable names
+        ({ r: rVal, g: gVal, b: bVal, a: aVal = 1.0 } = r); // Destructure, using different variable names, default alpha to 1.0
     } else {
-        aVal = a === undefined ? 255 : a;
+        aVal = a === undefined ? 1.0 : a; // Default alpha to 1.0 if not provided
+    }
+
+    // Scale alpha if it is in the range of 0-255
+    if (aVal > 1 && aVal <= 255) {
+        aVal = aVal / 255;
     }
 
     const componentToHex = (c) => {
@@ -102,9 +135,29 @@ function rgbaToHex(r, g, b, a) {
     const rHex = componentToHex(rVal);
     const gHex = componentToHex(gVal);
     const bHex = componentToHex(bVal);
-    const aHex = componentToHex(aVal);
+    const aHex = componentToHex(Math.round(aVal * 255)); // Scale alpha to 0-255 for hex conversion
 
-    return aVal === 255 ? `#${rHex}${gHex}${bHex}` : `#${rHex}${gHex}${bHex}${aHex}`;
+    return `#${rHex}${gHex}${bHex}${aHex}`; // Always include alpha
+}
+
+/** Converts an array or RGBA color componets into a HEX string with transparency.
+ * @param {*} rgba Array of Integers, except the A componet which is Decimal from 0.0 to 1.0
+ * @returns a HEX string in #RRGGBBAA format  */
+function rgbaArrayToHex(rgba) {
+    const componentToHex = (c) => {
+        if (typeof c !== 'number' || isNaN(c) || c < 0 || c > 255) {
+            return "00";
+        }
+        const hex = c.toString(16).toUpperCase();
+        return hex.length === 1 ? "0" + hex : hex;
+    };
+
+    const rHex = componentToHex(rgba[0]);
+    const gHex = componentToHex(rgba[1]);
+    const bHex = componentToHex(rgba[2]);
+    const aHex = componentToHex(Math.round(rgba[3] * 255));
+
+    return `#${rHex}${gHex}${bHex}${aHex}`;
 }
 
 function rgbaToInt(color) {
@@ -120,39 +173,33 @@ function rgbaToInt(color) {
 
 //---------------------------------------------
 
-/** Converts a signed integer to a HEX color string with optional alpha information.
- * @param {number} number - The signed integer number.
- * @returns {string} - The HEX color string. */
+/**
+ * Converts a signed integer to a HEX color string in #RRGGBBAA format.
+ * Handles two's complement for negative numbers.
+ * @param {number} number - The signed integer representing the color.
+ * @returns {string} - The HEX color string in #RRGGBBAA format.
+ */
 function intToHexColor(number) {
-    const oldV = number;
+    let hexValue = number;
 
-    // Handle negative numbers by adding 2^32 to ensure positive value within range
+    // Handle negative numbers using two's complement (if needed for your system)
     if (number < 0) {
-        number = 4294967296 + number; // 2^32
+        hexValue = (number >>> 0); // Convert to unsigned 32bit integer
     }
 
-    // Extract the RGBA components
-    const aVal = (number >> 24) & 0xFF; // Extract alpha
-    const rVal = (number >> 16) & 0xFF; // Extract red
-    const gVal = (number >> 8) & 0xFF; // Extract green
-    const bVal = number & 0xFF; // Extract blue
 
-    // Convert components to HEX strings
+    const a = (hexValue >> 24) & 0xFF;
+    const r = (hexValue >> 16) & 0xFF;
+    const g = (hexValue >> 8) & 0xFF;
+    const b = hexValue & 0xFF;
+
     const componentToHex = (c) => {
         const hex = c.toString(16).toUpperCase();
         return hex.length === 1 ? "0" + hex : hex;
     };
 
-    const rHex = componentToHex(rVal);
-    const gHex = componentToHex(gVal);
-    const bHex = componentToHex(bVal);
-    const aHex = componentToHex(aVal);
-
-    const hexV = `#${aHex}${rHex}${gHex}${bHex}`;
-    console.log('intToHexColor: ' + oldV + ' -> ' + hexV);
-
-    // Return HEX color string, including alpha even if it's 255 (opaque)
-    return hexV;
+    const hexColor = `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}${componentToHex(a)}`;
+    return hexColor;
 }
 
 /** Converts a signed integer to an RGBA object.
@@ -175,7 +222,7 @@ function intToRGBA(number) {
         r: rVal,
         g: gVal,
         b: bVal,
-        a: aVal // Alpha value remains within the range of 0 to 255
+        a: aVal / 255 // Alpha value remains within the range of 0 to 255
     };
 }
 function intToRGBAex(number) {
@@ -202,19 +249,19 @@ function intToRGBAex(number) {
 
 //---------------------------------------------
 
-/** Converts a HEX color string to RGBA color components. * 
- * @param {*} hexColor '#ff0000, ff0000, f00, #ff000080 
- * @returns an object having the RGBA color components. */
+/** Converts a HEX color string to RGBA color components. 
+ * @param {string} hexColor - '#ff0000', 'ff0000', 'f00', '#ff000080', '#FF9EF703'
+ * @returns {object} An object having the RGBA color components. */
 function hexToRgba(hexColor) {
-    hexColor = hexColor.replace("#", "");
-
-    const validLengths = [3, 6, 8];
-    if (!validLengths.includes(hexColor.length)) {
-        return null; // Invalid length
-    }
+    // Remove the hash sign if present and convert to lowercase for uniformity
+    hexColor = hexColor.replace("#", "").toLowerCase();
 
     if (hexColor.length === 3) {
         hexColor = hexColor.replace(/(.)/g, "$1$1"); // Expand shorthand
+    }
+
+    if (hexColor.length === 4) {
+        hexColor = hexColor.replace(/(.)/g, "$1$1"); // Expand 4-character shorthand to 8 characters
     }
 
     const r = parseInt(hexColor.slice(0, 2), 16);
@@ -325,13 +372,13 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
 
 export default {
     containsWord, isEmpty, isNotNullOrEmpty,
-    copyToClipboard, safeRound, 
+    copyToClipboard, safeRound,
 
-    intToHexColor, intToRGBA, intToRGBAex,
-    rgbaToHex, RGBAtoColor, rgbaToInt, rgbaToString,
-    hexToRgba, hexToSignedInt, hexToUnsignedInt, 
+    intToHexColor, intToRGBA, intToRGBAex, isColorDark,
+    rgbaToHex, RGBAtoColor, rgbaToInt, rgbaToString, rgbaArrayToHex,
+    hexToRgba, hexToSignedInt, hexToUnsignedInt,
 
-    GetGammaCorrected_RGBA, reverseGammaCorrected, 
+    GetGammaCorrected_RGBA, reverseGammaCorrected,
     reverseGammaCorrectedList,
     convert_sRGB_FromLinear, Convert_sRGB_ToLinear,
     convert_sRGB_FromLinear,

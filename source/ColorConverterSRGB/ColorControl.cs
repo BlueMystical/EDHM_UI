@@ -210,7 +210,7 @@ namespace BlueControls
 			{
 				if (!IsLoading)
 				{
-					SetColorFrom(ColorTranslator.FromHtml(txtHtmlValue.Text));
+					SetColorFrom(ConvertHexToColor(txtHtmlValue.Text));
 				}
 			}
 			catch { }
@@ -224,7 +224,47 @@ namespace BlueControls
 		//The ColorTranslator.ToHtml method does not include the alpha component
 		private string ColorToHtmlWithAlpha(Color color)
 		{
-			return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", color.A, color.R, color.G, color.B);
+			return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", color.R, color.G, color.B, color.A );
+		}
+		public static Color ConvertHexToColor(string input)
+		{
+			// Check if input is a valid HEX color
+			if (System.Text.RegularExpressions.Regex.IsMatch(input, @"^#(?:[0-9A-Fa-f]{3}){1,2}$") || System.Text.RegularExpressions.Regex.IsMatch(input, @"^#(?:[0-9A-Fa-f]{4}){1,2}$"))
+			{
+				// Remove the '#' at the beginning if it's there
+				input = input.TrimStart('#');
+
+				// Default to fully opaque
+				byte a = 255;
+				byte r = 0;
+				byte g = 0;
+				byte b = 0;
+
+				if (input.Length == 6) // #RRGGBB
+				{
+					r = byte.Parse(input.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+					g = byte.Parse(input.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+					b = byte.Parse(input.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+				}
+				else if (input.Length == 8) // #RRGGBBAA
+				{
+					r = byte.Parse(input.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+					g = byte.Parse(input.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+					b = byte.Parse(input.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+					a = byte.Parse(input.Substring(6, 2), System.Globalization.NumberStyles.HexNumber);
+				}
+				else
+				{
+					throw new ArgumentException("Invalid hex string format. Must be #RRGGBB or #RRGGBBAA.");
+				}
+
+				return Color.FromArgb(a, r, g, b);
+			}
+			else
+			{
+				// Try to convert using named color
+				return ColorTranslator.FromHtml(input);
+			}
 		}
 
 

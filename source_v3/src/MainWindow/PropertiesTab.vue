@@ -46,7 +46,7 @@
 
                    <!-- Custom Color Picker Control -->
                    <div v-if="item.valueType === 'Color'">
-                    <ColorPicker :initial-color="intToHexColorEx(item)" @color-changed="OnColorValueChange(item, $event)" />
+                    <ColorPicker :elementData="item" @color-changed="OnColorValueChange(item, $event)" />
                   </div>
 
                   <!-- Bootstrap 5.0 Color Picker Control
@@ -79,11 +79,10 @@
 
 
 <script>
-import { ref } from 'vue';
-import eventBus from '../EventBus';
-import { inject, defineComponent, reactive, onMounted } from 'vue';
+import { inject, defineComponent, reactive, ref } from 'vue';
 import ColorPicker from './Components/ColorPicker.vue';
 import Util from '../Helpers/Utils.js';
+import eventBus from '../EventBus';
 
 let themeTemplate = inject('themeTemplate');
 
@@ -106,29 +105,15 @@ export default defineComponent({
     const key = ref(0);
     const reference = ref(null);
 
-    const intToHexColor = (number) => {
-      return  Util.intToHexColor(number);
-    };
-    const intToHexColorEx = (item) => {
-      //return Util.intToHexColor(item.value); // Just convert, no side effects
-      // Input: INT Color Value, Output: RGBA Color object
-      const colorA = item.value;
-      const colorB = Util.intToRGBA(item.value);
-      const colorC = Util.rgbaToString(colorB);
-      console.log('Input: ' + colorA + ', Output: ', colorB);
-      return colorC;
-    };
     return {
-      properties,
-      intToHexColor,
-      intToHexColorEx,
-      
+      properties,            
     };
   },
   methods: {
 
     loadProperties(area) {
       //console.log('Loading properties for area:', area);
+      this.properties = reactive([]);
       this.updateProperties(this.getPropertiesForArea(area));
       this.key++;
     },

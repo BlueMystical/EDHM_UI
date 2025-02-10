@@ -101,7 +101,7 @@
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" 
-                  type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" disabled>User Settings</button>
+                  type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" >User Settings</button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="global-settings-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" 

@@ -3,92 +3,115 @@
 </template>
 
 <script>
-import Picker from 'vanilla-picker';
-import 'vanilla-picker/dist/vanilla-picker.csp.css';
+import Picker from './vanilla-picker.csp.mjs';
+import './vanilla-picker.csp.css';
+import Util from '../../Helpers/Utils.js';
 
 export default {
   props: {
-    initialColor: {
-      type: String,
-      default: '#000000'
-    }
+    elementData: null,
   },
   data() {
     return {
       pickerInstance: null,
+      currentColor: ''
     };
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.initializePicker();
-    });
-  },
-  watch: {
-    initialColor(newColor) {
-      if (this.pickerInstance) {
-        this.pickerInstance.setColor(newColor);
-      }
-    }
   },
   methods: {
     initializePicker() {
-      console.log('Picker Ini-Color: ', this.initialColor);
-      const picker = new Picker({
-        parent: this.$refs.colorPickerContainer,
-        popup: 'left', //<- 'top' | 'bottom' | 'left' | 'right' | false
-        editorFormat: 'hex', //<- 'hex' | 'hsl' | 'rgb'
-        alpha: true,
-        editor: true,
-        color: this.initialColor,     //'rgba(255,0,0, 1)',   
-        onChange: (color) => {
-          console.log('Picker Color: ', color.rgba);
-          const hex = color.hex;
-          const rgba = color.rgba;
-          this.$emit('color-changed', { rgba, hex });
-          this.drawTransparentColor(rgba);
-        },
-        onOpen: (color, instance) => {
-          // Use querySelectorAll to get all picker elements and apply transform to each
-          const pickerDropdowns = document.querySelectorAll('.picker_wrapper');
-          pickerDropdowns.forEach(pickerDropdown => {
-            pickerDropdown.style.transform = `translateX(${50}px)`; // Apply transform
-            pickerDropdown.style.zIndex = '1050'; // Ensure it's on top
-          });
-        },
-        onClose: () => {
-          // Use querySelectorAll to reset transform for all picker elements
-          const pickerDropdowns = document.querySelectorAll('.picker_wrapper');
-          pickerDropdowns.forEach(pickerDropdown => {
-            pickerDropdown.style.transform = ''; // Reset transform
-          });
-        }
-      });
+      try {
+        this.currentColor = Util.intToHexColor(this.elementData.value);
+        console.log('Ini-Color: ' + this.elementData.key, this.currentColor);
 
-      this.pickerInstance = picker;
-    },
-    drawTransparentColor(rgba) {
-      const canvas = document.createElement('canvas');
-      const container = this.$refs.colorPickerContainer;
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
-      const ctx = canvas.getContext('2d');
+        const picker = new Picker({
+          parent: this.$refs.colorPickerContainer,
+          popup: 'middle',        //<- 'top' | 'bottom' | 'left' | 'right' | 'middle' | false
+          editorFormat: 'hex',  //<- 'hex' | 'hsl' | 'rgb'
+          alpha: true,
+          editor: true,
+          color: this.currentColor,     //'rgba(255,0,0, 1)', #FF0000FF  
+          cancelButton: false,
+          okButton: false,
 
-      // Draw checkerboard pattern for transparency indication
-      const size = 4;
-      for (let y = 0; y < canvas.height; y += size) {
-        for (let x = 0; x < canvas.width; x += size) {
-          ctx.fillStyle = (x / size + y / size) % 2 === 0 ? '#fff' : '#ccc';
-          ctx.fillRect(x, y, size, size);
-        }
+          onChange: (color) => {
+            console.log('ColorChanged: ', color.rgba);
+            this.drawTransparentColor(color);
+            this.$emit('color-changed', { rgba: color.rgba, hex: color.hex });            
+          },
+
+        });
+        //picker.setColour(this.currentColor, false);
+        //this.pickerInstance = picker;
+
+      } catch (error) {
+        console.log(error);
       }
+    },
+    drawTransparentColor(color) {
+      try {
+        const canvas = document.createElement('canvas');
+        const container = this.$refs.colorPickerContainer;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        const ctx = canvas.getContext('2d');
 
-      // Draw the color layer with proper alpha
-      ctx.fillStyle = `rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, ${rgba[3]})`;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Draw checkerboard pattern for transparency indication
+        console.log('Drawing Transparency Grid..');
+        const size = 4;
+        for (let y = 0; y < canvas.height; y += size) {
+          for (let x = 0; x < canvas.width; x += size) {
+            ctx.fillStyle = (x / size + y / size) % 2 === 0 ? '#fff' : '#ccc';
+            ctx.fillRect(x, y, size, size);
+          }
+        }
 
-      container.style.backgroundImage = `url(${canvas.toDataURL()})`;
+        // Draw the color layer with proper alpha:
+        console.log('Drawing Color Layer..');
+        ctx.fillStyle = color.hex;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 3. Draw text (top layer)
+        console.log('Drawing Color Label..');
+        const text = 'rgba(' + color.rgba + ')';
+        if (text) { // Only draw text if provided
+          ctx.font = '14px Arial'; // Customize font
+
+          // Determine if the color is "dark" or "light"
+          const isDarkColor = Util.isColorDark(color.hex); // Helper function (see below)
+          const textColor = isDarkColor ? '#fff' : '#000'; // White for dark, black for light
+
+          ctx.fillStyle = textColor; // Set text color based on background
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+
+          const textMetrics = ctx.measureText(text);
+          const textWidth = textMetrics.width;
+          const x = canvas.width / 2;
+          const y = canvas.height / 2;
+
+
+          /*  // Optional: Background rectangle (with dynamic color)
+            const rectColor = isDarkColor ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)';
+            ctx.fillStyle = rectColor;
+            ctx.fillRect(x - textWidth / 2 - 5, y - 10, textWidth + 10, 20); */
+
+          ctx.fillStyle = textColor; // Reset to text color
+          ctx.fillText(text, x, y);
+
+        }
+
+        container.style.backgroundImage = `url(${canvas.toDataURL()})`;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
+  },
+  async mounted() {
+    this.initializePicker();
+    /*this.$nextTick(() => {
+      this.initializePicker();
+    });*/
   },
   beforeUnmount() {
     if (this.pickerInstance) {
@@ -120,6 +143,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;  /* Ensure it is behind the color picker */
+  z-index: -1;
+  /* Ensure it is behind the color picker */
 }
 </style>

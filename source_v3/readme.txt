@@ -240,7 +240,7 @@ npm install --save ini 		//<- For editing INI files
 npm uninstall regedit --save	//<- For accesing Windows Registry
 
 npm uninstall axios //<- For Downloading Files
-npm install vanilla-picker --save  //<- For Color Picker
+npm uninstall vanilla-picker --save  //<- For Color Picker
 
 npm uninstall @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 
