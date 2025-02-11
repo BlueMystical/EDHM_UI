@@ -89,35 +89,38 @@
 
     <!-- This contains the Controls of the Tabs -->
     <div class="col-4 border border-secondary d-flex flex-column h-100">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs " id="myTab" role="tablist">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs " id="myTabHeaders" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="themes-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" 
-                  type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Themes</button>
+          <button class="nav-link active" id="themes-tab" data-bs-toggle="tab" data-bs-target="#themes-pane" 
+                  type="button" role="tab" aria-controls="themes-pane" aria-selected="true">Themes</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" 
-                  type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Properties</button>
+          <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#properties-pane" 
+                  type="button" role="tab" aria-controls="properties-pane" aria-selected="false">Properties</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" 
-                  type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false" >User Settings</button>
+          <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#user-settings-pane" 
+                  type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false" disabled>User Settings</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="global-settings-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" 
-                  type="button" role="tab" aria-controls="disabled-tab-pane" aria-selected="false" disabled>Global Settings</button>
+          <button class="nav-link" id="global-settings-tab" data-bs-toggle="tab" data-bs-target="#global-settings-pane" 
+                  type="button" role="tab" aria-controls="global-settings-pane" aria-selected="false" >Global Settings</button>
         </li>
       </ul>
       <!-- Tab panes -->
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="themes-tab" tabindex="0">
+        <div class="tab-pane fade show active" id="themes-pane" role="tabpanel" aria-labelledby="themes-tab" tabindex="0">
             <ThemeTab v-show="activeTab === 'themes'" class="tab-content" /></div>
-        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="properties-tab" tabindex="0">
+
+        <div class="tab-pane fade" id="properties-pane" role="tabpanel" aria-labelledby="properties-tab" tabindex="0">
             <PropertiesTab v-show="activeTab === 'properties'" class="tab-content" @onThemeChanged="OnThemeValuesChanged"/></div>
-        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="user-settings-tab" tabindex="0">
-          <UserSettingsTab v-show="activeTab === 'settings'" class="tab-content" /></div>
-        <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="global-settings-tab" tabindex="0">
-          <GlobalSettingsTab v-show="activeTab === 'global-settings'" class="tab-content" /></div>
+        
+        <div class="tab-pane fade" id="user-settings-pane" role="tabpanel" aria-labelledby="user-settings-tab" tabindex="0">
+          <UserSettingsTab class="tab-content" /></div>
+
+        <div class="tab-pane fade" id="global-settings-pane" role="tabpanel" aria-labelledby="global-settings-tab" tabindex="0">
+          <GlobalSettingsTab  class="tab-content" /></div>
       </div>
     </div>
 
@@ -171,7 +174,6 @@ import { ref } from 'vue';
 import EventBus from '../EventBus';
 import ThemeTab from './ThemeTab.vue';
 import HUD_Areas from './HudImage.vue';
-//import Updater from './Components/Updater.vue';
 import PropertiesTab from './PropertiesTab.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';

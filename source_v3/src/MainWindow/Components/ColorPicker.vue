@@ -20,8 +20,9 @@ export default {
   methods: {
     initializePicker() {
       try {
-        this.currentColor = Util.intToHexColor(this.elementData.value);
-        console.log('Ini-Color: ' + this.elementData.key, this.currentColor);
+        console.log('elementData:',this.elementData);
+        this.currentColor = Util.intToHexColor(this.elementData.Value);
+        console.log('Ini-Color: ' + this.elementData.Key, this.currentColor);
 
         const picker = new Picker({
           parent: this.$refs.colorPickerContainer,

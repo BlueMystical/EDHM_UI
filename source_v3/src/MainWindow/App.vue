@@ -112,6 +112,8 @@ export default {
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
+        EventBus.emit('DoLoadGlobalSettings', null); //<- Event Listened at GlobalSettingsTab.vue
+
         
         if (this.settings.CheckForUpdates === undefined) {
           // New Property, if is not there, we simply add it and save the change.

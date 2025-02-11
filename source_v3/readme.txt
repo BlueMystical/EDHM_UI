@@ -125,6 +125,7 @@ ui_groups: [
         Key: "x137",
         Value: 100.0,
         ValueType: "Preset",
+        Type:"AdvancedMode",
         Description: "Mouse Dot (Ship & SRV)"
       },
       {
@@ -135,17 +136,36 @@ ui_groups: [
         Key: "x232|y232|z232|w232",
         Value: -16728065.0,
         ValueType: "Color",
+        Type:"CustomColor",
         Description: "Rank icon that appears next to targeted ship (neutral / orange only)"
       },
-      ...
+      ...more elements..
     ]
   },
-  ...
+  ...more groups...
+],
+Presets:[
+      {
+         Type:"AdvancedMode",
+         Name:"Custom Color",
+         Index:100.0
+      },
+      {
+         Type:"AdvancedMode",
+         Name:"XML (User Defined)",
+         Index:199.0
+      },
+      {
+         Type:"AdvancedMode",
+         Name:"Elite Default",
+         Index:200.0
+      },
+  ... more presets..
 ],
 xml_profile: [
     { key: "x150", value: 0.15 },
     { key: "y150", value: 0.3 },
-    ...
+    ...more key/values..
   ],
 };
 

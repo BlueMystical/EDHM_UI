@@ -11,7 +11,9 @@ import Util from './Utils.js';
 
 let programSettings = null; // Holds the Program Settings in memory
 const defaultSettingsPath = fileHelper.getAssetPath('data/Settings.json');
-const userSettingsPath = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
+const programSettingsPath = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
+
+
 
 const InstallationStatus = {
   NEW_SETTINGS: 'newSettings',
@@ -28,8 +30,8 @@ let installationStatus = InstallationStatus.EXISTING_INSTALL; // Default status
  */
 export const initializeSettings = async () => {
   try {
-    console.log('userSettingsPath',userSettingsPath);
-    const userSettingsDir = path.dirname(userSettingsPath); // Get the directory path
+    console.log('programSettingsPath',programSettingsPath);
+    const userSettingsDir = path.dirname(programSettingsPath); // Get the directory path
     //console.log('Initializing Settings...Main');
 
     // Check if the user settings directory exists, if not, create it
@@ -39,7 +41,7 @@ export const initializeSettings = async () => {
     }
 
     // Check if the user settings file exists, if not, read and write the default settings JSON
-    if (!fs.existsSync(userSettingsPath)) {
+    if (!fs.existsSync(programSettingsPath)) {
       if (!fs.existsSync(defaultSettingsPath)) {
         throw new Error(`Default settings file not found at: ${defaultSettingsPath}`);
       }
@@ -53,11 +55,11 @@ export const initializeSettings = async () => {
       console.log('installationStatus:', installationStatus);
 
       // Write the JSON to the user settings file
-      fs.writeFileSync(userSettingsPath, JSON.stringify(programSettings, null, 4));
+      fs.writeFileSync(programSettingsPath, JSON.stringify(programSettings, null, 4));
 
     } else {
       installationStatus = InstallationStatus.EXISTING_INSTALL; // Is a Normal Existing User
-      programSettings = JSON.parse(fs.readFileSync(userSettingsPath, 'utf-8'));
+      programSettings = JSON.parse(fs.readFileSync(programSettingsPath, 'utf-8'));
       console.log('Settings Loaded from Existing Instance.');
 
       //Log.Info('This is a Test');
@@ -73,14 +75,37 @@ export const initializeSettings = async () => {
  */
 const loadSettings = () => {
   try {
-    if (!fs.existsSync(userSettingsPath)) {
-      throw new Error(`User settings file not found at: ${userSettingsPath}`);
+    if (!fs.existsSync(programSettingsPath)) {
+      throw new Error(`Program settings file not found at: ${programSettingsPath}`);
     }
-    const data = fs.readFileSync(userSettingsPath, { encoding: "utf8", flag: 'r' });
+    const data = fs.readFileSync(programSettingsPath, { encoding: "utf8", flag: 'r' });
     //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
     
     programSettings = JSON.parse(data);
     return programSettings;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const LoadGlobalSettings = () => {
+  try {
+    const _path_A = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
+    const _path_B = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
+
+    let data = {};
+
+    if (fs.existsSync(_path_A)) {
+      const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
+      data = JSON.parse(dataRaw);
+    }
+    if (fs.existsSync(_path_B)) {
+      const dataRaw = fs.readFileSync(_path_B, { encoding: "utf8", flag: 'r' });
+      const dataProc = JSON.parse(dataRaw);
+      data.Presets = dataProc.Presets;
+    }
+    
+    return data;
   } catch (error) {
     throw error;
   }
@@ -149,7 +174,7 @@ function addNewInstance(NewInstancePath, settings) {
 async function saveSettings (settings) {
   try {
     //console.log(settings);
-    await writeFile(userSettingsPath, settings, { encoding: "utf8", flag: 'w' });
+    await writeFile(programSettingsPath, settings, { encoding: "utf8", flag: 'w' });
 
     //fs.writeFileSync(path, data, { encoding: "utf8", flag: 'a+' }); 
     //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
@@ -408,6 +433,13 @@ ipcMain.handle('load-settings', () => {
     throw error;
   }
 });
+ipcMain.handle('LoadGlobalSettings', () => {
+  try {
+    return LoadGlobalSettings();
+  } catch (error) {
+    throw error;
+  }
+});
 ipcMain.handle('get-settings', () => {
   try {
     return programSettings;
@@ -480,4 +512,4 @@ ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance };
+export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance, LoadGlobalSettings };

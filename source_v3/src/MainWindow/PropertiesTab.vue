@@ -45,9 +45,9 @@
                   </template>
 
                    <!-- Custom Color Picker Control -->
-                   <div v-if="item.valueType === 'Color'">
-                    <ColorPicker :elementData="item" @color-changed="OnColorValueChange(item, $event)" />
-                  </div>
+                   <template v-if="item.valueType === 'Color'">
+                    <ColorPicker :id="'colorPreset-' + item.key" :elementData="item" @color-changed="OnColorValueChange(item, $event)" />
+                  </template>
 
                   <!-- Bootstrap 5.0 Color Picker Control
                   <template v-if="item.valueType === 'Color'">                    
@@ -60,7 +60,7 @@
                   <template v-if="item.valueType === 'ONOFF'">
                     <div class="form-check form-switch">
                       <input class="form-check-input larger-switch" type="checkbox" :checked="item.value === 1"
-                        @change="OnToggleValueChange(item)" />
+                        @change="OnToggleValueChange(item, $event)" />
                     </div>
                   </template>
 
@@ -86,6 +86,9 @@ import eventBus from '../EventBus';
 
 let themeTemplate = inject('themeTemplate');
 
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
 export default defineComponent({
   name: 'PropertiesTab',
   components: {
@@ -96,11 +99,12 @@ export default defineComponent({
       themeTemplate,
       tooltipStyles: [],
       selectedColor: '#ffffff',
+      componentKey: 0, // Add a key for component re-rendering
     };
   },
   setup() {
     // Reactive state
-    const properties = reactive([]);
+    const properties = []; //reactive([]);
     const tooltipStyles = reactive([]);
     const key = ref(0);
     const reference = ref(null);
@@ -114,6 +118,10 @@ export default defineComponent({
     loadProperties(area) {
       //console.log('Loading properties for area:', area);
       this.properties = reactive([]);
+      this.componentKey = 0; // Reset the component key
+      this.$nextTick(() => {
+        this.componentKey++; // Increment key to force re-render
+      });
       this.updateProperties(this.getPropertiesForArea(area));
       this.key++;
     },
@@ -220,7 +228,6 @@ export default defineComponent({
       const imageKey = key.replace(/\|/g, '_');
       return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
     },
-
     hideImage(event) {
       event.target.style.display = 'none';
     },
@@ -244,9 +251,10 @@ export default defineComponent({
         this.UpdateValueToTemplate(modif); // Call this only if value changed!
       }
     },
-    OnToggleValueChange(item) {
+    OnToggleValueChange(item, event) {
       // Toggle the boolean value
-      item.value = item.value === 1 ? 0 : 1;
+      const value = event.target.checked ? 1 : 0; 
+      item.value = value;
       this.UpdateValueToTemplate(item);
     },
     UpdateValueToTemplate(item) {

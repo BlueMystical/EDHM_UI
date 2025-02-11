@@ -83,7 +83,8 @@ contextBridge.exposeInMainWorld('api', {
   getSettings: async () => ipcRenderer.invoke('get-settings'),   
   getDefaultSettings: async () => ipcRenderer.invoke('getDefaultSettings'), 
 
-  loadSettings: async () => ipcRenderer.invoke('load-settings'),
+  loadSettings: async () => ipcRenderer.invoke('load-settings'), 
+  LoadGlobalSettings: async () => ipcRenderer.invoke('LoadGlobalSettings'), 
   saveSettings: async (settings) => ipcRenderer.invoke('save-settings', settings),
 
   getActiveInstance: () => ipcRenderer.invoke('active-instance'), 

@@ -95,7 +95,16 @@ function rgbaToString(rgba) {
     const { r, g, b, a } = rgba;
 
     // Default alpha value to 1 if it's missing
-    const alpha = a !== undefined ? a / 255 : 1;
+    var alpha = 1;
+    if (a !== undefined) {
+        if (a > 1) {
+            alpha = a / 255;
+        } else {
+            alpha = a
+        }
+    } else {
+        alpha = 1
+    }
 
     // Return the rgba string
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
@@ -206,44 +215,27 @@ function intToHexColor(number) {
  * @param {number} number - The signed integer number.
  * @returns {object} - An object with properties r, g, b, and a. */
 function intToRGBA(number) {
-    // Handle negative numbers by adding 2^32 to ensure positive value within range
     if (number < 0) {
         number = 4294967296 + number; // 2^32
     }
 
-    // Extract the RGBA components
-    const aVal = (number >> 24) & 0xFF; // Extract alpha
-    const rVal = (number >> 16) & 0xFF; // Extract red
-    const gVal = (number >> 8) & 0xFF; // Extract green
-    const bVal = number & 0xFF; // Extract blue
+    const a = (number >> 24) & 0xFF;
+    const r = (number >> 16) & 0xFF;
+    const g = (number >> 8) & 0xFF;
+    const b = number & 0xFF;
 
-    // Return an object with RGBA properties
-    return {
-        r: rVal,
-        g: gVal,
-        b: bVal,
-        a: aVal / 255 // Alpha value remains within the range of 0 to 255
+    const rgba = {
+        r: r,
+        g: g,
+        b: b,
+        a: a / 255
     };
+    console.log(rgba);
+    return rgba;
 }
-function intToRGBAex(number) {
-    // Handle negative numbers by adding 2^32 to ensure positive value within range
-    if (number < 0) {
-        number = 4294967296 + number; // 2^32
-    }
-
-    // Extract the RGBA components
-    const aVal = ((number >> 24) & 0xFF) / 255; // Extract alpha and scale to 0.0-1.0
-    const rVal = (number >> 16) & 0xFF; // Extract red
-    const gVal = (number >> 8) & 0xFF; // Extract green
-    const bVal = number & 0xFF; // Extract blue
-
-    // Return an object with RGBA properties
-    return {
-        r: rVal,
-        g: gVal,
-        b: bVal,
-        a: aVal // Alpha value scaled to 0.0-1.0
-    };
+function intToRGBAstring(number) {
+    const RGBvalue = this.intToRGBA(number);
+    return this.rgbaToString(RGBvalue);
 }
 
 
@@ -374,7 +366,7 @@ export default {
     containsWord, isEmpty, isNotNullOrEmpty,
     copyToClipboard, safeRound,
 
-    intToHexColor, intToRGBA, intToRGBAex, isColorDark,
+    intToHexColor, intToRGBA, isColorDark, intToRGBAstring,
     rgbaToHex, RGBAtoColor, rgbaToInt, rgbaToString, rgbaArrayToHex,
     hexToRgba, hexToSignedInt, hexToUnsignedInt,
 
