@@ -100,13 +100,13 @@
                   type="button" role="tab" aria-controls="properties-pane" aria-selected="false">Properties</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#user-settings-pane" 
-                  type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false" disabled>User Settings</button>
-        </li>
-        <li class="nav-item" role="presentation">
           <button class="nav-link" id="global-settings-tab" data-bs-toggle="tab" data-bs-target="#global-settings-pane" 
                   type="button" role="tab" aria-controls="global-settings-pane" aria-selected="false" >Global Settings</button>
         </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#user-settings-pane" 
+                  type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false" disabled>User Settings</button>
+        </li>        
       </ul>
       <!-- Tab panes -->
       <div class="tab-content" id="myTabContent">

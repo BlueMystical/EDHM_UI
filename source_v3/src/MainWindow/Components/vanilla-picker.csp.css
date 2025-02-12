@@ -192,7 +192,7 @@
 .picker_wrapper.popup .picker_arrow::before,
 .picker_wrapper.popup .picker_arrow::after {
 	background: #f2f2f2;
-	box-shadow: 0 0 10px 1px rgba(0, 0, 0, .4)
+	box-shadow: 0 0 10px 1px rgba(0, 0, 0, .4);
 }
 
 .picker_wrapper.popup .picker_arrow {
@@ -272,6 +272,7 @@
 .popup.popup_middle {
     top: 0;
     right: 50%;
+	z-index: 2;
 }
 .popup.popup_middle .picker_arrow {
 	top: 0;

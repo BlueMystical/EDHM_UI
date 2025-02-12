@@ -1,12 +1,19 @@
 <!-- Global Settings Tab -->
 <template>
   <div class="data-table" ref="dataTable" v-if="groupedElements.length > 0">
-    <div v-for="(group, index) in groupedElements" :key="index">
+    <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
       <p class="category-name">{{ group.category }}</p>
       <table class="table table-bordered">
         <tbody>
-          <tr v-for="(element, idx) in group.elements" :key="idx">
-            <td class="fixed-width title-cell" @click="showPopover(element, $event)">{{ element.Title }}</td>
+          <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex"
+              @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)">
+            <td class="fixed-width title-cell">
+              {{ element.Title }}
+              <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)" @mouseleave="hidePopover">
+                <i class="bi bi-info-circle text-info"></i>
+              </span>
+            </td>
+
             <td class="fixed-width cell-content">
 
               <!-- Dynamic Preset Select Combo -->
@@ -39,8 +46,7 @@
 
               <!-- Custom Color Picker Control -->
               <template v-if="element.ValueType === 'Color'">
-               <!-- {{ element.Value + '->' + intToRGBAstring(element.Value) }} -->
-                <ColorPicker :id="'colorPreset-' + element.Key" :elementData="element" @color-changed="OnColorValueChange(element, $event)" />
+                <ColorDisplay :id="'colorPreset-' + element.Key" :color="element.Value" @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
               </template>
 
             </td>
@@ -52,25 +58,26 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
-import ColorPicker from './Components/ColorPicker.vue';
+import ColorDisplay from './Components/ColorDisplay.vue'; 
 import Util from '../Helpers/Utils.js';
 import eventBus from '../EventBus';
 
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
 
 export default {
   name: 'GlobalSettingsTab',
   components: {
-    ColorPicker,
+    ColorDisplay
   },
   data() {
     return {
       dataSource: null,
-      groupedElements: [],
+      groupedElements: [], // Initialize as an empty array
       presets: [],
       activePopover: null,
+      popoverElement: null, // Store the popover element
       componentKey: 0, // Add a key for component re-rendering
     };
   },
@@ -92,11 +99,16 @@ export default {
       if (this.dataSource) {
         this.groupedElements = []; // Clear existing elements FIRST
         const grouped = {};
+
         this.dataSource.Elements.forEach(element => {
           if (!grouped[element.Category]) {
             grouped[element.Category] = [];
           }
-          grouped[element.Category].push(element);
+
+          grouped[element.Category].push({
+            ...element,
+            iconVisible: false, // Add iconVisible property
+          });
         });
 
         this.groupedElements = Object.keys(grouped).map(category => ({
@@ -104,56 +116,73 @@ export default {
           elements: grouped[category],
         }));
 
-        this.presets = this.dataSource.Presets;
-
-        this.componentKey = 0; // Reset the component key
-        this.$nextTick(() => {
-          this.componentKey++; // Increment key to force re-render
-        });
       }
     },
-    onRowClick(element) {
-      console.log('Row clicked', element);
-      // You can add your popup logic here
-    },
-    getInputComponent(element) {
-      if (element.ValueType === 'Preset') {
-        return 'SelectInput'
-      }
-      // Add other input types as needed
-      return 'DefaultInput'
-    },
+    showIcon(groupIndex, elementIndex) {
+      // Create a *new* groupedElements array with the updated iconVisible:
+      const newGroupedElements = this.groupedElements.map((group, gIndex) => {
+        if (gIndex === groupIndex) {
+          return {
+            ...group,
+            elements: group.elements.map((element, eIndex) => {
+              if (eIndex === elementIndex) {
+                return { ...element, iconVisible: true };
+              }
+              return element;
+            }),
+          };
+        }
+        return group;
+      });
 
+      this.groupedElements = newGroupedElements; // Update with the new array
+    },
+    hideIcon(groupIndex, elementIndex) {
+      // Create a *new* groupedElements array with the updated iconVisible:
+      const newGroupedElements = this.groupedElements.map((group, gIndex) => {
+        if (gIndex === groupIndex) {
+          return {
+            ...group,
+            elements: group.elements.map((element, eIndex) => {
+              if (eIndex === elementIndex) {
+                return { ...element, iconVisible: false };
+              }
+              return element;
+            }),
+          };
+        }
+        return group;
+      });
+
+      this.groupedElements = newGroupedElements; // Update with the new array
+    },
     showPopover(element, event) {
-      // 1. Hide any existing popover
       if (this.activePopover) {
         this.activePopover.dispose();
         this.activePopover = null;
       }
 
-      // 2. Create and show the new popover
-      const popover = new bootstrap.Popover(event.target, {
-        title: element.Title + ' (' + element.Key + ')' ,
-        content: `<p>${element.Description}</p>`,
-        html: true,
-        trigger: 'manual',
-        placement: 'right',
-        container: 'body',
-        template: `
+      this.$nextTick(() => {
+        const popover = new bootstrap.Popover(event.target, {
+          title: `${element.Title} (${element.Key})`,
+          content: `<p>${element.Description}</p>`,
+          html: true,
+          trigger: 'manual', // Important: trigger is manual
+          placement: 'right',
+          container: 'body',
+          template: `
           <div class="popover border border-warning" role="tooltip">
-            <div class="popover-arrow bg-warning"></div>
-            <h3 class="popover-header"></h3>            
+            <div class="popover-arrow"></div>
+            <h4 class="popover-header"></h3>
             <div class="popover-body"></div>
           </div>
-        `
-      });
+        `,
+        });
 
-      popover.show();
-      this.activePopover = popover;
+        popover.show();
+        this.activePopover = popover;
 
-      // 3. Attach event listener for the close button (after popover is fully in DOM)
-      const shownListener = () => {
-        const popoverElement = document.querySelector('.popover'); // Select the popover element
+      /*  const popoverElement = document.querySelector('.popover');
         if (popoverElement) {
           const closeButton = popoverElement.querySelector('.btn-close');
           if (closeButton) {
@@ -162,29 +191,18 @@ export default {
               this.activePopover = null;
             });
           }
-        }
-        event.target.removeEventListener('shown.bs.popover', shownListener); // Remove the listener after it's executed
-      };
-      event.target.addEventListener('shown.bs.popover', shownListener);
+        }*/
 
-      // 4. Robust click outside check (improved)
-      const outsideClickListener = (clickEvent) => {
-        if (this.activePopover &&
-          !event.target.contains(clickEvent.target) &&
-          (clickEvent.target.closest('.popover') === null)) { // Simplified check
-          this.activePopover.dispose();
+        event.target.addEventListener('hidden.bs.popover', () => {
           this.activePopover = null;
-          document.removeEventListener('click', outsideClickListener);
-        }
-      };
-
-      document.addEventListener('click', outsideClickListener);
-
-      // 5. Hidden event listener (important for cleanup)
-      event.target.addEventListener('hidden.bs.popover', () => {
-        document.removeEventListener('click', outsideClickListener);
-        this.activePopover = null;
+        });
       });
+    },
+    hidePopover() {
+      if (this.activePopover) {
+        this.activePopover.dispose();
+        this.activePopover = null;
+      }
     },
 
     /** Gets all Presets for the selected Type
@@ -241,8 +259,8 @@ export default {
     },
     OnColorValueChange(item, event) {
       const hex = event.hex; //console.log(event.rgba);
-      const intValue = Util.hexToSignedInt(hex);
-      //console.log('HEX:' + hex + ', INT: ' + intValue);
+      const intValue = event.int; // Util.hexToSignedInt(hex);
+      //console.log(event);
       if (item.value !== intValue) { // This is the KEY FIX
         let modif = JSON.parse(JSON.stringify(item));
         modif.value = intValue; 
@@ -291,14 +309,26 @@ export default {
 }
 
 .title-cell {
-  cursor: pointer;
-  /* Indicate it's clickable */
+  cursor: pointer;  /* Indicate it's clickable */
   font-size: 14px;
+  color: lightgrey;
+
+  align-items: center; /* Vertically center content */
+  padding: 0.5rem; /* Add some padding for better visual spacing */
+}
+.info-icon {
+  margin-left: 0.5rem; /* Space between text and icon */
+  cursor: pointer; /* Indicate icon is clickable */
 }
 
 .popover-image {
   max-width: 200px;
-  /* Adjust as needed */
   height: auto;
 }
+/* Style the popover arrow */
+.popover[data-popper-placement^="right"] > .popover-arrow::before,
+.popover[data-popper-placement^="right"] > .popover-arrow::after {
+  border-left-color: orange !important;
+}
+
 </style>

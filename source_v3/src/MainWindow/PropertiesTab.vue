@@ -44,9 +44,9 @@
                     </div>
                   </template>
 
-                   <!-- Custom Color Picker Control -->
-                   <template v-if="item.valueType === 'Color'">
-                    <ColorPicker :id="'colorPreset-' + item.key" :elementData="item" @color-changed="OnColorValueChange(item, $event)" />
+                  <!-- Custom Color Picker Control -->
+                  <template v-if="item.valueType === 'Color'">
+                    <ColorPicker :color="item.value" @OncolorChanged="OnColorValueChange(item, $event)" />
                   </template>
 
                   <!-- Bootstrap 5.0 Color Picker Control
@@ -80,7 +80,8 @@
 
 <script>
 import { inject, defineComponent, reactive, ref } from 'vue';
-import ColorPicker from './Components/ColorPicker.vue';
+//import ColorPicker from './Components/ColorPicker.vue';
+import ColorPicker from './Components/ColorDisplay.vue';
 import Util from '../Helpers/Utils.js';
 import eventBus from '../EventBus';
 
