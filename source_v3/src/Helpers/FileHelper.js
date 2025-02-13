@@ -462,7 +462,7 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
   try {
     ensureDirectoryExists(path.dirname(resolvedPath)); // Ensure parent directory exists
 
-    const options = prettyPrint ? { spaces: 4 } : null;
+    const options = prettyPrint ? 4 : null;
     fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
     return true;
 

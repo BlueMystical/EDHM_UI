@@ -7,4 +7,19 @@ body {
   background-color: #1F1F1F; /* Dark background color */
   color: #ffffff; /* Light text color */
 }
+.custom-popover {
+  max-width: 370px !important; /* The !important is often necessary to override Bootstrap */
+}
+.custom-popover .popover-body { /* Adjust body padding if needed */
+  padding: 10px; /* Example value */
+}
+.popover-image {
+  max-width: 270px;
+  height: auto;
+}
 
+/* Style the popover arrow */
+.popover[data-popper-placement^="right"]>.popover-arrow::before,
+.popover[data-popper-placement^="right"]>.popover-arrow::after {
+  border-left-color: orange !important;
+}

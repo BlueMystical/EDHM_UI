@@ -110,6 +110,14 @@ const LoadGlobalSettings = () => {
     throw error;
   }
 };
+async function saveGlobalSettings (settings) {
+  try {
+    const _path_A = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
+    return fileHelper.writeJsonFile(_path_A, settings, true);
+  } catch (error) {
+    throw error;
+  }
+};
 
 /** * Adds a new Instance from the Game's Path.
  * @param {*} NewInstancePath Full path to the game
@@ -440,6 +448,13 @@ ipcMain.handle('LoadGlobalSettings', () => {
     throw error;
   }
 });
+ipcMain.handle('saveGlobalSettings', (event, settings) => {
+  try {
+    return saveGlobalSettings(settings);
+  } catch (error) {
+    throw error;
+  }
+});
 ipcMain.handle('get-settings', () => {
   try {
     return programSettings;
@@ -512,4 +527,4 @@ ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance, LoadGlobalSettings };
+export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance, LoadGlobalSettings, saveGlobalSettings };

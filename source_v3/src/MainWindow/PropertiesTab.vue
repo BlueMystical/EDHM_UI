@@ -386,18 +386,7 @@ export default defineComponent({
 }
 
 /* ----------------------------------------------------------*/
-.color-picker {
-  width: 100%;
-  /* Ensure the color picker fills the entire column */
-  height: 36px;
-  /* Match the height of the other inputs */
-  padding: 0.25rem 0.5rem;
-  background-color: transparent;
-  /* Set background color to transparent */
-}
-.color-picker-container {
-  position: relative;
-}
+
 
 /* ----------------------------------------------------------*/
 

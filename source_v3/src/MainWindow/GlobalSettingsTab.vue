@@ -5,15 +5,21 @@
       <p class="category-name">{{ group.category }}</p>
       <table class="table table-bordered">
         <tbody>
+
+          <!-- Table Row -->
           <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex"
-              @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)">
+            @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)">
+
+            <!-- Left Column -->
             <td class="fixed-width title-cell">
               {{ element.Title }}
-              <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)" @mouseleave="hidePopover">
+              <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)"
+                @mouseleave="hidePopover">
                 <i class="bi bi-info-circle text-info"></i>
               </span>
             </td>
 
+            <!-- Right Column -->
             <td class="fixed-width cell-content">
 
               <!-- Dynamic Preset Select Combo -->
@@ -46,7 +52,8 @@
 
               <!-- Custom Color Picker Control -->
               <template v-if="element.ValueType === 'Color'">
-                <ColorDisplay :id="'colorPreset-' + element.Key" :color="element.Value" @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
+                <ColorDisplay :id="'colorPreset-' + element.Key" :color="element.Value"
+                  @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
               </template>
 
             </td>
@@ -58,7 +65,7 @@
 </template>
 
 <script>
-import ColorDisplay from './Components/ColorDisplay.vue'; 
+import ColorDisplay from './Components/ColorDisplay.vue';
 import Util from '../Helpers/Utils.js';
 import eventBus from '../EventBus';
 
@@ -78,7 +85,6 @@ export default {
       presets: [],
       activePopover: null,
       popoverElement: null, // Store the popover element
-      componentKey: 0, // Add a key for component re-rendering
     };
   },
   watch: {
@@ -92,7 +98,8 @@ export default {
   methods: {
     async OnInitialize() {
       this.dataSource = await window.api.LoadGlobalSettings();
-      //console.log('Loaded DataSource:', this.dataSource);
+      this.presets = this.dataSource.Presets;
+      console.log('Loaded DataSource:', this.dataSource);
       this.loadGroupData();
     },
     loadGroupData() {
@@ -115,7 +122,6 @@ export default {
           category,
           elements: grouped[category],
         }));
-
       }
     },
     showIcon(groupIndex, elementIndex) {
@@ -163,35 +169,29 @@ export default {
       }
 
       this.$nextTick(() => {
+        let content = `<p>${element.Description}</p>`;
+        const imagePath = this.getImagePath(element.Key);
+
+        /* class="popover-image, custom-popover" are in 'index.css' */
+        content += `<img src="${imagePath}" alt="No Image" class="popover-image" @error="hideImage($event);" />`;
+
         const popover = new bootstrap.Popover(event.target, {
           title: `${element.Title} (${element.Key})`,
-          content: `<p>${element.Description}</p>`,
+          content: content,
           html: true,
-          trigger: 'manual', // Important: trigger is manual
+          trigger: 'manual',
           placement: 'right',
           container: 'body',
           template: `
-          <div class="popover border border-warning" role="tooltip">
-            <div class="popover-arrow"></div>
-            <h4 class="popover-header"></h3>
-            <div class="popover-body"></div>
-          </div>
-        `,
+          <div class="popover border border-warning custom-popover" role="tooltip">  
+              <div class="popover-arrow"></div>
+              <h4 class="popover-header"></h4>
+              <div class="popover-body"></div>
+          </div>`,
         });
 
         popover.show();
         this.activePopover = popover;
-
-      /*  const popoverElement = document.querySelector('.popover');
-        if (popoverElement) {
-          const closeButton = popoverElement.querySelector('.btn-close');
-          if (closeButton) {
-            closeButton.addEventListener('click', () => {
-              popover.dispose();
-              this.activePopover = null;
-            });
-          }
-        }*/
 
         event.target.addEventListener('hidden.bs.popover', () => {
           this.activePopover = null;
@@ -203,6 +203,16 @@ export default {
         this.activePopover.dispose();
         this.activePopover = null;
       }
+    },
+
+    /** Gets the path for an Element Image
+    * @param key The file name of the image matches the 'key' of the Element.     */
+    getImagePath(key) {
+      const imageKey = key.replace(/\|/g, '_');
+      return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
+    },
+    hideImage(event) {
+      event.target.style.display = 'none';
     },
 
     /** Gets all Presets for the selected Type
@@ -223,7 +233,6 @@ export default {
           return 0.0;
       }
     },
-
     /**     * Gets the Maximum Value for a Range-slider control
      * @param type Type of Range
      */
@@ -237,35 +246,63 @@ export default {
           return 1.0;
       }
     },
-    intToRGBAstring(value){
+    intToRGBAstring(value) {
       return Util.intToRGBAstring(value);
     },
 
     /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
     OnPresetValueChange(item, event) {
-      const value = parseFloat(event.target.value);
-      console.log(item, value);
-      //this.UpdateValueToTemplate(item);
+        const value = parseFloat(event.target.value);
+        this.updateDataSourceValue(item, value);
     },
     OnBrightnessValueChange(item, event) {
-      const value = parseFloat(event.target.value);
-      console.log(item, value);
-      //this.UpdateValueToTemplate(item);
+        const value = parseFloat(event.target.value);
+        this.updateDataSourceValue(item, value);
     },
     OnToggleValueChange(item, event) {
-      const value = event.target.checked ? 1 : 0; 
-      console.log(item, value); //item.value = item.value === 1 ? 0 : 1;
-      //this.UpdateValueToTemplate(item);
+        const value = event.target.checked ? 1 : 0;
+        this.updateDataSourceValue(item, value);
     },
     OnColorValueChange(item, event) {
-      const hex = event.hex; //console.log(event.rgba);
-      const intValue = event.int; // Util.hexToSignedInt(hex);
-      //console.log(event);
-      if (item.value !== intValue) { // This is the KEY FIX
-        let modif = JSON.parse(JSON.stringify(item));
-        modif.value = intValue; 
-        //this.UpdateValueToTemplate(modif); // Call this only if value changed!
+        const value = event.int;
+        this.updateDataSourceValue(item, value);
+    },
+    updateDataSourceValue(item, newValue) {
+        const elementIndex = this.dataSource.Elements.findIndex(el => el.Key === item.Key);
+        if (elementIndex !== -1) {
+            this.dataSource.Elements[elementIndex].Value = newValue;
+            item.Value = newValue; // Keep groupedElements in sync
+           // console.log("Updated dataSource:", this.dataSource);
+            this.saveChanges();
+        } else {
+            console.error("Element not found in dataSource:", item.Key);
+        }
+    },
+    saveChangesDebounced: null, // To store the debounced function
+    saveChanges: function () {
+      if (!this.saveChangesDebounced) {
+        this.saveChangesDebounced = this.debounce(async function () {
+          try {
+            await window.api.SaveGlobalSettings(JSON.parse(JSON.stringify(this.dataSource)));
+            console.log("Changes saved successfully!");
+          } catch (error) {
+            console.error("Error saving changes:", error);
+          }
+          this.saveChangesDebounced = null; // Reset after execution
+        }, 500); // Adjust delay as needed
       }
+      this.saveChangesDebounced();
+    },
+    debounce(func, delay) {
+      let timeout;
+      return function () {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          func.apply(context, args);
+        }, delay);
+      };
     },
 
   },
@@ -309,26 +346,33 @@ export default {
 }
 
 .title-cell {
-  cursor: pointer;  /* Indicate it's clickable */
+  cursor: pointer;
+  /* Indicate it's clickable */
   font-size: 14px;
   color: lightgrey;
 
-  align-items: center; /* Vertically center content */
-  padding: 0.5rem; /* Add some padding for better visual spacing */
-}
-.info-icon {
-  margin-left: 0.5rem; /* Space between text and icon */
-  cursor: pointer; /* Indicate icon is clickable */
+  align-items: center;
+  /* Vertically center content */
+  padding: 0.5rem;
+  /* Add some padding for better visual spacing */
 }
 
-.popover-image {
-  max-width: 200px;
-  height: auto;
+.info-icon {
+  margin-left: 0.5rem;
+  /* Space between text and icon */
+  cursor: pointer;
+  /* Indicate icon is clickable */
 }
+
+
 /* Style the popover arrow */
-.popover[data-popper-placement^="right"] > .popover-arrow::before,
-.popover[data-popper-placement^="right"] > .popover-arrow::after {
+.popover[data-popper-placement^="right"]>.popover-arrow::before,
+.popover[data-popper-placement^="right"]>.popover-arrow::after {
   border-left-color: orange !important;
 }
 
+.custom-popover {
+  max-width: 470px !important;
+  /* The !important is often necessary to override Bootstrap */
+}
 </style>
