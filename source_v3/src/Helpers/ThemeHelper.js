@@ -8,6 +8,7 @@ import fileHelper from './FileHelper';
 import Util from './Utils.js';
 import settingsHelper from './SettingsHelper.js'
 import { writeFile } from 'node:fs/promises';
+import FileHelper from './FileHelper';
 
 
 /** * Retrieves themes from a specified directory path.
@@ -768,6 +769,26 @@ ipcMain.handle('GetCurrentSettings', async (event, folderPath) => {
   }
 }); 
 
+ipcMain.handle('GetElementsImage', (event, key) => {
+  try {
+    const imageKey = key.replace(/\|/g, '_');
+    const rawPath = FileHelper.getAssetPath(`images/Elements_ODY/${imageKey}.png`);
+    const defaultImg = FileHelper.getAssetPath('images/Elements_ODY/empty.png');
+
+    if (fs.existsSync(rawPath)) {
+      return rawPath;// Return the image path if it exists
+
+    } else {
+      // If the image doesn't exist, return the default image path
+      const defaultImagePath = new URL(defaultImg, import.meta.url).href; 
+      return defaultImg; 
+    }
+
+  } catch (error) {
+    console.error("Error in GetElementsImage:", error); // Log the error for debugging
+    throw error; // Re-throw the error to be handled by the caller
+  }
+});
 
 
 // #endregion

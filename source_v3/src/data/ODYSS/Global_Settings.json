@@ -30,7 +30,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "w151",
-            "Value": 1,
+            "Value": 0.54,
             "ValueType": "Brightness",
             "Type": "1X",
             "Description": "Jump System Info Background Opacity."
@@ -184,7 +184,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "x195|y195|z195",
-            "Value": -5900547,
+            "Value": -458885379,
             "ValueType": "Color",
             "Type": "CustomColor",
             "Description": "Custom Color for Supercruise Snow"

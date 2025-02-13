@@ -105,7 +105,7 @@
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#user-settings-pane" 
-                  type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false" disabled>User Settings</button>
+                  type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false" >User Settings</button> <!--disabled-->
         </li>        
       </ul>
       <!-- Tab panes -->
@@ -215,6 +215,7 @@ export default {
       selectedHistory: '',
 
       searchResults: [],
+      globalSettings: [],
 
       appVersion: '',
       modVersion: '',
@@ -227,7 +228,6 @@ export default {
 
   },
   components: {
-    //Updater,
     ThemeTab,
     HUD_Areas,
     PropertiesTab,
@@ -268,10 +268,9 @@ export default {
     },
 
     /** Sets the Active Tab
-     * @param tab Tab's Name
-     */
+     * @param tab Tab's Name: 'themes, properties, global-settings, user-settings'     */
     setActiveTab(tab) {
-      this.activeTab = ref(tab); console.log(tab);
+      this.activeTab = ref(tab); //console.log(tab);
       var tabTriggerEl = document.querySelector('#' + tab + '-tab');
       var tab = new bootstrap.Tab(tabTriggerEl);
       tab.show();
@@ -576,15 +575,36 @@ export default {
           (theme.file.credits.theme && typeof theme.file.credits.theme.toLowerCase === 'function' && theme.file.credits.theme.toLowerCase().includes(searchQuery)) ||
           (theme.file.credits.author && typeof theme.file.credits.author.toLowerCase === 'function' && theme.file.credits.author.toLowerCase().includes(searchQuery))
         ).map(theme => ({
-          Parent: 'Themes', // theme.file.credits.theme,
+          Parent: 'Themes', 
           Category: "Theme by [" + theme.file.credits.author + ']',
           Title: theme.name,
           Description: theme.file.credits.description,
           Tag: theme
         }));
 
+        // 3. Looking on the Global Settings:
+        var FilteredGlobals = [];
+        if (this.globalSettings && !isEmpty(this.globalSettings)) {
+          this.globalSettings.forEach(group => {
+            group.elements.forEach(element => {
+              if (
+                element.Category.toLowerCase().includes(searchQuery) ||
+                element.Title.toLowerCase().includes(searchQuery) ||
+                element.Description.toLowerCase().includes(searchQuery)
+              ) {
+                FilteredGlobals.push({ // <-- Mapping here
+                  Parent: 'Global Settings',
+                  Category: element.Category,
+                  Title: element.Title,
+                  Description: element.Description,
+                  Tag: element
+                });
+              }
+            });
+          });
+        }
 
-        //3. Here we Apply the Filter:
+        //4. Here we Apply the Filter:
         if (query) {
 
           this.searchResults = allElements.filter(element =>
@@ -595,7 +615,7 @@ export default {
             (element.Title.toLowerCase().includes(searchQuery) ||
               element.Category.toLowerCase().includes(searchQuery) ||
               element.Description.toLowerCase().includes(searchQuery))
-          ).concat(filteredThemes);
+          ).concat(filteredThemes).concat(FilteredGlobals);
 
 
         } else {
@@ -655,8 +675,12 @@ export default {
 
     OnDownloadStart(data) {
       this.$refs.Updater.startDownload(data);
-    }
+    },
 
+    OnGlobalSettingsLoaded(data){
+      this.globalSettings = data;
+      //console.log('OnGlobalSettingsLoaded', data);
+    },
   },
   mounted() {
     /* EVENTS WE LISTEN TO HERE:  */
@@ -667,6 +691,7 @@ export default {
     EventBus.on('modUpdated', this.OnModUpdated);
     EventBus.on('OnApplyTheme', this.applyTheme);
     EventBus.on('StartDownload', this.OnDownloadStart);
+    EventBus.on('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -677,6 +702,7 @@ export default {
     EventBus.off('modUpdated', this.OnModUpdated);
     EventBus.off('OnApplyTheme', this.applyTheme);
     EventBus.off('StartDownload', this.OnDownloadStart);
+    EventBus.off('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
   }
 }
 </script>

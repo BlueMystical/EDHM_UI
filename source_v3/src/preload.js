@@ -18,7 +18,8 @@ contextBridge.exposeInMainWorld('api', {
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
   writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint), 
 
-  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
+  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath), 
+  GetElementsImage: async (key) => ipcRenderer.invoke('GetElementsImage', key),
 
   // #endregion
 
@@ -87,6 +88,10 @@ contextBridge.exposeInMainWorld('api', {
   saveSettings: async (settings) => ipcRenderer.invoke('save-settings', settings),
   LoadGlobalSettings: async () => ipcRenderer.invoke('LoadGlobalSettings'), 
   SaveGlobalSettings: async (settings) => ipcRenderer.invoke('saveGlobalSettings', settings), 
+  LoadUserSettings: async () => ipcRenderer.invoke('LoadUserSettings'), 
+  saveUserSettings: async (settings) => ipcRenderer.invoke('saveUserSettings', settings),  
+  AddToUserSettings: async (settings) => ipcRenderer.invoke('AddToUserSettings', settings), 
+  RemoveFromUserSettings: async (settings) => ipcRenderer.invoke('RemoveFromUserSettings', settings), 
 
   getActiveInstance: () => ipcRenderer.invoke('active-instance'), 
   getActiveInstanceEx: () => ipcRenderer.invoke('getActiveInstanceEx'),

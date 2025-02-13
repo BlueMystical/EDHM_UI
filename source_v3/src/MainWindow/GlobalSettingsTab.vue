@@ -1,17 +1,19 @@
 <!-- Global Settings Tab -->
 <template>
-  <div class="data-table" ref="dataTable" v-if="groupedElements.length > 0">
+  <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
     <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
       <p class="category-name">{{ group.category }}</p>
-      <table class="table table-bordered">
+      <table class="table table-bordered table-hover align-middle">
         <tbody>
 
           <!-- Table Row -->
-          <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex"
-            @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)">
+          <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
+            @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
+            @click="selectRow(element.Key)" :class="rowClass(element)"            
+            @contextmenu="onRightClick($event, element)"> <!-- @contextmenu.prevent="showContextMenu(element, $event)"> -->
 
             <!-- Left Column -->
-            <td class="fixed-width title-cell">
+            <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
               {{ element.Title }}
               <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)"
                 @mouseleave="hidePopover">
@@ -24,7 +26,7 @@
 
               <!-- Dynamic Preset Select Combo -->
               <template v-if="element.ValueType === 'Preset'">
-                <select class="form-select select-combo" :id="'selectPreset-' + element.Key" v-model="element.Value"
+                <select class="form-select select-combo" :id="'element-' + element.Key" v-model="element.Value"
                   @change="OnPresetValueChange(element, $event)">
                   <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name" :value="preset.Index">
                     {{ preset.Name }}
@@ -34,9 +36,9 @@
 
               <!-- Range Slider Control -->
               <template v-if="element.ValueType === 'Brightness'">
-                <div class="range-container">
-                  <input type="range" v-model="element.Value" :min="getMinValue(element.Type)"
-                    :max="getMaxValue(element.Type)" step="0.01" class="form-range range-input"
+                <div class="range-container" :id="'element-' + element.Key">
+                  <input type="range" class="form-range range-input" v-model="element.Value"
+                    :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
                     @input="OnBrightnessValueChange(element, $event)" style="height: 10px;" />
                   <label class="slider-value-label">{{ element.Value }}</label>
                 </div>
@@ -44,7 +46,7 @@
 
               <!-- On/Off Swap control -->
               <template v-if="element.ValueType === 'ONOFF'">
-                <div class="form-check form-switch">
+                <div class="form-check form-switch" :id="'element-' + element.Key">
                   <input class="form-check-input larger-switch" type="checkbox" :checked="element.Value === 1"
                     @change="OnToggleValueChange(element, $event)" />
                 </div>
@@ -52,7 +54,7 @@
 
               <!-- Custom Color Picker Control -->
               <template v-if="element.ValueType === 'Color'">
-                <ColorDisplay :id="'colorPreset-' + element.Key" :color="element.Value"
+                <ColorDisplay :id="'element-' + element.Key" :color="element.Value"
                   @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
               </template>
 
@@ -60,7 +62,15 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- Context Menu for Elements -->
+      <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu show" ref="contextMenu">
+        <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('AddUserSettings')">Add to User Settings..</a> </li>        
+      </ul>
+
     </div>
+
+    <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
   </div>
 </template>
 
@@ -69,9 +79,9 @@ import ColorDisplay from './Components/ColorDisplay.vue';
 import Util from '../Helpers/Utils.js';
 import eventBus from '../EventBus';
 
+// Activate all Popovers:
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
-
 
 export default {
   name: 'GlobalSettingsTab',
@@ -80,11 +90,15 @@ export default {
   },
   data() {
     return {
-      dataSource: null,
-      groupedElements: [], // Initialize as an empty array
-      presets: [],
+      dataSource: null,     //<- Raw Datasource directly from the File
+      groupedElements: [],  //<- Processed Datasource from 'loadGroupData()'
+      presets: [],          //<- Presets for the Combo Selects, from Raw Datasource
       activePopover: null,
-      popoverElement: null, // Store the popover element
+      selectedKey: null,     //<- key of the selected row
+      selectedRow: null,
+
+      contextMenuStyle: {},
+      showContextMenuFlag: false, //<- Flag to show the Context Menu
     };
   },
   watch: {
@@ -95,13 +109,21 @@ export default {
       }
     }
   },
+  computed: {
+    rowClass: function () {
+      return function (element) {
+        return { 'table-active': element.Key === this.selectedKey };
+      }
+    }
+  },
   methods: {
     async OnInitialize() {
       this.dataSource = await window.api.LoadGlobalSettings();
       this.presets = this.dataSource.Presets;
-      console.log('Loaded DataSource:', this.dataSource);
-      this.loadGroupData();
     },
+
+    // #region Load Data
+
     loadGroupData() {
       if (this.dataSource) {
         this.groupedElements = []; // Clear existing elements FIRST
@@ -122,10 +144,22 @@ export default {
           category,
           elements: grouped[category],
         }));
+
+        eventBus.emit('OnGlobalSettingsLoaded', JSON.parse(JSON.stringify(this.groupedElements))); //<- Event listen in 'NavBars.vue'
       }
     },
+    /** Gets all Presets for the selected Type
+     * @param type Type of Preset  */
+    getPresetsForType(type) {
+      return this.presets.filter(preset => preset.Type === type);
+    },
+
+    // #endregion
+
+    // #region Info Icon / Popover
+
     showIcon(groupIndex, elementIndex) {
-      // Create a *new* groupedElements array with the updated iconVisible:
+      // Shows a little Info Icon when the mouse is over a Table's Row.
       const newGroupedElements = this.groupedElements.map((group, gIndex) => {
         if (gIndex === groupIndex) {
           return {
@@ -144,7 +178,7 @@ export default {
       this.groupedElements = newGroupedElements; // Update with the new array
     },
     hideIcon(groupIndex, elementIndex) {
-      // Create a *new* groupedElements array with the updated iconVisible:
+      // Hide the Icon when the mouse leaves the Row
       const newGroupedElements = this.groupedElements.map((group, gIndex) => {
         if (gIndex === groupIndex) {
           return {
@@ -163,20 +197,21 @@ export default {
       this.groupedElements = newGroupedElements; // Update with the new array
     },
     showPopover(element, event) {
+      // Show a Bootstrap Popover with info about the current item
       if (this.activePopover) {
         this.activePopover.dispose();
         this.activePopover = null;
       }
 
-      this.$nextTick(() => {
-        let content = `<p>${element.Description}</p>`;
-        const imagePath = this.getImagePath(element.Key);
-
-        /* class="popover-image, custom-popover" are in 'index.css' */
-        content += `<img src="${imagePath}" alt="No Image" class="popover-image" @error="hideImage($event);" />`;
+      this.$nextTick(async () => {
+        const imagePath = await this.getImagePath(element.Key);
+        const content = `
+        <p>${element.Description}</p>
+        <img src="${imagePath}" alt="No Image" class="popover-image" />
+        <p>Key: ${element.Key}</p>`;
 
         const popover = new bootstrap.Popover(event.target, {
-          title: `${element.Title} (${element.Key})`,
+          title: element.Title,
           content: content,
           html: true,
           trigger: 'manual',
@@ -205,25 +240,22 @@ export default {
       }
     },
 
+    // #endregion
+
+    // #region Utility Methods
+
     /** Gets the path for an Element Image
     * @param key The file name of the image matches the 'key' of the Element.     */
-    getImagePath(key) {
-      const imageKey = key.replace(/\|/g, '_');
-      return new URL(`../images/Elements_ODY/${imageKey}.png`, import.meta.url).href;
+    async getImagePath(key) {
+      const imageKey = await window.api.GetElementsImage(key);
+      return new URL(imageKey, import.meta.url).href;
     },
     hideImage(event) {
       event.target.style.display = 'none';
     },
 
-    /** Gets all Presets for the selected Type
-     * @param type Type of Preset
-     */
-    getPresetsForType(type) {
-      return this.presets.filter(preset => preset.Type === type);
-    },
-    /**     * Gets the Minimum Value for a Range-slider control
-   * @param type Type of Range
-   */
+    /** Gets the Minimum Value for a Range-slider control
+    * @param type Type of Range  */
     getMinValue(type) {
       switch (type) {
         case '2X': return -1.0;
@@ -233,9 +265,8 @@ export default {
           return 0.0;
       }
     },
-    /**     * Gets the Maximum Value for a Range-slider control
-     * @param type Type of Range
-     */
+    /** Gets the Maximum Value for a Range-slider control
+     * @param type Type of Range     */
     getMaxValue(type) {
       switch (type) {
         case '2X':
@@ -250,33 +281,35 @@ export default {
       return Util.intToRGBAstring(value);
     },
 
-    /* METHODS TO UPDATE CHANGES IN THE CONTROLS  */
+    // #endregion
+
+    // #region METHODS TO UPDATE CHANGES IN THE CONTROLS 
+
     OnPresetValueChange(item, event) {
-        const value = parseFloat(event.target.value);
-        this.updateDataSourceValue(item, value);
+      const value = parseFloat(event.target.value);
+      this.updateDataSourceValue(item, value);
     },
     OnBrightnessValueChange(item, event) {
-        const value = parseFloat(event.target.value);
-        this.updateDataSourceValue(item, value);
+      const value = parseFloat(event.target.value);
+      this.updateDataSourceValue(item, value);
     },
     OnToggleValueChange(item, event) {
-        const value = event.target.checked ? 1 : 0;
-        this.updateDataSourceValue(item, value);
+      const value = event.target.checked ? 1 : 0;
+      this.updateDataSourceValue(item, value);
     },
     OnColorValueChange(item, event) {
-        const value = event.int;
-        this.updateDataSourceValue(item, value);
+      const value = event.int;
+      this.updateDataSourceValue(item, value);
     },
     updateDataSourceValue(item, newValue) {
-        const elementIndex = this.dataSource.Elements.findIndex(el => el.Key === item.Key);
-        if (elementIndex !== -1) {
-            this.dataSource.Elements[elementIndex].Value = newValue;
-            item.Value = newValue; // Keep groupedElements in sync
-           // console.log("Updated dataSource:", this.dataSource);
-            this.saveChanges();
-        } else {
-            console.error("Element not found in dataSource:", item.Key);
-        }
+      const elementIndex = this.dataSource.Elements.findIndex(el => el.Key === item.Key);
+      if (elementIndex !== -1) {
+        this.dataSource.Elements[elementIndex].Value = newValue;
+        item.Value = newValue; // Keep groupedElements in sync
+        this.saveChanges();
+      } else {
+        console.error("Element not found in dataSource:", item.Key);
+      }
     },
     saveChangesDebounced: null, // To store the debounced function
     saveChanges: function () {
@@ -284,7 +317,8 @@ export default {
         this.saveChangesDebounced = this.debounce(async function () {
           try {
             await window.api.SaveGlobalSettings(JSON.parse(JSON.stringify(this.dataSource)));
-            console.log("Changes saved successfully!");
+            this.$emit('OnGlobalSettings_Saved', JSON.parse(JSON.stringify(this.dataSource))); //<- Event listen on 'NavBars.vue'
+            //console.log("Changes saved successfully!");
           } catch (error) {
             console.error("Error saving changes:", error);
           }
@@ -305,12 +339,105 @@ export default {
       };
     },
 
+    // #endregion
+
+    // #region Search & Find
+
+    DoFindAndSelectRow(key) {
+      this.selectedKey = key;
+      this.$nextTick(() => { // Use nextTick to ensure DOM is updated
+        const row = document.getElementById('row-' + key);
+        if (row) {
+          row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          console.warn('Row with key "' + key + '" not found.');
+        }
+      });
+    },
+    /** Selects a Row of the Table by Key. 
+     * @param key complete Key as is in the Ini files     */
+    selectRow(key) {
+      this.selectedKey = key;
+      console.log('Selected: ', key)
+    },
+
+    // #endregion
+
+    // #region Context Menus
+
+    /** When Fired, Shows the Context Menu for the Selected Theme and Selects it  * 
+     * @param image The Selected Theme
+     * @param event Mouse Event related    */
+    onRightClick(event, element) {
+      event.preventDefault(); // Prevent the default context menu
+      this.selectedRow = JSON.parse(JSON.stringify(element)); 
+      this.selectRow(element.Key);
+      this.showContextMenu(event.clientX, event.clientY); // Show the custom context menu
+    },
+    showContextMenu(x, y) {
+      // Position the context menu
+      this.contextMenuStyle = {
+        top: `${y - 60}px`,
+        left: `${x}px`,
+        display: 'block'
+      };
+      this.showContextMenuFlag = true;
+
+      // Close context menu when clicking outside
+      document.addEventListener('click', this.hideContextMenu);
+    },
+    hideContextMenu() {
+      this.showContextMenuFlag = false;
+      document.removeEventListener('click', this.hideContextMenu); // Remove the event listener
+    },
+    /** When the User clicks on one of the Context menus * 
+    * @param action Name of the clicked menu    */
+    async onContextMenu_Click(action) {
+      try {
+        const contextMenu = this.$refs.contextMenu;
+        if (contextMenu) {
+          contextMenu.classList.remove('show');
+        }
+        console.log('Context Menu:', action);
+        // Handle the context menu action
+        if (this.selectedRow) {
+          switch (action) {
+            case 'AddUserSettings':
+              console.log('Adding to User Settings:', this.selectedRow);
+              const _ret = await window.api.AddToUserSettings(JSON.parse(JSON.stringify(this.selectedRow)));
+              if (_ret) {
+                eventBus.emit('RoastMe', { type: 'Success', message: 'Added to the User Settings Tab!' });
+                eventBus.emit('DoLoadUserSettings', null); //<- Event Listen in 'UserSettingsTab.vue'
+              }
+              break;
+
+              case 'RemoveUserSettings':
+                console.log('Removing from User Settings:', this.selectedRow);
+                const _ret2 = await window.api.RemoveFromUserSettings(JSON.parse(JSON.stringify(this.selectedRow)));
+                if (_ret2) {
+                  eventBus.emit('RoastMe', { type: 'Success', message: 'Removed from User Settings Tab!' });
+                  eventBus.emit('DoLoadUserSettings', null); //<- Event Listen in 'UserSettingsTab.vue'
+                }
+              break;
+            default:
+              break;
+          }
+        }
+      } catch (error) {
+        eventBus.emit('ShowError', error);
+      }
+    },
+
+    // #endregion
+
   },
   mounted() {
     eventBus.on('DoLoadGlobalSettings', this.OnInitialize);
+    eventBus.on('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
   },
   beforeUnmount() {
     eventBus.off('DoLoadGlobalSettings', this.OnInitialize);
+    eventBus.off('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
     this.$nextTick(() => {
       if (this.activePopover) {
         this.activePopover.dispose();
@@ -322,6 +449,11 @@ export default {
 </script>
 
 <style scoped>
+.selected-row {
+  background-color: #fc9701;
+  /* Example highlight color */
+}
+
 .data-table {
   width: 100%;
   height: 100%;
@@ -334,7 +466,6 @@ export default {
   color: #212529;
 }
 
-
 .fixed-width {
   width: 50%;
 }
@@ -346,15 +477,11 @@ export default {
 }
 
 .title-cell {
-  cursor: pointer;
-  /* Indicate it's clickable */
+  cursor: default;
   font-size: 14px;
   color: lightgrey;
-
   align-items: center;
-  /* Vertically center content */
   padding: 0.5rem;
-  /* Add some padding for better visual spacing */
 }
 
 .info-icon {
@@ -362,17 +489,5 @@ export default {
   /* Space between text and icon */
   cursor: pointer;
   /* Indicate icon is clickable */
-}
-
-
-/* Style the popover arrow */
-.popover[data-popper-placement^="right"]>.popover-arrow::before,
-.popover[data-popper-placement^="right"]>.popover-arrow::after {
-  border-left-color: orange !important;
-}
-
-.custom-popover {
-  max-width: 470px !important;
-  /* The !important is often necessary to override Bootstrap */
 }
 </style>

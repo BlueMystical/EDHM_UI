@@ -113,7 +113,7 @@ export default {
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
         EventBus.emit('DoLoadGlobalSettings', null); //<- Event Listened at GlobalSettingsTab.vue
-
+        EventBus.emit('DoLoadUserSettings', null); //<- Event Listened at UserSettingsTab.vue
         
         if (this.settings.CheckForUpdates === undefined) {
           // New Property, if is not there, we simply add it and save the change.
@@ -306,8 +306,7 @@ export default {
     // #region SearchBox
     
     /** Shows the Results of the Search Box 
-     * @param event Contains the data to be shown
-     */
+     * @param event Contains the data to be shown     */
     OnSearchBox_Shown(event) {
       try {
         this.searchResults = event.data;
@@ -320,13 +319,15 @@ export default {
      * @param result The Result clicked
      */
     OnSearchBox_Click(result) {
-      console.log('Result clicked:', result);
+      //console.log('Result clicked:', result);
       try {
         if (result.Parent === 'Themes') {
           EventBus.emit('setActiveTab', 'themes'); //<- Event listen in 'MainNavBars.vue'
           EventBus.emit('OnSelectTheme', result.Tag); //<- Event listened on 'ThemeTab.vue'
         } else {
           if (result.Parent === 'Global Settings') {
+            EventBus.emit('setActiveTab', 'global-settings'); //<- Event listen in 'MainNavBars.vue'
+            EventBus.emit('FindKeyInGlobalSettings', result.Tag.Key); //<- Event listen in 'GlobalSettings.vue'
 
           } else { //<- It's a Normal HUD Settings
             // Emit an event with the clicked area 

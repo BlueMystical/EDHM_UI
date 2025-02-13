@@ -188,6 +188,15 @@ function getAssetPath(assetPath) {
     throw error;
   }  
 }
+function getAssetUrl(assetPath) {
+  try {
+    const resolvedPath = getAssetPath(assetPath);
+    const fileUrl = url.pathToFileURL(resolvedPath).toString();
+    return fileUrl;
+  } catch (error) {
+    throw error;
+  }  
+}
 
 // #endregion
 
@@ -1334,7 +1343,7 @@ ipcMain.handle('runInstaller', async (event, installerPath) => {
 // #endregion
 
 export default { 
-  getAssetPath, 
+  getAssetPath, getAssetUrl,
   resolveEnvVariables,  
 
   loadJsonFile, 

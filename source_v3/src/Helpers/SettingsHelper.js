@@ -88,6 +88,8 @@ const loadSettings = () => {
   }
 };
 
+// #region Global & User Settings
+
 const LoadGlobalSettings = () => {
   try {
     const _path_A = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
@@ -118,6 +120,86 @@ async function saveGlobalSettings (settings) {
     throw error;
   }
 };
+const LoadUserSettings = () => {
+  try {
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
+    var data = {};
+    if (fs.existsSync(_path_A)) {
+      const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
+      data = JSON.parse(dataRaw);
+    } else {
+      //404 - File doesnt exists
+      data = {
+        Name: "GlobalSettings",
+        Title: "Global Settings",
+        Elements: [ ]
+      };
+    }   
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+async function saveUserSettings (settings) {
+  try {
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
+    return fileHelper.writeJsonFile(_path_A, settings, true);
+  } catch (error) {
+    throw error;
+  }
+};
+async function AddToUserSettings(newElement) {
+  try {
+    if (newElement) {
+      try { delete newElement.iconVisible; } catch { }
+
+      var userSettings = LoadUserSettings();
+      //console.log('userSettings:', userSettings);
+      if (userSettings) {
+        // Check if an element with the same Key already exists
+        const existingElementIndex = userSettings.Elements.findIndex(
+          element => element.Key === newElement.Key
+        );
+
+        if (existingElementIndex !== -1) {
+          // If an element exists, replace it
+          userSettings.Elements[existingElementIndex] = newElement;
+        } else {
+          // If no element exists, add the new element
+          userSettings.Elements.push(newElement);
+        }
+
+        return saveUserSettings(userSettings);
+      }
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+async function RemoveFromUserSettings(settings) {
+  try {
+    var userSettings = LoadUserSettings();
+    if (userSettings) {
+      // Check if an element with the same Key already exists
+      const indexToRemove = userSettings.Elements.findIndex(
+        element => element.Key === settings.Key
+      );
+
+      if (indexToRemove !== -1) {
+        // Remove the element using splice()
+        userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
+      } else {
+        console.log(`Element with key ${keyToRemove} not found.`);
+      }
+
+      return saveUserSettings(userSettings);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+// #endregion
 
 /** * Adds a new Instance from the Game's Path.
  * @param {*} NewInstancePath Full path to the game
@@ -451,6 +533,34 @@ ipcMain.handle('LoadGlobalSettings', () => {
 ipcMain.handle('saveGlobalSettings', (event, settings) => {
   try {
     return saveGlobalSettings(settings);
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('LoadUserSettings', () => {
+  try {
+    return LoadUserSettings();
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('saveUserSettings', (event, settings) => {
+  try {
+    return saveUserSettings(settings);
+  } catch (error) {
+    throw error;
+  }
+}); 
+ipcMain.handle('AddToUserSettings', (event, newElement) => {
+  try {
+    return AddToUserSettings(newElement);
+  } catch (error) {
+    throw error;
+  }
+});
+ipcMain.handle('RemoveFromUserSettings', (event, settings) => {
+  try {
+    return RemoveFromUserSettings(settings);
   } catch (error) {
     throw error;
   }

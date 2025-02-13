@@ -23,3 +23,7 @@ body {
 .popover[data-popper-placement^="right"]>.popover-arrow::after {
   border-left-color: orange !important;
 }
+
+tr.selected-row {  
+  background-color: #fc9701; /* Example highlight color */
+}
