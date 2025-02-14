@@ -390,8 +390,7 @@ const getIniFilePath = (basePath, fileName) => {
 
 /**  * Retrieve the INI files asociated to a Theme
  * @param {string} folderPath Full path to the Folder containing the INI files
- * @returns Object
- */
+ * @returns Object */
 const LoadThemeINIs = async (folderPath) => {
   try {
 
@@ -548,12 +547,13 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
                 // Map keys to values 
                 const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
                 keys.forEach((key, index) => {
-                  iniValues[fileName][section][key] = parseFloat(values[index].toFixed(1)); // parseFloat(values[index]);
+                  const value = values[index] === undefined ? element.value : values[index];
+                  iniValues[fileName][section][key] = parseFloat(values[index]); //parseFloat(value.toFixed(3)); // 
                 });
               }
             } else {
               //Single Key:
-              iniValues[fileName][section][iniKey] = parseFloat(element.Value.toFixed(1)); // parseFloat(element.Value);
+              iniValues[fileName][section][iniKey] = parseFloat(element.Value); //parseFloat(element.Value.toFixed(3)); // 
             }
           }
         }
@@ -566,7 +566,7 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
       for (const element of template.xml_profile) {
         stackTrace = path.join('XmlProfile', 'Constants', element.key) + ' ';
         const key = element.key;
-        iniValues.XmlProfile.Constants[key] = parseFloat(element.Value.toFixed(1)); // parseFloat(element.value);
+        iniValues.XmlProfile.Constants[key] = parseFloat(element.value); //parseFloat(element.Value.toFixed(1)); // 
       }
     }
 

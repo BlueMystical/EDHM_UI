@@ -19,7 +19,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "z99",
-            "Value": 1.01,
+            "Value": 1,
             "ValueType": "Brightness",
             "Type": "2X",
             "Description": "Middle screen Popup Messages (Ship Scan Detected, etc)\r\nBackground Opacity, behind Text and symbols (cloud-shaped background).\r\nSet this value to 0 so you can still see the ship you're shooting at through the popup messages."
@@ -30,7 +30,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "w151",
-            "Value": 0.54,
+            "Value": 1,
             "ValueType": "Brightness",
             "Type": "1X",
             "Description": "Jump System Info Background Opacity."
@@ -184,7 +184,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "x195|y195|z195",
-            "Value": -458885379,
+            "Value": -1,
             "ValueType": "Color",
             "Type": "CustomColor",
             "Description": "Custom Color for Supercruise Snow"

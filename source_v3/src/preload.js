@@ -1,6 +1,6 @@
 /* THIS IS AN INTERMEDIATE LAYER BETWEEN THE 'MAIN PROCESS' AND THE 'RENDERER PROCESS'  */
 
-const { contextBridge, ipcRenderer, shell  } = require('electron');
+const { contextBridge, ipcRenderer, shell } = require('electron');
 const path = require('path');
 
 contextBridge.exposeInMainWorld('api', {
@@ -16,15 +16,15 @@ contextBridge.exposeInMainWorld('api', {
   getLocalFileUrl: (assetPath) => ipcRenderer.invoke('get-local-file-url', assetPath),
 
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
-  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint), 
+  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
 
-  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath), 
+  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
   GetElementsImage: async (key) => ipcRenderer.invoke('GetElementsImage', key),
 
   // #endregion
 
   // #region Files & Directories
- 
+
   ShowMessageBox: (options) => ipcRenderer.invoke('ShowMessageBox', options),
   ShowOpenDialog: (options) => ipcRenderer.invoke('ShowOpenDialog', options),
   ShowSaveDialog: (options) => ipcRenderer.invoke('ShowSaveDialog', options),
@@ -36,22 +36,22 @@ contextBridge.exposeInMainWorld('api', {
 
   openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
   openUrlInBrowser: (url) => ipcRenderer.invoke('openUrlInBrowser', url),
-  deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath), 
+  deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath),
 
-  findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType), 
+  findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType),
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
 
-  ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath), 
+  ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath),
 
   compressFiles: (files, outputPath) => ipcRenderer.invoke('compress-files', files, outputPath),
   compressFolder: (folderPath, outputPath) => ipcRenderer.invoke('compress-folder', folderPath, outputPath),
   decompressFile: (zipPath, outputDir) => ipcRenderer.invoke('decompress-file', zipPath, outputDir),
-  
+
   // #endregion
 
   // #region Themes  
 
-  getThemes: async (dirPath) => ipcRenderer.invoke('get-themes', dirPath), 
+  getThemes: async (dirPath) => ipcRenderer.invoke('get-themes', dirPath),
   LoadTheme: async (dirPath) => ipcRenderer.invoke('LoadTheme', dirPath),
   LoadThemeINIs: async (folderPath) => ipcRenderer.invoke('LoadThemeINIs', folderPath),
   SaveThemeINIs: async (folderPath, themeINIs) => ipcRenderer.invoke('SaveThemeINIs', folderPath, themeINIs),
@@ -67,44 +67,44 @@ contextBridge.exposeInMainWorld('api', {
   getValueFromSection: (iniData, section, key, defaultValue) => ipcRenderer.invoke('getValueFromSection', iniData, section, key, defaultValue),
   setValueInSection: (iniData, section, key, value) => ipcRenderer.invoke('setValueInSection', iniData, section, key, value),
 
-  GetCurrentSettingsTheme: async (filePath) => ipcRenderer.invoke('GetCurrentSettingsTheme', filePath),  
+  GetCurrentSettingsTheme: async (filePath) => ipcRenderer.invoke('GetCurrentSettingsTheme', filePath),
   CreateNewTheme: async (themeData) => ipcRenderer.invoke('CreateNewTheme', themeData),
   ExportTheme: async (themeData) => ipcRenderer.invoke('ExportTheme', themeData),
-  UpdateTheme: async (themeData, source) => ipcRenderer.invoke('UpdateTheme', themeData, source), 
+  UpdateTheme: async (themeData, source) => ipcRenderer.invoke('UpdateTheme', themeData, source),
   SaveTheme: async (themeData) => ipcRenderer.invoke('SaveTheme', themeData),
   getColorMatrixFilters: async () => ipcRenderer.invoke('GetColorMatrixFilters'),
 
   // #endregion
 
   // #region Settings 
-  
+
   initializeSettings: async () => ipcRenderer.invoke('initialize-settings'),
   InstallStatus: async () => ipcRenderer.invoke('InstallStatus'),
 
-  getSettings: async () => ipcRenderer.invoke('get-settings'),   
-  getDefaultSettings: async () => ipcRenderer.invoke('getDefaultSettings'), 
+  getSettings: async () => ipcRenderer.invoke('get-settings'),
+  getDefaultSettings: async () => ipcRenderer.invoke('getDefaultSettings'),
 
-  loadSettings: async () => ipcRenderer.invoke('load-settings'), 
+  loadSettings: async () => ipcRenderer.invoke('load-settings'),
   saveSettings: async (settings) => ipcRenderer.invoke('save-settings', settings),
-  LoadGlobalSettings: async () => ipcRenderer.invoke('LoadGlobalSettings'), 
-  SaveGlobalSettings: async (settings) => ipcRenderer.invoke('saveGlobalSettings', settings), 
-  LoadUserSettings: async () => ipcRenderer.invoke('LoadUserSettings'), 
-  saveUserSettings: async (settings) => ipcRenderer.invoke('saveUserSettings', settings),  
-  AddToUserSettings: async (settings) => ipcRenderer.invoke('AddToUserSettings', settings), 
-  RemoveFromUserSettings: async (settings) => ipcRenderer.invoke('RemoveFromUserSettings', settings), 
+  LoadGlobalSettings: async () => ipcRenderer.invoke('LoadGlobalSettings'),
+  SaveGlobalSettings: async (settings) => ipcRenderer.invoke('saveGlobalSettings', settings),
+  LoadUserSettings: async () => ipcRenderer.invoke('LoadUserSettings'),
+  saveUserSettings: async (settings) => ipcRenderer.invoke('saveUserSettings', settings),
+  AddToUserSettings: async (settings) => ipcRenderer.invoke('AddToUserSettings', settings),
+  RemoveFromUserSettings: async (settings) => ipcRenderer.invoke('RemoveFromUserSettings', settings),
 
-  getActiveInstance: () => ipcRenderer.invoke('active-instance'), 
+  getActiveInstance: () => ipcRenderer.invoke('active-instance'),
   getActiveInstanceEx: () => ipcRenderer.invoke('getActiveInstanceEx'),
   getInstanceByName: async (instanceName) => ipcRenderer.invoke('getInstanceByName', instanceName),
-  addNewInstance: async (NewInstancePath, settings) => ipcRenderer.invoke('addNewInstance', NewInstancePath, settings), 
+  addNewInstance: async (NewInstancePath, settings) => ipcRenderer.invoke('addNewInstance', NewInstancePath, settings),
   GetCurrentSettings: async (folderPath) => ipcRenderer.invoke('GetCurrentSettings', folderPath),
 
   loadHistory: (historyFolder, numberOfSavesToRemember) => ipcRenderer.invoke('load-history', historyFolder, numberOfSavesToRemember),
-  saveHistory: (historyFolder, theme) => ipcRenderer.invoke('save-history', historyFolder, theme), 
-  
-  installEDHMmod: (gameInstance) => ipcRenderer.invoke('installEDHMmod', gameInstance), 
+  saveHistory: (historyFolder, theme) => ipcRenderer.invoke('save-history', historyFolder, theme),
+
+  installEDHMmod: (gameInstance) => ipcRenderer.invoke('installEDHMmod', gameInstance),
   CheckEDHMinstalled: (gamePath) => ipcRenderer.invoke('CheckEDHMinstalled', gamePath),
-  UninstallEDHMmod: (gameInstance) => ipcRenderer.invoke('UninstallEDHMmod', gameInstance), 
+  UninstallEDHMmod: (gameInstance) => ipcRenderer.invoke('UninstallEDHMmod', gameInstance),
 
   // #endregion
 
@@ -113,22 +113,22 @@ contextBridge.exposeInMainWorld('api', {
   isNotNullOrEmpty: async () => ipcRenderer.invoke('is-not-null-obj'),
   getAppVersion: async () => ipcRenderer.invoke('get-app-version'),
   logError: (...args) => ipcRenderer.invoke('logError', ...args),
- 
+
   GetGammaCorrected_RGBA: async (color, gammaValue) => ipcRenderer.invoke('GetGammaCorrected_RGBA', color, gammaValue),
-  reverseGammaCorrected:  async (color, gammaValue) => ipcRenderer.invoke('reverseGammaCorrected',  color, gammaValue),
-  intToRGBA:  async (colorValue) => ipcRenderer.invoke('intToRGBA',  colorValue),
+  reverseGammaCorrected: async (color, gammaValue) => ipcRenderer.invoke('reverseGammaCorrected', color, gammaValue),
+  intToRGBA: async (colorValue) => ipcRenderer.invoke('intToRGBA', colorValue),
 
   openUrlInBrowser: (url) => { shell.openExternal(url); },
 
-    // #endregion
+  // #endregion
 
-    getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo), 
-    getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo), 
+  getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo),
+  getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo),
 
-    downloadFile: (url, filePath) => ipcRenderer.send('download-file', url, filePath),
-    onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, progress) => callback(progress)),
+  downloadFile: (url, filePath) => ipcRenderer.send('download-file', url, filePath),
+  onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, progress) => callback(progress)),
 
-    runInstaller: (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
-    
+  runInstaller: (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
+
 
 });

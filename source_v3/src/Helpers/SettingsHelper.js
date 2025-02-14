@@ -8,13 +8,10 @@ import fileHelper from './FileHelper';
 import Log from './LoggingHelper.js';
 import Util from './Utils.js';
 
-
+/*----------------------------------------------------------------------------------------------------------------------------*/
 let programSettings = null; // Holds the Program Settings in memory
 const defaultSettingsPath = fileHelper.getAssetPath('data/Settings.json');
 const programSettingsPath = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
-
-
-
 const InstallationStatus = {
   NEW_SETTINGS: 'newSettings',
   UPGRADING_USER: 'upgradingUser',
@@ -23,14 +20,15 @@ const InstallationStatus = {
 };
 // Determine the Install Status of the V3 Program:
 let installationStatus = InstallationStatus.EXISTING_INSTALL; // Default status
+/*----------------------------------------------------------------------------------------------------------------------------*/
 
-
+// #region Program Settings
 
 /** * Check if the Settings JSON exists, if it does not, creates a default file and returns 'false'
  */
 export const initializeSettings = async () => {
   try {
-    console.log('programSettingsPath',programSettingsPath);
+    console.log('programSettingsPath', programSettingsPath);
     const userSettingsDir = path.dirname(programSettingsPath); // Get the directory path
     //console.log('Initializing Settings...Main');
 
@@ -80,13 +78,34 @@ const loadSettings = () => {
     }
     const data = fs.readFileSync(programSettingsPath, { encoding: "utf8", flag: 'r' });
     //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
-    
+
     programSettings = JSON.parse(data);
     return programSettings;
   } catch (error) {
     throw error;
   }
 };
+
+/** * Save changes on the settings back to the JSON file
+ * @param {*} settings must 'JSON.stringify' the object before sending it here  */
+async function saveSettings(settings) {
+  try {
+    //console.log(settings);
+    await writeFile(programSettingsPath, settings, { encoding: "utf8", flag: 'w' });
+
+    //fs.writeFileSync(path, data, { encoding: "utf8", flag: 'a+' }); 
+    //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
+
+    programSettings = JSON.parse(settings); //<- Updates the Settings
+    console.log('Settings Saved Successfully');
+
+    return programSettings;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// #endregion
 
 // #region Global & User Settings
 
@@ -106,13 +125,13 @@ const LoadGlobalSettings = () => {
       const dataProc = JSON.parse(dataRaw);
       data.Presets = dataProc.Presets;
     }
-    
+
     return data;
   } catch (error) {
     throw error;
   }
 };
-async function saveGlobalSettings (settings) {
+async function saveGlobalSettings(settings) {
   try {
     const _path_A = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
     return fileHelper.writeJsonFile(_path_A, settings, true);
@@ -130,17 +149,18 @@ const LoadUserSettings = () => {
     } else {
       //404 - File doesnt exists
       data = {
-        Name: "GlobalSettings",
-        Title: "Global Settings",
-        Elements: [ ]
+        Name: "UserSettings",
+        Title: "User Settings",
+        Description: "These settings are preserved between upgrades and take precedence over any applied themes.",
+        Elements: []
       };
-    }   
+    }
     return data;
   } catch (error) {
     throw error;
   }
 };
-async function saveUserSettings (settings) {
+async function saveUserSettings(settings) {
   try {
     const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
     return fileHelper.writeJsonFile(_path_A, settings, true);
@@ -201,6 +221,8 @@ async function RemoveFromUserSettings(settings) {
 
 // #endregion
 
+// #region Game Instances
+
 /** * Adds a new Instance from the Game's Path.
  * @param {*} NewInstancePath Full path to the game
  * @param {*} settings Current Settings
@@ -256,26 +278,6 @@ function addNewInstance(NewInstancePath, settings) {
   }
 
   return JSON.parse(JSON.stringify(settings));
-};
-
-/** * Save changes on the settings back to the JSON file
- * @param {*} settings must 'JSON.stringify' the object before sending it here
- */
-async function saveSettings (settings) {
-  try {
-    //console.log(settings);
-    await writeFile(programSettingsPath, settings, { encoding: "utf8", flag: 'w' });
-
-    //fs.writeFileSync(path, data, { encoding: "utf8", flag: 'a+' }); 
-    //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
-
-    programSettings = JSON.parse(settings); //<- Updates the Settings
-    console.log('Settings Saved Successfully');
-
-    return programSettings;
-  } catch (error) {
-    throw error;
-  }
 };
 
 /** * Retrives the Active Instance from the Settings
@@ -347,9 +349,12 @@ const getInstanceByName = (InstanceFullName) => {
   }
 };
 
+// #endregion
+
+// #region Mod Installing
+
 /** Installs the Mod and themes in their respective locations
- * @param {*} gameInstance Game instance where to install the mod
- */
+ * @param {*} gameInstance Game instance where to install the mod  */
 async function installEDHMmod(gameInstance) {
   console.log('------ Installing Mod --------');
   let Response = { game: '', version: '' };
@@ -379,7 +384,7 @@ async function installEDHMmod(gameInstance) {
     // #endregion
 
     // #region SymLinks
-    
+
     //Check for Game Symlinks for 'EDHM-ini' & ShaderFixes
     const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM'); console.log('Symlink_TargetFolder ->', Symlink_TargetFolder);
     const edhmSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'EDHM-Ini'));
@@ -388,21 +393,21 @@ async function installEDHMmod(gameInstance) {
     if (!fs.existsSync(edhmSymLinkTarget)) {
       throw new Error('Could not create the target folder for Simlink "EDHM-Ini".');
     }
-    
-    const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget,   path.join( gameInstance.path, 'EDHM-ini'));
-    const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join( gameInstance.path, 'ShaderFixes'));
+
+    const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gameInstance.path, 'EDHM-ini'));
+    const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gameInstance.path, 'ShaderFixes'));
     console.log('SymlinkEdhmIni: ', SymlinkEdhmIni);
     console.log('SymlinkShaders: ', SymlinkShaders);
-    
+
     // #endregion
 
     // #region Un-Zipping Mod Files
 
     const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM-v*.zip`); //<- ODYSS_EDHM-v19.06.zip
     if (edhmZipFile) {
-      console.log('edhmZipFile: ', edhmZipFile); 
+      console.log('edhmZipFile: ', edhmZipFile);
       const unzipGamePath = gameInstance.path;
-      const versionMatch =  edhmZipFile.match(/v\d+\.\d+/);      console.log('version', versionMatch);
+      const versionMatch = edhmZipFile.match(/v\d+\.\d+/); console.log('version', versionMatch);
 
       console.log('Unziping into -> ', unzipGamePath);
       const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
@@ -415,7 +420,7 @@ async function installEDHMmod(gameInstance) {
     } else {
       throw new Error('404 - Zip File Not Found');
     }
-    
+
     // #endregion
 
   } catch (error) {
@@ -434,8 +439,7 @@ async function CheckEDHMinstalled(gamePath) {
 
 /** Removes all EDHM Files and Folders from the Game path. * 
  * @param {*} gameInstance Instance of the Game where EDHM is installed.
- * @returns true/false
- */
+ * @returns true/false  */
 async function UninstallEDHMmod(gameInstance) {
   console.log('------ Un-Installing Mod --------');
   let fileDeleted = false;
@@ -448,13 +452,13 @@ async function UninstallEDHMmod(gameInstance) {
 
     // Close the Game if is Running:
     const _R = new Promise((resolve, reject) => {
-        fileHelper.terminateProgram('EliteDangerous64.exe', (error, result) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(result);
-            }
-        });
+      fileHelper.terminateProgram('EliteDangerous64.exe', (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      });
     });
 
     // List the Files for Deletion:
@@ -477,7 +481,7 @@ async function UninstallEDHMmod(gameInstance) {
         }
       } catch (err) {
         //On Error Continue with the next file
-        console.warn(`Failed to delete ${file}:`, err);        
+        console.warn(`Failed to delete ${file}:`, err);
       }
     }
 
@@ -489,6 +493,7 @@ async function UninstallEDHMmod(gameInstance) {
   return fileDeleted;
 }
 
+// #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
 
@@ -550,7 +555,7 @@ ipcMain.handle('saveUserSettings', (event, settings) => {
   } catch (error) {
     throw error;
   }
-}); 
+});
 ipcMain.handle('AddToUserSettings', (event, newElement) => {
   try {
     return AddToUserSettings(newElement);
@@ -596,21 +601,21 @@ ipcMain.handle('active-instance', () => {
   } catch (error) {
     throw error;
   }
-}); 
+});
 ipcMain.handle('getActiveInstanceEx', () => {
   try {
     return getActiveInstanceEx();
   } catch (error) {
     throw error;
   }
-}); 
+});
 ipcMain.handle('getInstanceByName', (event, instanceName) => {
   try {
     return getInstanceByName(instanceName);
   } catch (error) {
     throw error;
   }
-}); 
+});
 
 ipcMain.handle('installEDHMmod', (event, gameInstance) => {
   try {
@@ -618,21 +623,21 @@ ipcMain.handle('installEDHMmod', (event, gameInstance) => {
   } catch (error) {
     throw error;
   }
-}); 
+});
 ipcMain.handle('CheckEDHMinstalled', (event, gamePath) => {
   try {
     return CheckEDHMinstalled(gamePath);
   } catch (error) {
     throw error;
   }
-}); 
+});
 ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
   try {
     return UninstallEDHMmod(gameInstance);
   } catch (error) {
     throw error;
   }
-}); 
+});
 
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/

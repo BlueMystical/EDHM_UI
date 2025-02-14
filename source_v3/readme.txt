@@ -109,6 +109,12 @@ App Data (Roaming)  %APPDATA%         $HOME/.config         app.getPath('userDat
 Local App Data      %LOCALAPPDATA%    $HOME/.local/share,   app.getPath('appData')
                                       $HOME/Library/Application Support' (macOS)	
 ------------------------------------------------------------------------------------------
+Screen Resolutions:
+720p  (HD):       1280 x 720 pixels
+1080p (Full HD):  1920 x 1080 pixels  <-- Program is designed for 1080p
+1440p (Quad HD):  2560 x 1440 pixels
+4K   (Ultra HD):  3840 x 2160 pixels
+------------------------------------------------------------------------------------------
 ** DATA STRUCTURE:
 theme-template = {
 ...
@@ -169,7 +175,7 @@ xml_profile: [
   ],
 };
 
-
+-------------------------------------------------------
 iniReader = 
 {
     StartupProfile: {
@@ -274,10 +280,6 @@ npm install split-pane
 npm install mitt
 npm install zip-lib
 npm install find-process
-
-
-
-
 
 
 // ------- RUNNING THE APP ----------------

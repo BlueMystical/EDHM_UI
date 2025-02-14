@@ -319,7 +319,8 @@ function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
         r: Math.round(this.Convert_sRGB_ToLinear(normalize(color.r), gammaValue) * 10000) / 10000,
         g: Math.round(this.Convert_sRGB_ToLinear(normalize(color.g), gammaValue) * 10000) / 10000,
         b: Math.round(this.Convert_sRGB_ToLinear(normalize(color.b), gammaValue) * 10000) / 10000,
-        a: Math.round(normalize(color.a) * 10000) / 10000 // Alpha remains linear
+        a: Math.round(color.a * 10000) / 10000 // Alpha remains linear
+        //a: Math.round(normalize(color.a) * 10000) / 10000 // Alpha remains linear
     };
 
     return gammaCorrected;

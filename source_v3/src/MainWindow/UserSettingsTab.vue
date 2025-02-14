@@ -120,7 +120,7 @@ export default {
     async OnInitialize() {
       this.dataSource = await window.api.LoadUserSettings();
       this.presets = this.dataSource.Presets;
-      console.log('Loading User Settings: ', this.dataSource);
+      //console.log('Loading User Settings: ', this.dataSource);
     },
 
     // #region Load Data
@@ -359,7 +359,7 @@ export default {
      * @param key complete Key as is in the Ini files     */
     selectRow(key) {
       this.selectedKey = key;
-      console.log('Selected: ', key)
+      //console.log('Selected: ', key)
     },
 
     // #endregion
@@ -439,6 +439,7 @@ export default {
   beforeUnmount() {
     eventBus.off('DoLoadUserSettings', this.OnInitialize);
     eventBus.off('FindKeyInUserSettings', this.DoFindAndSelectRow);
+
     this.$nextTick(() => {
       if (this.activePopover) {
         this.activePopover.dispose();
@@ -450,15 +451,23 @@ export default {
 </script>
 
 <style scoped>
-.selected-row {
-  background-color: #fc9701;
-  /* Example highlight color */
-}
-
 .data-table {
   width: 100%;
   height: 100%;
   overflow-y: auto;
+}
+.data-table::-webkit-scrollbar {
+  width: 8px;
+}
+.data-table::-webkit-scrollbar-track {
+  background: #333;
+}
+.data-table::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 10px;
+}
+.data-table::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
 }
 
 .table {
@@ -486,9 +495,21 @@ export default {
 }
 
 .info-icon {
-  margin-left: 0.5rem;
-  /* Space between text and icon */
-  cursor: pointer;
-  /* Indicate icon is clickable */
+  margin-left: 0.5rem;  /* Space between text and icon */
+  cursor: pointer;  /* Indicate icon is clickable */
+}
+
+.range-container {
+  position: relative;
+  width: 100%;
+  height: 38px;
+}
+
+.slider-value-label {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #f8f9fa;
+  text-align: left;
 }
 </style>

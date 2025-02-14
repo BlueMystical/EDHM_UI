@@ -114,7 +114,7 @@ export default {
         EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
         EventBus.emit('DoLoadGlobalSettings', null); //<- Event Listened at GlobalSettingsTab.vue
         EventBus.emit('DoLoadUserSettings', null); //<- Event Listened at UserSettingsTab.vue
-        
+                
         if (this.settings.CheckForUpdates === undefined) {
           // New Property, if is not there, we simply add it and save the change.
           this.settings.CheckForUpdates = true;
@@ -258,11 +258,34 @@ export default {
     // #endregion
 
     // #region Themes changed
+
+    /** When all Themes are Loaded. 
+     * @param event Contains the data of the themes     */
+     OnThemesLoaded(event) {
+      try {
+        this.themesLoaded = event;
+        //console.log('OnThemesLoaded:', this.themesLoaded );
+
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
+
+    /** When a Theme Template is Loaded. 
+     * @param event Contains the template of the theme     */
+     OnTemplateLoaded(event) {
+      try {        
+        this.themeTemplate = JSON.parse(JSON.stringify(event));
+        console.log('Theme Loaded: ', this.themeTemplate.credits.theme);
+        EventBus.emit('InitializeProperties', this.themeTemplate); //<- Event Listened at PropertiesTabEx.vue
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
     
     /** This will take your currently applied settings and Save them into the Selected Theme * 
-   * @param e Selected Theme Data
-   */
-    async OnUpdateTheme(e) {
+   * @param e Selected Theme Data   */
+    async DoUpdateTheme(e) {
       if (e && e.theme != null) { //<-- The Selected Theme
         const NewThemeData = JSON.parse(JSON.stringify(e.theme));
         const CurrentSettings = JSON.parse(JSON.stringify(e.source));
@@ -277,30 +300,6 @@ export default {
       }
     },
 
-    /** When all Themes are Loaded. 
-     * @param event Contains the data of the themes
-     */
-     OnThemesLoaded(event) {
-      try {
-        this.themesLoaded = event;
-        //console.log('OnThemesLoaded:', this.themesLoaded );
-
-      } catch (error) {
-        EventBus.emit('ShowError', error);
-      }
-    },
-    /** When the Theme Template is Loaded. 
-     * @param event Contains the template of the theme
-     */
-    OnTemplateLoaded(event) {
-      try {
-        this.themeTemplate = event;
-        //console.log('OnTemplateLoaded:', this.themeTemplate );
-      } catch (error) {
-        EventBus.emit('ShowError', error);
-      }
-    },
-    
     // #endregion
 
     // #region SearchBox
@@ -620,7 +619,7 @@ export default {
 
     EventBus.on('OnCreateTheme', this.OnCreateTheme);
     EventBus.on('OnEditTheme', this.OnCreateTheme);
-    EventBus.on('OnUpdateTheme', this.OnUpdateTheme);
+    EventBus.on('DoUpdateTheme', this.DoUpdateTheme);
 
     EventBus.on('OnShowXmlEditor', this.OnShowXmlEditor);
     EventBus.on('LookForUpdates', this.LookForUpdates);
@@ -638,7 +637,7 @@ export default {
 
     EventBus.off('OnCreateTheme', this.OnCreateTheme);
     EventBus.off('OnEditTheme', this.OnCreateTheme);
-    EventBus.off('OnUpdateTheme', this.OnUpdateTheme);
+    EventBus.off('DoUpdateTheme', this.DoUpdateTheme);
 
     EventBus.off('OnShowXmlEditor', this.OnShowXmlEditor);
     EventBus.off('LookForUpdates', this.LookForUpdates);

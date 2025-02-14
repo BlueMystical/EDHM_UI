@@ -198,7 +198,7 @@ export default {
       if (this.themes && this.themes.length > 0) {
         this.images = this.themes.filter(theme => !favoritesOnly || theme.file.isFavorite === favoritesOnly);
       }
-      console.log('Filtering Favorites: ', this.images.length);
+      //console.log('Filtering Favorites: ', this.images.length);
     },
 
     /** When Fired, Selects and Loads a given Theme   * 

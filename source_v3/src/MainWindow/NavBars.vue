@@ -60,6 +60,7 @@
 
         <button id="cmdApplyTheme" class="btn btn-apply-theme" @click="applyTheme">Apply Theme</button>
 
+        <!-- History Box -->
         <select class="form-select" id="cboHistoryBox" @change="OnHistoryBox_Click" v-model="selectedHistory"
           data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="History Box">
           <option default value="mnuDummy">.</option>
@@ -114,7 +115,7 @@
             <ThemeTab v-show="activeTab === 'themes'" class="tab-content" /></div>
 
         <div class="tab-pane fade" id="properties-pane" role="tabpanel" aria-labelledby="properties-tab" tabindex="0">
-            <PropertiesTab v-show="activeTab === 'properties'" class="tab-content" @onThemeChanged="OnThemeValuesChanged"/></div>
+            <PropertiesTabEx class="tab-content" @OnProperties_Changed="OnThemeValuesChanged"/></div>
         
         <div class="tab-pane fade" id="user-settings-pane" role="tabpanel" aria-labelledby="user-settings-tab" tabindex="0">
           <UserSettingsTab class="tab-content" /></div>
@@ -174,11 +175,11 @@ import { ref } from 'vue';
 import EventBus from '../EventBus';
 import ThemeTab from './ThemeTab.vue';
 import HUD_Areas from './HudImage.vue';
-import PropertiesTab from './PropertiesTab.vue';
+import PropertiesTabEx from './PropertiesTabEx.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';
-import defaultTemplate from '../data/ODYSS/ThemeTemplate.json';
-let themeTemplate = JSON.parse(JSON.stringify(defaultTemplate));
+import defaultTemplateString from '../data/ODYSS/ThemeTemplate.json';
+let defaultTemplate = JSON.parse(JSON.stringify(defaultTemplateString));
 
 //Enable Tooltips:
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -210,6 +211,7 @@ export default {
       programSettings: {},
       themeTemplate: {},
       ActiveInstance: {},
+      currentSettingsPath: '',    //<- Full pat to the Current Settings JSON stored in the Game Dir.
 
       historyOptions: [],
       selectedHistory: '',
@@ -230,7 +232,7 @@ export default {
   components: {
     ThemeTab,
     HUD_Areas,
-    PropertiesTab,
+    PropertiesTabEx,
     UserSettingsTab,
     GlobalSettingsTab
   },
@@ -285,11 +287,14 @@ export default {
       try {
         if (theme && theme.file) {
           const template = JSON.parse(JSON.stringify(theme.file));
-          this.themeTemplate = await window.api.LoadTheme(template.path);     //console.log('Loaded theme: ', this.themeTemplate);
+          this.themeTemplate = await window.api.LoadTheme(template.path);     
           this.themeTemplate.credits = theme.file.credits;
-          themeTemplate = this.themeTemplate;
 
-          EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard in 'PropertiesTab.vue' and on 'App.vue'
+          if (template.credits.theme === 'Current Settings') {
+              this.currentSettingsPath = template.path;
+          }
+
+          EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard on 'App.vue'
           this.statusText = 'Theme: ' + theme.name;
         }
       } catch (error) {
@@ -301,23 +306,35 @@ export default {
       try {
         this.ActiveInstance = await window.api.getActiveInstance();
         console.log('1. ActiveInstance:', this.ActiveInstance);
-        console.log('2. ThemeTemplate:', this.themeTemplate);
 
         const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
         const GameType = this.ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
         const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);
-        console.log('3. Preparing all the Paths:', GamePath);
+        console.log('2. Preparing all the Paths:', GamePath);
+
+        this.themeTemplate = await window.api.LoadTheme(GamePath); //<- Loads the Current Settings from the JSON file at Game Dir.
+        const template = JSON.parse(JSON.stringify(this.themeTemplate));
+        console.log('3. ThemeTemplate:', this.themeTemplate);
 
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
         console.log('4. Get Default Inis:', defaultINIs);
 
-        const updatedInis = await window.api.ApplyTemplateValuesToIni(JSON.parse(JSON.stringify(this.themeTemplate)), defaultINIs);
-        console.log('5. Applying Changes to the INIs...', updatedInis);
+        
 
-        console.log('6. Saving the INI files..');
+        // TODO: 5. Apply Global Settings
+        
+        // TODO: 6. Apply User Setings
+
+        /*----------------------------------------------------------------------------------*/
+        
+        const updatedInis = await window.api.ApplyTemplateValuesToIni(template, defaultINIs);        
+        console.log('7. Applying Changes to the INIs...', updatedInis);
+
+        /*----------------------------------------------------------------------------------*/
+        console.log('8. Saving the INI files..');
         const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
         if (_ret) {
-          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Applied!'` });
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${template.credits.theme}' Applied!'` });
         }
         setTimeout(() => {
           this.showSpinner = false;
@@ -334,13 +351,13 @@ export default {
         if (this.ActiveInstance.path != '') {
           const themePath = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
 
-          themeTemplate = await window.api.GetCurrentSettings(themePath);
-          themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM  
-          //console.log('LoadCurrentSettings: ', themeTemplate);
+          this.themeTemplate = await window.api.GetCurrentSettings(themePath);
+          this.themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM  
+          //console.log('LoadCurrentSettings: ', this.themeTemplate);
 
-          if (themeTemplate && !isEmpty(themeTemplate)) {
+          if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
             EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'            
-            return JSON.parse(JSON.stringify(themeTemplate));
+            return JSON.parse(JSON.stringify(this.themeTemplate));
           }
         }
       } catch (error) {
@@ -399,12 +416,12 @@ export default {
       }
     },
     async editTheme_Click(event) {
-      if (themeTemplate && !isEmpty(themeTemplate)) {
+      if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
         //console.log(themeTemplate);
-        const tName = themeTemplate.credits.theme; //console.log(tName);
+        const tName = this.themeTemplate.credits.theme; //console.log(tName);
         if (tName != "Current Settings") {
           console.log('Editing theme: ', tName);
-          EventBus.emit('OnEditTheme', { theme: JSON.parse(JSON.stringify(themeTemplate)) }); //<- Event Listened on App.vue
+          EventBus.emit('OnEditTheme', { theme: JSON.parse(JSON.stringify(this.themeTemplate)) }); //<- Event Listened on App.vue
         }
         else {
           this.statusText = 'Current Settings can not be Edited!';
@@ -413,13 +430,13 @@ export default {
       }
     },
     async exportTheme_Click(event) {
-      if (themeTemplate && !isEmpty(themeTemplate)) {
+      if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
         //console.log(themeTemplate);
-        const tName = themeTemplate.credits.theme; //console.log(tName);
+        const tName = this.themeTemplate.credits.theme; //console.log(tName);
         if (tName != "Current Settings") {
           console.log('Exporting theme: ', tName);
 
-          const _ret = await window.api.ExportTheme(JSON.parse(JSON.stringify(themeTemplate))); console.log(_ret);
+          const _ret = await window.api.ExportTheme(JSON.parse(JSON.stringify(this.themeTemplate))); console.log(_ret);
           if (_ret) {
             EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${tName}' exported successfully!` });
           }
@@ -431,9 +448,9 @@ export default {
       }
     },
     async saveTheme_Click(event) {
-      if (themeTemplate && !isEmpty(themeTemplate)) {
-        //console.log(themeTemplate);
-        const tName = themeTemplate.credits.theme; //console.log(tName);
+      if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
+        //console.log(this.themeTemplate);
+        const tName = this.themeTemplate.credits.theme; //console.log(tName);
         if (tName != "Current Settings") {
           console.log('Updating theme: ', tName);
           const options = {
@@ -448,8 +465,8 @@ export default {
           const result = await window.api.ShowMessageBox(options); //console.log(result);
           if (result && result.response === 1) {
             const curSettings = await this.LoadCurrentSettings();
-            EventBus.emit('OnUpdateTheme', {
-              theme: JSON.parse(JSON.stringify(themeTemplate)),
+            EventBus.emit('DoUpdateTheme', {
+              theme: JSON.parse(JSON.stringify(this.themeTemplate)),
               source: curSettings
             }); //<- Event Listened on App.vue
           }
@@ -461,7 +478,9 @@ export default {
       }
     },
     reloadThemes_Click(e) {
-      EventBus.emit('loadThemes', e); //<- Listen in ThemeTab.vue
+      EventBus.emit('loadThemes', e);           //<- Listen in ThemeTab.vue
+      EventBus.emit('DoLoadGlobalSettings', e); //<- Listen in GlobalSettings.vue
+      EventBus.emit('DoLoadUserSettings', e);   //<- Listen in UserSettings.vue
     },
 
     /** Toggles the Favorites list
@@ -554,11 +573,11 @@ export default {
 
       // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
       //console.log('themesLoaded:', this.themesLoaded);
-      //console.log('themeTemplate:', themeTemplate );
+      //console.log('themeTemplate:', this.themeTemplate );
 
       try {
         //1. Looking on the HUD settings:
-        const allElements = themeTemplate.ui_groups.reduce((acc, group) => {
+        const allElements = this.themeTemplate.ui_groups.reduce((acc, group) => {
           if (group.Elements) {
             const elementsWithParent = group.Elements.map(element => ({
               ...element,
@@ -666,11 +685,23 @@ export default {
       this.programSettings = data;
       //console.log('programSettings: ', programSettings);
       this.modVersion = data.Version_ODYSS;
-    },
+    },    
 
-    OnThemeValuesChanged(e) {
-      // Evento recibido del componente PropertiesTab.vue al cambiar los valores de un tema      
-      themeTemplate = e; //console.log('OnThemeValuesChanged:', e);
+    async OnThemeValuesChanged(ui_group) {
+      // Evento recibido del componente PropertiesTab.vue al cambiar los valores de un tema     
+      if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
+        /* ALL CHANGES ARE STORED IN THE 'Current Settings' FILE AT THE GAME DIRECTORY.  */
+        console.log('Values Updated for:', ui_group.Name); 
+        const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
+        const areaIndex = this.themeTemplate.ui_groups.findIndex(item => item.Name === ui_group.Name); 
+        if (areaIndex >= 0) {
+          this.themeTemplate.ui_groups[areaIndex] = ui_group;
+          this.themeTemplate.path = GamePath;
+
+          const saved = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
+          console.log('Current Settings Saved?: ', saved);
+        }
+      }
     },
 
     OnDownloadStart(data) {
