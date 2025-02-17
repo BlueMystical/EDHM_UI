@@ -209,7 +209,7 @@ export default {
         if (theme && !isEmpty(theme)) {
           if (this.themes && !isEmpty(this.themes)) {
             const searchIndex = theme.id;                                             //console.log('searchIndex: ', searchIndex);
-            const selectedItem = this.themes.find(item => item.id === searchIndex);   //console.log('selectedItem: ', selectedItem);
+            const selectedItem = this.themes.find(item => item.id === searchIndex);   console.log('Clicked Theme: ', selectedItem.name);
 
             if (selectedItem) {
               this.selectedImageId = searchIndex;
@@ -221,7 +221,7 @@ export default {
                   selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
               });
-              EventBus.emit('ThemeClicked', selectedItem); //<- this event will be heard in 'MainNavBars.vue'
+              EventBus.emit('ThemeClicked', JSON.parse(JSON.stringify(selectedItem))); //<- this event will be heard in 'MainNavBars.vue'
             }
           }
           else {

@@ -3,6 +3,7 @@ import path from 'node:path';
 import fs from 'fs';
 import { copyFileSync, constants } from 'node:fs';
 import ini from './IniHelper.js';
+import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
 import fileHelper from './FileHelper';
 import Util from './Utils.js';
@@ -78,7 +79,7 @@ const getThemes = async (dirPath) => {
     return files;
 
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -99,6 +100,8 @@ const LoadTheme = async (themeFolder) => {
       const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');  
       const ThemeINIs = await LoadThemeINIs(themeFolder); 
 
+      //console.log('INI-Advanced:', ThemeINIs.Advanced);
+
       template = fileHelper.loadJsonFile(defaultThemePath);
       template = await ApplyIniValuesToTemplate(template, ThemeINIs);      
       template.credits = await GetCreditsFile(themeFolder);
@@ -106,7 +109,7 @@ const LoadTheme = async (themeFolder) => {
       template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
   return template;
 };
@@ -151,7 +154,7 @@ async function FavoriteTheme(themePath) {
     return _ret;
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 /** Removes the given theme from Favorites * 
@@ -165,7 +168,7 @@ async function UnFavoriteTheme(themePath) {
     return _ret;
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -192,7 +195,7 @@ async function GetCurrentSettingsTheme(themePath) {
 
   } catch (error) {
     console.log(error);
-    throw error;    
+    throw new Error(error.message + error.stack);    
   }
   return null;
 };
@@ -238,7 +241,7 @@ async function CreateNewTheme(credits) {
     }
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }
 
@@ -293,7 +296,7 @@ async function UpdateTheme(themeData, source) {
     }
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }
 
@@ -321,7 +324,7 @@ async function SaveTheme(themeData) {
     }
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }
 
@@ -377,7 +380,7 @@ async function ExportTheme(themeData) { //
     }
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }
 
@@ -395,11 +398,18 @@ const LoadThemeINIs = async (folderPath) => {
   try {
 
     //console.log('Loading Inis from: ', folderPath);
-    const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
+  /*  const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
       await ini.loadIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini')),
       await ini.loadIniFile(getIniFilePath(folderPath, 'Advanced.ini')),
       await ini.loadIniFile(getIniFilePath(folderPath, 'SuitHud.ini')),
       await ini.loadIniFile(getIniFilePath(folderPath, 'XML-Profile.ini')),
+    ]);*/
+
+   const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
+      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini')),
+      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'Advanced.ini')),
+      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'SuitHud.ini')),
+      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'XML-Profile.ini')),
     ]);
 
     return {
@@ -411,7 +421,7 @@ const LoadThemeINIs = async (folderPath) => {
     }
 
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -423,17 +433,24 @@ const LoadThemeINIs = async (folderPath) => {
 const SaveThemeINIs = async (folderPath, themeINIs) => {
   try {
 
-    await Promise.all([
+ /*   await Promise.all([
       await ini.saveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), themeINIs.StartupProfile),
       await ini.saveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), themeINIs.Advanced),
       await ini.saveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), themeINIs.SuitHud),
       await ini.saveIniFile(getIniFilePath(folderPath, 'XML-Profile.ini'), themeINIs.XmlProfile),
+    ]);*/
+
+   await Promise.all([
+      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), themeINIs.StartupProfile),
+      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), themeINIs.Advanced),
+      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), themeINIs.SuitHud),
+      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'XML-Profile.ini'), themeINIs.XmlProfile),
     ]);
     return true;
 
   } catch (error) {
     console.error('Error at ThemeHelper/SaveThemeINIs():', error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -444,15 +461,25 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
           for (const element of group.Elements) {
+
+            const fileName = element.File.replace(/-/g, '');  // Remove hyphens
+            const section = element.Section;  // Convert section to lowercase
             const iniKey = element.Key;
             const defaultValue = element.Value;
             const foundValue = ini.findValueByKey(iniValues, element);
+            //const foundValue = INIparser.getKey(iniValues[fileName], section, key );
+            console.log(foundValue);
             /* Can be either an Array of Key/Values or a Single Decimal Value
             foundValue: [
               { key: 'x127', value: '0.063' },
               { key: 'y127', value: '0.7011' },
               { key: 'z127', value: '1' }
             ] 
+              {
+                  "Key": "x228",
+                  "Value": 0.3663,
+                  "Comment": "** Shield Up Colour **"
+              }
               or
             foundValue: 100.0 */
 
@@ -518,7 +545,7 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
       }
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
   return template;
 };
@@ -542,18 +569,30 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
               //Multi Key
               const keys = element.Key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
               if (Array.isArray(keys) && keys.length > 2) {
+
                 const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                 const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
-                // Map keys to values 
                 const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
+
                 keys.forEach((key, index) => {
-                  const value = values[index] === undefined ? element.value : values[index];
-                  iniValues[fileName][section][key] = parseFloat(values[index]); //parseFloat(value.toFixed(3)); // 
+                  const value = parseFloat(values[index] === undefined ? element.value : values[index]);
+                  try {                    
+                    INIparser.setKey(iniValues[fileName], section, key, value);
+                  } catch (error) {
+                    console.log(fileName + ', ' + section + ', ' + key + ': ' + value, error.message);
+                  }                
+
+                  //iniValues[fileName][section][key] = parseFloat(values[index]); //parseFloat(value.toFixed(3)); // 
                 });
               }
             } else {
               //Single Key:
-              iniValues[fileName][section][iniKey] = parseFloat(element.Value); //parseFloat(element.Value.toFixed(3)); // 
+              try {
+                //iniValues[fileName][section][iniKey] = parseFloat(element.Value); //parseFloat(element.Value.toFixed(3)); // 
+                INIparser.setKey(iniValues[fileName], section, iniKey, parseFloat(element.Value));
+              } catch (error) {
+                console.log(fileName + ', ' + section + ', ' + iniKey + ': ' + value, error.message);
+              }              
             }
           }
         }
@@ -611,7 +650,7 @@ ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemem
   } catch (error) {
     console.error('Failed to load history elements:', error);
     Log.Error(error.message, error.stack);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -634,7 +673,7 @@ ipcMain.handle('save-history', async (event, historyFolder, theme) => {
   } catch (error) {
     console.error('Failed to add theme to history:', error);
     Log.Error(error.message, error.stack);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -644,7 +683,7 @@ ipcMain.handle('get-themes', async (event, dirPath) => {
     const files = await getThemes(resolvedPath);
     return files;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -654,7 +693,7 @@ ipcMain.handle('LoadTheme', async (event, dirPath) => {
     const template = await LoadTheme(resolvedPath);
     return template;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -662,7 +701,7 @@ ipcMain.handle('LoadThemeINIs', async (event, folderPath) => {
   try {
     return LoadThemeINIs(folderPath);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -670,7 +709,7 @@ ipcMain.handle('SaveThemeINIs', async (event, folderPath, themeINIs) => {
   try {
     return SaveThemeINIs(folderPath, themeINIs);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -678,7 +717,7 @@ ipcMain.handle('reverseGammaCorrected', async (event, color, gammaValue) => {
   try {
     return Util.reverseGammaCorrected(color.r, color.g, color.b, color.a, gammaValue);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -686,7 +725,7 @@ ipcMain.handle('GetGammaCorrected_RGBA', async (event, color, gammaValue) => {
   try {
     return Util.GetGammaCorrected_RGBA(color, gammaValue);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -694,7 +733,7 @@ ipcMain.handle('intToRGBA', async (event, colorInt) => {
   try {
     return Util.intToRGBA(colorInt);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -704,7 +743,7 @@ ipcMain.handle('apply-ini-values', async (event, template, iniValues) => {
     const updatedTemplate = await ApplyIniValuesToTemplate(template, iniValues);
     return updatedTemplate;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('ApplyTemplateValuesToIni', async (event, template, iniValues) => {
@@ -712,7 +751,7 @@ ipcMain.handle('ApplyTemplateValuesToIni', async (event, template, iniValues) =>
     const updatedTemplate = await ApplyTemplateValuesToIni(template, iniValues);
     return updatedTemplate;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -720,14 +759,14 @@ ipcMain.handle('FavoriteTheme', async (event, theme) => {
   try {
     return FavoriteTheme(theme);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('UnFavoriteTheme', async (event, theme) => {
   try {
     return UnFavoriteTheme(theme);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -735,21 +774,21 @@ ipcMain.handle('CreateNewTheme', async (event, credits) => {
   try {
     return CreateNewTheme(credits);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('UpdateTheme', async (event, theme, source) => {
   try {
     return UpdateTheme(theme, source);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }); 
 ipcMain.handle('SaveTheme', async (event, theme) => {
   try {
     return SaveTheme(theme);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -757,7 +796,7 @@ ipcMain.handle('ExportTheme', async (event, themeData) => {
   try {
     return ExportTheme(themeData);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -765,7 +804,7 @@ ipcMain.handle('GetCurrentSettings', async (event, folderPath) => {
   try {
     return GetCurrentSettingsTheme(folderPath);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }); 
 
@@ -786,7 +825,7 @@ ipcMain.handle('GetElementsImage', (event, key) => {
 
   } catch (error) {
     console.error("Error in GetElementsImage:", error); // Log the error for debugging
-    throw error; // Re-throw the error to be handled by the caller
+    throw new Error(error.message + error.stack); // Re-throw the error to be handled by the caller
   }
 });
 

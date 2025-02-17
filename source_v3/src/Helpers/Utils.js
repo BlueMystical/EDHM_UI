@@ -348,7 +348,7 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
             result.a = this.safeRound(gammaA * 255);
         }
     } catch (error) {
-        throw error;
+        throw new Error(error.message + error.stack);
     }
 
     return result;
@@ -365,7 +365,7 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
 
         return this.reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
     } catch (error) {
-        throw error;
+        throw new Error(error.message + error.stack);
     }
 };
 

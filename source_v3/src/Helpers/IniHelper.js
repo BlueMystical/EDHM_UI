@@ -23,7 +23,7 @@ async function loadIniFile(filePath) {
 
     } catch (error) {
         //console.error(`Error loading INI file: ${filePath}`, error);
-        throw error;
+        throw new Error(error.message + error.stack);
     }
     return _ret;
 }
@@ -55,7 +55,7 @@ async function saveIniFile(filePath, iniData) {
       }
     } catch (error) {
         console.log(error);
-        throw error;
+        throw new Error(error.message + error.stack);
     }
     return _ret;
 }
@@ -100,7 +100,7 @@ function setValueInSection(iniData, section, key, value) {
     iniData[section][key] = value;
     _ret = true;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
   return _ret;
 }
@@ -140,7 +140,7 @@ function findValueByKey(data, searchItem) {
   
         if (sectionKey && fileData[sectionKey]) {
           keys.forEach(key => {
-            const value = fileData[sectionKey][key];
+            const value = fileData[sectionKey].Keys[key];
             if (value !== undefined) {
               results.push({ key, value });
               keyCount++; // Increment the counter for each found key
@@ -156,7 +156,7 @@ function findValueByKey(data, searchItem) {
       }
     } catch (error) {
       //console.error(error.message);
-      //throw error;
+      //throw new Error(error.message + error.stack);
     }
   
     // Return results as an array of key-value pairs, or the single value if only one key
@@ -173,14 +173,14 @@ ipcMain.handle('loadIniFile', async (event, filePath) => {
   try {
     return await loadIniFile(filePath);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }    
 });
 ipcMain.handle('saveIniFile', async (event, filePath, iniData) => {
   try {
     return saveIniFile(filePath, iniData);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }    
 });
 
@@ -188,14 +188,14 @@ ipcMain.handle('getValueFromSection', async (event, iniData, section, key, defau
   try {
     return getValueFromSection(iniData, section, key, defaultValue);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }    
 });
 ipcMain.handle('setValueInSection', async (event, iniData, section, key, value) => {
   try {
     return setValueInSection(iniData, section, key, value);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }    
 });
 

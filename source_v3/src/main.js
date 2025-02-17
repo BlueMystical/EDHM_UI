@@ -29,10 +29,7 @@ function createWindow() {
   });
 
   mainWindow.webContents.on('did-finish-load', () => {
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools(); 
-    // Disable the menu bar
-    Menu.setApplicationMenu(null);
+
   });
 
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
@@ -55,6 +52,11 @@ function createWindow() {
 app.on('ready', () => { 
   console.log('App is ready');
   createWindow(); 
+
+      // Open the DevTools.
+      mainWindow.webContents.openDevTools(); 
+      // Disable the menu bar
+      //Menu.setApplicationMenu(null);
 
   if (process.platform === 'win32') { 
     fileHelper.createWindowsShortcut.call(this); 

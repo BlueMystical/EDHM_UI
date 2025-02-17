@@ -115,7 +115,8 @@
             <ThemeTab v-show="activeTab === 'themes'" class="tab-content" /></div>
 
         <div class="tab-pane fade" id="properties-pane" role="tabpanel" aria-labelledby="properties-tab" tabindex="0">
-            <PropertiesTabEx class="tab-content" @OnProperties_Changed="OnThemeValuesChanged"/></div>
+             <PropertiesTabEx class="tab-content" @OnProperties_Changed="OnThemeValuesChanged"/>
+          </div>
         
         <div class="tab-pane fade" id="user-settings-pane" role="tabpanel" aria-labelledby="user-settings-tab" tabindex="0">
           <UserSettingsTab class="tab-content" /></div>
@@ -179,6 +180,7 @@ import PropertiesTabEx from './PropertiesTabEx.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
 import GlobalSettingsTab from './GlobalSettingsTab.vue';
 import defaultTemplateString from '../data/ODYSS/ThemeTemplate.json';
+
 let defaultTemplate = JSON.parse(JSON.stringify(defaultTemplateString));
 
 //Enable Tooltips:
@@ -282,19 +284,19 @@ export default {
      * @param theme Data of selected Theme
      */
     async LoadTheme(theme) {
-      //console.log('LoadTheme', theme);
       this.showSpinner = true;
       try {
         if (theme && theme.file) {
           const template = JSON.parse(JSON.stringify(theme.file));
-          this.themeTemplate = await window.api.LoadTheme(template.path);     
+          console.log('Loading Theme..', template.credits.theme);
+          this.themeTemplate = await window.api.LoadTheme(template.path);
           this.themeTemplate.credits = theme.file.credits;
 
           if (template.credits.theme === 'Current Settings') {
-              this.currentSettingsPath = template.path;
+            this.currentSettingsPath = template.path;
           }
-
-          EventBus.emit('ThemeLoaded', this.themeTemplate); //<- this event will be heard on 'App.vue'
+          //console.log('Loaded Theme:', this.themeTemplate);
+          EventBus.emit('ThemeLoaded', JSON.parse(JSON.stringify(this.themeTemplate))); //<- this event will be heard on 'App.vue'
           this.statusText = 'Theme: ' + theme.name;
         }
       } catch (error) {
@@ -313,24 +315,59 @@ export default {
         console.log('2. Preparing all the Paths:', GamePath);
 
         this.themeTemplate = await window.api.LoadTheme(GamePath); //<- Loads the Current Settings from the JSON file at Game Dir.
-        const template = JSON.parse(JSON.stringify(this.themeTemplate));
+        let template = JSON.parse(JSON.stringify(this.themeTemplate));
         console.log('3. ThemeTemplate:', this.themeTemplate);
 
+        // Reusable function to apply Global/User settings:
+        async function applySettings(settings, template, counterName) {
+          let counter = 0;
+          if (settings) {
+            settings.Elements.forEach(gblSets => {
+              let found = false;
+              for (let i = 0; i < template.ui_groups.length - 1; i++) {
+                const uiGrp = template.ui_groups[i];
+                const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
+                if (itemIndex >= 0) {
+                  const oldV = uiGrp.Elements[itemIndex].Value;
+                  uiGrp.Elements[itemIndex].Value = gblSets.Value;
+                  found = true;
+                  counter++;
+                  break; // Break out of the inner loop once updated
+                }
+              }
+              if (!found) {
+                // Item not found, add it to the second last ui_group:
+                const lastGroup = template.ui_groups[template.ui_groups.length - 2];
+                lastGroup.Elements.push(gblSets); // Add the whole item from settings
+                counter++;
+              }
+            });
+          }
+          console.log(counter + ' ' + counterName + ' added!');
+        }
+
+        // 4. Apply Global Settings
+        const globalSettings = await window.api.LoadGlobalSettings();
+        console.log('4. Global Settings:', globalSettings);
+        await applySettings(globalSettings, template, 'Global Settings');
+
+        // 5. Apply User Settings
+        const userSettings = await window.api.LoadUserSettings();
+        console.log('5. Get User Settings:', userSettings);
+        await applySettings(userSettings, template, 'User Settings');
+        
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
-        console.log('4. Get Default Inis:', defaultINIs);
-
-        
-
-        // TODO: 5. Apply Global Settings
-        
-        // TODO: 6. Apply User Setings
+        console.log('6. Get Default Inis:', defaultINIs);
 
         /*----------------------------------------------------------------------------------*/
-        
-        const updatedInis = await window.api.ApplyTemplateValuesToIni(template, defaultINIs);        
+        //const parser = new INIParser();
+        //parser.load(defaultInisPath); // Path to your INI file
+        //console.log('6. Get Default Inis Ex:', parser.data);
+        /*----------------------------------------------------------------------------------*/
+
+        const updatedInis = await window.api.ApplyTemplateValuesToIni(template, defaultINIs);
         console.log('7. Applying Changes to the INIs...', updatedInis);
 
-        /*----------------------------------------------------------------------------------*/
         console.log('8. Saving the INI files..');
         const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
         if (_ret) {
@@ -712,6 +749,8 @@ export default {
       this.globalSettings = data;
       //console.log('OnGlobalSettingsLoaded', data);
     },
+
+    
   },
   mounted() {
     /* EVENTS WE LISTEN TO HERE:  */

@@ -176,6 +176,22 @@ xml_profile: [
 };
 
 -------------------------------------------------------
+INI-Parser:[
+{
+  Section: 'section 1',
+  Comment: 'any comments before the section declaration belong here.',
+  Keys: [
+	{
+	  Key: 'x228',
+	  Value: 0.1248
+	  Comment: 'any comments before the key declaration belong here.'
+	},
+	... more keys ..
+  ]
+},
+...More Sections..
+];
+-------------------------------------------------------
 iniReader = 
 {
     StartupProfile: {

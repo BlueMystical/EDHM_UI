@@ -63,7 +63,7 @@ export const initializeSettings = async () => {
       //Log.Info('This is a Test');
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
   return programSettings;
 };
@@ -82,7 +82,7 @@ const loadSettings = () => {
     programSettings = JSON.parse(data);
     return programSettings;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -101,7 +101,7 @@ async function saveSettings(settings) {
 
     return programSettings;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -128,7 +128,7 @@ const LoadGlobalSettings = () => {
 
     return data;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 async function saveGlobalSettings(settings) {
@@ -136,7 +136,7 @@ async function saveGlobalSettings(settings) {
     const _path_A = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
     return fileHelper.writeJsonFile(_path_A, settings, true);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 const LoadUserSettings = () => {
@@ -157,7 +157,7 @@ const LoadUserSettings = () => {
     }
     return data;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 async function saveUserSettings(settings) {
@@ -165,7 +165,7 @@ async function saveUserSettings(settings) {
     const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
     return fileHelper.writeJsonFile(_path_A, settings, true);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 async function AddToUserSettings(newElement) {
@@ -193,7 +193,7 @@ async function AddToUserSettings(newElement) {
       }
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 async function RemoveFromUserSettings(settings) {
@@ -215,7 +215,7 @@ async function RemoveFromUserSettings(settings) {
       return saveUserSettings(userSettings);
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -301,7 +301,7 @@ const getActiveInstance = () => {
       throw new Error('programSettings is null');
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -324,7 +324,7 @@ const getActiveInstanceEx = () => {
     return gameInstance;
 
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -345,7 +345,7 @@ const getInstanceByName = (InstanceFullName) => {
       return gameInstance;
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -424,7 +424,7 @@ async function installEDHMmod(gameInstance) {
     // #endregion
 
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
   return Response;
 };
@@ -433,7 +433,7 @@ async function CheckEDHMinstalled(gamePath) {
   try {
     return fileHelper.checkFileExists(path.join(gamePath, 'd3dx.ini'));
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -487,7 +487,7 @@ async function UninstallEDHMmod(gameInstance) {
 
   } catch (error) {
     console.error('Error during uninstallation:', error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 
   return fileDeleted;
@@ -501,7 +501,7 @@ ipcMain.handle('addNewInstance', (event, NewInstancePath, settings) => {
   try {
     return addNewInstance(NewInstancePath, settings);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -509,7 +509,7 @@ ipcMain.handle('InstallStatus', () => {
   try {
     return installationStatus;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -517,7 +517,7 @@ ipcMain.handle('initialize-settings', async () => {
   try {
     return initializeSettings();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -525,56 +525,56 @@ ipcMain.handle('load-settings', () => {
   try {
     return loadSettings();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('LoadGlobalSettings', () => {
   try {
     return LoadGlobalSettings();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('saveGlobalSettings', (event, settings) => {
   try {
     return saveGlobalSettings(settings);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('LoadUserSettings', () => {
   try {
     return LoadUserSettings();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('saveUserSettings', (event, settings) => {
   try {
     return saveUserSettings(settings);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('AddToUserSettings', (event, newElement) => {
   try {
     return AddToUserSettings(newElement);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('RemoveFromUserSettings', (event, settings) => {
   try {
     return RemoveFromUserSettings(settings);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('get-settings', () => {
   try {
     return programSettings;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('getDefaultSettings', () => {
@@ -583,7 +583,7 @@ ipcMain.handle('getDefaultSettings', () => {
     const defaultSettings = fs.readFileSync(defaultSettingsPath, 'utf8');
     return JSON.parse(defaultSettings);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -591,7 +591,7 @@ ipcMain.handle('save-settings', (event, settings) => {
   try {
     return saveSettings(settings);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -599,21 +599,21 @@ ipcMain.handle('active-instance', () => {
   try {
     return getActiveInstance();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('getActiveInstanceEx', () => {
   try {
     return getActiveInstanceEx();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('getInstanceByName', (event, instanceName) => {
   try {
     return getInstanceByName(instanceName);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -621,21 +621,21 @@ ipcMain.handle('installEDHMmod', (event, gameInstance) => {
   try {
     return installEDHMmod(gameInstance);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('CheckEDHMinstalled', (event, gamePath) => {
   try {
     return CheckEDHMinstalled(gamePath);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
   try {
     return UninstallEDHMmod(gameInstance);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 

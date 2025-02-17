@@ -1,5 +1,4 @@
 import { app, ipcMain, dialog, shell  } from 'electron'; 
-import EventBus from '../EventBus.js';
 import { exec } from 'child_process';
 import Util from './Utils.js';
 import path from 'node:path'; 
@@ -102,7 +101,7 @@ const resolveEnvVariables = (inputPath) => {
     return resolvedPath;
 
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -185,7 +184,7 @@ function getAssetPath(assetPath) {
       return path.join(process.resourcesPath, assetPath); // Correct Prod path
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }  
 }
 function getAssetUrl(assetPath) {
@@ -194,7 +193,7 @@ function getAssetUrl(assetPath) {
     const fileUrl = url.pathToFileURL(resolvedPath).toString();
     return fileUrl;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }  
 }
 
@@ -213,7 +212,7 @@ function ensureDirectoryExists (DirectoryPath) {
     }
     return resolvedPath;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -228,7 +227,7 @@ const checkFileExists = (filePath) => {
       return false; //File does not exist
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -404,7 +403,7 @@ async function ShowOpenDialog(options) {
       const result = dialog.showOpenDialogSync(options);
       return result;
     } catch (error) {
-      throw error;
+      throw new Error(error.message + error.stack);
     }
 }
 async function ShowSaveDialog(options) {
@@ -431,7 +430,7 @@ async function ShowSaveDialog(options) {
       const result = dialog.showSaveDialogSync(options);
       return result;
     } catch (error) {
-      throw error;
+      throw new Error(error.message + error.stack);
     }
 }
 
@@ -476,7 +475,7 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
     return true;
 
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -498,7 +497,7 @@ function SaveImageAsJpeg(base64Data, filePath) {
     return true;
 
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }  
 };
 
@@ -525,7 +524,7 @@ async function base64ToJpg(base64Image, outputPath) {
     });
   } catch (error) {
     console.error(error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 };
 
@@ -668,7 +667,7 @@ function detectProgram(exeName, callback) {
       });
     }
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }
 
@@ -996,7 +995,7 @@ ipcMain.handle('ShowMessageBox', async (event, options) => {
     const result = await dialog.showMessageBox(options);
     return result;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('ShowOpenDialog', async (event, options) => {
@@ -1021,7 +1020,7 @@ ipcMain.handle('ShowOpenDialog', async (event, options) => {
     const result = dialog.showOpenDialogSync(options);
     return result;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 /*  EXAMPLE:
     window.api.ShowOpenDialog(options).then(filePath => {
@@ -1054,7 +1053,7 @@ ipcMain.handle('ShowSaveDialog', async (event, options) => {
     const result = dialog.showSaveDialogSync(options);
     return result;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
   /*  EXAMPLE:
    await window.api.ShowSaveDialog(options).then(filePath => {
@@ -1080,7 +1079,7 @@ ipcMain.handle('detect-program', async (event, exeName) => {
       });
     });
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('start-monitoring', (event, exeName) => {
@@ -1113,7 +1112,7 @@ ipcMain.handle('openPathInExplorer', async (event, filePath) => {
     const result = openPathInExplorer(filePath);
     return result;
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1125,7 +1124,7 @@ ipcMain.handle('resolve-env-variables', async (event, inputPath) => {
   } catch (error) {
     console.error('Failed to resolve environment variables:', error);
     logEvent(error.message, error.stack);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1137,7 +1136,7 @@ ipcMain.handle('get-asset-path', async (event, assetPath) => {
   } catch (error) {
     console.error('Failed to resolve asset path:', error);
     //logEvent(error.message, error.stack);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1150,7 +1149,7 @@ ipcMain.handle('get-asset-file-url', async (event, assetPath) => {
   } catch (error) {
     console.error('Failed to resolve asset path:', error);
     //logEvent(error.message, error.stack);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1163,7 +1162,7 @@ ipcMain.handle('get-local-file-url', async (event, localPath) => {
   } catch (error) {
     console.error('Failed to resolve local path:', error);
     //logEvent(error.message, error.stack);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1171,7 +1170,7 @@ ipcMain.handle('ensureDirectoryExists', async (event, fullPath) => {
   try {
     return ensureDirectoryExists(fullPath);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }  
 });
 
@@ -1179,7 +1178,7 @@ ipcMain.handle('get-json-file', async (event, jsonPath) => {
   try {
     return loadJsonFile(jsonPath);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }  
 });
 
@@ -1187,7 +1186,7 @@ ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
   try {
     return writeJsonFile(filePath, data, prettyPrint);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }  
 });
 
@@ -1204,7 +1203,7 @@ ipcMain.handle('compress-files', async (event, files, outputPath) => {
     const result = await compressFiles(files, outputPath);
     return { success: true, message: result };
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('compress-folder', async (event, folderPath, outputPath) => {
@@ -1212,7 +1211,7 @@ ipcMain.handle('compress-folder', async (event, folderPath, outputPath) => {
     const result = await compressFolder(folderPath, outputPath);
     return { success: true, message: result };
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('decompress-file', async (event, zipPath, outputDir) => {
@@ -1220,7 +1219,7 @@ ipcMain.handle('decompress-file', async (event, zipPath, outputDir) => {
     const result = await decompressFile(zipPath, outputDir);
     return { success: true, message: result };
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1229,7 +1228,7 @@ ipcMain.handle('find-latest-file', async (event, folderPath, fileType) => {
     const result = await findLatestFile(folderPath, fileType);
     return { success: true, file: result };
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }); 
 ipcMain.handle('findFileWithPattern', async (event, folderPath, pattern) => {
@@ -1237,7 +1236,7 @@ ipcMain.handle('findFileWithPattern', async (event, folderPath, pattern) => {
     const result = await findFileWithPattern(folderPath, pattern);
     return { success: true, file: result };
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }); 
 
@@ -1246,7 +1245,7 @@ ipcMain.handle('openUrlInBrowser', async (event, url) => {
     const result = openUrlInBrowser(url);
     return { success: true, file: result };
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1254,14 +1253,14 @@ ipcMain.handle('convertImageToJpg', async (event, base64Image) => {
   try {
     return convertImageToJpg(base64Image);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 }); 
 ipcMain.handle('GetImageB64', async (event, filePath) => {
   try {
     return loadImageAsBase64(filePath);
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1269,14 +1268,14 @@ ipcMain.handle('createWindowsShortcut', async (event) => {
   try {
     return createWindowsShortcut();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('createLinuxShortcut', async (event) => {
   try {
     return createLinuxShortcut();
   } catch (error) {
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1286,7 +1285,7 @@ ipcMain.handle('getLatestPreReleaseVersion', async (event, owner, repo) => {
     return latestPreRelease;
   } catch (error) {
     console.error('Error fetching pre-release version:', error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('getLatestReleaseVersion', async (event, owner, repo) => {
@@ -1295,7 +1294,7 @@ ipcMain.handle('getLatestReleaseVersion', async (event, owner, repo) => {
     return latestRelease;
   } catch (error) {
     console.error('Error fetching latest release version:', error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1336,7 +1335,7 @@ ipcMain.handle('runInstaller', async (event, installerPath) => {
     return latestRelease;
   } catch (error) {
     console.error('Error fetching latest release version:', error);
-    throw error;
+    throw new Error(error.message + error.stack);
   }
 });
 

@@ -1,9 +1,8 @@
 <template>
     <div ref="colorPickerContainer" class="color-display">
-        <div class="transparency-grid"></div>
-        <div class="text-layer" :style="textStyle">{{ rgbaString }}</div>
-        <div class="color-layer" :style="colorStyle"></div>
-        
+        <div class="transparency-grid"></div>        
+        <div class="color-layer" :style="colorStyle"></div>     
+        <div class="text-layer" :style="textStyle">{{ rgbaString }}</div>   
     </div>
 </template>
 
@@ -32,6 +31,7 @@ export default {
     },
     computed: {
         colorStyle() {
+            //console.log('Computed colorStyle:', this.rgbaString); // Debug log
             return {
                 backgroundColor: this.rgbaString,
                 borderRadius: '6px',
@@ -39,18 +39,25 @@ export default {
                 top: 0,
                 left: 0,
                 width: '100%',
-                height: '100%',
+                height: '100%'
             };
         },
-        textStyle(){
+        textStyle() {
+            //console.log('Computed textStyle:', this.hex); // Debug log
             return {
-                color: Util.GetForeColorFor(this.hex),
-            }            
-        },
+                color: Util.GetForeColorFor(this.hex)
+            };
+        }
     },
     mounted() {
         this.initializePicker();
+    },  
+    watch: {
+        rgbaString(newVal) {
+           //console.log('rgbaString updated:', newVal); // Debug log
+        }
     },
+  
     methods: {
         initializePicker() {
             try {
@@ -79,10 +86,14 @@ export default {
             this.hex = Util.intToHexColor(colorInt);
             this.rgba = Util.intToRGBA(colorInt);
             
-            const color = { int: colorInt, hex: this.hex, rgba: this.rgba };
+            // Force re-render
+            this.$nextTick(() => {
+                this.$forceUpdate();
+            });
+
 
             // Emit the event with the new color:
-            this.$emit('OncolorChanged', color);
+            this.$emit('OncolorChanged', { int: colorInt, hex: this.hex, rgba: this.rgba });
         },
     },
     beforeUnmount() {
