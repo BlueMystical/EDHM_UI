@@ -1,87 +1,79 @@
 <!-- Global Settings Tab este es el respaldo -->
 
 <template>
-    <div :key="componentKey"> 
     <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
-        <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
-
-            <p>{{ this.themeName }}</p>
-            <p class="category-name">{{ group.category }}</p>
-            <table class="table table-bordered table-hover align-middle">
-                <tbody>
-
-                    <!-- Table Row -->
-                    <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
-                        @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
-                        @click="selectRow(element.Key)" :class="rowClass(element)"
-                        @contextmenu="onRightClick($event, element)">
-                        <!-- @contextmenu.prevent="showContextMenu(element, $event)"> -->
-
-                        <!-- Left Column -->
-                        <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
-                            {{ element.Title  }}
-                            <span class="info-icon" v-show="element.iconVisible"
-                                @mouseover="showPopover(element, $event)" @mouseleave="hidePopover">
-                                <i class="bi bi-info-circle text-info"></i>
-                            </span>
-                        </td>
-
-                        <!-- Right Column -->
-                        <td class="fixed-width cell-content">
-
-                            <!-- Dynamic Preset Select Combo -->
-                            <template v-if="element.ValueType === 'Preset'">
-                                <select class="form-select select-combo" :id="'element-' + element.Key"
-                                    v-model="element.Value" @change="OnPresetValueChange(element, $event)">
-                                    <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name"
-                                        :value="preset.Index">
-                                        {{ preset.Name }}
-                                    </option>
-                                </select>
-                            </template>
-
-                            <!-- Range Slider Control -->
-                            <template v-if="element.ValueType === 'Brightness'">
-                                <div class="range-container" :id="'element-' + element.Key">
-                                    <input type="range" class="form-range range-input" v-model="element.Value"
-                                        :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
-                                        @input="OnBrightnessValueChange(element, $event)" style="height: 10px;" />
-                                    <label class="slider-value-label">{{ element.Value }}</label>
-                                </div>
-                            </template>
-
-                            <!-- On/Off Swap control -->
-                            <template v-if="element.ValueType === 'ONOFF'">
-                                <div class="form-check form-switch" :id="'element-' + element.Key">
-                                    <input class="form-check-input larger-switch" type="checkbox"
-                                        :checked="element.Value === 1" @change="OnToggleValueChange(element, $event)" />
-                                </div>
-                            </template>
-
-                            <!-- Custom Color Picker Control -->
-                            <template v-if="element.ValueType === 'Color'">
-                                <ColorDisplay :id="'element-' + element.Key" :color="element.Value"
-                                    @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
-                            </template>
-
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- Context Menu for Elements -->
-            <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu show" ref="contextMenu">
-                <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('AddUserSettings')">Add to User
-                        Settings..</a>
-                </li>
-            </ul>
-
-        </div>
-
-        <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
+      <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
+        <p class="category-name">{{ group.category }}</p>
+        <table class="table table-bordered table-hover align-middle">
+          <tbody>
+  
+            <!-- Table Row -->
+            <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
+              @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
+              @click="selectRow(element.Key)" :class="rowClass(element)"            
+              @contextmenu="onRightClick($event, element)"> <!-- @contextmenu.prevent="showContextMenu(element, $event)"> -->
+  
+              <!-- Left Column -->
+              <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
+                {{ element.Title }}
+                <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)"
+                  @mouseleave="hidePopover">
+                  <i class="bi bi-info-circle text-info"></i>
+                </span>
+              </td>
+  
+              <!-- Right Column -->
+              <td class="fixed-width cell-content">
+  
+                <!-- Dynamic Preset Select Combo -->
+                <template v-if="element.ValueType === 'Preset'">
+                  <select class="form-select select-combo" :id="'element-' + element.Key" v-model="element.Value"
+                    @change="OnPresetValueChange(element, $event)">
+                    <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name" :value="preset.Index">
+                      {{ preset.Name }}
+                    </option>
+                  </select>
+                </template>
+  
+                <!-- Range Slider Control -->
+                <template v-if="element.ValueType === 'Brightness'">
+                  <div class="range-container" :id="'element-' + element.Key">
+                    <input type="range" class="form-range range-input" v-model="element.Value"
+                      :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
+                      @input="OnBrightnessValueChange(element, $event)" style="height: 10px;" />
+                    <label class="slider-value-label">{{ element.Value }}</label>
+                  </div>
+                </template>
+  
+                <!-- On/Off Swap control -->
+                <template v-if="element.ValueType === 'ONOFF'">
+                  <div class="form-check form-switch" :id="'element-' + element.Key">
+                    <input class="form-check-input larger-switch" type="checkbox" :checked="element.Value === 1"
+                      @change="OnToggleValueChange(element, $event)" />
+                  </div>
+                </template>
+  
+                <!-- Custom Color Picker Control -->
+                <template v-if="element.ValueType === 'Color'">
+                  <ColorDisplay :id="'element-' + element.Key" :color="element.Value"
+                    @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
+                </template>
+  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- Context Menu for Elements -->
+        <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu show" ref="contextMenu">
+          <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('AddUserSettings')">Add to User Settings..</a> </li>        
+        </ul>
+  
+      </div>
+  
+      <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
     </div>
-    </div>
-</template>
+  </template>
 
 <script>
 import ColorDisplay from './Components/ColorDisplay.vue';

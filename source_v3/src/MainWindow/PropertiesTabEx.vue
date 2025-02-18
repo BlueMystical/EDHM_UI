@@ -1,22 +1,79 @@
 <!-- Global Settings Tab este es el respaldo -->
+
 <template>
-    <div :key="componentKey">
-        <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
-            <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
-                <p>{{ this.themeName }}</p>
-                <p class="category-name">{{ group.category }}</p>
-                <table class="table table-bordered table-hover align-middle">
-                    <tbody>
-                        <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex">
-                            <td ref="controlCell-Left"></td>
-                            <td ref="controlCell-Right"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
+      <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
+        <p class="category-name">{{ group.category }}</p>
+        <table class="table table-bordered table-hover align-middle">
+          <tbody>
+  
+            <!-- Table Row -->
+            <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
+              @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
+              @click="selectRow(element.Key)" :class="rowClass(element)"            
+              @contextmenu="onRightClick($event, element)"> <!-- @contextmenu.prevent="showContextMenu(element, $event)"> -->
+  
+              <!-- Left Column -->
+              <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
+                {{ element.Title }}
+                <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)"
+                  @mouseleave="hidePopover">
+                  <i class="bi bi-info-circle text-info"></i>
+                </span>
+              </td>
+  
+              <!-- Right Column -->
+              <td class="fixed-width cell-content">
+  
+                <!-- Dynamic Preset Select Combo -->
+                <template v-if="element.ValueType === 'Preset'">
+                  <select class="form-select select-combo" :id="'element-' + element.Key" v-model="element.Value"
+                    @change="OnPresetValueChange(element, $event)">
+                    <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name" :value="preset.Index">
+                      {{ preset.Name }}
+                    </option>
+                  </select>
+                </template>
+  
+                <!-- Range Slider Control -->
+                <template v-if="element.ValueType === 'Brightness'">
+                  <div class="range-container" :id="'element-' + element.Key">
+                    <input type="range" class="form-range range-input" v-model="element.Value"
+                      :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
+                      @input="OnBrightnessValueChange(element, $event)" style="height: 10px;" />
+                    <label class="slider-value-label">{{ element.Value }}</label>
+                  </div>
+                </template>
+  
+                <!-- On/Off Swap control -->
+                <template v-if="element.ValueType === 'ONOFF'">
+                  <div class="form-check form-switch" :id="'element-' + element.Key">
+                    <input class="form-check-input larger-switch" type="checkbox" :checked="element.Value === 1"
+                      @change="OnToggleValueChange(element, $event)" />
+                  </div>
+                </template>
+  
+                <!-- Custom Color Picker Control -->
+                <template v-if="element.ValueType === 'Color'">
+                  <ColorDisplay :id="'element-' + element.Key" :color="element.Value"
+                    @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
+                </template>
+  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- Context Menu for Elements -->
+        <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu show" ref="contextMenu">
+          <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('AddUserSettings')">Add to User Settings..</a> </li>        
+        </ul>
+  
+      </div>
+  
+      <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
     </div>
-</template>
+  </template>
 
 <script>
 import ColorDisplay from './Components/ColorDisplay.vue';
@@ -39,25 +96,22 @@ export default {
             dataSource: null,     //<- Raw Datasource directly from the File
             groupedElements: [],  //<- Processed Datasource from 'loadGroupData()'
             presets: [],          //<- Presets for the Combo Selects, from Raw Datasource
-
+            
             activePopover: null,
             selectedKey: null,     //<- key of the selected row
             selectedRow: null,
 
             contextMenuStyle: {},
+            showContextMenuFlag: false, //<- Flag to show the Context Menu
+            componentKey: 0, // flag to force component re-render
         };
     },
     watch: {
-        groupedElements: {
-            handler(newVal) {
-                // Only render if there are elements AND the refs are available
-                if (newVal && newVal.length > 0 && this.$refs.controlCell) {
-                    this.$nextTick(() => {
-                        this.renderControls();
-                    });
-                }
-            },
-            deep: true // Important for nested objects in groupedElements
+        dataSource: {
+            immediate: true,
+            handler() {
+                this.loadGroupData()
+            }
         }
     },
     computed: {
@@ -74,13 +128,13 @@ export default {
                 console.log('Initializing Properties for:', theme.credits.theme);
                 this.dataSource = null;
                 this.themeTemplate = null;
-
+                
                 this.themeTemplate = { ...JSON.parse(JSON.stringify(theme)) };
                 this.presets = theme.Presets;
 
                 this.componentKey++; // Increment key to force re-render
                 this.loadProperties({ id: "Panel_UP", title: "Upper Panel" });
-            }
+            }            
         },
 
         // #region Load Data
@@ -89,8 +143,18 @@ export default {
             if (this.themeTemplate && this.themeTemplate.ui_groups) {
                 const areaIndex = this.themeTemplate.ui_groups.findIndex(item => item.Name === area.id);
                 const newData = this.themeTemplate.ui_groups[areaIndex];
-                this.dataSource = { ...newData }; // Create new object for reactivity
-                this.loadGroupData(); // Call loadGroupData here
+                console.log(newData);
+
+                //Important: Create a completely new object to trigger reactivity
+                this.dataSource = { ...newData };
+
+
+                console.log('x137', newData.Elements[0].Value);
+                console.log('x232', newData.Elements[1].Value);
+                if (this.themeTemplate.credits.theme === 'Elite Default - ORANGE') {
+                    
+                }
+
             }
         },
 
@@ -125,55 +189,6 @@ export default {
         getPresetsForType(type) {
             return this.presets.filter(preset => preset.Type === type);
         },
-
-        renderControls() {
-            if (!this.$refs.controlCell) return; // Safeguard if refs aren't ready
-
-            this.groupedElements.forEach((group, groupIndex) => {
-                group.elements.forEach((element, elementIndex) => {
-                    const index = groupIndex * group.elements.length + elementIndex;
-                    const cell = this.$refs.controlCell[index];
-
-                    if (cell) { // Very important check!
-                        cell.innerHTML = '';
-                        const controlsHTML = this.generateControlsHTML(element);    console.log('controlsHTML',controlsHTML);
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = controlsHTML;
-
-                        Array.from(tempDiv.children).forEach(controlElement => {
-                            // ... (Event listeners - same as before)
-                        });
-                        cell.append(...tempDiv.children);
-                    }
-                });
-            });
-        },
-
-        generateControlsHTML(element) {
-            console.log("Element Type:", element.Type); // Debug: Check the actual value
-
-            let html = '';
-            if (element.Type === 'Text') { // Corrected: Consistent casing
-                html += `<input type="text" value="${element.Value}">`;
-            } else if (element.Type === 'Color') { // Corrected: Consistent casing
-                html += `<color-display color="${element.Value}"></color-display>`;
-            } else if (element.Type === 'Select') { // Corrected: Consistent casing
-                html += `<select>`;
-                const options = this.getPresetsForType(element.Type).map(preset => ({
-                    value: preset.Value,
-                    text: preset.Name
-                }));
-                options.forEach(option => {
-                    html += `<option value="${option.value}" ${element.Value === option.value ? 'selected' : ''}>${option.text}</option>`;
-                });
-                html += `</select>`;
-            }
-            return html;
-        },
-        getPresetsForType(type) {
-            return this.presets.filter(preset => preset.Type === type);
-        },
-
 
         // #endregion
 
@@ -374,7 +389,7 @@ export default {
                 if (row) {
                     row.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
-                    console.warn('Row with key ' + key + ' not found.');
+                    console.warn('Row with key "' + key + '" not found.');
                 }
             });
         },

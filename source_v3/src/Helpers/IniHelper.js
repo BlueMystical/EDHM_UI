@@ -107,55 +107,53 @@ function setValueInSection(iniData, section, key, value) {
 
 
 
-/**
- * Finds a Key/Value in an INI file
+/** Finds a Key/Value in an INI file
  * @param {*} data Parsed data of all INI files
  * @param {*} searchItem One of the Elements from a Theme Template
- * @returns Return results as an array of key-value pairs, or the single value if only one key
- */
+ * @returns Return results as an array of key-value pairs, or the single value if only one key */
 function findValueByKey(data, searchItem) {
     /* searchItem: {
         ...
         "File":"Startup-Profile",
         "Section":"Constants",
-        "Key":"x137",
+        "Key":"x137", //<- or 'x138|y138|z138|w138'
         "Value":100,
         "ValueType":"Preset",
         ...
-      } */
+      } 
+    */
     const results = [];
-    let keyCount = 0;
   
     try {
       const fileName = searchItem.File.replace(/-/g, '');  // Remove hyphens
-      const section = searchItem.Section.toLowerCase();  // Convert section to lowercase
-      const keys = searchItem.Key.split('|');  // Split multiple keys  
-      const fileData = data[fileName];
+      const section = searchItem.Section.toLowerCase();   // Convert section to lowercase
+      const keys = searchItem.Key.split('|');             // Split multiple keys  
+      
+      const fileData = data[fileName]; //console.log('fileName:', fileName);
 
       if (fileData) {
-        // Find the correct section in a case-insensitive manner
-        const sectionKey = Object.keys(fileData).find(
-          key => key.toLowerCase() === section
-        );
-  
-        if (sectionKey && fileData[sectionKey]) {
-          keys.forEach(key => {
-            const value = fileData[sectionKey].Keys[key];
-            if (value !== undefined) {
-              results.push({ key, value });
-              keyCount++; // Increment the counter for each found key
-            } else {
-              throw new Error(`Key Not Found: ${path.join(fileName, searchItem.Section, searchItem.Key)}`);
-            }
-          });
+        // Find the correct section in a case-insensitive manner:
+        const sectionData = fileData.find(element => element.Section.toLowerCase() === section);
+        if (sectionData && sectionData.Keys) {
+
+          try {
+            keys.forEach(keyName => {
+              const key = sectionData.Keys.find(item => item.Key.toLowerCase() === keyName.toLowerCase());
+              results.push({ key: key.Key, value: key.Value });
+            });
+          } catch (error) {
+            //console.log('Key: ' + keys + ' Not Found on ' + fileName + '/' + section);
+          }
+
         } else {
           throw new Error(`Section Not Found: ${path.join(fileName, searchItem.Section)} `);
         }
       } else {
-        throw new Error(`File Not Found: ${fileName}`);
+        //console.log('data:', data);
+        //throw new Error(`File Not Found: findValueByKey/${path.join(fileName, searchItem.Section)}`);
       }
     } catch (error) {
-      //console.error(error.message);
+      console.error(error);
       //throw new Error(error.message + error.stack);
     }
   

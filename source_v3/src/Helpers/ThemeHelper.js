@@ -19,56 +19,56 @@ import FileHelper from './FileHelper';
  */
 const getThemes = async (dirPath) => {
   try {
-    console.log('getThemes dirPath: ', dirPath);
+    // Get all Folders in the Themes Directory, each folder is a Theme:
     const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
-    const files = []; //console.log('subfolders', subfolders);
+    const files = [];
 
     for (const dirent of subfolders) {
       if (dirent.isDirectory()) {
-        const subfolderPath = path.join(dirPath, dirent.name);
+        const subfolderPath = path.join(dirPath, dirent.name); //<- Full Theme path
 
         try {
-            // Check if the folder contains a Large Preview file
-            let preview_url = '';
-            const template = await LoadTheme(subfolderPath);
-            if (fileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
-              preview_url = `file:///${path.join(subfolderPath, dirent.name + '.jpg')}`;
-            }
+          // Here we Load the Data of the Theme either from the JSON (if present) or from the INIs:
+          const template = await LoadTheme(subfolderPath);
 
-            files.push({
-              theme: template,
-              path: subfolderPath,
-              preview: preview_url,
-              thumbnail: 'PREVIEW.jpg',              
-              credits: template.credits,              
-              name: template.credits.theme,
-              isFavorite: template.isFavorite
-            });
+          // Check if the folder contains a Large Preview file:
+          let preview_url = '';
+          if (fileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
+            preview_url = `file:///${path.join(subfolderPath, dirent.name + '.jpg')}`;
+          }
 
-            // Theme Migration Tool:
-            const ThemeCleansing = true; //<- Swap to 'true' to save the json and cleanse old files
+          // Assemble the Data to return:
+          files.push({
+            theme: template,
+            path: subfolderPath,
+            preview: preview_url,
+            thumbnail: 'PREVIEW.jpg',
+            credits: template.credits,
+            name: template.credits.theme,
+            isFavorite: template.isFavorite
+          });
+
+          // Writes the JSON in the theme folder:
+          if (!fileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
+            const JsonString = JSON.stringify(template, null, 4);
+            await writeFile(
+              path.join(subfolderPath, 'ThemeSettings.json'),
+              JsonString,
+              { encoding: "utf8", flag: 'w' }
+            );
+          }
+
+          // Theme Migration :
+          const ThemeCleansing = true; //<- Swap to 'true' to save the json and cleanse old files
+          try {
             if (ThemeCleansing) {
-              try {
-                // Writes the JSON in the theme folder:
-                if (!fileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
-                  const JsonString = JSON.stringify(template, null, 4);
-                  await writeFile(
-                    path.join(subfolderPath, 'ThemeSettings.json'), 
-                    JsonString, 
-                    { encoding: "utf8", flag: 'w' }
-                  );
-                }
-  
-                // Sanitization: For Themes Exportings
-                //fileHelper.deleteFilesByType(subfolderPath, '.ini');
-                //fileHelper.deleteFilesByType(subfolderPath, '.credits');
-                //fileHelper.deleteFilesByType(subfolderPath, '.fav');
-                //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
-  
-              } catch (error) {
-                console.error(error);
-              } 
+              // Sanitization: For Themes Exportings
+              //fileHelper.deleteFilesByType(subfolderPath, '.ini');
+              //fileHelper.deleteFilesByType(subfolderPath, '.credits');
+              //fileHelper.deleteFilesByType(subfolderPath, '.fav');
+              //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
             }
+          } catch { }
 
         } catch (error) {
           Log.Error(error.message, error.stack);
@@ -89,21 +89,25 @@ const getThemes = async (dirPath) => {
 const LoadTheme = async (themeFolder) => {
   let template = {};
   try {
-    if (fs.existsSync(path.join(themeFolder, 'ThemeSettings.json'))) {
+    const themeJSON = path.join(themeFolder, 'ThemeSettings.json');
+    if (fs.existsSync(themeJSON)) {
       // New v3 Format for Themes, single File:
-      template = fileHelper.loadJsonFile( path.join(themeFolder, 'ThemeSettings.json') );
+      template = await fileHelper.loadJsonFile(themeJSON);
       template.path = themeFolder;
       template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
 
     } else {
       // Old fashion format for Themes:
-      const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');  
-      const ThemeINIs = await LoadThemeINIs(themeFolder); 
+      const ThemeINIs = await LoadThemeINIs(themeFolder);
+      const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');
 
-      //console.log('INI-Advanced:', ThemeINIs.Advanced);
+      //if (themeFolder.includes('@Elite Default - ORANGE')) {
+      //  console.log('@Elite Default - ORANGE xml A:', ThemeINIs.XmlProfile[0].Keys);
+      //}
 
-      template = fileHelper.loadJsonFile(defaultThemePath);
-      template = await ApplyIniValuesToTemplate(template, ThemeINIs);      
+      template = await fileHelper.loadJsonFile(defaultThemePath);
+      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
+
       template.credits = await GetCreditsFile(themeFolder);
       template.path = themeFolder;
       template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
@@ -112,6 +116,185 @@ const LoadTheme = async (themeFolder) => {
     throw new Error(error.message + error.stack);
   }
   return template;
+};
+
+const ApplyIniValuesToTemplate = (template, iniValues) => {
+  //console.log('ApplyIniValuesToTemplate..');
+  try {
+    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
+      for (const group of template.ui_groups) {
+        if (group.Elements != null) {
+          for (const element of group.Elements) {
+
+            const iniKey = element.Key;
+            const defaultValue = element.Value;
+
+            const foundValue = ini.findValueByKey(iniValues, element);
+            // #region Data Example:
+
+            /* foundValue can be either an Array of Key/Values or a Single Decimal Value:  
+
+            foundValue: null, //<- Key: "x157" Not Found
+            foundValue: 0,
+            foundValue: 100,
+            foundValue: [
+              { key: 'x33', value: 0.6376 },
+              { key: 'y33', value: 0.6376 },
+              { key: 'z33', value: 0.6376 },
+              { key: 'w33', value: 1 }
+            ] */
+
+            // #endregion
+
+            if (foundValue != null && foundValue != undefined) {
+              if (Array.isArray(foundValue) && foundValue.length > 0) {
+
+                const colorKeys = iniKey.split("|");            //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
+                const colorComponents = colorKeys.map(key => {  //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                  const foundValueObj = foundValue.find(obj => obj.key === key);
+                  return foundValueObj ? foundValueObj.value : undefined;
+                });
+
+                if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                  const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                  element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
+
+                  /*  if (iniKey === 'x159|y159|z159') {
+                      console.log('x159|y159|z159: ' + colorComponents );
+                      console.log('RGB reversed: ', color);
+                      console.log('INT value: ', element.Value);
+                    }*/
+
+                } else {
+                  element.Value = parseFloat(defaultValue.toFixed(1));
+                  console.log('Color Conversion Error:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
+                }
+
+              } else {
+                // No hay Multi-Keys, foundValue: 100.0
+                element.Value = parseFloat(foundValue ?? defaultValue);
+              }
+            } else {
+              //If the Key in the Theme is not found in the Template, the template's value is used
+              element.Value = parseFloat(defaultValue);
+            }
+          }
+        }
+      }
+    }
+
+    // Update the XMLs:
+    if (template.xml_profile && iniValues.XmlProfile) {
+      // #region Data Example:
+      /* watch out for the Caps!! yeah yeah i know..
+        template.xml_profile: [
+          { key: 'x150', value: 0.15 },
+          { key: 'y150', value: 0.3 },
+          { key: 'z150', value: 1 },
+          { key: 'x151', value: 0.5 },
+          { key: 'y151', value: 1 },
+          { key: 'z151', value: 0 },
+          { key: 'x152', value: 1 },
+          { key: 'y152', value: 0 },
+          { key: 'z152', value: 0 }
+        ];
+        iniValues.XmlProfile: [
+          {
+            Section: 'constants',
+            Comment: '',
+            Keys: [
+              { Key: 'x150', Value: 0.15 },
+              { Key: 'y150', Value: 0.3 },
+              { Key: 'z150', Value: 1 },
+              { Key: 'x151', Value: 0.5 },
+              { Key: 'y151', Value: 1 },
+              { Key: 'z151', Value: 0 },
+              { Key: 'x152', Value: 1 },
+              { Key: 'y152', Value: 0 },
+              { Key: 'z152', Value: 0 }
+            ]
+          }
+        ];      */
+      // #endregion
+
+      const iniProfile = iniValues.XmlProfile[0].Keys; // Assuming only one section in iniValues
+      template.xml_profile.forEach(templateItem => {
+        const iniItem = iniProfile.find(item => item.Key === templateItem.key);
+        if (iniItem) {
+          templateItem.value = parseFloat(iniItem.Value);  // Parse to decimal
+        } // else, templateItem.value remains unchanged (Default Value from Template).
+      });
+
+    }
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+  return template;
+};
+
+const ApplyTemplateValuesToIni = (template, iniValues) => {
+  let stackTrace = '';
+  try {
+
+    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
+      for (const group of template.ui_groups) {
+        if (group.Elements != null) {
+          for (const element of group.Elements) {
+
+            const fileName = element.File.replace(/-/g, '');  // Remove hyphens
+            const section = element.Section;  // Convert section to lowercase
+            const iniKey = element.Key;
+
+            stackTrace = path.join(element.File, element.Section, element.Key) + ' ';
+
+            if (iniKey.includes('|')) {
+              //Multi Key
+              const keys = element.Key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
+              if (Array.isArray(keys) && keys.length > 2) {
+
+                const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
+                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
+
+                keys.forEach((key, index) => {
+                  const value = parseFloat(values[index] === undefined ? element.value : values[index]);
+                  try {
+                    INIparser.setKey(iniValues[fileName], section, key, value);
+                  } catch (error) {
+                    console.log(path.join(fileName, section, key) + ': ' + value, error.message);
+                  }
+                });
+              }
+            } else {
+              //Single Key:
+              try {
+                INIparser.setKey(iniValues[fileName], section, iniKey, parseFloat(element.Value));
+              } catch (error) {
+                console.log(fileName + ', ' + section + ', ' + iniKey + ': ' + value, error.message);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Handle xml_profile (if it exists)
+    if (template.xml_profile && iniValues.XmlProfile) {
+
+      const iniProfile = iniValues.XmlProfile[0].Keys;
+      template.xml_profile.forEach(templateItem => {
+        const iniItem = iniProfile.find(item => item.Key === templateItem.key);
+        if (iniItem) {
+          iniItem.Value = parseFloat(templateItem.value); // Parse to decimal
+        }
+      });
+
+    }
+
+  } catch (error) {
+    throw new Error('At ThemeHelper.js/ApplyTemplateValuesToIni(): ' + stackTrace + error.message);
+  }
+  return iniValues;
 };
 
 async function GetCreditsFile(themePath) {
@@ -180,8 +363,8 @@ async function GetCurrentSettingsTheme(themePath) {
     const ThemeINIs = LoadThemeINIs(themePath);
     const defaultSettingsPath = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
-    let themeTemplate = fileHelper.loadJsonFile(defaultSettingsPath);
-    themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs); 
+    let themeTemplate = await fileHelper.loadJsonFile(defaultSettingsPath);
+    themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs);
     themeTemplate.name = "Current Settings";
     themeTemplate.credits = {
       theme: "Current Settings",
@@ -194,8 +377,8 @@ async function GetCurrentSettingsTheme(themePath) {
     return themeTemplate;
 
   } catch (error) {
-    console.log(error);
-    throw new Error(error.message + error.stack);    
+    console.log(error.message + error.stack);
+    throw new Error(error.message + error.stack);
   }
   return null;
 };
@@ -223,21 +406,21 @@ async function CreateNewTheme(credits) {
       const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
       CurrentSettings.credits.theme = Credits.theme;
       CurrentSettings.credits.author = Credits.author;
-      CurrentSettings.credits.description = Credits.description;      
-      CurrentSettings.version = settings.Version_ODYSS; 
+      CurrentSettings.credits.description = Credits.description;
+      CurrentSettings.version = settings.Version_ODYSS;
       CurrentSettings.game = gameInstance.key;
-      CurrentSettings.path = '';  
+      CurrentSettings.path = '';
 
       //4. WRITE THE NEW THEME FILES:
       fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
-      fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));      
+      fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));
       fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
 
       if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
         return true;
       } else {
         return false;
-      }      
+      }
     }
   } catch (error) {
     console.log(error);
@@ -262,7 +445,7 @@ async function CreateNewTheme(credits) {
  */
 async function UpdateTheme(themeData, source) {
   try {
-    //console.log('credits: ', credits);  
+    console.log('UpdateTheme: ', themeData.credits.theme);
 
     //1. RESOLVE THE THEMES PATH:
     const Credits = themeData.credits;
@@ -277,13 +460,12 @@ async function UpdateTheme(themeData, source) {
 
       //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
       const CurrentSettings = source;
-     /* const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));*/
       CurrentSettings.credits.theme = Credits.theme;
       CurrentSettings.credits.author = Credits.author;
-      CurrentSettings.credits.description = Credits.description;      
-      CurrentSettings.version = settings.Version_ODYSS; 
+      CurrentSettings.credits.description = Credits.description;
+      CurrentSettings.version = settings.Version_ODYSS;
       CurrentSettings.game = gameInstance.key;
-      CurrentSettings.path = '';  
+      CurrentSettings.path = '';
 
       //4. WRITE THE NEW THEME FILES:
       fs.writeFileSync(path.join(themesPath, 'ThemeSettings.json'), JSON.stringify(CurrentSettings, null, 4));
@@ -292,7 +474,7 @@ async function UpdateTheme(themeData, source) {
         return true;
       } else {
         return false;
-      }      
+      }
     }
   } catch (error) {
     console.log(error);
@@ -308,7 +490,7 @@ async function UpdateTheme(themeData, source) {
 async function SaveTheme(themeData) {
   try {
     //1. RESOLVE THE THEMES PATH:
-    const themesPath = themeData.path;  
+    const themesPath = themeData.path;
     themeData.path = '';
 
     //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
@@ -320,7 +502,7 @@ async function SaveTheme(themeData) {
         return true;
       } else {
         return false;
-      }      
+      }
     }
   } catch (error) {
     console.log(error);
@@ -334,33 +516,33 @@ async function SaveTheme(themeData) {
  */
 async function ExportTheme(themeData) { // 
   try {
-    console.log('Exporting Theme .....');  
+    console.log('Exporting Theme .....');
 
     if (themeData && themeData.path) {
       //1. RESOLVE THE THEMES PATH:
       const ThemeName = themeData.credits.theme;
       const ThemePath = themeData.path;
-      const TempPath = fileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\${ThemeName}`);      
+      const TempPath = fileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\${ThemeName}`);
 
       //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
       if (fileHelper.ensureDirectoryExists(TempPath)) {
 
         //3. COPY THE THEME FILES TO A TEMP FOLDER:
-        copyFileSync(path.join(ThemePath, `${ThemeName}.jpg`),    path.join(TempPath, `${ThemeName}.jpg`));
-        copyFileSync(path.join(ThemePath, 'PREVIEW.jpg'),         path.join(TempPath, 'PREVIEW.jpg'));
-        copyFileSync(path.join(ThemePath, 'ThemeSettings.json'),  path.join(TempPath, 'ThemeSettings.json'));    
-        
+        copyFileSync(path.join(ThemePath, `${ThemeName}.jpg`), path.join(TempPath, `${ThemeName}.jpg`));
+        copyFileSync(path.join(ThemePath, 'PREVIEW.jpg'), path.join(TempPath, 'PREVIEW.jpg'));
+        copyFileSync(path.join(ThemePath, 'ThemeSettings.json'), path.join(TempPath, 'ThemeSettings.json'));
+
         //4. Ask the User for Destination Zip File:
         const options = {
-          fileName: ThemeName, 
-          title: `Exporting Theme '${ThemeName}':`, 
+          fileName: ThemeName,
+          title: `Exporting Theme '${ThemeName}':`,
           defaultPath: path.join(app.getPath('desktop'), `${ThemeName}.zip`),
           filters: [
             { name: 'Zip Files', extensions: ['zip'] },
             { name: 'All Files', extensions: ['*'] }
-          ],          
+          ],
           properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
-        }; 
+        };
         let Destination = '';
         await fileHelper.ShowSaveDialog(options).then(filePath => {
           if (filePath) {
@@ -375,7 +557,7 @@ async function ExportTheme(themeData) { //
         //6. Clean the Temp trash:
         fileHelper.deleteFolderRecursive(TempPath);
 
-        return true;  
+        return true;
       }
     }
   } catch (error) {
@@ -397,15 +579,7 @@ const getIniFilePath = (basePath, fileName) => {
 const LoadThemeINIs = async (folderPath) => {
   try {
 
-    //console.log('Loading Inis from: ', folderPath);
-  /*  const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
-      await ini.loadIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini')),
-      await ini.loadIniFile(getIniFilePath(folderPath, 'Advanced.ini')),
-      await ini.loadIniFile(getIniFilePath(folderPath, 'SuitHud.ini')),
-      await ini.loadIniFile(getIniFilePath(folderPath, 'XML-Profile.ini')),
-    ]);*/
-
-   const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
+    const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
       await INIparser.LoadIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini')),
       await INIparser.LoadIniFile(getIniFilePath(folderPath, 'Advanced.ini')),
       await INIparser.LoadIniFile(getIniFilePath(folderPath, 'SuitHud.ini')),
@@ -432,15 +606,7 @@ const LoadThemeINIs = async (folderPath) => {
  */
 const SaveThemeINIs = async (folderPath, themeINIs) => {
   try {
-
- /*   await Promise.all([
-      await ini.saveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), themeINIs.StartupProfile),
-      await ini.saveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), themeINIs.Advanced),
-      await ini.saveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), themeINIs.SuitHud),
-      await ini.saveIniFile(getIniFilePath(folderPath, 'XML-Profile.ini'), themeINIs.XmlProfile),
-    ]);*/
-
-   await Promise.all([
+    await Promise.all([
       await INIparser.SaveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), themeINIs.StartupProfile),
       await INIparser.SaveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), themeINIs.Advanced),
       await INIparser.SaveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), themeINIs.SuitHud),
@@ -454,166 +620,7 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
   }
 };
 
-const ApplyIniValuesToTemplate = (template, iniValues) => {
-  //console.log('ApplyIniValuesToTemplate..');
-  try {
-    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
-      for (const group of template.ui_groups) {
-        if (group.Elements != null) {
-          for (const element of group.Elements) {
 
-            const fileName = element.File.replace(/-/g, '');  // Remove hyphens
-            const section = element.Section;  // Convert section to lowercase
-            const iniKey = element.Key;
-            const defaultValue = element.Value;
-            const foundValue = ini.findValueByKey(iniValues, element);
-            //const foundValue = INIparser.getKey(iniValues[fileName], section, key );
-            console.log(foundValue);
-            /* Can be either an Array of Key/Values or a Single Decimal Value
-            foundValue: [
-              { key: 'x127', value: '0.063' },
-              { key: 'y127', value: '0.7011' },
-              { key: 'z127', value: '1' }
-            ] 
-              {
-                  "Key": "x228",
-                  "Value": 0.3663,
-                  "Comment": "** Shield Up Colour **"
-              }
-              or
-            foundValue: 100.0 */
-
-            if (foundValue != null && foundValue != undefined) {
-              /*
-              if (iniKey === 'x87') {
-                console.log('Key: x87', 'Default:', defaultValue, 'Found:', foundValue);
-              }*/
-
-              if (Array.isArray(foundValue) && foundValue.length > 0) {
-                
-                const colorKeys = iniKey.split("|");            //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
-                const colorComponents = colorKeys.map(key => {  //<- colorComponents: [ '0.063', '0.7011', '1' ]
-                  const foundValueObj = foundValue.find(obj => obj.key === key);
-                  return foundValueObj ? foundValueObj.value : undefined;
-                }); 
-
-                if (colorComponents != undefined && !colorComponents.includes(undefined)) {
-                  const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
-
-                /*  if (iniKey === 'x159|y159|z159') {
-                    console.log('x159|y159|z159: ' + colorComponents );
-                    console.log('RGB reversed: ', color);
-                    console.log('INT value: ', element.Value);
-                  }*/
-
-                } else {                  
-                  element.Value = parseFloat(defaultValue.toFixed(1)); 
-                  console.log('Color Conversion Error:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
-                  //Log.Warning('Key Not Found:', path.join(element.File, element.Section, element.Key));
-                }
-
-              } else {
-                // No hay Multi-Keys, foundValue: 100.0
-                element.Value = parseFloat(foundValue ?? defaultValue)
-                if (foundValue === null || foundValue === undefined) {
-                  console.log('No Value?:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
-                }
-              }
-            } else {
-              element.Value = parseFloat(defaultValue.toFixed(1)); 
-              //console.log('Key Not Found:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
-            }
-          }
-        }
-      }
-    }
-
-    // Handle xml_profile (if it exists)
-    if (template.xml_profile && iniValues.XmlProfile && iniValues.XmlProfile.constants) {
-      for (const xmlProfileEntry of template.xml_profile) {
-        if (iniValues.XmlProfile.constants[xmlProfileEntry.key]) {
-          try {
-            const iniValue = iniValues.XmlProfile.constants[xmlProfileEntry.key];
-            if (!isNaN(parseFloat(iniValue))) {
-              xmlProfileEntry.value = parseFloat(iniValue);
-            }
-          } catch (error) {
-            console.error(`Error parsing value for xml_profile - ${xmlProfileEntry.key}:`, error);
-          }
-        }
-      }
-    }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
-  return template;
-};
-
-const ApplyTemplateValuesToIni = (template, iniValues) => {
-  let stackTrace = '';
-  try {
-
-    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
-      for (const group of template.ui_groups) {
-        if (group.Elements != null) {
-          for (const element of group.Elements) {
-
-            const fileName = element.File.replace(/-/g, '');  // Remove hyphens
-            const section = element.Section;  // Convert section to lowercase
-            const iniKey = element.Key;
-
-            stackTrace = path.join(element.File, element.Section, element.Key) + ' ';
-
-            if (iniKey.includes('|')) {
-              //Multi Key
-              const keys = element.Key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
-              if (Array.isArray(keys) && keys.length > 2) {
-
-                const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
-                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
-
-                keys.forEach((key, index) => {
-                  const value = parseFloat(values[index] === undefined ? element.value : values[index]);
-                  try {                    
-                    INIparser.setKey(iniValues[fileName], section, key, value);
-                  } catch (error) {
-                    console.log(fileName + ', ' + section + ', ' + key + ': ' + value, error.message);
-                  }                
-
-                  //iniValues[fileName][section][key] = parseFloat(values[index]); //parseFloat(value.toFixed(3)); // 
-                });
-              }
-            } else {
-              //Single Key:
-              try {
-                //iniValues[fileName][section][iniKey] = parseFloat(element.Value); //parseFloat(element.Value.toFixed(3)); // 
-                INIparser.setKey(iniValues[fileName], section, iniKey, parseFloat(element.Value));
-              } catch (error) {
-                console.log(fileName + ', ' + section + ', ' + iniKey + ': ' + value, error.message);
-              }              
-            }
-          }
-        }
-      }
-    }
-
-    // Handle xml_profile (if it exists)
-    if (template.xml_profile && iniValues.XmlProfile && iniValues.XmlProfile.Constants) {
-      console.log('We have XML');
-      for (const element of template.xml_profile) {
-        stackTrace = path.join('XmlProfile', 'Constants', element.key) + ' ';
-        const key = element.key;
-        iniValues.XmlProfile.Constants[key] = parseFloat(element.value); //parseFloat(element.Value.toFixed(1)); // 
-      }
-    }
-
-  } catch (error) {
-    throw new Error('At ThemeHelper.js/ApplyTemplateValuesToIni(): ' + stackTrace + error.message);
-  }
-  return iniValues;
-};
 
 // #endregion
 
@@ -783,7 +790,7 @@ ipcMain.handle('UpdateTheme', async (event, theme, source) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-}); 
+});
 ipcMain.handle('SaveTheme', async (event, theme) => {
   try {
     return SaveTheme(theme);
@@ -806,7 +813,7 @@ ipcMain.handle('GetCurrentSettings', async (event, folderPath) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-}); 
+});
 
 ipcMain.handle('GetElementsImage', (event, key) => {
   try {
@@ -819,8 +826,8 @@ ipcMain.handle('GetElementsImage', (event, key) => {
 
     } else {
       // If the image doesn't exist, return the default image path
-      const defaultImagePath = new URL(defaultImg, import.meta.url).href; 
-      return defaultImg; 
+      const defaultImagePath = new URL(defaultImg, import.meta.url).href;
+      return defaultImg;
     }
 
   } catch (error) {
@@ -832,12 +839,12 @@ ipcMain.handle('GetElementsImage', (event, key) => {
 
 // #endregion
 
-export default { 
-  getThemes, 
-  LoadThemeINIs, SaveThemeINIs, 
-  ApplyIniValuesToTemplate, ApplyTemplateValuesToIni, 
-  FavoriteTheme, UnFavoriteTheme, 
+export default {
+  getThemes,
+  LoadThemeINIs, SaveThemeINIs,
+  ApplyIniValuesToTemplate, ApplyTemplateValuesToIni,
+  FavoriteTheme, UnFavoriteTheme,
   CreateNewTheme, UpdateTheme,
   GetCurrentSettingsTheme,
-  
+
 };

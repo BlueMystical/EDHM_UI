@@ -1,8 +1,8 @@
 <template>
     <div ref="colorPickerContainer" class="color-display">
-        <div class="transparency-grid"></div>        
-        <div class="color-layer" :style="colorStyle"></div>     
-        <div class="text-layer" :style="textStyle">{{ rgbaString }}</div>   
+        <div class="transparency-grid"></div>
+        <div class="color-layer" :style="colorStyle"></div>
+        <div class="text-layer" :style="textStyle">{{ rgbaString }}</div>
     </div>
 </template>
 
@@ -51,13 +51,13 @@ export default {
     },
     mounted() {
         this.initializePicker();
-    },  
-    watch: {
-        rgbaString(newVal) {
-           //console.log('rgbaString updated:', newVal); // Debug log
-        }
     },
-  
+    watch: {
+        color(newColor, oldColor) {
+            //console.log(`Color changed from ${oldColor} to ${newColor}`);
+            this.updateColor(newColor);
+        },
+    },
     methods: {
         initializePicker() {
             try {
@@ -75,7 +75,7 @@ export default {
                         this.updateColor(Util.hexToSignedInt(color.hex));
                     },
                 });
-                
+
             } catch (error) {
                 console.log(error);
             }
@@ -85,12 +85,11 @@ export default {
             this.rgbaString = Util.intToRGBAstring(colorInt); //<- for color box
             this.hex = Util.intToHexColor(colorInt);
             this.rgba = Util.intToRGBA(colorInt);
-            
+
             // Force re-render
             this.$nextTick(() => {
                 this.$forceUpdate();
             });
-
 
             // Emit the event with the new color:
             this.$emit('OncolorChanged', { int: colorInt, hex: this.hex, rgba: this.rgba });
@@ -106,16 +105,16 @@ export default {
 
 <style scoped>
 .color-display {
-  width: 100%;
-  height: 100%;
-  min-height: 34px;
-  border: 1px solid #495057;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 34px;
+    border: 1px solid #495057;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 .transparency-grid {
