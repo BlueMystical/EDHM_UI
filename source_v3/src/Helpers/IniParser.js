@@ -119,11 +119,61 @@ function setKey(iniData, section, key, value, comment = undefined) {
         } else {
             sectionData.Keys.push({ Key: key, Value: value, Comment: comment || "" });
         }
+
     } catch (error) {
         console.log('setKey@IniParser:', error);
         throw new Error(error.message + error.stack);
     }
 }
+
+/** Sets the value of a key in the given INI data object.
+ * If the key does not exist in the specified section, it will be added.
+ * @param {object} iniData - The INI data object.
+ * @param {string} fileName - The name of the profile (e.g., 'XmlProfile').
+ * @param {string} sectionName - The name of the section (e.g., 'constants').
+ * @param {string} keyName - The name of the key to set.
+ * @param {any} newValue - The new value to assign to the key.
+ * @returns {object} The modified INI data object. */
+function setIniValue(iniData, fileName, sectionName, keyName, newValue) {
+    if (iniData && iniData[fileName]) {
+        for (let section of iniData[fileName]) {
+            if (section.Section === sectionName) {
+                for (let key of section.Keys) {
+                    if (key.Key === keyName) {
+                        key.Value = newValue;
+                        return iniData; // Key found and updated
+                    }
+                }
+                // Key not found in the section, add it
+                section.Keys.push({ Key: keyName, Value: newValue, Comment: 'Key Not Found, Added as new:' });
+                return iniData;
+            }
+        }
+    }
+    return iniData; // Profile or section not found, or iniData is invalid
+}
+
+/** Gets the value of a key from the given INI data object.
+ * @param {object} iniData - The INI data object.
+ * @param {string} fileName - The name of the profile (e.g., 'XmlProfile').
+ * @param {string} sectionName - The name of the section (e.g., 'constants').
+ * @param {string} keyName - The name of the key to retrieve.
+ * @returns {any|undefined} The value of the key, or undefined if the key is not found. */
+function getIniValue(iniData, fileName, sectionName, keyName) {
+    if (iniData && iniData[fileName]) {
+        for (let section of iniData[fileName]) {
+            if (section.Section === sectionName) {
+                for (let key of section.Keys) {
+                    if (key.Key === keyName) {
+                        return key.Value;
+                    }
+                }
+            }
+        }
+    }
+    return undefined; // Not found
+}
+
 
 export function deleteKey(iniData, section, key) {
     const sectionData = iniData.find(s => s.Section === section);
@@ -162,4 +212,6 @@ ipcMain.handle('INI-DeleteKey', (event, iniData, section, key) => {
     return deleteKey(iniData, section, key);
 });
 
-export default { LoadIniFile, SaveIniFile, getKey, setKey, deleteKey, addKey }
+export default { LoadIniFile, SaveIniFile, 
+    getKey, setKey, setIniValue, getIniValue,
+    deleteKey, addKey }

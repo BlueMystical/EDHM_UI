@@ -248,18 +248,23 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
             stackTrace = path.join(element.File, element.Section, element.Key) + ' ';
 
             if (iniKey.includes('|')) {
-              //Multi Key
+              //Multi Key: Colors
               const keys = element.Key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
               if (Array.isArray(keys) && keys.length > 2) {
 
                 const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                 const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
-                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a];
+                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
+
+                // DEBUG:  Check Color Conversion on a given Key:
+                if (iniKey === 'x232|y232|z232|w232') {
+                  console.log(`Key: ${iniKey}, Int:${element.Value} -> sRGB:`, values);
+                }
 
                 keys.forEach((key, index) => {
-                  const value = parseFloat(values[index] === undefined ? element.value : values[index]);
+                  const value = parseFloat(values[index]);
                   try {
-                    INIparser.setKey(iniValues[fileName], section, key, value);
+                    iniValues = INIparser.setIniValue(iniValues, fileName, section, key, value);
                   } catch (error) {
                     console.log(path.join(fileName, section, key) + ': ' + value, error.message);
                   }
@@ -267,8 +272,9 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
               }
             } else {
               //Single Key:
-              try {
-                INIparser.setKey(iniValues[fileName], section, iniKey, parseFloat(element.Value));
+              try {                
+                iniValues = INIparser.setIniValue(iniValues, fileName, section, iniKey, parseFloat(element.Value));
+                //INIparser.setKey(iniValues[fileName], section, iniKey, parseFloat(element.Value));
               } catch (error) {
                 console.log(fileName + ', ' + section + ', ' + iniKey + ': ' + value, error.message);
               }
@@ -278,15 +284,12 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
       }
     }
 
-    // Handle xml_profile (if it exists)
+    // Set values in the XML:
     if (template.xml_profile && iniValues.XmlProfile) {
 
-      const iniProfile = iniValues.XmlProfile[0].Keys;
-      template.xml_profile.forEach(templateItem => {
-        const iniItem = iniProfile.find(item => item.Key === templateItem.key);
-        if (iniItem) {
-          iniItem.Value = parseFloat(templateItem.value); // Parse to decimal
-        }
+      const section = iniValues.XmlProfile[0].Section;
+      template.xml_profile.forEach(element => {
+        iniValues = INIparser.setIniValue(iniValues, 'XmlProfile', section, element.key, parseFloat(element.value));
       });
 
     }

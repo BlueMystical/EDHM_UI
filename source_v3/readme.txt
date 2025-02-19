@@ -176,21 +176,73 @@ xml_profile: [
 };
 
 -------------------------------------------------------
-INI-Parser:[
-{
-  Section: 'section 1',
-  Comment: 'any comments before the section declaration belong here.',
-  Keys: [
-	{
-	  Key: 'x228',
-	  Value: 0.1248
-	  Comment: 'any comments before the key declaration belong here.'
-	},
-	... more keys ..
-  ]
-},
-...More Sections..
-];
+var IniParser = {
+    StartupProfile: [
+        {
+            Section: 'Constants',
+            Comment: '',
+            Keys: [
+                {
+                    Key: 'x228',
+                    Value: 0.1248,
+                    Comment: ''
+                },
+                { Key: 'z123', Value: 0, Comment: '' },
+                //...more keys..
+            ]
+        },
+        //...More Sections..
+    ],
+    Advanced: [
+        {
+            Section: 'Constants',
+            Comment: '',
+            Keys: [
+                {
+                    Key: 'x101',
+                    Value: 1,
+                    Comment: ''
+                },
+                { Key: 'x102', Value: 0, Comment: '' },
+                //...more keys..
+            ]
+        },
+        //...More Sections..
+    ],
+    SuitHud: [
+        {
+            Section: 'Constants',
+            Comment: '',
+            Keys: [
+                {
+                    Key: 'y101',
+                    Value: 1,
+                    Comment: ''
+                },
+                { Key: 'y123', Value: 0, Comment: '' },
+                //...more keys..
+            ]
+        },
+        //...More Sections..
+    ],
+    XmlProfile: [
+        {
+            Section: 'constants',
+            Comment: '',
+            Keys: [
+                { Key: 'x150', Value: 0.15 },
+                { Key: 'y150', Value: 0.3 },
+                { Key: 'z150', Value: 1 },
+                { Key: 'x151', Value: 0.5 },
+                { Key: 'y151', Value: 1 },
+                { Key: 'z151', Value: 0 },
+                { Key: 'x152', Value: 1 },
+                { Key: 'y152', Value: 0 },
+                { Key: 'z152', Value: 0 }
+            ]
+        }
+    ]
+};
 -------------------------------------------------------
 iniReader = 
 {
