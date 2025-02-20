@@ -4,7 +4,6 @@ import path from 'node:path';
 import Log from './Helpers/LoggingHelper.js';
 import fileHelper from './Helpers/FileHelper.js'; 
 import settingsHelper from './Helpers/SettingsHelper.js'; 
-import iniHelper from './Helpers/IniHelper.js'; 
 import themeHelper from './Helpers/ThemeHelper.js'; 
 
 function createWindow() {  
@@ -54,7 +53,7 @@ app.on('ready', () => {
   createWindow(); 
 
       // Open the DevTools.
-      mainWindow.webContents.openDevTools(); 
+      //mainWindow.webContents.openDevTools(); 
       // Disable the menu bar
       //Menu.setApplicationMenu(null);
 

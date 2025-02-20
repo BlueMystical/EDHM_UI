@@ -429,7 +429,7 @@ export default {
           EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));  //<- this event will be heard in 'ThemeTab.vue'
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
 
-          if (this.settings.FavToogle) {
+          //if (this.settings.FavToogle) {
             const options = {
               type: 'question', //<- none, info, error, question, warning
               buttons: ['Cancel', "Yes, It's a Favorite", 'No, thanks.'],
@@ -444,7 +444,7 @@ export default {
                 EventBus.emit('OnFavoriteTheme', { ThemeName: NewThemeData.credits.theme }); //<- Event Listened on ThemeTab.vue
               }
             });
-          }
+          //}
         }
       } catch (error) {
         EventBus.emit('ShowError', error);

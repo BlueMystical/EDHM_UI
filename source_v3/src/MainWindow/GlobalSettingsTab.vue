@@ -54,9 +54,13 @@
 
               <!-- Custom Color Picker Control -->
               <template v-if="element.ValueType === 'Color'">
-                <ColorDisplay :id="'element-' + element.Key" :color="element.Value"
-                  @OncolorChanged="OnColorValueChange(element, $event)"></ColorDisplay>
-              </template>
+                  <ColorDisplay 
+                    :id="'element-' + element.Key" 
+                    :color="element.Value"
+                    :recentColors="recentColors"
+                    @OncolorChanged="OnColorValueChange(element, $event)"
+                    @OnRecentColorsChange="OnRecentColorsChange($event)" />
+                </template>
 
             </td>
           </tr>
@@ -93,6 +97,8 @@ export default {
       dataSource: null,     //<- Raw Datasource directly from the File
       groupedElements: [],  //<- Processed Datasource from 'loadGroupData()'
       presets: [],          //<- Presets for the Combo Selects, from Raw Datasource
+      recentColors: [],     //<- Array of colors (Hex) for the Recent Colors boxes, up to 8
+      
       activePopover: null,
       selectedKey: null,     //<- key of the selected row
       selectedRow: null,
@@ -301,6 +307,9 @@ export default {
     OnColorValueChange(item, event) {
       const value = event.int;
       this.updateDataSourceValue(item, value);
+    },
+    OnRecentColorsChange(colors) {
+      this.recentColors = [...colors]; // Update the array reactively
     },
     updateDataSourceValue(item, newValue) {
       const elementIndex = this.dataSource.Elements.findIndex(el => el.Key === item.Key);

@@ -140,7 +140,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "x175|y175|z175",
-            "Value": -1,
+            "Value": -463071,
             "ValueType": "Color",
             "Type": "CustomColor",
             "Description": "Custom Color for Space Dust"
@@ -184,7 +184,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "x195|y195|z195",
-            "Value": -1,
+            "Value": -463071,
             "ValueType": "Color",
             "Type": "CustomColor",
             "Description": "Custom Color for Supercruise Snow"

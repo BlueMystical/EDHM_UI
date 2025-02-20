@@ -2,7 +2,6 @@ import { app, ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'fs';
 import { copyFileSync, constants } from 'node:fs';
-import ini from './IniHelper.js';
 import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
 import fileHelper from './FileHelper';
@@ -129,7 +128,7 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
             const iniKey = element.Key;
             const defaultValue = element.Value;
 
-            const foundValue = ini.findValueByKey(iniValues, element);
+            const foundValue = INIparser.findValueByKey(iniValues, element);
             // #region Data Example:
 
             /* foundValue can be either an Array of Key/Values or a Single Decimal Value:  

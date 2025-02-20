@@ -296,19 +296,6 @@ var Color = function () {
             } catch (error) {
                 console.log(error)
             }
-            /* //----- OLD method:
-                        var hex = (input.startsWith('#') ? input.slice(1) : input).replace(/^(\w{3})$/, '$1F').replace(/^(\w)(\w)(\w)(\w)$/, '$1$1$2$2$3$3$4$4').replace(/^(\w{6})$/, '$1FF');
-            
-                        if (!hex.match(/^([0-9a-fA-F]{8})$/)) {
-                            throw new Error('Unknown hex color; ' + input);
-                        }
-            
-                        var rgba = hex.match(/^(\w\w)(\w\w)(\w\w)(\w\w)$/).slice(1).map(function (x) {
-                            return parseInt(x, 16);
-                        });
-            
-                        rgba[3] = rgba[3] / 255;
-                        return rgba;*/
         }
     }, {
         key: 'nameToRgb',
@@ -571,9 +558,9 @@ var Picker = function () {
 
         this.onChange = null;
 
-        this.onRecentColorsChange = null; 
+        this.onRecentColorsChange = null;
 
-        this.recentColors = []; // Initialize recent colors array
+        this.recentColors = options.recentColors || []; // Initialize recent colors array
 
         this.onDone = null;
 
@@ -636,6 +623,10 @@ var Picker = function () {
                 if (col) {
                     this._setColor(col);
                 }
+            }
+
+            if (options.recentColors) {
+                this.recentColors = options.recentColors;
             }
 
             var parent = settings.parent;
@@ -751,8 +742,8 @@ var Picker = function () {
             }
             this.colour = this.color = c;
             this._setHSLA(null, null, null, null, flags);
-        }    
-    },{
+        }
+    }, {
         key: 'setColour',
         value: function setColour(colour, silent) {
             this.setColor(colour, silent);
@@ -764,12 +755,8 @@ var Picker = function () {
             const hexColor = this.colour.hex; // Get the HEX value
 
             box.style.backgroundColor = hexColor; // Set the color
-            //store the color in the array.
-            if (!this.recentColors[index]){
-                this.recentColors[index] = hexColor;
-            } else {
-                this.recentColors[index] = hexColor;
-            }
+            this.recentColors[index] = hexColor;
+            //console.log("Recent colors after _addRecentColorToBox:", this.recentColors);
             this._updateRecentColorsUI();
         }
     }, {
@@ -778,9 +765,10 @@ var Picker = function () {
             box.style.backgroundColor = ''; // Clear the background color
             const index = Array.from(box.parentNode.children).indexOf(box);
             this.recentColors[index] = undefined;
-            this._updateRecentColorsUI(); // Add this line
+            //console.log("Recent colors after _clearRecentColorBox:", this.recentColors);
+            this._updateRecentColorsUI();
         }
-    },{
+    }, {
         key: 'setRecentColors',
         value: function setRecentColors(colors) {
             if (Array.isArray(colors)) {
@@ -788,11 +776,11 @@ var Picker = function () {
                 this._updateRecentColorsUI();
             }
         }
-    },{
+    }, {
         key: 'getRecentColors',
         value: function getRecentColors() {
             return this.recentColors.slice(); // Return a copy of the array
-        }        
+        }
     }, {
         key: '_bindRecentColorEvents',
         value: function _bindRecentColorEvents() {
@@ -806,7 +794,7 @@ var Picker = function () {
                     } else {
                         this._addRecentColorToBox(box, index);
                     }
-                    
+
                 });
 
                 box.addEventListener('dblclick', () => {
@@ -819,7 +807,7 @@ var Picker = function () {
                 });
             });
         }
-    },{
+    }, {
         key: '_updateRecentColorsUI',
         value: function _updateRecentColorsUI() {
             if (!this.domElement) return;
@@ -830,6 +818,8 @@ var Picker = function () {
                     colorBoxes[index].style.backgroundColor = color || '';
                 }
             });
+
+            //console.log("Recent colors before event emission:", this.recentColors);
 
             if (this.onRecentColorsChange) {
                 this.onRecentColorsChange(this.recentColors.slice()); // Trigger the event

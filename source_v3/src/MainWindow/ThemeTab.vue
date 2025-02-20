@@ -28,6 +28,7 @@
       <li><a class="dropdown-item" href="#" :class="{ 'disabled': !isPreviewAvailable }"
           @click="isPreviewAvailable ? onContextMenu_Click('ThemePreview') : null">Theme Preview</a></li>
       <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a></li>
+      <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('DeleteTheme')">Delete Theme</a></li>
       <li>
         <hr class="dropdown-divider">
       </li>
@@ -316,6 +317,24 @@ export default {
             case 'OpenFolder':
               window.api.openPathInExplorer(this.selectedTheme.file.path);
               break;
+
+            case 'DeleteTheme':
+              const options = {
+                type: 'question', //<- none, info, error, question, warning
+                buttons: ['Cancel', "Yes, I am sure", 'No! take me back!'],
+                defaultId: 1,
+                title: 'Delete Theme?',
+                message: 'Do you want to Delete this theme?',
+                detail: `Theme: '${this.selectedTheme.credits.theme}'`,
+                cancelId: 0
+              };
+              window.api.ShowMessageBox(options).then(result => {
+                if (result && result.response === 1) {
+                  
+                }
+              });
+
+            break;
 
             case 'Favorite':
               this.DoFavoriteTheme(null);

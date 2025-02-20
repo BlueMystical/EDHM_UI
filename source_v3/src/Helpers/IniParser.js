@@ -175,6 +175,64 @@ function getIniValue(iniData, fileName, sectionName, keyName) {
 }
 
 
+/** Finds a Key/Value in an INI file
+ * @param {*} data Parsed data of all INI files
+ * @param {*} searchItem One of the Elements from a Theme Template
+ * @returns Return results as an array of key-value pairs, or the single value if only one key */
+function findValueByKey(data, searchItem) {
+    /* searchItem: {
+        ...
+        "File":"Startup-Profile",
+        "Section":"Constants",
+        "Key":"x137", //<- or 'x138|y138|z138|w138'
+        "Value":100,
+        "ValueType":"Preset",
+        ...
+      } 
+    */
+    const results = [];
+  
+    try {
+      const fileName = searchItem.File.replace(/-/g, '');  // Remove hyphens
+      const section = searchItem.Section.toLowerCase();   // Convert section to lowercase
+      const keys = searchItem.Key.split('|');             // Split multiple keys  
+      
+      const fileData = data[fileName]; //console.log('fileName:', fileName);
+
+      if (fileData) {
+        // Find the correct section in a case-insensitive manner:
+        const sectionData = fileData.find(element => element.Section.toLowerCase() === section);
+        if (sectionData && sectionData.Keys) {
+
+          try {
+            keys.forEach(keyName => {
+              const key = sectionData.Keys.find(item => item.Key.toLowerCase() === keyName.toLowerCase());
+              results.push({ key: key.Key, value: key.Value });
+            });
+          } catch (error) {
+            //console.log('Key: ' + keys + ' Not Found on ' + fileName + '/' + section);
+          }
+
+        } else {
+          throw new Error(`Section Not Found: ${path.join(fileName, searchItem.Section)} `);
+        }
+      } else {
+        //console.log('data:', data);
+        //throw new Error(`File Not Found: findValueByKey/${path.join(fileName, searchItem.Section)}`);
+      }
+    } catch (error) {
+      console.error(error);
+      //throw new Error(error.message + error.stack);
+    }
+  
+    // Return results as an array of key-value pairs, or the single value if only one key
+    let _ret = results.length === 1 ? results[0].value : results;
+    if (Array.isArray(_ret) && _ret.length < 1) _ret = null; //<- Empty Arrays not allowed
+
+    return _ret;
+  }
+
+
 export function deleteKey(iniData, section, key) {
     const sectionData = iniData.find(s => s.Section === section);
     if (sectionData) {
@@ -212,6 +270,9 @@ ipcMain.handle('INI-DeleteKey', (event, iniData, section, key) => {
     return deleteKey(iniData, section, key);
 });
 
-export default { LoadIniFile, SaveIniFile, 
+export default { 
+    LoadIniFile, SaveIniFile, 
     getKey, setKey, setIniValue, getIniValue,
-    deleteKey, addKey }
+    deleteKey, addKey,
+    findValueByKey
+}

@@ -19,6 +19,7 @@ export default {
             required: true,
             description: "Signed integer representing the color.",
         },
+        recentColors: [], //<- Array of colors (Hex) for the Recent Colors boxes, up to 8
     },
     data() {
         return {
@@ -57,7 +58,12 @@ export default {
             //console.log(`Color changed from ${oldColor} to ${newColor}`);
             this.updateColor(newColor);
         },
+ /*       recentColors(newColors, oldColors) {
+            console.log("Recent colors changed:", newColors);
+            //this.pickerInstance.setRecentColors(newColors); 
+        }*/
     },
+    emits: ['OncolorChanged', 'OnRecentColorsChange'],
     methods: {
         initializePicker() {
             try {
@@ -69,17 +75,18 @@ export default {
                     alpha: true,
                     editor: true,
                     color: this.rgbaString, //<- 'rgba(255,0,0, 1)' | #FF0000FF  
+                    recentColors: this.recentColors,
                     cancelButton: false,
 
                     onChange: (color) => {
                         this.updateColor(Util.hexToSignedInt(color.hex));
                     },
                     onRecentColorsChange: (colors) => {
-                        console.log("Recent colors changed:", colors);
-                        // Do something with the colors
+                        //console.log("Recent colors changed:", colors);
+                        this.$emit('OnRecentColorsChange', colors);
                     }
                 });
-                this.pickerInstance.setRecentColors(['#ff0000', '#00ff00', '#0000ff']);
+                //this.pickerInstance.setRecentColors(this.recentColors); //<- ['#ff0000', '#00ff00', '#0000ff']
 
             } catch (error) {
                 console.log(error);
