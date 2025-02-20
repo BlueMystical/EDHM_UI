@@ -558,7 +558,6 @@ var Picker = function () {
 
 
         this.settings = {
-
             popup: 'right',
             layout: 'default',
             alpha: true,
@@ -571,6 +570,10 @@ var Picker = function () {
         this._events = new EventBucket();
 
         this.onChange = null;
+
+        this.onRecentColorsChange = null; 
+
+        this.recentColors = []; // Initialize recent colors array
 
         this.onDone = null;
 
@@ -623,6 +626,10 @@ var Picker = function () {
                 }
                 if (options.onClose) {
                     this.onClose = options.onClose;
+                }
+                //Add this part
+                if (options.onRecentColorsChange) {
+                    this.onRecentColorsChange = options.onRecentColorsChange;
                 }
 
                 var col = options.color || options.colour;
@@ -744,11 +751,89 @@ var Picker = function () {
             }
             this.colour = this.color = c;
             this._setHSLA(null, null, null, null, flags);
-        }
-    }, {
+        }    
+    },{
         key: 'setColour',
         value: function setColour(colour, silent) {
             this.setColor(colour, silent);
+        }
+    }, {
+        key: '_addRecentColorToBox',
+        value: function _addRecentColorToBox(box, index) {
+            if (!this.colour) return;
+            const hexColor = this.colour.hex; // Get the HEX value
+
+            box.style.backgroundColor = hexColor; // Set the color
+            //store the color in the array.
+            if (!this.recentColors[index]){
+                this.recentColors[index] = hexColor;
+            } else {
+                this.recentColors[index] = hexColor;
+            }
+            this._updateRecentColorsUI();
+        }
+    }, {
+        key: '_clearRecentColorBox',
+        value: function _clearRecentColorBox(box) {
+            box.style.backgroundColor = ''; // Clear the background color
+            const index = Array.from(box.parentNode.children).indexOf(box);
+            this.recentColors[index] = undefined;
+            this._updateRecentColorsUI(); // Add this line
+        }
+    },{
+        key: 'setRecentColors',
+        value: function setRecentColors(colors) {
+            if (Array.isArray(colors)) {
+                this.recentColors = colors.slice(0, 8); // Take only the first 8 elements
+                this._updateRecentColorsUI();
+            }
+        }
+    },{
+        key: 'getRecentColors',
+        value: function getRecentColors() {
+            return this.recentColors.slice(); // Return a copy of the array
+        }        
+    }, {
+        key: '_bindRecentColorEvents',
+        value: function _bindRecentColorEvents() {
+            if (!this.domElement) return;
+
+            const colorBoxes = this.domElement.querySelectorAll('.recent-color-box');
+            colorBoxes.forEach((box, index) => {
+                box.addEventListener('click', () => {
+                    if (box.style.backgroundColor) {
+                        this._setColor(box.style.backgroundColor);
+                    } else {
+                        this._addRecentColorToBox(box, index);
+                    }
+                    
+                });
+
+                box.addEventListener('dblclick', () => {
+                    this._clearRecentColorBox(box);
+                });
+
+                box.addEventListener('contextmenu', (e) => {
+                    e.preventDefault(); // Prevent default context menu
+                    this._clearRecentColorBox(box);
+                });
+            });
+        }
+    },{
+        key: '_updateRecentColorsUI',
+        value: function _updateRecentColorsUI() {
+            if (!this.domElement) return;
+
+            const colorBoxes = this.domElement.querySelectorAll('.recent-color-box');
+            this.recentColors.forEach((color, index) => {
+                if (colorBoxes[index]) {
+                    colorBoxes[index].style.backgroundColor = color || '';
+                }
+            });
+
+            if (this.onRecentColorsChange) {
+                this.onRecentColorsChange(this.recentColors.slice()); // Trigger the event
+            }
         }
     }, {
         key: 'show',
@@ -766,7 +851,28 @@ var Picker = function () {
                 return toggled;
             }
 
-            var html = this.settings.template || '<div class="picker_wrapper" tabindex="-1"><div class="picker_arrow"></div><div class="picker_hue picker_slider"><div class="picker_selector"></div></div><div class="picker_sl"><div class="picker_selector"></div></div><div class="picker_alpha picker_slider"><div class="picker_selector"></div></div><div class="picker_editor"><input aria-label="Type a color name or hex value"/></div><div class="picker_sample"></div><div class="picker_done"><button>Ok</button></div><div class="picker_cancel"><button>Cancel</button></div></div>';
+            //var html = this.settings.template || '<div class="picker_wrapper" tabindex="-1"><div class="picker_arrow"></div><div class="picker_hue picker_slider"><div class="picker_selector"></div></div><div class="picker_sl"><div class="picker_selector"></div></div><div class="picker_alpha picker_slider"><div class="picker_selector"></div></div><div class="picker_editor"><input aria-label="Type a color name or hex value"/></div><div class="picker_sample"></div><div class="picker_done"><button>Ok</button></div><div class="picker_cancel"><button>Cancel</button></div></div>';
+            var html = this.settings.template || `
+    <div class="picker_wrapper" tabindex="-1">
+        <div class="picker_arrow"></div>
+        <div class="picker_hue picker_slider"><div class="picker_selector"></div></div>
+        <div class="picker_sl"><div class="picker_selector"></div></div>
+        <div class="picker_alpha picker_slider"><div class="picker_selector"></div></div>
+        <div class="picker_editor"><input aria-label="Type a color name or hex value"/></div>
+        <div class="picker_sample"></div>
+        <div class="picker_done"><button>Ok</button></div>
+        <div class="picker_cancel"><button>Cancel</button></div>
+        <div class="recent-colors">
+            <div class="recent-color-box"></div>
+            <div class="recent-color-box"></div>
+            <div class="recent-color-box"></div>
+            <div class="recent-color-box"></div>
+            <div class="recent-color-box"></div>
+            <div class="recent-color-box"></div>
+            <div class="recent-color-box"></div>
+            <div class="recent-color-box"></div>
+        </div>
+    </div>`;
             var wrapper = parseHTML(html);
 
             this.domElement = wrapper;
@@ -800,6 +906,9 @@ var Picker = function () {
                 this._setColor(this.settings.defaultColor);
             }
             this._bindEvents();
+
+            this._updateRecentColorsUI(); // Update recent colors UI
+            this._bindRecentColorEvents(); // Bind click events to recent colors
 
             return true;
         }

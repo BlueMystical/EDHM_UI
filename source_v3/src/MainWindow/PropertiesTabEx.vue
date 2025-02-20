@@ -148,7 +148,7 @@ export default {
                 }
 
                 // DEBUG:  Check Color Conversion on a given Key:
-                const keyIndex = this.dataSource.Elements.findIndex(key => key.Key === 'x232|y232|z232|w232');
+                /*const keyIndex = this.dataSource.Elements.findIndex(key => key.Key === 'x232|y232|z232|w232');
                 if (keyIndex >= 0) {
                     const x232_intColor = this.dataSource.Elements[keyIndex].Value;
                     const x232_rgbColor = Util.intToRGBA(x232_intColor);
@@ -161,7 +161,7 @@ export default {
                         game: x232_gamColor
                     };
                     console.log('x232:', x232);
-                }
+                }*/
             }
         },
 
@@ -345,7 +345,7 @@ export default {
             this.updateDataSourceValue(item, value);
 
             // DEBUG:  Check Color Conversion on a given Key:
-            if (item.Key === 'x232|y232|z232|w232') {
+           /* if (item.Key === 'x232|y232|z232|w232') {
                 const x232_intColor = item.Value;
                 const x232_rgbColor = Util.intToRGBA(x232_intColor);
                 const x232_gamColor = Util.GetGammaCorrected_RGBA(x232_rgbColor);
@@ -357,7 +357,7 @@ export default {
                     game: x232_gamColor
                 };
                 console.log('x232:', x232);
-            }
+            }*/
             //console.log('color:' + value);
         },
         updateDataSourceValue(item, newValue) {

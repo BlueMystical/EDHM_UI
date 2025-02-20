@@ -150,10 +150,10 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
               if (Array.isArray(foundValue) && foundValue.length > 0) {
 
                 const colorKeys = iniKey.split("|");            //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
-                const colorComponents = colorKeys.map(key => {  //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                const colorComponents = colorKeys.map(key => {  
                   const foundValueObj = foundValue.find(obj => obj.key === key);
                   return foundValueObj ? foundValueObj.value : undefined;
-                });
+                }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
 
                 if (colorComponents != undefined && !colorComponents.includes(undefined)) {
                   const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
@@ -245,7 +245,7 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
             const section = element.Section;  // Convert section to lowercase
             const iniKey = element.Key;
 
-            stackTrace = path.join(element.File, element.Section, element.Key) + ' ';
+            stackTrace = path.join(element.File, element.Section, element.Key) + ': ';
 
             if (iniKey.includes('|')) {
               //Multi Key: Colors
@@ -257,16 +257,16 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
                 const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
 
                 // DEBUG:  Check Color Conversion on a given Key:
-                if (iniKey === 'x232|y232|z232|w232') {
+                /*if (iniKey === 'x232|y232|z232|w232') {
                   console.log(`Key: ${iniKey}, Int:${element.Value} -> sRGB:`, values);
-                }
+                }*/
 
                 keys.forEach((key, index) => {
                   const value = parseFloat(values[index]);
                   try {
                     iniValues = INIparser.setIniValue(iniValues, fileName, section, key, value);
                   } catch (error) {
-                    console.log(path.join(fileName, section, key) + ': ' + value, error.message);
+                    console.log(stackTrace + value, error.message);
                   }
                 });
               }
@@ -274,9 +274,8 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
               //Single Key:
               try {                
                 iniValues = INIparser.setIniValue(iniValues, fileName, section, iniKey, parseFloat(element.Value));
-                //INIparser.setKey(iniValues[fileName], section, iniKey, parseFloat(element.Value));
               } catch (error) {
-                console.log(fileName + ', ' + section + ', ' + iniKey + ': ' + value, error.message);
+                console.log(stackTrace + value, error.message);
               }
             }
           }

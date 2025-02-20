@@ -68,13 +68,18 @@ export default {
                     editorFormat: 'hex',    //<- 'hex' | 'hsl' | 'rgb'
                     alpha: true,
                     editor: true,
-                    color: this.rgbaString,     //'rgba(255,0,0, 1)' | #FF0000FF  
+                    color: this.rgbaString, //<- 'rgba(255,0,0, 1)' | #FF0000FF  
                     cancelButton: false,
 
                     onChange: (color) => {
                         this.updateColor(Util.hexToSignedInt(color.hex));
                     },
+                    onRecentColorsChange: (colors) => {
+                        console.log("Recent colors changed:", colors);
+                        // Do something with the colors
+                    }
                 });
+                this.pickerInstance.setRecentColors(['#ff0000', '#00ff00', '#0000ff']);
 
             } catch (error) {
                 console.log(error);
@@ -114,7 +119,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: relative; /* Create local stacking context */
 }
 
 .transparency-grid {
@@ -126,7 +131,7 @@ export default {
     background-image: url("./../../images/TransparencyGrid.jpg");
     background-repeat: repeat;
     border-radius: 6px;
-    z-index: 0;
+    z-index: 0; /* Lowest */
 }
 
 .color-layer {
@@ -135,7 +140,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: 1; /* Middle */
 }
 
 .text-layer {
@@ -150,6 +155,6 @@ export default {
     font-size: 12px;
     color: #000;
     pointer-events: none;
-    /*z-index: 188;*/
+    z-index: 2; /* Highest within .color-display */
 }
 </style>

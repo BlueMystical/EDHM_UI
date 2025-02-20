@@ -97,7 +97,9 @@
 	box-sizing: border-box;
 	border: none;
 	box-shadow: 0 0 0 1px silver;
-	outline: none
+	outline: none;
+	background-color: #f5f5f5;
+	color: #444;
 }
 
 .picker_wrapper button:focus,
@@ -111,6 +113,7 @@
 	padding: .4em .6em;
 	cursor: pointer;
 	background-color: #f5f5f5;
+	color: #444;
 	background-image: linear-gradient(0deg, gainsboro, transparent)
 }
 
@@ -191,7 +194,7 @@
 .picker_wrapper.popup,
 .picker_wrapper.popup .picker_arrow::before,
 .picker_wrapper.popup .picker_arrow::after {
-	background: #f2f2f2;
+	background: #eeecec;
 	box-shadow: 0 0 10px 1px rgba(0, 0, 0, .4);
 }
 
@@ -227,56 +230,69 @@
 }
 
 .popup.popup_top {
-	bottom: 100%;
-	left: 0
+    bottom: 100%;
+    left: 0
 }
 .popup.popup_top .picker_arrow {
-	bottom: 0;
-	left: 0;
-	-webkit-transform: rotate(-90deg);
-	transform: rotate(-90deg)
+    bottom: 0;
+    left: 0;
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg)
 }
 
 .popup.popup_bottom {
-	top: 100%;
-	left: 0
+    top: 100%;
+    left: 0
 }
 .popup.popup_bottom .picker_arrow {
-	top: 0;
-	left: 0;
-	-webkit-transform: rotate(90deg) scale(1, -1);
-	transform: rotate(90deg) scale(1, -1)
+    top: 0;
+    left: 0;
+    -webkit-transform: rotate(90deg) scale(1, -1);
+    transform: rotate(90deg) scale(1, -1)
 }
 
 .popup.popup_left {
-	top: 0;
-	right: 100%
+    top: 0;
+    right: 100%
 }
 .popup.popup_left .picker_arrow {
-	top: 0;
-	right: 0;
-	-webkit-transform: scale(-1, 1);
-	transform: scale(-1, 1)
+    top: 0;
+    right: 0;
+    -webkit-transform: scale(-1, 1);
+    transform: scale(-1, 1)
 }
 
 .popup.popup_right {
-	top: 0;
-	left: 100%
+    top: 0;
+    left: 100%
 }
 .popup.popup_right .picker_arrow {
-	top: 0;
-	left: 0
+    top: 0;
+    left: 0
 }
 
 /* Middle positioning */
 .popup.popup_middle {
     top: 0;
     right: 50%;
-	z-index: 2;
+    z-index: 1000; /* Increased z-index */
 }
 .popup.popup_middle .picker_arrow {
-	top: 0;
-	right: 0;
-	-webkit-transform: scale(-1, 1);
-	transform: scale(-1, 1)
+    top: 0;
+    right: 0;
+    -webkit-transform: scale(-1, 1);
+    transform: scale(-1, 1)
+}
+
+.recent-colors {
+    display: flex;
+    justify-content: space-around; /* Distributes boxes evenly */
+    margin-top: 10px; /* Adjust as needed */
+    gap: 5px; /* Adds spacing between boxes */
+}
+.recent-color-box {
+    width: 20px; /* Adjust size as needed */
+    height: 20px;
+    border: 1px solid #ccc; /* Optional border */
+    cursor: pointer;
 }
