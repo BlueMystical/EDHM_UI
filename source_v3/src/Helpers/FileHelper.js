@@ -231,7 +231,33 @@ const checkFileExists = (filePath) => {
   }
 };
 
-function deleteFolderRecursive(folderPath) {
+/** Copies files with specific extensions from one directory to another. 
+ * @param {string} sourceDir - The path to the source directory.
+ * @param {string} destDir - The path to the destination directory.
+ * @param {string[]} extensions - An array of file extensions to copy (e.g., ['.jpg', '.json']). */
+async function copyFiles(sourceDir, destDir, extensions) {
+  let filesCopied = 0;
+
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
+  }
+
+  fs.readdirSync(sourceDir).forEach(file => {
+    const currentPath = path.join(sourceDir, file);
+    if (fs.lstatSync(currentPath).isFile()) {
+      const ext = path.extname(file).toLowerCase();
+      if (extensions.includes(ext)) {
+        const destPath = path.join(destDir, file);
+        fs.copyFileSync(currentPath, destPath);
+        filesCopied++;
+      }
+    }
+  });
+
+  return filesCopied;
+}
+
+async function deleteFolderRecursive(folderPath) {
   if (fs.existsSync(folderPath)) {
     fs.readdirSync(folderPath).forEach((file) => {
       const currentPath = path.join(folderPath, file);
@@ -243,7 +269,9 @@ function deleteFolderRecursive(folderPath) {
       }
     });
     fs.rmdirSync(folderPath); // Remove the now-empty folder
+    return true;
   }
+  return false; //<- 404 - The Folder doesnt exists
 }
 
 /** Deletes the given File 
@@ -406,8 +434,12 @@ async function ShowOpenDialog(options) {
       throw new Error(error.message + error.stack);
     }
 }
+
+/** * Shows a save dialog and returns the file path if the user did not hit the Cancel button. 
+ * @param {object} options - The options for the save dialog.
+ * @returns {string|null} - The selected file path, or null if the user canceled the dialog. */
 async function ShowSaveDialog(options) {
-  /*    
+  /* USAGE:  
         const options = {
           fileName: ThemeName, 
           title: `Exporting Theme '${ThemeName}':`, 
@@ -418,6 +450,10 @@ async function ShowSaveDialog(options) {
           ],          
           properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
         }; 
+        const filePath = await ShowSaveDialog(options);
+        if (filePath) {  console.log('Destination:', filePath); }
+
+Another way:
         let Destination = '';
         await fileHelper.ShowSaveDialog(options).then(filePath => {
           if (filePath) {
@@ -426,12 +462,12 @@ async function ShowSaveDialog(options) {
         }); 
         console.log('Destination: ', Destination);
   */
-    try {
-      const result = dialog.showSaveDialogSync(options);
-      return result;
-    } catch (error) {
-      throw new Error(error.message + error.stack);
-    }
+  try {
+    const result = dialog.showSaveDialogSync(options);
+    return result ? result : null;
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
 }
 
 // #endregion
@@ -1348,6 +1384,7 @@ export default {
   loadJsonFile, 
   writeJsonFile, 
 
+  copyFiles,
   checkFileExists, 
   openPathInExplorer ,
   deleteFilesByType,

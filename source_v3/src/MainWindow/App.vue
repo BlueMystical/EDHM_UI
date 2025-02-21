@@ -12,8 +12,7 @@
     <ThemeImageEditor v-if="showThemeImageEditorModal" :themeEditorData="themeEditorData" @save="handleImageEditorSave" @close="closeThemeImageEditor" />
     <ThemeEditor v-if="showThemeEditor" :themeEditorData="themeEditorData" @submit="handleThemeEditorSubmit" @close="closeThemeEditor" />
     
-    <XmlEditor ref="xmlEditor" @onCloseModal="onXmlEditorClosed"/>
-    
+    <XmlEditor ref="xmlEditor" @onCloseModal="onXmlEditorClosed"/>   
 
   </div>
 </template>
@@ -286,15 +285,16 @@ export default {
     /** This will take your currently applied settings and Save them into the Selected Theme * 
    * @param e Selected Theme Data   */
     async DoUpdateTheme(e) {
+      //console.log(e);
       if (e && e.theme != null) { //<-- The Selected Theme
         const NewThemeData = JSON.parse(JSON.stringify(e.theme));
-        const CurrentSettings = JSON.parse(JSON.stringify(e.source));
+        const CurrentSettings = JSON.parse(JSON.stringify(e.source));        
 
         const _ret = await window.api.UpdateTheme(NewThemeData, CurrentSettings);
         console.log('UpdatedTheme:', _ret);
 
         if (_ret) {
-          EventBus.emit('DoReloadTheme', { theme: JSON.parse(JSON.stringify(NewThemeData)) }); //<- Event Listened on ThemeTab.vue
+          EventBus.emit('loadThemes', null); //<- Event Listened on ThemeTab.vue
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
         }
       }

@@ -329,13 +329,11 @@ explorer . && code .
 npm install --save bootstrap 
 npm install bootstrap-vue@latest
 npm install bootstrap-icons	
+npm install mitt    <- for Events
+npm install zip-lib <- for ZIP files
 
-npm install --save ini 		//<- For editing INI files
-npm uninstall regedit --save	//<- For accesing Windows Registry
 
-npm uninstall axios //<- For Downloading Files
-npm uninstall vanilla-picker --save  //<- For Color Picker
-
+npm install split-pane ???
 npm uninstall @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 
 -----------------------------------------------------------------------------------
@@ -344,10 +342,9 @@ ie4uinit.exe -show          <- Refresca la Cache de Iconos
 npm cache clean --force     <- Refresca la cache de Node
 
 -----------------------------------------------------------------------------------
-npm install split-pane
-npm install mitt
-npm install zip-lib
-npm uninstall find-process
+
+
+
 
 
 // ------- RUNNING THE APP ----------------
@@ -412,6 +409,7 @@ npx electron-forge make --arch="ia32"
 run after cloning the Repo:
 npm install
 
+//-------------------------------------------------------------------------------------------
 // running the installer on Linux:
 sudo apt install ./edhm-ui-v3_3.0.0_amd64.deb
 sudo rpm -i EDHM-UI-V3-3.0.0-1.x86_64.rpm
@@ -420,6 +418,6 @@ sudo rpm -i EDHM-UI-V3-3.0.0-1.x86_64.rpm
 dpkg --list
 sudo apt-get remove edhm-ui-v3
 sudo apt-get purge edhm-ui-v3
-
+//-------------------------------------------------------------------------------------------
 
 

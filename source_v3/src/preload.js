@@ -72,7 +72,7 @@ contextBridge.exposeInMainWorld('api', {
   ExportTheme: async (themeData) => ipcRenderer.invoke('ExportTheme', themeData),
   UpdateTheme: async (themeData, source) => ipcRenderer.invoke('UpdateTheme', themeData, source),
   SaveTheme: async (themeData) => ipcRenderer.invoke('SaveTheme', themeData),
-  getColorMatrixFilters: async () => ipcRenderer.invoke('GetColorMatrixFilters'),
+  DeleteTheme: async (themeData) => ipcRenderer.invoke('DeleteTheme', themeData),  
 
   // #endregion
 
@@ -121,6 +121,8 @@ contextBridge.exposeInMainWorld('api', {
   openUrlInBrowser: (url) => { shell.openExternal(url); },
 
   // #endregion
+
+  getColorMatrixFilters: async () => ipcRenderer.invoke('GetColorMatrixFilters'),
 
   getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo),
   getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo),

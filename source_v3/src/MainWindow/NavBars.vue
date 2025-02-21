@@ -262,6 +262,7 @@ export default {
         );  //console.log('gameMenuItems:', gameMenuItems);
 
         this.themeTemplate = await this.LoadCurrentSettings();
+        EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'    
         await this.History_LoadElements();
 
       } catch (error) {
@@ -291,6 +292,8 @@ export default {
           console.log('Loading Theme..', template.credits.theme);
           this.themeTemplate = await window.api.LoadTheme(template.path);
           this.themeTemplate.credits = theme.file.credits;
+
+          //console.log('LoadedTheme..', this.themeTemplate.credits);
 
           if (template.credits.theme === 'Current Settings') {
             this.currentSettingsPath = template.path;
@@ -386,16 +389,10 @@ export default {
     async LoadCurrentSettings() {
       try {
         if (this.ActiveInstance.path != '') {
-          const themePath = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
-
-          this.themeTemplate = await window.api.GetCurrentSettings(themePath);
-          this.themeTemplate.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM  
-          //console.log('LoadCurrentSettings: ', this.themeTemplate);
-
-          if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
-            EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'            
-            return JSON.parse(JSON.stringify(this.themeTemplate));
-          }
+          const themePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
+          let _ret = await window.api.GetCurrentSettings(themePath);
+          _ret.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM  
+          return _ret;
         }
       } catch (error) {
         EventBus.emit('ShowError', new Error(error.message + error.stack));

@@ -53,7 +53,7 @@ app.on('ready', () => {
   createWindow(); 
 
       // Open the DevTools.
-      //mainWindow.webContents.openDevTools(); 
+     // mainWindow.webContents.openDevTools(); 
       // Disable the menu bar
       //Menu.setApplicationMenu(null);
 

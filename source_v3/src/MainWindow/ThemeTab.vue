@@ -23,35 +23,25 @@
     </ul>
 
     <!-- Context Menu for Themes -->
-    <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu shadow show" ref="contextMenu">
+    <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu border border-primary shadow show" ref="contextMenu">
       <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('ApplyTheme')">Apply Theme</a></li>
       <li><a class="dropdown-item" href="#" :class="{ 'disabled': !isPreviewAvailable }"
           @click="isPreviewAvailable ? onContextMenu_Click('ThemePreview') : null">Theme Preview</a></li>
       <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('OpenFolder')">Open Theme Folder</a></li>
       <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('DeleteTheme')">Delete Theme</a></li>
-      <li>
-        <hr class="dropdown-divider">
-      </li>
-      <!--<li><a class="dropdown-item" href="#" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')">
-          {{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }} </a></li> -->
-
+      <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item" href="#" @click="onContextMenu_Click(isFavorite ? 'UnFavorite' : 'Favorite')"
           :class="{ disabled: isCurrentSettings }">{{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }}
         </a></li>
-
-      <li>
-        <hr class="dropdown-divider">
-      </li>
-      <li>
-        <h6 class="dropdown-header">{{ selectedTheme.name }}</h6>
-      </li>
+      <li><hr class="dropdown-divider"></li>
+      <li><h6 class="dropdown-header">{{ selectedTheme.name }}</h6></li>
       <p><small class="px-3 disabled">Author: <span v-html="selectedTheme.file.credits.author"></span></small></p>
     </ul>
 
   </div> <!-- theme-container -->
 
   <!-- No quitar esto o se jode el tamaño de los temas, no sé por qué?? -->
-  <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div> 
+  <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
 
 </template>
 
@@ -141,7 +131,7 @@ export default {
         this.themes = [{
           id: 0,
           name: "Current Settings",
-          src: ThumbImage, //'images/PREVIEW.png', 
+          src: ThumbImage, 
           preview: '',
           alt: "Current Settings",
           file: {
@@ -207,27 +197,32 @@ export default {
      */
     OnSelectTheme(theme) {
       try {
+        //console.log(this.selectedTheme);
         if (theme && !isEmpty(theme)) {
-          if (this.themes && !isEmpty(this.themes)) {
-            const searchIndex = theme.id;                                             //console.log('searchIndex: ', searchIndex);
-            const selectedItem = this.themes.find(item => item.id === searchIndex);   console.log('Clicked Theme: ', selectedItem.name);
+          // This check allowes the user to select its own theme without reloading old values:
+          if (this.selectedTheme === null || this.selectedTheme.id != theme.id) {
+            if (this.themes && !isEmpty(this.themes)) {
+              const searchIndex = theme.id;                                             //console.log('searchIndex: ', searchIndex);
+              const selectedItem = this.themes.find(item => item.id === searchIndex); 
+              console.log('Clicked Theme: ', selectedItem.name);
 
-            if (selectedItem) {
-              this.selectedImageId = searchIndex;
-              this.selectedTheme = selectedItem;                                      //console.log('selectedTheme: ', this.selectedTheme);
+              if (selectedItem) {
+                this.selectedImageId = searchIndex;
+                this.selectedTheme = selectedItem;                                      //console.log('selectedTheme: ', this.selectedTheme);
 
-              this.$nextTick(() => {
-                const selectedElement = document.getElementById('image-' + selectedItem.id);
-                if (selectedElement) {
-                  selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-              });
-              EventBus.emit('ThemeClicked', JSON.parse(JSON.stringify(selectedItem))); //<- this event will be heard in 'MainNavBars.vue'
+                this.$nextTick(() => {
+                  const selectedElement = document.getElementById('image-' + selectedItem.id);
+                  if (selectedElement) {
+                    selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                  }
+                });
+                EventBus.emit('ThemeClicked', JSON.parse(JSON.stringify(selectedItem))); //<- this event will be heard in 'MainNavBars.vue'
+              }
             }
-          }
-          else {
-            console.log('Waiting for themes to be loaded..');
-            this.quequeSelect = theme;
+            else {
+              console.log('Waiting for themes to be loaded..');
+              this.quequeSelect = theme;
+            }
           }
         }
       } catch (error) {
@@ -325,15 +320,17 @@ export default {
                 defaultId: 1,
                 title: 'Delete Theme?',
                 message: 'Do you want to Delete this theme?',
-                detail: `Theme: '${this.selectedTheme.credits.theme}'`,
+                detail: `Theme: '${this.selectedTheme.file.credits.theme}'`,
                 cancelId: 0
               };
-              window.api.ShowMessageBox(options).then(result => {
-                if (result && result.response === 1) {
-                  
+              const result = await window.api.ShowMessageBox(options);
+              if (result && result.response === 1) {
+                const _ret = await window.api.DeleteTheme(this.selectedTheme.file.path);
+                if (_ret) {
+                  EventBus.emit('RoastMe', { type: 'Success', message: 'Theme Deleted!' });
+                  this.loadThemes();
                 }
-              });
-
+              };
             break;
 
             case 'Favorite':
@@ -373,10 +370,20 @@ export default {
       this.showContextMenu(event.clientX, event.clientY); // Show the custom context menu
     },
     showContextMenu(x, y) {
-      // Position the context menu
+      const contextMenu = this.$refs.contextMenu;
+      const container = document.querySelector('.theme-tab');
+      const containerRect = container.getBoundingClientRect();
+      const contextMenuHeight = contextMenu.offsetHeight;
+      const contextMenuWidth = contextMenu.offsetWidth;
+
+      // Calculate centered position
+      const centeredY = 200; // containerRect.top + (containerRect.height - contextMenuHeight) / 2;
+      const centeredX = containerRect.left + (containerRect.width - contextMenuWidth) / 2;
+
+      // Position the context menu in the center of the container
       this.contextMenuStyle = {
-        top: `${y - 60}px`,
-        left: `${x}px`,
+        top: `${centeredY}px`,
+        left: `${centeredX}px`,
         display: 'block'
       };
       this.showContextMenuFlag = true;

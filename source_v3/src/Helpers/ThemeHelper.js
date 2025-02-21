@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'fs';
-import { copyFileSync, constants } from 'node:fs';
+//import { copyFileSync, constants } from 'node:fs';
 import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
 import fileHelper from './FileHelper';
@@ -90,19 +90,15 @@ const LoadTheme = async (themeFolder) => {
   try {
     const themeJSON = path.join(themeFolder, 'ThemeSettings.json');
     if (fs.existsSync(themeJSON)) {
-      // New v3 Format for Themes, single File:
+      // New v3 Format for Themes, single File JSON:
       template = await fileHelper.loadJsonFile(themeJSON);
       template.path = themeFolder;
       template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
 
     } else {
-      // Old fashion format for Themes:
+      // Old fashion format for Themes, Multiple INI files:
       const ThemeINIs = await LoadThemeINIs(themeFolder);
       const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');
-
-      //if (themeFolder.includes('@Elite Default - ORANGE')) {
-      //  console.log('@Elite Default - ORANGE xml A:', ThemeINIs.XmlProfile[0].Keys);
-      //}
 
       template = await fileHelper.loadJsonFile(defaultThemePath);
       template = await ApplyIniValuesToTemplate(template, ThemeINIs);
@@ -511,6 +507,15 @@ async function SaveTheme(themeData) {
   }
 }
 
+async function DeleteTheme(themePath) {
+  try {
+    return fileHelper.deleteFolderRecursive(themePath);
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message + error.stack);
+  }
+}
+
 /** Exports the given theme into a ZIP file 
  * @param {*} themeData Theme to Export
  * @returns 
@@ -529,9 +534,8 @@ async function ExportTheme(themeData) { //
       if (fileHelper.ensureDirectoryExists(TempPath)) {
 
         //3. COPY THE THEME FILES TO A TEMP FOLDER:
-        copyFileSync(path.join(ThemePath, `${ThemeName}.jpg`), path.join(TempPath, `${ThemeName}.jpg`));
-        copyFileSync(path.join(ThemePath, 'PREVIEW.jpg'), path.join(TempPath, 'PREVIEW.jpg'));
-        copyFileSync(path.join(ThemePath, 'ThemeSettings.json'), path.join(TempPath, 'ThemeSettings.json'));
+        const _ret = await fileHelper.copyFiles(ThemePath, TempPath, ['.jpg', '.json']); //<- 'PREVIEW.jpg', 'ThemeName.jpg', 'ThemeSettings.json'
+        console.log(_ret + ' Files Copied.');
 
         //4. Ask the User for Destination Zip File:
         const options = {
@@ -544,21 +548,17 @@ async function ExportTheme(themeData) { //
           ],
           properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
         };
-        let Destination = '';
-        await fileHelper.ShowSaveDialog(options).then(filePath => {
-          if (filePath) {
-            Destination = filePath;
-          }
-        });
-        console.log('Destination: ', Destination);
+        const Destination = await fileHelper.ShowSaveDialog(options);
+        if (Destination) {
+          console.log('Destination:', Destination);
+          //5. COMPRESS THEME FILES:
+          await fileHelper.compressFolder(TempPath, Destination);
 
-        //5. COMPRESS THEME FILES:
-        await fileHelper.compressFolder(TempPath, Destination);
-
-        //6. Clean the Temp trash:
-        fileHelper.deleteFolderRecursive(TempPath);
-
-        return true;
+          //6. Clean the Temp trash:
+          await fileHelper.deleteFolderRecursive(TempPath);
+          return true;
+        }
+        return false;
       }
     }
   } catch (error) {
@@ -798,6 +798,13 @@ ipcMain.handle('SaveTheme', async (event, theme) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
+}); 
+ipcMain.handle('DeleteTheme', async (event, theme) => {
+  try {
+    return DeleteTheme(theme);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
 });
 
 ipcMain.handle('ExportTheme', async (event, themeData) => {
@@ -847,5 +854,5 @@ export default {
   FavoriteTheme, UnFavoriteTheme,
   CreateNewTheme, UpdateTheme,
   GetCurrentSettingsTheme,
-
+  DeleteTheme,
 };

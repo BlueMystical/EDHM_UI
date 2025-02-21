@@ -58,10 +58,6 @@ export default {
             //console.log(`Color changed from ${oldColor} to ${newColor}`);
             this.updateColor(newColor);
         },
- /*       recentColors(newColors, oldColors) {
-            console.log("Recent colors changed:", newColors);
-            //this.pickerInstance.setRecentColors(newColors); 
-        }*/
     },
     emits: ['OncolorChanged', 'OnRecentColorsChange'],
     methods: {
@@ -75,14 +71,13 @@ export default {
                     alpha: true,
                     editor: true,
                     color: this.rgbaString, //<- 'rgba(255,0,0, 1)' | #FF0000FF  
-                    recentColors: this.recentColors,
+                    recentColors: this.recentColors, //<- ['#ff0000', '#00ff00', '#0000ff']
                     cancelButton: false,
 
                     onChange: (color) => {
                         this.updateColor(Util.hexToSignedInt(color.hex));
                     },
                     onRecentColorsChange: (colors) => {
-                        //console.log("Recent colors changed:", colors);
                         this.$emit('OnRecentColorsChange', colors);
                     }
                 });

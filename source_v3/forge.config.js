@@ -2,6 +2,34 @@ const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 const path = require('path');
 
+/*  // For Linux
+module.exports = {
+  packagerConfig: {
+    // set config executableName
+    executableName: "edhm-ui-v3",
+    icon: path.join(__dirname, 'public/images/icon.png'),
+  },
+  makers: [
+    {
+      name: '@electron-forge/maker-deb',
+      executableName: "edhm-ui-v3",
+      config: {
+        options: {
+          icon: path.join(__dirname, 'src/images/icon.png'),
+          setupIcon: path.join(__dirname, 'src/images/icon.png'), 
+          name: 'edhm-ui-v3',
+          productName: 'edhm-ui-v3',
+          genericName: 'Modding Tool',
+          maintainer: 'Blue Mystic <bluemystic.play@gmail.com>',
+          description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
+        }
+      }
+    }
+  ],
+  // set output directory name
+  buildIdentifier: 'edhm-ui-v3',
+}
+*/
 module.exports = {
     packagerConfig: {
       asar: true,
