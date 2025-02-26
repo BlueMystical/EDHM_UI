@@ -165,7 +165,9 @@ export default {
             this.close();
         },
         async InstallGameInstance(FolderPath){
-            await window.api.terminateProgram('EliteDangerous64.exe');
+            try {
+                await window.api.terminateProgram('EliteDangerous64.exe');
+            } catch {}           
             this.addNewGameInstance(FolderPath);
         },
         /* Manually Browse for the Game Executable */
@@ -183,7 +185,7 @@ export default {
                 if (filePath) {
                     const FolderPath = window.api.getParentFolder(filePath[0]);
                     this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
-                    InstallGameInstance(FolderPath);
+                    this.InstallGameInstance(FolderPath);
                 }
             });
         },

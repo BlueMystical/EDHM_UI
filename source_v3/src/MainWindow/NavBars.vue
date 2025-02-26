@@ -7,7 +7,7 @@
 
     <!-- Main Menu -->
     <div class="nav-item">
-      <div class="input-group mb-3">
+      <div class="input-group mb-3 ">
         <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style" @change="MainMenu_Click($event.target.value)">
           <option default value="mnuDummy">Main Menu</option>
           <option value="mnuSettings">Settings</option>
@@ -184,8 +184,12 @@ import defaultTemplateString from '../data/ODYSS/ThemeTemplate.json';
 let defaultTemplate = JSON.parse(JSON.stringify(defaultTemplateString));
 
 //Enable Tooltips:
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+// Enable Dropdown for the Context Menu
+const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
 
 /** To Check is something is Empty
  * @param obj Object to check

@@ -195,9 +195,9 @@ export default {
         EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${gameVersion} Installed.` });
         EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
 
-        if (this.InstallStatus === 'freshInstall') {
+        /*if (this.InstallStatus === 'freshInstall') {
           EventBus.emit('RoastMe', { type: 'Info', message: 'You can close this now.' });
-        }
+        }*/
       } catch (error) {
         EventBus.emit('ShowError', error);
       } finally {

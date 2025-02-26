@@ -28,7 +28,6 @@ const createWindow = () => {
 
   console.log('App is Loading..');  
 
-  /*
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -36,10 +35,10 @@ const createWindow = () => {
   } else {
     console.log('Production mode: ');
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));  
-  }*/
+  }
 
   //-- Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -54,11 +53,11 @@ app.whenReady().then(() => {
   //Menu.setApplicationMenu(null);
 
   //-- Create Desktop Shortcut Icons:
-  if (process.platform === 'win32') {
+  /*if (process.platform === 'win32') {
     fileHelper.createWindowsShortcut.call(this);
   } else if (process.platform === 'linux') {
     fileHelper.createLinuxShortcut.call(this);
-  }
+  }*/
 
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.

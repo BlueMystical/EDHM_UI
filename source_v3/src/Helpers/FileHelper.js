@@ -708,20 +708,24 @@ function detectProgram(exeName, callback) {
 }
 
 function terminateProgram(exeName, callback) {
-  if (os.platform() === 'win32') {
+  try {
+    if (os.platform() === 'win32') {
       exec(`taskkill /F /IM ${exeName}`, (error, stdout) => {
-          if (error) {
-              return callback(error, null);
-          }
-          callback(null, stdout);
+        if (error) {
+          return callback(error, null);
+        }
+        callback(null, stdout);
       });
-  } else { //<- Linux
+    } else { //<- Linux
       exec(`pkill -f ${exeName}`, (error, stdout) => {
-          if (error) {
-              return callback(error, null);
-          }
-          callback(null, stdout);
+        if (error) {
+          return callback(error, null);
+        }
+        callback(null, stdout);
       });
+    }
+  } catch (error) {
+    console.log(error.message + error.stack);
   }
 }
 

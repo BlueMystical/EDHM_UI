@@ -65,77 +65,89 @@ export default {
     data() {
         return {
             toasts: {
-                Error: { title: '', message: '' },
-                Success: { title: '', message: '' },
-                Warning: { title: '', message: '' },
-                Info: { title: '', message: '' },
-                ErrMsg: { title: '', message: '', stack: '' },
+                Error:      { title: '', message: '' },
+                Success:    { title: '', message: '' },
+                Warning:    { title: '', message: '' },
+                Info:       { title: '', message: '' },
+                ErrMsg:     { title: '', message: '', stack: '' },
             },
         }
     },
     methods: {
 
         /** Displays a Colored Toast Notification at Bottom Right corner of the Window
-         * @param data Configuration Object: { title: '', message: ''}
-         */
+         * @param data Configuration Object: 
+         * { 
+         *      type: 'Info', //<- Info, Success, Warning, Error
+         *      title: '', 
+         *      message: '',
+         *      stack: 'Stack Trace for Errors',
+         *      autoHide: true
+         * }         */
          showToast(data) {
             const { type, title, message, stack, autoHide = true } = data;
             const toastType = type.charAt(0).toUpperCase() + type.slice(1);
 
-            if (this.toasts[toastType]) {
-                this.toasts[toastType].title = title;
-                this.toasts[toastType].message = message;
-                if (stack) this.toasts[toastType].stack = stack;
+            try {
+                if (this.toasts[toastType]) {
+                    this.toasts[toastType].title = title;
+                    this.toasts[toastType].message = message;
+                    if (stack) this.toasts[toastType].stack = stack;
 
-                const toast = document.getElementById(`liveToast-${toastType}`);
-                let toastBootstrap = bootstrap.Toast.getInstance(toast);
+                    const toast = document.getElementById(`liveToast-${toastType}`);
+                    let toastBootstrap = bootstrap.Toast.getInstance(toast);
 
-                const options = {
-                    autohide: autoHide,
-                    delay: 3000 // Auto-hide delay in milliseconds
-                };
+                    const options = {
+                        autohide: autoHide,
+                        delay: 3000 // Auto-hide delay in milliseconds
+                    };
 
-                if (toastBootstrap) {
-                    toastBootstrap.dispose();
+                    if (toastBootstrap) {
+                        toastBootstrap.dispose();
+                    }
+                    toastBootstrap = new bootstrap.Toast(toast, options);
+                    toastBootstrap.show();
+
+                    if (toastType === 'ErrMsg') {
+                        window.api.logError(error.message, error.stack);
+                    }
+                } else {
+                    console.error(`Toast type "${type}" not recognized.`);
                 }
-                toastBootstrap = new bootstrap.Toast(toast, options);
-                toastBootstrap.show();
-
-                if (toastType === 'ErrMsg') {
-                    window.api.logError(error.message, error.stack);
-                }
-            } else {
-                console.error(`Toast type "${type}" not recognized.`);
-            }
+            } catch (error) {
+                console.log(error.message + error.stack);
+            } 
         },
 
         /** Displays an Error Toast Notification at Bottom Right corner of the Window
          * @param {Error} error - The error object to display
          */
         showError(error) {
-            const toastType = 'ErrMsg';
+            try {
+                const toastType = 'ErrMsg';
 
-            if (this.toasts[toastType]) {
+                if (this.toasts[toastType]) {
 
-                this.toasts[toastType].title = 'Unexpected Error';
-                this.toasts[toastType].message = error.message;
-                this.toasts[toastType].stack = error.stack;
+                    this.toasts[toastType].title = 'Unexpected Error';
+                    this.toasts[toastType].message = error.message;
+                    this.toasts[toastType].stack = error.stack;
 
-                const toast = document.getElementById(`liveToast-${toastType}`);
-                let toastBootstrap = bootstrap.Toast.getInstance(toast);
+                    const toast = document.getElementById(`liveToast-${toastType}`);
+                    let toastBootstrap = bootstrap.Toast.getInstance(toast);
 
-                if (toastBootstrap) {
-                    toastBootstrap.show();
+                    if (toastBootstrap) {
+                        toastBootstrap.show();
+                    } else {
+                        toastBootstrap = new bootstrap.Toast(toast, { autohide: false });
+                        toastBootstrap.show();
+                    }
+                    console.error(error.message, error.stack);
+
                 } else {
-                    toastBootstrap = new bootstrap.Toast(toast, { autohide: false });
-                    toastBootstrap.show();
+                    console.error(`Toast type "${type}" not recognized.`);
                 }
-
-                window.api.logError(error.message, error.stack);
-                console.error(error.message, error.stack);
-
-            } else {
-                console.error(`Toast type "${type}" not recognized.`);
+            } catch (error) {
+                console.log(error.message + error.stack);
             }
         },
 
