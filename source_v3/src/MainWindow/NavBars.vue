@@ -309,17 +309,19 @@ export default {
     async applyTheme() {
       this.showSpinner = true;
       try {
+        console.log('0. Applying Theme:', this.themeTemplate.credits.theme);
+
         this.ActiveInstance = await window.api.getActiveInstance();
-        console.log('1. ActiveInstance:', this.ActiveInstance);
+        console.log('1. ActiveInstance:', this.ActiveInstance.instance);
 
         const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
         const GameType = this.ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
         const defaultInisPath = await window.api.getAssetPath(`data/${GameType}`);
         console.log('2. Preparing all the Paths:', GamePath);
 
-        this.themeTemplate = await window.api.LoadTheme(GamePath); //<- Loads the Current Settings from the JSON file at Game Dir.
         let template = JSON.parse(JSON.stringify(this.themeTemplate));
-        console.log('3. ThemeTemplate:', this.themeTemplate);
+        template.path = GamePath;
+        console.log('3. Theme Template:', template);
 
         // Reusable function to apply Global/User settings:
         async function applySettings(settings, template, counterName) {
@@ -362,11 +364,8 @@ export default {
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
         console.log('6. Get Default Inis:', defaultINIs);
 
-        /*----------------------------------------------------------------------------------*/
-        //const parser = new INIParser();
-        //parser.load(defaultInisPath); // Path to your INI file
-        //console.log('6. Get Default Inis Ex:', parser.data);
-        /*----------------------------------------------------------------------------------*/
+        const _curSettsSAved = await window.api.SaveTheme(template);
+        console.log('Current Settings Saved?: ', _curSettsSAved);
 
         const updatedInis = await window.api.ApplyTemplateValuesToIni(template, defaultINIs);
         console.log('7. Applying Changes to the INIs...', updatedInis);
@@ -730,9 +729,9 @@ export default {
         const areaIndex = this.themeTemplate.ui_groups.findIndex(item => item.Name === ui_group.Name); 
         if (areaIndex >= 0) {
           this.themeTemplate.ui_groups[areaIndex] = ui_group;
-          this.themeTemplate.path = GamePath;
-
-          const saved = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
+          const theme = JSON.parse(JSON.stringify(this.themeTemplate));
+          theme.path = GamePath;
+          const saved = await window.api.SaveTheme(theme);
           console.log('Current Settings Saved?: ', saved);
         }
       }

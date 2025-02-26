@@ -34,8 +34,11 @@
           :class="{ disabled: isCurrentSettings }">{{ isFavorite ? 'Remove Favorite' : 'Add to Favorites' }}
         </a></li>
       <li><hr class="dropdown-divider"></li>
-      <li><h6 class="dropdown-header">{{ selectedTheme.name }}</h6></li>
-      <p><small class="px-3 disabled">Author: <span v-html="selectedTheme.file.credits.author"></span></small></p>
+
+      <div class="header-text px-3"><h6>{{ selectedTheme.name }}</h6>
+        <p><small class="px-3 text-info">By <span v-html="selectedTheme.file.credits.author"></span></small></p>
+      </div>
+      <p><small class="px-3 description-text" v-html="selectedTheme.file.credits.description" @click="descriptionLinkClick"></small></p>
     </ul>
 
   </div> <!-- theme-container -->
@@ -158,8 +161,6 @@ export default {
         );
 
         this.FilterThemes(this.programSettings.FavToogle);
-
-        //console.log('Themes Loaded: ', this.themes);
         EventBus.emit('OnThemesLoaded', this.themes);  //<- this event will be heard in 'App.vue'
 
       } catch (error) {
@@ -377,7 +378,7 @@ export default {
       const contextMenuWidth = contextMenu.offsetWidth;
 
       // Calculate centered position
-      const centeredY = 200; // containerRect.top + (containerRect.height - contextMenuHeight) / 2;
+      const centeredY = 100; // containerRect.top + (containerRect.height - contextMenuHeight) / 2;
       const centeredX = containerRect.left + (containerRect.width - contextMenuWidth) / 2;
 
       // Position the context menu in the center of the container
@@ -394,6 +395,14 @@ export default {
     hideContextMenu() {
       this.showContextMenuFlag = false;
       document.removeEventListener('click', this.hideContextMenu); // Remove the event listener
+    },
+    descriptionLinkClick(event) {
+      if (event.target.tagName === 'A') {        
+        event.preventDefault(); // Prevent default link behavior        
+        const link = event.target.getAttribute('href'); // Get the href attribute
+        window.api.openUrlInBrowser(link);
+        console.log('Link clicked:', link);
+      }
     },
 
     // #endregion
@@ -516,5 +525,34 @@ ul {
 .context-menu {
   position: absolute;
   z-index: 1000;
+}
+
+.dropdown-menu {
+  width: 240px;
+  max-width: 250px; /* Set your desired fixed width */
+  white-space: normal; /* Allow text to wrap */
+  display: block; /* Ensures the block display */
+  box-sizing: border-box; /* Includes padding and border in width and height */
+}
+.header-text {
+  overflow-wrap: break-word; /* Ensure long words break onto the next line */
+  word-wrap: break-word; /* Old IE support */
+  white-space: normal; /* Allow text to wrap */
+  display: block; /* Ensures the block display */
+  box-sizing: border-box; /* Includes padding and border in width and height */
+  color: orange;
+  margin-bottom: 2px; /* Reduce spacing below header */
+}
+.description-text {
+  overflow-wrap: break-word; /* Ensure long words break onto the next line */
+  word-wrap: break-word; /* Old IE support */
+  white-space: normal; /* Allow text to wrap */
+  display: block; /* Ensures the block display */
+  color: inherit; /* Inherit color from parent to avoid looking disabled */
+  cursor: default; /* Ensures it doesn't look clickable */
+}
+.text-info {
+  margin-top: 0; /* Reduce spacing above author line */
+  margin-bottom: 5px; /* Optional: adjust spacing below author line if needed */
 }
 </style>

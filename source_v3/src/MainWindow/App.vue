@@ -272,8 +272,8 @@ export default {
 
     /** When a Theme Template is Loaded. 
      * @param event Contains the template of the theme     */
-     OnTemplateLoaded(event) {
-      try {        
+    OnTemplateLoaded(event) {
+      try {
         this.themeTemplate = JSON.parse(JSON.stringify(event));
         console.log('Theme Loaded: ', this.themeTemplate.credits.theme);
         EventBus.emit('InitializeProperties', JSON.parse(JSON.stringify(this.themeTemplate))); //<- Event Listened at PropertiesTabEx.vue
@@ -281,14 +281,14 @@ export default {
         EventBus.emit('ShowError', error);
       }
     },
-    
+
     /** This will take your currently applied settings and Save them into the Selected Theme * 
-   * @param e Selected Theme Data   */
+    * @param e Selected Theme Data   */
     async DoUpdateTheme(e) {
       //console.log(e);
       if (e && e.theme != null) { //<-- The Selected Theme
         const NewThemeData = JSON.parse(JSON.stringify(e.theme));
-        const CurrentSettings = JSON.parse(JSON.stringify(e.source));        
+        const CurrentSettings = JSON.parse(JSON.stringify(e.source));
 
         const _ret = await window.api.UpdateTheme(NewThemeData, CurrentSettings);
         console.log('UpdatedTheme:', _ret);

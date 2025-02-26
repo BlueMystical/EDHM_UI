@@ -331,7 +331,8 @@ npm install bootstrap-vue@latest
 npm install bootstrap-icons	
 npm install mitt    <- for Events
 npm install zip-lib <- for ZIP files
-
+npm install -g asar
+npm install @vitejs/plugin-vue --save-dev
 
 npm install split-pane ???
 npm uninstall @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
@@ -342,9 +343,11 @@ ie4uinit.exe -show          <- Refresca la Cache de Iconos
 npm cache clean --force     <- Refresca la cache de Node
 
 -----------------------------------------------------------------------------------
-
-
-
+// ASAR:
+npm install -g asar
+// Ver el Contenido del archivo ASAR:
+asar list app.asar
+asar extract app.asar extracted_app
 
 
 // ------- RUNNING THE APP ----------------
@@ -369,9 +372,15 @@ npm install --save electron-squirrel-startup
 	There are no platform-specific dependencies for using this maker and it will run on any platform. */
 
 npm install --save-dev @electron-forge/maker-zip
+npm run make -- --arch="x64" --targets="@electron-forge/maker-zip"
 
 /* Create a package for Debian-based Linux distributions (Debian,Ubuntu,Mint,Raspbian,Kali Linux, etc..) */
 npm install --save-dev @electron-forge/maker-deb
+npm run make -- --arch="x64" --targets="@electron-forge/maker-deb"
+sudo apt install ./edhm-ui-v3_3.0.0_amd64.deb
+
+
+
 sudo apt-get install rpm
 
 /* Create an RPM package for RedHat-based Linux distributions (Red Hat,Fedora,CentOS,Rocky,AlmaLinux,Oracle, etc)  */

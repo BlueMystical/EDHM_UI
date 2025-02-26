@@ -309,12 +309,21 @@ async function GetCreditsFile(themePath) {
         creditsJson = JSON.parse(creditsData);
       } catch {
         creditsJson = {
-          "theme": themeName,
-          "author": "Unknown",
-          "description": "** .Credits file missing or Invalid **",
-          "preview": ""
+          theme: themeName,
+          author: "Unknown",
+          description: "** .Credits file missing or Invalid **",
+          preview: ""
         };
       }
+    }
+    else {
+      // in case there is no credits file:
+      creditsJson = {
+        theme: "Current Settings", 
+        author: "You",
+        description: "** THESE ARE THE CURRENTLY APPLIED COLORS **",
+        preview: ""                     
+      };
     }
 
   } catch (error) {

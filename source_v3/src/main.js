@@ -1,88 +1,81 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import path from 'node:path';
+import started from 'electron-squirrel-startup';
+import fileHelper from './Helpers/FileHelper.js';
+import themeHelper from './Helpers/ThemeHelper.js';
+import settingsHelper from './Helpers/SettingsHelper.js';
 
-import Log from './Helpers/LoggingHelper.js';
-import fileHelper from './Helpers/FileHelper.js'; 
-import settingsHelper from './Helpers/SettingsHelper.js'; 
-import themeHelper from './Helpers/ThemeHelper.js'; 
-
-function createWindow() {  
-  const mainWindow = new BrowserWindow({
-    width: 1600, minWidth: 1160,
-    height: 800, minHeight: 553,        
-    
-    icon: path.join(__dirname, 'images/ED_TripleElite.ico'), 
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      enableRemoteModule: false,
-      nodeIntegration: true,
-      contextIsolation: true,
-      webSecurity: false
-    },
-  });
-  //log.info('Loading main window content...');
-  mainWindow.loadURL(
-    MAIN_WINDOW_VITE_DEV_SERVER_URL || path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
-  ).catch(err => {
-    Log.Error('Failed to load main window content:', err);
-  });
-
-  mainWindow.webContents.on('did-finish-load', () => {
-
-  });
-
-  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
-   // log.error('Failed to load:', errorCode, errorDescription);
-   Log.Error(errorCode, errorDescription);
-  });
-
-  mainWindow.webContents.on('crashed', () => {
-    //log.error('Window crashed');
-    Log.Error('Window crashed');
-  });
-
-  try {
-    if (require('electron-squirrel-startup')) app.quit(); 
-  } catch (error) {
-    console.log(error);
-  }  
+// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+if (started) {
+  app.quit();
 }
 
-app.on('ready', () => { 
-  console.log('App is ready');
-  createWindow(); 
+const createWindow = () => {
+  // Create the browser window.
+  const mainWindow = new BrowserWindow({
+    width: 1600, minWidth: 1160,
+    height: 800, minHeight: 553,
 
-      // Open the DevTools.
-     // mainWindow.webContents.openDevTools(); 
-      // Disable the menu bar
-      //Menu.setApplicationMenu(null);
+    icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      webSecurity: false
+      //enableRemoteModule: false,      
+      //contextIsolation: true,      
+    },
+  });
 
-  if (process.platform === 'win32') { 
-    fileHelper.createWindowsShortcut.call(this); 
-  } else if (process.platform === 'linux') { 
+  console.log('App is Loading..');  
+
+  /*
+  // and load the index.html of the app.
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  } else {
+    console.log('Production mode: ');
+    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));  
+  }*/
+
+  //-- Open the DevTools.
+  //mainWindow.webContents.openDevTools();
+};
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.whenReady().then(() => {
+  createWindow();
+
+  console.log('App is Ready!');
+  
+  //-- Disable the menu bar
+  //Menu.setApplicationMenu(null);
+
+  //-- Create Desktop Shortcut Icons:
+  if (process.platform === 'win32') {
+    fileHelper.createWindowsShortcut.call(this);
+  } else if (process.platform === 'linux') {
     fileHelper.createLinuxShortcut.call(this);
-  } 
+  }
+
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
 });
 
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
-
-// Handle errors in main process
-process.on('uncaughtException', (err) => {
-  Log.Error(`Uncaught Exception: ${err.message}`, err.stack);
-  // Handle the error gracefully (e.g., display an error message to the user)
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  Log.Error(`Uncaught Exception: ${reason}`, '');
-});
 

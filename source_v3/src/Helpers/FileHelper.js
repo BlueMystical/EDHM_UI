@@ -1159,7 +1159,7 @@ ipcMain.handle('resolve-env-variables', async (event, inputPath) => {
     return resolvedPath;
   } catch (error) {
     console.error('Failed to resolve environment variables:', error);
-    logEvent(error.message, error.stack);
+    //logEvent(error.message, error.stack);
     throw new Error(error.message + error.stack);
   }
 });

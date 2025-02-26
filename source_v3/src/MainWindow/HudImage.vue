@@ -63,7 +63,7 @@ export default {
             hudData = await window.api.getJsonFile(defaultJsonPath);
           } catch (defaultJsonFileError) {
             console.error('Failed to load default HUD settings:', defaultJsonFileError);
-            window.api.logEvent('Failed to load default HUD settings:', defaultJsonFileError, 'loadHUDSettings:82');
+            //window.api.logEvent('Failed to load default HUD settings:', defaultJsonFileError, 'loadHUDSettings:82');
             return;
           }
         }
