@@ -365,6 +365,16 @@ async function installEDHMmod(gameInstance) {
       throw new Error('Instance.path Not Defined!');
     }
 
+    // Check if gameInstance.path is an array
+    let gamePath = gameInstance.path;
+    if (Array.isArray(gamePath) && gamePath.length > 0) {
+      gamePath = gamePath[0]; // Take the first item
+      console.log('Instance.path is an array, using first item:', gamePath);
+    } else if (Array.isArray(gamePath) && gamePath.length === 0) {
+      console.log('Instance.path is an empty array:', gamePath);
+      throw new Error('Instance.path is an empty Array!');
+    }
+
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
     const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);                       //console.log('AssetsPath', AssetsPath);
     const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
@@ -394,8 +404,8 @@ async function installEDHMmod(gameInstance) {
       throw new Error('Could not create the target folder for Simlink "EDHM-Ini".');
     }
 
-    const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gameInstance.path, 'EDHM-ini'));
-    const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gameInstance.path, 'ShaderFixes'));
+    const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gamePath, 'EDHM-ini'));
+    const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gamePath, 'ShaderFixes'));
     console.log('SymlinkEdhmIni: ', SymlinkEdhmIni);
     console.log('SymlinkShaders: ', SymlinkShaders);
 
@@ -406,7 +416,7 @@ async function installEDHMmod(gameInstance) {
     const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM-v*.zip`); //<- ODYSS_EDHM-v19.06.zip
     if (edhmZipFile) {
       console.log('edhmZipFile: ', edhmZipFile);
-      const unzipGamePath = gameInstance.path;
+      const unzipGamePath = gamePath;
       const versionMatch = edhmZipFile.match(/v\d+\.\d+/); console.log('version', versionMatch);
 
       console.log('Unziping into -> ', unzipGamePath);
@@ -428,6 +438,7 @@ async function installEDHMmod(gameInstance) {
   }
   return Response;
 };
+
 
 async function CheckEDHMinstalled(gamePath) {
   try {

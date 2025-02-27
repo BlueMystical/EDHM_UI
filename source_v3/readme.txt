@@ -374,6 +374,7 @@ npm install --save electron-squirrel-startup
 npm install --save-dev @electron-forge/maker-zip
 npm run make -- --arch="x64" --targets="@electron-forge/maker-zip"
 
+
 /* Create a package for Debian-based Linux distributions (Debian,Ubuntu,Mint,Raspbian,Kali Linux, etc..) */
 npm install --save-dev @electron-forge/maker-deb
 npm run make -- --arch="x64" --targets="@electron-forge/maker-deb"
@@ -385,6 +386,7 @@ sudo apt-get install rpm
 
 /* Create an RPM package for RedHat-based Linux distributions (Red Hat,Fedora,CentOS,Rocky,AlmaLinux,Oracle, etc)  */
 npm install --save-dev @electron-forge/maker-rpm
+npm run make -- --arch="x64" --targets="@electron-forge/maker-rpm"
 
 /* Generate a DMG with Electron Forge to distribute your Electron app on macOS. */
 npm install --save-dev @electron-forge/maker-dmg
