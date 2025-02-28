@@ -53,11 +53,11 @@ app.whenReady().then(() => {
   //Menu.setApplicationMenu(null);
 
   //-- Create Desktop Shortcut Icons:
-  /*if (process.platform === 'win32') {
+  if (process.platform === 'win32') {
     fileHelper.createWindowsShortcut.call(this);
   } else if (process.platform === 'linux') {
     fileHelper.createLinuxShortcut.call(this);
-  }*/
+  }
 
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.

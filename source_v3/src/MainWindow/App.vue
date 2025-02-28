@@ -387,6 +387,7 @@ export default {
       // When the Image Editor is closed (by Saving)
       // STEP 1:  GET THE IMAGES FOR PREVIEW & THUMBNAIL
       if (this.editingTheme) {
+        /******  We are Editing a Theme     **************/
         this.themeEditorData.preview = images.previewImage;
         this.previewImage = images.previewImage;
 
@@ -394,6 +395,7 @@ export default {
         this.thumbnailImage = images.thumbnailImage;
 
       } else {
+        /******** We are Creating a new Theme:   **********/
         this.previewImage = images.previewImage;
         this.thumbnailImage = images.thumbnailImage;
 
@@ -414,11 +416,11 @@ export default {
       /**** WHEN THE THEME EDITOR IS CLOSED (by Saving) ***** */
       try {
         if (data instanceof SubmitEvent) { return; } // Ignore the SubmitEvent  
-        //console.log('Data:', data); //<- credits: { theme: 'ThemeName', author: '', description: '', preview: 'Base64image', thumb: 'Base64image' }
+        //console.log('Data:', data); 
         this.closeThemeEditor();
 
         //STEP 2:  GET THE NEW THEME'S META-DATA      
-        const NewThemeData = JSON.parse(JSON.stringify(data));
+        const NewThemeData = JSON.parse(JSON.stringify(data)); //<- credits: { theme: 'ThemeName', author: '', description: '', preview: 'Base64image', thumb: 'Base64image' }
         console.log('Modified Data:', NewThemeData);
 
         //STEP 3: WRITE THE NEW THEME
@@ -548,6 +550,8 @@ export default {
         const serverVersion = latesRelease.version;
         const isUpdate = this.compareVersions(serverVersion, localVersion); console.log('isUpdate:', isUpdate);
 
+        //console.log(latesRelease);
+
         if (isUpdate) {
           const options = {
             type: 'question', //<- none, info, error, question, warning
@@ -560,7 +564,7 @@ export default {
           };
           window.api.ShowMessageBox(options).then(result => {
             if (result && result.response === 1) {
-              const url = latesRelease.assets[0].url;
+              const url = latesRelease.html_url; //latesRelease.assets[0].url;
               window.api.openUrlInBrowser(url);
               //EventBus.emit('StartDownload', JSON.parse(JSON.stringify(latesRelease))); //<- Event Listen in 'NavBars.vue'
             }

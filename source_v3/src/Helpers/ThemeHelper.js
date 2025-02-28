@@ -395,7 +395,7 @@ async function GetCurrentSettingsTheme(themePath) {
  */
 async function CreateNewTheme(credits) {
   try {
-    //console.log('credits: ', credits);  
+    //console.log('credits: ', credits);  //<- credits: { theme: 'ThemeName', author: '', description: '', preview: 'Base64image', thumb: 'Base64image' }
 
     //1. RESOLVE THE THEMES PATH:
     const Credits = credits.credits;
@@ -409,7 +409,8 @@ async function CreateNewTheme(credits) {
     if (fileHelper.ensureDirectoryExists(themesPath)) {
 
       //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
-      const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
+      //const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
+      const CurrentSettings = await LoadTheme(path.join(gameInstance.path, 'EDHM-ini'));
       CurrentSettings.credits.theme = Credits.theme;
       CurrentSettings.credits.author = Credits.author;
       CurrentSettings.credits.description = Credits.description;

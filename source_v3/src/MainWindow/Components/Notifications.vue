@@ -170,6 +170,10 @@ export default {
             this.closeToast(toastType);
             // You can perform additional actions here when a toast is clicked
         },
+
+        copyToClipboard(msg){
+            window.api.copyToClipboard(msg);
+        }
   
     },
     async mounted() {

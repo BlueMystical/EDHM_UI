@@ -178,7 +178,7 @@ namespace EDHM_UI_mk2.Forms
 										#endregion
 
 										#region KeyBindings
-
+										/*
 										if (_ManagedMod.mod_name == "Odyssey Key Bindings")
 										{
 											//Leo los Bindings desde el Registro, si existen:
@@ -205,7 +205,7 @@ namespace EDHM_UI_mk2.Forms
 													}
 												}												
 											}
-										}
+										}*/
 
 										#endregion
 
@@ -2805,14 +2805,14 @@ namespace EDHM_UI_mk2.Forms
 						}
 
 						//Guardo las Keybindings en el registro para persistir sus valores tras las actualizaciones:
-						if (CurrentdMod.mod_name == "Odyssey Key Bindings")
+						/*if (CurrentdMod.mod_name == "Odyssey Key Bindings")
 						{
 							string _Sections = Util.Serialize_ToJSON(CurrentdMod.sections);
 							if (_Sections != null)
 							{
 								Util.WinReg_WriteKey("EDHM", "KeyBindings", _Sections);
 							}
-						}
+						}*/
 					}
 					if (CurrentdMod.mod_type == "XMLConfig")
 					{

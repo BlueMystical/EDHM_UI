@@ -366,7 +366,7 @@ npm install --save-dev @electron/packager
 npm install --save-dev @electron-forge/maker-squirrel
 npm install --save electron-squirrel-startup 
 
-
+-------------------------------------------------------------------------------------------
 /* 	Create a ZIP archive for your Electron app using Electron Forge.
 	The ZIP target builds basic .zip archives containing your packaged application. 
 	There are no platform-specific dependencies for using this maker and it will run on any platform. */
@@ -374,17 +374,27 @@ npm install --save electron-squirrel-startup
 npm install --save-dev @electron-forge/maker-zip
 npm run make -- --arch="x64" --targets="@electron-forge/maker-zip"
 
-
+// place the script 'unzip_and_install.sh' next the ZIP file
+chmod +x unzip_and_install.sh //<- make the script executable
+./unzip_and_install.sh //<- run it
+// Program will be install at '~/.local/share/EDHM-UI-V3'
+-------------------------------------------------------------------------------------------
 /* Create a package for Debian-based Linux distributions (Debian,Ubuntu,Mint,Raspbian,Kali Linux, etc..) */
 npm install --save-dev @electron-forge/maker-deb
 npm run make -- --arch="x64" --targets="@electron-forge/maker-deb"
+
+// Installing the .deb:
 sudo apt install ./edhm-ui-v3_3.0.0_amd64.deb
+or
+sudo dpkg -i edhm-ui-v3_3.0.0_amd64.deb
+or
+sudo apt install gdebi
+sudo gdebi edhm-ui-v3_3.0.0_amd64.deb
 
-
-
-sudo apt-get install rpm
+-------------------------------------------------------------------------------------------
 
 /* Create an RPM package for RedHat-based Linux distributions (Red Hat,Fedora,CentOS,Rocky,AlmaLinux,Oracle, etc)  */
+sudo apt-get install rpm
 npm install --save-dev @electron-forge/maker-rpm
 npm run make -- --arch="x64" --targets="@electron-forge/maker-rpm"
 

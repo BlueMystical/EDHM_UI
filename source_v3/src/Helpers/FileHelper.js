@@ -1,4 +1,4 @@
-import { app, ipcMain, dialog, shell  } from 'electron'; 
+import { app, ipcMain, dialog, shell, clipboard  } from 'electron'; 
 import { exec } from 'child_process';
 import Util from './Utils.js';
 import path from 'node:path'; 
@@ -140,28 +140,43 @@ function createWindowsShortcut() {
 }
 
 function createLinuxShortcut() {
-  const desktopFilePath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.desktop');
-  const execPath = resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3\\EDHM-UI-V3.exe'); // path.join(__dirname, 'EDHM-UI-V3');
-  const iconPath = getAssetPath('images/icon.png');
-  const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
+  try {
+    const homeDir = os.homedir();
+    const desktopFilePath = path.join(homeDir, 'Desktop', 'edhm-ui-v3.desktop');
+    const appsFilePath = path.join(homeDir, '.local', 'share', 'applications', 'edhm-ui-v3.desktop');
+    const execPath = app.getPath('exe');
+    const iconPath = getAssetPath('images/icon.png');
 
-  if (!fs.existsSync(desktopFilePath)) {
+    console.log('Attempting to create a Shortcut at ' + desktopFilePath);
+
     const desktopFileContent = `
-      [Desktop Entry]
-      Name=EDHM-UI-V3
-      Exec=${execPath}
-      Icon=${iconPath}
-      Terminal=false
-      Type=Application
-      Comment=${comment}
-      Categories=Utility;
-    `;
+        [Desktop Entry]
+        Encoding=UTF-8
+        Name=edhm-ui-v3
+        Exec=${execPath}
+        Icon=${iconPath}
+        Terminal=false
+        Type=Application
+        Comment=Mod for Elite Dangerous to customize the HUD of any ship.
+        StartupNotify=true
+        Categories=Utility;`;
 
     fs.writeFileSync(desktopFilePath, desktopFileContent);
-    fs.chmodSync(desktopFilePath, '755'); // Make the .desktop file executable
+    fs.writeFileSync(appsFilePath, desktopFileContent);
+    fs.chmodSync(desktopFilePath, '755');
+    fs.chmodSync(appsFilePath, '755');
 
     console.log('Shortcut created successfully');
+
+  } catch (error) {
+    throw new Error(error.message + error.stack);
   }
+}
+
+/** Copies the given text to the clipboard.
+ * @param {string} text - The text to copy. */
+function copyToClipboard(text) {
+  clipboard.writeText(text);
 }
 
 
@@ -828,6 +843,7 @@ async function getLatestPreReleaseVersion(owner, repo) {
             version: latestPreRelease.tag_name,
             notes: latestPreRelease.body,
             zipball_url: latestPreRelease.zipball_url,
+            html_url: latestPreRelease.html_url,
             assets: latestPreRelease.assets.map(asset => ({              
               content_type: asset.content_type,
               url: asset.browser_download_url,
@@ -853,8 +869,7 @@ async function getLatestPreReleaseVersion(owner, repo) {
 /** Check for the Latest Release published on Github
  * @param {*} owner 'BlueMystical'
  * @param {*} repo 'EDHM-UI'
- * @returns 
- */
+ * @returns  */
 async function getLatestReleaseVersion(owner, repo) {
   const options = {
     hostname: 'api.github.com',
@@ -880,7 +895,8 @@ async function getLatestReleaseVersion(owner, repo) {
             release_id: latestRelease.id,
             version: latestRelease.tag_name,
             notes: latestRelease.body,
-            zipball_url: latestRelease.zipball_url,
+            html_url: latestRelease.html_url,
+            zipball_url: latestRelease.zipball_url,            
             assets: latestRelease.assets.map(asset => ({              
               content_type: asset.content_type,
               url: asset.browser_download_url,
@@ -1379,6 +1395,14 @@ ipcMain.handle('runInstaller', async (event, installerPath) => {
   }
 });
 
+ipcMain.handle('copyToClipboard', (text) => {
+  try {
+    return copyToClipboard(text);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
 // #endregion
 
 export default { 
@@ -1417,4 +1441,5 @@ export default {
   terminateProgram,
   runInstaller,
 
+  copyToClipboard,
 };

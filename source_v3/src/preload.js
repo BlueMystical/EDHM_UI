@@ -131,6 +131,6 @@ contextBridge.exposeInMainWorld('api', {
   onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, progress) => callback(progress)),
 
   runInstaller: (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
-
+  copyToClipboard: (text) => ipcRenderer.invoke('copyToClipboard', text),
 
 });

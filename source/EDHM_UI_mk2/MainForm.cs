@@ -4758,7 +4758,7 @@ namespace EDHM_UI_mk2
 							}
 						}
 					}
-				}
+				} 
 
 				//2. Detectar cuando se Cambia la Nave:
 				index = 0;
