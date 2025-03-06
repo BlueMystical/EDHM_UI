@@ -109,19 +109,25 @@ async function saveSettings(settings) {
 
 // #region Global & User Settings
 
-const LoadGlobalSettings = () => {
+async function LoadGlobalSettings () {
   try {
-    const _path_A = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
-    const _path_B = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
-
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_Global_Settings.json');
+    const _path_B = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
+    const _path_C = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
+    
     let data = {};
 
-    if (fs.existsSync(_path_A)) {
+    if (!fs.existsSync(_path_A)) {
+      const dataRaw = fs.readFileSync(_path_B, { encoding: "utf8", flag: 'r' });
+      data = JSON.parse(dataRaw);
+      fileHelper.writeJsonFile(_path_A, data, true);
+    } else {
       const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
       data = JSON.parse(dataRaw);
     }
-    if (fs.existsSync(_path_B)) {
-      const dataRaw = fs.readFileSync(_path_B, { encoding: "utf8", flag: 'r' });
+
+    if (fs.existsSync(_path_C)) {
+      const dataRaw = fs.readFileSync(_path_C, { encoding: "utf8", flag: 'r' });
       const dataProc = JSON.parse(dataRaw);
       data.Presets = dataProc.Presets;
     }
@@ -133,13 +139,14 @@ const LoadGlobalSettings = () => {
 };
 async function saveGlobalSettings(settings) {
   try {
-    const _path_A = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_Global_Settings.json');
     return fileHelper.writeJsonFile(_path_A, settings, true);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
 };
-const LoadUserSettings = () => {
+
+async function LoadUserSettings () {
   try {
     const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
     var data = {};

@@ -558,7 +558,7 @@ export default {
             buttons: ['Cancel', "Yes, Download it", 'No, maybe later.'],
             defaultId: 1,
             title: 'Update Available: ' + serverVersion,
-            message: 'Do you want to Download and Install the Update?',
+            message: 'Do you want to Download the Update?',
             detail: latesRelease.notes,
             cancelId: 0
           };

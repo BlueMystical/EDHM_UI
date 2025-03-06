@@ -11,7 +11,6 @@ import url from 'url';
 import os from 'os'; 
 
 
-
 // #region Path Functions
 
 function getLocalAppDataPath() {
@@ -28,11 +27,59 @@ function getLocalAppDataPath() {
 }
 
 /** Resolves environment variables in a given path string.
- *
  * @param {string} inputPath The path string containing environment variables.
- * @returns {string} The resolved path, or the original path if no replacements were made.
- */
+ * @returns {string} The resolved path, or the original path if no replacements were made. */
 const resolveEnvVariables = (inputPath) => {
+  try {
+    if (typeof inputPath !== 'string') {
+      console.warn("Input path must be a string. Returning original input:", inputPath);
+      return inputPath;
+    }
+
+    const OriginalPath = inputPath;
+    let resolvedPath = ''; // Final resolved path
+
+    // #region Resolve Environmental Variables
+
+    const envVars = {
+      '%USERPROFILE%': os.homedir(),
+      '%APPDATA%': app.getPath('userData'),
+      '%LOCALAPPDATA%': getLocalAppDataPath(),
+      '%PROGRAMFILES%': process.env.PROGRAMFILES || process.env['ProgramFiles'],
+      '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'],
+      '%PROGRAMDATA%': process.env.PROGRAMDATA,
+      '%APPDIR%': app.getAppPath(),
+      '$HOME': os.homedir(),
+      '~': os.homedir(),
+      '%TEMP%': process.env.TEMP || process.env.TMP,
+      '$TMPDIR': process.platform === 'win32' ? (process.env.TEMP || process.env.TMP) : (process.env.TMPDIR || '/tmp'),
+      '$XDG_CONFIG_HOME': process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config'),
+      '$XDG_DATA_HOME': process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share'),
+    };
+
+    // Replace environment variables and tilde (~) in the path
+    resolvedPath = inputPath.replace(/(~|\$[A-Z_]+|%[^%]+%)/g, (match) => {
+      console.log(`Resolving environment variable: ${match} -> ${envVars[match] || match}`);
+      return envVars[match] || match;
+    });
+
+    // #endregion
+
+    // Normalize and clean the resolved path
+    const isWindows = process.platform === 'win32';
+    resolvedPath = isWindows
+      ? resolvedPath.replace(/\//g, '\\') // Convert forward slashes to backslashes for Windows
+      : resolvedPath.replace(/\\/g, '/'); // Convert backslashes to forward slashes for Linux/Mac
+
+    resolvedPath = path.normalize(resolvedPath); // Normalize path to remove redundancies
+    //console.log(`Resolving environment variable: ${OriginalPath} -> ${resolvedPath}`);
+    return resolvedPath;
+
+  } catch (error) {
+    throw new Error(error.message + '\n' + error.stack);
+  }
+};
+/*const resolveEnvVariables = (inputPath) => {
   try {
     if (typeof inputPath !== 'string') {
       console.warn("Input path must be a string. Returning original input:", inputPath);
@@ -57,11 +104,20 @@ const resolveEnvVariables = (inputPath) => {
         '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'], 
         '%PROGRAMDATA%': process.env.PROGRAMDATA,
         '%APPDIR%': app.getAppPath(),
+        '$HOME': os.homedir(),
+        '~': os.homedir(),
+        '%TEMP%': process.env.TEMP || process.env.TMP,
+        '$TMPDIR': process.platform === 'win32' ? (process.env.TEMP || process.env.TMP) : (process.env.TMPDIR || '/tmp'),
+        '$XDG_CONFIG_HOME': process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config'),
+        '$XDG_DATA_HOME': process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share'),
       };
       
-      // Logging environment variables for debugging
-      //console.log('Environment Variables:', envVars);
-      
+      if (process.platform === 'win32') {
+        envVars['$TMPDIR'] = process.env.TEMP || process.env.TMP;
+      } else {
+        envVars['$TMPDIR'] = process.env.TMPDIR || '/tmp';
+      }
+
       // Extract and resolve the Env.Var portion from the inputPath
       envVarPath = inputPath.split('%')[1];   
       envVarPath = '%' + envVarPath + '%'; // Re-add the % to the Env.Var
@@ -69,6 +125,10 @@ const resolveEnvVariables = (inputPath) => {
         console.log(`Resolving environment variable: ${match} -> ${envVars[match] || ''}`);
         return envVars[match] || '';
       });
+
+      envVars['$XDG_CONFIG_HOME'] = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
+      envVars['$XDG_DATA_HOME'] = process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share');  
+      
     }
 
     // #endregion
@@ -103,7 +163,7 @@ const resolveEnvVariables = (inputPath) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-};
+};*/
 
 /** Returns the Parent Folder of the given Path 
  *  @param {*} givenPath 
@@ -176,7 +236,13 @@ function createLinuxShortcut() {
 /** Copies the given text to the clipboard.
  * @param {string} text - The text to copy. */
 function copyToClipboard(text) {
-  clipboard.writeText(text);
+  if (process.platform === 'linux') {
+    // Linux requires using selection clipboard for some applications
+    clipboard.writeText(text, 'selection');
+  } else {
+    // Windows and macOS use the default clipboard
+    clipboard.writeText(text);
+  }
 }
 
 

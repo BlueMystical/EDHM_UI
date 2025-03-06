@@ -38,7 +38,7 @@ const createWindow = () => {
   }
 
   //-- Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -50,7 +50,7 @@ app.whenReady().then(() => {
   console.log('App is Ready!');
   
   //-- Disable the menu bar
-  //Menu.setApplicationMenu(null);
+  Menu.setApplicationMenu(null);
 
   //-- Create Desktop Shortcut Icons:
   if (process.platform === 'win32') {

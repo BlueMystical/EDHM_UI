@@ -28,18 +28,17 @@ module.exports = {
         authors:      'Blue Mystic',
         appCopyright: 'Blue Mystic - 2025',
         description:  'Mod for Elite Dangerous to customize the HUD of any ship.',
-        setupExe:     'EDHM-UI-V3 Setup.exe',
+        setupExe:     'edhm-ui-v3-windows-x64.exe',
 
         iconUrl: 'file:///' + path.join(__dirname, 'src/images/ED_TripleElite.ico'),
         setupIcon:            path.join(__dirname, 'src/images/ED_TripleElite.ico'),       //setupIcon: 'src/images/ED_TripleElite.ico',         
         icon:                 path.join(__dirname, 'src/images/ED_TripleElite.ico'),       //icon: 'src/images/ED_TripleElite.ico',
+        loadingGif:           path.join(__dirname, 'src/images/EDHNUIv3B.gif'),
 
         shortcutFolderName: 'EDHM-UI-V3',
         shortcutName: 'EDHM-UI-V3',
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
-
-        loadingGif: path.join(__dirname, 'src/images/EDHNUIv3B.gif'),
 
         certificateFile: './EDHM-UI-V3.pfx',
         certificatePassword: '@Namllohj1975'
