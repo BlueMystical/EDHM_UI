@@ -9,7 +9,7 @@ APPLICATIONS_FILE="$HOME/.local/share/applications/EDHM-UI-V3.desktop"
 ICON_PATH="$TARGET_DIR/$APP_NEW_DIR/resources/images/icon.png" 
 
 # Find the zip file
-ZIP_FILE=$(find . -maxdepth 1 -name "edhm-ui-v3-linux-x64-*.zip")
+ZIP_FILE=$(find . -maxdepth 1 -name "edhm-ui-v3-linux-x64.zip")
 
 # Check if the zip file was found
 if [ -z "$ZIP_FILE" ]; then
