@@ -8,6 +8,7 @@ DESKTOP_FILE="$HOME/Desktop/edhm-ui-v3.desktop"
 APPLICATIONS_FILE="$HOME/.local/share/applications/EDHM-UI-V3.desktop"
 ICON_PATH="$TARGET_DIR/$APP_NEW_DIR/resources/images/icon.png" 
 
+
 # Find the zip file
 ZIP_FILE=$(find . -maxdepth 1 -name "edhm-ui-v3-linux-x64.zip")
 
@@ -71,3 +72,5 @@ else
 fi
 
 echo "Desktop and Application Menu shortcuts created."
+
+

@@ -313,6 +313,9 @@ setx HTTP_PROXY "http://jchacon:jchacon@192.168.10.1:8080"
 setx HTTPS_PROXY "http://jchacon:jchacon@192.168.10.1:8081"
 setx ELECTRON_GET_USE_PROXY "true"
 
+export http_proxy="http://jchacon:jchacon@192.168.10.1:8080"
+export https_proxy="http://jchacon:jchacon@192.168.10.1:8081"
+
 
 //------- Instalar Electron con Template de Electron Forge: https://www.electronforge.io/
 //------ VITE:      https://vite.dev/

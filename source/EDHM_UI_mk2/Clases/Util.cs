@@ -986,6 +986,23 @@ namespace EDHM_UI_mk2
 			catch { return false; }
 		}
 
+		public static bool WinReg_DeleteKey(string Sistema, string KeyName)
+		{
+			try
+			{
+				Microsoft.Win32.RegistryKey rk = Microsoft.Win32.Registry.CurrentUser;
+				Microsoft.Win32.RegistryKey sk1 = rk.CreateSubKey(@"Software\Elte Dangerous\Mods\" + Sistema);
+				sk1.DeleteValue(KeyName);
+
+				return true; //<-La Clave se Guardo Exitosamente!
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
 		/// <summary>Borra todas las claves y subcarpetas dentro del Sistema indicado.</summary>
 		/// <param name="Sistema">Nombre del Sistema que guarda las Claves, ejem: RRHH, Contaduria, CutcsaPagos, etc.</param>
 		public static void WinReg_DeleteAllKeys(string Sistema)

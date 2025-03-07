@@ -849,6 +849,9 @@ namespace EDHM_UI_mk2
 
 					#region Key-Bindings
 
+					Util.WinReg_DeleteKey("EDHM", "KeyBindings");
+
+					/*
 					//Leo los Bindings desde el Registro, si existen:
 					var t = System.Threading.Tasks.Task.Factory.StartNew(delegate
 					{
@@ -876,7 +879,7 @@ namespace EDHM_UI_mk2
 								catch { }
 							}
 						}
-					});
+					});*/
 
 					#endregion
 				}

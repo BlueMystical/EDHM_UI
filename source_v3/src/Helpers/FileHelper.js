@@ -492,22 +492,26 @@ ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
 }
 
 async function ShowOpenDialog(options) {
-   /*  
-  const options = {
-      title: '',  //The dialog title. Cannot be displayed on some Linux desktop
-      defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
-      buttonLabel : '',  //(optional) - Custom label for the confirmation button      
-      filters: [
-        { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
-        { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
-        { name: 'Custom File Type', extensions: ['as'] },
-        { name: 'All Files', extensions: ['*'] }
-      ],
-      //--- Choose only one: 'openFile', 'openDirectory':
-      properties: ['openFile', 'openDirectory', 'multiSelections', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
-      message: 'This message will only be shown on macOS', // (optional)
-    }; 
-  */
+    /*   USAGE: 
+   const options = {
+       title: '',  //The dialog title. Cannot be displayed on some Linux desktop
+       defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
+       buttonLabel : '',  //(optional) - Custom label for the confirmation button      
+       filters: [
+         { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
+         { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+         { name: 'Custom File Type', extensions: ['as'] },
+         { name: 'All Files', extensions: ['*'] }
+       ],
+       //--- Choose only one: 'openFile', 'openDirectory':
+       properties: ['openFile', 'openDirectory', 'multiSelections', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
+       message: 'This message will only be shown on macOS', // (optional)
+     }; 
+     const filePath = await window.api.ShowOpenDialog(options);
+     if (filePath) {
+       this.config.PlayerJournal = filePath[0];
+     }
+   */
     try {
       const result = dialog.showOpenDialogSync(options);
       return result;

@@ -171,7 +171,7 @@ export default {
             this.addNewGameInstance(FolderPath);
         },
         /* Manually Browse for the Game Executable */
-        browseFile(instanceIndex, gameIndex) {            
+        async browseFile(instanceIndex, gameIndex) {            
             const options = {
                 title: 'Select the Game Executable',
                 defaultPath: 'EliteDangerous64',
@@ -179,15 +179,14 @@ export default {
                     { name: 'Game Exe', extensions: ['exe'] }
                 ],
                 properties: ['openFile', 'multiSelections', 'showHiddenFiles', 'dontAddToRecent'],
-                message: 'Select the Game Executable', 
+                message: 'Select the Game Executable',
             };
-            window.api.ShowOpenDialog(options).then(filePath => {
-                if (filePath) {
-                    const FolderPath = window.api.getParentFolder(filePath[0]);
-                    this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
-                    this.InstallGameInstance(FolderPath);
-                }
-            });
+            const filePath = await window.api.ShowOpenDialog(options); //console.log(filePath);
+            if (filePath) {
+                const FolderPath = window.api.getParentFolder(filePath[0]);
+                this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
+                this.InstallGameInstance(FolderPath);
+            }
         },
         /* Browse for the location to store User's data and Themes */
         async browseUserDataFolder() {
@@ -198,12 +197,10 @@ export default {
                 properties: ['openDirectory', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
                 message: 'Select Where to Store User Data',
             };
-            window.api.ShowOpenDialog(options).then(filePath => {
-                if (filePath) {
-                    this.config.UserDataFolder = filePath;
-                    
-                }
-            });
+            const filePath = await window.api.ShowOpenDialog(options);
+            if (filePath) {
+                this.config.UserDataFolder = filePath[0];
+            }
         },
         /* Browse for the location where the ED Player Journal is located */
         async browseJournalFolder() {
@@ -214,11 +211,10 @@ export default {
                 properties: ['openDirectory', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
                 message: 'Select Where to Store User Data',
             };
-            window.api.ShowOpenDialog(options).then(filePath => {
-                if (filePath) {
-                    this.config.PlayerJournal = filePath;
-                }
-            });
+            const filePath = await window.api.ShowOpenDialog(options);
+            if (filePath) {
+                this.config.PlayerJournal = filePath[0];
+            }
         },
         /* Cleans html tags */
         sanitizeId(id) {
