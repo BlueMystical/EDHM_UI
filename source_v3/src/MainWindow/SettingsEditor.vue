@@ -35,7 +35,7 @@
                                                     <div class="input-group mb-3">
                                                         <input type="text" class="form-control form-control-sm" :placeholder="'Pick a location for ' + game.name"
                                                                :aria-label="'Pick a location for ' + game.name" :id="'Path-' + sanitizeId(game.instance)" v-model="game.path">
-                                                        <button class="btn btn-outline-secondary" type="button" @click="browseFile(instanceIndex, gameIndex)">Browse</button>
+                                                        <button class="btn btn-outline-secondary" type="button" @click="browseGameFile(instanceIndex, gameIndex)">Browse</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -157,21 +157,15 @@ export default {
             this.visible = false;
         },
         /* Button Click: Save the Settings */
-        async save() {
-            
-            const jsonString = JSON.stringify(this.config, null, 4);
-            await window.api.saveSettings(jsonString);
-            EventBus.emit('SettingsChanged', JSON.parse(jsonString)); //<- this event will be heard in 'App.vue'  
+        async save() {            
+            //const jsonString = JSON.stringify(this.config, null, 4);
+            //await window.api.saveSettings(jsonString);
+            EventBus.emit('SettingsChanged', JSON.parse(JSON.stringify(this.config))); //<- this event will be heard in 'App.vue'  
             this.close();
         },
-        async InstallGameInstance(FolderPath){
-            try {
-                await window.api.terminateProgram('EliteDangerous64.exe');
-            } catch {}           
-            this.addNewGameInstance(FolderPath);
-        },
+        
         /* Manually Browse for the Game Executable */
-        async browseFile(instanceIndex, gameIndex) {            
+        async browseGameFile(instanceIndex, gameIndex) {            
             const options = {
                 title: 'Select the Game Executable',
                 defaultPath: 'EliteDangerous64',
@@ -185,6 +179,8 @@ export default {
             if (filePath) {
                 const FolderPath = window.api.getParentFolder(filePath[0]);
                 this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
+                this.config.ActiveInstance = this.config.GameInstances[instanceIndex].games[gameIndex].instance;
+                console.log('ActiveInstance:', this.config.ActiveInstance);
                 this.InstallGameInstance(FolderPath);
             }
         },
@@ -220,10 +216,16 @@ export default {
         sanitizeId(id) {
             return id.replace(/\s/g, '');
         },
+        async InstallGameInstance(FolderPath){
+            try {
+                await window.api.terminateProgram('EliteDangerous64.exe');
+            } catch {}           
+            this.addNewGameInstance(FolderPath);
+        },
         /* Adds a new Game Instance to the Settings */
         async addNewGameInstance(instancePath) {
             const _ret = await window.api.addNewInstance(instancePath, JSON.parse(JSON.stringify(this.config))); 
-            this.config = JSON.parse(JSON.stringify(_ret));
+            this.config = JSON.parse(JSON.stringify(_ret)); console.log(this.config);
             EventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
         },
 

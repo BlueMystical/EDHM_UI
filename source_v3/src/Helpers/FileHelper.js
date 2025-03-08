@@ -757,8 +757,7 @@ export function openUrlInBrowser(url) {
 
 /** Detects a running Process and returns its full path. 
  * @param {*} exeName Program Exe Name: 'EliteDangerous64.exe'
- * @param {*} callback 
- */
+ * @param {*} callback  */
 function detectProgram(exeName, callback) {
   try {
     if (os.platform() === 'win32') {
@@ -810,13 +809,14 @@ function terminateProgram(exeName, callback) {
       });
     }
   } catch (error) {
-    console.log(error.message + error.stack);
+    // Program not running
+    return callback(null, true);
+    //console.log(error.message + error.stack);
   }
 }
 
 /** Open the File Explorer showing a selected Folder
- * @param {*} filePath Folder to select
- */
+ * @param {*} filePath Folder to select */
 function openPathInExplorer(filePath) {
   const normalizedPath = resolveEnvVariables(
     path.normalize(filePath)); // Normalize path to avoid issues
@@ -1465,7 +1465,7 @@ ipcMain.handle('runInstaller', async (event, installerPath) => {
   }
 });
 
-ipcMain.handle('copyToClipboard', (text) => {
+ipcMain.handle('copyToClipboard', (event, text) => {
   try {
     return copyToClipboard(text);
   } catch (error) {

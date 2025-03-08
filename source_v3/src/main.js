@@ -20,9 +20,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      webSecurity: false
-      //enableRemoteModule: false,      
-      //contextIsolation: true,      
+      webSecurity: false     
     },
   });
 
@@ -38,7 +36,7 @@ const createWindow = () => {
   }
 
   //-- Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished

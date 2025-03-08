@@ -235,7 +235,7 @@ async function RemoveFromUserSettings(settings) {
  * @param {*} settings Current Settings
  * @returns Updated Settings
  */
-function addNewInstance(NewInstancePath, settings) {
+async function addNewInstance(NewInstancePath, settings) {
   let instanceName = "";
 
   const instances = [
@@ -256,13 +256,13 @@ function addNewInstance(NewInstancePath, settings) {
   let Instance = {};
 
   const gameMappings = {
-    "elite-dangerous-64": { name: "Horizons (Legacy)", key: "ED_Horizons" },
-    "FORC-FDEV-DO-38-IN-40": { name: "Horizons (Live)", key: "ED_Odissey" },
+    "elite-dangerous-64": { name: "Horizons (Legacy)",      key: "ED_Horizons" },
+    "FORC-FDEV-D-1013": { name: "Horizons (Legacy)",        key: "ED_Horizons" },
+    "FORC-FDEV-D-1010": { name: "Elite Dangerous Base",     key: "ED_Horizons" },
+    "FORC-FDEV-D-1012": { name: "Elite Dangerous Arena",    key: "ED_Horizons" },
+    "FORC-FDEV-DO-38-IN-40": { name: "Horizons (Live)",     key: "ED_Odissey" },
     "elite-dangerous-odyssey-64": { name: "Odyssey (Live)", key: "ED_Odissey" },
-    "FORC-FDEV-DO-1000": { name: "Odyssey & Horizons (Live)", key: "ED_Odissey" },
-    "FORC-FDEV-D-1010": { name: "Elite Dangerous Base", key: "ED_Horizons" },
-    "FORC-FDEV-D-1012": { name: "Elite Dangerous Arena", key: "ED_Horizons" },
-    "FORC-FDEV-D-1013": { name: "Horizons (Legacy)", key: "ED_Horizons" }
+    "FORC-FDEV-DO-1000": { name: "Odyssey & Horizons (Live)", key: "ED_Odissey" }       
   };
 
   if (Publisher) {
@@ -280,7 +280,7 @@ function addNewInstance(NewInstancePath, settings) {
       ? path.join(settings.UserDataFolder, "HORIZ", "Themes")
       : path.join(settings.UserDataFolder, "ODYSS", "Themes");
 
-    settings.ActiveInstance = Instance.instance;
+    //settings.ActiveInstance = Instance.instance;
     console.log('New Instance Added: ', Instance.instance);
   }
 

@@ -263,7 +263,7 @@ export default {
               .filter(game => game.path) // only include games with non-empty 'path'
               .map(game => game.instance)
           )
-        );  //console.log('gameMenuItems:', gameMenuItems);
+        );  console.log('gameMenuItems:', this.gameMenuItems);
 
         this.themeTemplate = await this.LoadCurrentSettings();
         EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'    
