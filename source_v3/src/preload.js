@@ -127,10 +127,14 @@ contextBridge.exposeInMainWorld('api', {
   getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo),
   getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo),
 
-  downloadFile: (url, filePath) => ipcRenderer.send('download-file', url, filePath),
-  onDownloadProgress: (callback) => ipcRenderer.on('download-progress', (event, progress) => callback(progress)),
-
   runInstaller: (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
   copyToClipboard: (text) => ipcRenderer.invoke('copyToClipboard', text),
+
+  downloadFile: (url, filePath) => ipcRenderer.invoke('download-file', url, filePath),
+  onDownloadProgress: (callback) => ipcRenderer.on('download-progress', callback),
+  removeDownloadProgressListener: (callback) => ipcRenderer.removeListener('download-progress', callback),
+
+  //getPlatform: () => ipcRenderer.invoke('get-platform'),
+  runProgram: (filePath) => ipcRenderer.invoke('run-program', filePath),
 
 });

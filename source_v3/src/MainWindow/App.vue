@@ -514,7 +514,7 @@ export default {
         const serverVersion = latesRelease.version;
         const isUpdate = this.compareVersions(serverVersion, localVersion); console.log('isUpdate:', isUpdate);
 
-        //console.log(latesRelease);
+        console.log(latesRelease);
 
         if (isUpdate) {
           const options = {
@@ -526,11 +526,31 @@ export default {
             detail: latesRelease.notes,
             cancelId: 0
           };
+          let fileSavePath = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\edhm-ui-v3-windows-x64.exe');
+          const platform = 'win32'; //await window.api.getPlatform();
+
           window.api.ShowMessageBox(options).then(result => {
             if (result && result.response === 1) {
-              const url = latesRelease.html_url; //latesRelease.assets[0].url;
-              window.api.openUrlInBrowser(url);
-              //EventBus.emit('StartDownload', JSON.parse(JSON.stringify(latesRelease))); //<- Event Listen in 'NavBars.vue'
+
+              var download_url = '';              
+
+              if (platform === 'win32') {
+                console.log('Running on Windows');
+                download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-windows-x64.exe';
+
+              } else if (platform === 'linux') {
+                console.log('Running on Linux');
+                download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-linux-x64.zip';
+                fileSavePath = '/tmp/EDHM_UI/edhm-ui-v3-linux-x64.zip';
+
+              } else {
+                  console.log(`Running on an unknown platform: ${platform}`);
+              }
+              
+              //window.api.openUrlInBrowser(download_url);
+
+              EventBus.emit('StartDownload', { url: download_url, save_to: fileSavePath }); //<- Event Listen in 'NavBars.vue'
+
             }
             if (result && result.response === 2) {
               EventBus.emit('RoastMe', { type: 'Info', message: 'There is an Update Available: ' + serverVersion, autoHide: false });

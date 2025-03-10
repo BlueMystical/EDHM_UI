@@ -22,20 +22,33 @@
 │   ├── Helpers                        <- Methods & stuff for the 'Main Process'
 │   │     ├── FileHelper.js
 │   │     └── [other files]
-│   ├── MainWindow                     <- Vue Components in the Renderer Process
+│   ├── MainWindow                     <- Vue Components for the 'Renderer Process'
 │   │     ├── Components
 │   │     │      ├── Notifications.vue <- General purpose Notifications
 │   │     │      └── ModalDialog.vue
-│   │     ├── App.vue                  <- Starting file for 'Renderer Process'
-│   │     ├── MainNavBars.vue
+│   │     ├── App.vue                  <- Root of the 'Renderer Process'
+│   │     ├── MainNavBars.vue          <- Contains all Menus and Buttons 
 │   │     └── [other .vue files]
 │   ├── EventBus.js                   <- For comunication thru Events in the 'Renderer Process'
 │   ├── preload.js                    <- Intermediate Layer between the 'Main Process' & 'Renderer Process'
 │   └── main.js                       <- Root of the 'Main Process'
-├── index.html                              
-├── renderer.js                       <- Root of the 'Renderer Process'
-├── package.json                      <- List of Dependencies and App's Version.
-└── forge.config.js                   <- Config for Build & Deploy
+├── index.html                        <- Base over everithing is rendered.   
+├── renderer.js                       <- 
+├── package.json                      <- List of Dependencies and App's Version Number.
+└── forge.config.js                   <- Configs for Build & Deploy
+------------------------------------------------------------------------------------------
+** ENVIROMENT VARIABLES on Crossplatform:
+Variable            Windows           Linux           Cross-Platform Equivalent
+------------------------------------------------------------------------------------------
+User's Home         %USERPROFILE%     $HOME                 os.homedir()
+App Data (Roaming)  %APPDATA%         $HOME/.config         app.getPath('userData')
+Local App Data      %LOCALAPPDATA%    $HOME/.local/share,   app.getPath('appData')
+------------------------------------------------------------------------------------------
+Screen Resolutions:
+720p  (HD):       1280 x 720 pixels
+1080p (Full HD):  1920 x 1080 pixels  <-- Program is designed for 1080p
+1440p (Quad HD):  2560 x 1440 pixels
+4K   (Ultra HD):  3840 x 2160 pixels
 ------------------------------------------------------------------------------------------
 ** PROGRAM LOCATIONS:
 
@@ -59,8 +72,8 @@
 ------------------------------------------------------------------------------------------
 ** GAME FILE STRUCTURE (Steam Odyssey):
 
-G:\SteamLibrary\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64
 C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\
+G:\SteamLibrary\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64
 ├── ShaderFixes                       <- [Symlink] full of Shaders
 ├── EDHM-ini                          <- [Symlink] EDHM home dir
 │     ├── 3rdPartyMods                <- Plugins for EDHM
@@ -100,21 +113,7 @@ C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dan
 │     └── ThemeHelper.js
 └── preload.js
 ------------------------------------------------------------------------------------------
-** ENVIROMENT VARIABLES on Crossplatform:
 
-Variable            Windows           macOS/Linux           Cross-Platform Equivalent
-------------------------------------------------------------------------------------------
-User's Home         %USERPROFILE%     $HOME                 os.homedir()
-App Data (Roaming)  %APPDATA%         $HOME/.config         app.getPath('userData')
-Local App Data      %LOCALAPPDATA%    $HOME/.local/share,   app.getPath('appData')
-                                      $HOME/Library/Application Support' (macOS)	
-------------------------------------------------------------------------------------------
-Screen Resolutions:
-720p  (HD):       1280 x 720 pixels
-1080p (Full HD):  1920 x 1080 pixels  <-- Program is designed for 1080p
-1440p (Quad HD):  2560 x 1440 pixels
-4K   (Ultra HD):  3840 x 2160 pixels
-------------------------------------------------------------------------------------------
 ** DATA STRUCTURE:
 theme-template = {
 ...

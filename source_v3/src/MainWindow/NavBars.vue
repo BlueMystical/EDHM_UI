@@ -150,7 +150,7 @@
     <!-- Progress bar-->
     <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Warning example" 
           :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100" style="width: 600px;">
-      <div class="progress-bar text-bg-warning" :style="{ width: progressValue + '%' }">{{ progressValue }}%</div>
+      <div class="progress-bar text-bg-warning" :style="{ width: progressValue + '%' }">{{ progressText }}</div>
     </span>
 
     <!-- Search Form -->
@@ -211,9 +211,6 @@ export default {
       showFavorites: false,
       showSpinner: true,
 
-      showProgressBar: false,
-      progressValue: 45,
-
       programSettings: {},
       themeTemplate: {},
       ActiveInstance: {},
@@ -229,6 +226,15 @@ export default {
       modVersion: '',
       selectedGame: '',
       gameMenuItems: [],
+
+      showProgressBar: false,
+      progressValue: 0, // No need for ref here in Vue 2
+      progressText: '',
+      downloadSpeed: 0, // No need for ref here in Vue 2
+      averageSpeed: 0,
+      startTime: 0,
+      totalDownloadedBytes: 0,
+      progressListener: null,
 
     };
   },
@@ -263,7 +269,7 @@ export default {
               .filter(game => game.path) // only include games with non-empty 'path'
               .map(game => game.instance)
           )
-        );  console.log('gameMenuItems:', this.gameMenuItems);
+        );
 
         this.themeTemplate = await this.LoadCurrentSettings();
         EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'    
@@ -740,9 +746,52 @@ export default {
         }
       }
     },
+    
+    async OnDownloadStart(Options) {
+      try {
+        // Options: { url: '', save_to: ''};
+        console.log('Downloading file:', Options);
 
-    OnDownloadStart(data) {
-      this.$refs.Updater.startDownload(data);
+        const filePath = Options.save_to;
+        if (!filePath) return; // User cancelled
+
+        this.showProgressBar = true;
+        this.progressValue = 0;
+        this.downloadSpeed = 0;
+        this.averageSpeed = 0;
+        this.startTime = Date.now();
+        this.totalDownloadedBytes = 0;
+
+        this.progressListener = (event, data) => {
+          this.progressValue = data.progress;
+          this.downloadSpeed = data.speed;
+          this.totalDownloadedBytes += data.speed;
+
+          const elapsedTime = (Date.now() - this.startTime) / 1000;
+
+          if (elapsedTime > 0) {
+            const averageSpeedBytesPerSecond = this.totalDownloadedBytes / elapsedTime;
+            //this.averageSpeed = (averageSpeedBytesPerSecond / (1024 * 1024)).toFixed(2); // MB/s
+            this.averageSpeed = (averageSpeedBytesPerSecond / 1024).toFixed(2); // KB/s
+          }
+
+          this.progressText = `Downloading.. ${data.progress.toFixed(1)}%, ${this.averageSpeed} KB/s`;
+        };
+
+        window.api.onDownloadProgress(this.progressListener);
+        await window.api.downloadFile(Options.url, filePath);
+        await window.api.runProgram(filePath); //run the program
+
+        console.log('Download complete!');
+        this.showProgressBar = false;
+        window.api.removeDownloadProgressListener(this.progressListener);
+
+      } catch (error) {
+        console.error('Download failed:', error);
+        this.showProgressBar = false;
+        window.api.removeDownloadProgressListener(this.progressListener);
+        alert('Download failed. Check console for details.');
+      }
     },
 
     OnGlobalSettingsLoaded(data){
@@ -762,6 +811,9 @@ export default {
     EventBus.on('OnApplyTheme', this.applyTheme);
     EventBus.on('StartDownload', this.OnDownloadStart);
     EventBus.on('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
+    if (typeof this.progressListener === 'function') {
+      window.api.removeDownloadProgressListener(this.progressListener);
+    }
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -773,6 +825,10 @@ export default {
     EventBus.off('OnApplyTheme', this.applyTheme);
     EventBus.off('StartDownload', this.OnDownloadStart);
     EventBus.off('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
+
+    if (typeof this.progressListener === 'function') {
+      window.api.removeDownloadProgressListener(this.progressListener);
+    }
   }
 }
 </script>

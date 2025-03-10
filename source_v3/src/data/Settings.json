@@ -11,27 +11,21 @@
                 "game_id":"Steam|ED_Odissey",
                 "key":"ED_Odissey",
                 "name":"Odyssey (Live)",
-                "path":"",
-                "themes_folder":"",
-                "is_active":false
+                "path":""
              },
              {
                "instance":"Steam (Horizons (Live))",
                "game_id":"Steam|ED_Odissey",
                "key":"ED_Odissey",
                "name":"Horizons (Live)",
-               "path":"",
-               "themes_folder":"",
-               "is_active":false
+               "path":""
             },
             {
                "instance":"Steam (Horizons (Legacy))",
                "game_id":"Steam|ED_Horizons",
                "key":"ED_Horizons",
                "name":"Horizons (Legacy)",
-               "path":"",
-               "themes_folder":"",
-               "is_active":false
+               "path":""
             }
           ]
        },
@@ -43,27 +37,21 @@
                "game_id":"Epic|ED_Odissey",
                "key":"ED_Odissey",
                "name":"Odyssey (Live)",
-               "path":"",
-               "themes_folder":"",
-               "is_active":true
+               "path":""
             },
             {
               "instance":"Epic Games (Horizons (Live))",
               "game_id":"Epic|ED_Odissey",
               "key":"ED_Odissey",
               "name":"Horizons (Live)",
-              "path":"",
-              "themes_folder":"",
-              "is_active":false
+              "path":""
            },
             {
                "instance":"Epic Games (Horizons (Legacy))",
                "game_id":"EpicGames|ED_Horizons",
                "key":"ED_Horizons",
                "name":"Horizons (Legacy)",
-               "path":"",
-               "themes_folder":"",
-               "is_active":false
+               "path":""
             }
          ]
       },
@@ -75,27 +63,21 @@
                "game_id":"Frontier|ED_Odissey",
                "key":"ED_Odissey",
                "name":"Odyssey (Live)",
-               "path":"",
-               "themes_folder":"",
-               "is_active":true
+               "path":""
             },
             {
               "instance":"Frontier (Horizons (Live))",
               "game_id":"Frontier|ED_Odissey",
               "key":"ED_Odissey",
               "name":"Horizons (Live)",
-              "path":"",
-              "themes_folder":"",
-              "is_active":false
+              "path":""
            },
            {
               "instance":"Frontier (Horizons (Legacy))",
               "game_id":"Frontier|ED_Horizons",
               "key":"ED_Horizons",
               "name":"Horizons (Legacy)",
-              "path":"",
-              "themes_folder":"",
-              "is_active":false
+              "path":""
            }
          ]
       }

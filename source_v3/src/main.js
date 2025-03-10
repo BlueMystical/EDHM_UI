@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, process } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
@@ -19,6 +19,7 @@ const createWindow = () => {
     icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
       nodeIntegration: true,
       webSecurity: false     
     },
@@ -74,5 +75,29 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+/*
+ipcMain.handle('get-platform', () => {
+  console.log(process.platform);
+  return process.platform;
+});*/
 
-
+ipcMain.handle('quit-and-install', async (event, filePath) => {
+  try {
+      if(mainWindow){
+          mainWindow.removeAllListeners('close');
+          mainWindow.close();
+      }
+      if (process.platform === 'linux') {
+        // Linux logic (as before)
+      } else if (process.platform === 'win32') {
+        // Windows logic (as before)
+      } else {
+        console.error(`Unsupported platform: ${process.platform}`);
+        throw new Error(`Unsupported platform: ${process.platform}`);
+      }
+      return "Program started";
+  } catch (error) {
+      console.error(`Error starting program: ${error}`);
+      throw error;
+  }
+});

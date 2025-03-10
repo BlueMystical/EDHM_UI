@@ -1,5 +1,5 @@
-import { app, ipcMain, dialog, shell, clipboard  } from 'electron'; 
-import { exec } from 'child_process';
+import { app, ipcMain, dialog, shell, clipboard, net, process  } from 'electron'; 
+import { exec, execFile  } from 'child_process'; 
 import Util from './Utils.js';
 import path from 'node:path'; 
 import https from 'https';
@@ -883,8 +883,7 @@ function runInstaller(installerPath) {
 /** [For Beta Testings] Check for the Latest Pre-Release published on Github
  * @param {*} owner 'BlueMystical'
  * @param {*} repo 'EDHM-UI'
- * @returns 
- */
+ * @returns  */
 async function getLatestPreReleaseVersion(owner, repo) {
   const options = {
     hostname: 'api.github.com',
@@ -989,103 +988,7 @@ async function getLatestReleaseVersion(owner, repo) {
   });
 }
 
-function DownloadFile(url, filePath){
-  fetch(url).then(res => res.buffer()).then(buffer => {
-      return fs.promises.writeFile(filePath, buffer);
-  }).then(() => {
-      console.log("done");
-  }).catch(err => {
-      console.log(err);
-  });
-}
 
-async function getRemoteFile(url, filePath, progressCallback, headers='') {
-  console.log('Downloading (' + url + ')..');
-
-  try {
-    fs.unlinkSync(filePath); 
-  } catch {} 
-
-  return new Promise((resolve, reject) => {
-    const localFile = fs.createWriteStream(filePath);
-    const client = url.startsWith('https') ? https : http;    
-    if (Util.isEmpty(headers)) {
-      headers = {
-        Acept: 'application/vnd.github+json', 
-      }
-    }
-    const options = {
-      headers: headers,
-      method: 'GET' 
-    };
-    //console.log('headers:', headers);
-    const request = client.get(url, { headers }, (response) => { 
-      
-      console.log('Status Code:', response.statusCode);
-
-      if (response.statusCode === 302) {
-        // Github may Redirect our request:
-        const redirectUrl = response.headers.location;
-        console.log('Redirecting to:', redirectUrl);
-        //return downloadWithAxios(redirectUrl, localFile); 
-        return getRemoteFile(redirectUrl, filePath, progressCallback, { Accept: 'application/octet-stream' }) 
-          .then(resolve) 
-          .catch(reject); 
-      }
-      if (response.statusCode !== 200) {
-        console.log('Headers:', response.headers);
-        fs.unlink(filePath, () => {
-          console.error('Failed to get the file:', response.statusMessage);
-          reject(new Error(`Failed to get '${url}' (${response.statusCode})`));
-        });
-        return;
-      }
-
-      //console.log('Response:', response.headers);
-      response.pipe(localFile);
-
-      const contentLength = parseInt(response.headers['content-length'], 10) || 0;
-      let downloadedBytes = 0;
-
-      response.on('data', (chunk) => {
-        downloadedBytes += chunk.length;
-        console.log(`Downloaded ${downloadedBytes} bytes`);
-        progressCallback(downloadedBytes / contentLength * 100); 
-      });
-
-      response.on('end', () => {
-        console.log("Download complete");
-        localFile.end();
-        progressCallback(100);
-        resolve(); 
-      });
-
-      response.on('error', (err) => {
-        console.error("Download error:", err);
-        localFile.end();
-        reject(err); 
-      });
-
-      
-
-    });
-
-    request.on('error', (err) => { 
-      console.error('Request error:', err); 
-      reject(err); 
-    });
-  });
-}
-
-function showProgress(file, cur, len, total) {
-  if (len) {
-      console.log("Downloading " + file + " - " + (100.0 * cur / len).toFixed(2) 
-          + "% (" + (cur / 1048576).toFixed(2) + " MB) of total size: " 
-          + total.toFixed(2) + " MB");
-  } else {
-      console.log("Downloading " + file + " - " + (cur / 1048576).toFixed(2) + " MB downloaded.");
-  }
-}
 
 // #endregion
 
@@ -1230,6 +1133,67 @@ ipcMain.handle('terminate-program', async (event, exeName) => {
           }
       });
   });
+});
+
+
+ipcMain.handle('run-program', async (event, filePath) => {
+  try {
+    if (process.platform === 'linux') {
+      // Linux-specific logic
+      try{
+        fs.chmodSync(filePath, 0o755);
+      } catch (chmodError){
+          console.log("Error changing file permissions, might already have permissions", chmodError);
+      }
+
+      let interpreter = null;
+      let args = [filePath];
+
+      if (filePath.endsWith('.sh')) {
+        interpreter = 'bash';
+      } else if (filePath.endsWith('.py')) {
+        interpreter = 'python3';
+      } else {
+        interpreter = filePath;
+        args = [];
+      }
+
+      if (interpreter) {
+        execFile(interpreter, args, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`Error running program: ${error}`);
+            throw error;
+          }
+          console.log(`Program output: ${stdout}`);
+          if (stderr) {
+            console.error(`Program stderr: ${stderr}`);
+          }
+        });
+      } else {
+        console.error('Unknown script type or executable file');
+        throw new Error('Unknown script type or executable file');
+      }
+    } else if (process.platform === 'win32') {
+      // Windows-specific logic
+      execFile(filePath, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error running program: ${error}`);
+          throw error;
+        }
+        console.log(`Program output: ${stdout}`);
+        if (stderr) {
+          console.error(`Program stderr: ${stderr}`);
+        }
+      });
+    } else {
+        console.error(`Unsupported platform: ${process.platform}`);
+        throw new Error(`Unsupported platform: ${process.platform}`);
+    }
+    return "Program started";
+  } catch (error) {
+    console.error(`Error starting program: ${error}`);
+    throw error;
+  }
 });
 
 
@@ -1447,12 +1411,77 @@ ipcMain.handle('download-asset', async (event, url, dest) => {
   });
 });
 
+ipcMain.handle('download-file', async (event, url, filePath) => {
+  try {
+    const request = net.request(url);
 
-ipcMain.on('download-file', (event, url, filePath) => {
-  getRemoteFile(url, filePath, (progress) => {
-      event.sender.send('download-progress', progress);
-  });
+    return new Promise((resolve, reject) => { // Return the promise here.
+      request.on('response', (response) => {
+        if (response.statusCode !== 200) {
+          reject(new Error(`HTTP error! status: ${response.statusCode}`));
+          return;
+        }
+
+        const totalLength = parseInt(response.headers['content-length'], 10);
+        let downloadedLength = 0;
+        let lastUpdateTime = Date.now();
+        let lastDownloadedLength = 0;
+
+        const writer = fs.createWriteStream(filePath);
+
+        response.on('data', (chunk) => {
+          writer.write(chunk);
+          downloadedLength += chunk.length;
+
+          const now = Date.now();
+          if (now - lastUpdateTime > 100) {
+            const progress = (downloadedLength / totalLength) * 100;
+            const timeDiff = now - lastUpdateTime;
+            const bytesDiff = downloadedLength - lastDownloadedLength;
+            const speed = bytesDiff / timeDiff;
+
+            event.sender.send('download-progress', { progress, speed });
+            lastUpdateTime = now;
+            lastDownloadedLength = downloadedLength;
+          }
+        });
+
+        response.on('end', () => {
+          writer.end();
+          event.sender.send('download-progress', { progress: 100, speed: 0 });
+        });
+
+        writer.on('finish', () => {
+          console.log('Writer finished');
+          resolve(); // Resolve the promise on finish
+        });
+
+        response.on('error', (err) => {
+          console.error('Download response error:', err);
+          writer.end();
+          reject(err); // Reject the promise on error
+        });
+
+        writer.on('error', (err) => {
+          console.error('Download writer error:', err);
+          reject(err); // Reject the promise on error
+        });
+      });
+
+      request.on('error', (err) => {
+        console.error('Download request error:', err);
+        reject(err); // Reject the promise on error
+      });
+
+      request.end();
+    });
+  } catch (error) {
+    console.error('Download error:', error);
+    throw error;
+  }
 });
+
+
 
 
 ipcMain.handle('runInstaller', async (event, installerPath) => {
