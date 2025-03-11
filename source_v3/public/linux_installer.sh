@@ -6,16 +6,18 @@ APP_NEW_DIR="EDHM-UI-V3"
 APP_EXE="edhm-ui-v3"
 DESKTOP_FILE="$HOME/Desktop/edhm-ui-v3.desktop"
 APPLICATIONS_FILE="$HOME/.local/share/applications/EDHM-UI-V3.desktop"
-ICON_PATH="$TARGET_DIR/$APP_NEW_DIR/resources/images/icon.png" 
+ICON_PATH="$TARGET_DIR/$APP_NEW_DIR/resources/images/icon.png"
 
+# Kill running instances of the application
+pkill -x "$APP_EXE"
 
 # Find the zip file
 ZIP_FILE=$(find . -maxdepth 1 -name "edhm-ui-v3-linux-x64.zip")
 
 # Check if the zip file was found
 if [ -z "$ZIP_FILE" ]; then
-  echo "Error: Zip file matching 'edhm-ui-v3-linux-x64-*.zip' not found in the current directory."
-  exit 1
+    echo "Error: Zip file matching 'edhm-ui-v3-linux-x64-*.zip' not found in the current directory."
+    exit 1
 fi
 
 # Create the target directory if it doesn't exist
@@ -29,8 +31,8 @@ UNZIPPED_DIR=$(find "$TARGET_DIR" -maxdepth 1 -type d -name "edhm-ui-v3-linux-x6
 
 # Check if the unzipped directory was found
 if [ -z "$UNZIPPED_DIR" ]; then
-  echo "Error: Unzipped application directory not found."
-  exit 1
+    echo "Error: Unzipped application directory not found."
+    exit 1
 fi
 
 # Rename the unzipped directory
@@ -66,11 +68,9 @@ chmod +x "$APPLICATIONS_FILE"
 
 # Optional: Add a check for successful execution
 if [ $? -eq 0 ]; then
-  echo "Application started successfully."
+    echo "Application started successfully."
 else
-  echo "Error: Application failed to start."
+    echo "Error: Application failed to start."
 fi
 
 echo "Desktop and Application Menu shortcuts created."
-
-

@@ -1,4 +1,4 @@
-import { app, ipcMain, dialog, shell, clipboard, net, process  } from 'electron'; 
+import { app, ipcMain, dialog, shell, clipboard, net  } from 'electron'; 
 import { exec, execFile  } from 'child_process'; 
 import Util from './Utils.js';
 import path from 'node:path'; 
@@ -252,11 +252,9 @@ function copyToClipboard(text) {
 
 /** Gets the absolute path to an asset, handling differences between development and production environments.
  * In development, it resolves the path relative to the project's root directory.
- * In production (when the application is packaged), it resolves the path relative to the 'resources' directory.
- *
+ * In production (when the application is packaged), it resolves the path relative to the 'resources' directory. *
  * @param {string} assetPath The relative path to the asset (e.g., 'data/config.json', 'images/logo.png').
- * @returns {string} The absolute path to the asset.
- */
+ * @returns {string} The absolute path to the asset. */
 function getAssetPath(assetPath) {
   try {
     if (process.env.NODE_ENV === 'development') {
@@ -276,6 +274,22 @@ function getAssetUrl(assetPath) {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }  
+}
+
+/** Gets the absolute path to a file within the 'public' folder, handling development and production environments.
+ * @param {string} publicFilePath The relative path to the file within the 'public' folder (e.g., 'images/logo.png').
+ * @returns {string} The absolute path to the file. */
+function getPublicFilePath(publicFilePath) {
+  try {
+      if (process.env.NODE_ENV === 'development') {
+          return path.join(__dirname, '../../public', publicFilePath); // Dev path to public
+      } else {
+          // In production, 'public' is at the same level as 'resources'
+          return path.join(process.resourcesPath, '../public', publicFilePath); // Prod path to public
+      }
+  } catch (error) {
+      throw new Error(`Error getting public file path: ${error.message} ${error.stack}`);
+  }
 }
 
 // #endregion
@@ -336,6 +350,32 @@ async function copyFiles(sourceDir, destDir, extensions) {
   });
 
   return filesCopied;
+}
+/** Copy a file from one location to another.
+ * @param {*} sourcePath Full path of the source file
+ * @param {*} destinationPath full path of the destination, ensures the folder exists.
+ * @param {*} move [Optional] If true, the file is moved instead of copied. Default is false. */
+async function copyFile(sourcePath, destinationPath, move = false) {
+  try {
+    const sourceFileName = path.basename(sourcePath);
+    const destinationDir = path.dirname(destinationPath);
+
+    // Ensure destination directory exists
+    if (!fs.existsSync(destinationDir)) {
+      fs.mkdirSync(destinationDir, { recursive: true });
+    }
+
+    if (move) {
+      fs.renameSync(sourcePath, destinationPath);
+      console.log(`File moved from ${sourcePath} to ${destinationPath}`);
+    } else {
+      fs.copyFileSync(sourcePath, destinationPath);
+      console.log(`File copied from ${sourcePath} to ${destinationPath}`);
+    }
+  } catch (err) {
+    console.error(`Error ${move ? 'moving' : 'copying'} file:`, err);
+    throw err; // Re-throw the error for the caller to handle
+  }
 }
 
 async function deleteFolderRecursive(folderPath) {
@@ -559,11 +599,9 @@ Another way:
 
 // #region JSON Files
 
-/** Loads a JSON file from the specified path.
- *
+/** Loads a JSON file from the specified path. *
  * @param {string} filePath The path to the JSON file.
- * @returns {Object|null} The parsed JSON object, or null if the file does not exist or cannot be parsed.
- */
+ * @returns {Object|null} The parsed JSON object, or null if the file does not exist or cannot be parsed. */
 const loadJsonFile = (filePath) => {
   const resolvedPath = resolveEnvVariables(filePath);
   try {
@@ -882,8 +920,7 @@ function runInstaller(installerPath) {
 
 /** [For Beta Testings] Check for the Latest Pre-Release published on Github
  * @param {*} owner 'BlueMystical'
- * @param {*} repo 'EDHM-UI'
- * @returns  */
+ * @param {*} repo 'EDHM-UI'  */
 async function getLatestPreReleaseVersion(owner, repo) {
   const options = {
     hostname: 'api.github.com',
@@ -1135,67 +1172,80 @@ ipcMain.handle('terminate-program', async (event, exeName) => {
   });
 });
 
-
-ipcMain.handle('run-program', async (event, filePath) => {
+/**
+ * Launches a program or script file in a "fire and forget" manner.
+ * Returns "Program started" immediately if the program is successfully launched.
+ * Does not wait for the program to finish or capture its output.
+ *
+ * @param {Electron.IpcMainInvokeEvent} event - The IPC event.
+ * @param {string} filePath - The absolute path to the program or script file.
+ * @param {string[]} [args] - An optional array of arguments to pass to the program.
+ * @returns {string} - "Program started" if launched, "Program could not start" on error.
+ */
+ipcMain.handle('run-program', (event, filePath, args = []) => {
   try {
-    if (process.platform === 'linux') {
-      // Linux-specific logic
-      try{
-        fs.chmodSync(filePath, 0o755);
-      } catch (chmodError){
-          console.log("Error changing file permissions, might already have permissions", chmodError);
-      }
+      console.log('Launching program:', filePath, args);
 
-      let interpreter = null;
-      let args = [filePath];
-
-      if (filePath.endsWith('.sh')) {
-        interpreter = 'bash';
-      } else if (filePath.endsWith('.py')) {
-        interpreter = 'python3';
-      } else {
-        interpreter = filePath;
-        args = [];
-      }
-
-      if (interpreter) {
-        execFile(interpreter, args, (error, stdout, stderr) => {
-          if (error) {
-            console.error(`Error running program: ${error}`);
-            throw error;
+      if (process.platform === 'linux') {
+          console.log('Linux platform detected');
+          try {
+              fs.chmodSync(filePath, 0o755); // Ensure executable permissions
+          } catch (chmodError) {
+              console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
           }
-          console.log(`Program output: ${stdout}`);
-          if (stderr) {
-            console.error(`Program stderr: ${stderr}`);
+
+          let interpreter = null;
+
+          if (filePath.endsWith('.sh')) {
+              interpreter = 'bash';
+              args = [filePath, ...args]; // Include the script path as the first argument
+              filePath = 'bash'; //set the interpreter as the file path.
+          } else if (filePath.endsWith('.py')) {
+              interpreter = 'python3';
+              args = [filePath, ...args];// Include the script path as the first argument
+              filePath = 'python3';//set the interpreter as the file path.
+          } else {
+              interpreter = filePath; // For executables, use the path itself.
           }
-        });
+
+          if (interpreter) {
+              execFile(filePath, args, (error) => {
+                  if (error) {
+                      console.error(`Error running program: ${error}`);
+                  }
+              });
+          } else {
+              console.error('Unknown script type or executable file');
+          }
+      } else if (process.platform === 'win32') {
+        
+        console.log('Windows platform detected');
+            console.log('execFile arguments:', filePath, args);
+
+             // Get the directory of the batch file
+             const cwd = path.dirname(filePath);
+
+             execFile(filePath, args, { shell: true, cwd: cwd }, (error, stdout, stderr) => {
+                 if (error && error.code !== 128 && error.code !== 1) {
+                     console.error(`Error running program (execFile shell): ${error}`);
+                     console.error("stdout:", stdout);
+                     console.error("stderr:", stderr);
+                 } else {
+                     console.log("Batch file executed successfully or taskkill process not found");
+                     console.log("stdout:", stdout);
+                     console.log("stderr:", stderr);
+                 }
+             });
+
       } else {
-        console.error('Unknown script type or executable file');
-        throw new Error('Unknown script type or executable file');
+          console.error(`Unsupported platform: ${process.platform}`);
       }
-    } else if (process.platform === 'win32') {
-      // Windows-specific logic
-      execFile(filePath, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error running program: ${error}`);
-          throw error;
-        }
-        console.log(`Program output: ${stdout}`);
-        if (stderr) {
-          console.error(`Program stderr: ${stderr}`);
-        }
-      });
-    } else {
-        console.error(`Unsupported platform: ${process.platform}`);
-        throw new Error(`Unsupported platform: ${process.platform}`);
-    }
-    return "Program started";
+      return "Program started"; // Immediate return
   } catch (error) {
-    console.error(`Error starting program: ${error}`);
-    throw error;
+      console.error(`Error starting program: ${error}`);
+      return "Program could not start";
   }
 });
-
 
 ipcMain.handle('openPathInExplorer', async (event, filePath) => {
   try {
@@ -1259,6 +1309,14 @@ ipcMain.handle('get-local-file-url', async (event, localPath) => {
 ipcMain.handle('ensureDirectoryExists', async (event, fullPath) => {
   try {
     return ensureDirectoryExists(fullPath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }  
+});
+
+ipcMain.handle('copyFile', async (event, sourcePath, destinationPath, move = false) => {
+  try {
+    return copyFile(sourcePath, destinationPath, move);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }  
@@ -1502,16 +1560,25 @@ ipcMain.handle('copyToClipboard', (event, text) => {
   }
 });
 
+ipcMain.handle('getPublicFilePath', (event, relFilePath) => {
+  try {
+    return getPublicFilePath(relFilePath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
 // #endregion
 
 export default { 
   getAssetPath, getAssetUrl,
+  getPublicFilePath,
   resolveEnvVariables,  
 
   loadJsonFile, 
   writeJsonFile, 
 
-  copyFiles,
+  copyFiles, copyFile,
   checkFileExists, 
   openPathInExplorer ,
   deleteFilesByType,

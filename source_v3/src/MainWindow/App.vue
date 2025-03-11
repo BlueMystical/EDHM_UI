@@ -498,7 +498,7 @@ export default {
        //window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
       window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
         if (latestRelease) {
-          console.log(latestRelease);
+          //console.log(latestRelease);
           this.AnalyseUpdate(latestRelease);
         } else {
           console.log('No pre-release version found.');
@@ -514,7 +514,7 @@ export default {
         const serverVersion = latesRelease.version;
         const isUpdate = this.compareVersions(serverVersion, localVersion); console.log('isUpdate:', isUpdate);
 
-        console.log(latesRelease);
+        //console.log(latesRelease);
 
         if (isUpdate) {
           const options = {
@@ -527,12 +527,11 @@ export default {
             cancelId: 0
           };
           let fileSavePath = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\edhm-ui-v3-windows-x64.exe');
-          const platform = 'win32'; //await window.api.getPlatform();
+          const platform = await window.api.getPlatform();
+          var download_url = '';  
 
           window.api.ShowMessageBox(options).then(result => {
             if (result && result.response === 1) {
-
-              var download_url = '';              
 
               if (platform === 'win32') {
                 console.log('Running on Windows');
@@ -545,11 +544,11 @@ export default {
 
               } else {
                   console.log(`Running on an unknown platform: ${platform}`);
+                  return;
               }
               
               //window.api.openUrlInBrowser(download_url);
-
-              EventBus.emit('StartDownload', { url: download_url, save_to: fileSavePath }); //<- Event Listen in 'NavBars.vue'
+              EventBus.emit('StartDownload', { url: download_url, save_to: fileSavePath, platform: platform }); //<- Event Listen in 'NavBars.vue'
 
             }
             if (result && result.response === 2) {

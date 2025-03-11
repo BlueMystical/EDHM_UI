@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('api', {
   getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
   getAssetFileUrl: (assetPath) => ipcRenderer.invoke('get-asset-file-url', assetPath),
   getLocalFileUrl: (assetPath) => ipcRenderer.invoke('get-local-file-url', assetPath),
+  getPublicFilePath: (relFilePath) => ipcRenderer.invoke('getPublicFilePath', relFilePath),
 
   getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
   writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
@@ -42,6 +43,7 @@ contextBridge.exposeInMainWorld('api', {
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
 
   ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath),
+  copyFile: (sourcePath, destinationPath, move)=> ipcRenderer.invoke('copyFile', sourcePath, destinationPath, move = false),
 
   compressFiles: (files, outputPath) => ipcRenderer.invoke('compress-files', files, outputPath),
   compressFolder: (folderPath, outputPath) => ipcRenderer.invoke('compress-folder', folderPath, outputPath),
@@ -127,14 +129,15 @@ contextBridge.exposeInMainWorld('api', {
   getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo),
   getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo),
 
-  runInstaller: (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
+  runInstaller: async (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
   copyToClipboard: (text) => ipcRenderer.invoke('copyToClipboard', text),
 
   downloadFile: (url, filePath) => ipcRenderer.invoke('download-file', url, filePath),
   onDownloadProgress: (callback) => ipcRenderer.on('download-progress', callback),
   removeDownloadProgressListener: (callback) => ipcRenderer.removeListener('download-progress', callback),
 
-  //getPlatform: () => ipcRenderer.invoke('get-platform'),
-  runProgram: (filePath) => ipcRenderer.invoke('run-program', filePath),
+  getPlatform: () => ipcRenderer.invoke('get-platform'),
+  quitProgram: () => ipcRenderer.invoke('quit-program'),
+  runProgram: (filePath, args = []) => ipcRenderer.invoke('run-program', filePath, args),
 
 });

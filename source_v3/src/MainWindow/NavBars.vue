@@ -150,7 +150,7 @@
     <!-- Progress bar-->
     <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Warning example" 
           :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100" style="width: 600px;">
-      <div class="progress-bar text-bg-warning" :style="{ width: progressValue + '%' }">{{ progressText }}</div>
+      <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning" :style="{ width: progressValue + '%' }">{{ progressText }}</div>
     </span>
 
     <!-- Search Form -->
@@ -747,44 +747,85 @@ export default {
       }
     },
     
-    async OnDownloadStart(Options) {
+    /** Downloads an Install an Update for the App.
+     * @param Options { url: 'to download from', save_to: 'path to store the file', platform: 'win32|linux|darwin' }     */
+    async DownloadAndInstallUpdate(Options) {
       try {
-        // Options: { url: '', save_to: ''};
         console.log('Downloading file:', Options);
+        this.showSpinner = true;
+        this.modVersion = 'Downloading...';
 
-        const filePath = Options.save_to;
-        if (!filePath) return; // User cancelled
+        let scriptPath = null;
+        let filePath = Options.save_to;
+        if (!filePath) return; // User cancelled        
+        const destDir = await window.api.getParentFolder(filePath);
 
-        this.showProgressBar = true;
-        this.progressValue = 0;
-        this.downloadSpeed = 0;
-        this.averageSpeed = 0;
+        this.showProgressBar = true; //<- Shows/Hides the Progressbar
+        this.progressValue = 0;       //<- Progress Value in Percentage %
+        this.downloadSpeed = 0;       //<- Download Speend in bytes/s
+        this.averageSpeed = 0;        //<- Average Download Speend in KB/s
         this.startTime = Date.now();
-        this.totalDownloadedBytes = 0;
+        this.totalDownloadedBytes = 0; //<- Bytes Downloaded
 
+        //- Setup a Progress Listener
         this.progressListener = (event, data) => {
+          //- This will fillup the Progress Bar:
           this.progressValue = data.progress;
           this.downloadSpeed = data.speed;
           this.totalDownloadedBytes += data.speed;
 
+          //- Calculating the Average Spped:
           const elapsedTime = (Date.now() - this.startTime) / 1000;
-
           if (elapsedTime > 0) {
-            const averageSpeedBytesPerSecond = this.totalDownloadedBytes / elapsedTime;
-            //this.averageSpeed = (averageSpeedBytesPerSecond / (1024 * 1024)).toFixed(2); // MB/s
-            this.averageSpeed = (averageSpeedBytesPerSecond / 1024).toFixed(2); // KB/s
+            const averageSpeedBytesPerSecond = this.totalDownloadedBytes / elapsedTime;           
+            this.averageSpeed = (averageSpeedBytesPerSecond / 1024).toFixed(2); //<- KB/s or  = (averageSpeedBytesPerSecond / (1024 * 1024)).toFixed(2); // MB/s
           }
 
-          this.progressText = `Downloading.. ${data.progress.toFixed(1)}%, ${this.averageSpeed} KB/s`;
+          this.progressText = `${data.progress.toFixed(1)}%, ${this.averageSpeed} KB/s`;
         };
 
+        //- Start the Progress Listener:
         window.api.onDownloadProgress(this.progressListener);
-        await window.api.downloadFile(Options.url, filePath);
-        await window.api.runProgram(filePath); //run the program
 
+        //- Start the Download and wait till it finishes..
+        await window.api.downloadFile(Options.url, filePath);        
+
+        //- When the Download Finishes: 
         console.log('Download complete!');
-        this.showProgressBar = false;
+        this.modVersion = 'Installing...';
+
+        //- Some Cleanup:
         window.api.removeDownloadProgressListener(this.progressListener);
+    
+        if (Options.platform === 'linux') {
+          //- Copy the installer script from the Public dir:
+          scriptPath = await window.api.getPublicFilePath('linux_installer.sh');
+          if (scriptPath) {
+            filePath = window.api.joinPath(destDir, 'linux_installer.sh');
+            await window.api.copyFile(scriptPath, filePath);
+
+            //- Now we run the Installer thru the Script:
+            window.api.runProgram(filePath); 
+          }
+        }
+        if (Options.platform === 'win32') {
+          //- Copy the installer script from the Public dir:
+          scriptPath = await window.api.getPublicFilePath('windows_installer.bat');
+          if (scriptPath) {
+              const batPath = window.api.joinPath(destDir, 'windows_installer.bat');
+              await window.api.copyFile(scriptPath, batPath);
+              window.api.runProgram(batPath);
+          }
+        }
+
+        this.showSpinner = false;
+        this.showProgressBar = false;
+
+      /*  if (process.env.NODE_ENV === 'development') {
+            setTimeout(() => {
+              window.api.quitProgram(); //<- Close the App
+            }, 5000);
+        }*/
 
       } catch (error) {
         console.error('Download failed:', error);
@@ -809,7 +850,7 @@ export default {
     EventBus.on('ShowSpinner', this.showHideSpinner);
     EventBus.on('modUpdated', this.OnModUpdated);
     EventBus.on('OnApplyTheme', this.applyTheme);
-    EventBus.on('StartDownload', this.OnDownloadStart);
+    EventBus.on('StartDownload', this.DownloadAndInstallUpdate);
     EventBus.on('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
     if (typeof this.progressListener === 'function') {
       window.api.removeDownloadProgressListener(this.progressListener);
@@ -823,7 +864,7 @@ export default {
     EventBus.off('ShowSpinner', this.showHideSpinner);
     EventBus.off('modUpdated', this.OnModUpdated);
     EventBus.off('OnApplyTheme', this.applyTheme);
-    EventBus.off('StartDownload', this.OnDownloadStart);
+    EventBus.off('StartDownload', this.DownloadAndInstallUpdate);
     EventBus.off('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
 
     if (typeof this.progressListener === 'function') {

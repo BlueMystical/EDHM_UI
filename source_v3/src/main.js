@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain, process } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
@@ -7,37 +7,39 @@ import settingsHelper from './Helpers/SettingsHelper.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
-  app.quit();
+    app.quit();
 }
 
+let mainWindow; // Declare mainWindow in the outer scope
+
 const createWindow = () => {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 1600, minWidth: 1160,
-    height: 800, minHeight: 553,
+    // Create the browser window.
+    mainWindow = new BrowserWindow({ // Assign to the outer scope variable
+        width: 1600, minWidth: 1160,
+        height: 800, minHeight: 553,
 
-    icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: true,
-      webSecurity: false     
-    },
-  });
+        icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: true,
+            webSecurity: false
+        },
+    });
 
-  console.log('App is Loading..');  
+    console.log('App is Loading..');
 
-  // and load the index.html of the app.
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
-    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-  } else {
-    console.log('Production mode: ');
-    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));  
-  }
+    // and load the index.html of the app.
+    if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+        console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
+        mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    } else {
+        console.log('Production mode: ');
+        mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+    }
 
-  //-- Open the DevTools.
-  mainWindow.webContents.openDevTools();
+    //-- Open the DevTools.
+    //mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -75,27 +77,19 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-/*
+
 ipcMain.handle('get-platform', () => {
   console.log(process.platform);
   return process.platform;
-});*/
+});
 
-ipcMain.handle('quit-and-install', async (event, filePath) => {
+ipcMain.handle('quit-program', async (event) => {
   try {
       if(mainWindow){
           mainWindow.removeAllListeners('close');
           mainWindow.close();
       }
-      if (process.platform === 'linux') {
-        // Linux logic (as before)
-      } else if (process.platform === 'win32') {
-        // Windows logic (as before)
-      } else {
-        console.error(`Unsupported platform: ${process.platform}`);
-        throw new Error(`Unsupported platform: ${process.platform}`);
-      }
-      return "Program started";
+      return true;
   } catch (error) {
       console.error(`Error starting program: ${error}`);
       throw error;
