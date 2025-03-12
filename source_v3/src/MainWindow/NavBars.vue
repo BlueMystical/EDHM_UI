@@ -175,6 +175,7 @@
 import { ref } from 'vue';
 import EventBus from '../EventBus';
 import ThemeTab from './ThemeTab.vue';
+import Util from '../Helpers/Utils.js';
 import HUD_Areas from './HudImage.vue';
 import PropertiesTabEx from './PropertiesTabEx.vue';
 import UserSettingsTab from './UserSettingsTab.vue';
@@ -778,7 +779,7 @@ export default {
           const elapsedTime = (Date.now() - this.startTime) / 1000;
           if (elapsedTime > 0) {
             const averageSpeedBytesPerSecond = this.totalDownloadedBytes / elapsedTime;           
-            this.averageSpeed = (averageSpeedBytesPerSecond / 1024).toFixed(2); //<- KB/s or  = (averageSpeedBytesPerSecond / (1024 * 1024)).toFixed(2); // MB/s
+            this.averageSpeed = (averageSpeedBytesPerSecond / 1024).toFixed(1); //<- KB/s or  = (averageSpeedBytesPerSecond / (1024 * 1024)).toFixed(2); // MB/s
           }
 
           this.progressText = `${data.progress.toFixed(1)}%, ${this.averageSpeed} KB/s`;
@@ -797,31 +798,28 @@ export default {
         //- Some Cleanup:
         window.api.removeDownloadProgressListener(this.progressListener);
     
-        if (Options.platform === 'linux') {
-          //- Copy the installer script from the Public dir:
-          scriptPath = await window.api.getPublicFilePath('linux_installer.sh');
-          if (scriptPath) {
-            filePath = window.api.joinPath(destDir, 'linux_installer.sh');
-            await window.api.copyFile(scriptPath, filePath);
-
-            //- Now we run the Installer thru the Script:
-            window.api.runProgram(filePath); 
-          }
+        //- Get the installer script from the Public dir:
+        if (Options.platform === 'linux') {          
+          scriptPath = await window.api.getAssetPath('public/linux_installer.sh');
+          filePath = window.api.joinPath(destDir, 'linux_installer.sh'); 
         }
         if (Options.platform === 'win32') {
-          //- Copy the installer script from the Public dir:
-          scriptPath = await window.api.getPublicFilePath('windows_installer.bat');
-          if (scriptPath) {
-              const batPath = window.api.joinPath(destDir, 'windows_installer.bat');
-              await window.api.copyFile(scriptPath, batPath);
-              window.api.runProgram(batPath);
-          }
+          scriptPath = await window.api.getAssetPath('public/windows_installer.bat');
+          filePath = window.api.joinPath(destDir, 'windows_installer.bat');
         }
+        if (!scriptPath) {
+          throw new Error('Failed to Copy the Installer Script.');
+        }
+
+        //- Now we Copy and Run the Installer thru the Script:
+        await window.api.copyFile(scriptPath, filePath);
+        const _ret = await window.api.runProgram(filePath); 
+        console.log(_ret);
 
         this.showSpinner = false;
         this.showProgressBar = false;
 
-      /*  if (process.env.NODE_ENV === 'development') {
+      /*if (process.env.NODE_ENV === 'development') {
             setTimeout(() => {
               window.api.quitProgram(); //<- Close the App
             }, 5000);
@@ -830,8 +828,10 @@ export default {
       } catch (error) {
         console.error('Download failed:', error);
         this.showProgressBar = false;
+        this.showSpinner = false;
+        this.modVersion = 'ERROR!';
         window.api.removeDownloadProgressListener(this.progressListener);
-        alert('Download failed. Check console for details.');
+        EventBus.emit('ShowError', new Error(error.message + error.stack));
       }
     },
 

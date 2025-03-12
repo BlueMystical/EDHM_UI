@@ -1,5 +1,5 @@
 import { app, ipcMain, dialog, shell, clipboard, net  } from 'electron'; 
-import { exec, execFile  } from 'child_process'; 
+import { exec, execFile, spawn  } from 'child_process'; 
 import Util from './Utils.js';
 import path from 'node:path'; 
 import https from 'https';
@@ -79,91 +79,6 @@ const resolveEnvVariables = (inputPath) => {
     throw new Error(error.message + '\n' + error.stack);
   }
 };
-/*const resolveEnvVariables = (inputPath) => {
-  try {
-    if (typeof inputPath !== 'string') {
-      console.warn("Input path must be a string. Returning original input:", inputPath);
-      return inputPath;
-    }
-
-    let envVarPath = ''; // Path with resolved Env.Vars
-    let normalPath = ''; // Path with resolved normal Path
-    let resolvedPath = ''; // Final resolved Path
-
-    // #region Resolve Enviromental Variables if Present
-
-    // Check if we have Environment Variables that we need to resolve
-    let isEnvVar = inputPath.includes('%'); // True if inputPath contains '%'
-    if (isEnvVar) {
-
-      const envVars = {
-        '%USERPROFILE%': os.homedir(), 
-        '%APPDATA%': app.getPath('userData'), 
-        '%LOCALAPPDATA%': getLocalAppDataPath(), 
-        '%PROGRAMFILES%': process.env.PROGRAMFILES || process.env['ProgramFiles'], 
-        '%PROGRAMFILES(X86)%': process.env['PROGRAMFILES(X86)'] || process.env['ProgramFiles(x86)'], 
-        '%PROGRAMDATA%': process.env.PROGRAMDATA,
-        '%APPDIR%': app.getAppPath(),
-        '$HOME': os.homedir(),
-        '~': os.homedir(),
-        '%TEMP%': process.env.TEMP || process.env.TMP,
-        '$TMPDIR': process.platform === 'win32' ? (process.env.TEMP || process.env.TMP) : (process.env.TMPDIR || '/tmp'),
-        '$XDG_CONFIG_HOME': process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config'),
-        '$XDG_DATA_HOME': process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share'),
-      };
-      
-      if (process.platform === 'win32') {
-        envVars['$TMPDIR'] = process.env.TEMP || process.env.TMP;
-      } else {
-        envVars['$TMPDIR'] = process.env.TMPDIR || '/tmp';
-      }
-
-      // Extract and resolve the Env.Var portion from the inputPath
-      envVarPath = inputPath.split('%')[1];   
-      envVarPath = '%' + envVarPath + '%'; // Re-add the % to the Env.Var
-      envVarPath = envVarPath.replace(/%([^%]+)%/g, (match) => {
-        console.log(`Resolving environment variable: ${match} -> ${envVars[match] || ''}`);
-        return envVars[match] || '';
-      });
-
-      envVars['$XDG_CONFIG_HOME'] = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
-      envVars['$XDG_DATA_HOME'] = process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share');  
-      
-    }
-
-    // #endregion
-
-    // #region Resolve Absolute paths, if present
-
-    // Extract the non Env.Var portion of the path
-    let nonEnvVarPart = isEnvVar ? inputPath.replace(/%[\w]+%/, '') : inputPath;
-    let separator = nonEnvVarPart.includes('\\') ? '\\' : '/';  // Detect separator type
-    let pathComponents = nonEnvVarPart.split(separator);
-
-    // re-assemble the path using the platform path separator
-    normalPath = path.join(...pathComponents);
-
-    // #endregion
-
-    // Combine envVarPath and normalPath
-    resolvedPath = isEnvVar ? path.join(envVarPath, normalPath) : normalPath;
-
-    // Ensure the resolved path has the initial slash if needed
-    if (os.platform() === 'linux' && (pathComponents[0] === '' || resolvedPath.startsWith('/'))) {
-      resolvedPath = '/' + resolvedPath.replace(/^\/+/, '');
-    }
-
-    // Handle initial slash for Linux 
-    if (os.platform() !== 'win32' && resolvedPath.startsWith('/') && !resolvedPath.startsWith('//')) { 
-      resolvedPath = '/' + resolvedPath.replace(/^\/+/, ''); 
-    }
-
-    return resolvedPath;
-
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
-};*/
 
 /** Returns the Parent Folder of the given Path 
  *  @param {*} givenPath 
@@ -253,12 +168,16 @@ function copyToClipboard(text) {
 /** Gets the absolute path to an asset, handling differences between development and production environments.
  * In development, it resolves the path relative to the project's root directory.
  * In production (when the application is packaged), it resolves the path relative to the 'resources' directory. *
- * @param {string} assetPath The relative path to the asset (e.g., 'data/config.json', 'images/logo.png').
+ * @param {string} assetPath The relative path to the asset (e.g., 'data/Settings.json', 'images/icon.png', 'public/windows_installer.bat').
  * @returns {string} The absolute path to the asset. */
 function getAssetPath(assetPath) {
   try {
     if (process.env.NODE_ENV === 'development') {
-      return path.join(__dirname, '../../src', assetPath); // Dev path
+      if (assetPath.startsWith('public')) {
+        return path.join(__dirname, '../../', assetPath); // Dev path
+      } else {
+        return path.join(__dirname, '../../src', assetPath); // Dev path
+      }      
     } else {
       return path.join(process.resourcesPath, assetPath); // Correct Prod path
     }
@@ -274,22 +193,6 @@ function getAssetUrl(assetPath) {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }  
-}
-
-/** Gets the absolute path to a file within the 'public' folder, handling development and production environments.
- * @param {string} publicFilePath The relative path to the file within the 'public' folder (e.g., 'images/logo.png').
- * @returns {string} The absolute path to the file. */
-function getPublicFilePath(publicFilePath) {
-  try {
-      if (process.env.NODE_ENV === 'development') {
-          return path.join(__dirname, '../../public', publicFilePath); // Dev path to public
-      } else {
-          // In production, 'public' is at the same level as 'resources'
-          return path.join(process.resourcesPath, '../public', publicFilePath); // Prod path to public
-      }
-  } catch (error) {
-      throw new Error(`Error getting public file path: ${error.message} ${error.stack}`);
-  }
 }
 
 // #endregion
@@ -389,7 +292,8 @@ async function deleteFolderRecursive(folderPath) {
         fs.unlinkSync(currentPath); // Delete file
       }
     });
-    fs.rmdirSync(folderPath); // Remove the now-empty folder
+    //fs.rmdirSync(folderPath); // Remove the now-empty folder //<- DEPRECATED
+    fs.rmdirSync(folderPath, { recursive: true, force: true });
     return true;
   }
   return false; //<- 404 - The Folder doesnt exists
@@ -514,7 +418,8 @@ async function ensureSymlink(targetFolder, symlinkPath) {
     }
 
     console.log(`Path exists but is not a symlink: ${symlinkPath}`);
-    fs.rmdirSync(symlinkPath, { recursive: true });
+    //fs.rmdirSync(symlinkPath, { recursive: true }); //<- DEPRECATED
+    fs.rmSync(symlinkPath, { recursive: true, force: true });
 
   } catch (err) {
     if (err.code !== 'ENOENT') { throw err; }
@@ -1172,80 +1077,136 @@ ipcMain.handle('terminate-program', async (event, exeName) => {
   });
 });
 
-/**
- * Launches a program or script file in a "fire and forget" manner.
+/** Launches a program or script file in a "fire and forget" manner.
  * Returns "Program started" immediately if the program is successfully launched.
  * Does not wait for the program to finish or capture its output.
  *
  * @param {Electron.IpcMainInvokeEvent} event - The IPC event.
  * @param {string} filePath - The absolute path to the program or script file.
  * @param {string[]} [args] - An optional array of arguments to pass to the program.
- * @returns {string} - "Program started" if launched, "Program could not start" on error.
- */
-ipcMain.handle('run-program', (event, filePath, args = []) => {
+ * @returns {string} - "Program started" if launched, "Program could not start" on error. */
+ipcMain.handle('run-program', async (event, filePath, args = []) => {
   try {
-      console.log('Launching program:', filePath, args);
+    console.log('Launching program:', filePath, args);
 
-      if (process.platform === 'linux') {
-          console.log('Linux platform detected');
-          try {
-              fs.chmodSync(filePath, 0o755); // Ensure executable permissions
-          } catch (chmodError) {
-              console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
-          }
+    if (process.platform === 'linux') {
+      console.log('Linux platform detected');
 
-          let interpreter = null;
+      // Ensure the script has execute permissions
+      fs.chmod(filePath, 0o755, (chmodError) => {
+        if (chmodError) {
+          console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
+        }
+      });
 
-          if (filePath.endsWith('.sh')) {
-              interpreter = 'bash';
-              args = [filePath, ...args]; // Include the script path as the first argument
-              filePath = 'bash'; //set the interpreter as the file path.
-          } else if (filePath.endsWith('.py')) {
-              interpreter = 'python3';
-              args = [filePath, ...args];// Include the script path as the first argument
-              filePath = 'python3';//set the interpreter as the file path.
-          } else {
-              interpreter = filePath; // For executables, use the path itself.
-          }
+      // Use spawn to run the shell script as a detached process
+      const options = {
+        detached: true, // Detach the process from the parent
+        stdio: 'ignore', // Ignore input/output streams to let it run independently
+        cwd: path.dirname(filePath) // Set the working directory of the script
+      };
 
-          if (interpreter) {
-              execFile(filePath, args, (error) => {
-                  if (error) {
-                      console.error(`Error running program: ${error}`);
-                  }
-              });
-          } else {
-              console.error('Unknown script type or executable file');
-          }
-      } else if (process.platform === 'win32') {
-        
-        console.log('Windows platform detected');
-            console.log('execFile arguments:', filePath, args);
+      const args = []; // Pass additional arguments to the shell script if needed
+      const process = spawn('bash', [filePath, ...args], options);
 
-             // Get the directory of the batch file
-             const cwd = path.dirname(filePath);
+      process.unref(); // Allow the parent app to exit without affecting the script
+      console.log('Shell script launched in detached mode.');
 
-             execFile(filePath, args, { shell: true, cwd: cwd }, (error, stdout, stderr) => {
-                 if (error && error.code !== 128 && error.code !== 1) {
-                     console.error(`Error running program (execFile shell): ${error}`);
-                     console.error("stdout:", stdout);
-                     console.error("stderr:", stderr);
-                 } else {
-                     console.log("Batch file executed successfully or taskkill process not found");
-                     console.log("stdout:", stdout);
-                     console.log("stderr:", stderr);
-                 }
-             });
+    } else if (process.platform === 'win32') {
+      const batPath = path.resolve(filePath); // Resolve absolute path of the .bat file
+      const options = {
+        detached: true, // Detach the process so it can run independently
+        stdio: 'ignore', // Ignore standard input/output streams
+        cwd: path.dirname(batPath) // Set the working directory to the .bat file's directory
+      };
 
-      } else {
-          console.error(`Unsupported platform: ${process.platform}`);
-      }
-      return "Program started"; // Immediate return
+      // Use spawn to execute the batch file
+      const batProcess = spawn('cmd.exe', ['/c', 'start', filePath], options);
+
+      batProcess.unref(); // Allow the parent app to terminate without affecting the batch file
+      console.log('Batch file launched in detached mode.');
+
+      return 'Batch file started successfully';
+    }
+    else {
+      console.error(`Unsupported platform: ${process.platform}`);
+    }
+
+    return "Program started";
   } catch (error) {
-      console.error(`Error starting program: ${error}`);
-      return "Program could not start";
+    console.error(`Error starting program: ${error}`);
+    return "Program could not start";
   }
 });
+
+/*ipcMain.handle('run-program', (event, filePath, args = []) => {
+  try {
+    console.log('Launching program:', filePath, args);
+
+    if (process.platform === 'linux') {
+      console.log('Linux platform detected');
+      try {
+        fs.chmodSync(filePath, 0o755); // Ensure executable permissions
+      } catch (chmodError) {
+        console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
+      }
+
+      let interpreter = null;
+
+      if (filePath.endsWith('.sh')) {
+        interpreter = 'bash';
+        args = [filePath, ...args]; // Include the script path as the first argument
+        filePath = 'bash'; //set the interpreter as the file path.
+      } else if (filePath.endsWith('.py')) {
+        interpreter = 'python3';
+        args = [filePath, ...args];// Include the script path as the first argument
+        filePath = 'python3';//set the interpreter as the file path.
+      } else {
+        interpreter = filePath; // For executables, use the path itself.
+      }
+
+      if (interpreter) {
+        execFile(filePath, args, (error) => {
+          if (error) {
+            console.error(`Error running program: ${error}`);
+          }
+        });
+      } else {
+        console.error('Unknown script type or executable file');
+      }
+    } else if (process.platform === 'win32') {
+
+      console.log('Windows platform detected.');
+      //console.log('execFile arguments:', filePath, args);
+
+      // Get the directory of the batch file
+      const cwd = path.dirname(filePath);
+      const debug = true; // Set to `false` to hide the terminal
+      const args = debug ? ["/k", filePath, "debug"] : ["/c", filePath];
+      const options = debug ? { shell: true, cwd: cwd } : { shell: true, cwd: cwd, windowsHide: true };
+
+      //execFile(filePath, args, { shell: true, cwd: cwd }, (error, stdout, stderr) => {
+      execFile("cmd.exe", args, options, (error, stdout, stderr) => {
+        if (error && error.code !== 128 && error.code !== 1) {
+          console.error(`Error running program (execFile shell): ${error}`);
+          console.error("stdout:", stdout);
+          console.error("stderr:", stderr);
+        } else {
+          console.log("Batch file executed successfully or taskkill process not found");
+          console.log("stdout:", stdout);
+          console.log("stderr:", stderr);
+        }
+      });
+
+    } else {
+      console.error(`Unsupported platform: ${process.platform}`);
+    }
+    return "Program started"; // Immediate return
+  } catch (error) {
+    console.error(`Error starting program: ${error}`);
+    return "Program could not start";
+  }
+});*/
 
 ipcMain.handle('openPathInExplorer', async (event, filePath) => {
   try {
@@ -1572,7 +1533,6 @@ ipcMain.handle('getPublicFilePath', (event, relFilePath) => {
 
 export default { 
   getAssetPath, getAssetUrl,
-  getPublicFilePath,
   resolveEnvVariables,  
 
   loadJsonFile, 

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, globalShortcut } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
@@ -13,33 +13,40 @@ if (started) {
 let mainWindow; // Declare mainWindow in the outer scope
 
 const createWindow = () => {
-    // Create the browser window.
-    mainWindow = new BrowserWindow({ // Assign to the outer scope variable
-        width: 1600, minWidth: 1160,
-        height: 800, minHeight: 553,
+  // Create the browser window.
+  mainWindow = new BrowserWindow({ // Assign to the outer scope variable
+    width: 1600, minWidth: 1160,
+    height: 800, minHeight: 553,
 
-        icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-            contextIsolation: true,
-            nodeIntegration: true,
-            webSecurity: false
-        },
-    });
+    icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: true,
+      webSecurity: false
+    },
+  });
 
-    console.log('App is Loading..');
+  console.log('App is Loading..');
 
-    // and load the index.html of the app.
-    if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-        console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
-        mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-    } else {
-        console.log('Production mode: ');
-        mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+  // and load the index.html of the app.
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  } else {
+    console.log('Production mode: ');
+    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+  }
+
+  // Register the shortcut to open DevTools
+  globalShortcut.register('Control+Shift+I', () => {
+    if (mainWindow) {
+      mainWindow.webContents.toggleDevTools();
     }
+  });
 
-    //-- Open the DevTools.
-    //mainWindow.webContents.openDevTools();
+  //-- Open the DevTools.
+  //mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished

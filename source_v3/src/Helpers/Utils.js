@@ -371,6 +371,44 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
 
 // #endregion
 
+/** Timer class to measure the time taken by a task.
+ * USAGE:
+ * const timer = new Timer();
+ * timer.Start();
+ * // Perform some task
+ * const duration = timer.Stop();
+ * console.log(`Task took ${timer.ElapsedTime} seconds to complete.`);
+ */
+export class Timer {
+    constructor() {
+        this.startTime = null;
+    }
+    Start() { // Changed startTimer to start, to match your example.
+        this.startTime = performance.now();
+    }
+
+    Stop() { // Changed stopTimer to stop, to match your example.
+        if (this.startTime === null) {
+            console.error("Timer was not started.");
+            return;
+        }
+        const endTime = performance.now();
+        const duration = (endTime - this.startTime) / 1000;
+        console.log(`The task took ${duration.toFixed(4)} seconds to complete.`);
+        this.startTime = null; // Reset for next use
+        return duration; //return the duration so that it can be used.
+    }
+
+    ElapsedTime() {
+        if (this.startTime === null) {
+            console.error("Timer was not started.");
+            return 0; // or throw an error, depending on your needs.
+        }
+        const currentTime = performance.now();
+        const elapsedTime = (currentTime - this.startTime) / 1000;
+        return elapsedTime;
+    }
+}
 
 export default {
     containsWord, isEmpty, isNotNullOrEmpty,
@@ -385,4 +423,5 @@ export default {
     reverseGammaCorrectedList,
     convert_sRGB_FromLinear, Convert_sRGB_ToLinear,
     convert_sRGB_FromLinear,
+    Timer
 }

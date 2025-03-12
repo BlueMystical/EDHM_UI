@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set DEBUG mode: 1 for debugging, 0 for production
+DEBUG=0
+
 # Define variables
 TARGET_DIR="$HOME/.local/share/"
 APP_NEW_DIR="EDHM-UI-V3"
@@ -8,40 +11,41 @@ DESKTOP_FILE="$HOME/Desktop/edhm-ui-v3.desktop"
 APPLICATIONS_FILE="$HOME/.local/share/applications/EDHM-UI-V3.desktop"
 ICON_PATH="$TARGET_DIR/$APP_NEW_DIR/resources/images/icon.png"
 
-# Kill running instances of the application
-pkill -x "$APP_EXE"
+# Check if the process is running and attempt to kill it
+echo "Checking for $APP_EXE process..."
+if pgrep -x "$APP_EXE" > /dev/null; then
+    pkill -x "$APP_EXE"
+    echo "Info: $APP_EXE process terminated."
+else
+    echo "Info: $APP_EXE process not running."
+fi
+
+# DEBUG: Pause after killing the process
+if [ $DEBUG -eq 1 ]; then
+    read -p "Paused after killing the process. Press Enter to continue..."
+fi
 
 # Find the zip file
 ZIP_FILE=$(find . -maxdepth 1 -name "edhm-ui-v3-linux-x64.zip")
-
-# Check if the zip file was found
 if [ -z "$ZIP_FILE" ]; then
-    echo "Error: Zip file matching 'edhm-ui-v3-linux-x64-*.zip' not found in the current directory."
+    echo "Error: Zip file not found."
     exit 1
 fi
 
-# Create the target directory if it doesn't exist
+# Create the target directory and unzip
 mkdir -p "$TARGET_DIR"
-
-# Unzip the file
 unzip "$ZIP_FILE" -d "$TARGET_DIR"
-
-# Find the unzipped directory
 UNZIPPED_DIR=$(find "$TARGET_DIR" -maxdepth 1 -type d -name "edhm-ui-v3-linux-x64")
-
-# Check if the unzipped directory was found
 if [ -z "$UNZIPPED_DIR" ]; then
-    echo "Error: Unzipped application directory not found."
+    echo "Error: Unzipped directory not found."
     exit 1
 fi
-
-# Rename the unzipped directory
 mv "$UNZIPPED_DIR" "$TARGET_DIR/$APP_NEW_DIR"
 
 # Make the executable file executable
 chmod +x "$TARGET_DIR/$APP_NEW_DIR/$APP_EXE"
 
-# Create .desktop file content
+# Create the desktop shortcut
 DESKTOP_CONTENT="
 [Desktop Entry]
 Encoding=UTF-8
@@ -54,19 +58,18 @@ Comment=Mod for Elite Dangerous to customize the HUD of any ship.
 StartupNotify=true
 Categories=Utility;
 "
-
-# Create desktop shortcut
 echo "$DESKTOP_CONTENT" > "$DESKTOP_FILE"
 chmod +x "$DESKTOP_FILE"
-
-# Create applications menu shortcut
 echo "$DESKTOP_CONTENT" > "$APPLICATIONS_FILE"
 chmod +x "$APPLICATIONS_FILE"
 
+# DEBUG: Pause before running the application
+if [ $DEBUG -eq 1 ]; then
+    read -p "Paused before starting the application. Press Enter to continue..."
+fi
+
 # Run the application
 "$TARGET_DIR/$APP_NEW_DIR/$APP_EXE"
-
-# Optional: Add a check for successful execution
 if [ $? -eq 0 ]; then
     echo "Application started successfully."
 else

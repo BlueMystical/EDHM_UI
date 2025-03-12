@@ -333,10 +333,9 @@ npm install bootstrap-vue@latest
 npm install bootstrap-icons	
 npm install mitt    <- for Events
 npm install zip-lib <- for ZIP files
-npm install -g asar
+npm install -g asar <- for Build deploy
 npm install @vitejs/plugin-vue --save-dev
 
-npm install split-pane ???
 npm uninstall @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 
 -----------------------------------------------------------------------------------
@@ -376,10 +375,7 @@ npm install --save electron-squirrel-startup
 npm install --save-dev @electron-forge/maker-zip
 npm run make -- --arch="x64" --targets="@electron-forge/maker-zip"
 
-// place the script 'unzip_and_install.sh' next the ZIP file
-chmod +x unzip_and_install.sh //<- make the script executable
-./unzip_and_install.sh //<- run it
-// Program will be install at '~/.local/share/EDHM-UI-V3'
+
 -------------------------------------------------------------------------------------------
 /* Create a package for Debian-based Linux distributions (Debian,Ubuntu,Mint,Raspbian,Kali Linux, etc..) */
 npm install --save-dev @electron-forge/maker-deb

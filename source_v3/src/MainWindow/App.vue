@@ -548,7 +548,11 @@ export default {
               }
               
               //window.api.openUrlInBrowser(download_url);
-              EventBus.emit('StartDownload', { url: download_url, save_to: fileSavePath, platform: platform }); //<- Event Listen in 'NavBars.vue'
+              EventBus.emit('StartDownload', {  //<- Event Listen in 'NavBars.vue'
+                url: download_url, 
+                save_to: fileSavePath, 
+                platform: platform 
+              }); 
 
             }
             if (result && result.response === 2) {
@@ -561,7 +565,7 @@ export default {
         }
 
       } catch (error) {
-        EventBus.emit('ShowError', error);
+        EventBus.emit('ShowError', new Error(error.message + error.stack));
       }
     },
     compareVersions(serverVersion, localVersion) {
