@@ -85,6 +85,8 @@ contextBridge.exposeInMainWorld('api', {
 
   getSettings: async () => ipcRenderer.invoke('get-settings'),
   getDefaultSettings: async () => ipcRenderer.invoke('getDefaultSettings'),
+  writeSetting: async (key, value) => ipcRenderer.invoke('writeSetting', key, value),
+  readSetting: async (key, defaultValue) => ipcRenderer.invoke('readSetting', key, defaultValue),
 
   loadSettings: async () => ipcRenderer.invoke('load-settings'),
   saveSettings: async (settings) => ipcRenderer.invoke('save-settings', settings),
@@ -107,6 +109,8 @@ contextBridge.exposeInMainWorld('api', {
   installEDHMmod: (gameInstance) => ipcRenderer.invoke('installEDHMmod', gameInstance),
   CheckEDHMinstalled: (gamePath) => ipcRenderer.invoke('CheckEDHMinstalled', gamePath),
   UninstallEDHMmod: (gameInstance) => ipcRenderer.invoke('UninstallEDHMmod', gameInstance),
+  DoHotFix: async () => ipcRenderer.invoke('DoHotFix'),
+
 
   // #endregion
 

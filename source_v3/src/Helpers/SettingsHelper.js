@@ -105,6 +105,37 @@ async function saveSettings(settings) {
   }
 };
 
+/** Returns the value of a setting from the settings JSON file. 
+ * @param {*} key Name of a Key in the Settings
+ * @returns The Value os the indicated Key */
+function readSetting(key, defaultValue = null) {
+  try {
+    const data = fs.readFileSync(programSettingsPath, 'utf8');
+    const settings = JSON.parse(data);
+    return settings.hasOwnProperty(key) ? settings[key] : defaultValue;
+  } catch (error) {
+    console.error('Error reading setting:', error);
+    return defaultValue;
+  }
+};
+
+/** Writes a Key/Value into the Program Settings.
+ * @param {*} key Name of a Key in the Settings
+ * @param {*} value The Value os the indicated Key
+ * @returns 'true' if Success */
+function writeSetting(key, value) {
+  try {
+    const data = fs.readFileSync(programSettingsPath, 'utf8');
+    const settings = JSON.parse(data);
+    settings[key] = value;
+    fs.writeFileSync(programSettingsPath, JSON.stringify(settings, null, 4), 'utf8');
+    return true; // Indicate success
+  } catch (error) {
+    console.error('Error writing setting:', error);
+    throw new Error(error.message + error.stack);
+  }
+};
+
 // #endregion
 
 // #region Global & User Settings
@@ -233,8 +264,7 @@ async function RemoveFromUserSettings(settings) {
 /** * Adds a new Instance from the Game's Path.
  * @param {*} NewInstancePath Full path to the game
  * @param {*} settings Current Settings
- * @returns Updated Settings
- */
+ * @returns Updated Settings */
 async function addNewInstance(NewInstancePath, settings) {
   let instanceName = "";
 
@@ -509,7 +539,108 @@ async function UninstallEDHMmod(gameInstance) {
   }
 
   return fileDeleted;
-}
+};
+
+/** This are actions to be run after an App Update is applied and Before EDHM mod is installed. */
+async function DoHotFix() {
+  try {
+    const hotfixJsonPath = fileHelper.getAssetPath('data/EDHM_HOTFIX.json');
+    if (hotfixJsonPath) {
+      const hotFix = fileHelper.loadJsonFile(hotfixJsonPath);
+      if (hotFix) {
+        // Do something with the HotFix data
+       // console.log(hotFix);
+        const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
+        const UI_DOCUMENTS = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
+        const GameInstances = readSetting('GameInstances');
+
+        if (GameInstances && GameInstances.length > 0) {
+          for (const instance of GameInstances) {
+            for (const game of instance.games) {
+              
+              if (game.path && game.path != '') {
+                console.log('Applying HotFix on ', game.instance);
+                const GamePath = game.path;
+
+                hotFix.active_jobs.forEach(async _job => {
+
+                  //- 1. Start by Resolving path Variables:
+                  _job.file_path = _job.file_path.replace("%GAME_PATH%", GamePath);
+                  _job.file_path = _job.file_path.replace("%UI_PATH%", AppExePath);
+                  _job.file_path = _job.file_path.replace("%UI_DOCS%", UI_DOCUMENTS);
+                  if (!Util.isEmpty(_job.destination)) {
+                    _job.destination = _job.destination.replace("%GAME_PATH%", GamePath);
+                    _job.destination = _job.destination.replace("%UI_PATH%", AppExePath);
+                  }
+
+                  //- 2. Resolve the Job Actions:
+                  try {
+                    const folder_path = path.dirname(_job.file_path); //Obtiene el Path: (Sin archivo ni extension:
+                    const file_name = path.basename(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
+
+                    switch (_job.action) {
+                      case "COPY": //Copia un Archivo o Directorio de un lugar a otro, acepta comodines
+                        await fileHelper.copyFile(_job.file_path, _job.destination, false);
+                        break;
+
+                      case "DEL": //Borra un Archivo
+                        //Borra archivos usando comodines
+                        if (file_name.includes("*")) {
+                          await fileHelper.deleteFilesByWildcard(_job.file_path);
+                        }
+                        else {
+                          //Borra el archivo indicado, si existe
+                          fileHelper.deleteFileByAbsolutePath(_job.file_path);
+                        }
+                        break;
+
+                      case "REPLACE": //Copia el Archivo sólo si existe previamente
+                        if (fs.existsSync(_job.file_path) && fs.existsSync(_job.destination)) {
+                          await fileHelper.copyFile(_job.file_path, _job.destination, false);
+                        }
+                        break;
+
+                      case "MOVE": //Mueve un Archivo de un lugar a otro, acepta comodines
+                        if (fs.existsSync(_job.file_path)) {
+                          if (!fs.existsSync(path.dirname(_job.destination))) {
+                            Directory.CreateDirectory(path.dirname(_job.destination));
+                          }
+                          await fileHelper.copyFile(_job.file_path, _job.destination, true);
+                        }
+                        break;
+
+                      case "RMDIR": //Borra un Directorio y todo su contenido
+                        console.log('RMDIR: ', _job.file_path);
+                        await fileHelper.deleteFolderRecursive(_job.file_path);
+                        break;
+
+                      case "RMDIR-EX": //Borra las Carpetas de un Directorio salvo las Execpciones
+                        //El nombre del directorio Raiz va en 'file_path', ej: "file_path":"%UI_DOCS%\\ODYSS",
+                        //Las Excepciones van en 'destination', solo los nombres separados x comas. ej:  "destination":"Themes,History"
+                        await fileHelper.deleteDirectoriesExcept(_job.file_path, _job.destination);
+                        break;
+
+                      case "MVDIR": //Mueve un Directorio de un lugar a otro
+                        await fileHelper.moveDirectory(_job.file_path, _job.destination);
+                        break;
+
+                      default:
+                        break;
+                    }
+                  } catch (error) {
+                    console.log('Error at DoHotFix() -> ', error);
+                  }
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+};
 
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
@@ -657,7 +788,36 @@ ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
   }
 });
 
+ipcMain.handle('readSetting', (event, key, defaultValue = null) => {
+  try {
+    return readSetting(key, defaultValue);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+ipcMain.handle('writeSetting', (event, key, value) => {
+  try {
+    return writeSetting(key, value);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
+ipcMain.handle('DoHotFix', async (event) => {
+  try {
+    return DoHotFix();
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }  
+});
+
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-export default { initializeSettings, loadSettings, saveSettings, installEDHMmod, CheckEDHMinstalled, getInstanceByName, getActiveInstance, LoadGlobalSettings, saveGlobalSettings };
+export default { 
+  initializeSettings, loadSettings, saveSettings, 
+  installEDHMmod, CheckEDHMinstalled, 
+  getInstanceByName, getActiveInstance, 
+  LoadGlobalSettings, saveGlobalSettings,
+  readSetting, writeSetting, DoHotFix,
+ };

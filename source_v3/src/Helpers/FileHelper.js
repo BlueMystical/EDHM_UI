@@ -1,14 +1,14 @@
-import { app, ipcMain, dialog, shell, clipboard, net  } from 'electron'; 
-import { exec, execFile, spawn  } from 'child_process'; 
-import Util from './Utils.js';
-import path from 'node:path'; 
+import { app, ipcMain, dialog, shell, clipboard, net,  } from 'electron';
+import { exec, spawn } from 'child_process';
+import path from 'node:path';
+import fs from 'node:fs';
 import https from 'https';
 import http from 'http';
 import fetch from 'node:fetch';
-import fs from 'node:fs'; 
 import zl from 'zip-lib';
-import url from 'url'; 
-import os from 'os'; 
+import url from 'url';
+import os from 'os';
+import Util from './Utils.js';
 
 
 // #region Path Functions
@@ -281,6 +281,57 @@ async function copyFile(sourcePath, destinationPath, move = false) {
   }
 }
 
+/** Moves a directory and its contents to a destination.
+ * @param {string} sourceDir The source directory path.
+ * @param {string} destinationDir The destination directory path. */
+async function moveDirectory(sourceDir, destinationDir) {
+  if (!fs.existsSync(sourceDir)) {
+    console.error(`Source directory does not exist: ${sourceDir}`);
+    return false;
+  }
+
+  try {
+    fs.renameSync(sourceDir, destinationDir);
+    console.log(`Moved directory from ${sourceDir} to ${destinationDir}`);
+    return true; // Indicate success
+  } catch (err) {
+    // Handle cross-device linking issues.
+    if (err.code === 'EXDEV') {
+      console.log('Cross-device linking not supported. Copying and deleting instead.');
+
+      try {
+        copyDirectoryRecursive(sourceDir, destinationDir);
+        fs.rmSync(sourceDir, { recursive: true, force: true });
+        console.log(`Copied and deleted: ${sourceDir} -> ${destinationDir}`);
+        return true;
+      } catch (copyDeleteErr) {
+        console.error('Error copying/deleting directory:', copyDeleteErr);
+        return false;
+      }
+    } else {
+      console.error('Error moving directory:', err);
+      return false; // Indicate failure
+    }
+  }
+}
+
+/** Recursively copies a directory and its contents.
+ * @param {string} source The source directory path.
+ * @param {string} destination The destination directory path. */
+async function copyDirectoryRecursive(source, destination) {
+  fs.mkdirSync(destination, { recursive: true });
+  fs.readdirSync(source, { withFileTypes: true }).forEach((entry) => {
+    const sourcePath = path.join(source, entry.name);
+    const destinationPath = path.join(destination, entry.name);
+
+    if (entry.isDirectory()) {
+      copyDirectoryRecursive(sourcePath, destinationPath);
+    } else {
+      fs.copyFileSync(sourcePath, destinationPath);
+    }
+  });
+}
+
 async function deleteFolderRecursive(folderPath) {
   if (fs.existsSync(folderPath)) {
     fs.readdirSync(folderPath).forEach((file) => {
@@ -298,6 +349,33 @@ async function deleteFolderRecursive(folderPath) {
   }
   return false; //<- 404 - The Folder doesnt exists
 }
+/** Deletes directories within a given directory, excluding specified exceptions.
+ * @param {string} directoryPath The root directory path.
+ * @param {string} exceptions A comma-separated string of directory names to exclude. */
+async function deleteDirectoriesExcept(directoryPath, exceptions) {
+  if (fs.existsSync(directoryPath)) {
+    const exceptionList = exceptions.split(',').map(item => item.trim()); // Trim whitespace
+    const directories = fs.readdirSync(directoryPath, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name);
+
+    if (directories) {
+      directories.forEach((dirName) => {
+        if (!exceptionList.includes(dirName)) {
+          const dirToDelete = path.join(directoryPath, dirName);
+          try {
+            fs.rmSync(dirToDelete, { recursive: true, force: true });
+            console.log(`Deleted directory: ${dirToDelete}`);
+          } catch (err) {
+            console.error(`Error deleting directory: ${dirToDelete}`, err);
+          }
+        }
+      });
+    }
+  } else {
+      console.log(`directory ${directoryPath} does not exist`);
+  }
+}
 
 /** Deletes the given File 
  * @param {*} filePath Absolute path to the File */
@@ -314,9 +392,8 @@ function deleteFileByAbsolutePath(filePath) {
 
 /** Deletes all Files of a certain Type  
  * @param {*} directoryPath Path to the directory containing the files
- * @param {*} extension File extension, example: '.txt'
- */
-function deleteFilesByType(directoryPath, extension) {
+ * @param {*} extension File extension, example: '.txt' */
+async function deleteFilesByType(directoryPath, extension) {
   fs.readdir(directoryPath, (err, files) => {
     if (err) {
       return console.error('Unable to scan directory:', err);
@@ -338,6 +415,33 @@ function deleteFilesByType(directoryPath, extension) {
   const dirPath = '/path/to/your/directory'; // Directory path
   const fileExtension = '.txt'; // File extension to delete
   deleteFilesByType(dirPath, fileExtension); */
+}
+
+/** Deletes files matching a simplified wildcard pattern.
+ * Supports '*' for any characters and '?' for a single character.
+ * @param {string} wildcardPath Path with wildcard pattern, e.g., '/path/to/files/*.txt' */
+async function deleteFilesByWildcard(wildcardPath) {
+  const { dir, base } = path.parse(wildcardPath);
+  const regexPattern = base.replace(/\./g, '\\.').replace(/\*/g, '.*').replace(/\?/g, '.');
+  const regex = new RegExp(`^${regexPattern}$`);
+
+  fs.readdir(dir, (err, files) => {
+    if (err) {
+      return console.error('Unable to scan directory:', err);
+    }
+
+    files.forEach((file) => {
+      if (regex.test(file)) {
+        const filePath = path.join(dir, file);
+        try {
+          fs.unlinkSync(filePath);
+          console.log(`Deleted: ${filePath}`);
+        } catch (deleteErr) {
+          console.error('Error deleting file:', filePath, deleteErr);
+        }
+      }
+    });
+  });
 }
 
 /** Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente.
@@ -524,11 +628,9 @@ const loadJsonFile = (filePath) => {
 };
 
 /** Writes an object to a JSON file.
- *
  * @param {string} filePath The path to the JSON file.
  * @param {Object} data The object to be written to the file.
- * @param {boolean} [prettyPrint=true] Whether to pretty-print the JSON output.
- */
+ * @param {boolean} [prettyPrint=true] Whether to pretty-print the JSON output. */
 const writeJsonFile = (filePath, data, prettyPrint = true) => {
   const resolvedPath = resolveEnvVariables(filePath);
   try {
@@ -1500,9 +1602,6 @@ ipcMain.handle('download-file', async (event, url, filePath) => {
   }
 });
 
-
-
-
 ipcMain.handle('runInstaller', async (event, installerPath) => {
   try {
     const latestRelease = runInstaller(installerPath);
@@ -1529,6 +1628,8 @@ ipcMain.handle('getPublicFilePath', (event, relFilePath) => {
   }
 });
 
+
+
 // #endregion
 
 export default { 
@@ -1540,9 +1641,12 @@ export default {
 
   copyFiles, copyFile,
   checkFileExists, 
-  openPathInExplorer ,
+  openPathInExplorer,
+  moveDirectory, copyDirectoryRecursive,
   deleteFilesByType,
   deleteFolderRecursive,
+  deleteFilesByWildcard,
+  deleteDirectoriesExcept,
   deleteFileByAbsolutePath,
 
   findLatestFile,
@@ -1566,6 +1670,7 @@ export default {
   createLinuxShortcut,
   terminateProgram,
   runInstaller,
-
+  
   copyToClipboard,
+
 };

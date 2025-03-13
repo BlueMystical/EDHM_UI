@@ -1,0 +1,43 @@
+{
+   "description": "This are actions to be run after an App Update is applied and Before EDHM mod is installed.",
+   "active_jobs": [
+      {
+         "game": "ODYSSEY",
+         "file_path": "%UI_DOCS%\\ODYSS",
+         "action": "RMDIR-EX",
+         "destination": "Themes,History,3PMods,EDHM"
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\nvapi64.dll",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%UI_DOCS%\\ODYSS\\Themes\\Taneth Yellow",
+         "action": "RMDIR",
+         "destination": ""
+      }
+   ],
+   "inactive_jobs": [
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\*.*",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\0b438c34024d3fbf-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%UI_DOCS%\\ODYSS\\Themes\\Pink Pinky Poo",
+         "action": "RMDIR",
+         "destination": ""
+      }
+   ]
+}

@@ -7,7 +7,7 @@ import settingsHelper from './Helpers/SettingsHelper.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
-    app.quit();
+  app.quit();
 }
 
 let mainWindow; // Declare mainWindow in the outer scope
@@ -38,6 +38,11 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
+
+  //-- Open the DevTools.
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
     if (mainWindow) {
@@ -45,8 +50,9 @@ const createWindow = () => {
     }
   });
 
-  //-- Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  app.on('will-quit', () => {
+    globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+  });
 };
 
 // This method will be called when Electron has finished
@@ -56,7 +62,7 @@ app.whenReady().then(() => {
   createWindow();
 
   console.log('App is Ready!');
-  
+
   //-- Disable the menu bar
   Menu.setApplicationMenu(null);
 
@@ -65,6 +71,27 @@ app.whenReady().then(() => {
     fileHelper.createWindowsShortcut.call(this);
   } else if (process.platform === 'linux') {
     fileHelper.createLinuxShortcut.call(this);
+  }
+
+  // Handle command-line arguments
+  const args = process.argv.slice(2);
+  if (args.length > 0) {
+    console.log('Command-line arguments:', args);
+
+    // Handle your arguments here
+    if (args.includes('--my-flag')) {
+      console.log('my flag was passed');
+      // Do something.
+    }
+    if (args[0] === '--file' && args[1]) {
+      const filePath = args[1];
+      console.log(`Opening file: ${filePath}`);
+      // Handle opening the file
+    }
+    // Send arguments to the renderer process
+    mainWindow.webContents.on('did-finish-load', () => {
+      mainWindow.webContents.send('app-args', args);
+    });
   }
 
   // On OS X it's common to re-create a window in the app when the
@@ -92,13 +119,13 @@ ipcMain.handle('get-platform', () => {
 
 ipcMain.handle('quit-program', async (event) => {
   try {
-      if(mainWindow){
-          mainWindow.removeAllListeners('close');
-          mainWindow.close();
-      }
-      return true;
+    if (mainWindow) {
+      mainWindow.removeAllListeners('close');
+      mainWindow.close();
+    }
+    return true;
   } catch (error) {
-      console.error(`Error starting program: ${error}`);
-      throw error;
+    console.error(`Error starting program: ${error}`);
+    throw error;
   }
 });

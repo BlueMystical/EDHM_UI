@@ -108,11 +108,25 @@ export default {
             break;
         }
 
+        //- Check if we are first running after an update:
+        const isUpdate = await window.api.readSetting('FirstRun', true);
+        if (isUpdate) {
+          console.log('First Run after Update: Running HotFix..');
+          try {            
+            await window.api.DoHotFix();
+            await this.OnGameInstance_Changed(this.settings.ActiveInstance);
+            await window.api.writeSetting('FirstRun', false);
+          } catch (error) {
+            EventBus.emit('ShowError', error);
+          }
+        }
+
+        //- Initialize the Components:
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
-        EventBus.emit('InitializeHUDimage', null); //<- Event Listened at HudImage.vue
-        EventBus.emit('DoLoadGlobalSettings', null); //<- Event Listened at GlobalSettingsTab.vue
-        EventBus.emit('DoLoadUserSettings', null); //<- Event Listened at UserSettingsTab.vue
+        EventBus.emit('InitializeHUDimage', null);    //<- Event Listened at HudImage.vue
+        EventBus.emit('DoLoadGlobalSettings', null);  //<- Event Listened at GlobalSettingsTab.vue
+        EventBus.emit('DoLoadUserSettings', null);    //<- Event Listened at UserSettingsTab.vue
                 
         if (this.settings.CheckForUpdates === undefined) {
           // New Property, if is not there, we simply add it and save the change.
@@ -547,7 +561,7 @@ export default {
                   return;
               }
               
-              //window.api.openUrlInBrowser(download_url);
+              //- Send the Command to start the Download
               EventBus.emit('StartDownload', {  //<- Event Listen in 'NavBars.vue'
                 url: download_url, 
                 save_to: fileSavePath, 
@@ -587,9 +601,6 @@ export default {
       }
 
       return false; // versions are equal or local version is higher
-    },
-    OnDonwloadComplete(e) {
-      console.log(e);
     },
 
     // #endregion
