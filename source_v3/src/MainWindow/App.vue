@@ -92,14 +92,12 @@ export default {
               // Normal Load, All seems Good
             } else {
               // Either the Active Instance or its path is not set:
-              EventBus.emit('ShowSpinner', { visible: false });
               EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
               EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
             }
             break;
           case 'freshInstall':
-            // Welcome New User!
-            EventBus.emit('ShowSpinner', { visible: false });
+            // Welcome New User!            
             EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
             EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
 
@@ -143,18 +141,16 @@ export default {
       } catch (error) {
         console.error(error);
       } finally {
-        setTimeout(() => {
-          EventBus.emit('ShowSpinner', { visible: false });
-          this.loading = false;
+        EventBus.emit('ShowSpinner', { visible: false });
+        this.loading = false;
+        
+        this.$nextTick(() => {
+          const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+          tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-          this.$nextTick(() => {
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-            tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-            const dropdownElementList = document.querySelectorAll('[data-bs-toggle="dropdown"]');
-            dropdownElementList.forEach(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
-          });
-        }, 1000);
+          const dropdownElementList = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+          dropdownElementList.forEach(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
+        });
       }
     },
 

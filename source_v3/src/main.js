@@ -33,16 +33,13 @@ const createWindow = () => {
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    //-- Open the DevTools.
+    mainWindow.webContents.openDevTools();
   } else {
     console.log('Production mode: ');
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
-
-  //-- Open the DevTools.
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.webContents.openDevTools();
-  }
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
     if (mainWindow) {

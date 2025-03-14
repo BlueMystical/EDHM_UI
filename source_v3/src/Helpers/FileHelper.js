@@ -96,7 +96,7 @@ function createWindowsShortcut() {
     const iconPath = getAssetPath('images/ED_TripleElite.ico');
     const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
 
-    if (!fs.existsSync(shortcutPath)) {
+    //if (!fs.existsSync(shortcutPath)) {
       const cmd = `powershell $s=(New-Object -COM WScript.Shell).CreateShortcut('${shortcutPath}');$s.TargetPath='${targetPath}';$s.IconLocation='${iconPath}';$s.Description='${comment}';$s.Save()`;
 
       exec(cmd, (err) => {
@@ -106,9 +106,9 @@ function createWindowsShortcut() {
           console.log('Shortcut created successfully');
         }
       });
-    } else {
-      console.log('Shortcut already exists.');
-    }
+    //} else {
+    //  console.log('Shortcut already exists.');
+    //}
   } catch (error) {
     console.log(error);
   }
@@ -345,6 +345,7 @@ async function deleteFolderRecursive(folderPath) {
     });
     //fs.rmdirSync(folderPath); // Remove the now-empty folder //<- DEPRECATED
     fs.rmdirSync(folderPath, { recursive: true, force: true });
+    console.log('Folder Deleted.');
     return true;
   }
   return false; //<- 404 - The Folder doesnt exists
@@ -383,7 +384,7 @@ function deleteFileByAbsolutePath(filePath) {
   let _ret = false;
   try {
     fs.unlinkSync(filePath);
-    _ret = true;     console.log('File deleted successfully.');
+    _ret = true;     console.log('File deleted.');
   } catch (err) {
     throw err;
   }

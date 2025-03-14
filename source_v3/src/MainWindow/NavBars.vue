@@ -811,13 +811,17 @@ export default {
           throw new Error('Failed to Copy the Installer Script.');
         }
 
+        await window.api.writeSetting('FirstRun', true); //<- Remember we are running an Update
+
         //- Now we Copy and Run the Installer thru the Script:
         await window.api.copyFile(scriptPath, filePath);
         const _ret = await window.api.runProgram(filePath); 
         console.log(_ret);
 
-        this.showSpinner = false;
-        this.showProgressBar = false;
+        //this.showSpinner = false;
+        //this.showProgressBar = false;
+
+        //- The Installer Script should terminate the running instance of the App.
 
       /*if (process.env.NODE_ENV === 'development') {
             setTimeout(() => {

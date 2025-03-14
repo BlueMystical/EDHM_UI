@@ -548,21 +548,20 @@ async function DoHotFix() {
     if (hotfixJsonPath) {
       const hotFix = fileHelper.loadJsonFile(hotfixJsonPath);
       if (hotFix) {
-        // Do something with the HotFix data
-       // console.log(hotFix);
+
         const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
         const UI_DOCUMENTS = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
         const GameInstances = readSetting('GameInstances');
 
-        if (GameInstances && GameInstances.length > 0) {
+        if (GameInstances?.length > 0) {
           for (const instance of GameInstances) {
             for (const game of instance.games) {
-              
-              if (game.path && game.path != '') {
-                console.log('Applying HotFix on ', game.instance);
+              if (game.path && game.path !== '') {
+
+                console.log('------ Applying HotFixes on ', game.instance);
                 const GamePath = game.path;
 
-                hotFix.active_jobs.forEach(async _job => {
+                for (const _job of hotFix.active_jobs) {
 
                   //- 1. Start by Resolving path Variables:
                   _job.file_path = _job.file_path.replace("%GAME_PATH%", GamePath);
@@ -579,11 +578,14 @@ async function DoHotFix() {
                     const file_name = path.basename(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
 
                     switch (_job.action) {
+                      
                       case "COPY": //Copia un Archivo o Directorio de un lugar a otro, acepta comodines
+                        console.log('- COPY: ' + file_name + ' -> ' + path.dirname(_job.destination));
                         await fileHelper.copyFile(_job.file_path, _job.destination, false);
                         break;
 
                       case "DEL": //Borra un Archivo
+                        console.log('- DEL: ' + _job.file_path);
                         //Borra archivos usando comodines
                         if (file_name.includes("*")) {
                           await fileHelper.deleteFilesByWildcard(_job.file_path);
@@ -595,12 +597,14 @@ async function DoHotFix() {
                         break;
 
                       case "REPLACE": //Copia el Archivo sólo si existe previamente
+                        console.log('- REPLACE: ' + file_name + ' -> ' + path.dirname(_job.destination));
                         if (fs.existsSync(_job.file_path) && fs.existsSync(_job.destination)) {
                           await fileHelper.copyFile(_job.file_path, _job.destination, false);
                         }
                         break;
 
                       case "MOVE": //Mueve un Archivo de un lugar a otro, acepta comodines
+                        console.log('- MOVE: ' + file_name + ' -> ' + path.dirname(_job.destination));
                         if (fs.existsSync(_job.file_path)) {
                           if (!fs.existsSync(path.dirname(_job.destination))) {
                             Directory.CreateDirectory(path.dirname(_job.destination));
@@ -610,17 +614,19 @@ async function DoHotFix() {
                         break;
 
                       case "RMDIR": //Borra un Directorio y todo su contenido
-                        console.log('RMDIR: ', _job.file_path);
+                        console.log('- RMDIR: ', _job.file_path);
                         await fileHelper.deleteFolderRecursive(_job.file_path);
                         break;
 
                       case "RMDIR-EX": //Borra las Carpetas de un Directorio salvo las Execpciones
                         //El nombre del directorio Raiz va en 'file_path', ej: "file_path":"%UI_DOCS%\\ODYSS",
                         //Las Excepciones van en 'destination', solo los nombres separados x comas. ej:  "destination":"Themes,History"
+                        console.log('- RMDIR-EX: ', folder_path, _job.destination);
                         await fileHelper.deleteDirectoriesExcept(_job.file_path, _job.destination);
                         break;
 
                       case "MVDIR": //Mueve un Directorio de un lugar a otro
+                        console.log('- MVDIR: ', folder_path, _job.destination);
                         await fileHelper.moveDirectory(_job.file_path, _job.destination);
                         break;
 
@@ -628,9 +634,9 @@ async function DoHotFix() {
                         break;
                     }
                   } catch (error) {
-                    console.log('Error at DoHotFix() -> ', error);
+                    console.log('Error Applying HotFix -> ', error.message);
                   }
-                });
+                };
               }
             }
           }

@@ -55,7 +55,6 @@ Screen Resolutions:
 %LOCALAPPDATA%\edhm_ui 	              <- where the old v2.x version lives
 %LOCALAPPDATA%\EDHM-UI-V3             <- where the new v3.0 lives (temporarily)
 %LOCALAPPDATA%\Temp\EDHM_UI           <- folder for Updates & Patches Downloads
-
 %USERPROFILE%\EDHM_UI                 <- Themes & User files (User's data persisted thru re-installs)
 ├── HORIZ                             <- Horizons Legacy data (same structure as 'ODYSS')
 ├── ODYSS                             <- Odyssey & Horizons Live data

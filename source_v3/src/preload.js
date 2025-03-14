@@ -85,6 +85,11 @@ contextBridge.exposeInMainWorld('api', {
 
   getSettings: async () => ipcRenderer.invoke('get-settings'),
   getDefaultSettings: async () => ipcRenderer.invoke('getDefaultSettings'),
+
+  /** Writes a Key/Value into the Program Settings.
+ * @param {*} key Name of a Key in the Settings
+ * @param {*} value The Value os the indicated Key
+ * @returns 'true' if Success */
   writeSetting: async (key, value) => ipcRenderer.invoke('writeSetting', key, value),
   readSetting: async (key, defaultValue) => ipcRenderer.invoke('readSetting', key, defaultValue),
 
