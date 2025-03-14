@@ -758,18 +758,23 @@ export default {
 
         let scriptPath = null;
         let filePath = Options.save_to;
-        if (!filePath) return; // User cancelled        
+        if (!filePath) return; // User cancelled
+
         const destDir = await window.api.getParentFolder(filePath);
+        await window.api.ensureDirectoryExists(destDir);
+        await window.api.deleteFilesByType(destDir, '.sh'); //<- Remove any previous installer script 
+        await window.api.deleteFilesByType(destDir, '.zip');
 
         this.showProgressBar = true; //<- Shows/Hides the Progressbar
         this.progressValue = 0;       //<- Progress Value in Percentage %
         this.downloadSpeed = 0;       //<- Download Speend in bytes/s
         this.averageSpeed = 0;        //<- Average Download Speend in KB/s
-        this.startTime = Date.now();
         this.totalDownloadedBytes = 0; //<- Bytes Downloaded
+        this.startTime = Date.now();
 
         //- Setup a Progress Listener
         this.progressListener = (event, data) => {
+
           //- This will fillup the Progress Bar:
           this.progressValue = data.progress;
           this.downloadSpeed = data.speed;
@@ -778,8 +783,8 @@ export default {
           //- Calculating the Average Spped:
           const elapsedTime = (Date.now() - this.startTime) / 1000;
           if (elapsedTime > 0) {
-            const averageSpeedBytesPerSecond = this.totalDownloadedBytes / elapsedTime;           
-            this.averageSpeed = (averageSpeedBytesPerSecond / 1024).toFixed(1); //<- KB/s or  = (averageSpeedBytesPerSecond / (1024 * 1024)).toFixed(2); // MB/s
+            const averageSpeedBytesPerSecond = this.totalDownloadedBytes / elapsedTime;
+            this.averageSpeed = (averageSpeedBytesPerSecond / 1024).toFixed(1); //<- KB/s or   / (1024 * 1024) <- MB/s
           }
 
           this.progressText = `${data.progress.toFixed(1)}%, ${this.averageSpeed} KB/s`;
@@ -789,7 +794,7 @@ export default {
         window.api.onDownloadProgress(this.progressListener);
 
         //- Start the Download and wait till it finishes..
-        await window.api.downloadFile(Options.url, filePath);        
+        await window.api.downloadFile(Options.url, filePath);
 
         //- When the Download Finishes: 
         console.log('Download complete!');
@@ -797,11 +802,11 @@ export default {
 
         //- Some Cleanup:
         window.api.removeDownloadProgressListener(this.progressListener);
-    
+
         //- Get the installer script from the Public dir:
-        if (Options.platform === 'linux') {          
+        if (Options.platform === 'linux') {
           scriptPath = await window.api.getAssetPath('public/linux_installer.sh');
-          filePath = window.api.joinPath(destDir, 'linux_installer.sh'); 
+          filePath = window.api.joinPath(destDir, 'linux_installer.sh');
         }
         if (Options.platform === 'win32') {
           scriptPath = await window.api.getAssetPath('public/windows_installer.bat');
@@ -815,19 +820,15 @@ export default {
 
         //- Now we Copy and Run the Installer thru the Script:
         await window.api.copyFile(scriptPath, filePath);
-        const _ret = await window.api.runProgram(filePath); 
+        const _ret = await window.api.runProgram(filePath);
         console.log(_ret);
 
-        //this.showSpinner = false;
-        //this.showProgressBar = false;
-
         //- The Installer Script should terminate the running instance of the App.
-
-      /*if (process.env.NODE_ENV === 'development') {
-            setTimeout(() => {
-              window.api.quitProgram(); //<- Close the App
-            }, 5000);
-        }*/
+        /*if (process.env.NODE_ENV === 'development') {
+              setTimeout(() => {
+                window.api.quitProgram(); //<- Close the App
+              }, 5000);
+          }*/
 
       } catch (error) {
         console.error('Download failed:', error);
@@ -856,6 +857,7 @@ export default {
     EventBus.on('OnApplyTheme', this.applyTheme);
     EventBus.on('StartDownload', this.DownloadAndInstallUpdate);
     EventBus.on('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
+    
     if (typeof this.progressListener === 'function') {
       window.api.removeDownloadProgressListener(this.progressListener);
     }

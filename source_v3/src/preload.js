@@ -38,6 +38,7 @@ contextBridge.exposeInMainWorld('api', {
   openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
   openUrlInBrowser: (url) => ipcRenderer.invoke('openUrlInBrowser', url),
   deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath),
+  deleteFilesByType: (directoryPath, extension) => ipcRenderer.invoke('deleteFilesByType', directoryPath, extension),
 
   findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType),
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),

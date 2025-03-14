@@ -1409,6 +1409,9 @@ ipcMain.handle('is-not-null-obj', async (event, obj) => {
 ipcMain.handle('deleteFileByAbsolutePath', async (event, filePath) => {
   return deleteFileByAbsolutePath(filePath);
 });
+ipcMain.handle('deleteFilesByType', async (event, directoryPath, extension) => {
+  return deleteFilesByType(directoryPath, extension);
+});
 
 ipcMain.handle('compress-files', async (event, files, outputPath) => {
   try {
