@@ -43,6 +43,7 @@ contextBridge.exposeInMainWorld('api', {
   findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType),
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
 
+  fileExists: (filePath) => ipcRenderer.invoke('checkFileExists', filePath), 
   ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath),
   copyFile: (sourcePath, destinationPath, move)=> ipcRenderer.invoke('copyFile', sourcePath, destinationPath, move = false),
 

@@ -121,7 +121,7 @@ export default {
 
         //- Initialize the Components:
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
-        EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
+        EventBus.emit('InitializeNavBars',  JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null);    //<- Event Listened at HudImage.vue
         EventBus.emit('DoLoadGlobalSettings', null);  //<- Event Listened at GlobalSettingsTab.vue
         EventBus.emit('DoLoadUserSettings', null);    //<- Event Listened at UserSettingsTab.vue

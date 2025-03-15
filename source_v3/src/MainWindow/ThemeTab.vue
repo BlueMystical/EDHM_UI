@@ -121,25 +121,26 @@ export default {
         const dataPath = await window.api.resolveEnvVariables(this.programSettings.UserDataFolder);
         const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
         const themesPath = await window.api.joinPath(dataPath, GameType, 'Themes'); //console.log('themesPath',themesPath);
-        const ThumbImage = await window.api.getAssetFileUrl('images/PREVIEW.png');  // console.log('ThumbImage:',ThumbImage);
+        const CurrSetImage = await window.api.getAssetFileUrl('images/PREVIEW.png');  // console.log('ThumbImage:',ThumbImage);
+        const ThumbImage = await window.api.getAssetFileUrl('images/PREVIEW.jpg');
         const GamePath = await window.api.joinPath(gameInstance.path, 'EDHM-ini');  //<- the Game Folder     
-        
+
         this.themes = [];
         this.images = [];
 
         //Loads all Themes in the Directory:
-        const files = await window.api.getThemes(themesPath);    //console.log('Theme File: ', files[4]);
+        const files = await window.api.getThemes(themesPath);    //console.log('Theme File: ', files[4]);        
 
         // Add the dummy item for 'Current Settings':
         this.themes = [{
           id: 0,
           name: "Current Settings",
-          src: ThumbImage, 
+          src: CurrSetImage, 
           preview: '',
           alt: "Current Settings",
           file: {
             path: GamePath,
-            thumbnail: ThumbImage,
+            thumbnail: CurrSetImage,
             credits: {
               author: "You",
               description: "** THESE ARE THE CURRENTLY APPLIED COLORS **",
@@ -148,32 +149,35 @@ export default {
             },
             isFavorite: true
           }
-        }].concat( // Adding the rest of loaded Themes:          
-          files
-            .map((file, index) => ({
+        }].concat(  //<- Adding the rest of loaded Themes:     
+          await Promise.all(files.map(async (file, index) => {
+            let thumbnailSrc = ThumbImage; // Default Preview Image
+            const previewPath = await window.api.joinPath(file.path, 'PREVIEW.jpg');
+            const previewExists = await window.api.fileExists(previewPath);
+
+            if (previewExists) {
+              thumbnailSrc = `file:///${previewPath}`;
+            }
+
+            return {
               id: index + 1,
               name: file.credits.theme,
-              src: `file:///${window.api.joinPath(file.path, file.thumbnail)}`,
+              src: thumbnailSrc, //`file:///${window.api.joinPath(file.path, file.thumbnail)}`,
               preview: file.preview,
               alt: file.credits.theme,
-              file: file
-            }))
-        );
+              file: file,
+            };
+          }))
+        );      
 
         this.FilterThemes(this.programSettings.FavToogle);
         EventBus.emit('OnThemesLoaded', this.themes);  //<- this event will be heard in 'App.vue'
 
       } catch (error) {
         console.error('Failed to load files:', error);
-        //EventBus.emit('ShowError', error);  //<- Not needed here
       } finally {
-        // Set loading to false with a delay after themes are loaded
         this.loading = false;
         EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
-        /*  setTimeout(() => {
-            this.loading = false;
-            EventBus.emit('ShowSpinner', { visible: false }); //<- this event will be heard in 'MainNavBars.vue'
-          }, 2000); */
       }
     },
 

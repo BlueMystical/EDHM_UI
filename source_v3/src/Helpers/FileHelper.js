@@ -1242,75 +1242,6 @@ ipcMain.handle('run-program', async (event, filePath, args = []) => {
   }
 });
 
-/*ipcMain.handle('run-program', (event, filePath, args = []) => {
-  try {
-    console.log('Launching program:', filePath, args);
-
-    if (process.platform === 'linux') {
-      console.log('Linux platform detected');
-      try {
-        fs.chmodSync(filePath, 0o755); // Ensure executable permissions
-      } catch (chmodError) {
-        console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
-      }
-
-      let interpreter = null;
-
-      if (filePath.endsWith('.sh')) {
-        interpreter = 'bash';
-        args = [filePath, ...args]; // Include the script path as the first argument
-        filePath = 'bash'; //set the interpreter as the file path.
-      } else if (filePath.endsWith('.py')) {
-        interpreter = 'python3';
-        args = [filePath, ...args];// Include the script path as the first argument
-        filePath = 'python3';//set the interpreter as the file path.
-      } else {
-        interpreter = filePath; // For executables, use the path itself.
-      }
-
-      if (interpreter) {
-        execFile(filePath, args, (error) => {
-          if (error) {
-            console.error(`Error running program: ${error}`);
-          }
-        });
-      } else {
-        console.error('Unknown script type or executable file');
-      }
-    } else if (process.platform === 'win32') {
-
-      console.log('Windows platform detected.');
-      //console.log('execFile arguments:', filePath, args);
-
-      // Get the directory of the batch file
-      const cwd = path.dirname(filePath);
-      const debug = true; // Set to `false` to hide the terminal
-      const args = debug ? ["/k", filePath, "debug"] : ["/c", filePath];
-      const options = debug ? { shell: true, cwd: cwd } : { shell: true, cwd: cwd, windowsHide: true };
-
-      //execFile(filePath, args, { shell: true, cwd: cwd }, (error, stdout, stderr) => {
-      execFile("cmd.exe", args, options, (error, stdout, stderr) => {
-        if (error && error.code !== 128 && error.code !== 1) {
-          console.error(`Error running program (execFile shell): ${error}`);
-          console.error("stdout:", stdout);
-          console.error("stderr:", stderr);
-        } else {
-          console.log("Batch file executed successfully or taskkill process not found");
-          console.log("stdout:", stdout);
-          console.log("stderr:", stderr);
-        }
-      });
-
-    } else {
-      console.error(`Unsupported platform: ${process.platform}`);
-    }
-    return "Program started"; // Immediate return
-  } catch (error) {
-    console.error(`Error starting program: ${error}`);
-    return "Program could not start";
-  }
-});*/
-
 ipcMain.handle('openPathInExplorer', async (event, filePath) => {
   try {
     const result = openPathInExplorer(filePath);
@@ -1373,6 +1304,14 @@ ipcMain.handle('get-local-file-url', async (event, localPath) => {
 ipcMain.handle('ensureDirectoryExists', async (event, fullPath) => {
   try {
     return ensureDirectoryExists(fullPath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }  
+}); 
+
+ipcMain.handle('checkFileExists', async (event, fullPath) => {
+  try {
+    return fs.existsSync(fullPath);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }  

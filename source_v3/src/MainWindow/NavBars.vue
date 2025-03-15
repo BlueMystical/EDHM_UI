@@ -149,7 +149,7 @@
 
     <!-- Progress bar-->
     <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Warning example" 
-          :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100" style="width: 600px;">
+          :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100" style="width: 540px;">
       <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning" :style="{ width: progressValue + '%' }">{{ progressText }}</div>
     </span>
 
@@ -722,6 +722,7 @@ export default {
       //console.log('showHideSpinner: ', status.visible);
       this.showSpinner = status.visible;
       //EXAMPLE: ->    EventBus.emit('ShowSpinner', { visible: true } );//<- this event will be heard in 'MainNavBars.vue'
+      //  -> showHideSpinner({ visible: true });
     },
 
     OnModUpdated(data) {
@@ -753,8 +754,9 @@ export default {
     async DownloadAndInstallUpdate(Options) {
       try {
         console.log('Downloading file:', Options);
-        this.showSpinner = true;
+        this.showHideSpinner({ visible: true });        
         this.modVersion = 'Downloading...';
+        this.showSpinner = true;
 
         let scriptPath = null;
         let filePath = Options.save_to;
@@ -765,7 +767,8 @@ export default {
         await window.api.deleteFilesByType(destDir, '.sh'); //<- Remove any previous installer script 
         await window.api.deleteFilesByType(destDir, '.zip');
 
-        this.showProgressBar = true; //<- Shows/Hides the Progressbar
+        //- Setup Progress Control Variables:
+        this.showProgressBar = true;  //<- Shows/Hides the Progressbar
         this.progressValue = 0;       //<- Progress Value in Percentage %
         this.downloadSpeed = 0;       //<- Download Speend in bytes/s
         this.averageSpeed = 0;        //<- Average Download Speend in KB/s
@@ -775,9 +778,9 @@ export default {
         //- Setup a Progress Listener
         this.progressListener = (event, data) => {
 
-          //- This will fillup the Progress Bar:
-          this.progressValue = data.progress;
+          //- This will fillup the Progress Bar:          
           this.downloadSpeed = data.speed;
+          this.progressValue = data.progress;
           this.totalDownloadedBytes += data.speed;
 
           //- Calculating the Average Spped:
@@ -816,19 +819,17 @@ export default {
           throw new Error('Failed to Copy the Installer Script.');
         }
 
-        await window.api.writeSetting('FirstRun', true); //<- Remember we are running an Update
+        //- Remember we are running an Update, next time App runs it will do update stuff:
+        await window.api.writeSetting('FirstRun', true); 
 
         //- Now we Copy and Run the Installer thru the Script:
         await window.api.copyFile(scriptPath, filePath);
-        const _ret = await window.api.runProgram(filePath);
-        console.log(_ret);
+        const _ret = await window.api.runProgram(filePath);   console.log(_ret);
 
-        //- The Installer Script should terminate the running instance of the App.
-        /*if (process.env.NODE_ENV === 'development') {
-              setTimeout(() => {
-                window.api.quitProgram(); //<- Close the App
-              }, 5000);
-          }*/
+        //- The Installer Script should terminate the running instance of the App, but..
+        setTimeout(() => {
+          this.StillHere(Options.platform, destDir); //<- Just in case the Installer Script did not started.          
+        }, 10000); //<- 10 seconds to wait for the Installer Script to start.
 
       } catch (error) {
         console.error('Download failed:', error);
@@ -838,6 +839,27 @@ export default {
         window.api.removeDownloadProgressListener(this.progressListener);
         EventBus.emit('ShowError', new Error(error.message + error.stack));
       }
+    },
+    StillHere(platform, filePath) {
+      //- This is a Failsafe method to ensure the Installer Script is started.
+      let ScriptName = platform === 'linux' ? 'linux_installer.sh' : 'windows_installer.bat';
+      const options = {
+        type: 'question', 
+        buttons: ['Cancel', "Yes, Take me there", 'No, thanks.'],
+        cancelId: 0,
+        defaultId: 1,
+        title: 'Still Here?',
+        message: 'It seems the Installer Script did not started.\nYou may need to run it manually.\nLook for the file: ' + ScriptName,
+        detail: 'Do you want to open the folder where the file is located?'        
+      };
+      window.api.ShowMessageBox(options).then(result => {
+        if (result && result.response === 1) {
+          window.api.openPathInExplorer(filePath);
+          setTimeout(() => {
+            window.api.quitProgram(); //<- Close the App    
+          }, 3000);          
+        }
+      });
     },
 
     OnGlobalSettingsLoaded(data){
