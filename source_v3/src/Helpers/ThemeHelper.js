@@ -280,7 +280,7 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
 
     // Set values in the XML:
     if (template.xml_profile && iniValues.XmlProfile) {
-
+      //console.log(template.xml_profile);
       const section = iniValues.XmlProfile[0].Section;
       template.xml_profile.forEach(element => {
         iniValues = INIparser.setIniValue(iniValues, 'XmlProfile', section, element.key, parseFloat(element.value));

@@ -4,9 +4,8 @@ import path from 'node:path';
 import fs from 'node:fs';
 import https from 'https';
 import http from 'http';
-import fetch from 'node:fetch';
-import zl from 'zip-lib';
 import url from 'url';
+import zl from 'zip-lib';
 import os from 'os';
 import Util from './Utils.js';
 
@@ -200,8 +199,7 @@ function getAssetUrl(assetPath) {
 // #region Files & Directories
 
 /** If the Directory doesn't exist, it is created.
- * @param {*} DirectoryPath Path to the Directory.
- */
+ * @param {*} DirectoryPath Path to the Directory. */
 function ensureDirectoryExists (DirectoryPath) {
   try {
     const resolvedPath = resolveEnvVariables(DirectoryPath);
@@ -215,8 +213,7 @@ function ensureDirectoryExists (DirectoryPath) {
 };
 
 /** Verifies is a File Exists
- * @param {*} filePath Full path to the File
- */
+ * @param {*} filePath Full path to the File */
 const checkFileExists = (filePath) => {
   try {
     if (fs.existsSync(filePath)) {
@@ -927,8 +924,8 @@ function runInstaller(installerPath) {
 // #region Updates
 
 /** [For Beta Testings] Check for the Latest Pre-Release published on Github
- * @param {*} owner 'BlueMystical'
- * @param {*} repo 'EDHM-UI'  */
+ * @param {string} owner 'BlueMystical'
+ * @param {string} repo 'EDHM-UI'*/
 async function getLatestPreReleaseVersion(owner, repo) {
   const options = {
     hostname: 'api.github.com',
@@ -936,6 +933,7 @@ async function getLatestPreReleaseVersion(owner, repo) {
     method: 'GET',
     headers: { 'User-Agent': 'Node.js' }
   };
+  //https://api.github.com/repos/BlueMystical/EDHM_UI/releases
 
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {

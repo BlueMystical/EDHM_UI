@@ -730,7 +730,11 @@ export default {
       this.programSettings = data;
       //console.log('programSettings: ', programSettings);
       this.modVersion = data.Version_ODYSS;
-    },    
+    },  
+    OnXmlChanged(data)  {
+      console.log('XML Changed:', data);
+      this.themeTemplate.xml_profile = data.xml;
+    },
 
     async OnThemeValuesChanged(ui_group) {
       // Evento recibido del componente PropertiesTab.vue al cambiar los valores de un tema     
@@ -879,7 +883,8 @@ export default {
     EventBus.on('OnApplyTheme', this.applyTheme);
     EventBus.on('StartDownload', this.DownloadAndInstallUpdate);
     EventBus.on('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
-    
+    EventBus.on('OnXmlChanged', this.OnXmlChanged);
+
     if (typeof this.progressListener === 'function') {
       window.api.removeDownloadProgressListener(this.progressListener);
     }

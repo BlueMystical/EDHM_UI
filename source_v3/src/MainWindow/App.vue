@@ -492,6 +492,8 @@ export default {
         this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2]);
 
         const _ret = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
+        EventBus.emit('OnXmlChanged', { xml: JSON.parse(JSON.stringify(this.themeTemplate.xml_profile)) }); //<- Event Listen in 'NavBars.vue'
+
         if (_ret) {
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Saved.<br>Remember to Apply the changes.` });
         }
@@ -508,7 +510,7 @@ export default {
        //window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
       window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
         if (latestRelease) {
-          //console.log(latestRelease);
+          console.log(latestRelease);
           this.AnalyseUpdate(latestRelease);
         } else {
           console.log('No pre-release version found.');
