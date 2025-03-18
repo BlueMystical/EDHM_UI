@@ -82,10 +82,11 @@ export default {
          *      title: '', 
          *      message: '',
          *      stack: 'Stack Trace for Errors',
-         *      autoHide: true
+         *      autoHide: true,
+         *      delay: 3000  //<- Auto-hide delay in milliseconds
          * }         */
          showToast(data) {
-            const { type, title, message, stack, autoHide = true } = data;
+            const { type, title, message, stack, autoHide = true, delay = 3000 } = data;
             const toastType = type.charAt(0).toUpperCase() + type.slice(1);
 
             try {
@@ -99,7 +100,7 @@ export default {
 
                     const options = {
                         autohide: autoHide,
-                        delay: 3000 // Auto-hide delay in milliseconds
+                        delay: delay // Auto-hide delay in milliseconds
                     };
 
                     if (toastBootstrap) {

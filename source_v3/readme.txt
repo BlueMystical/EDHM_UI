@@ -29,6 +29,11 @@
 │   │     ├── App.vue                  <- Root of the 'Renderer Process'
 │   │     ├── MainNavBars.vue          <- Contains all Menus and Buttons 
 │   │     └── [other .vue files]
+│   ├── TPMods
+│   │     ├── TPModsManager.html
+│   │     ├── TPModsManager.js
+│   │     ├── TPModsManager.vue
+│   │     └── [other files]
 │   ├── EventBus.js                   <- For comunication thru Events in the 'Renderer Process'
 │   ├── preload.js                    <- Intermediate Layer between the 'Main Process' & 'Renderer Process'
 │   └── main.js                       <- Root of the 'Main Process'

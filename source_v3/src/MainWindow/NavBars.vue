@@ -14,7 +14,7 @@
           <option value="mnuOpenGame">Open Game Folder</option>
           <option value="" disabled>──────────</option>
           <option  disabled value="mnuShipyard">Shipyard</option>
-          <option  disabled value="mnu3PModsManager">3PMods (Plugins)</option>
+          <option value="mnu3PModsManager">3PMods (Plugins)</option>
           <option value="" disabled>──────────</option>
           <option value="mnuInstallMod">Install EDHM</option>
           <option value="mnuUninstallMod">Un-install EDHM</option>
@@ -426,6 +426,9 @@ export default {
         if (value === 'mnuSettings') {
           const InstallStatus = await window.api.InstallStatus();
           EventBus.emit('open-settings-editor', InstallStatus);
+        }
+        if (value === 'mnu3PModsManager') {
+          window.api.open3PModsManager();
         }
         if (value === 'mnuInstallMod') {
           EventBus.emit('GameInsanceChanged', ActiveInstance.instance); //<- this event will be heard in 'App.vue'

@@ -4,6 +4,7 @@ import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
 import themeHelper from './Helpers/ThemeHelper.js';
 import settingsHelper from './Helpers/SettingsHelper.js';
+import { console } from 'node:inspector';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -52,6 +53,47 @@ const createWindow = () => {
   });
 };
 
+const createPopupWindow = () => {
+  console.log('Creating 3PMods Manager Window..');
+  const popupWindow = new BrowserWindow({
+    width: 800,
+    height: 800,
+    parent: mainWindow, // Optional: Makes it a child window
+    modal: false, // Optional: Set to true for modal behavior
+    icon: path.join(__dirname, 'images/ED_TripleElite.ico'), // Optional: Use the same icon
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: true,
+      webSecurity: false,
+    },
+    backgroundColor: '#2e2c29'
+  });
+
+  console.log('Popup Window is Loading..');
+
+  // Load the popup.html
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    console.log('Popup Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    //mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    popupWindow.loadFile('./src/TPMods/TPModsManager.html');
+    popupWindow.webContents.openDevTools();
+} else {
+    console.log('Popup Production mode: ');
+    // Path adjusted for production (relative to dist)
+    popupWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`));
+}
+
+  popupWindow.once('ready-to-show', () => {
+    popupWindow.show();
+  });
+
+  popupWindow.on('closed', () => {
+    // Optional cleanup
+  });
+
+};
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -89,6 +131,8 @@ app.whenReady().then(() => {
     mainWindow.webContents.on('did-finish-load', () => {
       mainWindow.webContents.send('app-args', args);
     });
+
+    
   }
 
   // On OS X it's common to re-create a window in the app when the
@@ -114,6 +158,7 @@ ipcMain.handle('get-platform', () => {
   return process.platform;
 });
 
+//---------------------------------------------------------------
 ipcMain.handle('quit-program', async (event) => {
   try {
     if (mainWindow) {
@@ -125,4 +170,8 @@ ipcMain.handle('quit-program', async (event) => {
     console.error(`Error starting program: ${error}`);
     throw error;
   }
+});
+
+ipcMain.handle('open3PModsManager', async (event) => {
+  createPopupWindow();
 });

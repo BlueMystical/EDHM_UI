@@ -12,8 +12,7 @@ function safeRound(value) { return isNaN(value) ? 0 : Math.round(value); }
 
 /** Null-Empty-Uninstanced verification * 
  * @param {*} value Object, String or Array
- * @returns True or False
- */
+ * @returns 'true' if the object is NOT Null or Empty */
 function isNotNullOrEmpty(value) {
     if (value === null || value === undefined) {
         return false;

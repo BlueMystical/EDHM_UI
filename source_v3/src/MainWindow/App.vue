@@ -26,7 +26,7 @@ import Notifications from './Components/Notifications.vue';
 import ThemeImageEditor from './Components/ThemeImageEditor.vue';
 import ThemeEditor from './Components/ThemeEditor.vue';
 import XmlEditor from './Components/XmlEditor.vue';
-
+import Util from '../Helpers/Utils.js';
 
 export default {
   name: 'App',
@@ -86,24 +86,27 @@ export default {
         this.InstallStatus = await window.api.InstallStatus();    //console.log('this.InstallStatus',  this.InstallStatus);
         const ActiveInstance = await window.api.getActiveInstance();  //console.log('ActiveInstance', ActiveInstance);
 
-        switch (this.InstallStatus) {
-          case 'existingInstall':
-            if (ActiveInstance && ActiveInstance.path != "") {
-              // Normal Load, All seems Good
-            } else {
-              // Either the Active Instance or its path is not set:
-              EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
-              EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
-            }
-            break;
-          case 'freshInstall':
-            // Welcome New User!            
-            EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.' });
-            EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
+        this.$nextTick(() => {
+          //- ENABLE THE TOOLTIPS POPUP:
+          const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+          tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-            break;
-          default:
-            break;
+          const dropdownElementList = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+          dropdownElementList.forEach(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
+        });
+
+        if (this.InstallStatus === 'existingInstall') { // Normal Load, All seems Good
+          if (!Util.isNotNullOrEmpty(ActiveInstance.path)) {
+            // Either the Active Instance or its path is not set:
+            EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.', delay: 10000 });
+            EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
+            return;
+          }
+        } else {
+          // Welcome New User!  
+          EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.', delay: 10000 });
+          EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
+          return;
         }
 
         //- Check if we are first running after an update:
@@ -113,7 +116,7 @@ export default {
           try {            
             await window.api.DoHotFix();
             await this.OnGameInstance_Changed(this.settings.ActiveInstance);
-            await window.api.writeSetting('FirstRun', false);
+            await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
           } catch (error) {
             EventBus.emit('ShowError', error);
           }
@@ -142,15 +145,7 @@ export default {
         console.error(error);
       } finally {
         EventBus.emit('ShowSpinner', { visible: false });
-        this.loading = false;
-        
-        this.$nextTick(() => {
-          const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-          tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-          const dropdownElementList = document.querySelectorAll('[data-bs-toggle="dropdown"]');
-          dropdownElementList.forEach(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
-        });
+        this.loading = false;       
       }
     },
 
@@ -183,15 +178,13 @@ export default {
     },
 
     /** Silently Updates changes in the Settings   * 
-     * @param newConfig  the updated settings
-     */
+     * @param newConfig  the updated settings     */
     OnProgramSettings_Updated(newConfig) {
       this.settings = newConfig;
     },
 
     /** When the User pick a different Game on the Combo. * 
-     * @param GameInstanceName Name of the New Active Instance
-     */
+     * @param GameInstanceName Name of the New Active Instance     */
      async OnGameInstance_Changed(GameInstanceName) {
       try {
         EventBus.emit('ShowSpinner', { visible: true });
@@ -211,6 +204,9 @@ export default {
 
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
+        EventBus.emit('InitializeHUDimage', null);    //<- Event Listened at HudImage.vue
+        EventBus.emit('DoLoadGlobalSettings', null);  //<- Event Listened at GlobalSettingsTab.vue
+        EventBus.emit('DoLoadUserSettings', null);    //<- Event Listened at UserSettingsTab.vue
 
         EventBus.emit('modUpdated', this.settings);     //<- Event listen in MainNavBars.vue
         EventBus.emit('loadThemes', this.settings.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
@@ -510,7 +506,7 @@ export default {
        //window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
       window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
         if (latestRelease) {
-          console.log(latestRelease);
+         // console.log(latestRelease);
           this.AnalyseUpdate(latestRelease);
         } else {
           console.log('No pre-release version found.');
@@ -529,13 +525,17 @@ export default {
         //console.log(latesRelease);
 
         if (isUpdate) {
+          //Separate the Changelogs from the Install instructions:
+          var patchNotes = latesRelease.notes.split("----")[0];
+          console.log(patchNotes);
+
           const options = {
             type: 'question', //<- none, info, error, question, warning
             buttons: ['Cancel', "Yes, Download it", 'No, maybe later.'],
             defaultId: 1,
             title: 'Update Available: ' + serverVersion,
             message: 'Do you want to Download the Update?',
-            detail: latesRelease.notes,
+            detail: patchNotes,
             cancelId: 0
           };
           let fileSavePath = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\edhm-ui-v3-windows-x64.exe');

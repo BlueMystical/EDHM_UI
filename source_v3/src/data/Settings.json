@@ -90,7 +90,7 @@
     "GreetMe":false,
     "HideToTray":false,
     "WatchMe":true,
-    "FirstRun": true,
+    "FirstRun": false,
     "CheckForUpdates": true,
     "LastFolderUsed":""
  }

@@ -148,7 +148,7 @@ export default {
             } else {
                 this.config = await window.api.getDefaultSettings();
                 setTimeout(() => {
-                    EventBus.emit('RoastMe', { type: 'Info', message: 'You can do it manually in the Game Instances..<br> or just click the Green Button.' });    
+                    EventBus.emit('RoastMe', { type: 'Info', message: 'You can do it manually in the Game Instances..<br> or just click the Green Button.', delay: 10000 });    
                 }, 2000); 
             }    
             //console.log(this.config);        
@@ -158,8 +158,6 @@ export default {
         },
         /* Button Click: Save the Settings */
         async save() {            
-            //const jsonString = JSON.stringify(this.config, null, 4);
-            //await window.api.saveSettings(jsonString);
             EventBus.emit('SettingsChanged', JSON.parse(JSON.stringify(this.config))); //<- this event will be heard in 'App.vue'  
             this.close();
         },

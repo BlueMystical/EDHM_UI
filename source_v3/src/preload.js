@@ -118,7 +118,6 @@ contextBridge.exposeInMainWorld('api', {
   UninstallEDHMmod: (gameInstance) => ipcRenderer.invoke('UninstallEDHMmod', gameInstance),
   DoHotFix: async () => ipcRenderer.invoke('DoHotFix'),
 
-
   // #endregion
 
   // #region Utility Methods
@@ -150,5 +149,7 @@ contextBridge.exposeInMainWorld('api', {
   getPlatform: () => ipcRenderer.invoke('get-platform'),
   quitProgram: () => ipcRenderer.invoke('quit-program'),
   runProgram: (filePath, args = []) => ipcRenderer.invoke('run-program', filePath, args),
+
+  open3PModsManager: () => ipcRenderer.invoke('open3PModsManager'),
 
 });

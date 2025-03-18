@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Set DEBUG mode: 1 for debugging, 0 for production
 DEBUG=0
@@ -20,9 +21,18 @@ else
     echo "Info: $APP_EXE process not running."
 fi
 
-# DEBUG: Pause after killing the process
+# Delete any folders starting with EDHM or edhm in the target directory
+echo "Deleting old EDHM/edhm folders..."
+for dir in "$TARGET_DIR"/EDHM* "$TARGET_DIR"/edhm*; do
+    if [ -d "$dir" ]; then
+        rm -rf "$dir"
+        echo "Deleted: $dir"
+    fi
+done
+
+# DEBUG: Pause after killing the process and deleting old folders
 if [ $DEBUG -eq 1 ]; then
-    read -p "Paused after killing the process. Press Enter to continue..."
+    read -p "Paused after killing the process and deleting old folders. Press Enter to continue..."
 fi
 
 # Find the zip file
@@ -34,13 +44,10 @@ fi
 
 # Create the target directory and unzip
 mkdir -p "$TARGET_DIR"
-unzip "$ZIP_FILE" -d "$TARGET_DIR"
-UNZIPPED_DIR=$(find "$TARGET_DIR" -maxdepth 1 -type d -name "edhm-ui-v3-linux-x64")
-if [ -z "$UNZIPPED_DIR" ]; then
-    echo "Error: Unzipped directory not found."
-    exit 1
-fi
-mv "$UNZIPPED_DIR" "$TARGET_DIR/$APP_NEW_DIR"
+unzip "$ZIP_FILE" -d "$TARGET_DIR" || { echo "Error: Unzip failed."; exit 1; }
+
+#move unzipped folder
+mv "$TARGET_DIR/edhm-ui-v3-linux-x64" "$TARGET_DIR/$APP_NEW_DIR" || { echo "Error: moving unzipped folder failed"; exit 1;}
 
 # Make the executable file executable
 chmod +x "$TARGET_DIR/$APP_NEW_DIR/$APP_EXE"
@@ -51,21 +58,28 @@ DESKTOP_CONTENT="
 Encoding=UTF-8
 Name=EDHM-UI-V3
 Exec=$TARGET_DIR/$APP_NEW_DIR/$APP_EXE
-Icon=$ICON_PATH
-Terminal=false
+"
+
+if [ -f "$ICON_PATH" ]; then
+    DESKTOP_CONTENT+="Icon=$ICON_PATH\n"
+else
+    echo "Warning: Icon file not found."
+fi
+
+DESKTOP_CONTENT+="Terminal=false
 Type=Application
 Comment=Mod for Elite Dangerous to customize the HUD of any ship.
 StartupNotify=true
 Categories=Utility;
 "
 echo "$DESKTOP_CONTENT" > "$DESKTOP_FILE"
-chmod +x "$DESKTOP_FILE"
 echo "$DESKTOP_CONTENT" > "$APPLICATIONS_FILE"
+chmod +x "$DESKTOP_FILE"
 chmod +x "$APPLICATIONS_FILE"
 
 # DEBUG: Pause before running the application
 if [ $DEBUG -eq 1 ]; then
-    read -p "Paused before starting the application. Press Enter to continue..."
+    read -p "Press Enter to continue..."
 fi
 
 # Run the application
