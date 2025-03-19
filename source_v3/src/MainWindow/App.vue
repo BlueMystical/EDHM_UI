@@ -1,5 +1,7 @@
 <template>
   <div id="app" class="bg-dark text-light" data-bs-theme="dark">
+
+    <router-view></router-view>
     
     <NavBarsBody :themesLoaded="themesLoaded" />
     <Notifications/>
@@ -27,6 +29,9 @@ import ThemeImageEditor from './Components/ThemeImageEditor.vue';
 import ThemeEditor from './Components/ThemeEditor.vue';
 import XmlEditor from './Components/XmlEditor.vue';
 import Util from '../Helpers/Utils.js';
+
+console.log('App.vue loaded');
+
 
 export default {
   name: 'App',

@@ -367,7 +367,7 @@ export default {
         },
         OnRecentColorsChange (colors) {
             this.recentColors = [...colors]; // Update the array reactively
-            //console.log('Recent colors updated in parent:', colors);
+            console.log('Recent colors updated in parent:', colors);
         },
         updateDataSourceValue(item, newValue) {
             const elementIndex = this.dataSource.Elements.findIndex(el => el.Key === item.Key);

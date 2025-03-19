@@ -12,6 +12,7 @@ if (started) {
 }
 
 let mainWindow; // Declare mainWindow in the outer scope
+let TPModsManagerWindow; // Declare TPModsManagerWindow in the outer scope
 
 const createWindow = () => {
   // Create the browser window.
@@ -20,12 +21,14 @@ const createWindow = () => {
     height: 800, minHeight: 553,
 
     icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+    backgroundColor: '#2e2c29',
+
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: true,
       webSecurity: false
-    },
+    }
   });
 
   console.log('App is Loading..');
@@ -53,6 +56,51 @@ const createWindow = () => {
   });
 };
 
+const createTPModsManagerWindow = () => {
+  TPModsManagerWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    parent: mainWindow, // Optional: Makes it a child window
+    modal: false, // Optional: Set to true for modal behavior
+    icon: path.join(__dirname, 'images/ED_TripleElite.ico'), // Optional: Use the same icon
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: true,
+      webSecurity: false,
+    },
+    backgroundColor: '#2e2c29'
+  });
+
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    // Load the 'TPModsManager' route in development mode
+    console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/TPModsManager` );
+    TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/TPModsManager`);
+    //TPModsManagerWindow.webContents.openDevTools();
+  } else {
+    // Load the 'TPModsManager' route in production mode
+    TPModsManagerWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
+      { hash: 'TPModsManager' }
+    );
+  }
+
+  TPModsManagerWindow.once('ready-to-show', () => {
+    TPModsManagerWindow.show();
+  });
+
+  TPModsManagerWindow.webContents.on('did-finish-load', () => {
+    console.log('TPModsManager window loaded URL:', TPModsManagerWindow.webContents.getURL());
+  });
+
+  TPModsManagerWindow.on('closed', () => {
+    TPModsManagerWindow = null;
+  });
+
+};
+
+
+
 const createPopupWindow = () => {
   console.log('Creating 3PMods Manager Window..');
   const popupWindow = new BrowserWindow({
@@ -76,12 +124,12 @@ const createPopupWindow = () => {
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     console.log('Popup Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
     //mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-    popupWindow.loadFile('./src/TPMods/TPModsManager.html');
+    popupWindow.loadFile('./src/TPModsManager.html');
     popupWindow.webContents.openDevTools();
 } else {
     console.log('Popup Production mode: ');
     // Path adjusted for production (relative to dist)
-    popupWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`));
+    popupWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPModsManager.html`));
 }
 
   popupWindow.once('ready-to-show', () => {
@@ -172,6 +220,11 @@ ipcMain.handle('quit-program', async (event) => {
   }
 });
 
-ipcMain.handle('open3PModsManager', async (event) => {
-  createPopupWindow();
+ipcMain.handle('open3PModsManager', () => {
+  if (!TPModsManagerWindow) {
+    createTPModsManagerWindow();
+  } else {
+    TPModsManagerWindow.focus();
+  }
 });
+

@@ -39,6 +39,7 @@
 │   └── main.js                       <- Root of the 'Main Process'
 ├── index.html                        <- Base over everithing is rendered.   
 ├── renderer.js                       <- 
+├── router.js
 ├── package.json                      <- List of Dependencies and App's Version Number.
 └── forge.config.js                   <- Configs for Build & Deploy
 ------------------------------------------------------------------------------------------
@@ -339,6 +340,8 @@ npm install mitt    <- for Events
 npm install zip-lib <- for ZIP files
 npm install -g asar <- for Build deploy
 npm install @vitejs/plugin-vue --save-dev
+npm install vue-router
+
 
 npm uninstall @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 

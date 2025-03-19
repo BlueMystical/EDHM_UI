@@ -341,7 +341,7 @@ async function deleteFolderRecursive(folderPath) {
       }
     });
     //fs.rmdirSync(folderPath); // Remove the now-empty folder //<- DEPRECATED
-    fs.rmdirSync(folderPath, { recursive: true, force: true });
+    fs.rmSync(folderPath, { recursive: true, force: true });
     console.log('Folder Deleted.');
     return true;
   }
@@ -520,7 +520,6 @@ async function ensureSymlink(targetFolder, symlinkPath) {
     }
 
     console.log(`Path exists but is not a symlink: ${symlinkPath}`);
-    //fs.rmdirSync(symlinkPath, { recursive: true }); //<- DEPRECATED
     fs.rmSync(symlinkPath, { recursive: true, force: true });
 
   } catch (err) {

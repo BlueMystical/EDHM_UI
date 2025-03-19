@@ -6,8 +6,13 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import { createApp } from 'vue';
 import App from './MainWindow/App.vue';
+import router from './router'; // Import the router
 
-createApp(App).mount('#app');
+const app = createApp(App);
+//app.use(router); // Use the router
+app.mount('#app');
+
+//createApp(App).mount('#app');
 //console.log('👋 This message is being logged by "renderer.js", included via Vite');
 
 

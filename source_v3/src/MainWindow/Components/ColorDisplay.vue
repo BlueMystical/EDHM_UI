@@ -78,7 +78,7 @@ export default {
                         this.updateColor(Util.hexToSignedInt(color.hex));
                     },
                     onRecentColorsChange: (colors) => {
-                        this.$emit('OnRecentColorsChange', colors);
+                        this.$emit('OnRecentColorsChange', colors); //<- Event Listener at 'PropertiesTabEx.vue' --> App.vue
                     }
                 });
                 //this.pickerInstance.setRecentColors(this.recentColors); //<- ['#ff0000', '#00ff00', '#0000ff']

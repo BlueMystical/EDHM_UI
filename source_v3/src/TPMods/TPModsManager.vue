@@ -3,7 +3,6 @@
         <h1>3rd Party Mods Manager</h1>
         <p>Manage your 3rd party mods here.</p>
 
-        <Notifications />
     </div>
 </template>
 
@@ -12,10 +11,13 @@ import EventBus from '../EventBus.js';
 import Notifications from '../MainWindow/Components/Notifications.vue';
 import Util from '../Helpers/Utils.js';
 
+console.log('TPModsManager.vue loaded');
+
+
 export default {
     name: 'TPModsManager',
     components: {
-        Notifications,
+        //Notifications,
     },
     data() {
         return {
@@ -27,7 +29,7 @@ export default {
         /** This is the Start Point of the Program **/
         async Initialize() {
             try {
-                console.log('Initializing App..');
+                console.log('Initializing 3PMods Manager..');
 
 
             } catch (error) {

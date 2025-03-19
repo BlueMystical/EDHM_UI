@@ -89,7 +89,6 @@ var Color = function () {
     function Color(r, g, b, a) {
         classCallCheck(this, Color);
 
-
         var that = this;
         function parseString(input) {
 
@@ -126,7 +125,8 @@ var Color = function () {
                 if (input.startsWith('#')) {
                     that.rgba = Color.hexToRgb(input);
                 } else {
-                    that.rgba = Color.nameToRgb(input) || Color.hexToRgb(input);
+                    that.rgba = Color.hexToRgb(input);
+                    //that.rgba = Color.nameToRgb(input) || Color.hexToRgb(input);
                 }
             }
         }
@@ -251,15 +251,6 @@ var Color = function () {
             const aHex = componentToHex(Math.round(this.rgba[3] * 255));
 
             return `#${rHex}${gHex}${bHex}${aHex}`;
-            //-- OLD METHOD:
-            /*            var rgb = this.rgba,
-                            hex = rgb.map(function (x, i) {
-                            return i < 3 ? x.toString(16) : Math.round(x * 255).toString(16);
-                        });
-            
-                        return '#' + hex.map(function (x) {
-                            return x.padStart(2, '0');
-                        }).join(''); */
         },
         set: function set(hex) {
             this.rgba = Color.hexToRgb(hex);
@@ -726,7 +717,6 @@ var Picker = function () {
             flags = flags || {};
             var c = void 0;
             try {
-
                 c = new Color(color);
             } catch (ex) {
                 if (flags.failSilently) {
@@ -843,26 +833,38 @@ var Picker = function () {
 
             //var html = this.settings.template || '<div class="picker_wrapper" tabindex="-1"><div class="picker_arrow"></div><div class="picker_hue picker_slider"><div class="picker_selector"></div></div><div class="picker_sl"><div class="picker_selector"></div></div><div class="picker_alpha picker_slider"><div class="picker_selector"></div></div><div class="picker_editor"><input aria-label="Type a color name or hex value"/></div><div class="picker_sample"></div><div class="picker_done"><button>Ok</button></div><div class="picker_cancel"><button>Cancel</button></div></div>';
             var html = this.settings.template || `
-    <div class="picker_wrapper" tabindex="-1">
-        <div class="picker_arrow"></div>
-        <div class="picker_hue picker_slider"><div class="picker_selector"></div></div>
-        <div class="picker_sl"><div class="picker_selector"></div></div>
-        <div class="picker_alpha picker_slider"><div class="picker_selector"></div></div>
-        <div class="picker_editor"><input aria-label="Type a color name or hex value"/></div>
-        <div class="picker_sample"></div>
-        <div class="picker_done"><button>Ok</button></div>
-        <div class="picker_cancel"><button>Cancel</button></div>
-        <div class="recent-colors">
-            <div class="recent-color-box"></div>
-            <div class="recent-color-box"></div>
-            <div class="recent-color-box"></div>
-            <div class="recent-color-box"></div>
-            <div class="recent-color-box"></div>
-            <div class="recent-color-box"></div>
-            <div class="recent-color-box"></div>
-            <div class="recent-color-box"></div>
-        </div>
-    </div>`;
+<div class="picker_wrapper" tabindex="-1">
+    <div class="picker_arrow"></div>
+    <div class="picker_hue picker_slider"><div class="picker_selector"></div></div>
+    <div class="picker_sl"><div class="picker_selector"></div></div>
+    <div class="picker_alpha picker_slider"><div class="picker_selector"></div></div>
+    <div class="picker_editor"><input aria-label="Type a color name or hex value"/></div>
+    <div class="picker_sample"></div>
+    <div class="picker_done"><button>Ok</button></div>
+    <div class="picker_cancel"><button>Cancel</button></div>
+    <div class="recent-colors">
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+    </div>
+    <div class="recent-colors">
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+        <div class="recent-color-box"></div>
+    </div>
+</div>`;
             var wrapper = parseHTML(html);
 
             this.domElement = wrapper;
@@ -948,7 +950,9 @@ var Picker = function () {
 
             var editInput = this._domEdit;
             {
+                //Manual color input on the Editor:
                 addEvent(editInput, 'input', function (e) {
+                    //console.log('Editor Color Change:', this.value);
                     that._setColor(this.value, { fromEditor: true, failSilently: true });
                 });
 

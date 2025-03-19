@@ -3373,14 +3373,14 @@
         },
         {
           "Category": "Compass",
-          "Title": "Brightness",
+          "Title": "Background Booster",
           "File": "Advanced",
           "Section": "Constants",
           "Key": "w219",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Compass Background Booster"
+          "Description": "Compass Background Booster\r\nNeed Compass Color Mode set to Custom Color"
         },
         {
           "Category": "Compass",
@@ -3395,14 +3395,14 @@
         },
         {
           "Category": "Compass",
-          "Title": "Compass Dot Brightness",
+          "Title": "Overall Brightness",
           "File": "Advanced",
           "Section": "Constants",
           "Key": "w220",
           "Value": 1.0,
           "ValueType": "Brightness",
           "Type": "2X",
-          "Description": "Compass Dot Brightness\r\n(Note: This element behaves a little differently to others. Recommended minimum is 0.7 brightness)"
+          "Description": "Compass Overall Brightness\r\n(Note: This element behaves a little differently to others. Recommended minimum is 0.7 brightness)"
         },
         {
           "Category": "Mid-HUD Station & Carrier Landing / Take-off",
