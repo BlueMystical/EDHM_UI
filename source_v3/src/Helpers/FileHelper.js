@@ -135,7 +135,7 @@ function createLinuxShortcut() {
         StartupNotify=true
         Categories=Utility;`;
 
-    fs.writeFileSync(desktopFilePath, desktopFileContent);
+    //fs.writeFileSync(desktopFilePath, desktopFileContent); //<- Linux Desktop icos is made by the installer script
     fs.writeFileSync(appsFilePath, desktopFileContent);
     fs.chmodSync(desktopFilePath, '755');
     fs.chmodSync(appsFilePath, '755');

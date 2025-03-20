@@ -107,7 +107,7 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#user-settings-pane" 
                   type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false" >User Settings</button> <!--disabled-->
-        </li>        
+        </li>
       </ul>
       <!-- Tab panes -->
       <div class="tab-content" id="myTabContent">

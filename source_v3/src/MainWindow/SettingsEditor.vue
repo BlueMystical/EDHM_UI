@@ -7,7 +7,8 @@
                     <button type="button" class="btn-close btn-close-white" aria-label="Close" @click="close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="gameInstancesAccordion" class="form-label">Game Instances:</label>
+                    <!--
+                    <label for="gameInstancesAccordion" class="form-label">Game Instances:</label>                    
                     <div class="accordion" id="gameInstancesAccordion">
                         <div v-for="(instance, instanceIndex) in config.GameInstances" :key="instanceIndex" class="accordion-item">
                             <h2 class="accordion-header" :id="'heading-' + sanitizeId(instance.instance)">
@@ -44,7 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <hr>
 
@@ -149,8 +150,8 @@ export default {
                 this.config = await window.api.getDefaultSettings();
                 setTimeout(() => {
                     EventBus.emit('RoastMe', { type: 'Info', message: 'You can do it manually in the Game Instances..<br> or just click the Green Button.', delay: 10000 });    
-                }, 2000); 
-            }    
+                }, 2000);
+            }
             //console.log(this.config);        
         },
         close() {

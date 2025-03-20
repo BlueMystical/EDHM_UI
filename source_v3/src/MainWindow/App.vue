@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="bg-dark text-light" data-bs-theme="dark">
-
-    <router-view></router-view>
-    
+   
     <NavBarsBody :themesLoaded="themesLoaded" />
     <Notifications/>
 

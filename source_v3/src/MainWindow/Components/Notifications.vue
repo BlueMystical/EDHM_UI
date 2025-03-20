@@ -77,14 +77,14 @@ export default {
 
         /** Displays a Colored Toast Notification at Bottom Right corner of the Window
          * @param data Configuration Object: 
-         * { 
-         *      type: 'Info', //<- Info, Success, Warning, Error
-         *      title: '', 
-         *      message: '',
-         *      stack: 'Stack Trace for Errors',
-         *      autoHide: true,
-         *      delay: 3000  //<- Auto-hide delay in milliseconds
-         * }         */
+          { 
+               type: 'Info', //<- Info, Success, Warning, Error
+               title: '', 
+               message: '',
+               stack: 'Stack Trace for Errors',
+               autoHide: true,
+               delay: 3000  //<- Auto-hide delay in milliseconds
+          }         */
          showToast(data) {
             const { type, title, message, stack, autoHide = true, delay = 3000 } = data;
             const toastType = type.charAt(0).toUpperCase() + type.slice(1);

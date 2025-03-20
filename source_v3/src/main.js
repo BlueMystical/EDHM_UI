@@ -21,7 +21,7 @@ const createWindow = () => {
     height: 800, minHeight: 553,
 
     icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
-    backgroundColor: '#2e2c29',
+    backgroundColor: '#1F1F1F',
 
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -58,89 +58,46 @@ const createWindow = () => {
 
 const createTPModsManagerWindow = () => {
   TPModsManagerWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    parent: mainWindow, // Optional: Makes it a child window
-    modal: false, // Optional: Set to true for modal behavior
-    icon: path.join(__dirname, 'images/ED_TripleElite.ico'), // Optional: Use the same icon
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: true,
-      webSecurity: false,
-    },
-    backgroundColor: '#2e2c29'
+      width: 1000,
+      height: 800,
+      parent: mainWindow,
+      modal: false,
+      icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+      webPreferences: {
+          preload: path.join(__dirname, 'preload.js'),
+          contextIsolation: true,
+          nodeIntegration: true,
+          webSecurity: false,
+      },
+      backgroundColor: '#1F1F1F'
   });
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    // Load the 'TPModsManager' route in development mode
-    console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/TPModsManager` );
-    TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/TPModsManager`);
-    //TPModsManagerWindow.webContents.openDevTools();
+      // Load the new entry point in development mode
+      console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
+      TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
+      //TPModsManagerWindow.webContents.openDevTools();
   } else {
-    // Load the 'TPModsManager' route in production mode
-    TPModsManagerWindow.loadFile(
-      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
-      { hash: 'TPModsManager' }
-    );
+      // Load the new HTML file in production mode
+      TPModsManagerWindow.loadFile(
+          path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`)
+      );
   }
 
   TPModsManagerWindow.once('ready-to-show', () => {
-    TPModsManagerWindow.show();
+      TPModsManagerWindow.show();
   });
 
   TPModsManagerWindow.webContents.on('did-finish-load', () => {
-    console.log('TPModsManager window loaded URL:', TPModsManagerWindow.webContents.getURL());
+      console.log('TPModsManager window loaded URL:', TPModsManagerWindow.webContents.getURL());
   });
 
   TPModsManagerWindow.on('closed', () => {
-    TPModsManagerWindow = null;
+      TPModsManagerWindow = null;
   });
-
 };
 
 
-
-const createPopupWindow = () => {
-  console.log('Creating 3PMods Manager Window..');
-  const popupWindow = new BrowserWindow({
-    width: 800,
-    height: 800,
-    parent: mainWindow, // Optional: Makes it a child window
-    modal: false, // Optional: Set to true for modal behavior
-    icon: path.join(__dirname, 'images/ED_TripleElite.ico'), // Optional: Use the same icon
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: true,
-      webSecurity: false,
-    },
-    backgroundColor: '#2e2c29'
-  });
-
-  console.log('Popup Window is Loading..');
-
-  // Load the popup.html
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    console.log('Popup Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
-    //mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-    popupWindow.loadFile('./src/TPModsManager.html');
-    popupWindow.webContents.openDevTools();
-} else {
-    console.log('Popup Production mode: ');
-    // Path adjusted for production (relative to dist)
-    popupWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPModsManager.html`));
-}
-
-  popupWindow.once('ready-to-show', () => {
-    popupWindow.show();
-  });
-
-  popupWindow.on('closed', () => {
-    // Optional cleanup
-  });
-
-};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
