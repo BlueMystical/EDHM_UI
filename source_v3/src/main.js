@@ -59,7 +59,7 @@ const createWindow = () => {
 const createTPModsManagerWindow = () => {
   TPModsManagerWindow = new BrowserWindow({
       width: 1000,
-      height: 800,
+      height: 900,
       parent: mainWindow,
       modal: false,
       icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
