@@ -1,6 +1,6 @@
 {
     "Version_HORIZ":"v1.52b",
-    "Version_ODYSS":"v19.05",
+    "Version_ODYSS":"v20.02",
     "ActiveInstance":"Steam (Odyssey (Live))",
     "GameInstances":[
        {
@@ -8,23 +8,22 @@
           "games":[
              {
                 "instance":"Steam (Odyssey (Live))",
-                "game_id":"Steam|ED_Odissey",
-                "key":"ED_Odissey",
                 "name":"Odyssey (Live)",
                 "path":""
              },
              {
                "instance":"Steam (Horizons (Live))",
-               "game_id":"Steam|ED_Odissey",
-               "key":"ED_Odissey",
                "name":"Horizons (Live)",
                "path":""
             },
             {
                "instance":"Steam (Horizons (Legacy))",
-               "game_id":"Steam|ED_Horizons",
-               "key":"ED_Horizons",
                "name":"Horizons (Legacy)",
+               "path":""
+            },
+            {
+               "instance":"Steam (ALT Account)",
+               "name":"Odyssey (Live)",
                "path":""
             }
           ]
@@ -34,23 +33,22 @@
          "games":[
             {
                "instance":"Epic Games (Odyssey (Live))",
-               "game_id":"Epic|ED_Odissey",
-               "key":"ED_Odissey",
                "name":"Odyssey (Live)",
                "path":""
             },
             {
               "instance":"Epic Games (Horizons (Live))",
-              "game_id":"Epic|ED_Odissey",
-              "key":"ED_Odissey",
               "name":"Horizons (Live)",
               "path":""
            },
             {
                "instance":"Epic Games (Horizons (Legacy))",
-               "game_id":"EpicGames|ED_Horizons",
-               "key":"ED_Horizons",
                "name":"Horizons (Legacy)",
+               "path":""
+            },
+            {
+               "instance":"Epic Games (ALT Account)",
+               "name":"Odyssey (Live)",
                "path":""
             }
          ]
@@ -60,24 +58,23 @@
          "games":[
             {
                "instance":"Frontier (Odyssey (Live))",
-               "game_id":"Frontier|ED_Odissey",
-               "key":"ED_Odissey",
                "name":"Odyssey (Live)",
                "path":""
             },
             {
               "instance":"Frontier (Horizons (Live))",
-              "game_id":"Frontier|ED_Odissey",
-              "key":"ED_Odissey",
               "name":"Horizons (Live)",
               "path":""
            },
            {
               "instance":"Frontier (Horizons (Legacy))",
-              "game_id":"Frontier|ED_Horizons",
-              "key":"ED_Horizons",
               "name":"Horizons (Legacy)",
               "path":""
+           },
+           {
+            "instance":"Frontier (ALT Account)",
+            "name":"Odyssey (Live)",
+            "path":""
            }
          ]
       }
@@ -86,11 +83,11 @@
     "UserDataFolder": "%USERPROFILE%\\EDHM_UI",
     "HUD_Cover": "HUD_Type8",
     "SavesToRemember":10, 
-    "FavToogle":false,
-    "GreetMe":false,
-    "HideToTray":false,
+    "LastFolderUsed":"",
     "WatchMe":true,
+    "GreetMe":false,
     "FirstRun": false,
-    "CheckForUpdates": true,
-    "LastFolderUsed":""
+    "FavToogle":false,    
+    "HideToTray":false,    
+    "CheckForUpdates": true    
  }

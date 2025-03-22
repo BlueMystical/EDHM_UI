@@ -59,7 +59,7 @@ const createWindow = () => {
 const createTPModsManagerWindow = () => {
   TPModsManagerWindow = new BrowserWindow({
       width: 1000,
-      height: 900,
+      height: 800,
       parent: mainWindow,
       modal: false,
       icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
@@ -76,20 +76,29 @@ const createTPModsManagerWindow = () => {
       // Load the new entry point in development mode
       console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
       TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
-      //TPModsManagerWindow.webContents.openDevTools();
+      TPModsManagerWindow.webContents.openDevTools();
   } else {
+    // Load the new HTML file in production mode
+    //TPModsManagerWindow.loadFile(path.join(__dirname, '../renderer/main_window/index.html'));
+    const baseURL = MAIN_WINDOW_VITE_DEV_SERVER_URL
+    ? `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/TPMods/tp-mods-manager.html`
+    : `file://${path.join(__dirname, '../renderer/TPMods/tp-mods-manager.html')}`;
+
+
+    TPModsManagerWindow.loadURL(baseURL);
+
       // Load the new HTML file in production mode
-      TPModsManagerWindow.loadFile(
+   /*   TPModsManagerWindow.loadFile(
           path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`)
-      );
+      );*/
   }
+
+  TPModsManagerWindow.webContents.on('did-finish-load', () => {
+    TPModsManagerWindow.webContents.send('navigate', '/tp-mods-manager');
+  });
 
   TPModsManagerWindow.once('ready-to-show', () => {
       TPModsManagerWindow.show();
-  });
-
-  TPModsManagerWindow.webContents.on('did-finish-load', () => {
-      console.log('TPModsManager window loaded URL:', TPModsManagerWindow.webContents.getURL());
   });
 
   TPModsManagerWindow.on('closed', () => {

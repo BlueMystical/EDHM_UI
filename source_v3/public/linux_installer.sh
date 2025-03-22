@@ -4,12 +4,11 @@
 DEBUG=0
 
 # Define variables
-TARGET_DIR="$HOME/.local/share/"
-APP_NEW_DIR="EDHM-UI-V3"
+TARGET_DIR="$HOME/.local/share/EDHM-UI-V3"
 APP_EXE="edhm-ui-v3"
 DESKTOP_FILE="$HOME/Desktop/edhm-ui-v3.desktop"
 APPLICATIONS_FILE="$HOME/.local/share/applications/EDHM-UI-V3.desktop"
-ICON_PATH="$TARGET_DIR/$APP_NEW_DIR/resources/images/icon.png"
+ICON_PATH="$TARGET_DIR/resources/images/icon.png"
 
 # Check if the process is running and attempt to kill it
 echo "Checking for $APP_EXE process..."
@@ -33,24 +32,26 @@ if [ -z "$ZIP_FILE" ]; then
 fi
 
 # Create the target directory and unzip
-mkdir -p "$TARGET_DIR"
-unzip "$ZIP_FILE" -d "$TARGET_DIR"
-UNZIPPED_DIR=$(find "$TARGET_DIR" -maxdepth 1 -type d -name "edhm-ui-v3-linux-x64")
+unzip "$ZIP_FILE"
+UNZIPPED_DIR=$(find "." -maxdepth 1 -type d -name "edhm-ui-v3-linux-x64")
 if [ -z "$UNZIPPED_DIR" ]; then
     echo "Error: Unzipped directory not found."
     exit 1
 fi
-mv "$UNZIPPED_DIR" "$TARGET_DIR/$APP_NEW_DIR"
+
+rm -r "$TARGET_DIR"
+
+mv "$UNZIPPED_DIR" "$TARGET_DIR"
 
 # Make the executable file executable
-chmod +x "$TARGET_DIR/$APP_NEW_DIR/$APP_EXE"
+chmod +x "$TARGET_DIR/$APP_EXE"
 
 # Create the desktop shortcut
 DESKTOP_CONTENT="
 [Desktop Entry]
 Encoding=UTF-8
 Name=EDHM-UI-V3
-Exec=$TARGET_DIR/$APP_NEW_DIR/$APP_EXE
+Exec=$TARGET_DIR/$APP_EXE
 Icon=$ICON_PATH
 Terminal=false
 Type=Application
@@ -69,7 +70,7 @@ if [ $DEBUG -eq 1 ]; then
 fi
 
 # Run the application
-"$TARGET_DIR/$APP_NEW_DIR/$APP_EXE"
+"$TARGET_DIR/$APP_EXE"
 if [ $? -eq 0 ]; then
     echo "Application started successfully."
 else

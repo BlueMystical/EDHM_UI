@@ -59,14 +59,12 @@
                     </button>
                 </div>
                 <div class="btn-group me-2 dropup" role="group" aria-label="Second group">
-                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Dropdown
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                        <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-                    </ul>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
                 </div>
             </div>
         </nav>
@@ -93,6 +91,8 @@ export default {
         return {
             showSpinner: false,        //<- Flag to Show/hide the Loading Spinner
             statusText: 'Ready.',
+            ActiveInstance: null,
+            TPmods: [],
         };
     },
     methods: {
@@ -103,6 +103,7 @@ export default {
                 console.log('Initializing 3PMods Manager..');
                 this.showSpinner = true;
                 this.statusText = 'Initializing..';
+                this.ActiveInstance = await window.api.getActiveInstanceEx();
 
                 const notiOptions = {
                     type: 'Info', //<- Info, Success, Warning, Error
@@ -112,6 +113,10 @@ export default {
                     delay: 5000  //<- Auto-hide delay in milliseconds
                 };
                 this.$refs.notif.showToast(notiOptions);
+
+                //console.log(this.ActiveInstance);
+                this.TPmods = await window.api.GetInstalledTPMods(this.ActiveInstance.path);
+                console.log(this.TPmods);
 
             } catch (error) {
                 console.error(error);

@@ -3,90 +3,89 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content bg-dark text-light">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Game Instances</h5>
+                    <h5 class="modal-title">EDHM Settings</h5>
                     <button type="button" class="btn-close btn-close-white" aria-label="Close" @click="close"></button>
                 </div>
                 <div class="modal-body">
-                    <!--
-                    <label for="gameInstancesAccordion" class="form-label">Game Instances:</label>                    
-                    <div class="accordion" id="gameInstancesAccordion">
-                        <div v-for="(instance, instanceIndex) in config.GameInstances" :key="instanceIndex" class="accordion-item">
-                            <h2 class="accordion-header" :id="'heading-' + sanitizeId(instance.instance)">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    :data-bs-target="'#collapse-' + sanitizeId(instance.instance)" aria-expanded="false" :aria-controls="'collapse-' + sanitizeId(instance.instance)">
-                                    {{ instance.instance }}
-                                </button>
-                            </h2>
-                            <div :id="'collapse-' + sanitizeId(instance.instance)" class="accordion-collapse collapse"
-                                :aria-labelledby="'heading-' + sanitizeId(instance.instance)" data-bs-parent="#gameInstancesAccordion">
-                                <div class="accordion-body">
-                                    <div class="accordion" :id="'accordion-' + sanitizeId(instance.instance) + '-Games'">
-                                        <div v-for="(game, gameIndex) in instance.games" :key="gameIndex" class="accordion-item">
-                                            <h2 class="accordion-header" :id="'heading-' + sanitizeId(game.instance)">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                    :data-bs-target="'#collapse-' + sanitizeId(game.instance)" aria-expanded="false" :aria-controls="'collapse-' + sanitizeId(game.instance)">
-                                                    {{ game.name }}
-                                                </button>
-                                            </h2>
-                                            <div :id="'collapse-' + sanitizeId(game.instance)" class="accordion-collapse collapse"
-                                                :aria-labelledby="'heading-' + sanitizeId(game.instance)" :data-bs-parent="'#accordion-' + sanitizeId(instance.instance) + '-Games'">
-                                                <div class="accordion-body">
-                                                    <label :for="'Path-' + sanitizeId(game.instance)" class="form-label">Full path to the
-                                                        Game's Executable:</label>
-                                                    <div class="input-group mb-3">
-                                                        <input type="text" class="form-control form-control-sm" :placeholder="'Pick a location for ' + game.name"
-                                                               :aria-label="'Pick a location for ' + game.name" :id="'Path-' + sanitizeId(game.instance)" v-model="game.path">
-                                                        <button class="btn btn-outline-secondary" type="button" @click="browseGameFile(instanceIndex, gameIndex)">Browse</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <div class="input-group mb-3">
+                        <div class="form-floating">
+                            <select class="form-select" id="cboGamePublisher" aria-label="Game Publisher:"
+                            v-model="selectedPublisher" @change="OnGamePublisherChange">
+                                <option value="0">Steam</option>
+                                <option value="1">Epic Games</option>
+                                <option value="2">Frontier</option>
+                            </select>
+                            <label for="cboGamePublisher">Game Publisher:</label>
                         </div>
-                    </div>-->
+                        <div class="form-floating">
+                            <select class="form-select" id="cboGameVersion" aria-label="Game Version:"
+                            v-model="selectedVersion" @change="OnGameVersionChange">
+                                <option value="0">Odyssey (Live)</option>
+                                <option value="1">Horizons (Live)</option>
+                                <option value="2">Horizons (Legacy)</option>
+                            </select>
+                            <label for="cboGameVersion">Game Version:</label>
+                        </div>
+                    </div>
+                    <label for='txtFullGamePath' class="form-label">Full path to the Game's Executable:</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control form-control-sm" placeholder='Manually select the game location or use the Localization Wizard below'
+                            aria-label='Pick a location for ' id='txtFullGamePath' v-model="selectedGamePath" @change="OnGamePathChange">
+                        <button class="btn btn-outline-secondary" type="button"
+                            @click="browseGamePath()">Browse</button>
+                    </div>
 
                     <hr>
 
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOtherSettings">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOtherSettings" aria-expanded="true" aria-controls="collapseOtherSettings">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOtherSettings" aria-expanded="true"
+                                    aria-controls="collapseOtherSettings">
                                     Other Settings
                                 </button>
                             </h2>
-                            <div id="collapseOtherSettings" class="accordion-collapse collapse" aria-labelledby="headingOtherSettings" data-bs-parent="#accordionExample">
+                            <div id="collapseOtherSettings" class="accordion-collapse collapse show"
+                                aria-labelledby="headingOtherSettings" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="config.GreetMe">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckDefault" v-model="config.GreetMe">
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Greet me on Startup</label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <label for="playerJournal">Player's Journal Location:</label>
                                             <div id="playerJournal" class="input-group mb-3">
-                                                <input type="text" class="form-control form-control-sm" placeholder="Pick a Location" 
-                                                    aria-label="Pick a Location" aria-describedby="button-addon2" v-model="config.PlayerJournal">
-                                                <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="browseJournalFolder">Browse</button>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    placeholder="Pick a Location" aria-label="Pick a Location"
+                                                    aria-describedby="button-addon2" v-model="config.PlayerJournal">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    id="button-addon2" @click="browseJournalFolder">Browse</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckTray" checked v-model="config.HideToTray">
-                                                <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray on close</label>
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckTray" checked v-model="config.HideToTray">
+                                                <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray
+                                                    on close</label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <label for="userDataLocation">Themes & User's Data:</label>
                                             <div id="userDataLocation" class="input-group mb-3" disabled>
-                                                <input type="text" class="form-control form-control-sm" placeholder="Pick a Location"
-                                                    aria-label="Pick a Location" aria-describedby="button-addon2" v-model="config.UserDataFolder">
-                                                <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="browseUserDataFolder">Browse</button>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    placeholder="Pick a Location" aria-label="Pick a Location"
+                                                    aria-describedby="button-addon2" v-model="config.UserDataFolder">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    id="button-addon2" @click="browseUserDataFolder">Browse</button>
                                             </div>
                                         </div>
 
@@ -96,7 +95,8 @@
                                         </div>
                                         <div class="col">
                                             <label for="quantity">Saves To Remember:</label>
-                                            <input type="number" class="form-control" id="quantity" min="1" max="50" v-model="config.SavesToRemember">
+                                            <input type="number" class="form-control" id="quantity" min="1" max="50"
+                                                v-model="config.SavesToRemember">
                                         </div>
                                     </div>
                                 </div>
@@ -108,10 +108,10 @@
                 <div class="modal-footer">
                     <div class="btn-group" role="group" aria-label="Default button group">
                         <button type="button" class="btn btn-outline-secondary" @click="CleanInstall">Clean Install</button>
-                        <button type="button" class="btn btn-success" @click="runGameLocationAssistant">Game Locator Assistant</button>
+                        <button type="button" class="btn btn-success" @click="runGameLocationAssistant">Game Localization Wizard</button>
                         <button type="button" class="btn btn-primary" @click="save">Save Changes</button>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -133,7 +133,10 @@ export default {
                 PlayerJournal: '',
                 UserDataFolder: '',
             },
-            ActiveInstance: {}
+            ActiveInstance: {},
+            selectedPublisher: 0,
+            selectedVersion: 0,
+            selectedGamePath: '',
         };
     },
     created() {
@@ -141,13 +144,36 @@ export default {
         EventBus.on('open-settings-editor', this.open);
     },
     methods: {
+
+        Initialize() {
+            try {
+                if (this.config) {
+                    const instanceName = this.config.ActiveInstance; //<- "Steam (Odyssey (Live))"
+                    const pubName = instanceName.split('(')[0];     //<- "Steam "
+                    this.ActiveInstance = this.config.GameInstances
+                        .flatMap(instance => instance.games)
+                        .find(game => game.instance === instanceName);
+                    console.log('ActiveInstance:', instanceName);
+                    
+                    this.selectedGamePath = this.ActiveInstance.path;
+                    this.selectedVersion = this.getGameVersionIndex(this.ActiveInstance.name);
+                    this.selectedPublisher = this.getGameInstanceIndex(pubName); 
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
         /* Pops up this Component */
         async open(InstallStatus) {
             this.visible = true;
             if (InstallStatus === 'existingInstall') {
                 this.config = await window.api.getSettings();
+                this.Initialize();
             } else {
+                // FRESH INSTALL:
                 this.config = await window.api.getDefaultSettings();
+                this.Initialize();
                 setTimeout(() => {
                     EventBus.emit('RoastMe', { type: 'Info', message: 'You can do it manually in the Game Instances..<br> or just click the Green Button.', delay: 10000 });    
                 }, 2000);
@@ -158,13 +184,43 @@ export default {
             this.visible = false;
         },
         /* Button Click: Save the Settings */
-        async save() {            
+        async save() {    
+            //- Sets the Active Instance:
+            this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
+            //- Sets the path for the Active instance:
+            this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;            
+
             EventBus.emit('SettingsChanged', JSON.parse(JSON.stringify(this.config))); //<- this event will be heard in 'App.vue'  
             this.close();
         },
-        
+
+        OnGamePublisherChange(e) {
+            const publisher = this.config.GameInstances[this.selectedPublisher];
+            if (publisher) {
+                this.ActiveInstance = publisher.games[this.selectedVersion];
+                this.config.ActiveInstance = this.ActiveInstance.instance;
+                this.selectedGamePath = this.ActiveInstance.path;
+            }            
+        },
+        OnGameVersionChange(e) {
+            const publisher = this.config.GameInstances[this.selectedPublisher];
+            if (publisher) {
+                this.ActiveInstance = publisher.games[this.selectedVersion];
+                this.config.ActiveInstance = this.ActiveInstance.instance;
+                this.selectedGamePath = this.ActiveInstance.path;
+            }
+        },
+        OnGamePathChange(e) {
+            console.log('Selected Game Path:', this.selectedGamePath);
+
+            this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;
+            this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
+
+            console.log('ActiveInstance:', this.config.ActiveInstance);
+            this.InstallGameInstance(this.selectedGamePath);
+        },
         /* Manually Browse for the Game Executable */
-        async browseGameFile(instanceIndex, gameIndex) {            
+        async browseGamePath(params) {
             const options = {
                 title: 'Select the Game Executable',
                 defaultPath: 'EliteDangerous64',
@@ -176,13 +232,33 @@ export default {
             };
             const filePath = await window.api.ShowOpenDialog(options); //console.log(filePath);
             if (filePath) {
-                const FolderPath = window.api.getParentFolder(filePath[0]);
-                this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
-                this.config.ActiveInstance = this.config.GameInstances[instanceIndex].games[gameIndex].instance;
+                this.selectedGamePath = window.api.getParentFolder(filePath[0]);
+                console.log('Selected Game Path:', this.selectedGamePath);
+
+                this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;
+                this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
+
                 console.log('ActiveInstance:', this.config.ActiveInstance);
-                this.InstallGameInstance(FolderPath);
+                this.InstallGameInstance(this.selectedGamePath);
             }
         },
+        getGameInstanceIndex(name) {
+            switch (name.trim()) {
+                case 'Steam': return 0;
+                case 'Epic Games': return 1;
+                case 'Frontier': return 2;
+                default: return -1;
+            }
+        },
+        getGameVersionIndex(name) {
+            switch (name.trim()) {
+                case 'Odyssey (Live)': return 0;
+                case 'Horizons (Live)': return 1;
+                case 'Horizons (Legacy)': return 2;
+                default: return -1;
+            }
+        },
+        
         /* Browse for the location to store User's data and Themes */
         async browseUserDataFolder() {
             const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');

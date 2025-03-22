@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import path from 'node:path';
+import path, { basename } from 'node:path';
 
 import fs from 'fs';
 import { writeFile, unlink, access } from 'node:fs/promises';
@@ -317,8 +317,7 @@ async function addNewInstance(NewInstancePath, settings) {
   return JSON.parse(JSON.stringify(settings));
 };
 
-/** * Retrives the Active Instance from the Settings
- */
+/** * Retrives the Active Instance from the Settings */
 const getActiveInstance = () => {
   try {
     if (programSettings != null) {
@@ -342,8 +341,7 @@ const getActiveInstance = () => {
   }
 };
 
-/** * Re-load the Settings from file then retrieve the Active instance
- */
+/** * Re-load the Settings from file then retrieve the Active instance */
 const getActiveInstanceEx = () => {
   try {
     loadSettings();
@@ -385,6 +383,73 @@ const getInstanceByName = (InstanceFullName) => {
     throw new Error(error.message + error.stack);
   }
 };
+
+async function GetInstalledTPMods(gamePath) {
+  try {
+    // Get all Folders in the Themes Directory, each folder is a Theme:
+    const TPModsFolder = path.join(gamePath, 'EDHM-ini', '3rdPartyMods');
+    const subfolders = await fs.promises.readdir(TPModsFolder, { withFileTypes: true });
+    const _files = [];
+
+    console.log(subfolders);
+
+    for (const dirent of subfolders) {
+      if (dirent.isDirectory()) {
+        const subfolderPath = path.join(TPModsFolder, dirent.name); //<- Full Theme path
+        let mod = {
+          path: subfolderPath,
+          basename: '',
+          file: '',
+          data: null,
+          ini: null,
+          thumb: ''
+        }
+        try {
+          fs.readdir(subfolderPath, (err, files) => {
+              if (err) {
+                return console.error('Unable to scan directory:', err);
+              }
+          
+              files.forEach((file) => {
+                if (path.extname(file) === '.json') {
+                  mod.file = path.join(subfolderPath, file);
+                  console.log(mod.file);
+                  mod.data = fileHelper.loadJsonFile(mod.file);                  
+                }
+                if (path.extname(file) === '.ini') {
+                  mod.ini = path.join(subfolderPath, file);
+                }
+                if (path.extname(file) === '.png') {
+                  mod.thumb = path.join(subfolderPath, file);
+                }
+              });
+
+              _files.push(mod);
+
+            });
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        // it's a lose file in the Root
+        /*if (path.extname(dirent) === '.json') {
+          mod.file = path.join(dirent.parentPath, dirent.name);
+          mod.data = fileHelper.loadJsonFile(mod.file);                  
+        }
+        if (path.extname(dirent) === '.ini') {
+          mod.ini = path.join(subfolderPath, file);
+        }
+        if (path.extname(dirent) === '.png') {
+          mod.thumb = path.join(subfolderPath, file);
+        }*/
+      }
+      
+    }
+    return _files;
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+}
 
 // #endregion
 
@@ -652,13 +717,21 @@ async function DoHotFix() {
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
 
+ipcMain.handle('GetInstalledTPMods', (event, gamePath) => {
+  try {
+    return GetInstalledTPMods(gamePath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
 ipcMain.handle('addNewInstance', (event, NewInstancePath, settings) => {
   try {
     return addNewInstance(NewInstancePath, settings);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-});
+}); 
 
 ipcMain.handle('InstallStatus', () => {
   try {
