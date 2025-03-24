@@ -76,12 +76,18 @@ const createTPModsManagerWindow = () => {
       // Load the new entry point in development mode
       console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
       TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
-      //TPModsManagerWindow.webContents.openDevTools();
+      TPModsManagerWindow.webContents.openDevTools();
   } else {
+    // Load the new HTML file in production mode
+    const htmlPath = path.join(process.resourcesPath, 'TPModsManager.html');
+    console.log("Loading production html from : ", htmlPath);
+    TPModsManagerWindow.webContents.openDevTools();
+    TPModsManagerWindow.loadFile(htmlPath);
+
       // Load the new HTML file in production mode
-      TPModsManagerWindow.loadFile(
+   /*   TPModsManagerWindow.loadFile(
           path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`)
-      );
+      );*/
   }
 
   TPModsManagerWindow.once('ready-to-show', () => {

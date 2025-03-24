@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('api', {
 
   joinPath: (basePath, ...segments) => path.join(basePath, ...segments),
   getParentFolder: (filePath) => path.dirname(filePath),
+  getBaseName: (filePath, extension) => path.basename(filePath, extension),
   resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
 
   getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
@@ -118,6 +119,8 @@ contextBridge.exposeInMainWorld('api', {
   UninstallEDHMmod: (gameInstance) => ipcRenderer.invoke('UninstallEDHMmod', gameInstance),
   DoHotFix: async () => ipcRenderer.invoke('DoHotFix'),
 
+  GetInstalledTPMods: async (folderPath) => ipcRenderer.invoke('GetInstalledTPMods', folderPath),
+
   // #endregion
 
   // #region Utility Methods
@@ -145,6 +148,7 @@ contextBridge.exposeInMainWorld('api', {
   downloadFile: (url, filePath) => ipcRenderer.invoke('download-file', url, filePath),
   onDownloadProgress: (callback) => ipcRenderer.on('download-progress', callback),
   removeDownloadProgressListener: (callback) => ipcRenderer.removeListener('download-progress', callback),
+  downloadAsset: async (url, dest) => ipcRenderer.invoke('download-asset', url, dest),
 
   getPlatform: () => ipcRenderer.invoke('get-platform'),
   quitProgram: () => ipcRenderer.invoke('quit-program'),

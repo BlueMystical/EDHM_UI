@@ -9,6 +9,7 @@ module.exports = {
     extraResource: [
       'src/data',
       'src/images',
+      'src/TPMods/TPModsManager.html',
       'public',
     ],
     icon:               path.join(__dirname, 'src/images/ED_TripleElite.ico'), //'public/images/ED_TripleElite.ico'
@@ -81,7 +82,15 @@ module.exports = {
       [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
       [FuseV1Options.OnlyLoadAppFromAsar]: true
     })
-  ]
+  ],
+  build: {
+    files: [
+      'dist/electron/**/*',
+      'dist/renderer/**/*', // Ensure this line is present and correct
+      'resources/**/*',
+      'node_modules/**/*',
+    ],
+  },
 };
 /*  // For Linux
 module.exports = {

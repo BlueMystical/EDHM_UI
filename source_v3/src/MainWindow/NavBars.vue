@@ -428,7 +428,8 @@ export default {
           EventBus.emit('open-settings-editor', InstallStatus);
         }
         if (value === 'mnu3PModsManager') {
-          window.api.open3PModsManager();
+          //window.api.open3PModsManager();
+          EventBus.emit('open-3PMods', JSON.parse(JSON.stringify(ActiveInstance)));
         }
         if (value === 'mnuInstallMod') {
           EventBus.emit('GameInsanceChanged', ActiveInstance.instance); //<- this event will be heard in 'App.vue'

@@ -5,6 +5,7 @@
     <Notifications/>
 
     <SettingsEditor @save="saveConfig" />
+    <TPMods @OnSave="OnSaveTPMods"/>
 
     <SearchBox ref="searchBox" :searchResults="searchResults" @resultClicked="OnSearchBox_Click"/>
     
@@ -27,6 +28,7 @@ import ThemeImageEditor from './Components/ThemeImageEditor.vue';
 import ThemeEditor from './Components/ThemeEditor.vue';
 import XmlEditor from './Components/XmlEditor.vue';
 import Util from '../Helpers/Utils.js';
+import TPMods from '../TPMods/TPModsManagerPop.vue';
 
 console.log('App.vue loaded');
 
@@ -41,7 +43,7 @@ export default {
     ThemeImageEditor,
     ThemeEditor,
     XmlEditor,
-    
+    TPMods,
   },
   data() {
     return {
@@ -606,6 +608,9 @@ export default {
 
     // #endregion
 
+    async OnSaveTPMods(e) {
+
+    },
   },
   async mounted() {
 

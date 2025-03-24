@@ -1,7 +1,8 @@
 import { ipcMain } from 'electron';
-import path from 'node:path';
+import path, { basename } from 'node:path';
 
 import fs from 'fs';
+import { readdir, stat, readFile } from 'fs/promises';
 import { writeFile, unlink, access } from 'node:fs/promises';
 
 import fileHelper from './FileHelper';
@@ -317,8 +318,7 @@ async function addNewInstance(NewInstancePath, settings) {
   return JSON.parse(JSON.stringify(settings));
 };
 
-/** * Retrives the Active Instance from the Settings
- */
+/** * Retrives the Active Instance from the Settings */
 const getActiveInstance = () => {
   try {
     if (programSettings != null) {
@@ -342,8 +342,7 @@ const getActiveInstance = () => {
   }
 };
 
-/** * Re-load the Settings from file then retrieve the Active instance
- */
+/** * Re-load the Settings from file then retrieve the Active instance */
 const getActiveInstanceEx = () => {
   try {
     loadSettings();
@@ -385,6 +384,56 @@ const getInstanceByName = (InstanceFullName) => {
     throw new Error(error.message + error.stack);
   }
 };
+
+async function GetInstalledTPMods(gamePath) {
+  try {
+    const tpModsFolder = path.join(gamePath, 'EDHM-ini', '3rdPartyMods');
+    const results = [];
+    const files = await readdir(tpModsFolder); 
+
+    for (const file of files) {
+      const fullPath = path.join(tpModsFolder, file);
+      const fileStats = await stat(fullPath); 
+
+      if (fileStats.isDirectory()) {
+        const subfolderFiles = await readdir(fullPath); 
+        const jsonFiles = subfolderFiles.filter(f => path.extname(f) === '.json');
+
+        for (const jsonFile of jsonFiles) {
+          const jsonFilePath = path.join(fullPath, jsonFile);
+          const baseName = path.basename(jsonFile, '.json');
+
+          const mod = {
+            path: fullPath,
+            basename: baseName,
+            file: jsonFilePath,
+            data: await fileHelper.loadJsonFile(jsonFilePath), 
+            ini: path.join(fullPath, `${baseName}.ini`),
+            thumb: path.join(fullPath, `${baseName}.png`)
+          };
+          results.push(mod);
+        }
+      } else {
+        if (path.extname(file) === '.json') {
+          const baseName = path.basename(file, '.json');
+          const mod = {
+            path: tpModsFolder,
+            basename: baseName,
+            file: fullPath,
+            data: await fileHelper.loadJsonFile(fullPath), 
+            ini: path.join(tpModsFolder, `${baseName}.ini`),
+            thumb: path.join(tpModsFolder, `${baseName}.png`)
+          };
+          results.push(mod);
+        }
+      }
+    }
+    return results;
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+};
+
 
 // #endregion
 
@@ -652,13 +701,21 @@ async function DoHotFix() {
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
 
+ipcMain.handle('GetInstalledTPMods', (event, gamePath) => {
+  try {
+    return GetInstalledTPMods(gamePath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
 ipcMain.handle('addNewInstance', (event, NewInstancePath, settings) => {
   try {
     return addNewInstance(NewInstancePath, settings);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-});
+}); 
 
 ipcMain.handle('InstallStatus', () => {
   try {

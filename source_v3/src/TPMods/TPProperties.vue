@@ -3,19 +3,19 @@
 <template>
     <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
       <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
-        <p class="category-name">{{ group.category }}</p>
+        <p class="category-name">{{ group.title }}</p>
         <table class="table table-bordered table-hover align-middle">
           <tbody>
   
             <!-- Table Row -->
-            <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
+            <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.key"
               @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
-              @click="selectRow(element.Key)" :class="rowClass(element)"            
+              @click="selectRow(element.key)" :class="rowClass(element)"            
               @contextmenu="onRightClick($event, element)"> <!-- @contextmenu.prevent="showContextMenu(element, $event)"> -->
   
               <!-- Left Column -->
               <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
-                {{ element.Title }}
+                {{ element.name }}
                 <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)"
                   @mouseleave="hidePopover">
                   <i class="bi bi-info-circle text-info"></i>
@@ -26,7 +26,7 @@
               <td class="fixed-width cell-content">
   
                 <!-- Dynamic Preset Select Combo -->
-                <template v-if="element.ValueType === 'Preset'">
+                <template v-if="element.type === 'Preset'">
                   <select class="form-select select-combo" :id="'element-' + element.Key" v-model="element.Value"
                     @change="OnPresetValueChange(element, $event)">
                     <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name" :value="preset.Index">
@@ -36,7 +36,7 @@
                 </template>
   
                 <!-- Range Slider Control -->
-                <template v-if="element.ValueType === 'Brightness'">
+                <template v-if="element.type === 'Brightness'">
                   <div class="range-container" :id="'element-' + element.Key">
                     <input type="range" class="form-range range-input" v-model="element.Value"
                       :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
@@ -46,7 +46,7 @@
                 </template>
   
                 <!-- On/Off Swap control -->
-                <template v-if="element.ValueType === 'ONOFF'">
+                <template v-if="element.type === 'ONOFF'">
                   <div class="form-check form-switch" :id="'element-' + element.Key">
                     <input class="form-check-input larger-switch" type="checkbox" :checked="element.Value === 1"
                       @change="OnToggleValueChange(element, $event)" />
@@ -54,7 +54,7 @@
                 </template>
   
                 <!-- Custom Color Picker Control -->
-                <template v-if="element.ValueType === 'Color'">
+                <template v-if="element.type === 'Color'">
                   <ColorDisplay 
                     :id="'element-' + element.Key" 
                     :color="element.Value"
@@ -89,7 +89,7 @@ const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
 export default {
-    name: 'PropertiesTabEx',
+    name: 'TPModProperties',
     components: {
         ColorDisplay
     },
@@ -128,30 +128,31 @@ export default {
         }
     },
     methods: {
-        async OnInitialize(theme) {
-            if (theme) {
-                this.themeName = theme.credits.theme;
-                console.log('Initializing Properties for:', theme.credits.theme);
+        async OnInitialize(tpMod) {
+            if (tpMod) {
+                this.themeName = tpMod.data.mod_name;
+                console.log('Initializing Properties for:', this.themeName);
                 this.dataSource = null;
                 this.themeTemplate = null;
                 
-                this.themeTemplate = { ...JSON.parse(JSON.stringify(theme)) };
-                this.presets = theme.Presets;
+                this.themeTemplate = { ...JSON.parse(JSON.stringify(tpMod)) };
+                this.presets = tpMod.types;
 
                 this.componentKey++; // Increment key to force re-render
-                this.loadProperties({ id: "Panel_UP", title: "Upper Panel" });
+                this.loadProperties();
             }
         },
 
         // #region Load Data
 
-        loadProperties(area) {
-            if (this.themeTemplate && this.themeTemplate.ui_groups) {
-                const areaIndex = this.themeTemplate.ui_groups.findIndex(item => item.Name === area.id);
+        loadProperties() {
+            if (this.themeTemplate && this.themeTemplate.sections) {
+                /*const areaIndex = this.themeTemplate.sections.findIndex(item => item.Name === area.id);
                 if (areaIndex >= 0) {
-                    const newData = this.themeTemplate.ui_groups[areaIndex];    //console.log(newData);
+                    const newData = this.themeTemplate.sections[areaIndex];    //console.log(newData);
                     this.dataSource = { ...newData }; //<- Important: Create a completely new object to trigger reactivity
-                }
+                }*/
+                this.dataSource = this.themeTemplate.sections;
             }
         },
 
@@ -160,7 +161,9 @@ export default {
                 this.groupedElements = []; // Clear existing elements
                 const grouped = {};
 
-                this.dataSource.Elements.forEach(element => {
+                this.groupedElements = this.dataSource.sections;
+
+                /*this.dataSource.sections.forEach(element => {
                     if (!grouped[element.Category]) {
                         grouped[element.Category] = [];
                     }
@@ -173,10 +176,10 @@ export default {
                 this.groupedElements = Object.keys(grouped).map(category => ({
                     category,
                     elements: grouped[category],
-                }));
+                }));*/
 
                 // No need for $nextTick or $forceUpdate here anymore
-                eventBus.emit('OnGlobalSettingsLoaded', JSON.parse(JSON.stringify(this.groupedElements)));
+                //eventBus.emit('OnGlobalSettingsLoaded', JSON.parse(JSON.stringify(this.groupedElements)));
             } else {
                 this.groupedElements = [];
             }

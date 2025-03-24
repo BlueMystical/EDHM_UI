@@ -1030,7 +1030,58 @@ async function getLatestReleaseVersion(owner, repo) {
   });
 }
 
+/** Download a single file from a URL.
+ * @param {*} url full URL to the resource
+ * @param {*} destination Full path to save the downloaded file, including file-name and extension.
+ * @returns  */
+async function downloadAsset(url, destination) {
+  return new Promise((resolve, reject) => {
 
+    const parentFolder = getParentFolder(destination);
+    ensureDirectoryExists(parentFolder);
+
+    const file = fs.createWriteStream(destination);
+    const protocol = url.startsWith('https') ? https : http;
+
+    protocol.get(url, (response) => {
+      if (response.statusCode !== 200) {
+        reject(new Error(`Failed to download file: ${response.statusCode}`));
+        return;
+      }
+
+      response.pipe(file);
+
+      file.on('finish', async () => {
+        file.close(async (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          try {
+            console.log('Downloaded File:', destination);
+            const fileExtension = path.extname(destination).toLowerCase();
+
+            if (fileExtension === '.json') {
+              const fileContent = loadJsonFile(destination);   //console.log('JSON:', fileContent);
+              resolve(fileContent);
+            } else if (['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'].includes(fileExtension)) {
+              const fileContent = fs.readFileSync(destination, 'base64');
+              resolve(`data:image/${fileExtension.slice(1)};base64,${fileContent}`); // Create base64 data URI
+            } else {
+              resolve(fs.readFileSync(destination)); // return buffer for other file types.
+            }
+
+          } catch (parseError) {
+            reject(parseError);
+          }
+        });
+      });
+    }).on('error', (err) => {
+      fs.unlink(destination, () => reject(err)); // Delete file if download fails
+    });
+  });
+}
 
 // #endregion
 
@@ -1043,7 +1094,6 @@ ipcMain.handle('get-app-version', async () => {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
   return packageJson.version;
 });
-
 
 ipcMain.handle('ShowMessageBox', async (event, options) => {
 /*  MODO DE USO:
@@ -1176,7 +1226,6 @@ ipcMain.handle('terminate-program', async (event, exeName) => {
       });
   });
 });
-
 /** Launches a program or script file in a "fire and forget" manner.
  * Returns "Program started" immediately if the program is successfully launched.
  * Does not wait for the program to finish or capture its output.
@@ -1450,26 +1499,12 @@ ipcMain.handle('getLatestReleaseVersion', async (event, owner, repo) => {
 });
 
 ipcMain.handle('download-asset', async (event, url, dest) => {
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(dest);
-    let receivedBytes = 0;
-
-    https.get(url, response => {
-      const totalBytes = parseInt(response.headers['content-length'], 10);
-
-      response.pipe(file);
-      response.on('data', chunk => {
-        receivedBytes += chunk.length;
-        event.sender.send('download-progress', receivedBytes, totalBytes);
-      });
-
-      file.on('finish', () => {
-        file.close(resolve);
-      });
-    }).on('error', err => {
-      fs.unlink(dest, () => reject(err));
-    });
-  });
+  try {
+    return downloadAsset(url, dest);
+  } catch (error) {
+    console.error('Error fetching latest release version:', error);
+    throw new Error(error.message + error.stack);
+  }
 });
 
 ipcMain.handle('download-file', async (event, url, filePath) => {
@@ -1612,5 +1647,6 @@ export default {
   runInstaller,
   
   copyToClipboard,
+  downloadAsset,
 
 };

@@ -15,6 +15,12 @@
       },
       {
          "game": "ODYSSEY",
+         "file_path": "%UI_DOCS%\\Settings.json",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
          "file_path": "%UI_DOCS%\\ODYSS\\Themes\\Taneth Yellow",
          "action": "RMDIR",
          "destination": ""

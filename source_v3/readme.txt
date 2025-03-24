@@ -353,6 +353,8 @@ npm cache clean --force     <- Refresca la cache de Node
 -----------------------------------------------------------------------------------
 // ASAR:
 npm install -g asar
+npm install -g @electron/asar
+
 // Ver el Contenido del archivo ASAR:
 asar list app.asar
 asar extract app.asar extracted_app
