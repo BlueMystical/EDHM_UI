@@ -369,11 +369,11 @@ export default {
             try {
                 const options = {
                     type: 'warning', //<- none, info, error, question, warning
-                    buttons: ['Cancel', "Yes, I'm Sure", 'No, take me back!'],
+                    buttons: ['Cancel', "Yes, I'm Sure", 'No! i was just checking what this button does..'],
                     defaultId: 1,
                     title: 'Question',
                     message: 'Do you want to proceed?',
-                    detail: "This will wipe the settings of the program to a 'clean State'",
+                    detail: "This will wipe all the settings to their default state.",
                     cancelId: 0,
                 }; 
                 const result = await window.api.ShowMessageBox(options); console.log(result);
