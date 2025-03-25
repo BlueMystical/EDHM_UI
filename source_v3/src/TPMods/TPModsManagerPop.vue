@@ -50,7 +50,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeAlert"></button>
                                         </div>
 
-                                        <TPModProperties ref="ModProps" @OnValueChanged="TODO" />
+                                        <TPModProperties ref="ModProps" @OnValuesChanged="OnValuesChanged" />
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,6 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
 const TPMODS_URL = "https://raw.githubusercontent.com/psychicEgg/EDHM/main/Odyssey/3rdPartyMods/mod_list.json";
-const TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI');
 
 export default {
     name: 'TPModsManager',
@@ -173,8 +172,10 @@ export default {
             statusText: 'Ready.',
             ActiveInstance: null,
             TPmods: [],
+            TEMP_FOLDER: '',
 
             selectedMod: null,
+            selectedModIni: null,
             selectedModBasename: null, // Para rastrear el mod seleccionado
             
             alertMessage: '',
@@ -189,18 +190,8 @@ export default {
                 console.log('Initializing 3PMods Manager..');
                 this.showSpinner = true;
                 this.statusText = 'Initializing..';
-                //console.log(this.ActiveInstance);
-
-                /*const notiOptions = {
-                    type: 'Info', //<- Info, Success, Warning, Error
-                    title: 'TPMods:',
-                    message: 'Hello World!',
-                    autoHide: true,
-                    delay: 5000  //<- Auto-hide delay in milliseconds
-                };
-                this.$refs.notif.showToast(notiOptions);*/
-
-                const destFile = window.api.joinPath(TEMP_FOLDER, 'tpmods_list.json');
+                this.TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI');
+                const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
                 const modsList = await window.api.downloadAsset(TPMODS_URL, destFile);                  //console.log('Available Mods:', modsList);
                 const installedMods = await window.api.GetInstalledTPMods(this.ActiveInstance.path);    //console.log('Installed Mods:', installedMods);
                 
@@ -213,9 +204,13 @@ export default {
                             //- Mod is installed    
                             const fMod = installedMods[found];                    
                             mod.isActive  = true;
-                            mod.file = fMod.file;
+
+                            mod.file_json = fMod.file_json;
+                            mod.file_ini = fMod.file_ini;
+
                             mod.data = fMod.data;
-                            mod.ini = fMod.ini;
+                            mod.data_ini = fMod.data_ini;
+                            
                             mod.path = fMod.path;                            
                             installConter++;
                         } else {
@@ -226,7 +221,7 @@ export default {
                     });
                 }
                 this.statusText = installConter + ' Detected Mods';
-                console.log('Detected Mods', this.TPmods);
+                //console.log('Detected Mods', this.TPmods);
 
             } catch (error) {
                 console.error(error);
@@ -311,8 +306,10 @@ export default {
             this.selectedModBasename = mod.mod_name;
             
             if (mod.isActive) {
-                console.log('Mod seleccionado:', mod);
+                //console.log('Mod seleccionado:', mod);
                 this.closeAlert();
+
+                this.selectedModIni = 
 
                 this.$refs.ModProps.OnInitialize(mod);
 
@@ -325,10 +322,15 @@ export default {
         onRightClick(event, mod) {
             event.preventDefault();
             // Aquí puedes agregar la lógica para el menú contextual
-            console.log('Clic derecho en mod:', mod);
+            console.log('Click derecho en mod:', mod);
         },
-        OnValueChanged(e) {
-            console.log('OnValueChanged event received.', e);
+        async OnValuesChanged(e) {
+            //console.log('OnValuesChanged event received.', e);
+            this.selectedMod = e;
+            const _retJsn = await window.api.writeJsonFile(e.file_json, e.data, true);
+            const _retIni = await window.api.SaveIniFile(e.file_ini, e.data_ini);
+
+            console.log('Mod Changes Saved?:', _retJsn, _retIni);
         },
         
         showUpdateAlert(message) {

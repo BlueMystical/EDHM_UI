@@ -11,7 +11,7 @@
             <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
               @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
               @click="selectRow(element.Key)" :class="rowClass(element)"            
-              @contextmenu="onRightClick($event, element)"> <!-- @contextmenu.prevent="showContextMenu(element, $event)"> -->
+              @contextmenu="onRightClick($event, element)"> 
   
               <!-- Left Column -->
               <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">

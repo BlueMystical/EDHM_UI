@@ -110,10 +110,11 @@ function setKey(iniData, section, key, value, comment = undefined) {
         let sectionData = iniData.find(s => s.Section === section);
         if (!sectionData) {
             sectionData = { Section: section, Comment: "", Keys: [] };
-            iniData.push(sectionData);
+            iniData.push(sectionData); //<- Key not found in the section, add it
         }
         let keyData = sectionData.Keys.find(k => k.Key === key);
         if (keyData) {
+            // Key found and updated
             keyData.Value = value;
             keyData.Comment = comment || keyData.Comment; // Preserve old comment if not provided
         } else {
@@ -124,6 +125,7 @@ function setKey(iniData, section, key, value, comment = undefined) {
         console.log('setKey@IniParser:', error);
         throw new Error(error.message + error.stack);
     }
+    return iniData; 
 }
 
 /** Sets the value of a key in the given INI data object.
@@ -141,6 +143,7 @@ function setIniValue(iniData, fileName, sectionName, keyName, newValue) {
                 for (let key of section.Keys) {
                     if (key.Key === keyName) {
                         key.Value = newValue;
+                        //key.Comment = comment || key.Comment; // Preserve old comment if not provided
                         return iniData; // Key found and updated
                     }
                 }
@@ -255,13 +258,16 @@ ipcMain.handle('INI-LoadFile', async (event, filePath) => {
     return await LoadIniFile(filePath);
 });
 ipcMain.handle('INI-SaveFile', async (event, filePath, iniData) => {
-    return await SaveIniFile(filePath, iniData);
+    return await SaveIniFile(filePath, iniData); 
 });
 ipcMain.handle('INI-GetKey', async (event, iniData, section, key) => {
     return await getKey(iniData, section, key);
 });
 ipcMain.handle('INI-SetKey', (event, iniData, section, key, value, comment) => {
     return setKey(iniData, section, key, value, comment);
+});
+ipcMain.handle('INI-SetValue', (event, iniData, section, key, value, comment) => {
+    return setIniValue(iniData, fileName, sectionName, keyName, newValue);
 });
 ipcMain.handle('INI-AddKey', (event, iniData, section, key, value, comment) => {
     return addKey(iniData, section, key, value, comment);

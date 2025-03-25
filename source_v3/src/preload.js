@@ -121,6 +121,12 @@ contextBridge.exposeInMainWorld('api', {
 
   GetInstalledTPMods: async (folderPath) => ipcRenderer.invoke('GetInstalledTPMods', folderPath),
 
+  LoadIniFile: async (filePath) => ipcRenderer.invoke('INI-LoadFile', filePath),
+  SaveIniFile: async (filePath, iniData) => ipcRenderer.invoke('INI-SaveFile', filePath, iniData),
+  getIniKey: async (iniData, section, key) => ipcRenderer.invoke('INI-GetKey', iniData, section, key),
+  setIniKey: async (iniData, section, key, value, comment) => ipcRenderer.invoke('INI-SetKey', iniData, section, key, value, comment),
+  setIniValue: async (iniData, fileName, sectionName, keyName, newValue) => ipcRenderer.invoke('INI-SetValue', iniData, fileName, sectionName, keyName, newValue),
+
   // #endregion
 
   // #region Utility Methods

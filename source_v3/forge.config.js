@@ -9,7 +9,6 @@ module.exports = {
     extraResource: [
       'src/data',
       'src/images',
-      'src/TPMods/TPModsManager.html',
       'public',
     ],
     icon:               path.join(__dirname, 'src/images/ED_TripleElite.ico'), //'public/images/ED_TripleElite.ico'

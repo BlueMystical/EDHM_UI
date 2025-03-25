@@ -1,83 +1,83 @@
-<!-- Global Settings Tab este es el respaldo -->
-
 <template>
-    <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
-      <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
-        <p class="category-name">{{ group.title }}</p>
-        <table class="table table-bordered table-hover align-middle">
-          <tbody>
-  
-            <!-- Table Row -->
-            <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.key"
-              @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
-              @click="selectRow(element.key)" :class="rowClass(element)"            
-              @contextmenu="onRightClick($event, element)"> <!-- @contextmenu.prevent="showContextMenu(element, $event)"> -->
-  
-              <!-- Left Column -->
-              <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
-                {{ element.name }}
-                <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)"
-                  @mouseleave="hidePopover">
-                  <i class="bi bi-info-circle text-info"></i>
-                </span>
-              </td>
-  
-              <!-- Right Column -->
-              <td class="fixed-width cell-content">
-  
-                <!-- Dynamic Preset Select Combo -->
-                <template v-if="element.type === 'Preset'">
-                  <select class="form-select select-combo" :id="'element-' + element.Key" v-model="element.Value"
-                    @change="OnPresetValueChange(element, $event)">
-                    <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name" :value="preset.Index">
-                      {{ preset.Name }}
-                    </option>
-                  </select>
-                </template>
-  
-                <!-- Range Slider Control -->
-                <template v-if="element.type === 'Brightness'">
-                  <div class="range-container" :id="'element-' + element.Key">
-                    <input type="range" class="form-range range-input" v-model="element.Value"
-                      :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
-                      @input="OnBrightnessValueChange(element, $event)" style="height: 10px;" />
-                    <label class="slider-value-label">{{ element.Value }}</label>
-                  </div>
-                </template>
-  
-                <!-- On/Off Swap control -->
-                <template v-if="element.type === 'ONOFF'">
-                  <div class="form-check form-switch" :id="'element-' + element.Key">
-                    <input class="form-check-input larger-switch" type="checkbox" :checked="element.Value === 1"
-                      @change="OnToggleValueChange(element, $event)" />
-                  </div>
-                </template>
-  
-                <!-- Custom Color Picker Control -->
-                <template v-if="element.type === 'Color'">
-                  <ColorDisplay 
-                    :id="'element-' + element.Key" 
-                    :color="element.Value"
-                    :recentColors="recentColors"
-                    @OncolorChanged="OnColorValueChange(element, $event)"
-                    @OnRecentColorsChange="OnRecentColorsChange($event)" />
-                </template>
-  
-              </td>
-            </tr>
-          </tbody>
-        </table>
-  
-        <!-- Context Menu for Elements -->
-        <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu show" ref="contextMenu">
-          <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('AddUserSettings')">Add to User Settings..</a> </li>        
-        </ul>
-  
-      </div>
-  
-      <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
+    <div class="data-table table-responsive" v-if="processedData.length > 0">
+        <div v-for="(section, sectionIndex) in processedData" :key="sectionIndex">
+            <p class="category-name">{{ section.title }}</p>
+            <table class="table table-bordered table-hover align-middle">
+                <tbody>
+                    <!-- Table Row -->
+                    <tr v-for="(key, keyIndex) in section.keys" :key="keyIndex" :id="'row-' + key.key"
+                        @mouseover="showIcon(sectionIndex, keyIndex)" @mouseleave="hideIcon(sectionIndex, keyIndex)"
+                        @click="selectRow(key.key)" :class="rowClass(key)" @contextmenu="onRightClick($event, key)">
+
+                        <!-- Left Column -->
+                        <td class="fixed-width title-cell">
+                            {{ key.name }}
+                            <span class="info-icon" v-show="key.iconVisible" @mouseover="showPopover(key, $event)"
+                                @mouseleave="hidePopover">
+                                <i class="bi bi-info-circle text-info"></i>
+                            </span>
+                        </td>
+
+                        <!-- Right Column -->
+                        <td class="fixed-width cell-content">
+
+                            <!-- On/Off Swap control -->
+                            <template v-if="key.type === 'toggle'">
+                                <div class="form-check form-switch" :id="'element-' + key.key">
+                                    <input class="form-check-input larger-switch" type="checkbox"
+                                        :checked="key.value === 1"
+                                        @change="OnToggleValueChange(sectionIndex, key, $event)" />
+                                </div>
+                            </template>
+
+                            <!-- Range Slider Control -->
+                            <template v-else-if="key.type === 'decimal'">
+                                <div class="range-container" :id="'element-' + key.Key">
+                                    <input type="range" class="form-range range-input" v-model="key.value"
+                                        :min="getMinValue('2x')" :max="getMaxValue('2X')" step="0.01"
+                                        @input="OnBrightnessValueChange(sectionIndex, key, $event)"
+                                        style="height: 10px;" />
+                                    <label class="slider-value-label">{{ key.value }}</label>
+                                </div>
+                            </template>
+
+                            <!-- Custom Color Picker Control -->
+                            <template v-else-if="key.type === 'color'">
+                                <ColorDisplay :id="'element-' + key.key" :color="key.value" :recentColors="recentColors"
+                                    @OncolorChanged="OnColorValueChange(sectionIndex, key, $event)"
+                                    @OnRecentColorsChange="OnRecentColorsChange($event)" />
+                            </template>
+
+                            <!-- Standard TextBox Input -->
+                            <template v-else-if="key.type === 'text'">
+                                <input type="text" :id="'element-' + key.Key" class="form-control" aria-describedby="" v-model="key.value"
+                                @change="OnTextValueChange(sectionIndex, key, $event)">
+                            </template>
+
+                            <!-- Standard Numeric Input -->
+                            <template v-else-if="key.type === 'number'">
+                                <input type="number" :id="'element-' + key.Key" class="form-control" aria-describedby="" v-model="key.value"
+                                @change="OnTextValueChange(sectionIndex, key, $event)">
+                            </template>
+
+                            <!-- Dynamic Preset Select Combo -->
+                            <template v-else>
+                                <select class="form-select select-combo" :id="'element-' + key.key" v-model="key.value"
+                                    @change="OnPresetValueChange(sectionIndex, key, $event)">
+                                    <option v-for="preset in getCustomTypes(key.type)" 
+                                        :key="preset.name" :value="preset.value">
+                                        {{ preset.name }}
+                                    </option>
+                                </select>
+                            </template>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </template>
+</template>
 
 <script>
 import ColorDisplay from '../MainWindow/Components/ColorDisplay.vue';
@@ -96,174 +96,135 @@ export default {
     data() {
         return {
             themeName: '',
-            themeTemplate: null,    //<- Loaded Theme
+            themeTemplate: null,  //<- Loaded Theme
             dataSource: null,     //<- Raw Datasource directly from the File
             groupedElements: [],  //<- Processed Datasource from 'loadGroupData()'
             presets: [],          //<- Presets for the Combo Selects, from Raw Datasource
             recentColors: [],     //<- Array of colors (Hex) for the Recent Colors boxes, up to 8
             
             activePopover: null,
-            selectedKey: null,     //<- key of the selected row
+            selectedKey: null,    //<- key of the selected row
             selectedRow: null,
 
             contextMenuStyle: {},
             showContextMenuFlag: false, //<- Flag to show the Context Menu
-            componentKey: 0, // flag to force component re-render
+            componentKey: 0,     //<- flag to force component re-render
+
+            modData: {},
+            processedData: [],
         };
     },
-    emits: ['OnValueChanged',],
-    watch: {
+/*    watch: {
         dataSource: {
             immediate: true,
             handler() {
-                this.loadGroupData()
+                //this.loadGroupData()
             }
         }
-    },
+    },*/
     computed: {
         rowClass: function () {
             return function (element) {
-                return { 'table-active': element.Key === this.selectedKey };
+                return { 'table-active': element.key === this.selectedKey };
             }
         }
     },
     methods: {
-        async OnInitialize(tpMod) {
-            if (tpMod) {
-                this.themeName = tpMod.data.mod_name;
-                console.log('Initializing Properties for:', this.themeName);
-                this.dataSource = null;
-                this.themeTemplate = null;
+        async OnInitialize(theme) {
+            if (theme) {
+                this.themeName = theme.mod_name;
+                console.log('Initializing Properties for:', theme.mod_name);
+                this.dataSource = theme;
+                this.modData = null;
                 
-                this.themeTemplate = { ...JSON.parse(JSON.stringify(tpMod)) };
-                this.presets = tpMod.types;
+                this.modData = { ...JSON.parse(JSON.stringify(theme.data)) };
+                this.presets = theme.Presets;
 
                 this.componentKey++; // Increment key to force re-render
-                this.loadProperties();
+                
+                this.processData();
             }
         },
 
         // #region Load Data
-
-        loadProperties() {
-            if (this.themeTemplate && this.themeTemplate.sections) {
-                /*const areaIndex = this.themeTemplate.sections.findIndex(item => item.Name === area.id);
-                if (areaIndex >= 0) {
-                    const newData = this.themeTemplate.sections[areaIndex];    //console.log(newData);
-                    this.dataSource = { ...newData }; //<- Important: Create a completely new object to trigger reactivity
-                }*/
-                this.dataSource = this.themeTemplate.sections;
-            }
+        processData() {
+            this.processedData = this.modData.sections.map((section) => ({
+                title: section.title,
+                keys: section.keys.map(key => ({ ...key, iconVisible: false })),
+            }));
         },
 
-        loadGroupData() {
-            if (this.dataSource) {
-                this.groupedElements = []; // Clear existing elements
-                const grouped = {};
-
-                this.groupedElements = this.dataSource.sections;
-
-                /*this.dataSource.sections.forEach(element => {
-                    if (!grouped[element.Category]) {
-                        grouped[element.Category] = [];
-                    }
-                    grouped[element.Category].push({
-                        ...element,
-                        iconVisible: false,
-                    });
-                });
-
-                this.groupedElements = Object.keys(grouped).map(category => ({
-                    category,
-                    elements: grouped[category],
-                }));*/
-
-                // No need for $nextTick or $forceUpdate here anymore
-                //eventBus.emit('OnGlobalSettingsLoaded', JSON.parse(JSON.stringify(this.groupedElements)));
-            } else {
-                this.groupedElements = [];
-            }
-        },
         /** Gets all Presets for the selected Type
          * @param type Type of Preset  */
-        getPresetsForType(type) {
-            return this.presets.filter(preset => preset.Type === type);
+        getCustomTypes(type) {
+            return this.modData.custom_types.filter((item) => item.type === type);
         },
 
         // #endregion
 
         // #region Info Icon / Popover
 
-        showIcon(groupIndex, elementIndex) {
-            // Shows a little Info Icon when the mouse is over a Table's Row.
-            const newGroupedElements = this.groupedElements.map((group, gIndex) => {
-                if (gIndex === groupIndex) {
+        showIcon(sectionIndex, keyIndex) {
+            const newProcessedData = this.processedData.map((section, sIndex) => {
+                if (sIndex === sectionIndex) {
                     return {
-                        ...group,
-                        elements: group.elements.map((element, eIndex) => {
-                            if (eIndex === elementIndex) {
-                                return { ...element, iconVisible: true };
+                        ...section,
+                        keys: section.keys.map((key, kIndex) => {
+                            if (kIndex === keyIndex) {
+                                return { ...key, iconVisible: true };
                             }
-                            return element;
+                            return key;
                         }),
                     };
                 }
-                return group;
+                return section;
             });
-
-            this.groupedElements = newGroupedElements; // Update with the new array
+            this.processedData = newProcessedData;
         },
-        hideIcon(groupIndex, elementIndex) {
-            // Hide the Icon when the mouse leaves the Row
-            const newGroupedElements = this.groupedElements.map((group, gIndex) => {
-                if (gIndex === groupIndex) {
+        hideIcon(sectionIndex, keyIndex) {
+            const newProcessedData = this.processedData.map((section, sIndex) => {
+                if (sIndex === sectionIndex) {
                     return {
-                        ...group,
-                        elements: group.elements.map((element, eIndex) => {
-                            if (eIndex === elementIndex) {
-                                return { ...element, iconVisible: false };
+                        ...section,
+                        keys: section.keys.map((key, kIndex) => {
+                            if (kIndex === keyIndex) {
+                                return { ...key, iconVisible: false };
                             }
-                            return element;
+                            return key;
                         }),
                     };
                 }
-                return group;
+                return section;
             });
-
-            this.groupedElements = newGroupedElements; // Update with the new array
+            this.processedData = newProcessedData;
         },
-        showPopover(element, event) {
-            // Show a Bootstrap Popover with info about the current item
+        showPopover(key, event) {
             if (this.activePopover) {
                 this.activePopover.dispose();
                 this.activePopover = null;
             }
-
             this.$nextTick(async () => {
-                const imagePath = await this.getImagePath(element.Key);
+                const imagePath = await this.getImagePath(key.key);
                 const content = `
-          <p>${element.Description}</p>
+          <p>${key.description}</p>
           <img src="${imagePath}" alt="No Image" class="popover-image" />
-          <p>Key: ${element.Key}</p>`;
-
+          <p>Key: ${key.key}</p>`;
                 const popover = new bootstrap.Popover(event.target, {
-                    title: element.Title,
+                    title: key.name,
                     content: content,
                     html: true,
                     trigger: 'manual',
                     placement: 'right',
                     container: 'body',
                     template: `
-            <div class="popover border border-warning custom-popover" role="tooltip">  
-                <div class="popover-arrow"></div>
-                <h4 class="popover-header"></h4>
-                <div class="popover-body"></div>
+            <div class="popover border border-warning custom-popover" role="tooltip">
+              <div class="popover-arrow"></div>
+              <h4 class="popover-header"></h4>
+              <div class="popover-body"></div>
             </div>`,
                 });
-
                 popover.show();
                 this.activePopover = popover;
-
                 event.target.addEventListener('hidden.bs.popover', () => {
                     this.activePopover = null;
                 });
@@ -294,23 +255,18 @@ export default {
         * @param type Type of Range  */
         getMinValue(type) {
             switch (type) {
-                case '2X': return -1.0;
-                case '4X':
-                    return 0.0;
-                default:
-                    return 0.0;
+                case '2X': return -2.0;
+                case '4X': return 0.0;
+                default:   return 0.0;
             }
         },
         /** Gets the Maximum Value for a Range-slider control
          * @param type Type of Range     */
         getMaxValue(type) {
             switch (type) {
-                case '2X':
-                    return 2.0;
-                case '4X':
-                    return 4.0;
-                default:
-                    return 1.0;
+                case '2X': return 2.0;
+                case '4X': return 4.0;
+                default:   return 1.0;
             }
         },
         intToRGBAstring(value) {
@@ -321,34 +277,78 @@ export default {
 
         // #region METHODS TO UPDATE CHANGES IN THE CONTROLS 
 
-        OnPresetValueChange(item, event) {
+        OnTextValueChange(sectionIndex, item, event) {
             const value = parseFloat(event.target.value);
-            this.updateDataSourceValue(item, value);
+            this.updateDataSourceValue(sectionIndex, item, value);
         },
-        OnBrightnessValueChange(item, event) {
+        OnPresetValueChange(sectionIndex, item, event) {
+            //console.log(event);
+            const value = event.target.value; 
+            this.updateDataSourceValue(sectionIndex, item, value);
+        },
+        OnBrightnessValueChange(sectionIndex, item, event) {
             const value = parseFloat(event.target.value);
-            this.updateDataSourceValue(item, value);
+            this.updateDataSourceValue(sectionIndex, item, value);
         },
-        OnToggleValueChange(item, event) {
+        OnToggleValueChange(sectionIndex, item, event) {
             const value = event.target.checked ? 1 : 0;
-            this.updateDataSourceValue(item, value);
+            this.updateDataSourceValue(sectionIndex, item, value);
         },
-        OnColorValueChange(item, event) {
+        OnColorValueChange(sectionIndex, item, event) {
             const value = event.int;
-            this.updateDataSourceValue(item, value);            
+            this.updateDataSourceValue(sectionIndex, item, value);
         },
         OnRecentColorsChange (colors) {
             this.recentColors = [...colors]; // Update the array reactively
             console.log('Recent colors updated in parent:', colors);
         },
-        updateDataSourceValue(item, newValue) {
-            const elementIndex = this.dataSource.Elements.findIndex(el => el.Key === item.Key);
+        async updateDataSourceValue(sectionIndex, item, newValue) {            
+            const elementIndex = this.modData.sections[sectionIndex].keys.findIndex(el => el.key === item.key);
             if (elementIndex !== -1) {
-                if (this.dataSource.Elements[elementIndex].Value != newValue) {
-                    this.dataSource.Elements[elementIndex].Value = newValue;
-                    item.Value = newValue; // Keep groupedElements in sync
+                //console.log('Updating:',  item, newValue);
+                if (this.modData.sections[sectionIndex].keys[elementIndex].value != newValue) {
+                    
+                    //- Update the key/value on the Mod data:
+                    this.modData.sections[sectionIndex].keys[elementIndex].value = newValue;
+                    item.value = newValue;
+                    
+                    //- Update the key/value on the Ini data:  TODO: if is a Color (multi-key)
+                    const _key = this.modData.sections[sectionIndex].keys[elementIndex].key;
+                    const _val = this.modData.sections[sectionIndex].keys[elementIndex].value;
+                    const keys = _key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
+                    
+                    if (Array.isArray(keys) && keys.length > 2) {
+                        //- Multi Key: Colors
+                        const RGBAcolor = Util.intToRGBA(_val); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                        const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
+                        const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
+
+                        for (const [index, key] of keys.entries()) { // using entries to get the index
+                            const color = parseFloat(values[index]);
+                            try {
+                                this.dataSource.data_ini = await window.api.setIniKey(
+                                    JSON.parse(JSON.stringify(this.dataSource.data_ini)),
+                                    this.modData.sections[sectionIndex].ini_section,
+                                    key,
+                                    color
+                                );
+                            } catch (error) {
+                                console.log(stackTrace + values[index], error.message);
+                            }
+                        }
+
+                    } else {
+                        //- Single Key:
+                        this.dataSource.data_ini = await window.api.setIniKey(
+                            JSON.parse(JSON.stringify(this.dataSource.data_ini)), 
+                            this.modData.sections[sectionIndex].ini_section,
+                            this.modData.sections[sectionIndex].keys[elementIndex].key,
+                            this.modData.sections[sectionIndex].keys[elementIndex].value
+                        );
+                    }                    
+                    //console.log(this.dataSource.data_ini);
+
                     this.saveChanges();
-                    this.$emit('OnValueChanged', { item, newValue });
                 }
             } else {
                 console.error("Element not found in dataSource:", item.Key);
@@ -360,8 +360,9 @@ export default {
                 this.saveChangesDebounced = this.debounce(async function () {
                     try {
                         //Sends the changes to the Current Settings:
-                        var currSettings = JSON.parse(JSON.stringify(this.dataSource));
-                        this.$emit('OnProperties_Changed', currSettings); //<- Event listen on 'NavBars.vue' on the Template definition.
+                        this.dataSource.data = this.modData;
+                        this.$emit("OnValuesChanged", JSON.parse(JSON.stringify(this.dataSource))); //<- pasar el objeto al padre.
+
                     } catch (error) {
                         console.error("Error saving changes:", error);
                     }
@@ -475,14 +476,14 @@ export default {
 
     },
     mounted() {
-       // eventBus.on('InitializeProperties', this.OnInitialize);
-       // eventBus.on('areaClicked', this.loadProperties);
-       // eventBus.on('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
+        eventBus.on('InitializeProperties', this.OnInitialize);
+        eventBus.on('areaClicked', this.loadProperties);
+        eventBus.on('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
     },
     beforeUnmount() {
-       // eventBus.off('InitializeProperties', this.OnInitialize);
-       // eventBus.off('areaClicked', this.loadProperties);
-       // eventBus.off('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
+        eventBus.off('InitializeProperties', this.OnInitialize);
+        eventBus.off('areaClicked', this.loadProperties);
+        eventBus.off('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
         this.$nextTick(() => {
             if (this.activePopover) {
                 this.activePopover.dispose();
@@ -495,70 +496,80 @@ export default {
 
 <style scoped>
 .data-table {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .data-table::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .data-table::-webkit-scrollbar-track {
-    background: #333;
+  background: #333;
 }
 
 .data-table::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 10px;
+  background-color: #555;
+  border-radius: 10px;
 }
 
 .data-table::-webkit-scrollbar-thumb:hover {
-    background-color: #777;
+  background-color: #777;
 }
 
 .table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  table-layout: fixed;
 }
 
 .fixed-width {
-    width: 50%;
+  width: 50%;
 }
 
 .category-name {
-    color: darkorange;
-    font-size: 18px;
-    font-weight: bold;
+  color: darkorange;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .title-cell {
-    cursor: default;
-    font-size: 14px;
-    color: lightgrey;
-    align-items: center;
-    padding: 0.5rem;
+  cursor: default;
+  font-size: 14px;
+  color: lightgrey;
+  align-items: center;
+  padding: 0.5rem;
 }
 
 .info-icon {
-    margin-left: 0.5rem;
-    /* Space between text and icon */
-    cursor: pointer;
-    /* Indicate icon is clickable */
+  margin-left: 0.5rem;
+  cursor: pointer;
 }
 
 .range-container {
-    position: relative;
-    width: 100%;
-    height: 38px;
+  position: relative;
+  width: 100%;
+  height: 38px;
 }
 
 .slider-value-label {
-    display: block;
-    margin-top: 2px;
-    font-size: 12px;
-    color: #f8f9fa;
-    text-align: left;
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: #f8f9fa;
+  text-align: left;
+}
+
+.table td:first-child {
+  width: 50%;
+}
+
+/* Added these rules */
+.cell-content select {
+  width: 100%; /* Or set a specific width, e.g., 200px */
+  max-width: 250px; /* Optional: prevent it from becoming too wide */
+  box-sizing: border-box; /* Include padding and border in the width */
 }
 </style>

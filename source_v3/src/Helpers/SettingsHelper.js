@@ -6,6 +6,7 @@ import { readdir, stat, readFile } from 'fs/promises';
 import { writeFile, unlink, access } from 'node:fs/promises';
 
 import fileHelper from './FileHelper';
+import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
 import Util from './Utils.js';
 
@@ -385,6 +386,8 @@ const getInstanceByName = (InstanceFullName) => {
   }
 };
 
+/** Returns the list of all installed TPMods on the Game Instance. 
+ * @param {*} gamePath full path to the Game Instance */
 async function GetInstalledTPMods(gamePath) {
   try {
     const tpModsFolder = path.join(gamePath, 'EDHM-ini', '3rdPartyMods');
@@ -406,10 +409,13 @@ async function GetInstalledTPMods(gamePath) {
           const mod = {
             path: fullPath,
             basename: baseName,
-            file: jsonFilePath,
+            
             data: await fileHelper.loadJsonFile(jsonFilePath), 
-            ini: path.join(fullPath, `${baseName}.ini`),
-            thumb: path.join(fullPath, `${baseName}.png`)
+            data_ini: await INIparser.LoadIniFile(path.join(fullPath, `${baseName}.ini`)),
+
+            file_json: jsonFilePath,
+            file_ini: path.join(fullPath, `${baseName}.ini`),
+            file_thumb: path.join(fullPath, `${baseName}.png`)
           };
           results.push(mod);
         }
@@ -419,10 +425,14 @@ async function GetInstalledTPMods(gamePath) {
           const mod = {
             path: tpModsFolder,
             basename: baseName,
-            file: fullPath,
+
+            file_json: fullPath,
+            file_ini: path.join(tpModsFolder, `${baseName}.ini`),
+            file_thumb: path.join(tpModsFolder, `${baseName}.png`),
+
             data: await fileHelper.loadJsonFile(fullPath), 
-            ini: path.join(tpModsFolder, `${baseName}.ini`),
-            thumb: path.join(tpModsFolder, `${baseName}.png`)
+            data_ini: await INIparser.LoadIniFile(path.join(tpModsFolder, `${baseName}.ini`))
+            
           };
           results.push(mod);
         }
