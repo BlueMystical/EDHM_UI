@@ -175,7 +175,6 @@ export default {
             TEMP_FOLDER: '',
 
             selectedMod: null,
-            selectedModIni: null,
             selectedModBasename: null, // Para rastrear el mod seleccionado
             
             alertMessage: '',
@@ -309,11 +308,10 @@ export default {
                 //console.log('Mod seleccionado:', mod);
                 this.closeAlert();
 
-                this.selectedModIni = 
-
                 this.$refs.ModProps.OnInitialize(mod);
 
             } else {
+                this.$refs.ModProps.clearProps();
                 this.showUpdateAlert('The mod is not Installed,');
             }
             

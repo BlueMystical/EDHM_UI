@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld('api', {
 
   GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
   GetElementsImage: async (key) => ipcRenderer.invoke('GetElementsImage', key),
+  GetElementsImageTPM: async (filePath, key) => ipcRenderer.invoke('GetElementsImageTPM', filePath, key),
 
   // #endregion
 

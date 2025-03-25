@@ -34,7 +34,7 @@
                             <template v-else-if="key.type === 'decimal'">
                                 <div class="range-container" :id="'element-' + key.Key">
                                     <input type="range" class="form-range range-input" v-model="key.value"
-                                        :min="getMinValue('2x')" :max="getMaxValue('2X')" step="0.01"
+                                        :min="getMinValue(key.type)" :max="getMaxValue(key.type)" step="0.01"
                                         @input="OnBrightnessValueChange(sectionIndex, key, $event)"
                                         style="height: 10px;" />
                                     <label class="slider-value-label">{{ key.value }}</label>
@@ -96,9 +96,9 @@ export default {
     data() {
         return {
             themeName: '',
-            themeTemplate: null,  //<- Loaded Theme
             dataSource: null,     //<- Raw Datasource directly from the File
-            groupedElements: [],  //<- Processed Datasource from 'loadGroupData()'
+            processedData: [],    //<- Processed Datasource
+            modData: {},          //<- Data of the mod shown
             presets: [],          //<- Presets for the Combo Selects, from Raw Datasource
             recentColors: [],     //<- Array of colors (Hex) for the Recent Colors boxes, up to 8
             
@@ -109,9 +109,6 @@ export default {
             contextMenuStyle: {},
             showContextMenuFlag: false, //<- Flag to show the Context Menu
             componentKey: 0,     //<- flag to force component re-render
-
-            modData: {},
-            processedData: [],
         };
     },
 /*    watch: {
@@ -132,32 +129,44 @@ export default {
     methods: {
         async OnInitialize(theme) {
             if (theme) {
-                this.themeName = theme.mod_name;
                 console.log('Initializing Properties for:', theme.mod_name);
+                this.clearProps();
+
                 this.dataSource = theme;
-                this.modData = null;
-                
+                this.themeName = theme.mod_name;                
                 this.modData = { ...JSON.parse(JSON.stringify(theme.data)) };
                 this.presets = theme.Presets;
-
                 this.componentKey++; // Increment key to force re-render
                 
                 this.processData();
             }
         },
+        clearProps() {
+            this.processedData = [];
+            this.dataSource = null;
+            this.componentKey = 0;
+            this.modData = null;
+            this.presets = null;            
+        },
 
         // #region Load Data
         processData() {
-            this.processedData = this.modData.sections.map((section) => ({
-                title: section.title,
-                keys: section.keys.map(key => ({ ...key, iconVisible: false })),
-            }));
+            if (this.modData) {
+                this.processedData = this.modData.sections.map((section) => ({
+                    title: section.title,
+                    keys: section.keys.map(key => ({ ...key, iconVisible: false })),
+                }));
+            }
         },
 
         /** Gets all Presets for the selected Type
          * @param type Type of Preset  */
         getCustomTypes(type) {
-            return this.modData.custom_types.filter((item) => item.type === type);
+            if (this.modData && this.modData.custom_types) {
+                return this.modData.custom_types.filter((item) => item.type === type);
+            } else {
+                return null;
+            }
         },
 
         // #endregion
@@ -244,7 +253,7 @@ export default {
         /** Gets the path for an Element Image
         * @param key The file name of the image matches the 'key' of the Element.     */
         async getImagePath(key) {
-            const imageKey = await window.api.GetElementsImage(key);
+            const imageKey = await window.api.GetElementsImageTPM(this.dataSource.path, key);
             return new URL(imageKey, import.meta.url).href;
         },
         hideImage(event) {
@@ -254,8 +263,12 @@ export default {
         /** Gets the Minimum Value for a Range-slider control
         * @param type Type of Range  */
         getMinValue(type) {
-            switch (type) {
+            const values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X
+            const modifier = values[1]; // Get the part after the colon, if it exists
+            switch (modifier) {
+                case '1X': return -1.0;
                 case '2X': return -2.0;
+                case '3X': return -3.0;
                 case '4X': return 0.0;
                 default:   return 0.0;
             }
@@ -263,10 +276,14 @@ export default {
         /** Gets the Maximum Value for a Range-slider control
          * @param type Type of Range     */
         getMaxValue(type) {
-            switch (type) {
+            const values = type.toUpperCase().split(':'); //<- 'decimal, decimal:1X, decimal:2X, decimal:4X'
+            const modifier = values[1]; // Get the part after the colon, if it exists
+            switch (modifier) {
+                case '1X': return 1.0;
                 case '2X': return 2.0;
+                case '3X': return 3.0;
                 case '4X': return 4.0;
-                default:   return 1.0;
+                default:   return 2.0;
             }
         },
         intToRGBAstring(value) {

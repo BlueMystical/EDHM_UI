@@ -836,21 +836,44 @@ ipcMain.handle('GetCurrentSettings', async (event, folderPath) => {
 ipcMain.handle('GetElementsImage', (event, key) => {
   try {
     const imageKey = key.replace(/\|/g, '_');
-    const rawPath = FileHelper.getAssetPath(`images/Elements_ODY/${imageKey}.png`);
+    const jpgFilePath = FileHelper.getAssetPath(`images/Elements_ODY/${imageKey}.jpg`);
+    const pngFilePath = FileHelper.getAssetPath(`images/Elements_ODY/${imageKey}.png`);
     const defaultImg = FileHelper.getAssetPath('images/Elements_ODY/empty.png');
 
-    if (fs.existsSync(rawPath)) {
-      return rawPath;// Return the image path if it exists
-
+    if (fs.existsSync(jpgFilePath)) {
+      return jpgFilePath; // Return the JPG image path if it exists
+    } else if (fs.existsSync(pngFilePath)) {
+      return pngFilePath; // Return the PNG image path if it exists
     } else {
-      // If the image doesn't exist, return the default image path
-      const defaultImagePath = new URL(defaultImg, import.meta.url).href;
+      // If neither JPG nor PNG exists, return the default image path
+      //const defaultImagePath = new URL(defaultImg, import.meta.url).href;
       return defaultImg;
     }
 
   } catch (error) {
     console.error("Error in GetElementsImage:", error); // Log the error for debugging
     throw new Error(error.message + error.stack); // Re-throw the error to be handled by the caller
+  }
+});
+ipcMain.handle('GetElementsImageTPM', (event, filePath, key) => {
+  try {
+    const imageKey = key.replace(/\|/g, '_');
+    const jpgFilePath = path.join(filePath, 'assets', `${imageKey}.jpg`);
+    const pngFilePath = path.join(filePath, 'assets', `${imageKey}.png`);
+    const defaultImg = FileHelper.getAssetPath('images/Elements_ODY/empty.png');
+
+    if (fs.existsSync(jpgFilePath)) {
+      return jpgFilePath; // Return the JPG image path if it exists
+    } else if (fs.existsSync(pngFilePath)) {
+      return pngFilePath; // Return the PNG image path if it exists
+    } else {
+      // If neither JPG nor PNG exists, return the default image path
+      //const defaultImagePath = new URL(defaultImg, import.meta.url).href;
+      return defaultImg;
+    }
+  } catch (error) {
+    console.error("Error in GetElementsImage:", error);
+    throw new Error(error.message + error.stack);
   }
 });
 
