@@ -5,7 +5,7 @@ export async function LoadIniFile(filePath) {
     try {
         console.log('Loading ini..', filePath);     
         if (!fs.existsSync(filePath)) {
-            console.warn(`File not found: ${resolvedPath}`);
+            console.warn(`File not found: ${filePath}`);
             return null;
         }
         const data = fs.readFileSync(filePath, 'utf-8');

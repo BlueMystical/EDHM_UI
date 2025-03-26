@@ -8,18 +8,8 @@
                 </div>
                 <div class="modal-body" style="height: 600px;">
 
-                    <Notifications ref="notif" />
-
                     <!-- Main Content -->
                     <div class="container-fluid h-100">
-
-                        <!-- Loading Spinner -->
-                        <div v-if="showSpinner"
-                            class="d-flex justify-content-center align-items-center position-fixed top-10 left-50 w-50 h-50 bg-dark bg-opacity-75 z-index-999">
-                            <div class="spinner-border text-light" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
 
                         <div class="row h-100">
                             <div class="col h-100">
@@ -41,15 +31,39 @@
                                     </div>
                                     <!-- Properties of the selected Mod -->
                                     <div class="right-column border  content-scrollable">
-                                    
-                                        <!-- Alert Notification -->
+
+                                        <!-- Progress bar for Mod Installing and Updating -->                                       
+                                        <span v-show="showProgress" class="progress" role="progressbar" aria-label="Downloading.." 
+                                            :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning" 
+                                            :style="{ width: progressValue + '%' }">{{ progressText }}</div>
+                                        </span>
+
+                                        <!-- Loading Spinner -->
+                                        <div v-if="showSpinner"
+                                            class="d-flex justify-content-center align-items-center position-fixed top-10 left-50 w-50 h-50 bg-dark bg-opacity-75 z-index-999">
+                                            <div class="spinner-border text-light" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                        <!-- Alert to show when the mod is not installed or needs an update -->
                                         <div v-if="showAlert"
-                                            class="alert alert-warning alert-dismissible fade show d-flex align-items-center" role="alert">
+                                            class="alert alert-warning alert-dismissible fade show d-flex align-items-center"
+                                            role="alert">
                                             <i class="bi bi-info-circle"></i> &nbsp;{{ alertMessage }}&nbsp;
                                             <a href="#" class="alert-link" @click="handleDownloadClick">Click Here</a>&nbsp;to install it.
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeAlert"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close" @click="closeAlert"></button>
+                                        </div>
+                                        <!-- Alert to show the 'Read Me' information of the selected mod -->
+                                        <div v-if="showInfo" class="alert alert-light alert-dismissible fade show"
+                                            role="alert">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close" @click="closeInfo"></button>
+                                            <div v-html="infoMessage"></div>
                                         </div>
 
+                                        <!-- The actual Properties of the selected Mod -->
                                         <TPModProperties ref="ModProps" @OnValuesChanged="OnValuesChanged" />
                                     </div>
                                 </div>
@@ -69,66 +83,56 @@
                             </span>
                             <div class="btn-group me-3" role="group" aria-label="First group">
                                 <button id="cmdReadMe" class="btn btn-success text-light btn-outline-secondary"
-                                    type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Mod Information" @mousedown="addNewTheme_Click"
+                                    data-bs-title="Mod Information" @mousedown="cmdReadMe_Click"
                                     @mouseover="updateStatus('Mod Information')" @mouseleave="clearStatus">
                                     <i class="bi bi-book"></i> Read me
                                 </button>
                                 <button id="cmdReloadMods" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Reload Mod List"
-                                    @mousedown="editTheme_Click" @mouseover="updateStatus('Reload Mod List')"
+                                    @mousedown="cmdReloadMods_Click" @mouseover="updateStatus('Reload Mod List')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-clockwise"></i>
                                 </button>
                                 <button id="cmdImportMod" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Import Mod"
-                                    @mousedown="exportTheme_Click" @mouseover="updateStatus('Import Mod')"
+                                    @mousedown="cmdImportMod_Click" @mouseover="updateStatus('Import Mod')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-download"></i>
                                 </button>
                                 <button id="cmdDeleteMod" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete Mod"
-                                    @mousedown="saveTheme_Click" @mouseover="updateStatus('Delete Mod')"
+                                    @mousedown="cmdDeleteMod_Click" @mouseover="updateStatus('Delete Mod')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
                             <div class="btn-group me-3" role="group" aria-label="Themes">
                                 <button id="cmdEditJSON" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Edit Json Configuration" @mousedown="reloadThemes_Click"
-                                    @mouseover="updateStatus('Edit Json Configuration')" @mouseleave="clearStatus">
+                                    @mousedown="cmdEditJSON_Click" @mouseover="updateStatus('Edit Json Configuration')"
+                                    @mouseleave="clearStatus">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                                 <button id="cmdEditIni" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Edit Ini Configuration" @mousedown="reloadThemes_Click"
-                                    @mouseover="updateStatus('Edit Ini Configuration')" @mouseleave="clearStatus">
+                                    @mousedown="cmdEditIni_Click" @mouseover="updateStatus('Edit Ini Configuration')"
+                                    @mouseleave="clearStatus">
                                     <i class="bi bi-gear"></i>
                                 </button>
                                 <button id="cmdEditOpenFolder" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Open Container Folder" @mousedown="reloadThemes_Click"
+                                    @mousedown="cmdEditOpenFolder_Click"
                                     @mouseover="updateStatus('Open Container Folder')" @mouseleave="clearStatus">
                                     <i class="bi bi-folder2-open"></i>
                                 </button>
                                 <button id="cmdEditReinstall" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Re-Install Mod"
-                                    @mousedown="reloadThemes_Click" @mouseover="updateStatus('Re-Install Mod')"
+                                    @mousedown="cmdEditReinstall_Click" @mouseover="updateStatus('Re-Install Mod')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-repeat"></i>
                                 </button>
                             </div>
                             <div class="btn-group me-3" role="group" aria-label="Themes">
                                 <button id="cmdThemeExport" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Export Theme"
-                                    @mousedown="reloadThemes_Click" @mouseover="updateStatus('Export Theme')"
+                                    @mousedown="cmdThemeExport_Click" @mouseover="updateStatus('Export Theme')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-bar-up"></i>
                                 </button>
                                 <button id="cmdThemeImport" class="btn btn-outline-secondary" type="button"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Import Theme"
-                                    @mousedown="reloadThemes_Click" @mouseover="updateStatus('Import Theme')"
+                                    @mousedown="cmdThemeImport_Click" @mouseover="updateStatus('Import Theme')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-bar-down"></i>
                                 </button>
@@ -143,7 +147,6 @@
 </template>
 <script>
 import EventBus from '../EventBus.js';
-import Notifications from '../MainWindow/Components/Notifications.vue';
 import TPModProperties from './TPProperties.vue';
 import Util from '../Helpers/Utils.js';
 
@@ -162,7 +165,6 @@ const TPMODS_URL = "https://raw.githubusercontent.com/psychicEgg/EDHM/main/Odyss
 export default {
     name: 'TPModsManager',
     components: {
-        Notifications,
         TPModProperties
     },
     data() {
@@ -170,6 +172,7 @@ export default {
             visible: false,
             showSpinner: false,        //<- Flag to Show/hide the Loading Spinner
             statusText: 'Ready.',
+
             ActiveInstance: null,
             TPmods: [],
             TEMP_FOLDER: '',
@@ -177,8 +180,20 @@ export default {
             selectedMod: null,
             selectedModBasename: null, // Para rastrear el mod seleccionado
             
+            showAlert: false,       //<- Flag to Show/hide the Install/Update Alert
             alertMessage: '',
-            showAlert: false,
+            showInfo: false,
+            infoMessage: '',
+
+            showProgressBar: false,    //<- Flag to Show/hide the Progress bar
+            progressValue: 75,
+            progressText: '75.0 %',
+            downloadSpeed: 0,
+            averageSpeed: 0,
+            startTime: 0,
+            totalDownloadedBytes: 0,
+            progressListener: null,
+
         };
     },
     methods: {
@@ -189,41 +204,80 @@ export default {
                 console.log('Initializing 3PMods Manager..');
                 this.showSpinner = true;
                 this.statusText = 'Initializing..';
+
                 this.TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI');
                 const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
-                const modsList = await window.api.downloadAsset(TPMODS_URL, destFile);                  //console.log('Available Mods:', modsList);
+
+                const availableMods = await window.api.downloadAsset(TPMODS_URL, destFile);             //console.log('Available Mods:', modsList);
                 const installedMods = await window.api.GetInstalledTPMods(this.ActiveInstance.path);    //console.log('Installed Mods:', installedMods);
-                
+
                 let installConter = 0;
-                if (modsList && modsList.length > 0) {
+                if (availableMods && availableMods.length > 0) {
                     this.TPmods = [];
-                    modsList.forEach(mod => {
-                        const found = installedMods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
-                        if (found >= 0) {
-                            //- Mod is installed    
-                            const fMod = installedMods[found];                    
-                            mod.isActive  = true;
+                    availableMods.forEach(mod => {
+                        if (installedMods && installedMods.mods) {
+                            const found = installedMods.mods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
+                            if (found >= 0) {
+                                //- Mod is installed    
+                                const fMod = installedMods.mods[found];
+                                fMod.isActive = true;
+                                mod.isActive = true;
 
-                            mod.file_json = fMod.file_json;
-                            mod.file_ini = fMod.file_ini;
+                                mod.file_json = fMod.file_json;
+                                mod.file_ini = fMod.file_ini;
 
-                            mod.data = fMod.data;
-                            mod.data_ini = fMod.data_ini;
-                            
-                            mod.path = fMod.path;                            
-                            installConter++;
+                                mod.data = fMod.data;
+                                mod.data_ini = fMod.data_ini;
+
+                                mod.path = fMod.path;
+                                installConter++;
+                            } else {
+                                //- Mod is NOT installed
+                                mod.isActive = false;
+                            }
                         } else {
-                            //- Mod is NOT installed
-                            mod.isActive  = false;
+                            //- there are no Mods installed
+                            mod.isActive = false;
                         }
                         this.TPmods.push(mod);
                     });
-                }
+                    if (installedMods && installedMods.mods) {
+                        //-- Add any non-list mod that is installed:
+                        installedMods.mods.forEach(iMod => {
+                            if (iMod.isActive === undefined) {
+                                this.TPmods.push({
+                                    mod_name:       iMod.data.mod_name,
+                                    description:    iMod.data.description,
+                                    author:         iMod.data.author,
+                                    mod_version:    "1.0",
+                                    download_url:   "",
+                                    thumbnail_url:  iMod.file_thumb,
+                                    isActive:       true,
+                                    file_json:      iMod.file_json,
+                                    file_ini:       iMod.file_ini,
+                                    data:           iMod.data,
+                                    data_ini:       iMod.data_ini,
+                                    path:           iMod.path
+                                });
+                                installConter++;
+                            }
+                        });
+                    }
+                    if (installedMods && installedMods.errors && installedMods.errors.length > 0) {
+                        console.log('There was some errors: ', installedMods.errors);
+                        var msg = '';
+                        installedMods.errors.forEach(err => {
+                            msg += err.msg + '<br>';
+                        });
+                        EventBus.emit('ShowError', new Error(msg));
+                    }                 
+                }                
                 this.statusText = installConter + ' Detected Mods';
-                //console.log('Detected Mods', this.TPmods);
+                //console.log(this.TPmods);
 
             } catch (error) {
                 console.error(error);
+                EventBus.emit('ShowError', error);
             } finally {
                 setTimeout(() => {
                     this.showSpinner = false;
@@ -296,6 +350,40 @@ export default {
             return imageUrl; // return the original url until the conversion is finished.
         },
 
+        /** Replaces the <image> tags with standard tags and fix the url of the image. 
+         * @param htmlString Original HTML string
+         * @param imageBasePath Path where the image should be located         */
+        convertImageTags(htmlString, imageBasePath) {
+            const customImageRegex = /<image=([^;>]+)(;size=([^;>]+))?(;align=([^>]+))?>/g;
+            const standardImageRegex = /<img[^>]*>/g; // Matches standard <img> tags
+
+            // Process custom <image> tags
+            let modifiedHtml = htmlString.replace(customImageRegex, (match, filename, sizeMatch, size, alignMatch, align) => {
+                const imagePath = window.api.joinPath(imageBasePath, 'assets', filename);
+                let imgTag = `<img src="file://${imagePath}"`;
+
+                if (size) {
+                    const [width, height] = size.split(',');
+                    imgTag += ` width="${width}" height="${height}"`;
+                }
+
+                if (align) {
+                    imgTag += ` style="vertical-align: ${align};"`;
+                }
+
+                imgTag += '>';
+                return imgTag;
+            });
+
+            // Process standard <img> tags (optional: you can modify them if needed)
+            // If you don't want to modify them, you can remove this part.
+            modifiedHtml = modifiedHtml.replace(standardImageRegex, (match) => {
+                return match; // Return the original <img> tag
+            });
+
+            return modifiedHtml;
+        },
+
         // #endregion
 
         // #region Control Events
@@ -338,17 +426,126 @@ export default {
         closeAlert() {
             this.showAlert = false;
         },
-        handleDownloadClick(event) {
+        closeInfo() {
+            this.showInfo = false;
+        },        
+
+        // #endregion
+
+        // #region TOOLBAR BUTTON EVENTS
+        
+        cmdReadMe_Click(e){
+            if (this.selectedMod && this.selectedMod.data.read_me) {  
+                const postHTML = this.convertImageTags(this.selectedMod.data.read_me, this.selectedMod.path);
+                this.infoMessage = postHTML;
+                this.showInfo = true;
+            }
+        },
+        cmdReloadMods_Click(e) {
+            this.Initialize();
+        },
+        cmdImportMod_Click(e) {
+
+        },
+        cmdDeleteMod_Click(e) {
+
+        },
+        cmdEditJSON_Click(e) {
+
+        },
+        cmdEditIni_Click(e) {
+
+        },
+        cmdEditOpenFolder_Click(e) {
+
+        },
+        cmdEditReinstall_Click(e) {
+
+        },
+        cmdThemeExport_Click(e) {
+
+        },
+        cmdThemeImport_Click(e) {
+
+        },
+
+        // #endregion
+
+        // #region Mod Updates - Downloads
+
+        async handleDownloadClick(event) {
             event.preventDefault(); // Prevent default link behavior
             // Your download logic here
             console.log('Download link clicked!');
             if (this.selectedMod) {
-                console.log(this.selectedMod);
-            }
-            // ... your download code ...
-            this.closeAlert(); // Optional: close the alert after download
+                console.log(this.selectedMod);                
+                this.showSpinner = true;
+                this.closeAlert(); 
+
+                const fileSavePath = window.api.joinPath(this.TEMP_FOLDER, 'tpmod.zip');
+                await this.DownloadAndInstallUpdate({ 
+                    url:        this.selectedMod.download_url, 
+                    game_path:  this.ActiveInstance.path,
+                    save_to:    fileSavePath                    
+                });
+            }            
         },
         
+        async DownloadAndInstallUpdate(Options) {
+            try {
+                console.log('Downloading file:', Options);
+
+                let filePath = Options.save_to;
+                if (!filePath) return;
+
+                const destDir = await window.api.getParentFolder(filePath);
+                await window.api.ensureDirectoryExists(destDir);
+                await window.api.deleteFilesByType(destDir, '.zip');
+
+                //- Setup Progress Control Variables:
+                this.showProgressBar = true;  //<- Shows/Hides the Progressbar
+                this.progressValue = 0;       //<- Progress Value in Percentage %
+                this.downloadSpeed = 0;       //<- Download Speend in bytes/s
+                this.averageSpeed = 0;        //<- Average Download Speend in KB/s
+                this.totalDownloadedBytes = 0; //<- Bytes Downloaded
+                this.startTime = Date.now();
+
+                //- Setup a Progress Listener
+                this.progressListener = (event, data) => {
+                    //- This will fillup the Progress Bar:          
+                    this.downloadSpeed = data.speed;
+                    this.progressValue = data.progress;
+                    this.totalDownloadedBytes += data.speed;
+                    this.progressText = `${data.progress.toFixed(1)}%`;
+                };
+
+                //- Start the Progress Listener:
+                window.api.onDownloadProgress(this.progressListener);
+
+                //- Start the Download and wait till it finishes..
+                await window.api.downloadFile(Options.url, filePath);
+
+                //- When the Download Finishes: 
+                console.log('Download complete!');
+
+                //- Some Cleanup:
+                window.api.removeDownloadProgressListener(this.progressListener);
+
+                //- Unzip the file:
+                await window.api.decompressFile(filePath, Options.game_path);
+                await this.Initialize(); //<- Re-load the mods list
+                this.showSpinner = false;
+                this.showProgressBar = false;
+
+            } catch (error) {
+                console.error('Download failed:', error);
+                this.showProgressBar = false;
+                this.showSpinner = false;
+                window.api.removeDownloadProgressListener(this.progressListener);
+                EventBus.emit('ShowError', new Error(error.message + error.stack));
+            }
+        },
+
         // #endregion
     },
     mounted() {
@@ -409,6 +606,11 @@ export default {
 
 .visually-hidden {
   color: #ffffff;
+}
+
+.progress {
+  margin-top: 10px;
+  margin-bottom: 4px;
 }
 
 ul {

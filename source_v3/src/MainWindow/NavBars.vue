@@ -42,7 +42,11 @@
         </button>
         <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
           data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme_Click">
-          <i class="bi bi-save"></i>
+          <i class="bi bi-arrow-bar-up"></i>
+        </button>
+        <button id="cmdImportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+          data-bs-placement="bottom" data-bs-title="ImportTheme" @mousedown="importTheme_Click">
+          <i class="bi bi-arrow-bar-down"></i>
         </button>
         <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
           data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme_Click">
@@ -229,9 +233,9 @@ export default {
       gameMenuItems: [],
 
       showProgressBar: false,
-      progressValue: 0, // No need for ref here in Vue 2
+      progressValue: 0,
       progressText: '',
-      downloadSpeed: 0, // No need for ref here in Vue 2
+      downloadSpeed: 0,
       averageSpeed: 0,
       startTime: 0,
       totalDownloadedBytes: 0,
@@ -494,6 +498,9 @@ export default {
           console.log('Current Settings can not be Edited!');
         }
       }
+    },
+    async importTheme_Click(event){
+
     },
     async saveTheme_Click(event) {
       if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
@@ -768,7 +775,7 @@ export default {
 
         let scriptPath = null;
         let filePath = Options.save_to;
-        if (!filePath) return; // User cancelled
+        if (!filePath) return; 
 
         const destDir = await window.api.getParentFolder(filePath);
         await window.api.ensureDirectoryExists(destDir);

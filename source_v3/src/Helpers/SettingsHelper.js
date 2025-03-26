@@ -391,7 +391,7 @@ const getInstanceByName = (InstanceFullName) => {
 async function GetInstalledTPMods(gamePath) {
   try {
     const tpModsFolder = path.join(gamePath, 'EDHM-ini', '3rdPartyMods');
-    const results = [];
+    const results = { mods: [], errors: [] };
     const files = await readdir(tpModsFolder); 
 
     for (const file of files) {
@@ -399,42 +399,51 @@ async function GetInstalledTPMods(gamePath) {
       const fileStats = await stat(fullPath); 
 
       if (fileStats.isDirectory()) {
-        const subfolderFiles = await readdir(fullPath); 
+        //- Mods inside a Folder
+        const subfolderFiles = await readdir(fullPath);
         const jsonFiles = subfolderFiles.filter(f => path.extname(f) === '.json');
 
         for (const jsonFile of jsonFiles) {
           const jsonFilePath = path.join(fullPath, jsonFile);
           const baseName = path.basename(jsonFile, '.json');
+          try {            
+            const mod = {
+              path: fullPath,
+              basename: baseName,
 
-          const mod = {
-            path: fullPath,
-            basename: baseName,
-            
-            data: await fileHelper.loadJsonFile(jsonFilePath), 
-            data_ini: await INIparser.LoadIniFile(path.join(fullPath, `${baseName}.ini`)),
+              file_json: jsonFilePath,
+              file_ini: path.join(fullPath, `${baseName}.ini`),
+              file_thumb: path.join(fullPath, `${baseName}.png`),
 
-            file_json: jsonFilePath,
-            file_ini: path.join(fullPath, `${baseName}.ini`),
-            file_thumb: path.join(fullPath, `${baseName}.png`)
-          };
-          results.push(mod);
+              data: await fileHelper.loadJsonFile(jsonFilePath),
+              data_ini: await INIparser.LoadIniFile(path.join(fullPath, `${baseName}.ini`)),
+            };
+            results.mods.push(mod);
+          } catch (error) {
+            results.errors.push({ msg: baseName + ': ' + error.message, stack: error.stack });
+          }
         }
+
       } else {
+        //- Lose mods on the root
         if (path.extname(file) === '.json') {
-          const baseName = path.basename(file, '.json');
-          const mod = {
-            path: tpModsFolder,
-            basename: baseName,
+          try {
+            const baseName = path.basename(file, '.json');
+            const mod = {
+              path: tpModsFolder,
+              basename: baseName,
 
-            file_json: fullPath,
-            file_ini: path.join(tpModsFolder, `${baseName}.ini`),
-            file_thumb: path.join(tpModsFolder, `${baseName}.png`),
+              file_json: fullPath,
+              file_ini: path.join(tpModsFolder, `${baseName}.ini`),
+              file_thumb: path.join(tpModsFolder, `${baseName}.png`),
 
-            data: await fileHelper.loadJsonFile(fullPath), 
-            data_ini: await INIparser.LoadIniFile(path.join(tpModsFolder, `${baseName}.ini`))
-            
-          };
-          results.push(mod);
+              data: await fileHelper.loadJsonFile(fullPath),
+              data_ini: await INIparser.LoadIniFile(path.join(tpModsFolder, `${baseName}.ini`))
+            };
+            results.mods.push(mod);
+          } catch (error) {
+            results.errors.push({ msg: error.message, stack: error.stack });
+          }
         }
       }
     }

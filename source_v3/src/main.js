@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain, globalShortcut } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, shell, globalShortcut } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
@@ -44,6 +44,20 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
+  // Handle external links
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (url !== mainWindow.webContents.getURL()) {
+      event.preventDefault(); // Prevent Electron from navigating
+      shell.openExternal(url); // Open the URL in the default browser
+    }
+  });
+
+  // Handle new window creation (if you have links with target="_blank")
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  })
+
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
     if (mainWindow) {
@@ -58,25 +72,25 @@ const createWindow = () => {
 
 const createTPModsManagerWindow = () => {
   TPModsManagerWindow = new BrowserWindow({
-      width: 1000,
-      height: 800,
-      parent: mainWindow,
-      modal: false,
-      icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
-      webPreferences: {
-          preload: path.join(__dirname, 'preload.js'),
-          contextIsolation: true,
-          nodeIntegration: true,
-          webSecurity: false,
-      },
-      backgroundColor: '#1F1F1F'
+    width: 1000,
+    height: 800,
+    parent: mainWindow,
+    modal: false,
+    icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: true,
+      webSecurity: false,
+    },
+    backgroundColor: '#1F1F1F'
   });
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-      // Load the new entry point in development mode
-      console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
-      TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
-      TPModsManagerWindow.webContents.openDevTools();
+    // Load the new entry point in development mode
+    console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
+    TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
+    TPModsManagerWindow.webContents.openDevTools();
   } else {
     // Load the new HTML file in production mode
     const htmlPath = path.join(process.resourcesPath, 'TPModsManager.html');
@@ -84,22 +98,22 @@ const createTPModsManagerWindow = () => {
     TPModsManagerWindow.webContents.openDevTools();
     TPModsManagerWindow.loadFile(htmlPath);
 
-      // Load the new HTML file in production mode
-   /*   TPModsManagerWindow.loadFile(
-          path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`)
-      );*/
+    // Load the new HTML file in production mode
+    /*   TPModsManagerWindow.loadFile(
+           path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`)
+       );*/
   }
 
   TPModsManagerWindow.once('ready-to-show', () => {
-      TPModsManagerWindow.show();
+    TPModsManagerWindow.show();
   });
 
   TPModsManagerWindow.webContents.on('did-finish-load', () => {
-      console.log('TPModsManager window loaded URL:', TPModsManagerWindow.webContents.getURL());
+    console.log('TPModsManager window loaded URL:', TPModsManagerWindow.webContents.getURL());
   });
 
   TPModsManagerWindow.on('closed', () => {
-      TPModsManagerWindow = null;
+    TPModsManagerWindow = null;
   });
 };
 
@@ -143,7 +157,7 @@ app.whenReady().then(() => {
       mainWindow.webContents.send('app-args', args);
     });
 
-    
+
   }
 
   // On OS X it's common to re-create a window in the app when the

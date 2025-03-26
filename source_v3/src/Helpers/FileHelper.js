@@ -772,8 +772,7 @@ async function compressFolder(folderPath, outputPath) {
 
 /** Un-compress the content of a ZIP file. 
  * @param {*} zipPath Absolute path to the ZIP file.
- * @param {*} outputDir Absolute path to the Destination Folder
- */
+ * @param {*} outputDir Absolute path to the Destination Folder */
 async function decompressFile(zipPath, outputDir) {
   if (!fs.existsSync(zipPath)) {
     throw new Error(`404 - ZIP file Not Found: '${zipPath}'`);

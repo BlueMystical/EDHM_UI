@@ -3,6 +3,24 @@
 
 function containsWord(str, word) { return str.includes(word); };
 
+function containsCharacter(str, char) {
+    if (typeof str !== 'string' || typeof char !== 'string' || char.length !== 1) {
+        return false; // Handle invalid input
+    }
+    return str.indexOf(char) !== -1;
+}
+
+/** Checks if a string exists within an array of strings.
+ * @param {string} compareString - The string to search for.
+ * @param {string[]} stringList - The array of strings to search within.
+ * @returns {boolean} - True if the string is found in the array, false otherwise. */
+function stringIn(compareString, stringList) {
+    if (!Array.isArray(stringList) || typeof compareString !== 'string') {
+      return false; // Handle invalid input
+    }  
+    return stringList.includes(compareString);
+  }
+
 /** To Check is something is Empty
  * @param obj Object to check
  */
@@ -410,7 +428,8 @@ export class Timer {
 }
 
 export default {
-    containsWord, isEmpty, isNotNullOrEmpty,
+    containsWord, containsCharacter, stringIn,
+    isEmpty, isNotNullOrEmpty,
     copyToClipboard, safeRound,
 
     isColorDark, GetForeColorFor,

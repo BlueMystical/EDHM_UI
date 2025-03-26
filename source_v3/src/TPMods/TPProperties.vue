@@ -22,7 +22,7 @@
                         <td class="fixed-width cell-content">
 
                             <!-- On/Off Swap control -->
-                            <template v-if="key.type === 'toggle'">
+                            <template v-if="key.type.toLowerCase() === 'toggle'">
                                 <div class="form-check form-switch" :id="'element-' + key.key">
                                     <input class="form-check-input larger-switch" type="checkbox"
                                         :checked="key.value === 1"
@@ -31,7 +31,7 @@
                             </template>
 
                             <!-- Range Slider Control -->
-                            <template v-else-if="key.type === 'decimal'">
+                            <template v-else-if="key.type.toLowerCase().startsWith('decimal')">
                                 <div class="range-container" :id="'element-' + key.Key">
                                     <input type="range" class="form-range range-input" v-model="key.value"
                                         :min="getMinValue(key.type)" :max="getMaxValue(key.type)" step="0.01"
@@ -42,20 +42,20 @@
                             </template>
 
                             <!-- Custom Color Picker Control -->
-                            <template v-else-if="key.type === 'color'">
+                            <template v-else-if="key.type.toLowerCase() === 'color'">
                                 <ColorDisplay :id="'element-' + key.key" :color="key.value" :recentColors="recentColors"
                                     @OncolorChanged="OnColorValueChange(sectionIndex, key, $event)"
                                     @OnRecentColorsChange="OnRecentColorsChange($event)" />
                             </template>
 
                             <!-- Standard TextBox Input -->
-                            <template v-else-if="key.type === 'text'">
+                            <template v-else-if="key.type.toLowerCase() === 'text'">
                                 <input type="text" :id="'element-' + key.Key" class="form-control" aria-describedby="" v-model="key.value"
                                 @change="OnTextValueChange(sectionIndex, key, $event)">
                             </template>
 
                             <!-- Standard Numeric Input -->
-                            <template v-else-if="key.type === 'number'">
+                            <template v-else-if="key.type.toLowerCase().startsWith('number')">
                                 <input type="number" :id="'element-' + key.Key" class="form-control" aria-describedby="" v-model="key.value"
                                 @change="OnTextValueChange(sectionIndex, key, $event)">
                             </template>
@@ -263,7 +263,13 @@ export default {
         /** Gets the Minimum Value for a Range-slider control
         * @param type Type of Range  */
         getMinValue(type) {
-            const values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X
+            var values = [];
+            if (Util.containsCharacter(type, ':')) {
+                values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X, 
+            } 
+            if (Util.containsCharacter(type, '_')) {
+                values = type.toUpperCase().split('_'); //<- decimal_10x
+            }            
             const modifier = values[1]; // Get the part after the colon, if it exists
             switch (modifier) {
                 case '1X': return -1.0;
@@ -276,13 +282,25 @@ export default {
         /** Gets the Maximum Value for a Range-slider control
          * @param type Type of Range     */
         getMaxValue(type) {
-            const values = type.toUpperCase().split(':'); //<- 'decimal, decimal:1X, decimal:2X, decimal:4X'
+            var values = [];
+            if (Util.containsCharacter(type, ':')) {
+                values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X, 
+            } 
+            if (Util.containsCharacter(type, '_')) {
+                values = type.toUpperCase().split('_'); //<- decimal_10x
+            }
             const modifier = values[1]; // Get the part after the colon, if it exists
             switch (modifier) {
                 case '1X': return 1.0;
                 case '2X': return 2.0;
                 case '3X': return 3.0;
                 case '4X': return 4.0;
+                case '5X': return 5.0;
+                case '6X': return 6.0;
+                case '7X': return 7.0;
+                case '8X': return 8.0;
+                case '9X': return 9.0;
+                case '10X': return 10.0;
                 default:   return 2.0;
             }
         },
