@@ -219,6 +219,7 @@ export default {
                 //this.$refs.ModProps.clearProps();
 
                 this.TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI');
+                await window.api.ensureDirectoryExists(this.TEMP_FOLDER);
                 const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
 
                 const availableMods = await window.api.downloadAsset(TPMODS_URL, destFile);             //console.log('Available Mods:', modsList);
