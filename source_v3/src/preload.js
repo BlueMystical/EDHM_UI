@@ -41,6 +41,8 @@ contextBridge.exposeInMainWorld('api', {
   openUrlInBrowser: (url) => ipcRenderer.invoke('openUrlInBrowser', url),
   deleteFileByAbsolutePath: (filePath) => ipcRenderer.invoke('deleteFileByAbsolutePath', filePath),
   deleteFilesByType: (directoryPath, extension) => ipcRenderer.invoke('deleteFilesByType', directoryPath, extension),
+  deleteFilesByWildcard: async (filePath) => ipcRenderer.invoke('deleteFilesByWildcard', filePath),
+  deleteFolderRecursive: async (folderPath) => ipcRenderer.invoke('deleteFolderRecursive', folderPath),
 
   findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType),
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
@@ -149,8 +151,8 @@ contextBridge.exposeInMainWorld('api', {
   getLatestPreReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestPreReleaseVersion', owner, repo),
   getLatestReleaseVersion: async (owner, repo) => ipcRenderer.invoke('getLatestReleaseVersion', owner, repo),
 
-  runInstaller: async (url, dest) => ipcRenderer.invoke('runInstaller', installerPath),
   copyToClipboard: (text) => ipcRenderer.invoke('copyToClipboard', text),
+  openFile: async (filePath) => ipcRenderer.invoke('openFile', filePath),
 
   downloadFile: (url, filePath) => ipcRenderer.invoke('download-file', url, filePath),
   onDownloadProgress: (callback) => ipcRenderer.on('download-progress', callback),

@@ -33,7 +33,7 @@
                                     <div class="right-column border  content-scrollable">
 
                                         <!-- Progress bar for Mod Installing and Updating -->                                       
-                                        <span v-show="showProgress" class="progress" role="progressbar" aria-label="Downloading.." 
+                                        <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Downloading.." 
                                             :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100">
                                             <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning" 
                                             :style="{ width: progressValue + '%' }">{{ progressText }}</div>
@@ -47,19 +47,19 @@
                                             </div>
                                         </div>
                                         <!-- Alert to show when the mod is not installed or needs an update -->
-                                        <div v-if="showAlert"
-                                            class="alert alert-warning alert-dismissible fade show d-flex align-items-center"
-                                            role="alert">
-                                            <i class="bi bi-info-circle"></i> &nbsp;{{ alertMessage }}&nbsp;
-                                            <a href="#" class="alert-link" @click="handleDownloadClick">Click Here</a>&nbsp;to install it.
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close" @click="closeAlert"></button>
+                                        <div v-if="showAlert" class="alert alert-dark alert-dismissible" role="alert">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeAlert"></button>
+                                            <h4 class="alert-heading"><i class="bi bi-info-circle"></i>&nbsp;{{ alert.title }}</h4>
+                                            <p>{{ alert.message }}&nbsp;<a href="#" class="alert-link" @click="OnModDownload_Click">Click Here</a>&nbsp;to install it.</p>
+                                            <hr><p v-html="alert.detail" class="mb-0"></p> 
+                                            <hr><h5>Version {{ alert.version }}</h5>
+                                            <p v-html="alert.changes" class="mb-0"></p>    
+                                            <br><img :src="alert.thumbnail" width="200" height="60"  alt="...">                                   
                                         </div>
+                                        
                                         <!-- Alert to show the 'Read Me' information of the selected mod -->
-                                        <div v-if="showInfo" class="alert alert-light alert-dismissible fade show"
-                                            role="alert">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close" @click="closeInfo"></button>
+                                        <div v-if="showInfo" class="alert alert-light alert-dismissible" role="alert">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeInfo"></button>
                                             <div v-html="infoMessage"></div>
                                         </div>
 
@@ -126,12 +126,12 @@
                                 </button>
                             </div>
                             <div class="btn-group me-3" role="group" aria-label="Themes">
-                                <button id="cmdThemeExport" class="btn btn-outline-secondary" type="button"
+                                <button id="cmdThemeExport" class="btn btn-outline-secondary disabled" type="button"
                                     @mousedown="cmdThemeExport_Click" @mouseover="updateStatus('Export Theme')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-bar-up"></i>
                                 </button>
-                                <button id="cmdThemeImport" class="btn btn-outline-secondary" type="button"
+                                <button id="cmdThemeImport" class="btn btn-outline-secondary disabled" type="button"
                                     @mousedown="cmdThemeImport_Click" @mouseover="updateStatus('Import Theme')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-bar-down"></i>
@@ -170,7 +170,7 @@ export default {
     data() {
         return {
             visible: false,
-            showSpinner: false,        //<- Flag to Show/hide the Loading Spinner
+            showSpinner: false,        //<- Flag to Show/hide the Loading Spinner            
             statusText: 'Ready.',
 
             ActiveInstance: null,
@@ -181,29 +181,42 @@ export default {
             selectedModBasename: null, // Para rastrear el mod seleccionado
             
             showAlert: false,       //<- Flag to Show/hide the Install/Update Alert
-            alertMessage: '',
-            showInfo: false,
+            alert: {
+                title: '',
+                message: '',
+                detail: '',
+                changes: '',
+                version: '',
+                thumbnail: ''
+            },
+
+            showInfo: false,        //<- Flag to Show/hide the mod's 'Read Me' information
             infoMessage: '',
 
             showProgressBar: false,    //<- Flag to Show/hide the Progress bar
-            progressValue: 75,
-            progressText: '75.0 %',
-            downloadSpeed: 0,
-            averageSpeed: 0,
-            startTime: 0,
-            totalDownloadedBytes: 0,
+            download: {
+                progressValue: 0,
+                progressText: '',
+                downloadSpeed: 0.0,
+                averageSpeed: 0.0,
+                startTime: 0,
+                totalDownloadedBytes: 0
+            },
             progressListener: null,
 
         };
     },
     methods: {
 
-        /** This is the Start Point of the Program **/
         async Initialize() {
             try {
                 console.log('Initializing 3PMods Manager..');
                 this.showSpinner = true;
+                this.showInfo = false;
+                this.showAlert = false;
                 this.statusText = 'Initializing..';
+
+                //this.$refs.ModProps.clearProps();
 
                 this.TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI');
                 const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
@@ -219,10 +232,13 @@ export default {
                             const found = installedMods.mods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
                             if (found >= 0) {
                                 //- Mod is installed    
-                                const fMod = installedMods.mods[found];
-                                fMod.isActive = true;
+                                const fMod = installedMods.mods[found]; 
+                                fMod.isActive = true; //console.log('Versions:', fMod.data.version, mod.mod_version)
+
+                                mod.isUpdateAvaliable = fMod.data.version != mod.mod_version;
                                 mod.isActive = true;
 
+                                
                                 mod.file_json = fMod.file_json;
                                 mod.file_ini = fMod.file_ini;
 
@@ -230,6 +246,8 @@ export default {
                                 mod.data_ini = fMod.data_ini;
 
                                 mod.path = fMod.path;
+                                mod.basename = window.api.getBaseName(fMod.file_json, '.json');
+
                                 installConter++;
                             } else {
                                 //- Mod is NOT installed
@@ -257,7 +275,8 @@ export default {
                                     file_ini:       iMod.file_ini,
                                     data:           iMod.data,
                                     data_ini:       iMod.data_ini,
-                                    path:           iMod.path
+                                    path:           iMod.path,
+                                    basename:       window.api.getBaseName(iMod.file_json, '.json')
                                 });
                                 installConter++;
                             }
@@ -284,6 +303,8 @@ export default {
                 }, 1000);
             }
         },
+        
+        // #region Utility Methods
 
         /* Pops up this Component */
         async open(data) {
@@ -295,9 +316,6 @@ export default {
         close() {
             this.visible = false;
         },
-
-        // #region Utility Methods
-        
         sanitizeId(id) {
             /* Cleans html tags */
             return id.replace(/\s/g, '');
@@ -393,17 +411,19 @@ export default {
             this.selectedModBasename = mod.mod_name;
             
             if (mod.isActive) {
-                //console.log('Mod seleccionado:', mod);
                 this.closeAlert();
 
-                this.$refs.ModProps.OnInitialize(mod);
+                if (mod.isUpdateAvaliable) {
+                    this.showUpdateAlert('Update Available,', this.selectedMod );
+                }
+                else {
+                    this.$refs.ModProps.OnInitialize(mod);
+                }               
 
             } else {
                 this.$refs.ModProps.clearProps();
-                this.showUpdateAlert('The mod is not Installed,');
+                this.showUpdateAlert('The mod is not Installed,', this.selectedMod );
             }
-            
-            this.$emit("mod-selected", mod); //<- Ejemplo de como pasar el objeto mod al padre.
         },
         onRightClick(event, mod) {
             event.preventDefault();
@@ -419,8 +439,16 @@ export default {
             console.log('Mod Changes Saved?:', _retJsn, _retIni);
         },
         
-        showUpdateAlert(message) {
-            this.alertMessage = message;
+        showUpdateAlert(message, pModData) {
+            this.alert = {
+                title:      pModData.mod_name,
+                message:    message,
+                detail:     pModData.description,
+                changes:    pModData.changelog,
+                version:    pModData.mod_version,
+                thumbnail:  pModData.thumbnail_url
+            };
+            this.showInfo = false;
             this.showAlert = true;
         },
         closeAlert() {
@@ -444,23 +472,103 @@ export default {
         cmdReloadMods_Click(e) {
             this.Initialize();
         },
-        cmdImportMod_Click(e) {
+        async cmdImportMod_Click(e) {
+            try {
+                const homeDir = await window.api.resolveEnvVariables('%USERPROFILE%');
+                const LastFolderUsed = await window.api.readSetting('LastFolderUsed', homeDir);
+                const options = {
+                    title: 'Select a Mod ZIP file:',
+                    filters: [
+                        { name: 'Zip Files', extensions: ['zip'] },
+                        { name: 'All Files', extensions: ['*'] },
+                    ],
+                    defaultPath: LastFolderUsed,
+                    properties: ['openFile', 'showHiddenFiles', 'dontAddToRecent']
+                };
 
+                const filePath = await window.api.ShowOpenDialog(options); //console.log(filePath)
+                if (filePath && filePath.length > 0) {
+
+                    await window.api.writeSetting('LastFolderUsed', window.api.getParentFolder(filePath[0]));
+                    const folderPath = filePath[0];
+                    const gamePath = this.ActiveInstance.path;
+
+                    //- Unzip the file:
+                    await window.api.decompressFile(folderPath, gamePath);
+                    await this.Initialize(); //<- Re-load the mods list
+                    this.statusText = 'Mod Installed.';
+                }
+            } catch (error) {
+                console.error('Error during file import:', error);
+                EventBus.emit('ShowError', error);
+            }
         },
-        cmdDeleteMod_Click(e) {
+        async cmdDeleteMod_Click(e) {
+            if (this.selectedMod && this.selectedMod.isActive) {
+                console.log(this.selectedMod);
+                const options = {
+                    type: 'warning',
+                    buttons: ['Cancel', 'Yes, Delete it', 'No, keep it'],
+                    defaultId: 1,
+                    title: 'Delete : ' + this.selectedMod.mod_name,
+                    message: 'Are you sure you want to delete this mod?',
+                    cancelId: 0,
+                };
 
+                try {
+                    const result = await window.api.ShowMessageBox(options);
+                    if (result && result.response === 1) {
+                        const gamePath = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini', '3rdPartyMods');
+
+                        if (this.selectedMod.path !== gamePath) {
+                            //- Delete Mod's Folder:
+                            console.log('Delete Mod Folder:', this.selectedMod.path);
+                            await window.api.deleteFolderRecursive(this.selectedMod.path);
+                        } else {
+                            //- Delete all mod's files:
+                            const deleteCommand = window.api.joinPath(this.selectedMod.path, this.selectedMod.basename + '.*');
+                            console.log('Deleting all mod files:', deleteCommand);
+                            await window.api.deleteFilesByWildcard(deleteCommand); 
+                        }
+                        try { this.$refs.ModProps.clearProps(); } catch {}
+                        
+                        this.Initialize(); //<- Reload mod list
+                    }
+                } catch (error) {
+                    console.error(error);
+                    EventBus.emit('ShowError', error);
+                }
+            }
         },
         cmdEditJSON_Click(e) {
-
+            if (this.selectedMod && this.selectedMod.data) {
+                window.api.openFile(this.selectedMod.file_json);
+            }
         },
         cmdEditIni_Click(e) {
-
+            if (this.selectedMod && this.selectedMod.data) {
+                window.api.openFile(this.selectedMod.file_ini);
+            }
         },
         cmdEditOpenFolder_Click(e) {
-
+            if (this.selectedMod && this.selectedMod.data) {
+                const folder = window.api.getParentFolder(this.selectedMod.file_json);
+                window.api.openPathInExplorer(folder);
+            }
         },
-        cmdEditReinstall_Click(e) {
+        async cmdEditReinstall_Click(e) {
+            if (this.selectedMod && this.selectedMod.data) {
+                this.showSpinner = true;
+                const fileName = Util.trimAllSpaces(this.selectedMod.mod_name) + '_v' + this.selectedMod.mod_version + '.zip';
+                const fileSavePath = window.api.joinPath(this.TEMP_FOLDER, fileName);
 
+                await this.DownloadAndInstallUpdate({ 
+                    url:        this.selectedMod.download_url, 
+                    game_path:  this.ActiveInstance.path,
+                    save_to:    fileSavePath,
+                    mod_name:   fileName              
+                });
+            }
         },
         cmdThemeExport_Click(e) {
 
@@ -473,27 +581,29 @@ export default {
 
         // #region Mod Updates - Downloads
 
-        async handleDownloadClick(event) {
+        async OnModDownload_Click(event) {
             event.preventDefault(); // Prevent default link behavior
-            // Your download logic here
-            console.log('Download link clicked!');
             if (this.selectedMod) {
-                console.log(this.selectedMod);                
+                //console.log(this.selectedMod);                
                 this.showSpinner = true;
                 this.closeAlert(); 
 
-                const fileSavePath = window.api.joinPath(this.TEMP_FOLDER, 'tpmod.zip');
+                const fileName = Util.trimAllSpaces(this.selectedMod.mod_name) + '_v' + this.selectedMod.mod_version + '.zip';
+                const fileSavePath = window.api.joinPath(this.TEMP_FOLDER, fileName);
+
                 await this.DownloadAndInstallUpdate({ 
                     url:        this.selectedMod.download_url, 
                     game_path:  this.ActiveInstance.path,
-                    save_to:    fileSavePath                    
+                    save_to:    fileSavePath,
+                    mod_name:   fileName                 
                 });
             }            
         },
         
         async DownloadAndInstallUpdate(Options) {
             try {
-                console.log('Downloading file:', Options);
+                //console.log('Downloading file:', Options);
+                this.statusText = 'Downloading..';
 
                 let filePath = Options.save_to;
                 if (!filePath) return;
@@ -504,19 +614,19 @@ export default {
 
                 //- Setup Progress Control Variables:
                 this.showProgressBar = true;  //<- Shows/Hides the Progressbar
-                this.progressValue = 0;       //<- Progress Value in Percentage %
-                this.downloadSpeed = 0;       //<- Download Speend in bytes/s
-                this.averageSpeed = 0;        //<- Average Download Speend in KB/s
-                this.totalDownloadedBytes = 0; //<- Bytes Downloaded
-                this.startTime = Date.now();
+                this.download.progressValue = 0;       //<- Progress Value in Percentage %
+                this.download.downloadSpeed = 0;       //<- Download Speend in bytes/s
+                this.download.averageSpeed = 0;        //<- Average Download Speend in KB/s
+                this.download.totalDownloadedBytes = 0; //<- Bytes Downloaded
+                this.download.startTime = Date.now();
 
                 //- Setup a Progress Listener
                 this.progressListener = (event, data) => {
                     //- This will fillup the Progress Bar:          
-                    this.downloadSpeed = data.speed;
-                    this.progressValue = data.progress;
-                    this.totalDownloadedBytes += data.speed;
-                    this.progressText = `${data.progress.toFixed(1)}%`;
+                    this.download.downloadSpeed = data.speed;
+                    this.download.progressValue = data.progress;
+                    this.download.totalDownloadedBytes += data.speed;
+                    this.download.progressText = `${data.progress.toFixed(1)}%`;
                 };
 
                 //- Start the Progress Listener:
@@ -526,7 +636,8 @@ export default {
                 await window.api.downloadFile(Options.url, filePath);
 
                 //- When the Download Finishes: 
-                console.log('Download complete!');
+                console.log('Download complete!', filePath);
+                this.statusText = 'Installing..';
 
                 //- Some Cleanup:
                 window.api.removeDownloadProgressListener(this.progressListener);
@@ -536,6 +647,7 @@ export default {
                 await this.Initialize(); //<- Re-load the mods list
                 this.showSpinner = false;
                 this.showProgressBar = false;
+                this.statusText = 'Mod Installed.';
 
             } catch (error) {
                 console.error('Download failed:', error);

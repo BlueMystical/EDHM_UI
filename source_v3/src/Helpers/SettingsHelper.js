@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import path, { basename } from 'node:path';
+import path from 'node:path';
 
 import fs from 'fs';
 import { readdir, stat, readFile } from 'fs/promises';

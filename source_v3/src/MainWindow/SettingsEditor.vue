@@ -244,6 +244,24 @@ export default {
             console.log('ActiveInstance:', this.config.ActiveInstance);
             this.InstallGameInstance(this.selectedGamePath);
         },
+        
+        getGameInstanceIndex(name) {
+            switch (name.trim()) {
+                case 'Steam': return 0;
+                case 'Epic Games': return 1;
+                case 'Frontier': return 2;
+                default: return -1;
+            }
+        },
+        getGameVersionIndex(name) {
+            switch (name.trim()) {
+                case 'Odyssey (Live)': return 0;
+                case 'Horizons (Live)': return 1;
+                case 'Horizons (Legacy)': return 2;
+                default: return -1;
+            }
+        },
+        
         /* Manually Browse for the Game Executable */
         async browseGamePath(params) {
             const options = {
@@ -267,23 +285,6 @@ export default {
                 this.InstallGameInstance(this.selectedGamePath);
             }
         },
-        getGameInstanceIndex(name) {
-            switch (name.trim()) {
-                case 'Steam': return 0;
-                case 'Epic Games': return 1;
-                case 'Frontier': return 2;
-                default: return -1;
-            }
-        },
-        getGameVersionIndex(name) {
-            switch (name.trim()) {
-                case 'Odyssey (Live)': return 0;
-                case 'Horizons (Live)': return 1;
-                case 'Horizons (Legacy)': return 2;
-                default: return -1;
-            }
-        },
-        
         /* Browse for the location to store User's data and Themes */
         async browseUserDataFolder() {
             const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
@@ -325,7 +326,7 @@ export default {
         /* Adds a new Game Instance to the Settings */
         async addNewGameInstance(instancePath) {
             const _ret = await window.api.addNewInstance(instancePath, JSON.parse(JSON.stringify(this.config))); 
-            this.config = JSON.parse(JSON.stringify(_ret)); console.log(this.config);
+            this.config = JSON.parse(JSON.stringify(_ret)); //console.log(this.config);
             EventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
         },
 
@@ -342,7 +343,15 @@ export default {
 
                 await window.api.terminateProgram('EliteDangerous64.exe');
                 const FolderPath = await window.api.getParentFolder(fullPath);
-                this.addNewGameInstance(FolderPath);
+                //this.addNewGameInstance(FolderPath);
+                this.selectedGamePath = FolderPath;    console.log(this.selectedGamePath);
+                console.log('Selected Game Path:', this.selectedGamePath);
+
+                this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;
+                this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
+
+                console.log('ActiveInstance:', this.config.ActiveInstance);
+                this.InstallGameInstance(this.selectedGamePath);
                 
             } else {
                 console.log('Process not found.');
@@ -357,7 +366,16 @@ export default {
 
                     await window.api.terminateProgram('EliteDangerous64.exe');
                     const FolderPath = await window.api.getParentFolder(exePath);
-                    this.addNewGameInstance(String(FolderPath));
+                    
+                    //this.addNewGameInstance(String(FolderPath));
+                    this.selectedGamePath = FolderPath;    console.log(this.selectedGamePath);
+                    console.log('Selected Game Path:', this.selectedGamePath);
+
+                    this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;
+                    this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
+
+                    console.log('ActiveInstance:', this.config.ActiveInstance);
+                    this.InstallGameInstance(this.selectedGamePath);
                 });
             }
         },

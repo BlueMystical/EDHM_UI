@@ -415,32 +415,44 @@ async function deleteFilesByType(directoryPath, extension) {
   deleteFilesByType(dirPath, fileExtension); */
 }
 
-/** Deletes files matching a simplified wildcard pattern.
- * Supports '*' for any characters and '?' for a single character.
- * @param {string} wildcardPath Path with wildcard pattern, e.g., '/path/to/files/*.txt' */
+
+/** Asynchronously deletes files matching a wildcard pattern.
+ * @param {string} wildcardPath - The wildcard path (e.g., 'C:\\Mods\\Keybindings.*', '/path/to/files/*.txt').
+ * @returns {Promise<void>} - A Promise that resolves when the deletion process is complete.
+ * @throws {Error} - If there is an error scanning the directory. */
 async function deleteFilesByWildcard(wildcardPath) {
-  const { dir, base } = path.parse(wildcardPath);
-  const regexPattern = base.replace(/\./g, '\\.').replace(/\*/g, '.*').replace(/\?/g, '.');
-  const regex = new RegExp(`^${regexPattern}$`);
+  return new Promise((resolve, reject) => {
+    try {
+      const { dir, base } = path.parse(wildcardPath);
+      const regexPattern = base.replace(/\./g, '\\.').replace(/\*/g, '.*').replace(/\?/g, '.');
+      const regex = new RegExp(`^${regexPattern}$`);
 
-  fs.readdir(dir, (err, files) => {
-    if (err) {
-      return console.error('Unable to scan directory:', err);
-    }
-
-    files.forEach((file) => {
-      if (regex.test(file)) {
-        const filePath = path.join(dir, file);
-        try {
-          fs.unlinkSync(filePath);
-          console.log(`Deleted: ${filePath}`);
-        } catch (deleteErr) {
-          console.error('Error deleting file:', filePath, deleteErr);
+      fs.readdir(dir, (err, files) => {
+        if (err) {
+          reject(new Error(`Unable to scan directory: ${err.message}`));
+          return;
         }
-      }
-    });
+
+        files.forEach((file) => {
+          if (regex.test(file)) {
+            const filePath = path.join(dir, file);
+            try {
+              fs.unlinkSync(filePath);
+              console.log(`Deleted: ${filePath}`);
+            } catch (deleteErr) {
+              console.error('Error deleting file:', filePath, deleteErr);
+            }
+          }
+        });
+        resolve(); // Resolve the Promise when done.
+      });
+    } catch (error) {
+      reject(error);
+    }
   });
 }
+
+
 
 /** Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente.
  * 
@@ -774,6 +786,7 @@ async function compressFolder(folderPath, outputPath) {
  * @param {*} zipPath Absolute path to the ZIP file.
  * @param {*} outputDir Absolute path to the Destination Folder */
 async function decompressFile(zipPath, outputDir) {
+  console.log('Decompressing: ', zipPath);
   if (!fs.existsSync(zipPath)) {
     throw new Error(`404 - ZIP file Not Found: '${zipPath}'`);
   }
@@ -884,6 +897,18 @@ function openPathInExplorer(filePath) {
       console.log(`Path opened successfully: ${stdout}`);
   });
 };
+
+/** Open the file using the default program.
+ *  @param {*} filePath full path to the file */
+async function openFile(filePath) {
+  try {
+    const absoluteFilePath = path.resolve(filePath);
+    await shell.openPath(absoluteFilePath);
+    console.log(`Opened file: ${absoluteFilePath}`);
+  } catch (error) {
+    console.error(`Error opening file: ${error}`);
+  }
+}
 
 function runInstaller(installerPath) {
   let command;
@@ -1110,6 +1135,9 @@ ipcMain.handle('ShowMessageBox', async (event, options) => {
         // DO SOMEHTING 
       }
     });
+    o tambien asi:
+    const result = await window.api.ShowMessageBox(options);
+    if (result && result.response === 1) { }
 */
   try {
     const result = await dialog.showMessageBox(options);
@@ -1120,15 +1148,18 @@ ipcMain.handle('ShowMessageBox', async (event, options) => {
 });
 ipcMain.handle('ShowOpenDialog', async (event, options) => {
   /*  
+  const homeDir = await window.api.resolveEnvVariables('%USERPROFILE%');
+  const LastFolderUsed = await window.api.readSetting('LastFolderUsed', homeDir);
   const options = {
       title: '',  //The dialog title. Cannot be displayed on some Linux desktop
-      defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
+      defaultPath: LastFolderUsed, //Absolute directory path, absolute file path, or file name to use by default.
       buttonLabel : '',  //(optional) - Custom label for the confirmation button
       
       filters: [
-        { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
+        { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] },
         { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
         { name: 'Custom File Type', extensions: ['as'] },
+         { name: 'Zip Files', extensions: ['zip'] },
         { name: 'All Files', extensions: ['*'] }
       ],
       //--- Choose only one: 'openFile', 'openDirectory':
@@ -1150,13 +1181,20 @@ ipcMain.handle('ShowOpenDialog', async (event, options) => {
             InstallGameInstance(FolderPath);
         }
     }); 
+o tambien asi:
+    const filePath = await window.api.ShowOpenDialog(options);
+    if (filePath && filePath.filePaths && filePath.filePaths.length > 0) {
+      const folderPath = window.api.getParentFolder(filePath.filePaths[0]);
+    }
 */
 });
 ipcMain.handle('ShowSaveDialog', async (event, options) => {
   /*  
+    const homeDir = await window.api.resolveEnvVariables('%USERPROFILE%');
+  const LastFolderUsed = await window.api.readSetting('LastFolderUsed', homeDir);
   const options = {
       title: '',  //The dialog title. Cannot be displayed on some Linux desktop
-      defaultPath: app.getPath('desktop'),
+      defaultPath: LastFolderUsed,
       buttonLabel : '',  //(optional) - Custom label for the confirmation button
       filters: [
         { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
@@ -1296,6 +1334,15 @@ ipcMain.handle('openPathInExplorer', async (event, filePath) => {
   }
 });
 
+ipcMain.handle('openFile', async (event, filePath) => {
+  try {
+    const result = openFile(filePath);
+    return result;
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
 // Returns the local path (Cross-platform compatible) of the given path who is using Env.Vars.
 ipcMain.handle('resolve-env-variables', async (event, inputPath) => {
   try {
@@ -1396,6 +1443,23 @@ ipcMain.handle('deleteFileByAbsolutePath', async (event, filePath) => {
 ipcMain.handle('deleteFilesByType', async (event, directoryPath, extension) => {
   return deleteFilesByType(directoryPath, extension);
 });
+ipcMain.handle('deleteFolderRecursive', async (event, folderPath) => {
+  try {
+    return deleteFolderRecursive(folderPath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }  
+});
+ipcMain.handle('deleteFilesByWildcard', async (event, fullPath) => {
+  try {
+    return deleteFilesByWildcard(fullPath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }  
+});
+
+
+
 
 ipcMain.handle('compress-files', async (event, files, outputPath) => {
   try {
@@ -1614,7 +1678,7 @@ export default {
   writeJsonFile, 
 
   copyFiles, copyFile,
-  checkFileExists, 
+  checkFileExists, openFile,
   openPathInExplorer,
   moveDirectory, copyDirectoryRecursive,
   deleteFilesByType,

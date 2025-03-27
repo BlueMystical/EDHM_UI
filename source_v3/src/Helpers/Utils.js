@@ -16,15 +16,30 @@ function containsCharacter(str, char) {
  * @returns {boolean} - True if the string is found in the array, false otherwise. */
 function stringIn(compareString, stringList) {
     if (!Array.isArray(stringList) || typeof compareString !== 'string') {
-      return false; // Handle invalid input
-    }  
+        return false; // Handle invalid input
+    }
     return stringList.includes(compareString);
-  }
+}
+
+function trimAllSpaces(str) {
+    return str.replace(/\s+/g, '');
+}
 
 /** To Check is something is Empty
- * @param obj Object to check
- */
+ * @param obj Object to check */
 function isEmpty(obj) { Object.keys(obj).length === 0 };
+
+/** Checks if a string is defined and has a value, and returns the string or a default value.
+ * @param {string} str - The string to check.
+ * @param {any} defaultValue - The default value to return if the string is not valid.
+ * @returns {string|any} - The original string if it's defined and has a value, or the default value otherwise. */
+function NVL(str, defaultValue) {
+    if (typeof str === 'string' && str.trim() !== '') {
+        return str;
+    } else {
+        return defaultValue;
+    }
+}
 
 function safeRound(value) { return isNaN(value) ? 0 : Math.round(value); }
 
@@ -429,6 +444,7 @@ export class Timer {
 
 export default {
     containsWord, containsCharacter, stringIn,
+    trimAllSpaces, NVL,
     isEmpty, isNotNullOrEmpty,
     copyToClipboard, safeRound,
 
