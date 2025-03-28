@@ -30,7 +30,7 @@
                                         </ul>
                                     </div>
                                     <!-- Properties of the selected Mod -->
-                                    <div class="right-column border  content-scrollable">
+                                    <div class="right-column border justify-content-center content-scrollable">
 
                                         <!-- Progress bar for Mod Installing and Updating -->                                       
                                         <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Downloading.." 
@@ -40,17 +40,17 @@
                                         </span>
 
                                         <!-- Loading Spinner -->
-                                        <div v-if="showSpinner"
-                                            class="d-flex justify-content-center align-items-center position-fixed top-10 left-50 w-50 h-50 bg-dark bg-opacity-75 z-index-999">
-                                            <div class="spinner-border text-light" role="status">
+                                         <div v-if="showSpinner" class="d-flex justify-content-center align-items-center w-100 h-100">
+                                            <div class="spinner-border text-warning m-5" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                             </div>
-                                        </div>
+                                         </div>
+
                                         <!-- Alert to show when the mod is not installed or needs an update -->
                                         <div v-show="showAlert" class="alert alert-dark alert-dismissible" role="alert">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeAlert"></button>
+                                            <button type="button" class="btn-close" aria-label="Close" @click="closeAlert"></button>
                                             <h4 class="alert-heading"><i class="bi bi-info-circle"></i>&nbsp;{{ alert.title }}</h4>
-                                            <p>{{ alert.message }}&nbsp;<a href="#" class="alert-link" @click="OnModDownload_Click">Click Here</a>&nbsp;to install it.</p>
+                                            <p>{{ alert.message }}&nbsp;<a href="#" class="link-warning" @click="OnModDownload_Click">Click Here</a>&nbsp;to install it.</p>
                                             <hr><p v-html="alert.detail" class="mb-0"></p> 
                                             <hr><h5>Version {{ alert.version }}</h5>
                                             <p v-html="alert.changes" class="mb-0"></p>    
@@ -59,7 +59,7 @@
                                         
                                         <!-- Alert to show the 'Read Me' information of the selected mod -->
                                         <div v-show="showInfo" class="alert alert-light alert-dismissible" role="alert">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeInfo"></button>
+                                            <button type="button" class="btn-close" aria-label="Close" @click="closeInfo"></button>
                                             <div v-html="infoMessage"></div>
                                         </div>
 
@@ -211,15 +211,14 @@ export default {
         async Initialize() {
             try {
                 console.log('Initializing 3PMods Manager..');
-                //this.showSpinner = true;
+                this.showSpinner = true;
                 this.showInfo = false;
                 this.showAlert = false;
                 this.statusText = 'Initializing..';
 
                 //this.$refs.ModProps.clearProps();
 
-                //this.TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI'); console.log(this.TEMP_FOLDER);
-                this.TEMP_FOLDER = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI'); console.log(this.TEMP_FOLDER);
+                this.TEMP_FOLDER = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI'); //console.log(this.TEMP_FOLDER);
                 await window.api.ensureDirectoryExists(this.TEMP_FOLDER);
                 const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
 
@@ -229,7 +228,7 @@ export default {
                 let installConter = 0;
                 if (availableMods && availableMods.length > 0) {
                     this.TPmods = [];
-                    availableMods.forEach(mod => {
+                    for (const mod of availableMods) {  
                         if (installedMods && installedMods.mods) {
                             const found = installedMods.mods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
                             if (found >= 0) {
@@ -240,11 +239,10 @@ export default {
                                 mod.isUpdateAvaliable = fMod.data.version != mod.mod_version;
                                 mod.isActive = true;
 
-                                
                                 mod.file_json = fMod.file_json;
                                 mod.file_ini = fMod.file_ini;
 
-                                mod.data = fMod.data;
+                                mod.data = await this.applyIniData(fMod.data, fMod.data_ini),
                                 mod.data_ini = fMod.data_ini;
 
                                 mod.path = fMod.path;
@@ -260,10 +258,10 @@ export default {
                             mod.isActive = false;
                         }
                         this.TPmods.push(mod);
-                    });
+                    };
                     if (installedMods && installedMods.mods) {
                         //-- Add any non-list mod that is installed:
-                        installedMods.mods.forEach(iMod => {
+                        for (const iMod of installedMods.mods) {
                             if (iMod.isActive === undefined) {
                                 this.TPmods.push({
                                     mod_name:       iMod.data.mod_name,
@@ -275,14 +273,14 @@ export default {
                                     isActive:       true,
                                     file_json:      iMod.file_json,
                                     file_ini:       iMod.file_ini,
-                                    data:           iMod.data,
+                                    data:           await this.applyIniData(iMod.data, iMod.data_ini),
                                     data_ini:       iMod.data_ini,
                                     path:           iMod.path,
                                     basename:       window.api.getBaseName(iMod.file_json, '.json')
                                 });
                                 installConter++;
                             }
-                        });
+                        };
                     }
                     if (installedMods && installedMods.errors && installedMods.errors.length > 0) {
                         console.log('There was some errors: ', installedMods.errors);
@@ -405,6 +403,30 @@ export default {
             return modifiedHtml;
         },
 
+        /** Reads the data from the ini file and applies it to the JSON data.
+         * @param data Json Data
+         * @param ini Vlues from the Ini file         */
+        async applyIniData(data, ini) {
+            if (data && ini) {
+                if (Array.isArray(data.sections)) {
+                    for (const section of data.sections) {
+                        const ini_sec = section.ini_section;
+                        if (section.keys && Array.isArray(section.keys)) {
+                            for (const key of section.keys) {
+                                try {
+                                    const iniValue = await window.api.getIniKey(ini, ini_sec, key.key);                                    
+                                    key.value = iniValue; //console.log('iniValue', iniValue);
+                                } catch (error) {
+                                    console.log(error);
+                                }  
+                            }
+                        }
+                    }
+                }
+            }
+            return data;
+        },
+
         // #endregion
 
         // #region Control Events
@@ -467,9 +489,9 @@ export default {
         
         cmdReadMe_Click(e){
             if (this.selectedMod && this.selectedMod.data.read_me) {  
-                const postHTML = this.convertImageTags(this.selectedMod.data.read_me, this.selectedMod.path);
-                this.infoMessage = postHTML;
-                this.showInfo = true;
+                this.showAlert = false;
+                this.showInfo = true; console.log('showInfo',this.showInfo );
+                this.infoMessage = this.convertImageTags(this.selectedMod.data.read_me, this.selectedMod.path);              
             }
         },
         cmdReloadMods_Click(e) {
@@ -561,7 +583,7 @@ export default {
         },
         async cmdEditReinstall_Click(e) {
             if (this.selectedMod && this.selectedMod.data) {
-                //this.showSpinner = true;
+                this.showSpinner = true;
                 const fileName = Util.trimAllSpaces(this.selectedMod.mod_name) + '_v' + this.selectedMod.mod_version + '.zip';
                 const fileSavePath = window.api.joinPath(this.TEMP_FOLDER, fileName);
 
@@ -588,7 +610,7 @@ export default {
             event.preventDefault(); // Prevent default link behavior
             if (this.selectedMod) {
                 //console.log(this.selectedMod);                
-                //this.showSpinner = true;
+                this.showSpinner = true;
                 this.closeAlert(); 
 
                 const fileName = Util.trimAllSpaces(this.selectedMod.mod_name) + '_v' + this.selectedMod.mod_version + '.zip';

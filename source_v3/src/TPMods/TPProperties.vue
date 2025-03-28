@@ -1,13 +1,14 @@
 <template>
     <div class="data-table table-responsive" v-if="processedData.length > 0">
-        <div v-for="(section, sectionIndex) in processedData" :key="sectionIndex">
-            <p class="category-name">{{ section.title }}</p>
+        <div v-for="(section, sectionIndex) in processedData" :key="sectionIndex" v-show="isKeyVisible(section)">
+            <p v-html="section.title" class="category-name"></p>
             <table class="table table-bordered table-hover align-middle">
                 <tbody>
-                    <!-- Table Row -->
+                    <!-- Table Row -->                    
                     <tr v-for="(key, keyIndex) in section.keys" :key="keyIndex" :id="'row-' + key.key"
                         @mouseover="showIcon(sectionIndex, keyIndex)" @mouseleave="hideIcon(sectionIndex, keyIndex)"
-                        @click="selectRow(key.key)" :class="rowClass(key)" @contextmenu="onRightClick($event, key)">
+                        @click="selectRow(key.key)" :class="rowClass(key)" @contextmenu="onRightClick($event, key)"
+                        v-show="isKeyVisible(key)">
 
                         <!-- Left Column -->
                         <td class="fixed-width title-cell">
@@ -50,22 +51,22 @@
 
                             <!-- Standard TextBox Input -->
                             <template v-else-if="key.type.toLowerCase() === 'text'">
-                                <input type="text" :id="'element-' + key.Key" class="form-control" aria-describedby="" v-model="key.value"
-                                @change="OnTextValueChange(sectionIndex, key, $event)">
+                                <input type="text" :id="'element-' + key.Key" class="form-control" aria-describedby=""
+                                    v-model="key.value" @change="OnTextValueChange(sectionIndex, key, $event)">
                             </template>
 
                             <!-- Standard Numeric Input -->
                             <template v-else-if="key.type.toLowerCase().startsWith('number')">
-                                <input type="number" :id="'element-' + key.Key" class="form-control" aria-describedby="" v-model="key.value"
-                                @change="OnTextValueChange(sectionIndex, key, $event)">
+                                <input type="number" :id="'element-' + key.Key" class="form-control" aria-describedby=""
+                                    v-model="key.value" @change="OnTextValueChange(sectionIndex, key, $event)">
                             </template>
 
                             <!-- Dynamic Preset Select Combo -->
                             <template v-else>
                                 <select class="form-select select-combo" :id="'element-' + key.key" v-model="key.value"
                                     @change="OnPresetValueChange(sectionIndex, key, $event)">
-                                    <option v-for="preset in getCustomTypes(key.type)" 
-                                        :key="preset.name" :value="preset.value">
+                                    <option v-for="preset in getCustomTypes(key.type)" :key="preset.name"
+                                        :value="preset.value">
                                         {{ preset.name }}
                                     </option>
                                 </select>
@@ -111,14 +112,6 @@ export default {
             componentKey: 0,     //<- flag to force component re-render
         };
     },
-/*    watch: {
-        dataSource: {
-            immediate: true,
-            handler() {
-                //this.loadGroupData()
-            }
-        }
-    },*/
     computed: {
         rowClass: function () {
             return function (element) {
@@ -129,7 +122,7 @@ export default {
     methods: {
         async OnInitialize(theme) {
             if (theme) {
-                console.log('Initializing Properties for:', theme);
+                console.log('Initializing Properties for:', theme.mod_name);
                 this.clearProps();
 
                 this.dataSource = theme;
@@ -154,6 +147,7 @@ export default {
             if (this.modData) {
                 this.processedData = this.modData.sections.map((section) => ({
                     title: section.title,
+                    visible: section.visible,
                     keys: section.keys.map(key => ({ ...key, iconVisible: false })),
                 }));
             }
@@ -307,6 +301,16 @@ export default {
         intToRGBAstring(value) {
             return Util.intToRGBAstring(value);
         },
+        /** Check if the Key is set to be Vivible by the users. 
+         * @param key data of the Key/Value.      */
+        isKeyVisible(key) {
+            let _ret = true;
+            if (key && key.visible !== undefined) { // Check if 'visible' exists
+                _ret = !!key.visible; // Explicitly convert to boolean
+            }
+            // console.log('Visible:', _ret, key.ini_section);
+            return _ret;
+        },
 
         // #endregion
 
@@ -337,6 +341,7 @@ export default {
             this.recentColors = [...colors]; // Update the array reactively
             console.log('Recent colors updated in parent:', colors);
         },
+
         async updateDataSourceValue(sectionIndex, item, newValue) {            
             const elementIndex = this.modData.sections[sectionIndex].keys.findIndex(el => el.key === item.key);
             if (elementIndex !== -1) {

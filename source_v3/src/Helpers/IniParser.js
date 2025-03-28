@@ -72,8 +72,9 @@ function parseIni(data) {
 }
 
 function parseValue(value) {
-    const num = Number(value);
-    return isNaN(num) ? value : num;
+    //const num = Number(value);
+    //return isNaN(num) ? value : num;
+    return value;
 }
 
 function stringifyIni(iniData) {
