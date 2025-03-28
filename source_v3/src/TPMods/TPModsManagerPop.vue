@@ -1,5 +1,5 @@
 <template class="h-100">
-    <div v-if="visible" class="modal fade show" style="display: block;" data-bs-theme="dark">
+    <div v-show="visible" class="modal fade show" style="display: block;" data-bs-theme="dark">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content bg-dark text-light">
                 <div class="modal-header">
@@ -47,7 +47,7 @@
                                             </div>
                                         </div>
                                         <!-- Alert to show when the mod is not installed or needs an update -->
-                                        <div v-if="showAlert" class="alert alert-dark alert-dismissible" role="alert">
+                                        <div v-show="showAlert" class="alert alert-dark alert-dismissible" role="alert">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeAlert"></button>
                                             <h4 class="alert-heading"><i class="bi bi-info-circle"></i>&nbsp;{{ alert.title }}</h4>
                                             <p>{{ alert.message }}&nbsp;<a href="#" class="alert-link" @click="OnModDownload_Click">Click Here</a>&nbsp;to install it.</p>
@@ -58,7 +58,7 @@
                                         </div>
                                         
                                         <!-- Alert to show the 'Read Me' information of the selected mod -->
-                                        <div v-if="showInfo" class="alert alert-light alert-dismissible" role="alert">
+                                        <div v-show="showInfo" class="alert alert-light alert-dismissible" role="alert">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="closeInfo"></button>
                                             <div v-html="infoMessage"></div>
                                         </div>
@@ -211,14 +211,15 @@ export default {
         async Initialize() {
             try {
                 console.log('Initializing 3PMods Manager..');
-                this.showSpinner = true;
+                //this.showSpinner = true;
                 this.showInfo = false;
                 this.showAlert = false;
                 this.statusText = 'Initializing..';
 
                 //this.$refs.ModProps.clearProps();
 
-                this.TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI');
+                //this.TEMP_FOLDER = await window.api.resolveEnvVariables('$TMPDIR\\EDHM_UI'); console.log(this.TEMP_FOLDER);
+                this.TEMP_FOLDER = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI'); console.log(this.TEMP_FOLDER);
                 await window.api.ensureDirectoryExists(this.TEMP_FOLDER);
                 const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
 
@@ -296,6 +297,7 @@ export default {
                 //console.log(this.TPmods);
 
             } catch (error) {
+                this.showSpinner = false;
                 console.error(error);
                 EventBus.emit('ShowError', error);
             } finally {
@@ -559,7 +561,7 @@ export default {
         },
         async cmdEditReinstall_Click(e) {
             if (this.selectedMod && this.selectedMod.data) {
-                this.showSpinner = true;
+                //this.showSpinner = true;
                 const fileName = Util.trimAllSpaces(this.selectedMod.mod_name) + '_v' + this.selectedMod.mod_version + '.zip';
                 const fileSavePath = window.api.joinPath(this.TEMP_FOLDER, fileName);
 
@@ -586,7 +588,7 @@ export default {
             event.preventDefault(); // Prevent default link behavior
             if (this.selectedMod) {
                 //console.log(this.selectedMod);                
-                this.showSpinner = true;
+                //this.showSpinner = true;
                 this.closeAlert(); 
 
                 const fileName = Util.trimAllSpaces(this.selectedMod.mod_name) + '_v' + this.selectedMod.mod_version + '.zip';

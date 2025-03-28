@@ -129,7 +129,7 @@ export default {
     methods: {
         async OnInitialize(theme) {
             if (theme) {
-                console.log('Initializing Properties for:', theme.mod_name);
+                console.log('Initializing Properties for:', theme);
                 this.clearProps();
 
                 this.dataSource = theme;
@@ -511,14 +511,9 @@ export default {
 
     },
     mounted() {
-        eventBus.on('InitializeProperties', this.OnInitialize);
-        eventBus.on('areaClicked', this.loadProperties);
-        eventBus.on('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
+        //eventBus.on('InitializeProperties', this.OnInitialize);
     },
     beforeUnmount() {
-        eventBus.off('InitializeProperties', this.OnInitialize);
-        eventBus.off('areaClicked', this.loadProperties);
-        eventBus.off('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
         this.$nextTick(() => {
             if (this.activePopover) {
                 this.activePopover.dispose();
