@@ -525,7 +525,7 @@ export default {
       try {
         const localVersion = await window.api.getAppVersion();
         const serverVersion = latesRelease.version;
-        const isUpdate = this.compareVersions(serverVersion, localVersion); console.log('isUpdate:', isUpdate);
+        const isUpdate = Util.compareVersions(serverVersion, localVersion); console.log('isUpdate:', isUpdate);
 
         //console.log(latesRelease);
 
@@ -585,26 +585,7 @@ export default {
         EventBus.emit('ShowError', new Error(error.message + error.stack));
       }
     },
-    compareVersions(serverVersion, localVersion) {
-      // Remove non-numeric characters from the beginning
-      serverVersion = serverVersion.replace(/^[^\d]+/, '');  console.log('serverVersion:', serverVersion);
-      localVersion = localVersion.replace(/^[^\d]+/, '');     console.log('localVersion:', localVersion);
-
-      // Split the versions into parts
-      const serverParts = serverVersion.split('.').map(Number);
-      const localParts = localVersion.split('.').map(Number);
-
-      // Compare each part of the versions
-      for (let i = 0; i < serverParts.length; i++) {
-        if (serverParts[i] > (localParts[i] || 0)) {
-          return true;
-        } else if (serverParts[i] < (localParts[i] || 0)) {
-          return false;
-        }
-      }
-
-      return false; // versions are equal or local version is higher
-    },
+    
 
     // #endregion
 

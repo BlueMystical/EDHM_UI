@@ -237,7 +237,7 @@ export default {
                                 const fMod = installedMods.mods[found]; 
                                 fMod.isActive = true; //console.log('Versions:', fMod.data.version, mod.mod_version)
 
-                                mod.isUpdateAvaliable = fMod.data.version != mod.mod_version;
+                                mod.isUpdateAvaliable = Util.compareVersions(mod.mod_version, fMod.data.version);
                                 mod.isActive = true;
 
                                 mod.file_json = fMod.file_json;
