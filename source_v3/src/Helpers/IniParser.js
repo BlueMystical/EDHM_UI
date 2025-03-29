@@ -33,34 +33,61 @@ function parseIni(data) {
     const result = [];
     const lines = data.split('\n');
     let currentSection = null;
-    let currentSectionComment = ""; // Store comments *before* the first key in a section
+    let currentSectionComment = "";
     let currentKeyComment = "";
+    let insideLogicBlock = false;
 
     for (const line of lines) {
-        const trimmedLine = line.trim();
+        const trimmedLine = line; // Do NOT trim the line here
 
-        if (trimmedLine.startsWith(';')) { // Comment
+        if (trimmedLine.trim().startsWith(';')) {
             if (!currentSection) {
-                // Comment before any section
-                currentSectionComment += trimmedLine.substring(1).trim() + "\n";
+                currentSectionComment += trimmedLine.trim().substring(1).trim() + "\n";
             } else {
-                currentKeyComment += trimmedLine.substring(1).trim() + "\n";
+                currentKeyComment += trimmedLine.trim().substring(1).trim() + "\n";
             }
             continue;
         }
 
-        if (trimmedLine.startsWith('[')) { // Section
-            const sectionName = trimmedLine.slice(1, -1);
-            currentSection = { Section: sectionName, Comment: currentSectionComment.trim(), Keys: [] }; // Assign accumulated section comment
-            currentSectionComment = ""; // Reset for the new section
+        if (trimmedLine.trim().startsWith('[')) {
+            const sectionName = trimmedLine.trim().slice(1, -1);
+            currentSection = { Section: sectionName, Comment: currentSectionComment.trim(), Keys: [], Logic: [] };
+            currentSectionComment = "";
             result.push(currentSection);
             currentKeyComment = "";
-        } else if (currentSection && trimmedLine) { // Key-Value pair
-            const [key, value] = trimmedLine.split('=').map(s => s.trim());
-            currentSection.Keys.push({ Key: key, Value: parseValue(value), Comment: currentKeyComment.trim() });
+            insideLogicBlock = false;
+        } else if (currentSection && trimmedLine.trim()) {
+            if (trimmedLine.trim().startsWith('if')) {
+                currentSection.Logic.push(trimmedLine);
+                insideLogicBlock = true;
+                continue;
+            } else if (trimmedLine.trim().startsWith('endif')) {
+                currentSection.Logic.push(trimmedLine);
+                insideLogicBlock = false;
+                continue;
+            }
+
+            let key, value;
+            if (trimmedLine.trim().startsWith('global ')) {
+                const parts = trimmedLine.trim().substring(7).trim().split('=');
+                key = 'global ' + parts[0].trim();
+                value = parts[1] ? parts[1].trim() : '';
+            } else {
+                const parts = trimmedLine.trim().split('=');
+                key = parts[0].trim();
+                value = parts[1] ? parts[1].trim() : '';
+            }
+
+            if (insideLogicBlock) {
+                currentSection.Logic.push(trimmedLine); // Add the entire line, including indents
+            } else {
+                currentSection.Keys.push({ Key: key, Value: parseValue(value), Comment: currentKeyComment.trim() });
+            }
+
             currentKeyComment = "";
-        } else if (currentSection && !trimmedLine && currentKeyComment) { //Handles comments without a key after them.
-            if (currentSection.Keys.length === 0) { //If it's the first comment in the section.
+
+        } else if (currentSection && !trimmedLine.trim() && currentKeyComment) {
+            if (currentSection.Keys.length === 0) {
                 currentSection.Comment += (currentSection.Comment ? "\n" : "") + currentKeyComment.trim();
             } else {
                 currentSection.Keys[currentSection.Keys.length - 1].Comment += (currentSection.Keys[currentSection.Keys.length - 1].Comment ? "\n" : "") + currentKeyComment.trim();
@@ -72,8 +99,6 @@ function parseIni(data) {
 }
 
 function parseValue(value) {
-    //const num = Number(value);
-    //return isNaN(num) ? value : num;
     return value;
 }
 
@@ -84,12 +109,19 @@ function stringifyIni(iniData) {
             output += sectionData.Comment.split("\n").map(line => `; ${line.trim()}`).join("\n") + "\n";
         }
         output += `[${sectionData.Section}]\n`;
+
+        // Combine Keys and Logic into a single array for output
+        const allLines = [];
         for (const keyData of sectionData.Keys) {
             if (keyData.Comment) {
-                output += keyData.Comment.split("\n").map(line => `; ${line.trim()}`).join("\n") + "\n";
+                allLines.push(...keyData.Comment.split("\n").map(line => `; ${line.trim()}`));
             }
-            output += `${keyData.Key} = ${keyData.Value}\n`;
+            allLines.push(`${keyData.Key} = ${keyData.Value}`);
         }
+        if (sectionData.Logic && sectionData.Logic.length > 0) {
+            allLines.push(...sectionData.Logic);
+        }
+        output += allLines.join("\n") + "\n";
         output += '\n'; // Add an extra newline between sections for better readability
     }
     return output;
@@ -177,7 +209,6 @@ function getIniValue(iniData, fileName, sectionName, keyName) {
     }
     return undefined; // Not found
 }
-
 
 /** Finds a Key/Value in an INI file
  * @param {*} data Parsed data of all INI files

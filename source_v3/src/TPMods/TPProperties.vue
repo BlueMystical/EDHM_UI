@@ -12,7 +12,7 @@
 
                         <!-- Left Column -->
                         <td class="fixed-width title-cell">
-                            {{ key.name }}
+                            <p v-html="key.name"></p>
                             <span class="info-icon" v-show="key.iconVisible" @mouseover="showPopover(key, $event)"
                                 @mouseleave="hidePopover">
                                 <i class="bi bi-info-circle text-info"></i>
@@ -26,7 +26,7 @@
                             <template v-if="key.type.toLowerCase() === 'toggle'">
                                 <div class="form-check form-switch" :id="'element-' + key.key">
                                     <input class="form-check-input larger-switch" type="checkbox"
-                                        :checked="key.value === 1"
+                                        :checked="key.value === '1'"
                                         @change="OnToggleValueChange(sectionIndex, key, $event)" />
                                 </div>
                             </template>
@@ -34,7 +34,8 @@
                             <!-- Range Slider Control -->
                             <template v-else-if="key.type.toLowerCase().startsWith('decimal')">
                                 <div class="range-container" :id="'element-' + key.Key">
-                                    <input type="range" class="form-range range-input" v-model="key.value"
+                                    <input type="range" class="form-range range-input" 
+                                        v-model="key.value"
                                         :min="getMinValue(key.type)" :max="getMaxValue(key.type)" step="0.01"
                                         @input="OnBrightnessValueChange(sectionIndex, key, $event)"
                                         style="height: 10px;" />

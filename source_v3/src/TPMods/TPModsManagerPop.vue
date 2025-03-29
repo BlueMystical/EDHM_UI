@@ -25,6 +25,7 @@
                                                     :alt="mod.mod_name" class="img-thumbnail"
                                                     :style="{ filter: mod.isActive ? 'none' : 'grayscale(100%)' }"
                                                     aria-label="Thumbnail of {{ mod.mod_name }}" />
+                                                &nbsp;&nbsp;
                                                 <span class="image-label">{{ mod.mod_name }}</span>
                                             </li>
                                         </ul>
@@ -403,29 +404,7 @@ export default {
             return modifiedHtml;
         },
 
-        /** Reads the data from the ini file and applies it to the JSON data.
-         * @param data Json Data
-         * @param ini Vlues from the Ini file         */
-        async applyIniData(data, ini) {
-            if (data && ini) {
-                if (Array.isArray(data.sections)) {
-                    for (const section of data.sections) {
-                        const ini_sec = section.ini_section;
-                        if (section.keys && Array.isArray(section.keys)) {
-                            for (const key of section.keys) {
-                                try {
-                                    const iniValue = await window.api.getIniKey(ini, ini_sec, key.key);                                    
-                                    key.value = iniValue; //console.log('iniValue', iniValue);
-                                } catch (error) {
-                                    console.log(error);
-                                }  
-                            }
-                        }
-                    }
-                }
-            }
-            return data;
-        },
+       
 
         // #endregion
 
@@ -443,7 +422,8 @@ export default {
                 }
                 else {
                     this.$refs.ModProps.OnInitialize(mod);
-                }               
+                }  
+                //console.log('Ini:', mod.data_ini);             
 
             } else {
                 this.$refs.ModProps.clearProps();
@@ -462,6 +442,48 @@ export default {
             const _retIni = await window.api.SaveIniFile(e.file_ini, e.data_ini);
 
             console.log('Mod Changes Saved?:', _retJsn, _retIni);
+        },
+
+         /** Reads the data from the ini file and applies it to the JSON data.
+         * @param data Json Data
+         * @param ini Vlues from the Ini file         */
+         async applyIniData(data, ini) {
+            if (data && ini) {
+                if (Array.isArray(data.sections)) {
+                    for (const section of data.sections) {
+                        const ini_sec = section.ini_section;
+                        if (section.keys && Array.isArray(section.keys)) {
+                            for (const key of section.keys) {
+                                try {
+                                    const colorKeys = key.key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"                                    
+                                    
+                                    if (Array.isArray(colorKeys) && colorKeys.length > 2) {
+                                        //- Multi Key: Colors
+
+                                        let colorComponents = []; console.log('colorKeys', colorKeys);
+                                        for (const [index, rgbKey] of colorKeys.entries()) { 
+                                            const iniValue = await window.api.getIniKey(ini, ini_sec, rgbKey);  //console.log('rgbKey', rgbKey);
+                                            colorComponents.push(iniValue); //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                                        }
+                                        console.log('colorComponents:', colorComponents);
+                                        if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                                            const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                                            //console.log('color', color);
+                                            key.value = parseFloat(Util.rgbaToInt(color).toFixed(1)); //console.log('value', key.value);
+                                        }
+                                    } else {
+                                        //- Single Key: Text, Numbers, etc.
+                                        key.value = await window.api.getIniKey(ini, ini_sec, key.key); 
+                                    } 
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return data;
         },
         
         showUpdateAlert(message, pModData) {
