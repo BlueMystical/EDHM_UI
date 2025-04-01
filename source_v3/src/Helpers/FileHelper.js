@@ -1,4 +1,4 @@
-import { app, ipcMain, dialog, shell, clipboard, net,  } from 'electron';
+import { app, ipcMain, dialog, shell, clipboard, net, } from 'electron';
 import { exec, spawn } from 'child_process';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -19,7 +19,7 @@ function getLocalAppDataPath() {
     case 'darwin':
       return path.join(os.homedir(), 'Library', 'Application Support');
     case 'linux':
-      return path.join(os.homedir(), '.local', 'share'); 
+      return path.join(os.homedir(), '.local', 'share');
     default:
       throw new Error('Unsupported operating system');
   }
@@ -84,7 +84,7 @@ const resolveEnvVariables = (inputPath) => {
  * @returns 
  */
 function getParentFolder(givenPath) {
-    return path.dirname(givenPath);
+  return path.dirname(givenPath);
 }
 
 function createWindowsShortcut() {
@@ -96,15 +96,15 @@ function createWindowsShortcut() {
     const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
 
     //if (!fs.existsSync(shortcutPath)) {
-      const cmd = `powershell $s=(New-Object -COM WScript.Shell).CreateShortcut('${shortcutPath}');$s.TargetPath='${targetPath}';$s.IconLocation='${iconPath}';$s.Description='${comment}';$s.Save()`;
+    const cmd = `powershell $s=(New-Object -COM WScript.Shell).CreateShortcut('${shortcutPath}');$s.TargetPath='${targetPath}';$s.IconLocation='${iconPath}';$s.Description='${comment}';$s.Save()`;
 
-      exec(cmd, (err) => {
-        if (err) {
-          console.error('Failed to create shortcut:', err);
-        } else {
-          console.log('Shortcut created successfully');
-        }
-      });
+    exec(cmd, (err) => {
+      if (err) {
+        console.error('Failed to create shortcut:', err);
+      } else {
+        console.log('Shortcut created successfully');
+      }
+    });
     //} else {
     //  console.log('Shortcut already exists.');
     //}
@@ -176,13 +176,13 @@ function getAssetPath(assetPath) {
         return path.join(__dirname, '../../', assetPath); // Dev path
       } else {
         return path.join(__dirname, '../../src', assetPath); // Dev path
-      }      
+      }
     } else {
       return path.join(process.resourcesPath, assetPath); // Correct Prod path
     }
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 }
 function getAssetUrl(assetPath) {
   try {
@@ -191,7 +191,7 @@ function getAssetUrl(assetPath) {
     return fileUrl;
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 }
 
 // #endregion
@@ -200,7 +200,7 @@ function getAssetUrl(assetPath) {
 
 /** If the Directory doesn't exist, it is created.
  * @param {*} DirectoryPath Path to the Directory. */
-function ensureDirectoryExists (DirectoryPath) {
+function ensureDirectoryExists(DirectoryPath) {
   try {
     const resolvedPath = resolveEnvVariables(DirectoryPath);
     if (!fs.existsSync(resolvedPath)) {
@@ -371,7 +371,7 @@ async function deleteDirectoriesExcept(directoryPath, exceptions) {
       });
     }
   } else {
-      console.log(`directory ${directoryPath} does not exist`);
+    console.log(`directory ${directoryPath} does not exist`);
   }
 }
 
@@ -381,7 +381,7 @@ function deleteFileByAbsolutePath(filePath) {
   let _ret = false;
   try {
     fs.unlinkSync(filePath);
-    _ret = true;     console.log('File deleted.');
+    _ret = true; console.log('File deleted.');
   } catch (err) {
     throw err;
   }
@@ -464,7 +464,7 @@ async function findLatestFile(folderPath, fileType) {
   const files = fs.readdirSync(folderPath)
     .filter(file => path.extname(file) === fileType)
     .map(file => path.join(folderPath, file));
-  
+
   let latestFile = null;
   let latestTime = 0;
 
@@ -550,32 +550,32 @@ ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
 }
 
 async function ShowOpenDialog(options) {
-    /*   USAGE: 
-   const options = {
-       title: '',  //The dialog title. Cannot be displayed on some Linux desktop
-       defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
-       buttonLabel : '',  //(optional) - Custom label for the confirmation button      
-       filters: [
-         { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
-         { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
-         { name: 'Custom File Type', extensions: ['as'] },
-         { name: 'All Files', extensions: ['*'] }
-       ],
-       //--- Choose only one: 'openFile', 'openDirectory':
-       properties: ['openFile', 'openDirectory', 'multiSelections', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
-       message: 'This message will only be shown on macOS', // (optional)
-     }; 
-     const filePath = await window.api.ShowOpenDialog(options);
-     if (filePath) {
-       this.config.PlayerJournal = filePath[0];
-     }
-   */
-    try {
-      const result = dialog.showOpenDialogSync(options);
-      return result;
-    } catch (error) {
-      throw new Error(error.message + error.stack);
-    }
+  /*   USAGE: 
+ const options = {
+     title: '',  //The dialog title. Cannot be displayed on some Linux desktop
+     defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
+     buttonLabel : '',  //(optional) - Custom label for the confirmation button      
+     filters: [
+       { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
+       { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+       { name: 'Custom File Type', extensions: ['as'] },
+       { name: 'All Files', extensions: ['*'] }
+     ],
+     //--- Choose only one: 'openFile', 'openDirectory':
+     properties: ['openFile', 'openDirectory', 'multiSelections', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
+     message: 'This message will only be shown on macOS', // (optional)
+   }; 
+   const filePath = await window.api.ShowOpenDialog(options);
+   if (filePath) {
+     this.config.PlayerJournal = filePath[0];
+   }
+ */
+  try {
+    const result = dialog.showOpenDialogSync(options);
+    return result;
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
 }
 
 /** * Shows a save dialog and returns the file path if the user did not hit the Cancel button. 
@@ -663,17 +663,17 @@ function SaveImageAsJpeg(base64Data, filePath) {
   try {
     // Remove the base64 header if present
     const base64String = base64Data.replace(/^data:image\/jpeg;base64,/, '');
-    
+
     // Decode base64 string to buffer
     const buffer = Buffer.from(base64String, 'base64');
-    
+
     // Write the buffer to disk as a JPEG file
     fs.writeFileSync(filePath, buffer);
     return true;
 
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 };
 
 /** Takes a base64 image and writes it as a JPG image file
@@ -774,7 +774,7 @@ async function compressFolder(folderPath, outputPath) {
   let _ret = false;
   await zip.archive(outputPath).then(function () {
     console.log(`ZIP File Created! -> '${outputPath}'`);
-    _ret =  true;
+    _ret = true;
   }, function (err) {
     console.log(err);
     throw new Error(err.message + err.stack);
@@ -793,7 +793,7 @@ async function decompressFile(zipPath, outputDir) {
   let _ret = false;
   await zl.extract(zipPath, outputDir).then(function () {
     console.log(`Uncompressed Files -> '${outputDir}'`);
-    _ret =  true;
+    _ret = true;
   }, function (err) {
     console.log(err);
     throw err;
@@ -814,7 +814,7 @@ export function openUrlInBrowser(url) {
  * @param {*} callback  */
 function detectProgram(exeName, callback) {
   try {
-    
+
     if (os.platform() === 'win32') {
       // Windows
       exec(`wmic process where name="${exeName}" get ExecutablePath`, (error, stdout) => {
@@ -834,11 +834,11 @@ function detectProgram(exeName, callback) {
           return callback(error, null);
         }
         const pid = stdout.trim();
-        exec(`readlink -f /proc/${pid}/exe`, (error, stdout) => {
+        exec(`readlink -f /proc/${pid}/cwd`, (error, stdout) => {
           if (error) {
             return callback(error, null);
           }
-          const exePath = stdout.trim();
+          const exePath = stdout.trim() + '/' + exeName + '4.exe';
           callback(null, exePath);
         });
       });
@@ -881,23 +881,23 @@ function openPathInExplorer(filePath) {
   let command;
 
   if (os.platform() === 'win32') {
-      command = `start "" "${normalizedPath}"`;
+    command = `start "" "${normalizedPath}"`;
   } else if (os.platform() === 'darwin') {
-      command = `open "${normalizedPath}"`;
+    command = `open "${normalizedPath}"`;
   } else {
-      command = `xdg-open "${normalizedPath}"`;
+    command = `xdg-open "${normalizedPath}"`;
   }
 
   exec(command, (error, stdout, stderr) => {
-      if (error) {
-          console.error(`Error opening path: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.error(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`Path opened successfully: ${stdout}`);
+    if (error) {
+      console.error(`Error opening path: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`Path opened successfully: ${stdout}`);
   });
 };
 
@@ -982,11 +982,11 @@ async function getLatestPreReleaseVersion(owner, repo) {
             notes: latestPreRelease.body,
             zipball_url: latestPreRelease.zipball_url,
             html_url: latestPreRelease.html_url,
-            assets: latestPreRelease.assets.map(asset => ({              
+            assets: latestPreRelease.assets.map(asset => ({
               content_type: asset.content_type,
               url: asset.browser_download_url,
               name: asset.name,
-              size: asset.size,     
+              size: asset.size,
             }))
           };
           resolve(result);
@@ -1034,12 +1034,12 @@ async function getLatestReleaseVersion(owner, repo) {
             version: latestRelease.tag_name,
             notes: latestRelease.body,
             html_url: latestRelease.html_url,
-            zipball_url: latestRelease.zipball_url,            
-            assets: latestRelease.assets.map(asset => ({              
+            zipball_url: latestRelease.zipball_url,
+            assets: latestRelease.assets.map(asset => ({
               content_type: asset.content_type,
               url: asset.browser_download_url,
               name: asset.name,
-              size: asset.size,     
+              size: asset.size,
             }))
           };
           resolve(result);
@@ -1123,25 +1123,25 @@ ipcMain.handle('get-app-version', async () => {
 });
 
 ipcMain.handle('ShowMessageBox', async (event, options) => {
-/*  MODO DE USO:
-    const options = {
-      type: 'question', //<- none, info, error, question, warning
-      buttons: ['Cancel', "Yes, It's a Favorite", 'No, thanks.'],
-      defaultId: 1,
-      title: 'Favorite?',
-      message: 'Do you want to Favorite this new theme?',
-      detail: '',
-      cancelId: 0
-    };
-    window.api.ShowMessageBox(options).then(result => {
-      if (result && result.response === 1) {
-        // DO SOMEHTING 
-      }
-    });
-    o tambien asi:
-    const result = await window.api.ShowMessageBox(options);
-    if (result && result.response === 1) { }
-*/
+  /*  MODO DE USO:
+      const options = {
+        type: 'question', //<- none, info, error, question, warning
+        buttons: ['Cancel', "Yes, It's a Favorite", 'No, thanks.'],
+        defaultId: 1,
+        title: 'Favorite?',
+        message: 'Do you want to Favorite this new theme?',
+        detail: '',
+        cancelId: 0
+      };
+      window.api.ShowMessageBox(options).then(result => {
+        if (result && result.response === 1) {
+          // DO SOMEHTING 
+        }
+      });
+      o tambien asi:
+      const result = await window.api.ShowMessageBox(options);
+      if (result && result.response === 1) { }
+  */
   try {
     const result = await dialog.showMessageBox(options);
     return result;
@@ -1176,20 +1176,20 @@ ipcMain.handle('ShowOpenDialog', async (event, options) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-/*  EXAMPLE:
-    window.api.ShowOpenDialog(options).then(filePath => {
-        if (filePath) {
-            const FolderPath = window.api.getParentFolder(filePath[0]);
-            this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
-            InstallGameInstance(FolderPath);
-        }
-    }); 
-o tambien asi:
-    const filePath = await window.api.ShowOpenDialog(options);
-    if (filePath && filePath.filePaths && filePath.filePaths.length > 0) {
-      const folderPath = window.api.getParentFolder(filePath.filePaths[0]);
-    }
-*/
+  /*  EXAMPLE:
+      window.api.ShowOpenDialog(options).then(filePath => {
+          if (filePath) {
+              const FolderPath = window.api.getParentFolder(filePath[0]);
+              this.config.GameInstances[instanceIndex].games[gameIndex].path = FolderPath;
+              InstallGameInstance(FolderPath);
+          }
+      }); 
+  o tambien asi:
+      const filePath = await window.api.ShowOpenDialog(options);
+      if (filePath && filePath.filePaths && filePath.filePaths.length > 0) {
+        const folderPath = window.api.getParentFolder(filePath.filePaths[0]);
+      }
+  */
 });
 ipcMain.handle('ShowSaveDialog', async (event, options) => {
   /*  
@@ -1245,25 +1245,25 @@ ipcMain.handle('detect-program', async (event, exeName) => {
 });
 ipcMain.handle('start-monitoring', (event, exeName) => {
   const interval = setInterval(() => {
-      detectProgram(exeName, (error, exePath) => {
-          if (exePath) {
-              event.sender.send('program-detected', exePath);
-              clearInterval(interval); // Stop monitoring once the program is detected
-          }
-      });
+    detectProgram(exeName, (error, exePath) => {
+      if (exePath) {
+        event.sender.send('program-detected', exePath);
+        clearInterval(interval); // Stop monitoring once the program is detected
+      }
+    });
   }, 3000); // Check every 3 seconds
 
   return { intervalId: interval[Symbol.toStringTag] };
 });
 ipcMain.handle('terminate-program', async (event, exeName) => {
   return new Promise((resolve, reject) => {
-      terminateProgram(exeName, (error, result) => {
-          if (error) {
-              reject(error);
-          } else {
-              resolve(result);
-          }
-      });
+    terminateProgram(exeName, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
   });
 });
 /** Launches a program or script file in a "fire and forget" manner.
@@ -1401,15 +1401,15 @@ ipcMain.handle('ensureDirectoryExists', async (event, fullPath) => {
     return ensureDirectoryExists(fullPath);
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
-}); 
+  }
+});
 
 ipcMain.handle('checkFileExists', async (event, fullPath) => {
   try {
     return fs.existsSync(fullPath);
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 });
 
 ipcMain.handle('copyFile', async (event, sourcePath, destinationPath, move = false) => {
@@ -1417,7 +1417,7 @@ ipcMain.handle('copyFile', async (event, sourcePath, destinationPath, move = fal
     return copyFile(sourcePath, destinationPath, move);
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 });
 
 ipcMain.handle('get-json-file', async (event, jsonPath) => {
@@ -1425,7 +1425,7 @@ ipcMain.handle('get-json-file', async (event, jsonPath) => {
     return loadJsonFile(jsonPath);
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 });
 
 ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
@@ -1433,7 +1433,7 @@ ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
     return writeJsonFile(filePath, data, prettyPrint);
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 });
 
 ipcMain.handle('is-not-null-obj', async (event, obj) => {
@@ -1451,14 +1451,14 @@ ipcMain.handle('deleteFolderRecursive', async (event, folderPath) => {
     return deleteFolderRecursive(folderPath);
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 });
 ipcMain.handle('deleteFilesByWildcard', async (event, fullPath) => {
   try {
     return deleteFilesByWildcard(fullPath);
   } catch (error) {
     throw new Error(error.message + error.stack);
-  }  
+  }
 });
 
 
@@ -1496,7 +1496,7 @@ ipcMain.handle('find-latest-file', async (event, folderPath, fileType) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-}); 
+});
 ipcMain.handle('findFileWithPattern', async (event, folderPath, pattern) => {
   try {
     const result = await findFileWithPattern(folderPath, pattern);
@@ -1504,7 +1504,7 @@ ipcMain.handle('findFileWithPattern', async (event, folderPath, pattern) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-}); 
+});
 
 ipcMain.handle('openUrlInBrowser', async (event, url) => {
   try {
@@ -1521,7 +1521,7 @@ ipcMain.handle('convertImageToJpg', async (event, base64Image) => {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-}); 
+});
 ipcMain.handle('GetImageB64', async (event, filePath) => {
   try {
     return loadImageAsBase64(filePath);
@@ -1673,12 +1673,12 @@ ipcMain.handle('getPublicFilePath', (event, relFilePath) => {
 
 // #endregion
 
-export default { 
+export default {
   getAssetPath, getAssetUrl,
-  resolveEnvVariables,  
+  resolveEnvVariables,
 
-  loadJsonFile, 
-  writeJsonFile, 
+  loadJsonFile,
+  writeJsonFile,
 
   copyFiles, copyFile,
   checkFileExists, openFile,
@@ -1692,7 +1692,7 @@ export default {
 
   findLatestFile,
   findFileWithPattern,
-  ensureDirectoryExists, 
+  ensureDirectoryExists,
   ensureSymlink,
 
   getParentFolder,
@@ -1711,7 +1711,7 @@ export default {
   createLinuxShortcut,
   terminateProgram,
   runInstaller,
-  
+
   copyToClipboard,
   downloadAsset,
 

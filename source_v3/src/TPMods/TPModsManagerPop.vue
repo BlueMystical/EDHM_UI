@@ -578,6 +578,8 @@ export default {
                             await window.api.deleteFilesByWildcard(deleteCommand); 
                         }
                         try { this.$refs.ModProps.clearProps(); } catch {}
+                        this.selectedMod = null;
+                        this.selectedModBasename = null;
                         
                         this.Initialize(); //<- Reload mod list
                     }
@@ -695,6 +697,8 @@ export default {
                 this.showSpinner = false;
                 this.showProgressBar = false;
                 this.statusText = 'Mod Installed.';
+                this.selectedMod = null;
+                this.selectedModBasename = null;
 
             } catch (error) {
                 console.error('Download failed:', error);

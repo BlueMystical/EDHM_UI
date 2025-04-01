@@ -37,7 +37,7 @@
                                 <div class="range-container" :id="'element-' + key.Key">
                                     <input type="range" class="form-range range-input" 
                                         :value="parseValue(key.value)" 
-                                        :min="getRangeMin(key)" :max="getRangeMax(key)" step="0.01"
+                                        :min="getMinValue(key)" :max="getMaxValue(key)" step="0.01"
                                         @input="OnBrightnessValueChange(sectionIndex, key, $event)"
                                         style="height: 10px;" />
                                     <label class="slider-value-label">{{ key.value }}</label>
