@@ -113,65 +113,53 @@ const LoadTheme = async (themeFolder) => {
   return template;
 };
 
-const ApplyIniValuesToTemplate = (template, iniValues) => {
-  //console.log('ApplyIniValuesToTemplate..');
+
+/** Reads the data from the ini file and applies it to the JSON data.
+ * @param {*} template Data of the Theme template
+ * @param {*} iniValues Values from the Ini file 
+ * @returns template data with ini data applied */
+async function ApplyIniValuesToTemplate(template, iniValues) {
   try {
     if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
           for (const element of group.Elements) {
+            /*element: {
+              ..
+              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
+              Section: 'Constants',     
+              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+              Value: 100,
+              ..
+            }*/
+            const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
+            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+            const defaultValue = element.Value;                 //<- 100.0             
+            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
+            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
 
-            const iniKey = element.Key;
-            const defaultValue = element.Value;
-
-            const foundValue = INIparser.findValueByKey(iniValues, element);
-            // #region Data Example:
-
-            /* foundValue can be either an Array of Key/Values or a Single Decimal Value:  
-
-            foundValue: null, //<- Key: "x157" Not Found
-            foundValue: 0,
-            foundValue: 100,
-            foundValue: [
-              { key: 'x33', value: 0.6376 },
-              { key: 'y33', value: 0.6376 },
-              { key: 'z33', value: 0.6376 },
-              { key: 'w33', value: 1 }
-            ] */
-
-            // #endregion
-
-            if (foundValue != null && foundValue != undefined) {
-              if (Array.isArray(foundValue) && foundValue.length > 0) {
-
-                const colorKeys = iniKey.split("|");            //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
-                const colorComponents = colorKeys.map(key => {  
-                  const foundValueObj = foundValue.find(obj => obj.key === key);
-                  return foundValueObj ? foundValueObj.value : undefined;
-                }); //<- colorComponents: [ '0.063', '0.7011', '1' ]
-
-                if (colorComponents != undefined && !colorComponents.includes(undefined)) {
-                  const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                  element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
-
-                  /*  if (iniKey === 'x159|y159|z159') {
-                      console.log('x159|y159|z159: ' + colorComponents );
-                      console.log('RGB reversed: ', color);
-                      console.log('INT value: ', element.Value);
-                    }*/
-
+            if (iniData) {
+              try {
+                const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
+                if (Array.isArray(colorKeys) && colorKeys.length > 2) {
+                  //- Multi Key: Colors
+                  let colorComponents = [];
+                  for (const [index, rgbKey] of colorKeys.entries()) {
+                    const iniValue = await INIparser.getKey(iniData, iniSection, rgbKey);
+                    colorComponents.push(iniValue);           //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                  }
+                  if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                    const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                    element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
+                  }
                 } else {
-                  element.Value = parseFloat(defaultValue.toFixed(1));
-                  console.log('Color Conversion Error:', path.join(element.File, element.Section, element.Key), 'Val: ', element.Value);
+                  //- Single Key: Text, Numbers, etc.
+                  const iniValue = await INIparser.getKey(iniData, iniSection, iniKey);
+                  element.Value = parseFloat(iniValue ?? defaultValue);
                 }
-
-              } else {
-                // No hay Multi-Keys, foundValue: 100.0
-                element.Value = parseFloat(foundValue ?? defaultValue);
+              } catch (error) {
+                console.log('Error:', error);
               }
-            } else {
-              //If the Key in the Theme is not found in the Template, the template's value is used
-              element.Value = parseFloat(defaultValue);
             }
           }
         }
@@ -180,46 +168,16 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
 
     // Update the XMLs:
     if (template.xml_profile && iniValues.XmlProfile) {
-      // #region Data Example:
-      /* watch out for the Caps!! yeah yeah i know..
-        template.xml_profile: [
-          { key: 'x150', value: 0.15 },
-          { key: 'y150', value: 0.3 },
-          { key: 'z150', value: 1 },
-          { key: 'x151', value: 0.5 },
-          { key: 'y151', value: 1 },
-          { key: 'z151', value: 0 },
-          { key: 'x152', value: 1 },
-          { key: 'y152', value: 0 },
-          { key: 'z152', value: 0 }
-        ];
-        iniValues.XmlProfile: [
-          {
-            Section: 'constants',
-            Comment: '',
-            Keys: [
-              { Key: 'x150', Value: 0.15 },
-              { Key: 'y150', Value: 0.3 },
-              { Key: 'z150', Value: 1 },
-              { Key: 'x151', Value: 0.5 },
-              { Key: 'y151', Value: 1 },
-              { Key: 'z151', Value: 0 },
-              { Key: 'x152', Value: 1 },
-              { Key: 'y152', Value: 0 },
-              { Key: 'z152', Value: 0 }
-            ]
-          }
-        ];      */
-      // #endregion
-
-      const iniProfile = iniValues.XmlProfile[0].Keys; // Assuming only one section in iniValues
-      template.xml_profile.forEach(templateItem => {
-        const iniItem = iniProfile.find(item => item.Key === templateItem.key);
-        if (iniItem) {
-          templateItem.value = parseFloat(iniItem.Value);  // Parse to decimal
-        } // else, templateItem.value remains unchanged (Default Value from Template).
-      });
-
+      const iniData = iniValues.XmlProfile;
+      for (const element of template.xml_profile) {
+        try {
+          const defaultValue = element.Value;
+          const iniValue = await INIparser.getKey(iniData, 'constants', element.key);
+          element.value = parseFloat(iniValue ?? defaultValue);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
   } catch (error) {
     throw new Error(error.message + error.stack);
@@ -227,7 +185,11 @@ const ApplyIniValuesToTemplate = (template, iniValues) => {
   return template;
 };
 
-const ApplyTemplateValuesToIni = (template, iniValues) => {
+/** Writes the values from the template to the ini files.
+ * @param {*} template Data of the Theme template
+ * @param {*} iniValues Values from the Ini file 
+ * @returns the iniValues with the new values applied */
+async function ApplyTemplateValuesToIni(template, iniValues) {
   let stackTrace = '';
   try {
 
@@ -235,57 +197,57 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
           for (const element of group.Elements) {
+            /*element: {
+              ..
+              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
+              Section: 'Constants',     
+              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+              Value: 100,
+              ..
+            }*/
 
-            const fileName = element.File.replace(/-/g, '');  // Remove hyphens
-            const section = element.Section;  // Convert section to lowercase
-            const iniKey = element.Key;
+            const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
+            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+            const defaultValue = element.Value;                 //<- 100.0             
+            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
+            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
 
-            stackTrace = path.join(element.File, element.Section, element.Key) + ': ';
-
-            if (iniKey.includes('|')) {
-              //Multi Key: Colors
-              const keys = element.Key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"
-              if (Array.isArray(keys) && keys.length > 2) {
-
+            if (iniData) {
+              const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
+              if (Array.isArray(colorKeys) && colorKeys.length > 2) {
+                //- Multi Key: Colors
                 const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                 const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
                 const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
 
-                // DEBUG:  Check Color Conversion on a given Key:
-                /*if (iniKey === 'x232|y232|z232|w232') {
-                  console.log(`Key: ${iniKey}, Int:${element.Value} -> sRGB:`, values);
-                }*/
-
-                keys.forEach((key, index) => {
+                colorKeys.forEach((key, index) => {
                   const value = parseFloat(values[index]);
                   try {
-                    iniValues = INIparser.setIniValue(iniValues, fileName, section, key, value);
+                    iniValues[iniFileName] = INIparser.setKey(iniData, iniSection, key, value);
                   } catch (error) {
                     console.log(stackTrace + value, error.message);
                   }
                 });
               }
             } else {
-              //Single Key:
-              try {                
-                iniValues = INIparser.setIniValue(iniValues, fileName, section, iniKey, parseFloat(element.Value));
-              } catch (error) {
-                console.log(stackTrace + value, error.message);
-              }
+              //- Single Key: Text, Numbers, etc.
+              INIparser.setKey(iniData, iniSection, iniKey, defaultValue);
             }
           }
         }
       }
     }
 
-    // Set values in the XML:
+    // Update the XMLs:
     if (template.xml_profile && iniValues.XmlProfile) {
-      //console.log(template.xml_profile);
-      const section = iniValues.XmlProfile[0].Section;
-      template.xml_profile.forEach(element => {
-        iniValues = INIparser.setIniValue(iniValues, 'XmlProfile', section, element.key, parseFloat(element.value));
-      });
-
+      const iniData = iniValues.XmlProfile;
+      for (const element of template.xml_profile) {
+        try {
+          iniValues.XmlProfile = INIparser.setKey(iniData, 'constants', element.Key, element.Value);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
 
   } catch (error) {
@@ -293,6 +255,8 @@ const ApplyTemplateValuesToIni = (template, iniValues) => {
   }
   return iniValues;
 };
+
+
 
 async function GetCreditsFile(themePath) {
   let creditsJson = {};
@@ -333,8 +297,7 @@ async function GetCreditsFile(themePath) {
 };
 
 /** Marks the given theme as a Favorite * 
- * @param {*} themePath Absolute path to the Theme
- */
+ * @param {*} themePath Absolute path to the Theme */
 async function FavoriteTheme(themePath) {
   try {
     const dummy = { isFavorite: true };
@@ -347,9 +310,7 @@ async function FavoriteTheme(themePath) {
   }
 };
 /** Removes the given theme from Favorites * 
- * @param {*} themePath Absolute path to the Theme
- * @returns 
- */
+ * @param {*} themePath Absolute path to the Theme */
 async function UnFavoriteTheme(themePath) {
   try {
     const favFilePath = path.join(themePath, 'IsFavorite.fav');
@@ -362,11 +323,10 @@ async function UnFavoriteTheme(themePath) {
 };
 
 /** Returns the Currently Applied Theme Settings as a ThemeTemplate
- * @param {*} themePath Full path to the Game Instance
- */
+ * @param {*} themePath Full path to the Game Instance */
 async function GetCurrentSettingsTheme(themePath) {
   try {
-    const ThemeINIs = LoadThemeINIs(themePath);
+    const ThemeINIs = await LoadThemeINIs(themePath);
     const defaultSettingsPath = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
     let themeTemplate = await fileHelper.loadJsonFile(defaultSettingsPath);
@@ -391,8 +351,7 @@ async function GetCurrentSettingsTheme(themePath) {
 
 /** Makes a new Theme, saved on the Themes Folder
  * @param {*} credits Meta-data for the new theme
- * @returns true is success
- */
+ * @returns true is success */
 async function CreateNewTheme(credits) {
   try {
     //console.log('credits: ', credits);  //<- credits: { theme: 'ThemeName', author: '', description: '', preview: 'Base64image', thumb: 'Base64image' }
@@ -435,8 +394,7 @@ async function CreateNewTheme(credits) {
   }
 }
 
-/**
- * Updates the theme with the provided theme data.
+/** Updates the theme with the provided theme data.
  * 
  * @param {Object} themeData - The data for the theme to be updated.
  * @param {Object} themeData.credits - The credits information for the theme.
@@ -448,8 +406,7 @@ async function CreateNewTheme(credits) {
  * 
  * @returns {Promise<boolean>} - Returns true if the theme was successfully updated, otherwise false.
  * 
- * @throws {Error} - Throws an error if the theme update process fails.
- */
+ * @throws {Error} - Throws an error if the theme update process fails. */
 async function UpdateTheme(themeData, source) {
   try {
     console.log('UpdateTheme: ', themeData.credits.theme);
@@ -489,11 +446,8 @@ async function UpdateTheme(themeData, source) {
   }
 }
 
-/**
- * Saves Theme Changes directly into the 'ThemeSettings.json'
- * @param {*} themeData Data of the Theme
- * @returns 
- */
+/** Saves Theme Changes directly into the 'ThemeSettings.json'
+ * @param {*} themeData Data of the Theme */
 async function SaveTheme(themeData) {
   try {
     //1. RESOLVE THE THEMES PATH:

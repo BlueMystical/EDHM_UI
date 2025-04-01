@@ -12,8 +12,9 @@
 
                         <!-- Left Column -->
                         <td class="fixed-width title-cell">
-                            <p v-html="key.name"></p>
-                            <span class="info-icon" v-show="key.iconVisible" @mouseover="showPopover(key, $event)"
+                            <span v-html="key.name"></span>
+                            <span class="info-icon" v-show="key.iconVisible" 
+                                @mouseover="showPopover(key, $event)"
                                 @mouseleave="hidePopover">
                                 <i class="bi bi-info-circle text-info"></i>
                             </span>
@@ -35,8 +36,8 @@
                             <template v-else-if="key.type.toLowerCase().startsWith('decimal')">
                                 <div class="range-container" :id="'element-' + key.Key">
                                     <input type="range" class="form-range range-input" 
-                                        v-model="key.value"
-                                        :min="getMinValue(key.type)" :max="getMaxValue(key.type)" step="0.01"
+                                        :value="parseValue(key.value)" 
+                                        :min="getRangeMin(key)" :max="getRangeMax(key)" step="0.01"
                                         @input="OnBrightnessValueChange(sectionIndex, key, $event)"
                                         style="height: 10px;" />
                                     <label class="slider-value-label">{{ key.value }}</label>
@@ -244,6 +245,13 @@ export default {
         // #endregion
 
         // #region Utility Methods
+
+        parseValue(value) {
+            if (typeof value === 'string') {
+                return parseFloat(value.replace(/,/g, '.'));
+            }
+            return value;
+        },
 
         /** Gets the path for an Element Image
         * @param key The file name of the image matches the 'key' of the Element.     */

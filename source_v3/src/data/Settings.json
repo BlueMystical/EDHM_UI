@@ -9,21 +9,25 @@
              {
                 "instance":"Steam (Odyssey (Live))",
                 "name":"Odyssey (Live)",
+                "key": "ED_Odissey",
                 "path":""
              },
              {
                "instance":"Steam (Horizons (Live))",
                "name":"Horizons (Live)",
+               "key": "ED_Odissey",
                "path":""
             },
             {
                "instance":"Steam (Horizons (Legacy))",
                "name":"Horizons (Legacy)",
+               "key": "ED_Horizons",
                "path":""
             },
             {
                "instance":"Steam (Odyssey (Live))",
                "name":"Odyssey (ALT Account)",
+               "key": "ED_Odissey",
                "path":""
             }
           ]
@@ -34,21 +38,25 @@
             {
                "instance":"Epic Games (Odyssey (Live))",
                "name":"Odyssey (Live)",
+               "key": "ED_Odissey",
                "path":""
             },
             {
               "instance":"Epic Games (Horizons (Live))",
               "name":"Horizons (Live)",
+              "key": "ED_Odissey",
               "path":""
            },
             {
                "instance":"Epic Games (Horizons (Legacy))",
                "name":"Horizons (Legacy)",
+               "key": "ED_Horizons",
                "path":""
             },
             {
                "instance":"Epic Games (ALT Account)",
                "name":"Odyssey (ALT Account)",
+               "key": "ED_Odissey",
                "path":""
             }
          ]
@@ -59,21 +67,25 @@
             {
                "instance":"Frontier (Odyssey (Live))",
                "name":"Odyssey (Live)",
+               "key": "ED_Odissey",
                "path":""
             },
             {
               "instance":"Frontier (Horizons (Live))",
               "name":"Horizons (Live)",
+              "key": "ED_Odissey",
               "path":""
            },
            {
               "instance":"Frontier (Horizons (Legacy))",
               "name":"Horizons (Legacy)",
+              "key": "ED_Horizons",
               "path":""
            },
            {
             "instance":"Frontier (ALT Account)",
             "name":"Odyssey (ALT Account)",
+            "key": "ED_Odissey",
             "path":""
            }
          ]

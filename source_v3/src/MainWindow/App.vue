@@ -167,8 +167,7 @@ export default {
     // #region Settings Changed
     
     /** Fires when the Settings had been changed, called from 'SettingsEditor'
-     * @param newConfig the updated settings
-     */
+     * @param newConfig the updated settings     */
     async OnProgramSettings_Changed(newConfig) {
       try {
         console.log('newConfig:', newConfig);
@@ -250,7 +249,7 @@ export default {
     OnTemplateLoaded(event) {
       try {
         this.themeTemplate = JSON.parse(JSON.stringify(event));
-        console.log('Theme Loaded: ', this.themeTemplate.credits.theme);
+        //console.log('Theme Loaded: ', this.themeTemplate.credits.theme); console.log('Current Settings:', this.themeTemplate);
         EventBus.emit('InitializeProperties', JSON.parse(JSON.stringify(this.themeTemplate))); //<- Event Listened at PropertiesTabEx.vue
       } catch (error) {
         EventBus.emit('ShowError', error);

@@ -418,6 +418,7 @@ async function GetInstalledTPMods(gamePath) {
               data: await fileHelper.loadJsonFile(jsonFilePath),
               data_ini: await INIparser.LoadIniFile(path.join(fullPath, `${baseName}.ini`)),
             };
+            //console.log('INI:', mod.data_ini);
             results.mods.push(mod);
           } catch (error) {
             results.errors.push({ msg: baseName + ': ' + error.message, stack: error.stack });
@@ -452,7 +453,6 @@ async function GetInstalledTPMods(gamePath) {
     throw new Error(error.message + error.stack);
   }
 };
-
 
 // #endregion
 

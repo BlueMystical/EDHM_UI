@@ -134,13 +134,7 @@ export default {
     data() {
         return {
             visible: false,
-            config: {
-                GameInstances: [],
-                GreetMe: false,
-                HideToTray: false,
-                PlayerJournal: '',
-                UserDataFolder: '',
-            },
+            config: {},
             ActiveInstance: {},
             selectedPublisher: 0,
             selectedVersion: 0,
@@ -197,10 +191,15 @@ export default {
         },
         /* Button Click: Save the Settings */
         async save() {    
-            //- Sets the Active Instance:
-            this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
+            
+            let selected = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion];
             //- Sets the path for the Active instance:
-            this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;            
+            if (selected.path != this.selectedGamePath) {
+                selected.path = this.selectedGamePath; 
+            }
+
+            //- Sets the Active Instance:
+            this.config.ActiveInstance = selected.instance;                       
 
             EventBus.emit('SettingsChanged', JSON.parse(JSON.stringify(this.config))); //<- this event will be heard in 'App.vue'  
             this.close();
@@ -235,14 +234,14 @@ export default {
                 this.selectedGamePath = this.ActiveInstance.path;
             }
         },
-        OnGamePathChange(e) {
+        async OnGamePathChange(e) {
             console.log('Selected Game Path:', this.selectedGamePath);
 
             this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;
             this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
 
             console.log('ActiveInstance:', this.config.ActiveInstance);
-            this.InstallGameInstance(this.selectedGamePath);
+            await window.api.terminateProgram('EliteDangerous64.exe');
         },
         
         getGameInstanceIndex(name) {
@@ -264,9 +263,13 @@ export default {
         
         /* Manually Browse for the Game Executable */
         async browseGamePath(params) {
+            const platform = await window.api.getPlatform();
+            const winDir = await window.api.resolveEnvVariables('%PROGRAMFILES%');
+            const linuxDir = await window.api.resolveEnvVariables('%USERPROFILE%');
+
             const options = {
                 title: 'Select the Game Executable',
-                defaultPath: 'EliteDangerous64',
+                defaultPath: platform === 'win32' ? winDir : linuxDir,
                 filters: [
                     { name: 'Game Exe', extensions: ['exe'] }
                 ],
@@ -276,13 +279,7 @@ export default {
             const filePath = await window.api.ShowOpenDialog(options); //console.log(filePath);
             if (filePath) {
                 this.selectedGamePath = window.api.getParentFolder(filePath[0]);
-                console.log('Selected Game Path:', this.selectedGamePath);
-
-                this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;
-                this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
-
-                console.log('ActiveInstance:', this.config.ActiveInstance);
-                this.InstallGameInstance(this.selectedGamePath);
+                this.OnGamePathChange(null);
             }
         },
         /* Browse for the location to store User's data and Themes */
@@ -320,15 +317,9 @@ export default {
         async InstallGameInstance(FolderPath){
             try {
                 await window.api.terminateProgram('EliteDangerous64.exe');
-            } catch {}           
-            this.addNewGameInstance(FolderPath);
+            } catch {} 
         },
-        /* Adds a new Game Instance to the Settings */
-        async addNewGameInstance(instancePath) {
-            const _ret = await window.api.addNewInstance(instancePath, JSON.parse(JSON.stringify(this.config))); 
-            this.config = JSON.parse(JSON.stringify(_ret)); //console.log(this.config);
-            EventBus.emit('RoastMe', { type: 'Info', message: 'Now Save the Changes' });
-        },
+
 
         /* Attempts to Detect the running Game Process and then sets the Paths */
         async runGameLocationAssistant() {

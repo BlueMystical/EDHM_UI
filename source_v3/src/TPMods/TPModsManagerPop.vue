@@ -423,7 +423,7 @@ export default {
                 else {
                     this.$refs.ModProps.OnInitialize(mod);
                 }  
-                //console.log('Ini:', mod.data_ini);             
+                console.log('Ini:', mod.data_ini);             
 
             } else {
                 this.$refs.ModProps.clearProps();

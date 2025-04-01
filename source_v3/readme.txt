@@ -147,7 +147,7 @@ ui_groups: [
         Value: -16728065.0,
         ValueType: "Color",
         Type:"CustomColor",
-        Description: "Rank icon that appears next to targeted ship (neutral / orange only)"
+        Description: "xxx"
       },
       ...more elements..
     ]
@@ -181,118 +181,56 @@ xml_profile: [
 
 -------------------------------------------------------
 var IniParser = {
-    StartupProfile: [
+  path: '..\\Elite Dangerous\\Products\\elite-dangerous-odyssey-64\\EDHM-ini',
+  StartupProfile: [
+    {
+      name: 'Constants',
+      comments: [";1", ";2", ";3"],
+      keys: [
         {
-            Section: 'Constants',
-            Comment: '',
-            Keys: [
-                {
-                    Key: 'x228',
-                    Value: 0.1248,
-                    Comment: ''
-                },
-                { Key: 'z123', Value: 0, Comment: '' },
-                //...more keys..
-            ]
+            "name": "global $HyperspaceActive",
+            "value": 0,
+            "comments": [";1", ";2", ";3"],
         },
-        //...More Sections..
-    ],
-    Advanced: [
-        {
-            Section: 'Constants',
-            Comment: '',
-            Keys: [
-                {
-                    Key: 'x101',
-                    Value: 1,
-                    Comment: ''
-                },
-                { Key: 'x102', Value: 0, Comment: '' },
-                //...more keys..
-            ]
-        },
-        //...More Sections..
-    ],
-    SuitHud: [
-        {
-            Section: 'Constants',
-            Comment: '',
-            Keys: [
-                {
-                    Key: 'y101',
-                    Value: 1,
-                    Comment: ''
-                },
-                { Key: 'y123', Value: 0, Comment: '' },
-                //...more keys..
-            ]
-        },
-        //...More Sections..
-    ],
-    XmlProfile: [
-        {
-            Section: 'constants',
-            Comment: '',
-            Keys: [
-                { Key: 'x150', Value: 0.15 },
-                { Key: 'y150', Value: 0.3 },
-                { Key: 'z150', Value: 1 },
-                { Key: 'x151', Value: 0.5 },
-                { Key: 'y151', Value: 1 },
-                { Key: 'z151', Value: 0 },
-                { Key: 'x152', Value: 1 },
-                { Key: 'y152', Value: 0 },
-                { Key: 'z152', Value: 0 }
-            ]
-        }
-    ]
-};
--------------------------------------------------------
-iniReader = 
-{
-    StartupProfile: {
-        constants: {
-            "z105": "101",
-            "y106": "100",
-            "x138": "100",
-            "y138": "100",
-            "w136": "199",
-            "y139": "100",
-	          ...
-        }
-    },
-    Advanced: {
-        Constants: {
-            "x228": "0.3663",
-            "y228": "0.1248",
-            "z228": "1",
-            "y87": "1.3",
-	          ...
-        }
-    },
-    SuitHud: {
-        "Constants": {
-            "x30": "199",
-            "x31": "1",
-            "y31": "0",
-            "z31": "1",
-            ....
-        }
-    },
-    XmlProfile: {
-        "constants": {
-            "x150": "0.2",
-            "y150": "0.8",
-            "z150": "0.3",
-            "x151": "0.5",
-            "y151": "1",
-            "z151": "0.2",
-            "x152": "-0.5",
-            "y152": "-1",
-            "z152": "1"
-        }
+      ],
+      logic: 
+      {
+          "comments": [],
+          "lines": [
+              "if $HyperspaceDustOff == 1 && z140 == 1",
+              " if $HyperspaceLoading == 1 || $HyperspaceActive == 1",
+              "  handling=skip",
+              " endif",
+              "endif"
+          ]
+      }
     }
-}
+  ],
+  Advanced: [
+    {
+      name: 'Constants',
+      comments: [],
+      keys: {Object},
+      logic: {Object}
+    }
+  ],
+  SuitHud: [
+    {
+      name: 'Constants',
+      comments: [],
+      keys: {Object},
+      logic: {Object}
+    }
+  ],
+  XmlProfile: [
+    {
+      name: 'Constants',
+      comments: [],
+      keys: {Object},
+      logic: {Object}
+    }
+  ]
+};
 ------------------------------------------------------------------------------------------------------------
 
 

@@ -814,6 +814,7 @@ export function openUrlInBrowser(url) {
  * @param {*} callback  */
 function detectProgram(exeName, callback) {
   try {
+    
     if (os.platform() === 'win32') {
       // Windows
       exec(`wmic process where name="${exeName}" get ExecutablePath`, (error, stdout) => {
@@ -826,7 +827,9 @@ function detectProgram(exeName, callback) {
       });
     } else {
       // Linux
-      exec(`pgrep -f ${exeName}`, (error, stdout) => {
+      exeName = 'EliteDangerous6';
+      //exec(`pgrep -f ${exeName}`, (error, stdout) => {
+      exec(`pgrep ${exeName}`, (error, stdout) => {
         if (error) {
           return callback(error, null);
         }
