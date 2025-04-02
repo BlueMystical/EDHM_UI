@@ -172,9 +172,11 @@ function stringifyIni(parsedIni) {
  * @param {*} key Name of the Key */
 function getKey(iniData, section, key) {
   if (iniData != undefined) {
-    const sectionData = iniData.find(s => s.name === section);
+    const sectionData = iniData.find(s => s.name.toLowerCase() === section.toLowerCase()); // Case insensitive search
     if (sectionData && sectionData.keys && sectionData.keys[key]) {
       return String(sectionData.keys[key].value);
+    } else {
+      console.log('Key not found:', { section, key, value });  
     }
   }
   return undefined;
@@ -187,31 +189,42 @@ function getKey(iniData, section, key) {
  * @param {*} key Name of the Key
  * @param {*} value Value to set
  * @param {*} comment [Optional] Comments
- * @returns  the whole iniData object modified */
-function setKey(iniData, section, key, value, comment = undefined) {
+ * @param {*} addNewKey [Optional] If true, adds the key if it doesn't exist 
+ * @returns  the whole iniData object modified, returns NULL if fails. */
+function setKey(iniData, section, key, value, comment = undefined, addNewKey = false) {
   try {
-    let sectionData = iniData.find(s => s.name === section);
+    if (key !== undefined && value !== undefined) {
+      let sectionData = iniData.find(s => s.name.toLowerCase() === section.toLowerCase()); // Case insensitive search
+      if (!sectionData && addNewKey) {
+        sectionData = { name: section, comments: [], keys: {}, logic: { comments: [], lines: [] } };
+        iniData.push(sectionData);
+      }
 
-    if (!sectionData) {
-      sectionData = { name: section, comments: [], keys: {}, logic: { comments: [], lines: [] } };
-      iniData.push(sectionData);
-    }
-
-    if (sectionData.keys[key]) {
-      // Key found and updated
-      sectionData.keys[key].value = value;
-      if (comment !== undefined) {
-        sectionData.keys[key].comments = comment.split('\n'); // Convert comment string to array of lines
+      if (sectionData.keys[key]) {
+        // Key found and updated
+        sectionData.keys[key].value = value;
+        if (comment !== undefined) {
+          sectionData.keys[key].comments = comment.split('\n'); // Convert comment string to array of lines
+        }
+        return iniData;
+      } else {
+        // Key not found in the section, add it
+        if (addNewKey) {
+          sectionData.keys[key] = {
+            name: key,
+            value: value,
+            comments: comment ? comment.split('\n') : [], // Convert comment string to array, or use empty array
+            logic: []
+          };
+          return iniData;
+        } 
+        //console.log('Key not found:', { section, key, value });   
+        return null;    
       }
     } else {
-      // Key not found in the section, add it
-      sectionData.keys[key] = {
-        name: key,
-        value: value,
-        comments: comment ? comment.split('\n') : [] // Convert comment string to array, or use empty array
-      };
+      //console.warn('Key or Value is undefined:', { section, key, value });
+      return null;
     }
-
   } catch (error) {
     console.log('setKey@IniParser:', error);
     throw new Error(error.message + error.stack);
@@ -219,29 +232,15 @@ function setKey(iniData, section, key, value, comment = undefined) {
   return iniData;
 }
 
-/** Sets the value of a key in the given INI data object.
- * If the key does not exist in the specified section, it will be added.
- * @param {object[]} iniData - The INI data object (array of sections).
- * @param {string} sectionName - The name of the section (e.g., 'constants').
- * @param {string} keyName - The name of the key to set.
- * @param {any} newValue - The new value to assign to the key.
- * @param {string|undefined} comment - Optional comment for the key.
- * @returns {object[]} The modified INI data object.
- */
+//- Legacy Method:
 function setIniValue(iniData, sectionName, keyName, newValue, comment = undefined) {
-  return setKey(iniData, sectionName, keyName, newValue, comment); // iniData is invalid
+  return setKey(iniData, sectionName, keyName, newValue, comment); 
 }
 
-/** Gets the value of a key from the given INI data object.
-* @param {object[]} iniData - The INI data object (array of sections).
-* @param {string} sectionName - The name of the section (e.g., 'constants').
-* @param {string} keyName - The name of the key to retrieve.
-* @returns {any|undefined} The value of the key, or undefined if the key is not found. */
+//- Legacy Method:
 function getIniValue(iniData, sectionName, keyName) {
-  return getKey(iniData, sectionName, keyName); // Not found
+  return getKey(iniData, sectionName, keyName);
 }
-
-
 
 /** Finds a Key/Value in an INI file
  * @param {object[]} data Parsed data of all INI files
@@ -335,14 +334,11 @@ ipcMain.handle('INI-LoadFile', async (event, filePath) => {
 ipcMain.handle('INI-SaveFile', async (event, filePath, iniData) => {
   return await SaveIniFile(filePath, iniData);
 });
-ipcMain.handle('INI-GetKey', async (event, iniData, section, key) => {
-  return await getKey(iniData, section, key);
+ipcMain.handle('INI-GetKey', (event, iniData, section, key) => {
+  return getKey(iniData, section, key);
 });
-ipcMain.handle('INI-SetKey', (event, iniData, section, key, value, comment) => {
-  return setKey(iniData, section, key, value, comment);
-});
-ipcMain.handle('INI-SetValue', (event, iniData, section, key, value, comment) => {
-  return setIniValue(iniData, fileName, sectionName, keyName, newValue);
+ipcMain.handle('INI-SetKey', (event, iniData, section, key, value, comment, addNewKey) => {
+  return setKey(iniData, section, key, value, comment, addNewKey);
 });
 ipcMain.handle('INI-AddKey', (event, iniData, section, key, value, comment) => {
   return addKey(iniData, section, key, value, comment);

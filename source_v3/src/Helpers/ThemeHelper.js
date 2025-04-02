@@ -114,147 +114,7 @@ const LoadTheme = async (themeFolder) => {
 };
 
 
-/** Reads the data from the ini file and applies it to the JSON data.
- * @param {*} template Data of the Theme template
- * @param {*} iniValues Values from the Ini file 
- * @returns template data with ini data applied */
-async function ApplyIniValuesToTemplate(template, iniValues) {
-  try {
-    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
-      for (const group of template.ui_groups) {
-        if (group.Elements != null) {
-          for (const element of group.Elements) {
-            /*element: {
-              ..
-              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
-              Section: 'Constants',     
-              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-              Value: 100,
-              ..
-            }*/
-            const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
-            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-            const defaultValue = element.Value;                 //<- 100.0             
-            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
-            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
 
-            if (iniData) {
-              try {
-                const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
-                if (Array.isArray(colorKeys) && colorKeys.length > 2) {
-                  //- Multi Key: Colors
-                  let colorComponents = [];
-                  for (const [index, rgbKey] of colorKeys.entries()) {
-                    const iniValue = await INIparser.getKey(iniData, iniSection, rgbKey);
-                    colorComponents.push(iniValue);           //<- colorComponents: [ '0.063', '0.7011', '1' ]
-                  }
-                  if (colorComponents != undefined && !colorComponents.includes(undefined)) {
-                    const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                    element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
-                  }
-                } else {
-                  //- Single Key: Text, Numbers, etc.
-                  const iniValue = await INIparser.getKey(iniData, iniSection, iniKey);
-                  element.Value = parseFloat(iniValue ?? defaultValue);
-                }
-              } catch (error) {
-                console.log('Error:', error);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    // Update the XMLs:
-    if (template.xml_profile && iniValues.XmlProfile) {
-      const iniData = iniValues.XmlProfile;
-      for (const element of template.xml_profile) {
-        try {
-          const defaultValue = element.Value;
-          const iniValue = await INIparser.getKey(iniData, 'constants', element.key);
-          element.value = parseFloat(iniValue ?? defaultValue);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
-  return template;
-};
-
-/** Writes the values from the template to the ini files.
- * @param {*} template Data of the Theme template
- * @param {*} iniValues Values from the Ini file 
- * @returns the iniValues with the new values applied */
-async function ApplyTemplateValuesToIni(template, iniValues) {
-  let stackTrace = '';
-  try {
-
-    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
-      for (const group of template.ui_groups) {
-        if (group.Elements != null) {
-          for (const element of group.Elements) {
-            /*element: {
-              ..
-              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
-              Section: 'Constants',     
-              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-              Value: 100,
-              ..
-            }*/
-
-            const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
-            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-            const defaultValue = element.Value;                 //<- 100.0             
-            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
-            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
-
-            if (iniData) {
-              const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
-              if (Array.isArray(colorKeys) && colorKeys.length > 2) {
-                //- Multi Key: Colors
-                const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
-                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
-
-                colorKeys.forEach((key, index) => {
-                  const value = parseFloat(values[index]);
-                  try {
-                    iniValues[iniFileName] = INIparser.setKey(iniData, iniSection, key, value);
-                  } catch (error) {
-                    console.log(stackTrace + value, error.message);
-                  }
-                });
-              }
-            } else {
-              //- Single Key: Text, Numbers, etc.
-              INIparser.setKey(iniData, iniSection, iniKey, defaultValue);
-            }
-          }
-        }
-      }
-    }
-
-    // Update the XMLs:
-    if (template.xml_profile && iniValues.XmlProfile) {
-      const iniData = iniValues.XmlProfile;
-      for (const element of template.xml_profile) {
-        try {
-          iniValues.XmlProfile = INIparser.setKey(iniData, 'constants', element.Key, element.Value);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-
-  } catch (error) {
-    throw new Error('At ThemeHelper.js/ApplyTemplateValuesToIni(): ' + stackTrace + error.message);
-  }
-  return iniValues;
-};
 
 
 
@@ -481,9 +341,7 @@ async function DeleteTheme(themePath) {
 }
 
 /** Exports the given theme into a ZIP file 
- * @param {*} themeData Theme to Export
- * @returns 
- */
+ * @param {*} themeData Theme to Export */
 async function ExportTheme(themeData) { // 
   try {
     console.log('Exporting Theme .....');
@@ -533,6 +391,164 @@ async function ExportTheme(themeData) { //
 
 // #region Ini File Handling
 
+/** Reads the data from the ini file and applies it to the JSON data.
+ * @param {*} template Data of the Theme template
+ * @param {*} iniValues Values from the Ini file 
+ * @returns template data with ini data applied */
+async function ApplyIniValuesToTemplate(template, iniValues) {
+  try {
+    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
+      for (const group of template.ui_groups) {
+        if (group.Elements != null) {
+          for (const element of group.Elements) {
+            /*element: {
+              ..
+              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
+              Section: 'Constants',     
+              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+              Value: 100,
+              ..
+            }*/
+            const iniSection = element.Section;   //<- iniSection === 'constants'
+            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+            const defaultValue = element.Value;                 //<- 100.0             
+            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
+            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
+
+            if (iniData) {
+              try {
+                const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
+                if (Array.isArray(colorKeys) && colorKeys.length > 2) {
+                  //- Multi Key: Colors
+                  let colorComponents = [];
+                  for (const [index, rgbKey] of colorKeys.entries()) {
+                    const iniValue = INIparser.getKey(iniData, iniSection, rgbKey);
+                    colorComponents.push(iniValue);           //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                  }
+                  if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                    const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                    element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
+                  }
+                } else {
+                  //- Single Key: Text, Numbers, etc.
+                  const iniValue = INIparser.getKey(iniData, iniSection, iniKey);
+                  element.Value = parseFloat(iniValue ?? defaultValue);
+                }
+              } catch (error) {
+                console.log('Error:', error);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Update the XMLs:
+    if (template.xml_profile && iniValues.XmlProfile) {
+      const iniData = iniValues.XmlProfile;
+      for (const element of template.xml_profile) {
+        try {
+          const defaultValue = element.Value;
+          const iniValue = INIparser.getKey(iniData, 'Constants', element.key);
+          element.value = parseFloat(iniValue ?? defaultValue);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+  return template;
+};
+
+/** Writes the values from the template to the ini files.
+ * @param {*} template Data of the Theme template
+ * @param {*} iniValues Values from the Ini file 
+ * @returns the iniValues with the new values applied */
+async function ApplyTemplateValuesToIni(template, iniValues) {
+  let stackTrace = '';
+  try {
+
+    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
+      for (const group of template.ui_groups) {
+        if (group.Elements != null) {
+          for (const element of group.Elements) {
+            /*element: {
+              ..
+              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
+              Section: 'Constants',     
+              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+              Value: 100,
+              ..
+            }*/
+            const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
+            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+            const defaultValue = element.Value;                 //<- 100.0             
+            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
+            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
+
+            if (iniData) {
+              const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
+
+              if (Array.isArray(colorKeys) && colorKeys.length > 2) {
+                //- Multi Key: Colors
+                const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
+                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
+
+                colorKeys.forEach((key, index) => {
+                  const value = parseFloat(values[index]);
+                  try {
+                    const _ret = INIparser.setKey(iniData, iniSection, key, value);
+                    if (_ret) {
+                      iniValues[iniFileName] = _ret;
+                    }
+                    else {
+                      console.log('404 - Not Found: ', iniFileName, iniSection, key, value);
+                    }
+                  } catch (error) {
+                    console.log(stackTrace + value, error.message);
+                  }
+                });
+
+              } else {
+                //- Single Key: Text, Numbers, etc.
+                const iniValue = INIparser.setKey(iniData, iniSection, iniKey, defaultValue);
+                if (iniValue) {
+                  iniValues[iniFileName] = iniValue;
+                } else {
+                  console.log('404 - Not Found: ', iniFileName, iniSection, iniKey, defaultValue);
+                }                
+              }
+            }
+          }
+        }
+      }
+
+      // Update the XMLs:
+      if (template.xml_profile && iniValues.XmlProfile) {
+        const iniData = iniValues.XmlProfile;
+        for (const element of template.xml_profile) {
+          try {
+            const _ret = INIparser.setKey(iniData, 'Constants', element.key, element.value);
+            if (_ret) {
+              iniValues.XmlProfile = _ret;
+            } else {
+              console.log('404 - Not Found: ', 'xml_profile', 'Constants', element.key, element.value);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    throw new Error('At ThemeHelper.js/ApplyTemplateValuesToIni(): ' + stackTrace + error.message);
+  }
+  return iniValues;
+};
+
 const getIniFilePath = (basePath, fileName) => {
   const joinedPath = path.join(basePath, fileName);
   return fileHelper.resolveEnvVariables(joinedPath);
@@ -567,8 +583,7 @@ const LoadThemeINIs = async (folderPath) => {
 /** * Save the modified INI files back to their original location
  * @param {string} folderPath Full path to the Folder containing the INI files
  * @param {object} themeINIs Object containing the INI data
- * @returns boolean
- */
+ * @returns boolean 'true' is save is successful. */
 const SaveThemeINIs = async (folderPath, themeINIs) => {
   try {
     await Promise.all([
@@ -585,15 +600,12 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
   }
 };
 
-
-
 // #endregion
 
 
 
 // #region --------- Expose Methods via IPC Handlers: ---------------------
 //  they can be accesed like this:   const files = await window.api.getThemes(dirPath);
-
 
 ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemember) => {
   try {

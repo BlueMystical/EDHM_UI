@@ -340,7 +340,6 @@ async function deleteFolderRecursive(folderPath) {
         fs.unlinkSync(currentPath); // Delete file
       }
     });
-    //fs.rmdirSync(folderPath); // Remove the now-empty folder //<- DEPRECATED
     fs.rmSync(folderPath, { recursive: true, force: true });
     console.log('Folder Deleted.');
     return true;
