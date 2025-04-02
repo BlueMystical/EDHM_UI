@@ -406,7 +406,7 @@ export default {
           const themePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
           let _ret = await window.api.GetCurrentSettings(themePath);
           _ret.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM  
-          console.log('Current Settings:', _ret);
+          //console.log('Current Settings:', _ret);
           return _ret;
         }
       } catch (error) {

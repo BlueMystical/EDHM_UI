@@ -289,8 +289,7 @@ export default {
       }
     },
     /** When the User Clicks on a Search Result. 
-     * @param result The Result clicked
-     */
+     * @param result The Result clicked     */
     OnSearchBox_Click(result) {
       //console.log('Result clicked:', result);
       try {
@@ -308,7 +307,7 @@ export default {
             // Emit an event to set the active tab to 'properties' 
             EventBus.emit('setActiveTab', 'properties'); //<- Event listen in 'MainNavBars.vue'
             // Ensure Visibility of Selected Item
-            EventBus.emit('OnSelectCategory', result.Category); //<- Event listen in 'PropertiesTab.vue'
+            EventBus.emit('OnSelectCategory', result.Key); //<- Event listen in 'PropertiesTab.vue'
           }
         }
       } catch (error) {

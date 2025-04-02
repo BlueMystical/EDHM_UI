@@ -504,12 +504,12 @@ export default {
     mounted() {
         eventBus.on('InitializeProperties', this.OnInitialize);
         eventBus.on('areaClicked', this.loadProperties);
-        eventBus.on('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
+        eventBus.on('OnSelectCategory', this.DoFindAndSelectRow);
     },
     beforeUnmount() {
         eventBus.off('InitializeProperties', this.OnInitialize);
         eventBus.off('areaClicked', this.loadProperties);
-        eventBus.off('FindKeyInGlobalSettings', this.DoFindAndSelectRow);
+        eventBus.off('OnSelectCategory', this.DoFindAndSelectRow);
         this.$nextTick(() => {
             if (this.activePopover) {
                 this.activePopover.dispose();
