@@ -219,8 +219,6 @@ function getKey(iniData, section, key) {
     const sectionData = iniData.find(s => s.name.toLowerCase() === section.toLowerCase()); // Case insensitive search
     if (sectionData && sectionData.keys && sectionData.keys[key]) {
       return String(sectionData.keys[key].value);
-    } else {
-      console.log('Key not found:', { section, key, value });  
     }
   }
   return undefined;

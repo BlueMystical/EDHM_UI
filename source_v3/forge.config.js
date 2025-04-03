@@ -40,7 +40,7 @@ module.exports = {
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
 
-        certificateFile: './EDHM-UI-V3.pfx',
+        certificateFile: './src/data/EDHM-UI-V3.pfx',
         certificatePassword: '@Namllohj1975'
       }
     },

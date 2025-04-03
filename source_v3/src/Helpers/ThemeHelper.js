@@ -101,9 +101,8 @@ const LoadTheme = async (themeFolder) => {
       const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');
 
       template = await fileHelper.loadJsonFile(defaultThemePath);
-      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
-
       template.credits = await GetCreditsFile(themeFolder);
+      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
       template.path = themeFolder;
       template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
     }
@@ -190,8 +189,6 @@ async function GetCurrentSettingsTheme(themePath) {
     const defaultSettingsPath = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
     let themeTemplate = await fileHelper.loadJsonFile(defaultSettingsPath);
-    themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs);
-    themeTemplate.name = "Current Settings";
     themeTemplate.credits = {
       theme: "Current Settings",
       author: "User",
@@ -199,6 +196,8 @@ async function GetCurrentSettingsTheme(themePath) {
       preview: "",
       path: themePath
     };
+    themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs);
+    themeTemplate.name = "Current Settings";
 
     return themeTemplate;
 
@@ -423,16 +422,24 @@ async function ApplyIniValuesToTemplate(template, iniValues) {
                   let colorComponents = [];
                   for (const [index, rgbKey] of colorKeys.entries()) {
                     const iniValue = INIparser.getKey(iniData, iniSection, rgbKey);
-                    colorComponents.push(iniValue);           //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                    if (iniValue != undefined) {
+                      colorComponents.push(iniValue);           //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                    } else {
+                      console.log(`404 - Ini Value Not Found: '${template.credits.theme}/${iniFileName}/${iniSection}/${rgbKey}'`);
+                    }
                   }
-                  if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                  if (colorComponents != undefined && !colorComponents.includes(undefined) && colorComponents.length > 0) {
                     const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                     element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
                   }
                 } else {
                   //- Single Key: Text, Numbers, etc.
                   const iniValue = INIparser.getKey(iniData, iniSection, iniKey);
-                  element.Value = parseFloat(iniValue ?? defaultValue);
+                  if (iniValue != undefined) {
+                    element.Value = parseFloat(iniValue ?? defaultValue);
+                  } else {
+                    console.log(`404 - Ini Value Not Found: '${template.credits.theme}/${iniFileName}/${iniSection}/${iniKey}'`);
+                  }                  
                 }
               } catch (error) {
                 console.log('Error:', error);
@@ -450,7 +457,7 @@ async function ApplyIniValuesToTemplate(template, iniValues) {
         try {
           const defaultValue = element.Value;
           const iniValue = INIparser.getKey(iniData, 'Constants', element.key);
-          element.value = parseFloat(iniValue ?? defaultValue);
+          element.Value = parseFloat(iniValue ?? defaultValue);
         } catch (error) {
           console.log(error);
         }
@@ -505,7 +512,7 @@ async function ApplyTemplateValuesToIni(template, iniValues) {
                       iniValues[iniFileName] = _ret;
                     }
                     else {
-                      console.log('404 - Not Found: ', iniFileName, iniSection, key, value);
+                      console.log(`404 - Ini Value Not Found*: ${template.credits.theme}/${iniFileName}/${iniSection}/${key}`);
                     }
                   } catch (error) {
                     console.log(stackTrace + value, error.message);
@@ -518,7 +525,7 @@ async function ApplyTemplateValuesToIni(template, iniValues) {
                 if (iniValue) {
                   iniValues[iniFileName] = iniValue;
                 } else {
-                  console.log('404 - Not Found: ', iniFileName, iniSection, iniKey, defaultValue);
+                  console.log('404 - Ini Value Not Found-: ', iniFileName, iniSection, iniKey, defaultValue);
                 }                
               }
             }

@@ -384,9 +384,9 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
 
     try {
         // Undo gamma correction (assuming power function)
-        const invR = Math.pow(gammaR, 1 / gammaValue);
-        const invG = Math.pow(gammaG, 1 / gammaValue);
-        const invB = Math.pow(gammaB, 1 / gammaValue);
+        const invR = convert_sRGB_FromLinear(gammaR, gammaValue);
+        const invG = convert_sRGB_FromLinear(gammaG, gammaValue);
+        const invB = convert_sRGB_FromLinear(gammaB, gammaValue);
 
         // Approximate linear sRGB (assuming conversion to sRGB space)
         const linearSrgb = { r: invR, g: invG, b: invB };
