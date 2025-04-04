@@ -447,48 +447,15 @@ export default {
 
                             //- Check if the mod is a child of the previous one:
                             const found = _ret.findIndex((item) => item && item.path === prevMod.path);
-                            if (found >= 0) {
+                            if (found >= 0 ) {
                                 //- Mod is installed 
-                                _ret[found].childs.push(prevMod);
+                                if (prevMod.mod_name != _ret[found].mod_name) {
+                                    _ret[found].childs.push(prevMod);
+                                }                                
                             } else {
-                                _ret.push(prevMod);
+                                _ret.push(prevMod);                               
                             }
                         }
-
-                      /*  let prevMod = null;
-                        for (const iMod of installedMods.mods) {
-                            if (iMod.isActive === undefined) {
-                                this.TPmods.push({
-                                    mod_name:       iMod.data.mod_name,
-                                    description:    iMod.data.description,
-                                    author:         iMod.data.author,
-                                    mod_version:    "1.0",
-                                    download_url:   "",
-                                    thumbnail_url:  iMod.file_thumb,
-                                    isActive:       true,
-                                    file_json:      iMod.file_json,
-                                    file_ini:       iMod.file_ini,
-                                    data:           await this.applyIniData(iMod.data, iMod.data_ini),
-                                    data_ini:       iMod.data_ini,
-                                    path:           iMod.path,
-                                    basename:       window.api.getBaseName(iMod.file_json, '.json')
-                                });
-                                installConter++;
-                            }
-
-                            if (prevMod != null) {
-                                //- Check if the mod is a child of the previous one:
-                                if (listedMod.path === prevMod.path) {
-                                    prevMod.childs.push(listedMod);
-                                } else {
-                                    prevMod = listedMod;
-                                    this.TPmods.push(prevMod);
-                                }
-                            } else {
-                                prevMod = listedMod;
-                                this.TPmods.push(listedMod);                            
-                            }
-                        };*/
                     }
                     if (installedMods && installedMods.errors && installedMods.errors.length > 0) {
                         console.log('There was some errors: ', installedMods.errors);
@@ -1024,6 +991,7 @@ ul {
   background-color: transparent;
   margin: 0; /* Remove margin */
   padding: 0; /* Remove padding */
+  border-radius: 1px;
 }
 
 .selected .img-thumbnail {
