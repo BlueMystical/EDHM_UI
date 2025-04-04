@@ -16,7 +16,52 @@
                                 <div class="row h-100">
                                     <!-- List of available Mods -->
                                     <div class="left-column border content-scrollable">
-                                        <ul>
+
+
+
+                                        <div class="accordion accordion-flush" id="thumbnailAccordion">
+                                            <div v-for="(mod, index) in TPmods" :key="mod.mod_name"
+                                                class="accordion-item">
+                                                <h2 class="accordion-header" :id="'heading-' + index">
+                                                    <button class="accordion-button"
+                                                        :class="{ 'collapsed': index !== 0 }" type="button"
+                                                        data-bs-toggle="collapse" :data-bs-target="'#collapse-' + index"
+                                                        @click="onSelectMod(mod)"
+                                                        :aria-expanded="index === 0 ? 'true' : 'false'"
+                                                        :aria-controls="'collapse-' + index">
+                                                        <img :src="mod.isActive ? mod.thumbnail_url : getGrayscaleImage(mod)"
+                                                            :alt="mod.mod_name" class="img-thumbnail"
+                                                            :style="{ filter: mod.isActive ? 'none' : 'grayscale(100%)' }"
+                                                            aria-label="Thumbnail of {{ mod.mod_name }}" />
+                                                        &nbsp;&nbsp;
+                                                        <span class="image-label">{{ mod.mod_name }}</span>
+                                                    </button>
+                                                </h2>
+                                                <div :id="'collapse-' + index" class="accordion-collapse collapse"
+                                                    :class="{ 'show': index === 0 }"
+                                                    :aria-labelledby="'heading-' + index"
+                                                    data-bs-parent="#thumbnailAccordion">
+                                                    <div class="accordion-body">
+                                                        <ul>
+                                                            <li v-for="child in mod.childs" :key="child.mod_name"
+                                                                :id="'mod-' + child.mod_name" class="image-container"
+                                                                :class="{ 'selected': child.mod_name === selectedModBasename }"
+                                                                @click="onSelectMod(child)"
+                                                                @contextmenu="onRightClick($event, child)">
+                                                                <img :src="child.isActive ? child.thumbnail_url : getGrayscaleImage(child)"
+                                                                    :alt="child.mod_name" class="img-thumbnail"
+                                                                    :style="{ filter: child.isActive ? 'none' : 'grayscale(100%)' }"
+                                                                    aria-label="Thumbnail of {{ child.mod_name }}" />
+                                                                &nbsp;&nbsp;
+                                                                <span class="image-label">{{ child.mod_name }}</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <ul>
                                             <li v-for="mod in TPmods" :key="mod.mod_name" :id="'mod-' + mod.mod_name"
                                                 class="image-container"
                                                 :class="{ 'selected': mod.mod_name === selectedModBasename }"
@@ -28,39 +73,48 @@
                                                 &nbsp;&nbsp;
                                                 <span class="image-label">{{ mod.mod_name }}</span>
                                             </li>
-                                        </ul>
+                                        </ul> -->
+
                                     </div>
                                     <!-- Properties of the selected Mod -->
                                     <div class="right-column border justify-content-center content-scrollable">
 
-                                        <!-- Progress bar for Mod Installing and Updating -->                                       
-                                        <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Downloading.." 
-                                            :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning" 
-                                            :style="{ width: progressValue + '%' }">{{ progressText }}</div>
+                                        <!-- Progress bar for Mod Installing and Updating -->
+                                        <span v-show="showProgressBar" class="progress" role="progressbar"
+                                            aria-label="Downloading.." :aria-valuenow="progressValue" aria-valuemin="0"
+                                            aria-valuemax="100">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning"
+                                                :style="{ width: progressValue + '%' }">{{ progressText }}</div>
                                         </span>
 
                                         <!-- Loading Spinner -->
-                                         <div v-if="showSpinner" class="d-flex justify-content-center align-items-center w-100 h-100">
+                                        <div v-if="showSpinner"
+                                            class="d-flex justify-content-center align-items-center w-100 h-100">
                                             <div class="spinner-border text-warning m-5" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                             </div>
-                                         </div>
+                                        </div>
 
                                         <!-- Alert to show when the mod is not installed or needs an update -->
                                         <div v-show="showAlert" class="alert alert-dark alert-dismissible" role="alert">
-                                            <button type="button" class="btn-close" aria-label="Close" @click="closeAlert"></button>
-                                            <h4 class="alert-heading"><i class="bi bi-info-circle"></i>&nbsp;{{ alert.title }}</h4>
-                                            <p>{{ alert.message }}&nbsp;<a href="#" class="link-warning" @click="OnModDownload_Click">Click Here</a>&nbsp;to install it.</p>
-                                            <hr><p v-html="alert.detail" class="mb-0"></p> 
-                                            <hr><h5>Version {{ alert.version }}</h5>
-                                            <p v-html="alert.changes" class="mb-0"></p>    
-                                            <br><img :src="alert.thumbnail" width="200" height="60"  alt="...">                                   
+                                            <button type="button" class="btn-close" aria-label="Close"
+                                                @click="closeAlert"></button>
+                                            <h4 class="alert-heading"><i class="bi bi-info-circle"></i>&nbsp;{{
+                                                alert.title }}</h4>
+                                            <p>{{ alert.message }}&nbsp;<a href="#" class="link-warning"
+                                                    @click="OnModDownload_Click">Click Here</a>&nbsp;to install it.</p>
+                                            <hr>
+                                            <p v-html="alert.detail" class="mb-0"></p>
+                                            <hr>
+                                            <h5>Version {{ alert.version }}</h5>
+                                            <p v-html="alert.changes" class="mb-0"></p>
+                                            <br><img :src="alert.thumbnail" width="200" height="60" alt="...">
                                         </div>
-                                        
+
                                         <!-- Alert to show the 'Read Me' information of the selected mod -->
                                         <div v-show="showInfo" class="alert alert-light alert-dismissible" role="alert">
-                                            <button type="button" class="btn-close" aria-label="Close" @click="closeInfo"></button>
+                                            <button type="button" class="btn-close" aria-label="Close"
+                                                @click="closeInfo"></button>
                                             <div v-html="infoMessage"></div>
                                         </div>
 
@@ -226,11 +280,16 @@ export default {
                 const availableMods = await window.api.downloadAsset(TPMODS_URL, destFile);             //console.log('Available Mods:', modsList);
                 const installedMods = await window.api.GetInstalledTPMods(this.ActiveInstance.path);    //console.log('Installed Mods:', installedMods);
 
-                let installConter = 0;
+                this.TPmods = [];
+                this.TPmods = await this.LoadTPMods(availableMods, installedMods);
+                console.log(this.TPmods);
+
+               /* let installConter = 0;
                 if (availableMods && availableMods.length > 0) {
-                    this.TPmods = [];
+                    
                     for (const mod of availableMods) {  
                         if (installedMods && installedMods.mods) {
+                            //- Check if the mod is installed:
                             const found = installedMods.mods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
                             if (found >= 0) {
                                 //- Mod is installed    
@@ -291,8 +350,8 @@ export default {
                         });
                         EventBus.emit('ShowError', new Error(msg));
                     }                 
-                }                
-                this.statusText = installConter + ' Detected Mods';
+                }  */              
+               // this.statusText = installConter + ' Detected Mods';
                 //console.log(this.TPmods);
 
             } catch (error) {
@@ -304,6 +363,148 @@ export default {
                     this.showSpinner = false;
                 }, 1000);
             }
+        },
+
+        async LoadTPMods(availableMods, installedMods) {
+            let _ret = [];
+            try {
+                
+                let installCounter = 0;
+                if (availableMods && availableMods.length > 0) {
+                    this.TPmods = [];
+                    
+                    for (const mod of availableMods) {  
+
+                        let listedMod = {
+                            mod_name:       mod.mod_name,
+                            description:    mod.description,
+                            author:         mod.author,
+                            mod_version:    mod.mod_version,
+                            download_url:   mod.download_url,
+                            thumbnail_url:  mod.thumbnail_url, 
+                            changelog:      mod.changelog,  
+
+                            file_json:      null,
+                            file_ini:       null,
+                            data:           null,
+                            data_ini:       null,
+
+                            path:           null,
+                            basename:       null,
+                            isActive:       false,
+                            isUpdateAvaliable: false,
+                            childs:         []
+                        };
+
+                        if (installedMods && installedMods.mods) {
+                            //- Check if the mod is installed:
+                            const found = installedMods.mods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
+                            if (found >= 0) {
+                                //- Mod is installed    
+                                const fMod = installedMods.mods[found]; 
+                                fMod.isActive = true; 
+
+                                listedMod.isUpdateAvaliable = Util.compareVersions(mod.mod_version, fMod.data.version);
+                                listedMod.isActive = true;
+
+                                listedMod.file_json = fMod.file_json;
+                                listedMod.file_ini = fMod.file_ini;
+
+                                listedMod.data = await this.applyIniData(fMod.data, fMod.data_ini),
+                                listedMod.data_ini = fMod.data_ini;
+
+                                listedMod.path = fMod.path;
+                                listedMod.basename = window.api.getBaseName(fMod.file_json, '.json');
+
+                                installCounter++;
+                            } 
+                        } 
+
+                        _ret.push(listedMod);  
+                    };
+
+                    //-- Add any non-list mod that is installed:
+                    if (installedMods && installedMods.mods) {
+                        
+                        let prevMod = null;
+                        for (const iMod of installedMods.mods) {
+                            prevMod = {
+                                mod_name:       iMod.data.mod_name,
+                                description:    iMod.data.description,
+                                author:         iMod.data.author,
+                                mod_version:    "1.0",
+                                download_url:   "",
+                                thumbnail_url:  iMod.file_thumb,
+                                isActive:       true,
+                                file_json:      iMod.file_json,
+                                file_ini:       iMod.file_ini,
+                                data:           await this.applyIniData(iMod.data, iMod.data_ini),
+                                data_ini:       iMod.data_ini,
+                                path:           iMod.path,
+                                basename:       window.api.getBaseName(iMod.file_json, '.json'),
+                                childs:         []
+                            };
+
+                            //- Check if the mod is a child of the previous one:
+                            const found = _ret.findIndex((item) => item && item.path === prevMod.path);
+                            if (found >= 0) {
+                                //- Mod is installed 
+                                _ret[found].childs.push(prevMod);
+                            } else {
+                                _ret.push(prevMod);
+                            }
+                        }
+
+                      /*  let prevMod = null;
+                        for (const iMod of installedMods.mods) {
+                            if (iMod.isActive === undefined) {
+                                this.TPmods.push({
+                                    mod_name:       iMod.data.mod_name,
+                                    description:    iMod.data.description,
+                                    author:         iMod.data.author,
+                                    mod_version:    "1.0",
+                                    download_url:   "",
+                                    thumbnail_url:  iMod.file_thumb,
+                                    isActive:       true,
+                                    file_json:      iMod.file_json,
+                                    file_ini:       iMod.file_ini,
+                                    data:           await this.applyIniData(iMod.data, iMod.data_ini),
+                                    data_ini:       iMod.data_ini,
+                                    path:           iMod.path,
+                                    basename:       window.api.getBaseName(iMod.file_json, '.json')
+                                });
+                                installConter++;
+                            }
+
+                            if (prevMod != null) {
+                                //- Check if the mod is a child of the previous one:
+                                if (listedMod.path === prevMod.path) {
+                                    prevMod.childs.push(listedMod);
+                                } else {
+                                    prevMod = listedMod;
+                                    this.TPmods.push(prevMod);
+                                }
+                            } else {
+                                prevMod = listedMod;
+                                this.TPmods.push(listedMod);                            
+                            }
+                        };*/
+                    }
+                    if (installedMods && installedMods.errors && installedMods.errors.length > 0) {
+                        console.log('There was some errors: ', installedMods.errors);
+                        var msg = '';
+                        installedMods.errors.forEach(err => {
+                            msg += err.msg + '<br>';
+                        });
+                        EventBus.emit('ShowError', new Error(msg));
+                    }                 
+                } 
+                
+            } catch (error) {
+                console.error(error);
+                EventBus.emit('ShowError', error);
+            }
+            return _ret;
         },
         
         // #region Utility Methods
@@ -423,7 +624,7 @@ export default {
                 else {
                     this.$refs.ModProps.OnInitialize(mod);
                 }  
-                console.log('Ini:', mod.data_ini);             
+                //console.log('Ini:', mod.data_ini);             
 
             } else {
                 this.$refs.ModProps.clearProps();
@@ -460,12 +661,12 @@ export default {
                                     if (Array.isArray(colorKeys) && colorKeys.length > 2) {
                                         //- Multi Key: Colors
 
-                                        let colorComponents = []; console.log('colorKeys', colorKeys);
+                                        let colorComponents = []; //console.log('colorKeys', colorKeys);
                                         for (const [index, rgbKey] of colorKeys.entries()) { 
                                             const iniValue = await window.api.getIniKey(ini, ini_sec, rgbKey);  //console.log('rgbKey', rgbKey);
                                             colorComponents.push(iniValue); //<- colorComponents: [ '0.063', '0.7011', '1' ]
                                         }
-                                        console.log('colorComponents:', colorComponents);
+                                        //console.log('colorComponents:', colorComponents);
                                         if (colorComponents != undefined && !colorComponents.includes(undefined)) {
                                             const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                                             //console.log('color', color);
@@ -730,6 +931,35 @@ export default {
   color: #ffffff;
 }
 
+
+
+.accordion-header-thumbnail,
+.list-group-thumbnail,
+
+
+.accordion-header-thumbnail {
+  vertical-align: middle;
+  margin-right: 0px !important;
+}
+.accordion-button {
+  padding: 0.1rem 0; /* Adjust these values as needed */
+}
+.accordion-button:not(.collapsed) {
+  padding: 0.1rem 0rem; /* Adjust for the expanded state as well */
+}
+
+
+.left-column {
+  width: 35%;
+  height: 100%;
+  float: left;
+}
+.right-column {
+  width: 65%;
+  height: 100%;
+  float: left;
+}
+
 .content-container {
   height: calc(100vh - 56px);
   width: 100%;
@@ -744,17 +974,7 @@ export default {
   width: 8px; /* Adjust thickness as needed */
 }
 
-.left-column {
-  width: 31%;
-  height: 100%;
-  float: left;
-}
 
-.right-column {
-  width: 69%;
-  height: 100%;
-  float: left;
-}
 
 .row>div {
   box-sizing: border-box;
@@ -783,7 +1003,7 @@ ul {
 }
 
 .image-container {
-  width: 200px;
+  width: 180px;
   position: relative;
   background-color: transparent;
   color: #f8f9fa;
@@ -803,7 +1023,7 @@ ul {
   height: auto;
   background-color: transparent;
   margin: 0; /* Remove margin */
-  padding: 1; /* Remove padding */
+  padding: 0; /* Remove padding */
 }
 
 .selected .img-thumbnail {
@@ -817,7 +1037,7 @@ ul {
   left: 5px;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 1px;
-  border-radius: 3px;
+  border-radius: 1px;
   font-size: 0.8em; /* Reduce el tamaño de la fuente */
 }
 </style>

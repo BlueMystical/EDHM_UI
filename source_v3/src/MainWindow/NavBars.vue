@@ -12,6 +12,7 @@
           <option default value="mnuDummy">Main Menu</option>
           <option value="mnuSettings">Settings</option>
           <option value="mnuOpenGame">Open Game Folder</option>
+          <option value="mnuOpenData">Open Data Folder</option>
           <option value="" disabled>──────────</option>
           <option  disabled value="mnuShipyard">Shipyard</option>
           <option value="mnu3PModsManager">3PMods (Plugins)</option>
@@ -19,7 +20,7 @@
           <option value="mnuInstallMod">Install EDHM</option>
           <option value="mnuUninstallMod">Un-install EDHM</option>
           <option value="" disabled>──────────</option>
-          <option  value="mnuGoToDiscord" >Help: Join our Discord</option>
+          <option  value="mnuGoToDiscord" >Help? Join our Discord</option>
           <option  value="mnuCheckUpdates">Check for Updates</option>          
           <option  disabled value="mnuAbout" >About</option>
         </select>
@@ -423,10 +424,14 @@ export default {
         console.log(`Menu ${value} clicked`);
 
         const ActiveInstance = await window.api.getActiveInstance(); //console.log('ActiveInstance', ActiveInstance);
-        const GamePath = ActiveInstance.path; // await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+        const GamePath = ActiveInstance.path; 
 
         if (value === 'mnuOpenGame') {
           await window.api.openPathInExplorer(GamePath);
+        }
+        if (value === 'mnuOpenData') {
+          const dataPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
+          await window.api.openPathInExplorer(dataPath);          
         }
         if (value === 'mnuSettings') {
           const InstallStatus = await window.api.InstallStatus();

@@ -382,7 +382,7 @@ export default {
                                     color
                                 );
                             } catch (error) {
-                                console.log(stackTrace + values[index], error.message);
+                                console.log(error.message + values[index], error.stack);
                             }
                         }
 

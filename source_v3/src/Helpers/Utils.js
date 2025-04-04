@@ -373,12 +373,11 @@ function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
         g: Math.round(this.Convert_sRGB_ToLinear(normalize(color.g), gammaValue) * 10000) / 10000,
         b: Math.round(this.Convert_sRGB_ToLinear(normalize(color.b), gammaValue) * 10000) / 10000,
         a: Math.round(color.a * 10000) / 10000 // Alpha remains linear
-        //a: Math.round(normalize(color.a) * 10000) / 10000 // Alpha remains linear
     };
 
     return gammaCorrected;
 }
-// Function to reverse the gamma correction for comparison
+// Function to reverse the gamma correction
 function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
     const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
 
@@ -388,7 +387,7 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
         const invG = convert_sRGB_FromLinear(gammaG, gammaValue);
         const invB = convert_sRGB_FromLinear(gammaB, gammaValue);
 
-        // Approximate linear sRGB (assuming conversion to sRGB space)
+        // Approximate linear sRGB (conversion to sRGB space)
         const linearSrgb = { r: invR, g: invG, b: invB };
 
         // Convert to RGB (assuming 0-255 range)
