@@ -358,7 +358,14 @@ function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
         ? thesRGBValue / 12.92
         : Math.pow((thesRGBValue + 0.055) / 1.055, gammaValue);
 }
+/*function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
+    return theLinearValue <= 0.0031308
+        ? theLinearValue * 12.92
+        : Math.pow(theLinearValue, 1.0 / _GammaValue) * 1.055 - 0.055;
+};*/
 function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
+    const clamp = (num) => Math.max(Math.min(num, 1.0), 0.0);
+    theLinearValue = clamp(theLinearValue);
     return theLinearValue <= 0.0031308
         ? theLinearValue * 12.92
         : Math.pow(theLinearValue, 1.0 / _GammaValue) * 1.055 - 0.055;
