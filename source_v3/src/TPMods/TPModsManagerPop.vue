@@ -230,6 +230,7 @@ export default {
 
             ActiveInstance: null,
             TPmods: [],
+            ModsCounter: 0,
             TEMP_FOLDER: '',
 
             selectedMod: null,
@@ -271,8 +272,6 @@ export default {
                 this.showAlert = false;
                 this.statusText = 'Initializing..';
 
-                //this.$refs.ModProps.clearProps();
-
                 this.TEMP_FOLDER = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI'); //console.log(this.TEMP_FOLDER);
                 await window.api.ensureDirectoryExists(this.TEMP_FOLDER);
                 const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
@@ -281,78 +280,8 @@ export default {
                 const installedMods = await window.api.GetInstalledTPMods(this.ActiveInstance.path);    //console.log('Installed Mods:', installedMods);
 
                 this.TPmods = [];
-                this.TPmods = await this.LoadTPMods(availableMods, installedMods);
-                console.log(this.TPmods);
-
-               /* let installConter = 0;
-                if (availableMods && availableMods.length > 0) {
-                    
-                    for (const mod of availableMods) {  
-                        if (installedMods && installedMods.mods) {
-                            //- Check if the mod is installed:
-                            const found = installedMods.mods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
-                            if (found >= 0) {
-                                //- Mod is installed    
-                                const fMod = installedMods.mods[found]; 
-                                fMod.isActive = true; //console.log('Versions:', fMod.data.version, mod.mod_version)
-
-                                mod.isUpdateAvaliable = Util.compareVersions(mod.mod_version, fMod.data.version);
-                                mod.isActive = true;
-
-                                mod.file_json = fMod.file_json;
-                                mod.file_ini = fMod.file_ini;
-
-                                mod.data = await this.applyIniData(fMod.data, fMod.data_ini),
-                                mod.data_ini = fMod.data_ini;
-
-                                mod.path = fMod.path;
-                                mod.basename = window.api.getBaseName(fMod.file_json, '.json');
-
-                                installConter++;
-                            } else {
-                                //- Mod is NOT installed
-                                mod.isActive = false;
-                            }
-                        } else {
-                            //- there are no Mods installed
-                            mod.isActive = false;
-                        }
-                        this.TPmods.push(mod);
-                    };
-                    if (installedMods && installedMods.mods) {
-                        //-- Add any non-list mod that is installed:
-                        for (const iMod of installedMods.mods) {
-                            if (iMod.isActive === undefined) {
-                                this.TPmods.push({
-                                    mod_name:       iMod.data.mod_name,
-                                    description:    iMod.data.description,
-                                    author:         iMod.data.author,
-                                    mod_version:    "1.0",
-                                    download_url:   "",
-                                    thumbnail_url:  iMod.file_thumb,
-                                    isActive:       true,
-                                    file_json:      iMod.file_json,
-                                    file_ini:       iMod.file_ini,
-                                    data:           await this.applyIniData(iMod.data, iMod.data_ini),
-                                    data_ini:       iMod.data_ini,
-                                    path:           iMod.path,
-                                    basename:       window.api.getBaseName(iMod.file_json, '.json')
-                                });
-                                installConter++;
-                            }
-                        };
-                    }
-                    if (installedMods && installedMods.errors && installedMods.errors.length > 0) {
-                        console.log('There was some errors: ', installedMods.errors);
-                        var msg = '';
-                        installedMods.errors.forEach(err => {
-                            msg += err.msg + '<br>';
-                        });
-                        EventBus.emit('ShowError', new Error(msg));
-                    }                 
-                }  */              
-               // this.statusText = installConter + ' Detected Mods';
-                //console.log(this.TPmods);
+                this.TPmods = await this.LoadTPMods(availableMods, installedMods); //console.log(this.TPmods);
+                this.statusText = this.ModsCounter + ' Detected Mods';
 
             } catch (error) {
                 this.showSpinner = false;
@@ -369,7 +298,7 @@ export default {
             let _ret = [];
             try {
                 
-                let installCounter = 0;
+                this.ModsCounter = 0;
                 if (availableMods && availableMods.length > 0) {
                     this.TPmods = [];
                     
@@ -416,7 +345,7 @@ export default {
                                 listedMod.path = fMod.path;
                                 listedMod.basename = window.api.getBaseName(fMod.file_json, '.json');
 
-                                installCounter++;
+                                this.ModsCounter++;
                             } 
                         } 
 
@@ -453,7 +382,8 @@ export default {
                                     _ret[found].childs.push(prevMod);
                                 }                                
                             } else {
-                                _ret.push(prevMod);                               
+                                _ret.push(prevMod);   
+                                this.ModsCounter++;                            
                             }
                         }
                     }

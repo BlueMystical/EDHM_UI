@@ -62,8 +62,7 @@
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="flexSwitchCheckDefault" v-model="config.GreetMe">
-                                                <label class="form-check-label" for="flexSwitchCheckDefault">Greet me on
-                                                    Startup</label>
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Greet me on Startup</label>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -82,8 +81,7 @@
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="flexSwitchCheckTray" checked v-model="config.HideToTray">
-                                                <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray
-                                                    on close</label>
+                                                <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray on close</label>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -93,7 +91,7 @@
                                                     placeholder="Pick a Location" aria-label="Pick a Location"
                                                     aria-describedby="button-addon2" v-model="config.UserDataFolder">
                                                 <button class="btn btn-outline-secondary" type="button"
-                                                    id="button-addon2" @click="browseUserDataFolder">Browse</button>
+                                                    id="button-addon2" @click="browseUserDataFolder" disabled>Browse</button>
                                             </div>
                                         </div>
 

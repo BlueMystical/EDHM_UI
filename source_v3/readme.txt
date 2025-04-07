@@ -172,11 +172,17 @@ Presets:[
       },
   ... more presets..
 ],
-xml_profile: [
-    { key: "x150", value: 0.15 },
-    { key: "y150", value: 0.3 },
-    ...more key/values..
-  ],
+xml_profile:  [
+  { key: 'x150', value: 0.15 },
+  { key: 'y150', value: 0.3 },
+  { key: 'z150', value: 1 },
+  { key: 'x151', value: 0.5 },
+  { key: 'y151', value: 1 },
+  { key: 'z151', value: 0 },
+  { key: 'x152', value: 1 },
+  { key: 'y152', value: 0 },
+  { key: 'z152', value: 0 }
+]
 };
 
 -------------------------------------------------------
@@ -226,8 +232,18 @@ var IniParser = {
     {
       name: 'Constants',
       comments: [],
-      keys: {Object},
-      logic: {Object}
+      keys: {
+        x150: [Object],
+        y150: [Object],
+        z150: [Object],
+        x151: [Object],
+        y151: [Object],
+        z151: [Object],
+        x152: [Object],
+        y152: [Object],
+        z152: [Object]
+      },
+      logic: { comments: [], lines: [] }
     }
   ]
 };

@@ -452,12 +452,15 @@ async function ApplyIniValuesToTemplate(template, iniValues) {
 
     // Update the XMLs:
     if (template.xml_profile && iniValues.XmlProfile) {
-      const iniData = iniValues.XmlProfile;
+      const iniData = iniValues.XmlProfile;  
+      //console.log('iniData: ', iniData);
+      //console.log('template.xml_profile: ', template.xml_profile);
       for (const element of template.xml_profile) {
         try {
-          const defaultValue = element.Value;
-          const iniValue = INIparser.getKey(iniData, 'Constants', element.key);
-          element.Value = parseFloat(iniValue ?? defaultValue);
+          const defaultValue = element.value;
+          const iniValue = INIparser.getKey(iniData, 'Constants', element.key); 
+          //console.log('iniValue: ', iniValue, 'defaultValue: ', defaultValue);
+          element.value = parseFloat(iniValue ?? defaultValue);
         } catch (error) {
           console.log(error);
         }
@@ -536,6 +539,9 @@ async function ApplyTemplateValuesToIni(template, iniValues) {
       // Update the XMLs:
       if (template.xml_profile && iniValues.XmlProfile) {
         const iniData = iniValues.XmlProfile;
+        //console.log('iniData: ', iniData);
+        //console.log('template.xml_profile: ', template.xml_profile);
+
         for (const element of template.xml_profile) {
           try {
             const _ret = INIparser.setKey(iniData, 'Constants', element.key, element.value);
