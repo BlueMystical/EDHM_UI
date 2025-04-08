@@ -211,9 +211,10 @@ export default {
             this.$nextTick(async () => {
                 const imagePath = await this.getImagePath(key.key);
                 const content = `
-          <p>${key.description}</p>
-          <img src="${imagePath}" alt="No Image" class="popover-image" />
-          <p>Key: ${key.key}</p>`;
+                    <p>${key.description}</p>
+                    <img src="${imagePath}" alt="No Image" class="popover-image" />
+                    <p>Key: ${key.key}</p>`;
+
                 const popover = new bootstrap.Popover(event.target, {
                     title: key.name,
                     content: content,
@@ -222,11 +223,11 @@ export default {
                     placement: 'right',
                     container: 'body',
                     template: `
-            <div class="popover border border-warning custom-popover" role="tooltip">
-              <div class="popover-arrow"></div>
-              <h4 class="popover-header"></h4>
-              <div class="popover-body"></div>
-            </div>`,
+                        <div class="popover border border-warning custom-popover" role="tooltip" data-bs-trigger="focus">
+                            <div class="popover-arrow"></div>
+                            <h4 class="popover-header"></h4>
+                            <div class="popover-body"></div>
+                        </div>`,
                 });
                 popover.show();
                 this.activePopover = popover;

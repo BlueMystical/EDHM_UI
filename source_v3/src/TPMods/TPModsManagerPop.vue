@@ -14,14 +14,14 @@
                         <div class="row h-100">
                             <div class="col h-100">
                                 <div class="row h-100">
+
                                     <!-- List of available Mods -->
                                     <div class="left-column border content-scrollable">
 
 
 
-                                        <div class="accordion accordion-flush" id="thumbnailAccordion">
-                                            <div v-for="(mod, index) in TPmods" :key="mod.mod_name"
-                                                class="accordion-item">
+                                        <div class="accordion accordion-flush" id="thumbnailAccordion" >
+                                            <div v-for="(mod, index) in TPmods" :key="mod.mod_name" class="accordion-item" data-bs-toggle="true">
                                                 <h2 class="accordion-header" :id="'heading-' + index">
                                                     <button class="accordion-button"
                                                         :class="{ 'collapsed': index !== 0 }" type="button"
@@ -40,7 +40,7 @@
                                                 <div :id="'collapse-' + index" class="accordion-collapse collapse"
                                                     :class="{ 'show': index === 0 }"
                                                     :aria-labelledby="'heading-' + index"
-                                                    data-bs-parent="#thumbnailAccordion">
+                                                    data-bs-parent="#thumbnailAccordion" data-bs-toggle="true">
                                                     <div class="accordion-body">
                                                         <ul>
                                                             <li v-for="child in mod.childs" :key="child.mod_name"
@@ -839,12 +839,11 @@ export default {
   margin-right: 0px !important;
 }
 .accordion-button {
-  padding: 0.1rem 0; /* Adjust these values as needed */
+  padding: 0rem 0; 
 }
 .accordion-button:not(.collapsed) {
-  padding: 0.1rem 0rem; /* Adjust for the expanded state as well */
+  padding: 0rem 0rem;
 }
-
 
 .left-column {
   width: 35%;

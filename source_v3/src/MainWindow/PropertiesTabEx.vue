@@ -16,8 +16,9 @@
               <!-- Left Column -->
               <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
                 {{ element.Title }}
-                <span class="info-icon" v-show="element.iconVisible" @mouseover="showPopover(element, $event)"
-                  @mouseleave="hidePopover">
+                <span class="info-icon" v-show="element.iconVisible" 
+                    @mouseover="showPopover(element, $event)"
+                    @mouseleave="hidePopover">
                   <i class="bi bi-info-circle text-info"></i>
                 </span>
               </td>
@@ -96,7 +97,7 @@ export default {
     data() {
         return {
             themeName: '',
-            themeTemplate: null,    //<- Loaded Theme
+            themeTemplate: null,  //<- Loaded Theme
             dataSource: null,     //<- Raw Datasource directly from the File
             groupedElements: [],  //<- Processed Datasource from 'loadGroupData()'
             presets: [],          //<- Presets for the Combo Selects, from Raw Datasource
@@ -254,9 +255,9 @@ export default {
             this.$nextTick(async () => {
                 const imagePath = await this.getImagePath(element.Key);
                 const content = `
-          <p>${element.Description}</p>
-          <img src="${imagePath}" alt="No Image" class="popover-image" />
-          <p>Key: ${element.Key}</p>`;
+                    <p>${element.Description}</p>
+                    <img src="${imagePath}" alt="No Image" class="popover-image" />
+                    <p>Key: ${element.Key}</p>`;
 
                 const popover = new bootstrap.Popover(event.target, {
                     title: element.Title,
@@ -266,11 +267,11 @@ export default {
                     placement: 'right',
                     container: 'body',
                     template: `
-            <div class="popover border border-warning custom-popover" role="tooltip">  
-                <div class="popover-arrow"></div>
-                <h4 class="popover-header"></h4>
-                <div class="popover-body"></div>
-            </div>`,
+                        <div class="popover border border-warning custom-popover" role="tooltip" data-bs-trigger="focus">  
+                            <div class="popover-arrow"></div>
+                            <h4 class="popover-header"></h4>
+                            <div class="popover-body"></div>
+                        </div>`,
                 });
 
                 popover.show();
