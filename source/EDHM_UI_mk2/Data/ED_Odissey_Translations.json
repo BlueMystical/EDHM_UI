@@ -15975,9 +15975,9 @@
     "lang": [
       {
         "key": "en",
-        "value": "Brightness",
+        "value": "Background Booster",
         "category": "Compass",
-        "description": "Compass Background Booster"
+        "description": "Compass Background Booster\r\nNeed Compass Color Mode set to Custom Color"
       },
       {
         "key": "de",
@@ -16059,9 +16059,9 @@
     "lang": [
       {
         "key": "en",
-        "value": "Compass Dot Brightness",
+        "value": "Overall Brightness",
         "category": "Compass",
-        "description": "Compass Dot Brightness\r\n(Note: This element behaves a little differently to others. Recommended minimum is 0.7 brightness)"
+        "description": "Compass Overall Brightness\r\n(Note: This element behaves a little differently to others. Recommended minimum is 0.7 brightness)"
       },
       {
         "key": "de",

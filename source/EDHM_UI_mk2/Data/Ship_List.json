@@ -307,5 +307,12 @@
     "ed_short": "cobramkv",
     "size": "Small",
     "role": "Multipurpose "
+  },
+  {
+    "ship_full_name": "Corsair",
+    "ship_id": 51,
+    "ed_short": "corsair",
+    "size": "medium",
+    "role": "Multipurpose "
   }
 ]
