@@ -802,6 +802,33 @@ async function decompressFile(zipPath, outputDir) {
 
 // #endregion
 
+// #region XML Files
+
+
+ipcMain.handle('read-xml-file', async (event, filePath) => {
+  try {
+    const xmlString = fs.readFileSync(filePath, 'utf-8');
+    return xmlString;
+  } catch (error) {
+    console.error('Error reading XML file:', error);
+    return null;
+  }
+});
+
+ipcMain.handle('write-xml-file', async (event, filePath, xmlContent) => {
+  try {
+    fs.writeFileSync(filePath, xmlContent, 'utf-8');
+    console.log('XML file written successfully:', filePath);
+    return true;
+  } catch (error) {
+    console.error('Error writing XML file:', error);
+    return false;
+  }
+});
+
+// #endregion
+
+
 // #region Processs & Programs
 
 export function openUrlInBrowser(url) {
@@ -1669,15 +1696,13 @@ ipcMain.handle('getPublicFilePath', (event, relFilePath) => {
 });
 
 
-
 // #endregion
 
 export default {
   getAssetPath, getAssetUrl,
   resolveEnvVariables,
 
-  loadJsonFile,
-  writeJsonFile,
+  loadJsonFile,  writeJsonFile,
 
   copyFiles, copyFile,
   checkFileExists, openFile,

@@ -56,7 +56,7 @@ const createWindow = () => {
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' };
-  })
+  });
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
@@ -69,55 +69,6 @@ const createWindow = () => {
     globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
   });
 };
-
-const createTPModsManagerWindow = () => {
-  TPModsManagerWindow = new BrowserWindow({
-    width: 1000,
-    height: 800,
-    parent: mainWindow,
-    modal: false,
-    icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: true,
-      webSecurity: false,
-    },
-    backgroundColor: '#1F1F1F'
-  });
-
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    // Load the new entry point in development mode
-    console.log('Loading: ', `${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
-    TPModsManagerWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/TPMods/TPModsManager.html`);
-    TPModsManagerWindow.webContents.openDevTools();
-  } else {
-    // Load the new HTML file in production mode
-    const htmlPath = path.join(process.resourcesPath, 'TPModsManager.html');
-    console.log("Loading production html from : ", htmlPath);
-    TPModsManagerWindow.webContents.openDevTools();
-    TPModsManagerWindow.loadFile(htmlPath);
-
-    // Load the new HTML file in production mode
-    /*   TPModsManagerWindow.loadFile(
-           path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/TPMods/TPModsManager.html`)
-       );*/
-  }
-
-  TPModsManagerWindow.once('ready-to-show', () => {
-    TPModsManagerWindow.show();
-  });
-
-  TPModsManagerWindow.webContents.on('did-finish-load', () => {
-    console.log('TPModsManager window loaded URL:', TPModsManagerWindow.webContents.getURL());
-  });
-
-  TPModsManagerWindow.on('closed', () => {
-    TPModsManagerWindow = null;
-  });
-};
-
-
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

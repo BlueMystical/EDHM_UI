@@ -537,8 +537,10 @@ export default {
             //console.log('OnValuesChanged event received.', e);
             this.selectedMod = e;
             const _retJsn = await window.api.writeJsonFile(e.file_json, e.data, true);
-            const _retIni = await window.api.SaveIniFile(e.file_ini, e.data_ini);
-
+            let _retIni = true;
+            if (e.data.mod_type === 'INIConfig' ) {
+                _retIni = await window.api.SaveIniFile(e.file_ini, e.data_ini);
+            }
             console.log('Mod Changes Saved?:', _retJsn, _retIni);
         },
 

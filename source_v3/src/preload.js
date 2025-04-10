@@ -165,4 +165,8 @@ contextBridge.exposeInMainWorld('api', {
   open3PModsManager: () => ipcRenderer.invoke('open3PModsManager'),
   navigate: (callback) => ipcRenderer.on('navigate', callback),
 
+  readXmlFile: (filePath) => ipcRenderer.invoke('read-xml-file', filePath),
+  writeXmlFile: (filePath, xmlContent) => ipcRenderer.invoke('write-xml-file', filePath, xmlContent),
+
+
 });
