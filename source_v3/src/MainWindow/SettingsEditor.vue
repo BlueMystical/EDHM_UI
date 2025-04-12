@@ -50,8 +50,7 @@
                             <h2 class="accordion-header" id="headingOtherSettings">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOtherSettings" aria-expanded="true"
-                                    aria-controls="collapseOtherSettings">
-                                    Other Settings
+                                    aria-controls="collapseOtherSettings">Other Settings
                                 </button>
                             </h2>
                             <div id="collapseOtherSettings" class="accordion-collapse collapse show"
@@ -78,9 +77,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check form-switch">
+                                            <div class="form-check form-switch" disabled>
                                                 <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckTray" checked v-model="config.HideToTray">
+                                                    id="flexSwitchCheckTray" checked v-model="config.HideToTray" disabled>
                                                 <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray on close</label>
                                             </div>
                                         </div>
@@ -89,7 +88,7 @@
                                             <div id="userDataLocation" class="input-group mb-3" disabled>
                                                 <input type="text" class="form-control form-control-sm"
                                                     placeholder="Pick a Location" aria-label="Pick a Location"
-                                                    aria-describedby="button-addon2" v-model="config.UserDataFolder">
+                                                    aria-describedby="button-addon2" v-model="config.UserDataFolder" disabled>
                                                 <button class="btn btn-outline-secondary" type="button"
                                                     id="button-addon2" @click="browseUserDataFolder" disabled>Browse</button>
                                             </div>

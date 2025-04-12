@@ -1,18 +1,19 @@
-import { app, BrowserWindow, Menu, ipcMain, shell, globalShortcut } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, shell, globalShortcut, Tray } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
 import themeHelper from './Helpers/ThemeHelper.js';
 import settingsHelper from './Helpers/SettingsHelper.js';
-import { console } from 'node:inspector';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
   app.quit();
 }
 
-let mainWindow; // Declare mainWindow in the outer scope
-let TPModsManagerWindow; // Declare TPModsManagerWindow in the outer scope
+// Declare variables for windows and tray
+let mainWindow;
+let tray;
+let BalloonShown = false;
 
 const createWindow = () => {
   // Create the browser window.
@@ -39,24 +40,11 @@ const createWindow = () => {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
     //-- Open the DevTools.
     mainWindow.webContents.openDevTools();
+
   } else {
     console.log('Production mode: ');
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
-
-  // Handle external links
-  mainWindow.webContents.on('will-navigate', (event, url) => {
-    if (url !== mainWindow.webContents.getURL()) {
-      event.preventDefault(); // Prevent Electron from navigating
-      shell.openExternal(url); // Open the URL in the default browser
-    }
-  });
-
-  // Handle new window creation (if you have links with target="_blank")
-  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url);
-    return { action: 'deny' };
-  });
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
@@ -64,10 +52,78 @@ const createWindow = () => {
       mainWindow.webContents.toggleDevTools();
     }
   });
-
-  app.on('will-quit', () => {
-    globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+  // Handle external links
+  mainWindow.webContents.on('will-navigate', (event, url) => {
+    if (url !== mainWindow.webContents.getURL()) {
+      event.preventDefault(); // Prevent Electron from navigating
+      shell.openExternal(url); // Open the URL in the default browser
+    }
   });
+  // Handle new window creation (if you have links with target="_blank")
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' }; // Prevent Electron from creating a new window
+  });
+  // Handle window close event
+  mainWindow.on('close', (event) => {
+    event.preventDefault(); // Prevent the default close behavior
+    mainWindow.hide(); // Hide the window instead of closing it
+
+    //- Show a balloon notification informing the user that the app is still running in the background
+    //- This is only for Windows, as Linux have different tray behavior
+    if (tray && process.platform === 'win32' && BalloonShown === false) {
+      const BallonOptions = {
+        title: 'EDHM-UI',
+        icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+        content: 'The App is still running in the background.'
+      };
+      tray.displayBalloon(BallonOptions);
+      BalloonShown = true; // Shows the Balloon only once per session
+    }
+  });
+};
+
+const createTray = () => {
+  //- https://www.electronjs.org/docs/latest/api/tray
+
+  //- Create the Tray Icon:
+  tray = new Tray(path.join(__dirname, 'images/ED_TripleElite.ico'));
+
+  //- Create Context Menu for the Tray Icon:
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Restore',
+      click: () => {
+        mainWindow.show(); // Restore the main window
+      }
+    },
+    {
+      label: 'Quit',
+      click: () => {
+        //- Here the Program Terminates Normally
+        console.log('Quiting..');
+        tray.destroy(); // Destroy the tray icon
+        app.isQuiting = true; // Signal that the app is quitting        
+        globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+        if (mainWindow) {
+          mainWindow.removeAllListeners('close');
+          mainWindow.close();
+        }
+        app.quit();
+      }
+    }
+  ]);
+
+  tray.setContextMenu(contextMenu);
+  tray.setToolTip('EDHM-UI'); 
+
+  // Add the double-click event listener
+  tray.on('double-click', () => {
+    if (mainWindow) {
+      mainWindow.show(); // Show the main window
+    }
+  });
+  
 };
 
 // This method will be called when Electron has finished
@@ -75,8 +131,7 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
-
-  console.log('App is Ready!');
+  createTray();
 
   //-- Disable the menu bar
   Menu.setApplicationMenu(null);
@@ -85,32 +140,12 @@ app.whenReady().then(() => {
   if (process.platform === 'win32') {
     fileHelper.createWindowsShortcut.call(this);
   } else if (process.platform === 'linux') {
-    fileHelper.createLinuxShortcut.call(this);
+    //- Linux users prefer their desktop clean, so no shortcut is created by default
+    //- Uncomment the next line to create a shortcut on Linux as well
+    //fileHelper.createLinuxShortcut.call(this);
   }
 
-  // Handle command-line arguments
-  const args = process.argv.slice(2);
-  if (args.length > 0) {
-    console.log('Command-line arguments:', args);
-
-    // Handle your arguments here
-    if (args.includes('--my-flag')) {
-      console.log('my flag was passed');
-      // Do something.
-    }
-    if (args[0] === '--file' && args[1]) {
-      const filePath = args[1];
-      console.log(`Opening file: ${filePath}`);
-      // Handle opening the file
-    }
-    // Send arguments to the renderer process
-    mainWindow.webContents.on('did-finish-load', () => {
-      mainWindow.webContents.send('app-args', args);
-    });
-
-
-  }
-
+  // Ensure tray works on both Windows and Linux
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   app.on('activate', () => {
@@ -125,34 +160,34 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
+    if (mainWindow) {
+      globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+      mainWindow.removeAllListeners('close');
+      mainWindow.close();
+      app.quit();
+    }
   }
 });
 
+//---------------------------------------------------------------
+// #region ipc Handlers (Inter-Process Communication)
+
 ipcMain.handle('get-platform', () => {
-  console.log(process.platform);
   return process.platform;
 });
-
-//---------------------------------------------------------------
 ipcMain.handle('quit-program', async (event) => {
   try {
     if (mainWindow) {
+      globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
       mainWindow.removeAllListeners('close');
       mainWindow.close();
+      app.quit();
     }
     return true;
   } catch (error) {
-    console.error(`Error starting program: ${error}`);
+    console.error(error);
     throw error;
   }
 });
 
-ipcMain.handle('open3PModsManager', () => {
-  if (!TPModsManagerWindow) {
-    createTPModsManagerWindow();
-  } else {
-    TPModsManagerWindow.focus();
-  }
-});
-
+// #endregion

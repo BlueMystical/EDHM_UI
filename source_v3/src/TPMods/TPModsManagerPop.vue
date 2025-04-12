@@ -266,10 +266,10 @@ export default {
 
         async Initialize() {
             try {
-                console.log('Initializing 3PMods Manager..');
-                this.showSpinner = true;
+                console.log('Initializing 3PMods Manager..');                
                 this.showInfo = false;
                 this.showAlert = false;
+                this.showSpinner = true;
                 this.statusText = 'Initializing..';
 
                 this.TEMP_FOLDER = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI'); //console.log(this.TEMP_FOLDER);
@@ -297,32 +297,32 @@ export default {
         async LoadTPMods(availableMods, installedMods) {
             let _ret = [];
             try {
-                
+
                 this.ModsCounter = 0;
                 if (availableMods && availableMods.length > 0) {
                     this.TPmods = [];
-                    
-                    for (const mod of availableMods) {  
+
+                    for (const mod of availableMods) {
 
                         let listedMod = {
-                            mod_name:       mod.mod_name,
-                            description:    mod.description,
-                            author:         mod.author,
-                            mod_version:    mod.mod_version,
-                            download_url:   mod.download_url,
-                            thumbnail_url:  mod.thumbnail_url, 
-                            changelog:      mod.changelog,  
+                            mod_name: mod.mod_name,
+                            description: mod.description,
+                            author: mod.author,
+                            mod_version: mod.mod_version,
+                            download_url: mod.download_url,
+                            thumbnail_url: mod.thumbnail_url,
+                            changelog: mod.changelog,
 
-                            file_json:      null,
-                            file_ini:       null,
-                            data:           null,
-                            data_ini:       null,
+                            file_json: null,
+                            file_ini: null,
+                            data: null,
+                            data_ini: null,
 
-                            path:           null,
-                            basename:       null,
-                            isActive:       false,
+                            path: null,
+                            basename: null,
+                            isActive: false,
                             isUpdateAvaliable: false,
-                            childs:         []
+                            childs: []
                         };
 
                         if (installedMods && installedMods.mods) {
@@ -330,8 +330,8 @@ export default {
                             const found = installedMods.mods.findIndex((item) => item && item.data.mod_name === mod.mod_name);
                             if (found >= 0) {
                                 //- Mod is installed    
-                                const fMod = installedMods.mods[found]; 
-                                fMod.isActive = true; 
+                                const fMod = installedMods.mods[found];
+                                fMod.isActive = true;
 
                                 listedMod.isUpdateAvaliable = Util.compareVersions(mod.mod_version, fMod.data.version);
                                 listedMod.isActive = true;
@@ -340,50 +340,50 @@ export default {
                                 listedMod.file_ini = fMod.file_ini;
 
                                 listedMod.data = await this.applyIniData(fMod.data, fMod.data_ini),
-                                listedMod.data_ini = fMod.data_ini;
+                                    listedMod.data_ini = fMod.data_ini;
 
                                 listedMod.path = fMod.path;
                                 listedMod.basename = window.api.getBaseName(fMod.file_json, '.json');
 
                                 this.ModsCounter++;
-                            } 
-                        } 
+                            }
+                        }
 
-                        _ret.push(listedMod);  
+                        _ret.push(listedMod);
                     };
 
                     //-- Add any non-list mod that is installed:
                     if (installedMods && installedMods.mods) {
-                        
+
                         let prevMod = null;
                         for (const iMod of installedMods.mods) {
                             prevMod = {
-                                mod_name:       iMod.data.mod_name,
-                                description:    iMod.data.description,
-                                author:         iMod.data.author,
-                                mod_version:    "1.0",
-                                download_url:   "",
-                                thumbnail_url:  iMod.file_thumb,
-                                isActive:       true,
-                                file_json:      iMod.file_json,
-                                file_ini:       iMod.file_ini,
-                                data:           await this.applyIniData(iMod.data, iMod.data_ini),
-                                data_ini:       iMod.data_ini,
-                                path:           iMod.path,
-                                basename:       window.api.getBaseName(iMod.file_json, '.json'),
-                                childs:         []
+                                mod_name: iMod.data.mod_name,
+                                description: iMod.data.description,
+                                author: iMod.data.author,
+                                mod_version: "1.0",
+                                download_url: "",
+                                thumbnail_url: iMod.file_thumb,
+                                isActive: true,
+                                file_json: iMod.file_json,
+                                file_ini: iMod.file_ini,
+                                data: await this.applyIniData(iMod.data, iMod.data_ini),
+                                data_ini: iMod.data_ini,
+                                path: iMod.path,
+                                basename: window.api.getBaseName(iMod.file_json, '.json'),
+                                childs: []
                             };
 
                             //- Check if the mod is a child of the previous one:
                             const found = _ret.findIndex((item) => item && item.path === prevMod.path);
-                            if (found >= 0 ) {
+                            if (found >= 0) {
                                 //- Mod is installed 
                                 if (prevMod.mod_name != _ret[found].mod_name) {
                                     _ret[found].childs.push(prevMod);
-                                }                                
+                                }
                             } else {
-                                _ret.push(prevMod);   
-                                this.ModsCounter++;                            
+                                _ret.push(prevMod);
+                                this.ModsCounter++;
                             }
                         }
                     }
@@ -394,14 +394,56 @@ export default {
                             msg += err.msg + '<br>';
                         });
                         EventBus.emit('ShowError', new Error(msg));
-                    }                 
-                } 
-                
+                    }
+                }
+
             } catch (error) {
                 console.error(error);
                 EventBus.emit('ShowError', error);
             }
             return _ret;
+        },
+
+        /** Reads the data from the ini file and applies it to the JSON data.
+         * @param data Json Data
+         * @param ini Vlues from the Ini file         */
+        async applyIniData(data, ini) {
+            if (data && ini) {
+                if (Array.isArray(data.sections)) {
+                    for (const section of data.sections) {
+                        const ini_sec = section.ini_section;
+                        if (section.keys && Array.isArray(section.keys)) {
+                            for (const key of section.keys) {
+                                try {
+                                    const colorKeys = key.key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"                                    
+
+                                    if (Array.isArray(colorKeys) && colorKeys.length > 2) {
+                                        //- Multi Key: Colors
+
+                                        let colorComponents = []; //console.log('colorKeys', colorKeys);
+                                        for (const [index, rgbKey] of colorKeys.entries()) {
+                                            const iniValue = await window.api.getIniKey(ini, ini_sec, rgbKey);  //console.log('rgbKey', rgbKey);
+                                            colorComponents.push(iniValue); //<- colorComponents: [ '0.063', '0.7011', '1' ]
+                                        }
+                                        //console.log('colorComponents:', colorComponents);
+                                        if (colorComponents != undefined && !colorComponents.includes(undefined)) {
+                                            const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                                            //console.log('color', color);
+                                            key.value = parseFloat(Util.rgbaToInt(color).toFixed(1)); //console.log('value', key.value);
+                                        }
+                                    } else {
+                                        //- Single Key: Text, Numbers, etc.
+                                        key.value = await window.api.getIniKey(ini, ini_sec, key.key);
+                                    }
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return data;
         },
         
         // #region Utility Methods
@@ -502,8 +544,6 @@ export default {
             return modifiedHtml;
         },
 
-       
-
         // #endregion
 
         // #region Control Events
@@ -544,48 +584,6 @@ export default {
             console.log('Mod Changes Saved?:', _retJsn, _retIni);
         },
 
-         /** Reads the data from the ini file and applies it to the JSON data.
-         * @param data Json Data
-         * @param ini Vlues from the Ini file         */
-         async applyIniData(data, ini) {
-            if (data && ini) {
-                if (Array.isArray(data.sections)) {
-                    for (const section of data.sections) {
-                        const ini_sec = section.ini_section;
-                        if (section.keys && Array.isArray(section.keys)) {
-                            for (const key of section.keys) {
-                                try {
-                                    const colorKeys = key.key.split('|');  //<- iniKey === "x159|y159|z159" or "x159|y155|z153|w200"                                    
-                                    
-                                    if (Array.isArray(colorKeys) && colorKeys.length > 2) {
-                                        //- Multi Key: Colors
-
-                                        let colorComponents = []; //console.log('colorKeys', colorKeys);
-                                        for (const [index, rgbKey] of colorKeys.entries()) { 
-                                            const iniValue = await window.api.getIniKey(ini, ini_sec, rgbKey);  //console.log('rgbKey', rgbKey);
-                                            colorComponents.push(iniValue); //<- colorComponents: [ '0.063', '0.7011', '1' ]
-                                        }
-                                        //console.log('colorComponents:', colorComponents);
-                                        if (colorComponents != undefined && !colorComponents.includes(undefined)) {
-                                            const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                                            //console.log('color', color);
-                                            key.value = parseFloat(Util.rgbaToInt(color).toFixed(1)); //console.log('value', key.value);
-                                        }
-                                    } else {
-                                        //- Single Key: Text, Numbers, etc.
-                                        key.value = await window.api.getIniKey(ini, ini_sec, key.key); 
-                                    } 
-                                } catch (error) {
-                                    console.log(error);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return data;
-        },
-        
         showUpdateAlert(message, pModData) {
             this.alert = {
                 title:      pModData.mod_name,
