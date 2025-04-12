@@ -145,6 +145,24 @@ app.whenReady().then(() => {
     //fileHelper.createLinuxShortcut.call(this);
   }
 
+  // Handle command-line arguments
+  const args = process.argv.slice(2);
+  if (args.length > 0) {
+    console.log('Command-line arguments:', args);
+
+    // Handle your arguments here
+    if (args.includes('--hide')) {
+      console.log('Program started with --hide argument.');
+      // Hide the main window immediately
+      mainWindow.hide();
+    }
+
+    // Send arguments to the renderer process
+    mainWindow.webContents.on('did-finish-load', () => {
+      mainWindow.webContents.send('app-args', args);
+    });
+  }
+
   // Ensure tray works on both Windows and Linux
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
