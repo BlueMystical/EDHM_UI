@@ -4,6 +4,7 @@ import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
 import themeHelper from './Helpers/ThemeHelper.js';
 import settingsHelper from './Helpers/SettingsHelper.js';
+import Shipyard from './MainWindow/Shipyard.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -33,7 +34,7 @@ const createWindow = () => {
   });
 
   console.log('App is Loading..');
-
+  
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -45,6 +46,9 @@ const createWindow = () => {
     console.log('Production mode: ');
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
+
+  // Set the mainWindow instance in your Shipyard module
+  Shipyard.setMainWindow(mainWindow);
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {

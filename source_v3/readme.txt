@@ -295,7 +295,7 @@ npm install zip-lib <- for ZIP files
 npm install -g asar <- for Build deploy
 npm install @vitejs/plugin-vue --save-dev
 npm install vue-router@4   <- For multi-windows https://github.com/vuejs/router
-
+npm install chokidar   <- For file watching (Shipyard)
 
 npm uninstall @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
 

@@ -33,6 +33,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "chokidar": "^4.0.3",
     "electron-squirrel-startup": "^1.0.1",
     "mitt": "^3.0.1",
     "vue-router": "^4.5.0",

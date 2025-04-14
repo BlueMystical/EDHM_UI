@@ -30,6 +30,7 @@ import XmlEditor from './Components/XmlEditor.vue';
 import Util from '../Helpers/Utils.js';
 import TPMods from '../TPMods/TPModsManagerPop.vue';
 
+
 console.log('App.vue loaded');
 
 
@@ -77,6 +78,7 @@ export default {
       editingTheme: null, //<- If Null, its a New Theme, else its Editing an existing theme
       // #endregion
 
+      logData: null, // Make sure logData is defined here
     };
   },
   methods: {
@@ -133,17 +135,27 @@ export default {
         EventBus.emit('InitializeHUDimage', null);    //<- Event Listened at HudImage.vue
         EventBus.emit('DoLoadGlobalSettings', null);  //<- Event Listened at GlobalSettingsTab.vue
         EventBus.emit('DoLoadUserSettings', null);    //<- Event Listened at UserSettingsTab.vue
+
+        //- Initialize the Shipyard and awaits for events:
+        window.api.shipyardStart();
+        if (window.api) {
+          window.api.onLogAnalysisUpdate((event, data) => {
+            console.log('Received log analysis update:', data[data.length - 1]);
+            this.logData = data; 
+            // Perform further actions with the analyzed log data
+          });
+        }
                 
         if (this.settings.CheckForUpdates === undefined) {
-          // New Property, if is not there, we simply add it and save the change.
+          // CheckForUpdates Property, if is not there, we simply add it and save the change.
           this.settings.CheckForUpdates = true;
           await window.api.saveSettings(JSON.stringify(this.settings, null, 4));
         }
         if (this.settings.CheckForUpdates) {
-          // Waits 10 seconds and Look for Updates:
+          // Waits 8 seconds and Look for Updates:
           setTimeout(() => {
             this.LookForUpdates();
-          }, 10000);
+          }, 8000);
         }
 
       } catch (error) {
