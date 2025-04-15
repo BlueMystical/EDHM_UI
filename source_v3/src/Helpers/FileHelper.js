@@ -212,7 +212,7 @@ function ensureDirectoryExists(DirectoryPath) {
   }
 };
 
-/** Verifies is a File Exists
+/** Verifies is a File or Directory Exists
  * @param {*} filePath Full path to the File */
 const checkFileExists = (filePath) => {
   try {

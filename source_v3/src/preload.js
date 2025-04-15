@@ -168,10 +168,16 @@ contextBridge.exposeInMainWorld('api', {
   readXmlFile: (filePath) => ipcRenderer.invoke('read-xml-file', filePath),
   writeXmlFile: (filePath, xmlContent) => ipcRenderer.invoke('write-xml-file', filePath, xmlContent),
 
-
-  onLogAnalysisUpdate: (callback) => ipcRenderer.on('log-analysis-update', callback),
+  // #region Shipyard Events
+  
   shipyardStart: () => ipcRenderer.invoke('start-log-monitoring'),
-  send: (channel, data) => ipcRenderer.send(channel, data), // Ensure this is present
+  send: (channel, data) => ipcRenderer.send(channel, data),   
+  onPlayerJournalReaded: (callback) => ipcRenderer.on('log-analysis-update', callback), 
+  OnShipyardEvent: (callback) => ipcRenderer.on('OnShipyardEvent', callback), 
+
+  // #endregion
+
+  
 
 
 });

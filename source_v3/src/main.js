@@ -48,7 +48,7 @@ const createWindow = () => {
   }
 
   // Set the mainWindow instance in your Shipyard module
-  Shipyard.setMainWindow(mainWindow);
+  Shipyard.Initialize(mainWindow);
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {

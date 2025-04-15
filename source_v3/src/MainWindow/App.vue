@@ -139,7 +139,7 @@ export default {
         //- Initialize the Shipyard and awaits for events:
         window.api.shipyardStart();
         if (window.api) {
-          window.api.onLogAnalysisUpdate((event, data) => {
+          window.api.onPlayerJournalReaded((event, data) => {
             console.log('Received log analysis update:', data[data.length - 1]);
             this.logData = data; 
             // Perform further actions with the analyzed log data
