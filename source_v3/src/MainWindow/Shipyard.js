@@ -1,9 +1,13 @@
-import { ipcMain } from 'electron'; // Import BrowserWindow
-import fs from 'node:fs';   //import fs from 'node:fs/promises';
+import { ipcMain } from 'electron'; 
+import fs from 'node:fs/promises'; // For asynchronous operations (like in getLatestLogFile)
+import fsSync from 'node:fs';      // For synchronous operations in Initialize
 import path from 'node:path';
 import chokidar from 'chokidar';
+import { execFile } from 'child_process';
 import settingsHelper from '../Helpers/SettingsHelper.js';
 import fileHelper from '../Helpers/FileHelper.js';
+
+// #region Declarations
 
 // Configuration Files:
 const LOG_DIRECTORY = fileHelper.resolveEnvVariables(
@@ -23,6 +27,9 @@ let directoryWatcher = null;
 let mainWindowInstance = null; // To hold the mainWindow instance
 let PreviousShip = null;
 let AutoApplyTheme = true;
+let linesProcessed = 0;
+
+// #endregion
 
 /*         
 * The Player Journal is a log file that contains information about the player's actions and events in the game.
@@ -30,25 +37,24 @@ let AutoApplyTheme = true;
 * https://elite-journal.readthedocs.io/en/latest/
 */  
 
-/** Shipyar Initialization 
- * @param {*} mainWindow Reference to the Electron's Main Window, for comunication */
+/** Shipyard Initialization 
+ * @param {*} mainWindow Reference to the Electron's Main Window, for comunication with the renderer process */
 export const Initialize = (mainWindow) => {
     try {
         mainWindowInstance = mainWindow;
 
         // Load the Shipyard data from the JSON file
         ShipList = JSON.parse(
-            fs.readFileSync(
+            fsSync.readFileSync(
                 fileHelper.getAssetPath('data/Ship_List.json'), 'utf8')
         );
-        
+
         fileHelper.ensureDirectoryExists(DATA_DIRECTORY);
         if (fileHelper.checkFileExists(DATA_DIRECTORY)) {
             // Check if the Shipyard file exists, if not create it
             if (fileHelper.checkFileExists(ShipyardFilePath)) {
-                // Load the Shipyard data from the JSON file
                 Shipyard = JSON.parse(
-                    fs.readFileSync(ShipyardFilePath, 'utf8')
+                    fsSync.readFileSync(ShipyardFilePath, 'utf8')
                 );
             } else { //<- Shipyard file doesnt exists
                 Shipyard = {
@@ -66,7 +72,38 @@ export const Initialize = (mainWindow) => {
     }
 };
 
+/*** Player Journal Ship Changed Event
+ * This function is called when the ship changes in the game.
+ * @param {*} ship Data of the new ship
+ * @param {boolean} _ApplyTheme 'true' to apply the theme to the ship, 'false' otherwise. */
+function PlayerJournal_ShipChanged(ship, _ApplyTheme = true) {
+    /* OCURRE CUANDO SE CAMBIA LA NAVE 
+        - Guarda la Nave en el Historial de Naves   
+        - Si el Juego está abierto, Aplica el Tema seleccionado para la nave 
+        - Registrar el ID de la nave para el CPM 
+    */
+    try {
+        if (ship) {
+            console.log(ship);
+            const IsnewShip = IsDifferentShip(ship);
+            if (IsnewShip) {
+                PreviousShip = ship;
+            }
+            console.log(`Ship Changed: ${ship.data.ship_name} (${ship.data.ship_plate})`);
+            if (_ApplyTheme) {                
+                RunSendKeyScript(); //<- Send F11 key to the game
+            }            
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
+/** Get the ship data from the ShipList based on the given parameters. 
+ * @param {*} params - Parameters containing ship information.
+ * @param {string} params.ship_kind - [Required] The ship kind (e.g., "python", "cutter").
+ * @param {string} params.ship_name -  The ship name (e.g., "NORMANDY").
+ * @param {string} params.ship_plate - The ship plate (e.g., "SR-03"). */
 function GetShip(params) {
     try {
         if (ShipList) {
@@ -74,7 +111,7 @@ function GetShip(params) {
             if (ship) {
                 return {
                     ship_id: ship.ship_id,
-                    ship_kind: ship.ed_short,
+                    ship_kind: ship.ed_short.toLowerCase(),
                     ship_name: params.ship_name,
                     ship_plate: params.ship_plate,
                     ship_kind_name: ship.ship_full_name,
@@ -91,7 +128,9 @@ function GetShip(params) {
     }
 }
 
-function OnShipyardEvent(line) {
+/** Process a Journal Event catching only those we are interested in.
+ * @param {*} line - The line from the Journal file to process. */
+function OnShipyardEvent(line, isNewLine = false) {
     const _json = JSON.parse(line);
     try {
      
@@ -155,13 +194,13 @@ function OnShipyardEvent(line) {
                     _data = {
                         event: 'ShipLoadout', 
                         data: GetShip({
-                            ship_kind: _json.Ship.toLowerCase(),
+                            ship_kind: _json.Ship,
                             ship_name: _json.ShipName,
                             ship_plate: _json.ShipIdent
                         })
                     };
                     mainWindowInstance.webContents.send('OnShipyardEvent',  _data );
-                    PlayerJournal_ShipChanged(_data) //<- Add ship to the Shipyard if not there, apply its Theme, send F11 key to game                    
+                    PlayerJournal_ShipChanged(_data, isNewLine) //<- Add ship to the Shipyard if not there, apply its Theme, send F11 key to game                    
                     break;
 
                 //- 3. When deploying the SRV from a ship onto planet surface
@@ -173,13 +212,13 @@ function OnShipyardEvent(line) {
                     _data = {
                         event: 'LaunchSRV', 
                         data: GetShip({
-                            ship_kind: _json.SRVType.toLowerCase(),
+                            ship_kind: _json.SRVType,
                             ship_name: _json.SRVType_Localised,
                             ship_plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
                         })
                     };
                     mainWindowInstance.webContents.send('OnShipyardEvent', _data);
-                    PlayerJournal_ShipChanged(_data);
+                    PlayerJournal_ShipChanged(_data, isNewLine);
 
                 //- 4. when docking an SRV with the ship
                 case 'DockSRV':
@@ -188,13 +227,13 @@ function OnShipyardEvent(line) {
                     _data = {
                         event: 'DockSRV', 
                         data: GetShip({
-                            ship_kind: _json.SRVType.toLowerCase(),
+                            ship_kind: _json.SRVType,
                             ship_name: _json.SRVType_Localised,
                             ship_plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
                         })
                     };
                     if (PreviousShip) {
-                        PlayerJournal_ShipChanged(PreviousShip);
+                        PlayerJournal_ShipChanged(PreviousShip, isNewLine);
                     }
                     //We dont use this event at the moment.
                     break;
@@ -212,7 +251,7 @@ function OnShipyardEvent(line) {
                     _data = {
                         event: 'DockSRV',
                         data: GetShip({
-                            ship_kind: _json.SRVType.toLowerCase(),
+                            ship_kind: _json.SRVType,
                             ship_name: _json.SRVType_Localised,
                             ship_plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
                         })
@@ -220,7 +259,7 @@ function OnShipyardEvent(line) {
                     // Since the Embark doesnt tell the ship, we use the Previously embarked ship
                     // *: it may be a problem if the player logs out while on foot and tries to embark, we wont know what ship he/she had
                     if (PreviousShip) {
-                        PlayerJournal_ShipChanged(PreviousShip);
+                        PlayerJournal_ShipChanged(PreviousShip, isNewLine);
                     }
                     break;
                 case '':
@@ -235,24 +274,9 @@ function OnShipyardEvent(line) {
     return _json;
 }
 
-function PlayerJournal_ShipChanged(ship, _ApplyTheme = true) {
-    /* OCURRE CUANDO SE CAMBIA LA NAVE 
-        - Guarda la Nave en el Historial de Naves   
-        - Si el Juego está abierto, Aplica el Tema seleccionado para la nave 
-        - Registrar el ID de la nave para el CPM 
-    */
-    try {        
-        const IsnewShip = IsDifferentShip(ship);
-        if (IsnewShip) {
-            PreviousShip = ship;
-        }
-
-
-    } catch (error) {
-        console.log(error);
-    }
-}
-
+/** Compares the given ship with the last used ship to determine if they are different.
+ * @param {*} ship data of the ship to compare
+ * @returns {boolean} 'true' if the ship is different from the last used ship, 'false' otherwise. */
 function IsDifferentShip(ship) {
     if (PreviousShip) {
         if (ship.ship_id !== PreviousShip.ship_id
@@ -263,9 +287,11 @@ function IsDifferentShip(ship) {
     return false;
 }
 
+/** Returns the latest log file in the journal directory. */
 async function getLatestLogFile() {
     try {
-        const files = await fs.readdir(LOG_DIRECTORY);
+        console.log('Getting latest log file from:', LOG_DIRECTORY);
+        const files = await fs.readdir(LOG_DIRECTORY); // Use await with the promise-based readdir
         const logFiles = files.filter(file => file.endsWith('.log') || file.endsWith('.txt')); // Adjust filter as needed
 
         if (logFiles.length === 0) {
@@ -288,47 +314,63 @@ async function getLatestLogFile() {
     }
 }
 
-async function analyzeLogFile(filePath) {
+/** Reads the journal file and parses each line as JSON object.
+ * @param {*} filePath full path to the Journal file 
+ * @returns an array of parsed lines */
+async function analyzeLogFile(filePath, startLine = 0) {
     try {
         const content = await fs.readFile(filePath, 'utf-8');
         const lines = content.trim().split('\n');
-        const parsedLines = lines.map(line => {
-            try {                
-                return OnShipyardEvent(line);
+        const newLines = lines.slice(startLine); // Only process new lines
+
+        const parsedLines = newLines.map(line => {
+            try {
+                return OnShipyardEvent(line, startLine > 0); // Call the event handler to process the line
             } catch (error) {
                 console.warn('Error parsing JSON line:', line, error);
                 return null;
             }
         }).filter(line => line !== null);
 
-        // Perform your analysis here on the parsedLines array
-        console.log(`Analyzed ${parsedLines.length} lines from:`, filePath);
-        if (mainWindowInstance && mainWindowInstance.webContents) {
-            mainWindowInstance.webContents.send('log-analysis-update', parsedLines); // Send data to renderer
+        if (parsedLines.length > 0) {
+            console.log(`Analyzed ${parsedLines.length} new lines from:`, filePath);
+            if (mainWindowInstance && mainWindowInstance.webContents) {
+                mainWindowInstance.webContents.send('log-analysis-update', parsedLines); // Send data to renderer
+            } else {
+                console.warn('mainWindowInstance not available to send log analysis update.');
+            }
+        } else if (startLine > 0) {
+            console.log('No new lines to analyze.');
         } else {
-            console.warn('mainWindowInstance not available to send log analysis update.');
+            console.log(`Initial analysis of ${lines.length} lines from:`, filePath);
         }
-        return parsedLines; // You can still return it if needed for internal logic
+
+        return parsedLines;
     } catch (error) {
         console.error('Error analyzing log file:', error);
+        return []; // Return an empty array in case of error
     }
 }
 
+/** Watch for changes in the log file and re-analyze it. 
+ * @param {*} filePath full path to the Journal file */
 async function startMonitoringFile(filePath) {
     if (filePath === currentlyMonitoredFile) {
         return; // Already monitoring this file
     }
 
-    console.log('Starting to monitor:', filePath);
+    console.log('Starting to monitor:', path.basename(filePath));
     currentlyMonitoredFile = filePath;
+    linesProcessed = 0; // Reset processed lines count for a new file
 
     // Stop previous watcher if any
     if (fileWatcher) {
         fileWatcher.close();
     }
 
-    // Initial analysis
-    await analyzeLogFile(filePath);
+    // Initial analysis of the entire file
+    const initialParsedLines = await analyzeLogFile(filePath, 0);
+    linesProcessed = initialParsedLines.length; // Update the number of lines processed
 
     // Watch for changes in the file
     fileWatcher = chokidar.watch(filePath, {
@@ -336,24 +378,35 @@ async function startMonitoringFile(filePath) {
         ignoreInitial: true,
     }).on('change', async () => {
         console.log('File changed:', filePath);
-        await analyzeLogFile(filePath); // Re-analyze and send updates
+        try {
+            const content = await fs.readFile(filePath, 'utf-8');
+            const currentLineCount = content.trim().split('\n').length;
+
+            if (currentLineCount > linesProcessed) {
+                // Analyze only the new lines
+                const newParsedLines = await analyzeLogFile(filePath, linesProcessed);
+                linesProcessed = currentLineCount; // Update the number of lines processed
+            } else if (currentLineCount < linesProcessed) {
+                // Handle file truncation (optional, depending on your needs)
+                console.warn('Log file truncated, re-analyzing from the beginning.');
+                const allParsedLines = await analyzeLogFile(filePath, 0);
+                linesProcessed = allParsedLines.length;
+            }
+        } catch (error) {
+            console.error('Error reading file during change detection:', error);
+        }
     }).on('error', error => console.error('Error watching file:', error));
 }
 
-async function checkAndSwitchLogFile() {
-    const latestFile = await getLatestLogFile();
-    if (latestFile && latestFile !== currentlyMonitoredFile) {
-        startMonitoringFile(latestFile);
-    }
-}
-
+/** Start monitoring the directory for new log files.
+ * * If a new file is added, it will start monitoring that file for changes. */
 function startDirectoryMonitoring() {
     try {
         if (Shipyard && Shipyard.enabled) {
-            console.log('Starting directory monitoring...');
+            console.log('Starting Journal monitoring...');
             
             // Ensure the log directory exists
-            fs.mkdir(LOG_DIRECTORY, { recursive: true }).catch(console.error);
+            fileHelper.ensureDirectoryExists(LOG_DIRECTORY);
 
             // Initial check for the latest file
             checkAndSwitchLogFile();
@@ -371,10 +424,36 @@ function startDirectoryMonitoring() {
             }).on('error', error => console.error('Error watching directory:', error));
         } 
         else { 
-            console.log('Shipyard is disabled, not monitoring directory.');
+            console.log('** Shipyard is disabled, not monitoring directory. **');
         }
     } catch (error) {
         console.error(error);
+    }
+}
+
+function RunSendKeyScript() {
+  const scriptPath = fileHelper.getAssetPath('data/etc/SendF11.vbs'); // Path to the VBScript file
+
+  execFile('wscript.exe', ['//nologo', scriptPath], (error, stdout, stderr) => {
+    if (error) {
+      console.error('Error executing VBScript:', error);
+      // You might want to send an error message back to the renderer process
+    } else {
+      console.log('VBScript executed successfully');
+      // You might want to send a success message back to the renderer process
+    }
+    if (stderr) {
+      console.error('VBScript stderr:', stderr);
+    }
+    console.log('VBScript stdout:', stdout); // The VBScript likely won't produce much stdout
+  });
+}
+
+//- Utility method:
+async function checkAndSwitchLogFile() {
+    const latestFile = await getLatestLogFile();
+    if (latestFile && latestFile !== currentlyMonitoredFile) {
+        startMonitoringFile(latestFile);
     }
 }
 
@@ -393,4 +472,5 @@ export default {
     startDirectoryMonitoring, 
     Initialize,
     OnShipyardEvent, PlayerJournal_ShipChanged,
+    RunSendKeyScript,
 };
