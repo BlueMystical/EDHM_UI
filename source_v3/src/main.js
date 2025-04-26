@@ -70,19 +70,33 @@ const createWindow = () => {
   });
   // Handle window close event
   mainWindow.on('close', (event) => {
-    event.preventDefault(); // Prevent the default close behavior
-    mainWindow.hide(); // Hide the window instead of closing it
+    const hideEnabled = settingsHelper.readSetting('HideToTray');
+    if (hideEnabled) {
+      event.preventDefault(); // Prevent the default close behavior
+      mainWindow.hide(); // Hide the window instead of closing it
 
-    //- Show a balloon notification informing the user that the app is still running in the background
-    //- This is only for Windows, as Linux have different tray behavior
-    if (tray && process.platform === 'win32' && BalloonShown === false) {
-      const BallonOptions = {
-        title: 'EDHM-UI',
-        icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
-        content: 'The App is still running in the background.'
-      };
-      tray.displayBalloon(BallonOptions);
-      BalloonShown = true; // Shows the Balloon only once per session
+      //- Show a balloon notification informing the user that the app is still running in the background
+      //- This is only for Windows, as Linux have different tray behavior
+      if (tray && process.platform === 'win32' && BalloonShown === false) {
+        const BallonOptions = {
+          title: 'EDHM-UI',
+          icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+          content: 'The App is still running in the background.'
+        };
+        tray.displayBalloon(BallonOptions);
+        BalloonShown = true; // Shows the Balloon only once per session
+      }
+    } else {
+      //- Here the Program Terminates Normally
+      console.log('Quiting..');
+      tray.destroy(); // Destroy the tray icon
+      app.isQuiting = true; // Signal that the app is quitting        
+      globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+      if (mainWindow) {
+        mainWindow.removeAllListeners('close');
+        mainWindow.close();
+      }
+      app.quit();
     }
   });
 };

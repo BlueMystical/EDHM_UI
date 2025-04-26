@@ -306,6 +306,7 @@ export default {
         if (theme && theme.file) {
           const template = JSON.parse(JSON.stringify(theme.file));
           console.log('Loading Theme..', template.credits.theme);
+          
           this.themeTemplate = await window.api.LoadTheme(template.path);
           this.themeTemplate.credits = theme.file.credits;
 

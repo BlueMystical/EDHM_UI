@@ -83,24 +83,36 @@ const getThemes = async (dirPath) => {
 };
 
 /** Loads a Theme from a specified folder path. * 
- * @param {*} themeFolder Path to the folder containing the Theme files
- */
+ * @param {*} themeFolder Path to the folder containing the Theme files */
 const LoadTheme = async (themeFolder) => {
   let template = {};
   try {
+    const templatePath = FileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json'); //<- Default Template
+    template = await fileHelper.loadJsonFile(templatePath);
     const themeJSON = path.join(themeFolder, 'ThemeSettings.json');
+
     if (fs.existsSync(themeJSON)) {
       // New v3 Format for Themes, single File JSON:
-      template = await fileHelper.loadJsonFile(themeJSON);
-      template.path = themeFolder;
-      template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
+      const themeData = await fileHelper.loadJsonFile(themeJSON);
+      themeData.path = themeFolder;
+      themeData.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
+
+      // Apply themeData over the base template, only updating existing properties
+      const updatedTemplateData = Object.keys(template)
+        .filter(key => template.hasOwnProperty(key) && key !== 'Presets') // Exclude 'Presets'
+        .reduce((obj, key) => {
+          obj[key] = themeData[key];
+          return obj;
+        }, {});
+
+      template = { ...template, ...updatedTemplateData };
+      template.path = themeData.path;
+      template.isFavorite = themeData.isFavorite;
 
     } else {
       // Old fashion format for Themes, Multiple INI files:
       const ThemeINIs = await LoadThemeINIs(themeFolder);
-      const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');
 
-      template = await fileHelper.loadJsonFile(defaultThemePath);
       template.credits = await GetCreditsFile(themeFolder);
       template = await ApplyIniValuesToTemplate(template, ThemeINIs);
       template.path = themeFolder;
@@ -111,7 +123,39 @@ const LoadTheme = async (themeFolder) => {
   }
   return template;
 };
+/*const LoadTheme = async (themeFolder) => {
+  let template = {};
+  try {
+    const templatePath = FileHelper.getAssetPath('../data/ODYSS/ThemeTemplate.json'); //<- Default Template
+    let template = await fileHelper.loadJsonFile(templatePath);
+    const themeJSON = path.join(themeFolder, 'ThemeSettings.json');
 
+    if (fs.existsSync(themeJSON)) {
+      // New v3 Format for Themes, single File JSON:
+      template = await fileHelper.loadJsonFile(themeJSON); 
+      template.path = themeFolder;
+      template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
+      //TODO: apply template 2 over template 1, only on the existing values from template 1:
+
+    } else {
+      // Old fashion format for Themes, Multiple INI files:
+      const ThemeINIs = await LoadThemeINIs(themeFolder);
+      const defaultThemePath = fileHelper.getAssetPath('./data/ODYSS/ThemeTemplate.json');
+
+      template = await fileHelper.loadJsonFile(defaultThemePath);
+      template.credits = await GetCreditsFile(themeFolder);
+
+      //TODO: apply template 2 over template 1, only on the existing values from template 1:
+      template = await ApplyIniValuesToTemplate(template, ThemeINIs);
+      template.path = themeFolder;
+      template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
+    }
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+  return template;
+};
+*/
 
 
 

@@ -209,33 +209,42 @@ async function saveUserSettings(settings) {
   }
 };
 async function AddToUserSettings(newElement) {
-  try {
-    if (newElement) {
-      try { delete newElement.iconVisible; } catch { }
-
-      var userSettings = LoadUserSettings();
-      //console.log('userSettings:', userSettings);
-      if (userSettings) {
-        // Check if an element with the same Key already exists
-        const existingElementIndex = userSettings.Elements.findIndex(
-          element => element.Key === newElement.Key
-        );
-
-        if (existingElementIndex !== -1) {
-          // If an element exists, replace it
-          userSettings.Elements[existingElementIndex] = newElement;
-        } else {
-          // If no element exists, add the new element
-          userSettings.Elements.push(newElement);
-        }
-
-        return saveUserSettings(userSettings);
-      }
-    }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  if (!newElement) {
+    return; // Gracefully handle null or undefined input
   }
-};
+
+  try {
+    // Remove iconVisible if it exists (more concise way)
+    delete newElement.iconVisible;
+
+    const userSettings = await LoadUserSettings(); // Assuming LoadUserSettings is async
+
+    if (!userSettings) {
+      // Handle the case where user settings couldn't be loaded
+      console.warn("Could not load user settings. Creating a new settings object.");
+      return saveUserSettings({ Elements: [newElement] });
+    }
+
+    if (!userSettings.Elements || !Array.isArray(userSettings.Elements)) {
+      userSettings.Elements = []; // Initialize Elements if it's missing or not an array
+    }
+
+    const existingElementIndex = userSettings.Elements.findIndex(
+      element => element.Key === newElement.Key
+    );
+
+    if (existingElementIndex !== -1) {
+      userSettings.Elements[existingElementIndex] = newElement; // Replace existing
+    } else {
+      userSettings.Elements.push(newElement); // Add new
+    }
+
+    return saveUserSettings(userSettings); // Assume saveUserSettings is async
+  } catch (error) {
+    console.error("Error adding to user settings:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+}
 async function RemoveFromUserSettings(settings) {
   try {
     var userSettings = LoadUserSettings();
