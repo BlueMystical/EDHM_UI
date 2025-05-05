@@ -960,13 +960,13 @@ namespace EDHM_UI_mk2
 						//XtraMessageBoxArgs args = new XtraMessageBoxArgs()
 						//{
 						//	Caption = "Success!",
-						//	Text = string.Format("EDHM Version '{0}' had been Installed!\r\n{1}", _Version, pGameInstance.instance),
+						//	Text = string.Format("EDHM Version '{0}' has been Installed!\r\n{1}", _Version, pGameInstance.instance),
 						//	Buttons = new DialogResult[] { DialogResult.OK }
 						//};
 						//args.AutoCloseOptions.Delay = 2000;
 						//args.AutoCloseOptions.ShowTimerOnDefaultButton = true;
 						//XtraMessageBox.Show(args).ToString();
-						Mensajero.ShowMessage("Success!", string.Format("EDHM Version '{0}' had been Installed!\r\n{1}", _Version, pGameInstance.instance),
+						Mensajero.ShowMessage("Success!", string.Format("EDHM Version '{0}' has been installed!\r\n{1}", _Version, pGameInstance.instance),
 							pIcon: MessageBoxIcon.Information, AutoCloseTime: 2000);
 					}
 				}
@@ -3526,7 +3526,7 @@ namespace EDHM_UI_mk2
 						Util.WinReg_WriteKey("EDHM", "LastFolderUsed", Path.GetDirectoryName(XOFD.FileName));
 
 						_ret = true;
-						XtraMessageBox.Show(string.Format("The theme file '{0}' had been Installed!", FileName), "Success!",
+						XtraMessageBox.Show(string.Format("The theme file '{0}' has been installed!", FileName), "Success!",
 									MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 						LoadThemeList_EX();
@@ -3592,7 +3592,7 @@ namespace EDHM_UI_mk2
 							_ret = true;
 							string FileName = System.IO.Path.GetFileName(XSFD.FileName);
 
-							XtraMessageBox.Show(string.Format("The theme file '{0}' had been Exported!", FileName), "Success!",
+							XtraMessageBox.Show(string.Format("The theme file '{0}' has been exported!", FileName), "Success!",
 										MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 							LoadThemeList_EX();
@@ -3807,7 +3807,7 @@ namespace EDHM_UI_mk2
 
 									if (!Silent)
 									{
-										XtraMessageBox.Show("EDHM had been completely removed from your Game!\r\nThank you for trying us ^_^", "Process Complete",
+										XtraMessageBox.Show("EDHM has been completely removed from your game!\r\nThank you for trying us ^_^", "Process Complete",
 															MessageBoxButtons.OK, MessageBoxIcon.Information);
 									}
 								}));
@@ -4909,7 +4909,7 @@ namespace EDHM_UI_mk2
 						if (data != null)
 						{
 							// Since the Embark doesnt tell the ship, we use the Previously embarked ship
-							// TODO: it may be a problem if the player logs out while on foot and tries to embark, we wont know what ship he/she had
+							// TODO: it may be a problem if the player logs out while on foot and tries to embark, we wont know what ship they had
 							if (PreviousShip != null)
 							{
 								PlayerJournal_ShipChanged(PreviousShip, AutoApplyTheme);
@@ -7229,7 +7229,7 @@ namespace EDHM_UI_mk2
 									foreach (FileInfo f in dir.GetFiles("*.credits")) { f.Delete(); }
 									Util.Serialize_ToJSON(Path.Combine(Destino, "Theme.credits"), ThemeDetails, true);
 
-									Mensajero.ShowMessageDark("Success!", "The theme had been renamed.");
+									Mensajero.ShowMessageDark("Success!", "The theme has been renamed.");
 								}
 							}
 							catch { }
