@@ -209,14 +209,14 @@ export default {
         const NewInstance = await window.api.getInstanceByName(GameInstanceName);
         console.log('NewInstance:', NewInstance);
 
-        EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
+        /*EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
         const edhmInstalled = await window.api.installEDHMmod(NewInstance);
 
         if (edhmInstalled.game === 'ODYSS') {
           this.settings.Version_ODYSS = edhmInstalled.version;
         } else {
           this.settings.Version_HORIZ = edhmInstalled.version;
-        }
+        }*/
 
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue

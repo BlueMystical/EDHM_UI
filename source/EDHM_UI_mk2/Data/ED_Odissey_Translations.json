@@ -4286,6 +4286,48 @@
     ]
   },
   {
+    "id": "w108",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Mouse Cursor Mode",
+        "category": "Mouse Cursor",
+        "description": "Mode for the Mouse Cursor."
+      },
+      {
+        "key": "de",
+        "value": "Fehlerhafter HUD-Modus",
+        "category": "HUD-Effekte",
+        "description": "Das HUD zeigt manchmal Störungen, wenn es Schaden erleidet, und ist standardmäßig orange."
+      },
+      {
+        "key": "fr",
+        "value": "Mode HUD glitch",
+        "category": "Effets HUD",
+        "description": "Le HUD se bloque parfois lorsqu'il subit des dégâts et est orange par défaut."
+      },
+      {
+        "key": "it",
+        "value": "Modalità HUD glitch",
+        "category": "Effetti HUD",
+        "description": "L'HUD a volte si guasta quando subisce danni e per impostazione predefinita è arancione."
+      },
+      {
+        "key": "ru",
+        "value": "Глючит режим HUD",
+        "category": "HUD-эффекты",
+        "description": "HUD иногда дает сбои при получении урона и по умолчанию оранжевый."
+      },
+      {
+        "key": "pt",
+        "value": "Modo HUD com falha",
+        "category": "Efeitos HUD",
+        "description": "O HUD às vezes falha ao receber dano e, por padrão, é laranja."
+      }
+    ]
+  },
+  {
     "id": "z78",
     "group": "Element",
     "lang": [
@@ -17524,14 +17566,56 @@
     ]
   },
   {
-    "id": "x145|y145|z145|w145",
+    "id": "x145|y145|z145",
     "group": "Element",
     "lang": [
       {
         "key": "en",
         "value": "Fuel Scoop Color",
         "category": "Fuel Bar",
-        "description": "Custom Colour for Fuel Scoop *Alpha"
+        "description": "Custom Colour for Fuel Scoop"
+      },
+      {
+        "key": "de",
+        "value": "Farbe für Kraftstoffsammler",
+        "category": "Kraftstoffleiste",
+        "description": "Benutzerdefinierte Farbe für die Kraftstoffsaufnahme *Alpha"
+      },
+      {
+        "key": "fr",
+        "value": "Couleur de la prise de carburant",
+        "category": "Barre de carburant",
+        "description": "Couleur personnalisée pour la prise de carburant *Alpha"
+      },
+      {
+        "key": "it",
+        "value": "Colore della paletta del carburante",
+        "category": "Barra del carburante",
+        "description": "Colore personalizzato per la paletta del carburante *Alpha"
+      },
+      {
+        "key": "ru",
+        "value": "Цвет топливного ковша",
+        "category": "Топливная панель",
+        "description": "Пользовательский цвет для топливного ковша *Альфа"
+      },
+      {
+        "key": "pt",
+        "value": "Cor da colher de combustível",
+        "category": "Barra de Combustível",
+        "description": "Colo personalizadour para colher de combustível *Alfa"
+      }
+    ]
+  },
+  {
+    "id": "w145",
+    "group": "Element",
+    "lang": [
+      {
+        "key": "en",
+        "value": "Fuel Scoop Brightness",
+        "category": "Fuel Bar",
+        "description": "Fuel Scoop Brightness (for Custom Color & XML Modes)"
       },
       {
         "key": "de",

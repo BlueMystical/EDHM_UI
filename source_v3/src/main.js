@@ -15,6 +15,8 @@ if (started) {
 let mainWindow;
 let tray;
 let BalloonShown = false;
+let HideToTray = false;
+let WatchMe = false;
 
 const createWindow = () => {
   // Create the browser window.
@@ -47,8 +49,14 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
-  // Set the mainWindow instance in your Shipyard module
-  Shipyard.Initialize(mainWindow);
+  HideToTray = settingsHelper.readSetting('HideToTray', false); //<- Hide to System Tray on close
+  WatchMe = settingsHelper.readSetting('WatchMe', false); //<- Whatch for changes in the Player Journal
+  console.log('HideToTray:', HideToTray);
+
+  if (WatchMe) {
+    // Set the mainWindow instance in your Shipyard module
+    Shipyard.Initialize(mainWindow);
+  }
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
@@ -70,19 +78,21 @@ const createWindow = () => {
   });
   // Handle window close event
   mainWindow.on('close', (event) => {
-    event.preventDefault(); // Prevent the default close behavior
-    mainWindow.hide(); // Hide the window instead of closing it
+    if (HideToTray && process.platform === 'win32') {
+      event.preventDefault(); // Prevent the default close behavior
+      mainWindow.hide(); // Hide the window instead of closing it
 
-    //- Show a balloon notification informing the user that the app is still running in the background
-    //- This is only for Windows, as Linux have different tray behavior
-    if (tray && process.platform === 'win32' && BalloonShown === false) {
-      const BallonOptions = {
-        title: 'EDHM-UI',
-        icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
-        content: 'The App is still running in the background.'
-      };
-      tray.displayBalloon(BallonOptions);
-      BalloonShown = true; // Shows the Balloon only once per session
+      //- Show a balloon notification informing the user that the app is still running in the background
+      //- This is only for Windows, as Linux have different tray behavior
+      if (tray && BalloonShown === false) {
+        const BallonOptions = {
+          title: 'EDHM-UI',
+          icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+          content: 'The App is still running in the background.'
+        };
+        tray.displayBalloon(BallonOptions);
+        BalloonShown = true; // Shows the Balloon only once per session
+      }
     }
   });
 };
@@ -135,7 +145,6 @@ const createTray = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
-  createTray();
 
   //-- Disable the menu bar
   Menu.setApplicationMenu(null);
@@ -143,6 +152,7 @@ app.whenReady().then(() => {
   //-- Create Desktop Shortcut Icons:
   if (process.platform === 'win32') {
     fileHelper.createWindowsShortcut.call(this);
+    createTray(); // Create the tray icon
   } else if (process.platform === 'linux') {
     //- Linux users prefer their desktop clean, so no shortcut is created by default
     //- Uncomment the next line to create a shortcut on Linux as well
@@ -181,13 +191,17 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    if (mainWindow) {
-      globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
-      mainWindow.removeAllListeners('close');
-      mainWindow.close();
-      app.quit();
+  try {
+    if (process.platform !== 'darwin') {
+      if (mainWindow) {
+        if (tray) tray.destroy(); // Destroy the tray icon
+        globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+        mainWindow.removeAllListeners('close');
+        app.quit();
+      }
     }
+  } catch (error) {
+    console.error('Error during window-all-closed:', error);
   }
 });
 
@@ -202,7 +216,6 @@ ipcMain.handle('quit-program', async (event) => {
     if (mainWindow) {
       globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
       mainWindow.removeAllListeners('close');
-      mainWindow.close();
       app.quit();
     }
     return true;

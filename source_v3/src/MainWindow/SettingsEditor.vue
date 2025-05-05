@@ -77,9 +77,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check form-switch" disabled>
+                                            <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckTray" checked v-model="config.HideToTray" disabled>
+                                                    id="flexSwitchCheckTray" checked v-model="config.HideToTray">
                                                 <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray on close</label>
                                             </div>
                                         </div>

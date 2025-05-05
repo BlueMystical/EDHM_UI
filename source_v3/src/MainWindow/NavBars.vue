@@ -19,6 +19,7 @@
           <option value="" disabled>──────────</option>
           <option value="mnuInstallMod">Install EDHM</option>
           <option value="mnuUninstallMod">Un-install EDHM</option>
+          <option disabled value="mnuDisableMod">Enable/Disable EDHM</option>
           <option value="" disabled>──────────</option>
           <option  value="mnuGoToDiscord" >Help? Join our Discord</option>
           <option  value="mnuCheckUpdates">Check for Updates</option>          
@@ -438,16 +439,21 @@ export default {
           EventBus.emit('open-settings-editor', InstallStatus);
         }
         if (value === 'mnu3PModsManager') {
-          //window.api.open3PModsManager();
           EventBus.emit('open-3PMods', JSON.parse(JSON.stringify(ActiveInstance)));
         }
         if (value === 'mnuInstallMod') {
           EventBus.emit('GameInsanceChanged', ActiveInstance.instance); //<- this event will be heard in 'App.vue'
         }
         if (value === 'mnuUninstallMod') {
-          const _ret = window.api.UninstallEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
+          const _ret = await window.api.UninstallEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
           if (_ret) {
             EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Un-Installed!' });
+          }
+        }
+        if (value === 'mnuDisableMod') {
+          const _ret = await window.api.DisableEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
+          if (_ret) {
+            EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Disabled!' });
           }
         }
         if (value === 'mnuGoToDiscord') {

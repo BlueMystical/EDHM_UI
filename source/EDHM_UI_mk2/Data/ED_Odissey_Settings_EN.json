@@ -626,6 +626,28 @@
           "ValueType": "Preset",
           "Type": "GlitchingHUDmode",
           "Description": "The HUD will sometimes glitch when taking damage, and by default is orange."
+        },
+        {
+          "Category": "Mouse Cursor",
+          "Title": "Mouse Cursor Mode",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "w108",
+          "Value": 200.0,
+          "ValueType": "Preset",
+          "Type": "MouseCursorMode",
+          "Description": "Mode for the Mouse Cursor."
+        },
+        {
+          "Category": "Mouse Cursor",
+          "Title": "Custom Color",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "x193|y193|z193|w193",
+          "Value": -23296.0,
+          "ValueType": "Color",
+          "Type": "CustomColour",
+          "Description": "Custom Color for the Mouse Cursor. *Alpha*"
         }
       ]
     },
@@ -3087,6 +3109,17 @@
           "Type": "CustomColor",
           "Description": "Custom Color for Object Lines and coasters in Supercruise."
         },
+        {
+          "Category": "Radar Objects - Supercruice",
+          "Title": "Radar - Attraction Zone",
+          "File": "Startup-Profile",
+          "Section": "Constants",
+          "Key": "x108",
+          "Value": 100.0,
+          "ValueType": "Preset",
+          "Type": "RadarAttractionZone",
+          "Description": "Color Mode for the Red Attraction Zone of Celestial Bobies."
+        },
 
         {
           "Category": "Radar Objects",
@@ -3906,11 +3939,22 @@
           "Title": "Fuel Scoop Color",
           "File": "Advanced",
           "Section": "Constants",
-          "Key": "x145|y145|z145|w145",
+          "Key": "x145|y145|z145",
           "Value": -23296.0,
           "ValueType": "Color",
           "Type": "CustomColor",
           "Description": "Custom Colour for Fuel Scoop *Alpha"
+        },
+        {
+          "Category": "Fuel Bar",
+          "Title": "Fuel Scoop Brightness",
+          "File": "Advanced",
+          "Section": "Constants",
+          "Key": "w145",
+          "Value": 1.0,
+          "ValueType": "Brightness",
+          "Type": "2X",
+          "Description": "Brightness for Fuel Scoop"
         },
         {
           "Category": "Status Lights",
@@ -4191,6 +4235,54 @@
     }
   ],
   "Presets": [
+
+    {
+      "Type": "RadarAttractionZone",
+      "Name": "Radar - Hostile Targets Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "RadarAttractionZone",
+      "Name": "Radar - Neutral Targets Color",
+      "Index": 101.0
+    },
+    {
+      "Type": "RadarAttractionZone",
+      "Name": "Radar - Grid Color (Old Style",
+      "Index": 103.0
+    },
+    {
+      "Type": "RadarAttractionZone",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "RadarAttractionZone",
+      "Name": "Elite default (Red)",
+      "Index": 200.0
+    },
+
+    {
+      "Type": "MouseCursorMode",
+      "Name": "Custom Color",
+      "Index": 100.0
+    },
+    {
+      "Type": "MouseCursorMode",
+      "Name": "Invert XML",
+      "Index": 198.0
+    },
+    {
+      "Type": "MouseCursorMode",
+      "Name": "XML (User Defined)",
+      "Index": 199.0
+    },
+    {
+      "Type": "MouseCursorMode",
+      "Name": "Elite default",
+      "Index": 200.0
+    },
+
     {
       "Type": "SuitHUDPanel",
       "Name": "OFF",
