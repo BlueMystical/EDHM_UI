@@ -257,7 +257,7 @@ function OnShipyardEvent(line, isNewLine = false) {
                         })
                     };
                     // Since the Embark doesnt tell the ship, we use the Previously embarked ship
-                    // *: it may be a problem if the player logs out while on foot and tries to embark, we wont know what ship he/she had
+                    // *: it may be a problem if the player logs out while on foot and tries to embark, we wont know what ship they had
                     if (PreviousShip) {
                         PlayerJournal_ShipChanged(PreviousShip, isNewLine);
                     }
