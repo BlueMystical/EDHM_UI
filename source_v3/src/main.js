@@ -78,13 +78,22 @@ const createWindow = () => {
   });
   // Handle window close event
   mainWindow.on('close', (event) => {
+<<<<<<< HEAD
     if (HideToTray && process.platform === 'win32') {
+=======
+    const hideEnabled = settingsHelper.readSetting('HideToTray');
+    if (hideEnabled) {
+>>>>>>> 581d6643ffb71816b6159fa83b3b604a3fbab62b
       event.preventDefault(); // Prevent the default close behavior
       mainWindow.hide(); // Hide the window instead of closing it
 
       //- Show a balloon notification informing the user that the app is still running in the background
       //- This is only for Windows, as Linux have different tray behavior
+<<<<<<< HEAD
       if (tray && BalloonShown === false) {
+=======
+      if (tray && process.platform === 'win32' && BalloonShown === false) {
+>>>>>>> 581d6643ffb71816b6159fa83b3b604a3fbab62b
         const BallonOptions = {
           title: 'EDHM-UI',
           icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
@@ -93,6 +102,20 @@ const createWindow = () => {
         tray.displayBalloon(BallonOptions);
         BalloonShown = true; // Shows the Balloon only once per session
       }
+<<<<<<< HEAD
+=======
+    } else {
+      //- Here the Program Terminates Normally
+      console.log('Quiting..');
+      tray.destroy(); // Destroy the tray icon
+      app.isQuiting = true; // Signal that the app is quitting        
+      globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+      if (mainWindow) {
+        mainWindow.removeAllListeners('close');
+        mainWindow.close();
+      }
+      app.quit();
+>>>>>>> 581d6643ffb71816b6159fa83b3b604a3fbab62b
     }
   });
 };
