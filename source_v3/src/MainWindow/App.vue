@@ -178,7 +178,7 @@ export default {
 
     // #region Settings Changed
     
-    /** Fires when the Settings had been changed, called from 'SettingsEditor'
+    /** Fires when the Settings have been changed, called from 'SettingsEditor'
      * @param newConfig the updated settings     */
     async OnProgramSettings_Changed(newConfig) {
       try {
