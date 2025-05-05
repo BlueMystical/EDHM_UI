@@ -217,7 +217,7 @@ namespace EDHM_UI_mk2
 				{
 					if (this.GameInstancesEx[0].games[0].path.EmptyOrNull() && this.GameInstancesEx[0].games[1].path.EmptyOrNull())
 					{
-						XtraMessageBox.Show("Folder Path had not been set!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						XtraMessageBox.Show("Folder Path has not been set!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						return;
 					}
 
@@ -406,7 +406,7 @@ namespace EDHM_UI_mk2
 								string Mensaje = string.Empty;
 								foreach (var game in Instancia.games)
 								{
-									Mensaje += string.Format("{0} had been Detected\r\n", game.name);
+									Mensaje += string.Format("{0} has been detected\r\n", game.name);
 								}							
 
 								if (!Mensaje.EmptyOrNull())
@@ -415,7 +415,7 @@ namespace EDHM_UI_mk2
 									if (Instancia != null)
 									{
 										if (XtraMessageBox.Show(string.Format("{0}\r\n\r\nWould you like to Apply the Found Locations to the Instance '{1}'?", Mensaje, Instancia.instance),
-																	"GAME HAD BEEN FOUND!",
+																	"GAME HAS BEEN FOUND!",
 																	MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 										{
 											if (Instancia.games[0].path.Contains("steamapps"))	Instancia.instance = "Steam";
@@ -695,7 +695,7 @@ namespace EDHM_UI_mk2
 			if (Mensajero.ShowMessageDark("WARNING!", "This will clean all the Setings in the Registry!\r\nYou will be required to set the paths again after re-start.\r\nAre you Sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				Util.WinReg_DeleteAllKeys(@"Elte Dangerous\Mods\");
-				Mensajero.ShowMessageDark("Settings had been wiped!", 
+				Mensajero.ShowMessageDark("Settings have been wiped!", 
 					"Please re-start the EDHM app.", 
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 				this.Close();
