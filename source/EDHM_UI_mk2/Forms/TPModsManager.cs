@@ -1635,7 +1635,7 @@ namespace EDHM_UI_mk2.Forms
 
 					if (!Silent)
 					{
-						MessageBox.Show("Changes in the XML Configuration had been saved!\r\nYou will need to re-start the game",
+						MessageBox.Show("Changes in the XML Configuration have been saved!\r\nYou will need to restart the game for this to take effect.",
 							"ERROR", MessageBoxButtons.OK, MessageBoxIcon.Information);
 						_XmlReader = null;
 					}
@@ -2062,7 +2062,7 @@ namespace EDHM_UI_mk2.Forms
 							{
 								Directory.Delete(TempPath, true); //<- Borra la Carpeta Temporal
 
-								Mensajero.ShowMessage("Success!", string.Format("The theme '{0}' had been Exported!", ThemeName), 
+								Mensajero.ShowMessage("Success!", string.Format("The theme '{0}' has been exported!", ThemeName), 
 											MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 								if (Mensajero.ShowMessage("Import Theme?", 
