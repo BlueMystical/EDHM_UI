@@ -1,179 +1,196 @@
 <template>
-<div id="Container">
+  <div id="Container">
 
-<!-- Top Navbar -->
-<nav id="TopNavBar" class="navbar bg-dark text-light border-body fixed-top bg-body-tertiary" data-bs-theme="dark">
-  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <!-- Top Navbar -->
+    <nav id="TopNavBar" class="navbar bg-dark text-light border-body fixed-top bg-body-tertiary" data-bs-theme="dark">
+      <div class="container-fluid d-flex justify-content-between align-items-center">
 
-    <!-- Main Menu -->
-    <div class="nav-item">
-      <div class="input-group mb-3 ">
-        <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style" @change="MainMenu_Click($event.target.value)">
-          <option default value="mnuDummy">Main Menu</option>
-          <option value="mnuSettings">Settings</option>
-          <option value="mnuOpenGame">Open Game Folder</option>
-          <option value="mnuOpenData">Open Data Folder</option>
-          <option value="" disabled>──────────</option>
-          <option  disabled value="mnuShipyard">Shipyard</option>
-          <option value="mnu3PModsManager">3PMods (Plugins)</option>
-          <option value="" disabled>──────────</option>
-          <option value="mnuInstallMod">Install EDHM</option>
-          <option value="mnuUninstallMod">Un-install EDHM</option>
-          <option disabled value="mnuDisableMod">Enable/Disable EDHM</option>
-          <option value="" disabled>──────────</option>
-          <option  value="mnuGoToDiscord" >Help? Join our Discord</option>
-          <option  value="mnuCheckUpdates">Check for Updates</option>          
-          <option  disabled value="mnuAbout" >About</option>
-        </select>
+        <!-- Main Menu -->
+        <div class="nav-item">
+          <div class="input-group mb-3 ">
+            <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style"
+              @change="MainMenu_Click($event.target.value)">
+              <option default value="mnuDummy">Main Menu</option>
+              <option value="mnuSettings">Settings</option>
+              <option value="mnuOpenGame">Open Game Folder</option>
+              <option value="mnuOpenData">Open Data Folder</option>
+              <option value="" disabled>──────────</option>
+              <option disabled value="mnuShipyard">Shipyard</option>
+              <option value="mnu3PModsManager">3PMods (Plugins)</option>
+              <option value="" disabled>──────────</option>
+              <option value="mnuInstallMod">Install EDHM</option>
+              <option value="mnuUninstallMod">Un-install EDHM</option>
+              <option disabled value="mnuDisableMod">Enable/Disable EDHM</option>
+              <option value="" disabled>──────────</option>
+              <option value="mnuGoToDiscord">Help? Join our Discord</option>
+              <option value="mnuCheckUpdates">Check for Updates</option>
+              <option disabled value="mnuAbout">About</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Navbar for Buttons on the right side -->
+        <div class="nav-item d-flex align-items-center">
+          <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto" style="padding-top: -4px;">{{ statusText
+            }}</span>
+
+          <div class="input-group mb-3">
+
+            <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme_Click">
+              <i class="bi bi-plus-circle"></i>
+            </button>
+            <button id="cmdEditTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Edit Theme" @mousedown="editTheme_Click">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme_Click">
+              <i class="bi bi-arrow-bar-up"></i>
+            </button>
+            <button id="cmdImportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="ImportTheme" @mousedown="importTheme_Click">
+              <i class="bi bi-arrow-bar-down"></i>
+            </button>
+            <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme_Click">
+              <i class="bi bi-floppy"></i>
+            </button>
+            <button id="cmdReloadThemes" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Reload Themes" @mousedown="reloadThemes_Click">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+
+            <button id="cmdShowFavorites" :class="['btn btn-outline-secondary', { 'text-orange': showFavorites }]"
+              type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites"
+              @mousedown="toggleFavorites_click">
+              <i class="bi bi-star"></i>
+            </button>
+
+            <button id="cmdApplyTheme" class="btn btn-apply-theme" @click="applyTheme">Apply Theme</button>
+
+            <!-- History Box -->
+            <select class="form-select" id="cboHistoryBox" @change="OnHistoryBox_Click" v-model="selectedHistory"
+              data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="History Box">
+              <option default value="mnuDummy">.</option>
+              <option v-for="option in historyOptions" :key="option.value" :value="option.value" :data-tag="option.tag">
+                {{ option.text }}</option>
+            </select>
+
+          </div>
+
+        </div>
+      </div>
+    </nav><!-- Top Navbar -->
+
+    <!-- Middle Div - Content -->
+    <div class="middle-div">
+
+      <div v-if="showSpinner"
+        class="d-flex justify-content-center align-items-center position-fixed top-0 left-0 w-100 h-100 bg-dark bg-opacity-75 z-index-999">
+        <div class="spinner-border text-light" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div class="row no-gutters full-height m-0 h-100">
+        <!-- The Ship's HUD image -->
+        <div class="col-8 h-100">
+          <HUD_Areas />
+        </div>
+
+        <!-- This contains the Controls of the Tabs -->
+        <div class="col-4 border border-secondary d-flex flex-column h-100">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs " id="myTabHeaders" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="themes-tab" data-bs-toggle="tab" data-bs-target="#themes-pane"
+                type="button" role="tab" aria-controls="themes-pane" aria-selected="true">Themes</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#properties-pane"
+                type="button" role="tab" aria-controls="properties-pane" aria-selected="false">Properties</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="global-settings-tab" data-bs-toggle="tab"
+                data-bs-target="#global-settings-pane" type="button" role="tab" aria-controls="global-settings-pane"
+                aria-selected="false">Global Settings</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#user-settings-pane"
+                type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false">User Settings</button>
+              <!--disabled-->
+            </li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="themes-pane" role="tabpanel" aria-labelledby="themes-tab"
+              tabindex="0">
+              <ThemeTab v-show="activeTab === 'themes'" class="tab-content" />
+            </div>
+
+            <div class="tab-pane fade" id="properties-pane" role="tabpanel" aria-labelledby="properties-tab"
+              tabindex="0">
+              <PropertiesTabEx class="tab-content" @OnProperties_Changed="OnThemeValuesChanged" />
+            </div>
+
+            <div class="tab-pane fade" id="user-settings-pane" role="tabpanel" aria-labelledby="user-settings-tab"
+              tabindex="0">
+              <UserSettingsTab class="tab-content" />
+            </div>
+
+            <div class="tab-pane fade" id="global-settings-pane" role="tabpanel" aria-labelledby="global-settings-tab"
+              tabindex="0">
+              <GlobalSettingsTab class="tab-content" />
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Navbar for Buttons on the right side -->
-    <div class="nav-item d-flex align-items-center">
-      <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto" style="padding-top: -4px;">{{ statusText }}</span>
+    <!-- Bottom Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom navbar-thin" data-bs-theme="dark">
+      <div class="container-fluid">
+        <!-- Main Menu -->
+        <div class="navbar-nav">
+          <!-- Game Selection Dropdown -->
+          <div class="nav-item">
+            <select id="gameSelect" class="form-select game-dropdown-border main-menu-style" v-model="selectedGame"
+              @change="OnGameInstanceChange">
+              <option v-for="(game, index) in gameMenuItems" :key="index" :value="game">{{ game }}</option>
+            </select>
+          </div>
+        </div>
 
-      <div class="input-group mb-3">
+        <!-- App Version Label -->
+        <span class="navbar-text mx-3" id="lblVersion">App Version: {{ appVersion }}</span>
+        <!-- Mod Version Label -->
+        <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
 
-        <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" 
-        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme_Click">
-          <i class="bi bi-plus-circle"></i>
-        </button>
-        <button id="cmdEditTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Edit Theme" @mousedown="editTheme_Click">
-          <i class="bi bi-pencil-square"></i>
-        </button>
-        <button id="cmdExportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Export Theme" @mousedown="exportTheme_Click">
-          <i class="bi bi-arrow-bar-up"></i>
-        </button>
-        <button id="cmdImportTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="ImportTheme" @mousedown="importTheme_Click">
-          <i class="bi bi-arrow-bar-down"></i>
-        </button>
-        <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme_Click">
-          <i class="bi bi-floppy"></i>
-        </button>
-        <button id="cmdReloadThemes" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-          data-bs-placement="bottom" data-bs-title="Reload Themes" @mousedown="reloadThemes_Click">
-          <i class="bi bi-arrow-clockwise"></i>
-        </button>
+        <!-- Progress bar-->
+        <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Warning example"
+          :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100" style="width: 540px;">
+          <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning"
+            :style="{ width: progressValue + '%' }">{{ progressText }}</div>
+        </span>
 
-        <button id="cmdShowFavorites" :class="['btn btn-outline-secondary', { 'text-orange': showFavorites }]"
-          type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Favorites" @mousedown="toggleFavorites_click">
-          <i class="bi bi-star"></i>
-        </button>
-
-        <button id="cmdApplyTheme" class="btn btn-apply-theme" @click="applyTheme">Apply Theme</button>
-
-        <!-- History Box -->
-        <select class="form-select" id="cboHistoryBox" @change="OnHistoryBox_Click" v-model="selectedHistory"
-          data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="History Box">
-          <option default value="mnuDummy">.</option>
-          <option v-for="option in historyOptions" :key="option.value" :value="option.value" :data-tag="option.tag">
-            {{ option.text }}</option>
-        </select>
+        <!-- Search Form -->
+        <form class="d-flex ms-auto" @submit.prevent="OnSearchBox_Click">
+          <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search"
+            aria-label="Search">
+          <button class="btn btn-outline-warning" type="submit">Search</button>
+        </form>
 
       </div>
+    </nav> <!-- Bottom Navbar -->
 
-    </div>
-  </div>
-</nav><!-- Top Navbar -->
 
-<!-- Middle Div - Content -->
-<div class="middle-div">
-
-  <div v-if="showSpinner"
-    class="d-flex justify-content-center align-items-center position-fixed top-0 left-0 w-100 h-100 bg-dark bg-opacity-75 z-index-999">
-    <div class="spinner-border text-light" role="status">
+    <div v-if="showSpinner" class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-  </div>
 
-  <div class="row no-gutters full-height m-0 h-100">
-    <!-- The Ship's HUD image -->
-    <div class="col-8 h-100"><HUD_Areas /></div>
-
-    <!-- This contains the Controls of the Tabs -->
-    <div class="col-4 border border-secondary d-flex flex-column h-100">
-      <!-- Nav tabs -->
-      <ul class="nav nav-tabs " id="myTabHeaders" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="themes-tab" data-bs-toggle="tab" data-bs-target="#themes-pane" 
-                  type="button" role="tab" aria-controls="themes-pane" aria-selected="true">Themes</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#properties-pane" 
-                  type="button" role="tab" aria-controls="properties-pane" aria-selected="false">Properties</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="global-settings-tab" data-bs-toggle="tab" data-bs-target="#global-settings-pane" 
-                  type="button" role="tab" aria-controls="global-settings-pane" aria-selected="false" >Global Settings</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="user-settings-tab" data-bs-toggle="tab" data-bs-target="#user-settings-pane" 
-                  type="button" role="tab" aria-controls="user-settings-pane" aria-selected="false" >User Settings</button> <!--disabled-->
-        </li>
-      </ul>
-      <!-- Tab panes -->
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="themes-pane" role="tabpanel" aria-labelledby="themes-tab" tabindex="0">
-            <ThemeTab v-show="activeTab === 'themes'" class="tab-content" /></div>
-
-        <div class="tab-pane fade" id="properties-pane" role="tabpanel" aria-labelledby="properties-tab" tabindex="0">
-             <PropertiesTabEx class="tab-content" @OnProperties_Changed="OnThemeValuesChanged"/>
-          </div>
-        
-        <div class="tab-pane fade" id="user-settings-pane" role="tabpanel" aria-labelledby="user-settings-tab" tabindex="0">
-          <UserSettingsTab class="tab-content" /></div>
-
-        <div class="tab-pane fade" id="global-settings-pane" role="tabpanel" aria-labelledby="global-settings-tab" tabindex="0">
-          <GlobalSettingsTab  class="tab-content" /></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- Bottom Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom navbar-thin" data-bs-theme="dark">
-  <div class="container-fluid">
-    <!-- Main Menu -->
-    <div class="navbar-nav">
-      <!-- Game Selection Dropdown -->
-      <div class="nav-item">
-        <select id="gameSelect" class="form-select game-dropdown-border main-menu-style" v-model="selectedGame" @change="OnGameInstanceChange">
-          <option v-for="(game, index) in gameMenuItems" :key="index" :value="game">{{ game }}</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- App Version Label -->
-    <span class="navbar-text mx-3" id="lblVersion">App Version: {{ appVersion }}</span>
-    <!-- Mod Version Label -->
-    <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
-
-    <!-- Progress bar-->
-    <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Warning example" 
-          :aria-valuenow="progressValue" aria-valuemin="0" aria-valuemax="100" style="width: 540px;">
-      <div class="progress-bar progress-bar-striped progress-bar-animated text-bg-warning" :style="{ width: progressValue + '%' }">{{ progressText }}</div>
-    </span>
-
-    <!-- Search Form -->
-    <form class="d-flex ms-auto" @submit.prevent="OnSearchBox_Click">
-      <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-warning" type="submit">Search</button>
-    </form>
-
-  </div>
-</nav> <!-- Bottom Navbar -->
-
-
-  <div v-if="showSpinner" class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-
-</div> <!-- Container -->
+  </div> <!-- Container -->
 
 
 </template>
@@ -243,6 +260,7 @@ export default {
       totalDownloadedBytes: 0,
       progressListener: null,
 
+      DATA_DIRECTORY: '',
     };
   },
   setup(props) {
@@ -268,6 +286,9 @@ export default {
         this.selectedGame = this.ActiveInstance.instance;
         this.showFavorites = settings.FavToogle;
         this.activeTab = ref('themes');
+
+        this.DATA_DIRECTORY = await window.api.GetInstanceDataDirectory(this.ActiveInstance.key); //<- Returns the path to the EDHM data directory.
+        console.log('DATA_DIRECTORY:', this.DATA_DIRECTORY);
 
         // Populate game instances with the `instance` values from `Settings`
         this.gameMenuItems = ref(
@@ -307,7 +328,7 @@ export default {
         if (theme && theme.file) {
           const template = JSON.parse(JSON.stringify(theme.file));
           console.log('Loading Theme..', template.credits.theme);
-          
+
           this.themeTemplate = await window.api.LoadTheme(template.path);
           this.themeTemplate.credits = theme.file.credits;
 
@@ -378,7 +399,7 @@ export default {
         const userSettings = await window.api.LoadUserSettings();
         console.log('5. Get User Settings:', userSettings);
         await applySettings(userSettings, template, 'User Settings');
-        
+
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
         console.log('6. Get Default Inis:', defaultINIs);
 
@@ -426,14 +447,14 @@ export default {
         console.log(`Menu ${value} clicked`);
 
         const ActiveInstance = await window.api.getActiveInstance(); //console.log('ActiveInstance', ActiveInstance);
-        const GamePath = ActiveInstance.path; 
+        const GamePath = ActiveInstance.path;
 
         if (value === 'mnuOpenGame') {
           await window.api.openPathInExplorer(GamePath);
         }
         if (value === 'mnuOpenData') {
           const dataPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
-          await window.api.openPathInExplorer(dataPath);          
+          await window.api.openPathInExplorer(dataPath);
         }
         if (value === 'mnuSettings') {
           const InstallStatus = await window.api.InstallStatus();
@@ -512,8 +533,25 @@ export default {
         }
       }
     },
-    async importTheme_Click(event){
-
+    async importTheme_Click(event) {
+      try {
+        const options = {
+          title: 'Import Theme from a ZIP file:', 
+          defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default. 
+          filters: [
+            { name: 'ZIP Files', extensions: ['zip'] },
+            { name: 'All Files', extensions: ['*'] }
+          ],
+          properties: ['openFile', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
+        }; 
+        const filePath = await window.api.ShowOpenDialog(options);
+        if (filePath) {
+          console.log('Selected file:', filePath[0]);
+          EventBus.emit('RoastMe', { type: 'Warning', message: 'Feature not available yet.' });
+        }
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
     },
     async saveTheme_Click(event) {
       if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
@@ -551,9 +589,7 @@ export default {
       EventBus.emit('DoLoadUserSettings', e);   //<- Listen in UserSettings.vue
     },
 
-    /** Toggles the Favorites list
-     * @param event 
-     */
+    /** Toggles the Favorites list */
     async toggleFavorites_click(event) {
       this.showFavorites = !this.showFavorites;
       this.programSettings.FavToogle = this.showFavorites;
@@ -566,36 +602,41 @@ export default {
       return this.showFavorites;
     },
 
-    OnHistoryBox_Click(event) {
+    async OnHistoryBox_Click(event) {
       // Click an item on the History Box
       const selectedValue = event.target.value;
       const selectedOption = event.target.options[event.target.selectedIndex];
       const tag = selectedOption.getAttribute('data-tag');
 
-      console.log('History option changed to:', selectedValue);
-      console.log('TODO: Selected file path (tag):', tag);
+      //console.log('History option changed to:', selectedValue);
+      //console.log('TODO: Selected file path (tag):', tag);
+
+      const jsonData = await window.api.getJsonFile(tag); //<- Load the JSON file from the History folder
+      if (jsonData) {
+        console.log('Loaded JSON data:', jsonData);
+        this.themeTemplate.ui_groups = jsonData.ui_groups; //<- Load the JSON data into the themeTemplate
+        EventBus.emit('OnSelectTheme', { id: 0 }); //<- Event Listened on 'ThemeTab.vue'
+        EventBus.emit('ThemeLoaded', JSON.parse(JSON.stringify(this.themeTemplate))); //<- this event will be heard on 'App.vue'
+      } else {
+        console.error('Failed to load JSON data from History folder');
+      }
 
       document.querySelector('#cboHistoryBox').value = 'mnuDummy';  // Reset the select 
     },
     async History_LoadElements() {
       try {
-        const NumberOfSavesToRemember = this.programSettings.SavesToRemember;
-        const themesFolder = this.ActiveInstance.themes_folder;       //console.log('themesFolder:', themesFolder);
+        const NumberOfSavesToRemember = await window.api.readSetting('SavesToRemember', 10);  //console.log('NumberOfSavesToRemember',NumberOfSavesToRemember);    
+        const HistoryFolder = window.api.joinPath(this.DATA_DIRECTORY, 'History'); //console.log('HistoryFolder:', HistoryFolder);
+        const files = await window.api.loadHistory(HistoryFolder, NumberOfSavesToRemember); //console.log(files);        
 
-        if (themesFolder) {
-          const UserDocsPath = window.api.getParentFolder(themesFolder);
-          const HistoryFolder = window.api.joinPath(UserDocsPath, 'History'); //console.log('HistoryFolder:', HistoryFolder);
-          const files = await window.api.loadHistory(HistoryFolder, NumberOfSavesToRemember); //console.log(files);        
-
-          this.historyOptions = ref(
-            files.map(file => ({
-              value: file.name,
-              text: file.date,
-              tag: file.path  // Add the file path as a tag
-            }))
-          );
-          //console.log(historyOptions.value);
-        }
+        this.historyOptions = ref(
+          files.map(file => ({
+            value: file.name,
+            text: file.date,
+            tag: file.path  // Add the file path as a tag
+          }))
+        );
+        //console.log('History:', this.historyOptions);
 
       } catch (error) {
         console.error(error);
@@ -630,8 +671,7 @@ export default {
     },
 
     /** Performs a Data Search based on the SearchBox Input 
-     * @param query Input Query (what we are looking for) 
-     */
+     * @param query Input Query (what we are looking for)      */
     async DoSearchData(query) {
 
       //console.log('Search Query:', query);
@@ -662,7 +702,7 @@ export default {
           (theme.file.credits.theme && typeof theme.file.credits.theme.toLowerCase === 'function' && theme.file.credits.theme.toLowerCase().includes(searchQuery)) ||
           (theme.file.credits.author && typeof theme.file.credits.author.toLowerCase === 'function' && theme.file.credits.author.toLowerCase().includes(searchQuery))
         ).map(theme => ({
-          Parent: 'Themes', 
+          Parent: 'Themes',
           Category: "Theme by [" + theme.file.credits.author + ']',
           Title: theme.name,
           Description: theme.file.credits.description,
@@ -722,16 +762,14 @@ export default {
     },
 
     /** Submit Event for the 'Search Form'
-    * After Procesing the Query, the results are sent to the 'App.vue' to be shown.
-    */
+    * After Procesing the Query, the results are sent to the 'App.vue' to be shown.    */
     async OnSearchBox_Click() {
       //console.log('Search button click');
       await this.DoSearchData(this.searchQuery);
       EventBus.emit('SearchBox', { data: this.searchResults });//<- this event will be heard in 'App.vue'
     },
 
-    /** When a Game Instance is selected from the '#gameSelect' combo
-     */
+    /** When a Game Instance is selected from the '#gameSelect' combo     */
     OnGameInstanceChange(event) {
       const gameInstanceName = event.target.value;
       this.selectedGame = gameInstanceName;
@@ -754,8 +792,8 @@ export default {
       this.programSettings = data;
       //console.log('programSettings: ', programSettings);
       this.modVersion = data.Version_ODYSS;
-    },  
-    OnXmlChanged(data)  {
+    },
+    OnXmlChanged(data) {
       console.log('XML Changed:', data);
       this.themeTemplate.xml_profile = data.xml;
     },
@@ -764,9 +802,9 @@ export default {
       // Evento recibido del componente PropertiesTab.vue al cambiar los valores de un tema     
       if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
         /* ALL CHANGES ARE STORED IN THE 'Current Settings' FILE AT THE GAME DIRECTORY.  */
-        console.log('Values Updated for:', ui_group.Name); 
+        console.log('Values Updated for:', ui_group.Name);
         const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
-        const areaIndex = this.themeTemplate.ui_groups.findIndex(item => item.Name === ui_group.Name); 
+        const areaIndex = this.themeTemplate.ui_groups.findIndex(item => item.Name === ui_group.Name);
         if (areaIndex >= 0) {
           this.themeTemplate.ui_groups[areaIndex] = ui_group;
           const theme = JSON.parse(JSON.stringify(this.themeTemplate));
@@ -776,19 +814,19 @@ export default {
         }
       }
     },
-    
+
     /** Downloads an Install an Update for the App.
      * @param Options { url: 'to download from', save_to: 'path to store the file', platform: 'win32|linux|darwin' }     */
     async DownloadAndInstallUpdate(Options) {
       try {
         console.log('Downloading file:', Options);
-        this.showHideSpinner({ visible: true });        
+        this.showHideSpinner({ visible: true });
         this.modVersion = 'Downloading...';
         this.showSpinner = true;
 
         let scriptPath = null;
         let filePath = Options.save_to;
-        if (!filePath) return; 
+        if (!filePath) return;
 
         const destDir = await window.api.getParentFolder(filePath);
         await window.api.ensureDirectoryExists(destDir);
@@ -848,11 +886,11 @@ export default {
         }
 
         //- Remember we are running an Update, next time App runs it will do update stuff:
-        await window.api.writeSetting('FirstRun', true); 
+        await window.api.writeSetting('FirstRun', true);
 
         //- Now we Copy and Run the Installer thru the Script:
         await window.api.copyFile(scriptPath, filePath);
-        const _ret = await window.api.runProgram(filePath);   console.log(_ret);
+        const _ret = await window.api.runProgram(filePath); console.log(_ret);
 
         //- The Installer Script should terminate the running instance of the App, but..
         setTimeout(() => {
@@ -872,30 +910,30 @@ export default {
       //- This is a Failsafe method to ensure the Installer Script is started.
       let ScriptName = platform === 'linux' ? 'linux_installer.sh' : 'windows_installer.bat';
       const options = {
-        type: 'question', 
+        type: 'question',
         buttons: ['Cancel', "Yes, Take me there", 'No, thanks.'],
         cancelId: 0,
         defaultId: 1,
         title: 'Still Here?',
         message: 'It seems the Installer Script did not started.\nYou may need to run it manually.\nLook for the file: ' + ScriptName,
-        detail: 'Do you want to open the folder where the file is located?'        
+        detail: 'Do you want to open the folder where the file is located?'
       };
       window.api.ShowMessageBox(options).then(result => {
         if (result && result.response === 1) {
           window.api.openPathInExplorer(filePath);
           setTimeout(() => {
             window.api.quitProgram(); //<- Close the App    
-          }, 3000);          
+          }, 3000);
         }
       });
     },
 
-    OnGlobalSettingsLoaded(data){
+    OnGlobalSettingsLoaded(data) {
       this.globalSettings = data;
       //console.log('OnGlobalSettingsLoaded', data);
     },
 
-    
+
   },
   mounted() {
     /* EVENTS WE LISTEN TO HERE:  */
@@ -933,21 +971,28 @@ export default {
 <style scoped>
 body {
   background-color: #1F1F1F;
-  color: #fff; /* Optional: Set text color to white */
+  color: #fff;
+  /* Optional: Set text color to white */
 }
+
 .z-index-999 {
-  z-index: 999; /* Ensure the spinner is on top of other elements */
+  z-index: 999;
+  /* Ensure the spinner is on top of other elements */
 }
+
 #Container {
   background-color: #1F1F1F;
-  color: #fff; 
+  color: #fff;
 }
+
 #cboHistoryBox {
-  width: 1px; /* Minimal width for the select element */
+  width: 1px;
+  /* Minimal width for the select element */
 }
 
 #cboHistoryBox option {
-  white-space: nowrap; /* Prevent line breaks */
+  white-space: nowrap;
+  /* Prevent line breaks */
 }
 
 #TopNavBar {
@@ -960,25 +1005,30 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .tab-pane {
   flex: 1;
-  overflow: auto; /* Enable scrolling if content exceeds the container size */
+  overflow: auto;
+  /* Enable scrolling if content exceeds the container size */
 }
+
 .nav-link.active {
-  color: #ffc107; /* Replace with your desired color */
+  color: #ffc107;
+  /* Replace with your desired color */
 }
 
 .tab-content {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100%;  
+  height: 100%;
   width: 100%;
 }
 
-.text-orange { /* for the Toggle Favorites Button */
+.text-orange {
+  /* for the Toggle Favorites Button */
   color: orange;
-  background-color: #0c0c4d; 
+  background-color: #0c0c4d;
   border-color: #ffc107;
 }
 
@@ -1006,8 +1056,13 @@ body {
   /* For Firefox */
 }
 
-.btn-outline-secondary i { transition: color 0.3s ease-in-out; } 
-.btn-outline-secondary:active i { color: Dodgerblue !important;}
+.btn-outline-secondary i {
+  transition: color 0.3s ease-in-out;
+}
+
+.btn-outline-secondary:active i {
+  color: Dodgerblue !important;
+}
 
 .full-height {
   height: 100%;
@@ -1047,7 +1102,8 @@ body {
   color: white;
 }
 
-/* Styles for MainTabBar nav *//*
+/* Styles for MainTabBar nav */
+/*
 .custom-navbar {
   border: 1px solid rgb(110, 73, 2);
   font-family: 'Segoe UI', sans-serif;

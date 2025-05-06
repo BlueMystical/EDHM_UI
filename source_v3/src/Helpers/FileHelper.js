@@ -557,7 +557,7 @@ async function ShowOpenDialog(options) {
      filters: [
        { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
        { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
-       { name: 'Custom File Type', extensions: ['as'] },
+       { name: 'ZIP Files', extensions: ['zip'] },
        { name: 'All Files', extensions: ['*'] }
      ],
      //--- Choose only one: 'openFile', 'openDirectory':

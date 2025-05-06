@@ -24,6 +24,10 @@ contextBridge.exposeInMainWorld('api', {
   GetElementsImage: async (key) => ipcRenderer.invoke('GetElementsImage', key),
   GetElementsImageTPM: async (filePath, key) => ipcRenderer.invoke('GetElementsImageTPM', filePath, key),
 
+  /** Returns the path to the EDHM data directory. */
+  GetProgramDataDirectory: async () => ipcRenderer.invoke('GetAppDataDirectory'),
+  GetInstanceDataDirectory: async (instance) => ipcRenderer.invoke('GetInstanceDataDirectory', instance),
+
   // #endregion
 
   // #region Files & Directories

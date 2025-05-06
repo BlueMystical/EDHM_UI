@@ -93,6 +93,17 @@ const createWindow = () => {
         tray.displayBalloon(BallonOptions);
         BalloonShown = true; // Shows the Balloon only once per session
       }
+    } else {
+      //- Here the Program Terminates Normally
+      console.log('Quiting..');
+      tray.destroy(); // Destroy the tray icon
+      app.isQuiting = true; // Signal that the app is quitting        
+      globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+      if (mainWindow) {
+        mainWindow.removeAllListeners('close');
+        mainWindow.close();
+      }
+      app.quit();
     }
   });
 };

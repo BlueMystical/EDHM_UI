@@ -122,7 +122,7 @@ export default {
           console.log('First Run after Update: Running HotFix..');
           try {            
             await window.api.DoHotFix();
-            await this.OnGameInstance_Changed(this.settings.ActiveInstance);
+            await this.OnGameInstance_Changed(this.settings.ActiveInstance, true);
             await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
           } catch (error) {
             EventBus.emit('ShowError', error);
@@ -186,7 +186,7 @@ export default {
 
         const jsonString = JSON.stringify(newConfig, null, 4);
         this.settings = await window.api.saveSettings(jsonString);
-        this.OnGameInstance_Changed(newConfig.ActiveInstance);
+        this.OnGameInstance_Changed(newConfig.ActiveInstance, true); //<- Update the Game Instance
 
       } catch (error) {
         EventBus.emit('ShowError', error);
@@ -201,7 +201,7 @@ export default {
 
     /** When the User pick a different Game on the Combo. * 
      * @param GameInstanceName Name of the New Active Instance     */
-     async OnGameInstance_Changed(GameInstanceName) {
+    async OnGameInstance_Changed(GameInstanceName, InstallMod = false) {
       try {
         EventBus.emit('ShowSpinner', { visible: true });
         console.log('activeInstance:', this.settings.ActiveInstance); //<- 'ActiveInstance' Changed by Ref.
@@ -209,14 +209,18 @@ export default {
         const NewInstance = await window.api.getInstanceByName(GameInstanceName);
         console.log('NewInstance:', NewInstance);
 
-        /*EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
-        const edhmInstalled = await window.api.installEDHMmod(NewInstance);
+        if (InstallMod) {
+          EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
+          const edhmInstalled = await window.api.installEDHMmod(NewInstance);
 
-        if (edhmInstalled.game === 'ODYSS') {
-          this.settings.Version_ODYSS = edhmInstalled.version;
-        } else {
-          this.settings.Version_HORIZ = edhmInstalled.version;
-        }*/
+          if (edhmInstalled.game === 'ODYSS') {
+            this.settings.Version_ODYSS = edhmInstalled.version;
+          } else {
+            this.settings.Version_HORIZ = edhmInstalled.version;
+          }
+          EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
+          EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
+        }
 
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
@@ -226,9 +230,6 @@ export default {
 
         EventBus.emit('modUpdated', this.settings);     //<- Event listen in MainNavBars.vue
         EventBus.emit('loadThemes', this.settings.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
-
-        EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
-        EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
 
         const jsonString = JSON.stringify(this.settings, null, 4);
         await window.api.saveSettings(jsonString);

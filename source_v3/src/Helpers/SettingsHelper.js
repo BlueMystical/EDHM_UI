@@ -729,6 +729,28 @@ async function DoHotFix() {
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
 
+/** Returns the path to the EDHM data directory. */
+ipcMain.handle('GetAppDataDirectory', (event) => {
+  try {
+    return fileHelper.resolveEnvVariables(
+      readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI')
+  );
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
+ipcMain.handle('GetInstanceDataDirectory', (event, instanceKey) => {
+  try {
+    const ProgramDataPath = fileHelper.resolveEnvVariables(
+      readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );
+    const pDataPart = instanceKey === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+    return path.join(ProgramDataPath, pDataPart);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
 ipcMain.handle('GetInstalledTPMods', (event, gamePath) => {
   try {
     return GetInstalledTPMods(gamePath);
