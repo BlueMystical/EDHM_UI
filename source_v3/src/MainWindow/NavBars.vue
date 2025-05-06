@@ -15,7 +15,7 @@
               <option value="mnuOpenGame">Open Game Folder</option>
               <option value="mnuOpenData">Open Data Folder</option>
               <option value="" disabled>──────────</option>
-              <option disabled value="mnuShipyard">Shipyard</option>
+              <option value="mnuShipyard">Shipyard</option>
               <option value="mnu3PModsManager">3PMods (Plugins)</option>
               <option value="" disabled>──────────</option>
               <option value="mnuInstallMod">Install EDHM</option>
@@ -459,6 +459,9 @@ export default {
         if (value === 'mnuSettings') {
           const InstallStatus = await window.api.InstallStatus();
           EventBus.emit('open-settings-editor', InstallStatus);
+        }
+        if (value === 'mnuShipyard') {
+          EventBus.emit('open-ShipyardUI', JSON.parse(JSON.stringify(ActiveInstance)));
         }
         if (value === 'mnu3PModsManager') {
           EventBus.emit('open-3PMods', JSON.parse(JSON.stringify(ActiveInstance)));

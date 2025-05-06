@@ -6,6 +6,7 @@
 
     <SettingsEditor @save="saveConfig" />
     <TPMods @OnSave="OnSaveTPMods"/>
+    <ShipyardUI @OnSave="OnSaveShipyardUI" :themesData="themesLoaded"/>
 
     <SearchBox ref="searchBox" :searchResults="searchResults" @resultClicked="OnSearchBox_Click"/>
     
@@ -29,7 +30,7 @@ import ThemeEditor from './Components/ThemeEditor.vue';
 import XmlEditor from './Components/XmlEditor.vue';
 import Util from '../Helpers/Utils.js';
 import TPMods from '../TPMods/TPModsManagerPop.vue';
-
+import ShipyardUI from './ShipyardUI.vue';
 
 console.log('App.vue loaded');
 
@@ -45,6 +46,7 @@ export default {
     ThemeEditor,
     XmlEditor,
     TPMods,
+    ShipyardUI
   },
   data() {
     return {
@@ -250,6 +252,7 @@ export default {
      OnThemesLoaded(event) {
       try {
         this.themesLoaded = event;
+        // The data is now automatically passed to ShipyardUI via the props binding
         //console.log('OnThemesLoaded:', this.themesLoaded );
 
       } catch (error) {
@@ -603,6 +606,10 @@ export default {
     async OnSaveTPMods(e) {
 
     },
+    async OnSaveShipyardUI(e) {
+
+    },
+    
   },
   async mounted() {
 

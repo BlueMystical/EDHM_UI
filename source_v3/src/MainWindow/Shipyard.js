@@ -88,6 +88,7 @@ function PlayerJournal_ShipChanged(ship, _ApplyTheme = true) {
             const IsnewShip = IsDifferentShip(ship);
             if (IsnewShip) {
                 PreviousShip = ship;
+                AddShip(ship);
             }
             console.log(`Ship Changed: ${ship.data.ship_name} (${ship.data.ship_plate})`);
             if (_ApplyTheme) {                
@@ -125,6 +126,14 @@ function GetShip(params) {
         }
     } catch (error) {
         console.log(error);
+    }
+}
+
+function AddShip(params) {
+    const ship = ShipList.find(ship => ship.ed_short.toLowerCase() === params.ship_kind.toLowerCase());
+    if (!ship) {
+        Shipyard.ships.push(params);
+        console.log(`Ship added to Shipyard: ${ship.ed_short}`);
     }
 }
 
