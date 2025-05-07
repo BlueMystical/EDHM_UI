@@ -11,19 +11,20 @@
                     <!-- Main Content -->
                     <div class="container-fluid h-100">
 
-                        <!-- TODO: Dynamically load the Ships -->
+                        <!-- Dynamically load the Ships on Cards -->
                         <div class="row row-cols-1 row-cols-md-3 g-4">
                             <div v-for="ship in ships" :key="ship.ship_id" class="col">
                                 <div class="card bg-secondary text-light">
-                                    <img :src="ship.thumbnail.replace('${ship.ed_short}', ship.ship_kind.toLowerCase())"
-                                        class="card-img-top" :alt="ship.ship_name">
+                                    <img :src="ship.imageUrl" class="card-img-top" :alt="ship.name"
+                                        @click="changeShipImage(ship)" style="cursor: pointer;">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ ship.ship_name }}</h5>
-                                        <p class="card-text">{{ ship.ship_kind_name }} ({{ ship.ship_plate }})</p>
+                                        <p class="card-title"><b>{{ ship.kind_full }}</b></p>
+                                        <p class="card-text">{{ ship.name }} ({{ ship.plate }})</p>
                                     </div>
-                                    <div class="card-footer bg-transparent">
-                                        <select class="form-select form-select-sm" aria-label="Theme Selection" v-model="ship.theme">
-                                            <option v-for="option in themes" :key="option.id" :value="option.id">
+                                    <div class="card-footer">
+                                        <select class="form-select form-select-sm" aria-label="Theme Selection"
+                                            v-model="ship.theme" @change="onThemeChange(ship)">
+                                            <option v-for="option in themes" :key="option.id" :value="option.name">
                                                 {{ option.name }}
                                             </option>
                                         </select>
@@ -39,65 +40,38 @@
 
                     <!-- Bottom NavBar -->
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-thin" data-bs-theme="dark">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" value="" id="checkNativeSwitch"  checked v-model="shipData.enabled" switch>
+                            <label class="form-check-label" for="checkNativeSwitch">Shipyard Enabled</label>
+                        </div>
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                             <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto"
                                 style="padding-top: -4px;">
                                 {{ statusText }}
                             </span>
+
                             <div class="btn-group me-3" role="group" aria-label="First group">
-                                <button id="cmdReadMe" class="btn btn-success text-light btn-outline-secondary"
-                                    data-bs-title="Mod Information" @mousedown="cmdReadMe_Click"
-                                    @mouseover="updateStatus('Mod Information')" @mouseleave="clearStatus">
-                                    <i class="bi bi-book"></i> Read me
-                                </button>
-                                <button id="cmdReloadMods" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdReloadMods_Click" @mouseover="updateStatus('Reload Mod List')"
+                                <button id="cmdReloadShips" class="btn btn-outline-secondary" type="button"
+                                    @mousedown="cmdReloadShips_Click" @mouseover="updateStatus('Reload Ships')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-clockwise"></i>
                                 </button>
-                                <button id="cmdImportMod" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdImportMod_Click" @mouseover="updateStatus('Import Mod')"
-                                    @mouseleave="clearStatus">
-                                    <i class="bi bi-download"></i>
-                                </button>
-                                <button id="cmdDeleteMod" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdDeleteMod_Click" @mouseover="updateStatus('Delete Mod')"
+                                <button id="cmdDeleteShip" class="btn btn-outline-secondary" type="button"
+                                    @mousedown="cmdDeleteShip_Click" @mouseover="updateStatus('Delete Ship')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
                             <div class="btn-group me-3" role="group" aria-label="Themes">
-                                <button id="cmdEditJSON" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdEditJSON_Click" @mouseover="updateStatus('Edit Json Configuration')"
+                                <button id="cmdInfo" class="btn btn-outline-secondary" type="button"
+                                    @mousedown="cmdThemeExport_Click" @mouseover="updateStatus('Info')"
                                     @mouseleave="clearStatus">
-                                    <i class="bi bi-pencil-square"></i>
+                                    <i class="bi bi-info-circle"></i>
                                 </button>
-                                <button id="cmdEditIni" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdEditIni_Click" @mouseover="updateStatus('Edit Ini Configuration')"
+                                <button id="cmdSaveChanges" class="btn btn-outline-secondary" type="button"
+                                    @mousedown="cmdThemeImport_Click" @mouseover="updateStatus('Save Changes')"
                                     @mouseleave="clearStatus">
-                                    <i class="bi bi-gear"></i>
-                                </button>
-                                <button id="cmdEditOpenFolder" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdEditOpenFolder_Click"
-                                    @mouseover="updateStatus('Open Container Folder')" @mouseleave="clearStatus">
-                                    <i class="bi bi-folder2-open"></i>
-                                </button>
-                                <button id="cmdEditReinstall" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdEditReinstall_Click" @mouseover="updateStatus('Re-Install Mod')"
-                                    @mouseleave="clearStatus">
-                                    <i class="bi bi-arrow-repeat"></i>
-                                </button>
-                            </div>
-                            <div class="btn-group me-3" role="group" aria-label="Themes">
-                                <button id="cmdThemeExport" class="btn btn-outline-secondary disabled" type="button"
-                                    @mousedown="cmdThemeExport_Click" @mouseover="updateStatus('Export Theme')"
-                                    @mouseleave="clearStatus">
-                                    <i class="bi bi-arrow-bar-up"></i>
-                                </button>
-                                <button id="cmdThemeImport" class="btn btn-outline-secondary disabled" type="button"
-                                    @mousedown="cmdThemeImport_Click" @mouseover="updateStatus('Import Theme')"
-                                    @mouseleave="clearStatus">
-                                    <i class="bi bi-arrow-bar-down"></i>
+                                    <i class="bi bi-floppy-fill"></i>
                                 </button>
                             </div>
                         </div>
@@ -111,7 +85,7 @@
 <script>
 import EventBus from '../EventBus.js';
 import Util from '../Helpers/Utils.js';
-//import Shipyard from './Shipyard.js';
+
 
 // Enable Dropdown for the Context Menus:
 const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
@@ -175,9 +149,7 @@ export default {
             try {
                 console.log('Initializing Shipyard UI..');
                 this.showInfo = false;
-                this.showAlert = false;
-                this.showSpinner = true;
-                this.statusText = 'Initializing..';
+                this.showAlert = false;                
 
                 this.DATA_DIRECTORY = await window.api.GetProgramDataDirectory();
 
@@ -192,11 +164,36 @@ export default {
             }
         },
         async loadShipData(themes) {
-            const ShipyardFilePath = await window.api.joinPath(this.DATA_DIRECTORY, 'Shipyard_v3.json'); console.log("Shipyard file path:", ShipyardFilePath); // For debugging
-            this.shipData = await window.api.getJsonFile(ShipyardFilePath); console.log("Shipyard data loaded:", this.shipData); // For debugging
+            this.showSpinner = true;
+            const ShipyardFilePath = await window.api.joinPath(this.DATA_DIRECTORY, 'Shipyard_v3.json');
+            this.shipData = await window.api.getJsonFile(ShipyardFilePath);
             if (this.shipData) {
-                this.ships = this.shipData.ships;   console.log("Loaded ships:", this.ships); // For debugging
-                this.themes = themes;               console.log("Loaded themes:", this.themes); // For debugging
+                this.ships = await Promise.all(this.shipData.ships.map(async ship => ({
+                    ...ship,
+                    imageUrl: await this.getShipImage(ship.image) // Resolve the promise here
+                })));
+                this.themes = themes;
+                this.statusText = `${this.ships.length} Ships Loaded.`;
+            }
+            this.showSpinner = false;
+        },
+        async saveShipData() {
+            const ShipyardFilePath = await window.api.joinPath(this.DATA_DIRECTORY, 'Shipyard_v3.json');
+            const dataToSave = {
+                enabled: this.shipData.enabled,
+                player_name: this.shipData.player_name,
+                ships: this.ships.map(ship => {
+                    const { imageUrl, ...shipWithoutImageUrl } = ship;
+                    return shipWithoutImageUrl;
+                })
+            };
+            try {
+                await window.api.writeJsonFile(ShipyardFilePath, dataToSave, true); //<- path, data, beautify
+                console.log('Ship data saved.');
+                return true; // Indicate success
+            } catch (error) {
+                console.error('Error saving ship data:', error);
+                return false; // Indicate failure
             }
         },
 
@@ -219,6 +216,59 @@ export default {
         },
         clearStatus() {
             this.statusText = '';
+        },
+        async getShipImage(ship_image) {
+            /* Returns the ship image path */
+            const img_path = await window.api.getAssetFileUrl(`images/Ships/${ship_image}`); //            console.log("Ship image path:", img_path); // For debugging
+            return img_path;
+        },
+        async changeShipImage(ship) {
+            const options = {
+                title: 'Import Theme from a ZIP file:',
+                defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default. 
+                filters: [
+                    { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] },
+                    { name: 'All Files', extensions: ['*'] }
+                ],
+                properties: ['openFile', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
+            };
+            const filePath = await window.api.ShowOpenDialog(options);
+            if (filePath) {
+                const selectedImagePath = filePath[0];
+                const originalFilename = selectedImagePath.split('/').pop(); // Get the filename
+                const newFilename = `${ship.kind_short}_${Date.now()}.${originalFilename.split('.').pop()}`; // Create a unique filename
+                const destinationPath = await window.api.joinPath(this.DATA_DIRECTORY, 'images', 'Ships', newFilename);
+
+                try {
+                    await window.api.copyFile(selectedImagePath, destinationPath);
+                    const index = this.ships.findIndex(s => s.ship_id === ship.ship_id);
+                    if (index !== -1) {
+                        // Update the ship object
+                        this.ships[index] = {
+                            ...this.ships[index],
+                            image: newFilename,
+                            imageUrl: await this.getShipImage(newFilename) // Update imageUrl
+                        };
+                        // Optionally, you might want to trigger a save of your shipData here
+                        this.saveShipData();
+                    }
+                } catch (error) {
+                    console.error('Error copying image:', error);
+                    EventBus.emit('ShowError', 'Failed to change ship image.');
+                }
+            }
+        },
+        async onThemeChange(ship) {
+            console.log(`Theme changed for ${ship.name} to: ${ship.theme}`);
+            try {
+                await this.saveShipData();
+                this.statusText = `Theme for ${ship.name} updated and saved.`;
+                // Optionally, you can emit an event or show a notification to the user
+            } catch (error) {
+                console.error('Error saving ship data:', error);
+                this.statusText = 'Error saving ship data.';
+                EventBus.emit('ShowError', 'Failed to save ship data.');
+            }
         },
     },
     mounted() {

@@ -72,55 +72,28 @@ export const Initialize = (mainWindow) => {
     }
 };
 
-/*** Player Journal Ship Changed Event
- * This function is called when the ship changes in the game.
- * @param {*} ship Data of the new ship
- * @param {boolean} _ApplyTheme 'true' to apply the theme to the ship, 'false' otherwise. */
-function PlayerJournal_ShipChanged(ship, _ApplyTheme = true) {
-    /* OCURRE CUANDO SE CAMBIA LA NAVE 
-        - Guarda la Nave en el Historial de Naves   
-        - Si el Juego está abierto, Aplica el Tema seleccionado para la nave 
-        - Registrar el ID de la nave para el CPM 
-    */
-    try {
-        if (ship) {
-            console.log(ship);
-            const IsnewShip = IsDifferentShip(ship);
-            if (IsnewShip) {
-                PreviousShip = ship;
-                AddShip(ship);
-            }
-            console.log(`Ship Changed: ${ship.data.ship_name} (${ship.data.ship_plate})`);
-            if (_ApplyTheme) {                
-                RunSendKeyScript(); //<- Send F11 key to the game
-            }            
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 /** Get the ship data from the ShipList based on the given parameters. 
  * @param {*} params - Parameters containing ship information.
- * @param {string} params.ship_kind - [Required] The ship kind (e.g., "python", "cutter").
- * @param {string} params.ship_name -  The ship name (e.g., "NORMANDY").
- * @param {string} params.ship_plate - The ship plate (e.g., "SR-03"). */
+ * @param {string} params.kind_short - [Required] The ship kind (e.g., "python", "cutter").
+ * @param {string} params.name -  The ship name (e.g., "NORMANDY").
+ * @param {string} params.plate - The ship plate (e.g., "SR-03"). */
 function GetShip(params) {
     try {
         if (ShipList) {
-            const ship = ShipList.find(ship => ship.ed_short.toLowerCase() === params.ship_kind.toLowerCase());
+            const ship = ShipList.find(ship => ship.ed_short.toLowerCase() === params.kind_short.toLowerCase());
             if (ship) {
                 return {
-                    ship_id: ship.ship_id,
-                    ship_kind: ship.ed_short.toLowerCase(),
-                    ship_name: params.ship_name,
-                    ship_plate: params.ship_plate,
-                    ship_kind_name: ship.ship_full_name,
-                    theme: '',
-                    thumbnail: fileHelper.getAssetUrl(`images/Ships/${ship.ed_short}.jpg`),
-                };
+                    ship_id:    ship.ship_id,
+                    kind_short: ship.ed_short.toLowerCase(),
+                    kind_full:  ship.ship_full_name,
+                    name:   params.name,
+                    plate:  params.plate,         
+                    theme:  "Current Settings",
+                    image:  `${ship.ed_short.toLowerCase()}.jpg`,
+                    //image:  fileHelper.getAssetUrl(`images/Ships/${ship.ed_short}.jpg`),
+                 };
             } else {
-                console.warn(`Ship not found in ShipList: ${params.ship_kind}`);
+                console.warn(`Ship not found in ShipList: ${params.kind_short}`);
                 return null;
             }        
         }
@@ -130,12 +103,80 @@ function GetShip(params) {
 }
 
 function AddShip(params) {
-    const ship = ShipList.find(ship => ship.ed_short.toLowerCase() === params.ship_kind.toLowerCase());
-    if (!ship) {
-        Shipyard.ships.push(params);
-        console.log(`Ship added to Shipyard: ${ship.ed_short}`);
+    console.log('AddShip', params);
+
+    // Check if params is defined and is an object
+    if (typeof params !== 'object' || params === null) {
+        console.error('AddShip: params is not a valid object:', params);
+        return false; // Indicate failure: invalid input
+    }
+
+    // Use optional chaining and nullish coalescing to safely access properties
+    const kind_short = params.kind_short?.toLowerCase() ?? '';
+    const name = params.name?.toLowerCase() ?? '';
+    const plate = params.plate?.toLowerCase() ?? '';
+
+    // Check for pre-existence based on a combination of identifying properties
+    const shipExists = Shipyard.ships.some(existingShip => {
+        // Safely access properties of existingShip as well
+        const existingKindShort = existingShip.kind_short?.toLowerCase() ?? '';
+        const existingName = existingShip.name?.toLowerCase() ?? '';
+        const existingPlate = existingShip.plate?.toLowerCase() ?? '';
+
+        return existingKindShort === kind_short || existingName === name || existingPlate === plate;
+    });
+
+    if (shipExists) {
+        console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', or plate '${plate}' already exists.`);
+        return false; // Indicate failure: ship already exists
+    } else {
+        // Create a *copy* of the params object before pushing it
+        const newShip = { ...params };
+        Shipyard.ships.push(newShip);
+        console.log(`Ship added to Shipyard: ${newShip.kind_short}`);
+
+        try {
+            fileHelper.writeJsonFile(ShipyardFilePath, Shipyard, true);
+            console.log('Ship data saved.');
+            return true; // Indicate success
+        } catch (error) {
+            console.error('Error saving ship data:', error);
+            Shipyard.ships.pop(); // Remove the added ship on error.
+            return false; // Indicate failure
+        }
     }
 }
+
+
+
+
+
+/*** Player Journal Ship Changed Event
+ * This function is called when the ship changes in the game.
+ * @param {*} event Data of the new ship
+ * @param {boolean} _ApplyTheme 'true' to apply the theme to the ship, 'false' otherwise. */
+function PlayerJournal_ShipChanged(event, _ApplyTheme = true) {
+    /* OCURRE CUANDO SE CAMBIA LA NAVE 
+        - Guarda la Nave en el Historial de Naves   
+        - Si el Juego está abierto, Aplica el Tema seleccionado para la nave 
+        - Registrar el ID de la nave para el CPM 
+    */
+    try {
+        if (event) {
+            console.log('Event:', event);
+            AddShip(event.data);
+            
+            console.log(`Ship Changed: ${event.data.name} (${event.data.plate})`);
+            if (_ApplyTheme) {                
+                RunSendKeyScript(); //<- Send F11 key to the game
+            }            
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 
 /** Process a Journal Event catching only those we are interested in.
  * @param {*} line - The line from the Journal file to process. */
@@ -203,9 +244,9 @@ function OnShipyardEvent(line, isNewLine = false) {
                     _data = {
                         event: 'ShipLoadout', 
                         data: GetShip({
-                            ship_kind: _json.Ship,
-                            ship_name: _json.ShipName,
-                            ship_plate: _json.ShipIdent
+                            kind_short: _json.Ship,
+                            name: _json.ShipName,
+                            plate: _json.ShipIdent
                         })
                     };
                     mainWindowInstance.webContents.send('OnShipyardEvent',  _data );
@@ -221,9 +262,9 @@ function OnShipyardEvent(line, isNewLine = false) {
                     _data = {
                         event: 'LaunchSRV', 
                         data: GetShip({
-                            ship_kind: _json.SRVType,
-                            ship_name: _json.SRVType_Localised,
-                            ship_plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
+                            kind_short: _json.SRVType,
+                            name: _json.SRVType_Localised,
+                            plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
                         })
                     };
                     mainWindowInstance.webContents.send('OnShipyardEvent', _data);
@@ -236,9 +277,9 @@ function OnShipyardEvent(line, isNewLine = false) {
                     _data = {
                         event: 'DockSRV', 
                         data: GetShip({
-                            ship_kind: _json.SRVType,
-                            ship_name: _json.SRVType_Localised,
-                            ship_plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
+                            kind_short: _json.SRVType,
+                            name: _json.SRVType_Localised,
+                            plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
                         })
                     };
                     if (PreviousShip) {
@@ -260,9 +301,9 @@ function OnShipyardEvent(line, isNewLine = false) {
                     _data = {
                         event: 'DockSRV',
                         data: GetShip({
-                            ship_kind: _json.SRVType,
-                            ship_name: _json.SRVType_Localised,
-                            ship_plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
+                            kind_short: _json.SRVType,
+                            name: _json.SRVType_Localised,
+                            plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
                         })
                     };
                     // Since the Embark doesnt tell the ship, we use the Previously embarked ship
@@ -288,11 +329,17 @@ function OnShipyardEvent(line, isNewLine = false) {
  * @returns {boolean} 'true' if the ship is different from the last used ship, 'false' otherwise. */
 function IsDifferentShip(ship) {
     if (PreviousShip) {
-        if (ship.ship_id !== PreviousShip.ship_id
-            && ship.ship_name !== PreviousShip.ship_name
-            && ship.ship_plate !== PreviousShip.ship_plate
-        ) { return true; }
-    } else { return true; }
+        if (ship.ship_id !== PreviousShip.ship_id ||
+            ship.name !== PreviousShip.name ||
+            ship.plate !== PreviousShip.plate
+        ) {
+            PreviousShip = { ...ship }; // Update PreviousShip with the current ship
+            return true;
+        }
+    } else {
+        PreviousShip = { ...ship }; // Initialize PreviousShip with the first ship
+        return true;
+    }
     return false;
 }
 
