@@ -131,34 +131,17 @@ export default {
           }
         }
 
+        this.StartShipyard();
+
         //- Initialize the Components:
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars',  JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null);    //<- Event Listened at HudImage.vue
         EventBus.emit('DoLoadGlobalSettings', null);  //<- Event Listened at GlobalSettingsTab.vue
         EventBus.emit('DoLoadUserSettings', null);    //<- Event Listened at UserSettingsTab.vue
+        EventBus.emit('ShipyardUI-Initialize', null);    //<- Event Listened at ShipyardUI.vue
 
-        //- Initialize the Shipyard and awaits for events:
-        window.api.shipyardStart();
-        if (window.api) {
-          window.api.onPlayerJournalReaded((event, data) => {
-            console.log('Received log analysis update:', data[data.length - 1]);
-            this.logData = data; 
-            // Perform further actions with the analyzed log data
-          });
-        }
-                
-        if (this.settings.CheckForUpdates === undefined) {
-          // CheckForUpdates Property, if is not there, we simply add it and save the change.
-          this.settings.CheckForUpdates = true;
-          await window.api.saveSettings(JSON.stringify(this.settings, null, 4));
-        }
-        if (this.settings.CheckForUpdates) {
-          // Waits 8 seconds and Look for Updates:
-          setTimeout(() => {
-            this.LookForUpdates();
-          }, 8000);
-        }
+        this.CheckForUpdates();
 
       } catch (error) {
         console.error(error);
@@ -521,6 +504,20 @@ export default {
 
     // #region Updates
 
+    async CheckForUpdates() {
+      if (this.settings.CheckForUpdates === undefined) {
+          // CheckForUpdates Property, if is not there, we simply add it and save the change.
+          this.settings.CheckForUpdates = true;
+          await window.api.saveSettings(JSON.stringify(this.settings, null, 4));
+        }
+        if (this.settings.CheckForUpdates) {
+          // Waits 8 seconds and Look for Updates:
+          setTimeout(() => {
+            this.LookForUpdates();
+          }, 8000);
+        }
+    },
+
     async LookForUpdates() {
        //window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
       window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
@@ -598,8 +595,7 @@ export default {
       } catch (error) {
         EventBus.emit('ShowError', new Error(error.message + error.stack));
       }
-    },
-    
+    },    
 
     // #endregion
 
@@ -609,6 +605,20 @@ export default {
     async OnSaveShipyardUI(e) {
 
     },
+
+    StartShipyard() {
+      const shipyardEnabled = window.api.shipyardStart();
+        if (window.api) {
+          window.api.onPlayerJournalReaded((event, data) => {
+            //console.log('Received log analysis update:', data[data.length - 1]);
+            this.logData = data; 
+          });
+          window.api.OnShipyardEvent((event, data) => {
+            console.log('Received log analysis update:', data[data.length - 1]);
+            this.logData = data; 
+          });
+        }
+    }
     
   },
   async mounted() {
@@ -630,6 +640,8 @@ export default {
 
     EventBus.on('OnShowXmlEditor', this.OnShowXmlEditor);
     EventBus.on('LookForUpdates', this.LookForUpdates);
+
+    EventBus.on('StartShipyard', this.StartShipyard);
   },
   beforeUnmount() {
     // Clean up the event listener
@@ -648,6 +660,8 @@ export default {
 
     EventBus.off('OnShowXmlEditor', this.OnShowXmlEditor);
     EventBus.off('LookForUpdates', this.LookForUpdates);
+
+    EventBus.off('StartShipyard', this.StartShipyard);
   },
 };
 </script>

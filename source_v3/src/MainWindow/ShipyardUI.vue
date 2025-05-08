@@ -10,13 +10,12 @@
 
                     <!-- Main Content -->
                     <div class="container-fluid h-100">
-
-                        <!-- Dynamically load the Ships on Cards -->
                         <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div v-for="ship in ships" :key="ship.ship_id" class="col">
+                            <div v-for="ship in ships" :key="ship.ship_id" class="col"
+                                :class="{ 'selected-card': selectedShip === ship }" @click="selectCard(ship)">
                                 <div class="card bg-secondary text-light">
                                     <img :src="ship.imageUrl" class="card-img-top" :alt="ship.name"
-                                        @click="changeShipImage(ship)" style="cursor: pointer;">
+                                        @click.stop="changeShipImage(ship)" style="cursor: pointer;">
                                     <div class="card-body">
                                         <p class="card-title"><b>{{ ship.kind_full }}</b></p>
                                         <p class="card-text">{{ ship.name }} ({{ ship.plate }})</p>
@@ -32,7 +31,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                 </div> <!-- modal-body -->
@@ -41,7 +39,8 @@
                     <!-- Bottom NavBar -->
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-thin" data-bs-theme="dark">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" value="" id="checkNativeSwitch"  checked v-model="shipData.enabled" switch>
+                            <input class="form-check-input" type="checkbox" value="" id="checkNativeSwitch" checked
+                                v-model="shipData.enabled" switch>
                             <label class="form-check-label" for="checkNativeSwitch">Shipyard Enabled</label>
                         </div>
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -108,6 +107,7 @@ export default {
             // default: () => ({})
         },
     },
+    emits: ['shipSelected'], // Emit an event when a ship is selected
     watch: {
         themesData(newValue, oldValue) {
             // This function will be called whenever the 'themesData' prop changes
@@ -140,7 +140,7 @@ export default {
             ships: [],
             themes: [],
             DATA_DIRECTORY: '',
-
+            selectedShip: null,
         };
     },
     methods: {
@@ -270,15 +270,24 @@ export default {
                 EventBus.emit('ShowError', 'Failed to save ship data.');
             }
         },
+
+        selectCard(ship) {
+            this.selectedShip = ship;
+            console.log('Selected ship:', ship);
+            this.$emit('shipSelected', ship); // Emitimos el evento usando this.$emit
+        },
+
+
     },
     mounted() {
-        this.Initialize();
         /* LISTENING EVENTS:   */
         EventBus.on('open-ShipyardUI', this.open);
+        EventBus.on('ShipyardUI-Initialize', this.Initialize);
     },
     beforeUnmount() {
         // Clean up the event listener:
         EventBus.off('open-ShipyardUI', this.open);
+        EventBus.off('ShipyardUI-Initialize', this.Initialize);
     }
 };
 </script>
@@ -293,5 +302,9 @@ export default {
     /* Adjust as needed */
     object-fit: cover;
     /* Ensure images fill the container without distortion */
+}
+.selected-card .card {
+  border: 2px solid orange !important; /* Puedes personalizar el estilo de resaltado */
+  box-shadow: 0 0 10px orange(0, 0, 255, 0.5); /* Ejemplo de sombra */
 }
 </style>

@@ -232,6 +232,21 @@ export default {
         EventBus.emit('ShowError', error);
       }
     },
+
+    /** When Fired, Applies a given Theme   * 
+     * @param theme_name Name of the Theme to be applied     */
+    FindAndApplyTheme(theme_name) {
+      if (this.themes && this.themes.length > 0) {
+        const index = this.themes.findIndex(obj => obj.file.name === theme_name);
+        if (index !== -1) {
+          this.OnSelectTheme({ id: index });
+          EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'NavBars.vue'  
+        } else {
+            console.log(`Object with name ${tName} not found.`);
+        }
+      }
+    },
+
     /** Makes Favorite a theme. * 
      * @param pSelectTheme if 'null' favorite the Selected theme, else favorites the given theme (a newly added)
      */
@@ -418,6 +433,7 @@ export default {
     EventBus.on('OnFavoriteTheme', this.DoFavoriteTheme); //<- Command to Favorite a Theme
     EventBus.on('OnInitializeThemes', this.OnInitialize); //<- Event listened on App.vue to Initiate the Load of all Themes 
     EventBus.on('DoReloadTheme', this.DoReloadTheme);     //<- Command to Reload an specific theme
+    EventBus.on('FindAndApplyTheme', this.FindAndApplyTheme); //<- Command to Apply an specific theme
   },
   beforeUnmount() {
     EventBus.off('loadThemes', this.loadThemes);
@@ -426,6 +442,7 @@ export default {
     EventBus.off('OnFavoriteTheme', this.DoFavoriteTheme);
     EventBus.off('OnInitializeThemes', this.OnInitialize);
     EventBus.off('DoReloadTheme', this.DoReloadTheme); 
+    EventBus.off('FindAndApplyTheme', this.FindAndApplyTheme); 
   }
 };
 </script>

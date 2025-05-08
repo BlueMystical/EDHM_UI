@@ -17,15 +17,17 @@ contextBridge.exposeInMainWorld('api', {
   getLocalFileUrl: (assetPath) => ipcRenderer.invoke('get-local-file-url', assetPath),
   getPublicFilePath: (relFilePath) => ipcRenderer.invoke('getPublicFilePath', relFilePath),
 
-  getJsonFile: (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
-  writeJsonFile: (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
+  getJsonFile: async (jsonPath) => ipcRenderer.invoke('get-json-file', jsonPath),
+  writeJsonFile: async (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
 
-  GetImageB64: (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
+  GetImageB64: async (filePath) => ipcRenderer.invoke('GetImageB64', filePath),
   GetElementsImage: async (key) => ipcRenderer.invoke('GetElementsImage', key),
   GetElementsImageTPM: async (filePath, key) => ipcRenderer.invoke('GetElementsImageTPM', filePath, key),
 
   /** Returns the path to the EDHM data directory. */
   GetProgramDataDirectory: async () => ipcRenderer.invoke('GetAppDataDirectory'),
+  /** Returns the path to the given Instance directory.
+ * @param {*} instanceKey Key of the Instance to get the path for. 'ED_Odissey' or 'ED_Horizons' */
   GetInstanceDataDirectory: async (instance) => ipcRenderer.invoke('GetInstanceDataDirectory', instance),
 
   // #endregion
@@ -174,6 +176,8 @@ contextBridge.exposeInMainWorld('api', {
 
   // #region Shipyard Events
   
+  /** Start monitoring the Player Journal directory for new log files.
+   * @returns 'true' if Shipyard is enabled and monitoring is sucsefull.   */
   shipyardStart: () => ipcRenderer.invoke('start-log-monitoring'),
   send: (channel, data) => ipcRenderer.send(channel, data),   
   onPlayerJournalReaded: (callback) => ipcRenderer.on('log-analysis-update', callback), 

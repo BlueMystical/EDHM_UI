@@ -92,6 +92,9 @@ G:\SteamLibrary\steamapps\common\Elite Dangerous\Products\elite-dangerous-odysse
 ├── EliteDangerous64.exe              <- ED Program
 ├── d3dx.ini                          <- 3DMigoto INI config
 └── d3d11.dll                         <- 3DMigoto
+
+Player Journal:         %USERPROFILE%\Saved Games\Frontier Developments\Elite Dangerous\ 
+Graphic Configurations: %LOCALAPPDATA%\Frontier Developments\Elite Dangerous\Options\Graphics\
 ------------------------------------------------------------------------------------------
 ** APP'S HIERARCHY:
 * Renderer Process:

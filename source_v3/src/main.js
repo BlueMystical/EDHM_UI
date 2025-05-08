@@ -53,10 +53,8 @@ const createWindow = () => {
   WatchMe = settingsHelper.readSetting('WatchMe', false); //<- Whatch for changes in the Player Journal
   console.log('HideToTray:', HideToTray);
 
-  if (WatchMe) {
-    // Set the mainWindow instance in your Shipyard module
-    Shipyard.Initialize(mainWindow);
-  }
+  // Set the mainWindow instance in your Shipyard module
+  Shipyard.Initialize(mainWindow);
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {

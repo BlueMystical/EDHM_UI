@@ -43,20 +43,22 @@ export const Initialize = (mainWindow) => {
     try {
         mainWindowInstance = mainWindow;
 
-        // Load the Shipyard data from the JSON file
+        // Load the Ships List:
         ShipList = JSON.parse(
             fsSync.readFileSync(
                 fileHelper.getAssetPath('data/Ship_List.json'), 'utf8')
         );
 
+        // Load the Shipyard data from the JSON file, creates it if it doesn't exist:
         fileHelper.ensureDirectoryExists(DATA_DIRECTORY);
         if (fileHelper.checkFileExists(DATA_DIRECTORY)) {
-            // Check if the Shipyard file exists, if not create it
             if (fileHelper.checkFileExists(ShipyardFilePath)) {
+                //- File exists, read it:
                 Shipyard = JSON.parse(
                     fsSync.readFileSync(ShipyardFilePath, 'utf8')
                 );
-            } else { //<- Shipyard file doesnt exists
+            } else { 
+                //- Shipyard file doesnt exists
                 Shipyard = {
                     enabled: false,
                     player_name: '',
@@ -66,88 +68,12 @@ export const Initialize = (mainWindow) => {
                 fileHelper.writeJsonFile(ShipyardFilePath, Shipyard, true);
             }
         }
-
     } catch (error) {
         console.log(error);
     }
+    console.log('Shipyard Initialized, enabled:', Shipyard.enabled);
+    return Shipyard.enabled;
 };
-
-/** Get the ship data from the ShipList based on the given parameters. 
- * @param {*} params - Parameters containing ship information.
- * @param {string} params.kind_short - [Required] The ship kind (e.g., "python", "cutter").
- * @param {string} params.name -  The ship name (e.g., "NORMANDY").
- * @param {string} params.plate - The ship plate (e.g., "SR-03"). */
-function GetShip(params) {
-    try {
-        if (ShipList) {
-            const ship = ShipList.find(ship => ship.ed_short.toLowerCase() === params.kind_short.toLowerCase());
-            if (ship) {
-                return {
-                    ship_id:    ship.ship_id,
-                    kind_short: ship.ed_short.toLowerCase(),
-                    kind_full:  ship.ship_full_name,
-                    name:   params.name,
-                    plate:  params.plate,         
-                    theme:  "Current Settings",
-                    image:  `${ship.ed_short.toLowerCase()}.jpg`,
-                    //image:  fileHelper.getAssetUrl(`images/Ships/${ship.ed_short}.jpg`),
-                 };
-            } else {
-                console.warn(`Ship not found in ShipList: ${params.kind_short}`);
-                return null;
-            }        
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-function AddShip(params) {
-    console.log('AddShip', params);
-
-    // Check if params is defined and is an object
-    if (typeof params !== 'object' || params === null) {
-        console.error('AddShip: params is not a valid object:', params);
-        return false; // Indicate failure: invalid input
-    }
-
-    // Use optional chaining and nullish coalescing to safely access properties
-    const kind_short = params.kind_short?.toLowerCase() ?? '';
-    const name = params.name?.toLowerCase() ?? '';
-    const plate = params.plate?.toLowerCase() ?? '';
-
-    // Check for pre-existence based on a combination of identifying properties
-    const shipExists = Shipyard.ships.some(existingShip => {
-        // Safely access properties of existingShip as well
-        const existingKindShort = existingShip.kind_short?.toLowerCase() ?? '';
-        const existingName = existingShip.name?.toLowerCase() ?? '';
-        const existingPlate = existingShip.plate?.toLowerCase() ?? '';
-
-        return existingKindShort === kind_short || existingName === name || existingPlate === plate;
-    });
-
-    if (shipExists) {
-        console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', or plate '${plate}' already exists.`);
-        return false; // Indicate failure: ship already exists
-    } else {
-        // Create a *copy* of the params object before pushing it
-        const newShip = { ...params };
-        Shipyard.ships.push(newShip);
-        console.log(`Ship added to Shipyard: ${newShip.kind_short}`);
-
-        try {
-            fileHelper.writeJsonFile(ShipyardFilePath, Shipyard, true);
-            console.log('Ship data saved.');
-            return true; // Indicate success
-        } catch (error) {
-            console.error('Error saving ship data:', error);
-            Shipyard.ships.pop(); // Remove the added ship on error.
-            return false; // Indicate failure
-        }
-    }
-}
-
-
 
 
 
@@ -157,26 +83,28 @@ function AddShip(params) {
  * @param {boolean} _ApplyTheme 'true' to apply the theme to the ship, 'false' otherwise. */
 function PlayerJournal_ShipChanged(event, _ApplyTheme = true) {
     /* OCURRE CUANDO SE CAMBIA LA NAVE 
-        - Guarda la Nave en el Historial de Naves   
+        - Guarda la Nave en el Historial de Naves
         - Si el Juego está abierto, Aplica el Tema seleccionado para la nave 
-        - Registrar el ID de la nave para el CPM 
+TODO:   - Registrar el ID de la nave para el CPM 
     */
     try {
         if (event) {
             console.log('Event:', event);
             AddShip(event.data);
+            console.log('--------------------------------------');
             
-            console.log(`Ship Changed: ${event.data.name} (${event.data.plate})`);
-            if (_ApplyTheme) {                
+            //console.log(`Ship Changed: ${event.data.name} (${event.data.plate})`);
+            if (_ApplyTheme && event.data.theme && event.data.theme !== 'Current Settings') {  
+                console.log('Applying Theme:', event.data.theme);
+                EventBus.emit('FindAndApplyTheme', event.data.theme); //<- this event will be heard in 'ThemeTab.vue'   
+       
                 RunSendKeyScript(); //<- Send F11 key to the game
-            }            
+            }
         }
     } catch (error) {
         console.log(error);
     }
 }
-
-
 
 /** Process a Journal Event catching only those we are interested in.
  * @param {*} line - The line from the Journal file to process. */
@@ -232,7 +160,9 @@ function OnShipyardEvent(line, isNewLine = false) {
                         data: {
                             player_name: _json.Name 
                         }
-                    };                     
+                    };  
+                    Shipyard.player_name = _json.Name; //<- Save Player Name to the Shipyard      
+                    SaveShipyard(); // Save the updated Shipyard data              
                     mainWindowInstance.webContents.send('OnShipyardEvent', _data ); //<- Send data to renderer
                     break;
 
@@ -249,7 +179,7 @@ function OnShipyardEvent(line, isNewLine = false) {
                             plate: _json.ShipIdent
                         })
                     };
-                    mainWindowInstance.webContents.send('OnShipyardEvent',  _data );
+                    //mainWindowInstance.webContents.send('OnShipyardEvent',  _data );
                     PlayerJournal_ShipChanged(_data, isNewLine) //<- Add ship to the Shipyard if not there, apply its Theme, send F11 key to game                    
                     break;
 
@@ -267,7 +197,7 @@ function OnShipyardEvent(line, isNewLine = false) {
                             plate: "SRV" + (_json.ID ? `_${_json.ID}` : '')
                         })
                     };
-                    mainWindowInstance.webContents.send('OnShipyardEvent', _data);
+                    //mainWindowInstance.webContents.send('OnShipyardEvent', _data);
                     PlayerJournal_ShipChanged(_data, isNewLine);
 
                 //- 4. when docking an SRV with the ship
@@ -299,7 +229,7 @@ function OnShipyardEvent(line, isNewLine = false) {
                                     "OnPlanet":false
                                } */
                     _data = {
-                        event: 'DockSRV',
+                        event: 'Embark',
                         data: GetShip({
                             kind_short: _json.SRVType,
                             name: _json.SRVType_Localised,
@@ -324,23 +254,86 @@ function OnShipyardEvent(line, isNewLine = false) {
     return _json;
 }
 
-/** Compares the given ship with the last used ship to determine if they are different.
- * @param {*} ship data of the ship to compare
- * @returns {boolean} 'true' if the ship is different from the last used ship, 'false' otherwise. */
-function IsDifferentShip(ship) {
-    if (PreviousShip) {
-        if (ship.ship_id !== PreviousShip.ship_id ||
-            ship.name !== PreviousShip.name ||
-            ship.plate !== PreviousShip.plate
-        ) {
-            PreviousShip = { ...ship }; // Update PreviousShip with the current ship
-            return true;
+/** Get the ship data from the ShipList based on the given parameters. 
+ * @param {*} shipData - Parameters containing ship information.
+ * @param {string} shipData.kind_short - [Required] The ship kind (e.g., "python", "cutter").
+ * @param {string} shipData.name -  The ship name (e.g., "NORMANDY").
+ * @param {string} shipData.plate - The ship plate (e.g., "SR-03"). */
+function GetShip(shipData) {
+    try {
+        //console.log('GetShip', shipData);
+        if (ShipList && shipData && shipData.kind_short) {
+            const sKindShort = shipData.kind_short.toLowerCase();
+            const ship = ShipList.find(ship => ship.ed_short.toLowerCase() === sKindShort);
+            if (ship) {
+                return {
+                    ship_id:    ship.ship_id,
+                    kind_short: ship.ed_short.toLowerCase(),
+                    kind_full:  ship.ship_full_name,
+                    name:   shipData.name,
+                    plate:  shipData.plate,         
+                    theme:  "Current Settings",
+                    image:  `${ship.ed_short.toLowerCase()}.jpg`,
+                    //image:  fileHelper.getAssetUrl(`images/Ships/${ship.ed_short}.jpg`),
+                 };
+            } else {
+                console.warn(`Ship not found in ShipList: ${shipData.kind_short}`);
+                return null;
+            }
         }
-    } else {
-        PreviousShip = { ...ship }; // Initialize PreviousShip with the first ship
-        return true;
+        return null; // Return null if ShipList is not loaded or shipData is invalid
+    } catch (error) {
+        console.log(error);
     }
-    return false;
+}
+
+function AddShip(shipData) {
+    //console.log('AddShip', shipData);
+
+    // Check if shipData is defined and is an object
+    if (typeof shipData !== 'object' || shipData === null) {
+        console.error('AddShip: shipData is not a valid object:', shipData);
+        return false; // Indicate failure: invalid input
+    }
+
+    // Use optional chaining and nullish coalescing to safely access properties
+    const kind_short = shipData.kind_short?.toLowerCase() ?? '';
+    const name = shipData.name;
+    const plate = shipData.plate;
+
+    // Check for pre-existence based on a combination of identifying properties
+    const shipExists = Shipyard.ships.some(existingShip => {
+        // Safely access properties of existingShip as well
+        const existingKindShort = existingShip.kind_short?.toLowerCase() ?? '';
+        const existingName = existingShip.name;
+        const existingPlate = existingShip.plate;
+
+        return existingKindShort === kind_short || existingName === name || existingPlate === plate;
+    });
+
+    if (shipExists) {
+        console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', or plate '${plate}' already exists.`);
+        return false; // Indicate failure: ship already exists
+    } else {
+        // Create a *copy* of the shipData object before pushing it
+        const newShip = { ...shipData };
+        Shipyard.ships.push(newShip);
+        console.log(`Ship added to Shipyard: ${newShip.kind_short}`);
+        
+        return SaveShipyard(); // Save the updated Shipyard data       
+    }
+}
+
+function SaveShipyard() {
+    try {
+        fileHelper.writeJsonFile(ShipyardFilePath, Shipyard, true);
+        console.log('Ship data saved.');
+        return true; // Indicate success
+    } catch (error) {
+        console.error('Error saving ship data:', error);
+        Shipyard.ships.pop(); // Remove the added ship on error.
+        return false; // Indicate failure
+    }
 }
 
 /** Returns the latest log file in the journal directory. */
@@ -455,7 +448,8 @@ async function startMonitoringFile(filePath) {
 }
 
 /** Start monitoring the directory for new log files.
- * * If a new file is added, it will start monitoring that file for changes. */
+ * * If a new file is added, it will start monitoring that file for changes. 
+ * returns 'true' if Shipyard is enabled and monitoring is sucsefull */
 function startDirectoryMonitoring() {
     try {
         if (Shipyard && Shipyard.enabled) {
@@ -478,9 +472,11 @@ function startDirectoryMonitoring() {
                 console.log('File removed:', filePath);
                 checkAndSwitchLogFile(); // Re-evaluate in case the monitored file was removed
             }).on('error', error => console.error('Error watching directory:', error));
+            return true; // Indicate success
         } 
         else { 
             console.log('** Shipyard is disabled, not monitoring directory. **');
+            return false; // Indicate failure: Shipyard is disabled
         }
     } catch (error) {
         console.error(error);
@@ -513,7 +509,7 @@ async function checkAndSwitchLogFile() {
     }
 }
 
-ipcMain.handle('start-log-monitoring', async (event) => {
+ipcMain.handle('start-log-monitoring', (event) => {
     try {
         return startDirectoryMonitoring();
     } catch (error) {

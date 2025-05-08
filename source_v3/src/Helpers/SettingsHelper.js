@@ -739,7 +739,8 @@ ipcMain.handle('GetAppDataDirectory', (event) => {
     throw new Error(error.message + error.stack);
   }
 });
-
+/** Returns the path to the given Instance directory.
+ * @param {*} instanceKey Key of the Instance to get the path for. 'ED_Odissey' or 'ED_Horizons' */
 ipcMain.handle('GetInstanceDataDirectory', (event, instanceKey) => {
   try {
     const ProgramDataPath = fileHelper.resolveEnvVariables(

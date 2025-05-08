@@ -78,3 +78,4 @@ else
 fi
 
 echo "Desktop and Application Menu shortcuts created."
+
