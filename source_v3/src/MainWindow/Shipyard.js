@@ -92,13 +92,13 @@ TODO:   - Registrar el ID de la nave para el CPM
             console.log('Event:', event);
             AddShip(event.data);
             console.log('--------------------------------------');
-            
-            //console.log(`Ship Changed: ${event.data.name} (${event.data.plate})`);
+
             if (_ApplyTheme && event.data.theme && event.data.theme !== 'Current Settings') {  
                 console.log('Applying Theme:', event.data.theme);
                 EventBus.emit('FindAndApplyTheme', event.data.theme); //<- this event will be heard in 'ThemeTab.vue'   
        
-                RunSendKeyScript(); //<- Send F11 key to the game
+                const _ret = RunSendKeyScript(); //<- Send F11 key to the game
+                console.log('F11 key sent to game:', _ret);
             }
         }
     } catch (error) {
@@ -484,21 +484,26 @@ function startDirectoryMonitoring() {
 }
 
 function RunSendKeyScript() {
-  const scriptPath = fileHelper.getAssetPath('data/etc/SendF11.vbs'); // Path to the VBScript file
-
-  execFile('wscript.exe', ['//nologo', scriptPath], (error, stdout, stderr) => {
-    if (error) {
-      console.error('Error executing VBScript:', error);
-      // You might want to send an error message back to the renderer process
+    if (process.platform === 'win32') {
+        const scriptPath = fileHelper.getAssetPath('data/etc/SendF11.vbs'); // Path to the VBScript file
+        execFile('wscript.exe', ['//nologo', scriptPath], (error, stdout, stderr) => {
+            if (error) {
+                console.error('Error executing VBScript:', error);
+                // You might want to send an error message back to the renderer process
+            } else {
+                console.log('VBScript executed successfully');
+                // You might want to send a success message back to the renderer process
+            }
+            if (stderr) {
+                console.error('VBScript stderr:', stderr);
+            }
+            return  stdout; // The VBScript likely won't produce much stdout
+        });
     } else {
-      console.log('VBScript executed successfully');
-      // You might want to send a success message back to the renderer process
+        //- Running on  Linux
+        const scriptPath = fileHelper.getAssetPath('data/etc/SendF11.sh'); 
+        return fileHelper.runProgram(scriptPath); 
     }
-    if (stderr) {
-      console.error('VBScript stderr:', stderr);
-    }
-    console.log('VBScript stdout:', stdout); // The VBScript likely won't produce much stdout
-  });
 }
 
 //- Utility method:
@@ -513,7 +518,15 @@ ipcMain.handle('start-log-monitoring', (event) => {
     try {
         return startDirectoryMonitoring();
     } catch (error) {
-        console.error('Error reading XML file:', error);
+        console.error(error);
+        return null;
+    }
+});
+ipcMain.handle('shypyard-load-ships', (event) => {
+    try {
+        return Initialize(mainWindowInstance);
+    } catch (error) {
+        console.error(error);
         return null;
     }
 });

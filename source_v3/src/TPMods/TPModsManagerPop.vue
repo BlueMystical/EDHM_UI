@@ -60,21 +60,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- <ul>
-                                            <li v-for="mod in TPmods" :key="mod.mod_name" :id="'mod-' + mod.mod_name"
-                                                class="image-container"
-                                                :class="{ 'selected': mod.mod_name === selectedModBasename }"
-                                                @click="onSelectMod(mod)" @contextmenu="onRightClick($event, mod)">
-                                                <img :src="mod.isActive ? mod.thumbnail_url : getGrayscaleImage(mod)"
-                                                    :alt="mod.mod_name" class="img-thumbnail"
-                                                    :style="{ filter: mod.isActive ? 'none' : 'grayscale(100%)' }"
-                                                    aria-label="Thumbnail of {{ mod.mod_name }}" />
-                                                &nbsp;&nbsp;
-                                                <span class="image-label">{{ mod.mod_name }}</span>
-                                            </li>
-                                        </ul> -->
-
                                     </div>
                                     <!-- Properties of the selected Mod -->
                                     <div class="right-column border justify-content-center content-scrollable">

@@ -10,6 +10,11 @@
 
                     <!-- Main Content -->
                     <div class="container-fluid h-100">
+                        <!-- Alert to show the 'Read Me' information of the selected mod -->
+                        <div v-show="showInfo" class="alert alert-warning alert-dismissible" role="alert">
+                            <button type="button" class="btn-close" aria-label="Close" @click="closeInfo"></button>
+                            <div v-html="infoMessage"></div>
+                        </div>
                         <div class="row row-cols-1 row-cols-md-3 g-4">
                             <div v-for="ship in ships" :key="ship.ship_id" class="col"
                                 :class="{ 'selected-card': selectedShip === ship }" @click="selectCard(ship)">
@@ -44,7 +49,7 @@
                             <label class="form-check-label" for="checkNativeSwitch">Shipyard Enabled</label>
                         </div>
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                            <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto"
+                            <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto text-warning"
                                 style="padding-top: -4px;">
                                 {{ statusText }}
                             </span>
@@ -62,13 +67,13 @@
                                 </button>
                             </div>
                             <div class="btn-group me-3" role="group" aria-label="Themes">
-                                <button id="cmdInfo" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdThemeExport_Click" @mouseover="updateStatus('Info')"
+                                <button id="cmdShowSomeInfo" class="btn btn-outline-secondary" type="button"
+                                    @mousedown="cmdShowSomeInfo_Click" @mouseover="updateStatus('Info')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-info-circle"></i>
                                 </button>
                                 <button id="cmdSaveChanges" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdThemeImport_Click" @mouseover="updateStatus('Save Changes')"
+                                    @mousedown="cmdSaveChanges_Click" @mouseover="updateStatus('Save Changes')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-floppy-fill"></i>
                                 </button>
@@ -149,7 +154,7 @@ export default {
             try {
                 console.log('Initializing Shipyard UI..');
                 this.showInfo = false;
-                this.showAlert = false;                
+                this.showAlert = false;
 
                 this.DATA_DIRECTORY = await window.api.GetProgramDataDirectory();
 
@@ -189,7 +194,7 @@ export default {
             };
             try {
                 await window.api.writeJsonFile(ShipyardFilePath, dataToSave, true); //<- path, data, beautify
-                console.log('Ship data saved.');
+                this.updateStatus('Ship data saved.');
                 return true; // Indicate success
             } catch (error) {
                 console.error('Error saving ship data:', error);
@@ -216,6 +221,9 @@ export default {
         },
         clearStatus() {
             this.statusText = '';
+        },
+        closeInfo() {
+            this.showInfo = false;
         },
         async getShipImage(ship_image) {
             /* Returns the ship image path */
@@ -277,6 +285,47 @@ export default {
             this.$emit('shipSelected', ship); // Emitimos el evento usando this.$emit
         },
 
+        cmdReloadShips_Click(e) {
+            EventBus.emit('shypyard-load-ships', null);
+            this.loadShipData(this.themes);
+        },
+        async cmdDeleteShip_Click(e) {
+            if (this.selectedShip) {
+
+                const options = {
+                    type: 'question', //<- none, info, error, question, warning
+                    buttons: ['Cancel', "Yes, Delete it", 'No, thanks.'],
+                    defaultId: 1,
+                    title: 'Delete Ship?',
+                    message: `Are you sure you want to delete '${this.selectedShip.name}' ? `,
+                    detail: '',
+                    cancelId: 0
+                };
+                const result = await window.api.ShowMessageBox(options);
+                if (result && result.response === 1) {
+                    const index = this.ships.findIndex(s => s.ship_id === this.selectedShip.ship_id);
+                    if (index !== -1) {
+                        this.ships.splice(index, 1); // Remove the ship from the array
+                        this.selectedShip = null; // Clear the selected ship
+                        this.statusText = 'Ship deleted.';
+                        this.saveShipData(); // Save changes to the file
+                    }
+                }
+            } else {
+                EventBus.emit('ShowError', 'No ship selected for deletion.');
+            }
+        },
+        cmdShowSomeInfo_Click(e) {
+            this.showInfo = !this.showInfo;
+            if (this.showInfo) {
+                this.infoMessage = 'The <b>Shipyard</b> is a feature that allows you to set a theme to each of your ships.<br>When you Embark your ship, the app will detect the change and automatically apply the selected theme.'; // Replace with actual info
+            } else {
+                this.infoMessage = '';
+            }
+        },
+        cmdSaveChanges_Click(e) {
+            this.saveShipData();
+        },
 
     },
     mounted() {
@@ -303,8 +352,11 @@ export default {
     object-fit: cover;
     /* Ensure images fill the container without distortion */
 }
+
 .selected-card .card {
-  border: 2px solid orange !important; /* Puedes personalizar el estilo de resaltado */
-  box-shadow: 0 0 10px orange(0, 0, 255, 0.5); /* Ejemplo de sombra */
+    border: 2px solid orange !important;
+    /* Puedes personalizar el estilo de resaltado */
+    box-shadow: 0 0 10px orange(0, 0, 255, 0.5);
+    /* Ejemplo de sombra */
 }
 </style>

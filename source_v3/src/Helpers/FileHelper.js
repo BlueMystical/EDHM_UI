@@ -804,9 +804,6 @@ async function decompressFile(zipPath, outputDir) {
 
 // #region XML Files
 
-
-
-
 ipcMain.handle('read-xml-file', async (event, filePath) => {
   try {
     const xmlString = fs.readFileSync(filePath, 'utf-8');
@@ -829,7 +826,6 @@ ipcMain.handle('write-xml-file', async (event, filePath, xmlContent) => {
 });
 
 // #endregion
-
 
 // #region Processs & Programs
 
@@ -970,6 +966,60 @@ function runInstaller(installerPath) {
     // Close the application
     app.quit();
   });
+}
+
+function runScripOrProgram(filePath, args = []) {
+  try {
+    console.log('Launching program:', filePath, args);
+
+    if (process.platform === 'linux') {
+      console.log('Linux platform detected');
+
+      // Ensure the script has execute permissions
+      fs.chmod(filePath, 0o755, (chmodError) => {
+        if (chmodError) {
+          console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
+        }
+      });
+
+      // Use spawn to run the shell script as a detached process
+      const options = {
+        detached: true, // Detach the process from the parent
+        stdio: 'ignore', // Ignore input/output streams to let it run independently
+        cwd: path.dirname(filePath) // Set the working directory of the script
+      };
+
+      const args = []; // Pass additional arguments to the shell script if needed
+      const process = spawn('bash', [filePath, ...args], options);
+
+      process.unref(); // Allow the parent app to exit without affecting the script
+      console.log('Shell script launched in detached mode.');
+
+    } else if (process.platform === 'win32') {
+      const batPath = path.resolve(filePath); // Resolve absolute path of the .bat file
+      const options = {
+        detached: true, // Detach the process so it can run independently
+        stdio: 'ignore', // Ignore standard input/output streams
+        cwd: path.dirname(batPath) // Set the working directory to the .bat file's directory
+      };
+
+      // Use spawn to execute the batch file
+      const batProcess = spawn('cmd.exe', ['/c', 'start', filePath], options);
+
+      batProcess.unref(); // Allow the parent app to terminate without affecting the batch file
+      console.log('Batch file launched in detached mode.');
+
+      return 'Batch file started successfully';
+    }
+    else {
+      console.error(`Unsupported platform: ${process.platform}`);
+    }
+
+    return "Program started";
+  } catch (error) {
+    console.error(`Error starting program: ${error}`);
+    return "Program could not start";
+  }
 }
 
 
@@ -1302,57 +1352,11 @@ ipcMain.handle('terminate-program', async (event, exeName) => {
  * @param {string} filePath - The absolute path to the program or script file.
  * @param {string[]} [args] - An optional array of arguments to pass to the program.
  * @returns {string} - "Program started" if launched, "Program could not start" on error. */
-ipcMain.handle('run-program', async (event, filePath, args = []) => {
+ipcMain.handle('run-program', async (event, filePath, args = []) => {  
   try {
-    console.log('Launching program:', filePath, args);
-
-    if (process.platform === 'linux') {
-      console.log('Linux platform detected');
-
-      // Ensure the script has execute permissions
-      fs.chmod(filePath, 0o755, (chmodError) => {
-        if (chmodError) {
-          console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
-        }
-      });
-
-      // Use spawn to run the shell script as a detached process
-      const options = {
-        detached: true, // Detach the process from the parent
-        stdio: 'ignore', // Ignore input/output streams to let it run independently
-        cwd: path.dirname(filePath) // Set the working directory of the script
-      };
-
-      const args = []; // Pass additional arguments to the shell script if needed
-      const process = spawn('bash', [filePath, ...args], options);
-
-      process.unref(); // Allow the parent app to exit without affecting the script
-      console.log('Shell script launched in detached mode.');
-
-    } else if (process.platform === 'win32') {
-      const batPath = path.resolve(filePath); // Resolve absolute path of the .bat file
-      const options = {
-        detached: true, // Detach the process so it can run independently
-        stdio: 'ignore', // Ignore standard input/output streams
-        cwd: path.dirname(batPath) // Set the working directory to the .bat file's directory
-      };
-
-      // Use spawn to execute the batch file
-      const batProcess = spawn('cmd.exe', ['/c', 'start', filePath], options);
-
-      batProcess.unref(); // Allow the parent app to terminate without affecting the batch file
-      console.log('Batch file launched in detached mode.');
-
-      return 'Batch file started successfully';
-    }
-    else {
-      console.error(`Unsupported platform: ${process.platform}`);
-    }
-
-    return "Program started";
+    return runScripOrProgram(filePath, args);
   } catch (error) {
-    console.error(`Error starting program: ${error}`);
-    return "Program could not start";
+    throw new Error(error.message + error.stack);
   }
 });
 
@@ -1736,7 +1740,7 @@ export default {
   createWindowsShortcut,
   createLinuxShortcut,
   terminateProgram,
-  runInstaller,
+  runInstaller, runScripOrProgram,
 
   copyToClipboard,
   downloadAsset,
