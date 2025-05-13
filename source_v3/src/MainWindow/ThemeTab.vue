@@ -203,11 +203,11 @@ export default {
         //console.log(this.selectedTheme);
         if (theme && !isEmpty(theme)) {
           // This check allowes the user to select its own theme without reloading old values:
-          if (this.selectedTheme === null || this.selectedTheme.id != theme.id) {
+          //if (this.selectedTheme === null || this.selectedTheme.id != theme.id) {
             if (this.themes && !isEmpty(this.themes)) {
               const searchIndex = theme.id;                                             //console.log('searchIndex: ', searchIndex);
               const selectedItem = this.themes.find(item => item.id === searchIndex); 
-              console.log('Clicked Theme: ', selectedItem.name);
+              console.log('Selected Theme: ', selectedItem.name);
 
               if (selectedItem) {
                 this.selectedImageId = searchIndex;
@@ -226,7 +226,7 @@ export default {
               console.log('Waiting for themes to be loaded..');
               this.quequeSelect = theme;
             }
-          }
+          //}
         }
       } catch (error) {
         EventBus.emit('ShowError', error);
@@ -236,9 +236,11 @@ export default {
     /** When Fired, Applies a given Theme   * 
      * @param theme_name Name of the Theme to be applied     */
     FindAndApplyTheme(theme_name) {
-      if (this.themes && this.themes.length > 0) {
+      console.log('FindAndApplyTheme: ', theme_name);
+      if (this.themes && this.themes.length > 0) {        
         const index = this.themes.findIndex(obj => obj.file.name === theme_name);
         if (index !== -1) {
+          console.log('Theme Found: ', this.themes[index].name);
           this.OnSelectTheme({ id: index });
           EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'NavBars.vue'  
         } else {
@@ -287,7 +289,7 @@ export default {
 
     /** Updates and reloads a theme
      * @param theme data of the theme  */
-    DoReloadTheme(theme){      
+    DoReloadTheme(theme){
       const tName = theme.name;
       if (this.themes && this.themes.length > 0) {
         const index = this.themes.findIndex(obj => obj.file.name === tName);

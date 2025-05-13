@@ -232,7 +232,7 @@ export default {
         },
         async changeShipImage(ship) {
             const options = {
-                title: 'Import Theme from a ZIP file:',
+                title: 'Select an Image for the Ship:',
                 defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default. 
                 filters: [
                     { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] },
@@ -245,7 +245,7 @@ export default {
                 const selectedImagePath = filePath[0];
                 const originalFilename = selectedImagePath.split('/').pop(); // Get the filename
                 const newFilename = `${ship.kind_short}_${Date.now()}.${originalFilename.split('.').pop()}`; // Create a unique filename
-                const destinationPath = await window.api.joinPath(this.DATA_DIRECTORY, 'images', 'Ships', newFilename);
+                const destinationPath = await window.api.getAssetPath(`images/Ships/${newFilename}`);
 
                 try {
                     await window.api.copyFile(selectedImagePath, destinationPath);

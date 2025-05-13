@@ -6,6 +6,7 @@ import { readdir, stat, readFile } from 'fs/promises';
 import { writeFile, unlink, access } from 'node:fs/promises';
 
 import fileHelper from './FileHelper';
+import themeHelper from './ThemeHelper.js';
 import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
 import Util from './Utils.js';
@@ -725,6 +726,108 @@ async function DoHotFix() {
   }
 };
 
+async function ApplyTheme(themeName) {
+  try {
+    const themes = themeHelper.GetLoadedThemes();
+    console.log('Loaded Themes:', themeName, themes.length);
+
+    if (themes && themes.length > 0) {
+      const themeIndex = themes.findIndex(t => t.credits.theme === themeName);
+      if (themeIndex >= 0) {
+        console.log('Theme Found:', themes[themeIndex].credits.theme);
+        const themeTemplate = themes[themeIndex]; 
+        console.log('0. Applying Theme:', themeTemplate.credits.theme);
+
+        const ActiveInstance = await getActiveInstance();
+        console.log('1. ActiveInstance:', ActiveInstance.instance);
+
+        const GamePath = path.join(ActiveInstance.path, 'EDHM-ini');
+        const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+        const defaultInisPath = fileHelper.getAssetPath(`data/${GameType}`);
+        console.log('2. Preparing all the Paths:', GamePath);
+
+        let template = JSON.parse(JSON.stringify(themeTemplate));
+        template.path = GamePath;
+        console.log('3. Theme Template:', template.credits.theme);
+
+        // Reusable function to apply Global/User settings:
+        async function applySettings(settings, template, counterName) {
+          try {
+            let counter = 0;
+            if (settings) {
+              settings.Elements.forEach(gblSets => {
+                let found = false;
+                if (template.ui_groups) {
+                  for (let i = 0; i < template.ui_groups.length - 1; i++) {
+                    const uiGrp = template.ui_groups[i];
+                    const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
+                    if (itemIndex >= 0) {
+                      const oldV = uiGrp.Elements[itemIndex].Value;
+                      uiGrp.Elements[itemIndex].Value = gblSets.Value;
+                      found = true;
+                      counter++;
+                      break; // Break out of the inner loop once updated
+                    }
+                  }
+                  if (!found) {
+                    // Item not found, add it to the second last ui_group:
+                    const lastGroup = template.ui_groups[template.ui_groups.length - 2];
+                    lastGroup.Elements.push(gblSets); // Add the whole item from settings
+                    counter++;
+                  }
+                }
+              });
+            }
+            console.log(counter + ' ' + counterName + ' added!');
+          } catch (error) {
+            console.log('ERROR @SettingsHelper.applyTheme().applySettings():', error);
+          }
+        }
+
+        // 4. Apply Global Settings
+        const globalSettings = await LoadGlobalSettings();
+        console.log('4. Global Settings:', globalSettings.Elements.length);
+        await applySettings(globalSettings, template, 'Global Settings');
+
+        // 5. Apply User Settings
+        const userSettings = await LoadUserSettings();
+        if (userSettings) {
+          console.log('5. Get User Settings:', userSettings.Elements.length);
+          await applySettings(userSettings, template, 'User Settings');
+        }
+
+        console.log('6. Get Default Inis:');
+        const defaultINIs = await themeHelper.LoadThemeINIs(defaultInisPath);        
+
+        const _curSettsSAved = await themeHelper.SaveTheme(template);
+        console.log('Current Settings Saved?: ', _curSettsSAved);
+
+        const updatedInis = await themeHelper.ApplyTemplateValuesToIni(template, defaultINIs);
+        console.log('7. Applying Changes to the INIs...', updatedInis != undefined);
+
+        console.log('8. Saving the INI files..');
+        const _ret = await themeHelper.SaveThemeINIs(GamePath, updatedInis);
+        if (_ret) {
+          console.log('9. Theme Applied!', _ret);
+          return true;
+        }
+      }
+      else {
+        console.log('Theme Not Found!', themeName);
+        return false;
+      }
+    }
+    else {
+      console.log('No Themes Loaded!');
+      return false;
+    }
+
+  } catch (error) {
+    console.log(error.message); // Check if the error message is defined 
+    throw new Error(error.message + error.stack);
+  }
+};
+
 // #endregion
 /*----------------------------------------------------------------------------------------------------------------------------*/
 // #region ipcMain Handlers
@@ -934,4 +1037,5 @@ export default {
   getInstanceByName, getActiveInstance, 
   LoadGlobalSettings, saveGlobalSettings,
   readSetting, writeSetting, DoHotFix,
+  ApplyTheme
  };

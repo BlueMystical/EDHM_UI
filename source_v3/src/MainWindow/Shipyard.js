@@ -6,6 +6,7 @@ import chokidar from 'chokidar';
 import { execFile } from 'child_process';
 import settingsHelper from '../Helpers/SettingsHelper.js';
 import fileHelper from '../Helpers/FileHelper.js';
+import EventBus from '../EventBus.js';
 
 // #region Declarations
 
@@ -81,7 +82,7 @@ export const Initialize = (mainWindow) => {
  * This function is called when the ship changes in the game.
  * @param {*} event Data of the new ship
  * @param {boolean} _ApplyTheme 'true' to apply the theme to the ship, 'false' otherwise. */
-function PlayerJournal_ShipChanged(event, _ApplyTheme = true) {
+async function PlayerJournal_ShipChanged(event, _ApplyTheme = true) {
     /* OCURRE CUANDO SE CAMBIA LA NAVE 
         - Guarda la Nave en el Historial de Naves
         - Si el Juego está abierto, Aplica el Tema seleccionado para la nave 
@@ -90,15 +91,17 @@ TODO:   - Registrar el ID de la nave para el CPM
     try {
         if (event) {
             console.log('Event:', event);
-            AddShip(event.data);
+            event.data = AddShip(event.data); 
             console.log('--------------------------------------');
 
-            if (_ApplyTheme && event.data.theme && event.data.theme !== 'Current Settings') {  
-                console.log('Applying Theme:', event.data.theme);
-                EventBus.emit('FindAndApplyTheme', event.data.theme); //<- this event will be heard in 'ThemeTab.vue'   
-       
-                const _ret = RunSendKeyScript(); //<- Send F11 key to the game
-                console.log('F11 key sent to game:', _ret);
+            if (_ApplyTheme) {  //&& event.data.theme !== 'Current Settings'
+                console.log('Applying Theme:', event.data.theme); 
+                const tApply = await settingsHelper.ApplyTheme(event.data.theme);
+                if (tApply) {
+                    const _ret = RunSendKeyScript(); //<- Send F11 key to the game
+                    console.log('F11 key sent to game:', _ret);
+                }
+                console.log('--------------------------------------');
             }
         }
     } catch (error) {
@@ -175,7 +178,7 @@ function OnShipyardEvent(line, isNewLine = false) {
                         event: 'ShipLoadout', 
                         data: GetShip({
                             kind_short: _json.Ship,
-                            name: _json.ShipName,
+                            name: _json.ShipName?.trim(),
                             plate: _json.ShipIdent
                         })
                     };
@@ -293,35 +296,38 @@ function AddShip(shipData) {
     // Check if shipData is defined and is an object
     if (typeof shipData !== 'object' || shipData === null) {
         console.error('AddShip: shipData is not a valid object:', shipData);
-        return false; // Indicate failure: invalid input
+        return shipData; // Indicate failure: invalid input
     }
 
     // Use optional chaining and nullish coalescing to safely access properties
-    const kind_short = shipData.kind_short?.toLowerCase() ?? '';
+    const kind_short = shipData.kind_short?.toLowerCase().trim() ?? '';
     const name = shipData.name;
     const plate = shipData.plate;
+    let exShip = null;
 
     // Check for pre-existence based on a combination of identifying properties
     const shipExists = Shipyard.ships.some(existingShip => {
         // Safely access properties of existingShip as well
-        const existingKindShort = existingShip.kind_short?.toLowerCase() ?? '';
+        const existingKindShort = existingShip.kind_short?.toLowerCase().trim() ?? '';
         const existingName = existingShip.name;
         const existingPlate = existingShip.plate;
-
-        return existingKindShort === kind_short || existingName === name || existingPlate === plate;
+        exShip = existingShip;
+        return existingKindShort === kind_short && existingName === name && existingPlate === plate;
     });
 
     if (shipExists) {
-        console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', or plate '${plate}' already exists.`);
-        return false; // Indicate failure: ship already exists
+        console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', and plate '${plate}' already exists.`);
+        //shipData = shipExists;
+        return exShip;
     } else {
         // Create a *copy* of the shipData object before pushing it
         const newShip = { ...shipData };
         Shipyard.ships.push(newShip);
-        console.log(`Ship added to Shipyard: ${newShip.kind_short}`);
-        
-        return SaveShipyard(); // Save the updated Shipyard data       
-    }
+        SaveShipyard(); // Save the updated Shipyard data
+        console.log(`Ship added to Shipyard: ${newShip.kind_short}, file Saved.`);
+
+        return shipData;
+    }    
 }
 
 function SaveShipyard() {

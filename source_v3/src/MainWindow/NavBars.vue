@@ -363,31 +363,38 @@ export default {
         console.log('3. Theme Template:', template);
 
         // Reusable function to apply Global/User settings:
+       // Reusable function to apply Global/User settings:
         async function applySettings(settings, template, counterName) {
-          let counter = 0;
-          if (settings) {
-            settings.Elements.forEach(gblSets => {
-              let found = false;
-              for (let i = 0; i < template.ui_groups.length - 1; i++) {
-                const uiGrp = template.ui_groups[i];
-                const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
-                if (itemIndex >= 0) {
-                  const oldV = uiGrp.Elements[itemIndex].Value;
-                  uiGrp.Elements[itemIndex].Value = gblSets.Value;
-                  found = true;
-                  counter++;
-                  break; // Break out of the inner loop once updated
+          try {
+            let counter = 0;
+            if (settings) {
+              settings.Elements.forEach(gblSets => {
+                let found = false;
+                if (template.ui_groups) {
+                  for (let i = 0; i < template.ui_groups.length - 1; i++) {
+                    const uiGrp = template.ui_groups[i];
+                    const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
+                    if (itemIndex >= 0) {
+                      const oldV = uiGrp.Elements[itemIndex].Value;
+                      uiGrp.Elements[itemIndex].Value = gblSets.Value;
+                      found = true;
+                      counter++;
+                      break; // Break out of the inner loop once updated
+                    }
+                  }
+                  if (!found) {
+                    // Item not found, add it to the second last ui_group:
+                    const lastGroup = template.ui_groups[template.ui_groups.length - 2];
+                    lastGroup.Elements.push(gblSets); // Add the whole item from settings
+                    counter++;
+                  }
                 }
-              }
-              if (!found) {
-                // Item not found, add it to the second last ui_group:
-                const lastGroup = template.ui_groups[template.ui_groups.length - 2];
-                lastGroup.Elements.push(gblSets); // Add the whole item from settings
-                counter++;
-              }
-            });
+              });
+            }
+            console.log(counter + ' ' + counterName + ' added!');
+          } catch (error) {
+            console.log('ERROR @SettingsHelper.applyTheme().applySettings():', error);
           }
-          console.log(counter + ' ' + counterName + ' added!');
         }
 
         // 4. Apply Global Settings
@@ -397,8 +404,10 @@ export default {
 
         // 5. Apply User Settings
         const userSettings = await window.api.LoadUserSettings();
-        console.log('5. Get User Settings:', userSettings);
-        await applySettings(userSettings, template, 'User Settings');
+        if (userSettings) {
+          console.log('5. Get User Settings:', userSettings);
+          await applySettings(userSettings, template, 'User Settings');
+        }       
 
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
         console.log('6. Get Default Inis:', defaultINIs);

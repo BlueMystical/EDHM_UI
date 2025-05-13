@@ -10,6 +10,9 @@ import settingsHelper from './SettingsHelper.js'
 import { writeFile } from 'node:fs/promises';
 import FileHelper from './FileHelper';
 
+let LoadedThemes = null; //<- Cache for the loaded themes
+// #region --------- Theme Helper Functions: ---------------------  
+
 
 /** * Retrieves themes from a specified directory path.
  * @async
@@ -57,6 +60,8 @@ const getThemes = async (dirPath) => {
             );
           }
 
+          LoadedThemes = files; //<- Cache the loaded themes
+
           // Theme Migration :
           const ThemeCleansing = true; //<- Swap to 'true' to save the json and cleanse old files
           try {
@@ -81,6 +86,10 @@ const getThemes = async (dirPath) => {
     throw new Error(error.message + error.stack);
   }
 };
+
+function GetLoadedThemes() {
+  return LoadedThemes;
+}
 
 /** Loads a Theme from a specified folder path.
  * @param {*} themeFolder Path to the folder containing the Theme files */
@@ -869,8 +878,8 @@ ipcMain.handle('GetElementsImageTPM', (event, filePath, key) => {
 // #endregion
 
 export default {
-  getThemes,
-  LoadThemeINIs, SaveThemeINIs,
+  getThemes, GetLoadedThemes,
+  LoadThemeINIs, SaveThemeINIs, SaveTheme,
   ApplyIniValuesToTemplate, ApplyTemplateValuesToIni,
   FavoriteTheme, UnFavoriteTheme,
   CreateNewTheme, UpdateTheme,

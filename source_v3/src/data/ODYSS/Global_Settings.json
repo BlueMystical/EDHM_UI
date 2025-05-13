@@ -202,7 +202,7 @@
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Canopy Scratches",
+            "Title": "Hide Canopy Scratches",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "x229",
@@ -213,7 +213,7 @@
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Canopy Ice",
+            "Title": "Hide Canopy Ice",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "y229",
@@ -224,7 +224,7 @@
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Canopy Condensation",
+            "Title": "Hide Canopy Condensation",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "z229",
