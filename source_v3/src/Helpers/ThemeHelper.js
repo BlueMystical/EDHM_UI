@@ -497,7 +497,7 @@ async function ApplyIniValuesToTemplate(template, iniValues) {
 async function ApplyTemplateValuesToIni(template, iniValues) {
   let stackTrace = '';
   try {
-
+    console.log('Applying ' + template.credits.theme);
     if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {

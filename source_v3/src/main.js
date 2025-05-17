@@ -36,6 +36,11 @@ const createWindow = () => {
   });
 
   console.log('App is Loading..');
+  console.log('--- Configuracion de Proxy desde Variables de Entorno ---');
+  console.log('HTTP_PROXY:', process.env.HTTP_PROXY);
+  console.log('HTTPS_PROXY:', process.env.HTTPS_PROXY);
+  console.log('NO_PROXY:', process.env.NO_PROXY);
+  console.log('-------------------------------------------------------');
   
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

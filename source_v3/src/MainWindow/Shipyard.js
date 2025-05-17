@@ -89,8 +89,8 @@ async function PlayerJournal_ShipChanged(event, _ApplyTheme = true) {
 TODO:   - Registrar el ID de la nave para el CPM 
     */
     try {
-        if (event) {
-            console.log('Event:', event);
+        if (event) {    
+            console.log('Event:', event);        
             event.data = AddShip(event.data); 
             console.log('--------------------------------------');
 
@@ -317,7 +317,6 @@ function AddShip(shipData) {
 
     if (shipExists) {
         console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', and plate '${plate}' already exists.`);
-        //shipData = shipExists;
         return exShip;
     } else {
         // Create a *copy* of the shipData object before pushing it

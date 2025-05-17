@@ -2,7 +2,7 @@ import { ipcMain } from 'electron';
 import path from 'node:path';
 
 import fs from 'fs';
-import { readdir, stat, readFile } from 'fs/promises';
+import { readdir, stat } from 'fs/promises';
 import { writeFile, unlink, access } from 'node:fs/promises';
 
 import fileHelper from './FileHelper';
@@ -726,15 +726,17 @@ async function DoHotFix() {
   }
 };
 
+/** * Applies a Theme to the Current Game Instance. * 
+ * @param {string} themeName Name of the Theme to be applied
+ * @returns {boolean} 'true' on sucess */ 
 async function ApplyTheme(themeName) {
   try {
     const themes = themeHelper.GetLoadedThemes();
-    console.log('Loaded Themes:', themeName, themes.length);
+    console.log('Loaded Themes:', themes.length);
 
     if (themes && themes.length > 0) {
       const themeIndex = themes.findIndex(t => t.credits.theme === themeName);
       if (themeIndex >= 0) {
-        console.log('Theme Found:', themes[themeIndex].credits.theme);
         const themeTemplate = themes[themeIndex]; 
         console.log('0. Applying Theme:', themeTemplate.credits.theme);
 
@@ -743,10 +745,10 @@ async function ApplyTheme(themeName) {
 
         const GamePath = path.join(ActiveInstance.path, 'EDHM-ini');
         const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-        const defaultInisPath = fileHelper.getAssetPath(`data/${GameType}`);
+        
         console.log('2. Preparing all the Paths:', GamePath);
 
-        let template = JSON.parse(JSON.stringify(themeTemplate));
+        let template = JSON.parse(JSON.stringify(themeTemplate.theme));
         template.path = GamePath;
         console.log('3. Theme Template:', template.credits.theme);
 
@@ -797,13 +799,13 @@ async function ApplyTheme(themeName) {
         }
 
         console.log('6. Get Default Inis:');
+        const defaultInisPath = fileHelper.getAssetPath(`data/${GameType}`);
         const defaultINIs = await themeHelper.LoadThemeINIs(defaultInisPath);        
+        const updatedInis = await themeHelper.ApplyTemplateValuesToIni(template, defaultINIs);
+        console.log('7. Applying Changes to the INIs...', updatedInis != undefined);
 
         const _curSettsSAved = await themeHelper.SaveTheme(template);
         console.log('Current Settings Saved?: ', _curSettsSAved);
-
-        const updatedInis = await themeHelper.ApplyTemplateValuesToIni(template, defaultINIs);
-        console.log('7. Applying Changes to the INIs...', updatedInis != undefined);
 
         console.log('8. Saving the INI files..');
         const _ret = await themeHelper.SaveThemeINIs(GamePath, updatedInis);
