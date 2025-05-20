@@ -57,13 +57,13 @@
                                 aria-labelledby="headingOtherSettings" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="row">
-                                        <div class="col">
+                                        <!--<div class="col">
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="flexSwitchCheckDefault" v-model="config.GreetMe">
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Greet me on Startup</label>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         <div class="col">
                                             <label for="playerJournal">Player's Journal Location:</label>
                                             <div id="playerJournal" class="input-group mb-3">

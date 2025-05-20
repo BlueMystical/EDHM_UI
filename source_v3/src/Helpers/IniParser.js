@@ -36,187 +36,132 @@ export async function SaveIniFile(filePath, iniData) {
 
 /** Parses an INI formatted string into a structured JavaScript object.
  * @param {string} iniString - The INI formatted string to parse.
- * @returns - An array of section objects representing the parsed INI data.*/
+ * @returns {Array} - An array of section objects representing the parsed INI data. */
 function parseIni(iniString) {
-  const sections = []; // Array to store parsed sections.
-  let currentSection = null; // Name of the current section being parsed.
-  let comments = []; // Array to store comments encountered before keys.
-  let logic = { comments: [], lines: [] }; // Object to store logic block data.
-  let inLogicBlock = false; // Flag to indicate if currently parsing a logic block.
-  let sectionComments = []; // Array to store comments encountered before a section.
-  let currentSectionData = {}; // Object to store key-value pairs for the current section.
+  const sections = [];
+  let currentSection = null;
+  let comments = [];
+  let logic = { blocks: [] };
+  let inLogicBlock = false;
+  let sectionComments = [];
+  let currentSectionData = {};
 
-  const lines = iniString.split('\n'); // Split the INI string into lines.
+  const lines = iniString.split('\n');
 
-  // Iterate through each line of the INI string.
   for (const line of lines) {
-    const trimmedLine = line; // No need to trim yet, trim only when needed.
+    const trimmedLine = line;
 
-    // Check if the line is a comment.
     if (trimmedLine.trim().startsWith(';')) {
-      comments.push(trimmedLine); // Store the comment.
-      if (inLogicBlock) {
-        logic.comments.push(trimmedLine); // Store logic block comments.
-      }
+      comments.push(trimmedLine);
 
-      // Check if the line is a section header.
     } else if (trimmedLine.trim().startsWith('[') && trimmedLine.trim().endsWith(']')) {
-      // If a section was being parsed, add it to the sections array.
       if (currentSection) {
-        // If the logic block contains lines, include it in the section.
-        if (logic.lines.length > 0) {
-          sections.push({
-            name: currentSection,
-            comments: sectionComments,
-            keys: currentSectionData.keys || {},
-            logic: logic,
-          });
-        } else {
-          // If the logic block is empty, create an empty logic object.
-          sections.push({
-            name: currentSection,
-            comments: sectionComments,
-            keys: currentSectionData.keys || {},
-            logic: { comments: [], lines: [] },
-          });
-        }
+        sections.push({
+          name: currentSection,
+          comments: sectionComments,
+          keys: currentSectionData.keys || {},
+          logic: logic.blocks.length > 0 ? logic : { blocks: [] },
+        });
       }
-      // Start parsing a new section.
       currentSection = trimmedLine.trim().slice(1, -1);
-      currentSectionData = {}; // Reset section data.
-      sectionComments = comments; // Store section comments.
-      comments = []; // Reset comments array.
-      logic = { comments: [], lines: [] }; // Reset logic object.
-      inLogicBlock = false; // Reset logic block flag.
+      currentSectionData = {};
+      sectionComments = comments;
+      comments = [];
+      logic = { blocks: [] };
+      inLogicBlock = false;
 
-      // Check if the line is an empty line.
     } else if (trimmedLine.trim() === '') {
-      comments.push(trimmedLine); // Store empty lines as comments.
+      comments.push(trimmedLine);
 
-      // If a section is being parsed, process key-value pairs and logic blocks.
+    } else if (trimmedLine.trim().startsWith('if') || trimmedLine.trim().startsWith('endif') || inLogicBlock) {
+      if (!inLogicBlock) {
+        logic.blocks.push({ comments: [...comments], lines: [] });
+        comments = [];
+      }
+
+      logic.blocks[logic.blocks.length - 1].lines.push(trimmedLine);
+
+      if (trimmedLine.trim().startsWith('if')) inLogicBlock = true;
+      if (trimmedLine.trim().startsWith('endif')) inLogicBlock = false;
+
     } else if (currentSection) {
-      // Check for logic block lines.
-      if (trimmedLine.trim().startsWith('if') || trimmedLine.trim().startsWith('endif') || inLogicBlock) {
-        logic.lines.push(trimmedLine); // Store logic line.
-        if (trimmedLine.trim().startsWith('if')) {
-          inLogicBlock = true; // Enter logic block.
-        }
-        if (trimmedLine.trim().startsWith('endif')) {
-          inLogicBlock = false; // Exit logic block.
-        }
-      } else {
-        // Check for key-value pair lines.
-        const match = trimmedLine.trim().match(/^(.+?)\s*=\s*(.+)$/);
-        if (match) {
-          const keyName = match[1].trim(); // Extract key name.
-          let value = match[2].trim(); // Extract value.
+      const match = trimmedLine.trim().match(/^(.+?)\s*=\s*(.+)$/);
+      if (match) {
+        const keyName = match[1].trim();
+        const value = match[2].trim();
 
-          // Create keys object if it doesn't exist.
-          if (!currentSectionData.keys) {
-            currentSectionData.keys = {};
-          }
-
-          // Store key-value pair with comments.
-          currentSectionData.keys[keyName] = {
-            name: keyName,
-            value: String(value),
-            comments: comments,
-          };
-          comments = []; // Reset comments array.
-        }
+        if (!currentSectionData.keys) currentSectionData.keys = {};
+        currentSectionData.keys[keyName] = {
+          name: keyName,
+          value: String(value),
+          comments: comments,
+        };
+        comments = [];
       }
     }
   }
 
-  // Add the last section if it exists.
   if (currentSection) {
-    if (logic.lines.length > 0) {
-      sections.push({
-        name: currentSection,
-        comments: sectionComments,
-        keys: currentSectionData.keys || {},
-        logic: logic,
-      });
-    } else {
-      sections.push({
-        name: currentSection,
-        comments: sectionComments,
-        keys: currentSectionData.keys || {},
-        logic: { comments: [], lines: [] },
-      });
-    }
+    sections.push({
+      name: currentSection,
+      comments: sectionComments,
+      keys: currentSectionData.keys || {},
+      logic: logic.blocks.length > 0 ? logic : { blocks: [] },
+    });
   }
 
-  // Return the parsed sections.
   return sections;
 }
 
-/** Stringifies a parsed INI file structure into a string so it can be written on file. *
- * @param {Array<{
-* name: string,
-* comments?: string[],
-* keys: Record<string, { name: string, value: string, comments?: string[] }>,
-* logic?: { comments?: string[], lines: string[] }
-* }>} parsedIni - The parsed INI data structure.
-* @returns {string} - The stringified INI file.*/
+/** Stringifies a parsed INI file structure into a string so it can be written to a file.
+ * @param {Array} parsedIni - The parsed INI data structure.
+ * @returns {string} - The stringified INI file. */
 function stringifyIni(parsedIni) {
   let iniString = '';
 
-  // Iterate over each section in the parsed INI data.
   for (const section of parsedIni) {
-    // Add section comments if they exist.
     if (section.comments && section.comments.length > 0) {
       iniString += section.comments.join('\n') + '\n';
     }
 
-    // Add the section name.
     iniString += `[${section.name}]\n`;
 
-    // Iterate over each key in the section.
     for (const keyName in section.keys) {
       const key = section.keys[keyName];
 
-      // Add key comments if they exist.
       if (key.comments && key.comments.length > 0) {
         iniString += key.comments.join('\n') + '\n';
       }
 
-      // Add the key-value pair.
       iniString += `${key.name} = ${key.value}\n`;
     }
 
-    // Add logic section if it exists.
-    if (section.logic && section.logic.lines.length > 0) {
-      // Add logic comments if they exist.
-      if (section.logic.comments && section.logic.comments.length > 0) {
-        iniString += '\n'; // Add a newline before logic comments.
-        iniString += section.logic.comments.join('\n') + '\n';
-      } else {
-        // Only add a newline if there are logic lines, but no comments.
-        iniString += '\n';
+    if (section.logic && section.logic.blocks.length > 0) {
+      for (const block of section.logic.blocks) {
+        if (block.comments.length > 0) {
+          iniString += block.comments.join('\n') + '\n';
+        }
+        iniString += block.lines.join('\n') + '\n';
       }
-      // Add logic lines.
-      iniString += section.logic.lines.join('\n');
     }
 
-    // Add a newline to separate sections.
     iniString += '\n';
   }
 
-  // Return the complete stringified INI file.
   return iniString;
 }
 
 // #endregion
 
 /** Returns the value of a key in the given INI data object.
- * If the key does not exist in the specified section, it will return undefined. 
- * @param {*} iniData Parsed Ini data
- * @param {*} section Name of the Section
- * @param {*} key Name of the Key */
+ * If the key does not exist in the specified section, it will return undefined.
+ * @param {Array} iniData Parsed INI data
+ * @param {string} section Name of the Section
+ * @param {string} key Name of the Key */
 function getKey(iniData, section, key) {
-  if (iniData != undefined) {
-    const sectionData = iniData.find(s => s.name.toLowerCase() === section.toLowerCase()); // Case insensitive search
+  if (iniData !== undefined) {
+    //console.log('getKey:', { section, key });
+    const sectionData = iniData.find(s => s.name && s.name.toLowerCase() === section.toLowerCase()); 
     if (sectionData && sectionData.keys && sectionData.keys[key]) {
       return String(sectionData.keys[key].value);
     }
@@ -226,52 +171,63 @@ function getKey(iniData, section, key) {
 
 /** Sets the value of a key in the given INI data object.
  * If the key does not exist in the specified section, it will be added.
- * @param {*} iniData Parsed Ini data
- * @param {*} section Name of the Section
- * @param {*} key Name of the Key
- * @param {*} value Value to set
- * @param {*} comment [Optional] Comments
- * @param {*} addNewKey [Optional] If true, adds the key if it doesn't exist 
- * @returns  the whole iniData object modified, returns NULL if fails. */
+ * @param {Array} iniData Parsed Ini data
+ * @param {string} section Name of the Section
+ * @param {string} key Name of the Key
+ * @param {string} value Value to set
+ * @param {string} [comment] Optional comments
+ * @param {boolean} [addNewKey=false] If true, adds the key if it doesn't exist
+ * @returns {Array|null} The modified iniData object, returns NULL if fails. */
 function setKey(iniData, section, key, value, comment = undefined, addNewKey = false) {
   try {
-    if (key !== undefined && value !== undefined) {
-      let sectionData = iniData.find(s => s.name.toLowerCase() === section.toLowerCase()); // Case insensitive search
+    if (typeof key === 'string' && typeof value !== 'undefined') {
+      //console.log('setKey:', { section, key, value });
+
+      // Buscar la sección en el INI data
+      let sectionData = iniData.find(s => s.name && s.name.toLowerCase() === section.toLowerCase()); 
+
+      // Si la sección no existe y se permite agregar una nueva clave, crearla
       if (!sectionData && addNewKey) {
         sectionData = { name: section, comments: [], keys: {}, logic: { comments: [], lines: [] } };
         iniData.push(sectionData);
       }
 
+      // Validar que `keys` exista antes de acceder a ella
+      if (!sectionData || !sectionData.keys) {
+        console.warn('Error: La sección no tiene estructura válida:', sectionData);
+        return null;
+      }
+
+      // Si la clave ya existe, actualizar su valor
       if (sectionData.keys[key]) {
-        // Key found and updated
-        sectionData.keys[key].value = value;
-        if (comment !== undefined) {
-          sectionData.keys[key].comments = comment.split('\n'); // Convert comment string to array of lines
+        sectionData.keys[key].value = String(value);
+        if (typeof comment === 'string') {
+          sectionData.keys[key].comments = comment.split('\n'); // Convertir comentario a array de líneas
         }
         return iniData;
-      } else {
-        // Key not found in the section, add it
-        if (addNewKey) {
-          sectionData.keys[key] = {
-            name: key,
-            value: value,
-            comments: comment ? comment.split('\n') : [], // Convert comment string to array, or use empty array
-            logic: []
-          };
-          return iniData;
-        } 
-        //console.log('Key not found:', { section, key, value });   
-        return null;    
       }
+
+      // Si la clave no existe, agregarla si se permite `addNewKey`
+      if (addNewKey) {
+        sectionData.keys[key] = {
+          name: key,
+          value: String(value),
+          comments: typeof comment === 'string' ? comment.split('\n') : [],
+          logic: [],
+        };
+        return iniData;
+      }
+
+      console.warn('Clave no encontrada y no se permite agregar nuevas:', { section, key });
+      return null;
     } else {
-      //console.warn('Key or Value is undefined:', { section, key, value });
+      console.warn('Error: Clave o valor no válidos:', { section, key, value });
       return null;
     }
   } catch (error) {
-    console.log('setKey@IniParser:', error);
+    console.error('Error en setKey@IniParser:', error);
     throw new Error(error.message + error.stack);
   }
-  return iniData;
 }
 
 //- Legacy Method:

@@ -586,7 +586,8 @@ export default {
         },
         closeInfo() {
             this.showInfo = false;
-        },        
+        },  
+
 
         // #endregion
 

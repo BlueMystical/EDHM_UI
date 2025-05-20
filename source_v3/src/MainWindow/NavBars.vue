@@ -559,7 +559,17 @@ export default {
         const filePath = await window.api.ShowOpenDialog(options);
         if (filePath) {
           console.log('Selected file:', filePath[0]);
-          EventBus.emit('RoastMe', { type: 'Warning', message: 'Feature not available yet.' });
+          const _ret = await window.api.ImportTheme(filePath[0]); //<- Load the JSON file from the History folder
+          if (_ret) {
+            console.log('Imported Theme:', _ret);
+            EventBus.emit('loadThemes', _ret);           //<- Listen in ThemeTab.vue
+            EventBus.emit('DoLoadGlobalSettings', _ret); //<- Listen in GlobalSettings.vue
+            EventBus.emit('DoLoadUserSettings', _ret);   //<- Listen in UserSettings.vue     
+            EventBus.emit('RoastMe', { type: 'Success', message: 'Theme Imported.' });
+          }
+          else {
+            EventBus.emit('RoastMe', { type: 'Error', message: 'Theme Import Failed!' });
+          }          
         }
       } catch (error) {
         EventBus.emit('ShowError', error);

@@ -4,7 +4,6 @@ import fs from 'fs';
 //import { copyFileSync, constants } from 'node:fs';
 import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
-import fileHelper from './FileHelper';
 import Util from './Utils.js';
 import settingsHelper from './SettingsHelper.js'
 import { writeFile } from 'node:fs/promises';
@@ -35,7 +34,7 @@ const getThemes = async (dirPath) => {
 
           // Check if the folder contains a Large Preview file:
           let preview_url = '';
-          if (fileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
+          if (FileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
             preview_url = `file:///${path.join(subfolderPath, dirent.name + '.jpg')}`;
           }
 
@@ -51,7 +50,7 @@ const getThemes = async (dirPath) => {
           });
 
           // Writes the JSON in the theme folder:
-          if (!fileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
+          if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
             const JsonString = JSON.stringify(template, null, 4);
             await writeFile(
               path.join(subfolderPath, 'ThemeSettings.json'),
@@ -67,10 +66,10 @@ const getThemes = async (dirPath) => {
           try {
             if (ThemeCleansing) {
               // Sanitization: For Themes Exportings
-              //fileHelper.deleteFilesByType(subfolderPath, '.ini');
-              //fileHelper.deleteFilesByType(subfolderPath, '.credits');
-              //fileHelper.deleteFilesByType(subfolderPath, '.fav');
-              //fileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
+              //FileHelper.deleteFilesByType(subfolderPath, '.ini');
+              //FileHelper.deleteFilesByType(subfolderPath, '.credits');
+              //FileHelper.deleteFilesByType(subfolderPath, '.fav');
+              //FileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
             }
           } catch { }
 
@@ -97,12 +96,12 @@ const LoadTheme = async (themeFolder) => {
   let template = {};
   try {
     const templatePath = FileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json'); //<- Default Template
-    template = await fileHelper.loadJsonFile(templatePath);
+    template = await FileHelper.loadJsonFile(templatePath);
     const themeJSON = path.join(themeFolder, 'ThemeSettings.json');
 
     if (fs.existsSync(themeJSON)) {
       // New v3 Format for Themes, single File JSON:
-      const themeData = await fileHelper.loadJsonFile(themeJSON);
+      const themeData = await FileHelper.loadJsonFile(themeJSON);
 
       // Create a new object by merging themeData into the template
       const mergedData = { ...template };
@@ -115,7 +114,7 @@ const LoadTheme = async (themeFolder) => {
       template = {
         ...mergedData,
         path: themeFolder,
-        isFavorite: fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav')),
+        isFavorite: FileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav')),
       };
 
     } else {
@@ -125,7 +124,7 @@ const LoadTheme = async (themeFolder) => {
       template.credits = await GetCreditsFile(themeFolder);
       template = await ApplyIniValuesToTemplate(template, ThemeINIs);
       template.path = themeFolder;
-      template.isFavorite = fileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
+      template.isFavorite = FileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
     }
     //console.log('Loaded Theme:', template.credits.theme, 'from', template.ui_groups[2].Elements[8]);
   } catch (error) {
@@ -179,7 +178,7 @@ async function FavoriteTheme(themePath) {
   try {
     const dummy = { isFavorite: true };
     const favFilePath = path.join(themePath, 'IsFavorite.fav');
-    const _ret = fileHelper.writeJsonFile(favFilePath, dummy, false);
+    const _ret = FileHelper.writeJsonFile(favFilePath, dummy, false);
     return _ret;
   } catch (error) {
     console.log(error);
@@ -191,7 +190,7 @@ async function FavoriteTheme(themePath) {
 async function UnFavoriteTheme(themePath) {
   try {
     const favFilePath = path.join(themePath, 'IsFavorite.fav');
-    const _ret = fileHelper.deleteFileByAbsolutePath(favFilePath);
+    const _ret = FileHelper.deleteFileByAbsolutePath(favFilePath);
     return _ret;
   } catch (error) {
     console.log(error);
@@ -204,9 +203,9 @@ async function UnFavoriteTheme(themePath) {
 async function GetCurrentSettingsTheme(themePath) {
   try {
     const ThemeINIs = await LoadThemeINIs(themePath);
-    const defaultSettingsPath = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
+    const defaultSettingsPath = FileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
-    let themeTemplate = await fileHelper.loadJsonFile(defaultSettingsPath);
+    let themeTemplate = await FileHelper.loadJsonFile(defaultSettingsPath);
     themeTemplate.credits = {
       theme: "Current Settings",
       author: "User",
@@ -238,11 +237,11 @@ async function CreateNewTheme(credits) {
     const gameInstance = await settingsHelper.getActiveInstance();              //console.log('gameInstance: ', gameInstance);  
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';     //console.log('GameType: ', GameType);  
     const settings = await settingsHelper.loadSettings();                       //console.log('settings: ', settings);    
-    const dataPath = fileHelper.resolveEnvVariables(settings.UserDataFolder);   //console.log('dataPath: ', dataPath);     //<- %USERPROFILE%\EDHM_UI  
+    const dataPath = FileHelper.resolveEnvVariables(settings.UserDataFolder);   //console.log('dataPath: ', dataPath);     //<- %USERPROFILE%\EDHM_UI  
     const themesPath = path.join(dataPath, GameType, 'Themes', Credits.theme);  //console.log('themesPath: ', themesPath); //<- %USERPROFILE%\EDHM_UI\ODYSS\Themes\MyTheme   
 
     //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-    if (fileHelper.ensureDirectoryExists(themesPath)) {
+    if (FileHelper.ensureDirectoryExists(themesPath)) {
 
       //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
       //const CurrentSettings = await GetCurrentSettingsTheme(path.join(gameInstance.path, 'EDHM-ini'));
@@ -255,11 +254,11 @@ async function CreateNewTheme(credits) {
       CurrentSettings.path = '';
 
       //4. WRITE THE NEW THEME FILES:
-      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
-      fileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));
-      fileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
+      FileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), CurrentSettings);
+      FileHelper.base64ToJpg(Credits.preview, path.join(themesPath, `${Credits.theme}.jpg`));
+      FileHelper.base64ToJpg(Credits.thumb, path.join(themesPath, 'PREVIEW.jpg'));
 
-      if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
+      if (FileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
         return true;
       } else {
         return false;
@@ -293,11 +292,11 @@ async function UpdateTheme(themeData, source) {
     const gameInstance = await settingsHelper.getActiveInstance();              //console.log('gameInstance: ', gameInstance);  
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';     //console.log('GameType: ', GameType);  
     const settings = await settingsHelper.loadSettings();                       //console.log('settings: ', settings);    
-    const dataPath = fileHelper.resolveEnvVariables(settings.UserDataFolder);   //console.log('dataPath: ', dataPath);     //<- %USERPROFILE%\EDHM_UI  
+    const dataPath = FileHelper.resolveEnvVariables(settings.UserDataFolder);   //console.log('dataPath: ', dataPath);     //<- %USERPROFILE%\EDHM_UI  
     const themesPath = path.join(dataPath, GameType, 'Themes', Credits.theme);  //console.log('themesPath: ', themesPath); //<- %USERPROFILE%\EDHM_UI\ODYSS\Themes\MyTheme   
 
     //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-    if (fileHelper.ensureDirectoryExists(themesPath)) {
+    if (FileHelper.ensureDirectoryExists(themesPath)) {
 
       //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
       const CurrentSettings = source;
@@ -311,7 +310,7 @@ async function UpdateTheme(themeData, source) {
       //4. WRITE THE NEW THEME FILES:
       fs.writeFileSync(path.join(themesPath, 'ThemeSettings.json'), JSON.stringify(CurrentSettings, null, 4));
 
-      if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
+      if (FileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
         return true;
       } else {
         return false;
@@ -332,11 +331,11 @@ async function SaveTheme(themeData) {
     themeData.path = '';
 
     //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-    if (fileHelper.ensureDirectoryExists(themesPath)) {
+    if (FileHelper.ensureDirectoryExists(themesPath)) {
 
       //4. WRITE THE NEW THEME FILES:
-      fileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), themeData);
-      if (fileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
+      FileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), themeData);
+      if (FileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
         return true;
       } else {
         return false;
@@ -350,7 +349,7 @@ async function SaveTheme(themeData) {
 
 async function DeleteTheme(themePath) {
   try {
-    return fileHelper.deleteFolderRecursive(themePath);
+    return FileHelper.deleteFolderRecursive(themePath);
   } catch (error) {
     console.log(error);
     throw new Error(error.message + error.stack);
@@ -367,13 +366,13 @@ async function ExportTheme(themeData) { //
       //1. RESOLVE THE THEMES PATH:
       const ThemeName = themeData.credits.theme;
       const ThemePath = themeData.path;
-      const TempPath = fileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\${ThemeName}`);
+      const TempPath = FileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\${ThemeName}`);
 
       //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-      if (fileHelper.ensureDirectoryExists(TempPath)) {
+      if (FileHelper.ensureDirectoryExists(TempPath)) {
 
         //3. COPY THE THEME FILES TO A TEMP FOLDER:
-        const _ret = await fileHelper.copyFiles(ThemePath, TempPath, ['.jpg', '.json']); //<- 'PREVIEW.jpg', 'ThemeName.jpg', 'ThemeSettings.json'
+        const _ret = await FileHelper.copyFiles(ThemePath, TempPath, ['.jpg', '.json']); //<- 'PREVIEW.jpg', 'ThemeName.jpg', 'ThemeSettings.json'
         console.log(_ret + ' Files Copied.');
 
         //4. Ask the User for Destination Zip File:
@@ -387,14 +386,14 @@ async function ExportTheme(themeData) { //
           ],
           properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
         };
-        const Destination = await fileHelper.ShowSaveDialog(options);
+        const Destination = await FileHelper.ShowSaveDialog(options);
         if (Destination) {
           console.log('Destination:', Destination);
           //5. COMPRESS THEME FILES:
-          await fileHelper.compressFolder(TempPath, Destination);
+          await FileHelper.compressFolder(TempPath, Destination);
 
           //6. Clean the Temp trash:
-          await fileHelper.deleteFolderRecursive(TempPath);
+          await FileHelper.deleteFolderRecursive(TempPath);
           return true;
         }
         return false;
@@ -582,7 +581,7 @@ async function ApplyTemplateValuesToIni(template, iniValues) {
 
 const getIniFilePath = (basePath, fileName) => {
   const joinedPath = path.join(basePath, fileName);
-  return fileHelper.resolveEnvVariables(joinedPath);
+  return FileHelper.resolveEnvVariables(joinedPath);
 };
 
 /**  * Retrieve the INI files asociated to a Theme
@@ -631,6 +630,34 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
   }
 };
 
+/** Uncompress a ZIP file containing a Theme into the Themes folder * 
+ * @param {*} zip_path Full path to the ZIP file
+ * @returns 'true' is success. */
+async function ImportTheme(zip_path) {
+  try {
+    if (zip_path != undefined && FileHelper.checkFileExists(zip_path)) {      
+      const ThemeName = path.basename(zip_path, '.zip');  
+      console.log('Importing Theme .....', ThemeName);
+      
+      const ActiveInstance = await settingsHelper.getActiveInstance();
+      const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+      const DataPath = FileHelper.resolveEnvVariables(
+            settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );      
+      const themes_path = path.join(DataPath, GameType, 'Themes');
+      FileHelper.ensureDirectoryExists(themes_path);
+
+      const _ret = await FileHelper.decompressFile(zip_path, themes_path);
+      if (_ret) {
+        console.log('Theme Installed ->', ThemeName);
+        return _ret;
+      }
+    }
+  } catch (error) {
+    console.error('Error at ThemeHelper/ImportTheme():', error);
+    throw new Error(error.message + error.stack);    
+  }
+}
+
 // #endregion
 
 
@@ -640,7 +667,7 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
 
 ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemember) => {
   try {
-    historyFolder = fileHelper.resolveEnvVariables(historyFolder);
+    historyFolder = FileHelper.resolveEnvVariables(historyFolder);
     // Ensure History folder exists
     if (!fs.existsSync(historyFolder)) {
       fs.mkdirSync(historyFolder, { recursive: true });
@@ -671,7 +698,7 @@ ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemem
 
 ipcMain.handle('save-history', async (event, historyFolder, theme) => {
   try {
-    historyFolder = fileHelper.resolveEnvVariables(historyFolder);
+    historyFolder = FileHelper.resolveEnvVariables(historyFolder);
     // Ensure History folder exists
     if (!fs.existsSync(historyFolder)) {
       fs.mkdirSync(historyFolder, { recursive: true });
@@ -694,7 +721,7 @@ ipcMain.handle('save-history', async (event, historyFolder, theme) => {
 
 ipcMain.handle('get-themes', async (event, dirPath) => {
   try {
-    const resolvedPath = fileHelper.resolveEnvVariables(dirPath);
+    const resolvedPath = FileHelper.resolveEnvVariables(dirPath);
     const files = await getThemes(resolvedPath);
     return files;
   } catch (error) {
@@ -704,7 +731,7 @@ ipcMain.handle('get-themes', async (event, dirPath) => {
 
 ipcMain.handle('LoadTheme', async (event, dirPath) => {
   try {
-    const resolvedPath = fileHelper.resolveEnvVariables(dirPath);
+    const resolvedPath = FileHelper.resolveEnvVariables(dirPath);
     const template = await LoadTheme(resolvedPath);
     return template;
   } catch (error) {
@@ -814,6 +841,13 @@ ipcMain.handle('DeleteTheme', async (event, theme) => {
   }
 });
 
+ipcMain.handle('ImportTheme', async (event, theme_path) => {
+  try {
+    return ImportTheme(theme_path);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
 ipcMain.handle('ExportTheme', async (event, themeData) => {
   try {
     return ExportTheme(themeData);
@@ -884,5 +918,5 @@ export default {
   FavoriteTheme, UnFavoriteTheme,
   CreateNewTheme, UpdateTheme,
   GetCurrentSettingsTheme,
-  DeleteTheme,
+  DeleteTheme, ImportTheme,
 };
