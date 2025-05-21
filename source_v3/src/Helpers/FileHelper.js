@@ -87,12 +87,12 @@ function getParentFolder(givenPath) {
   return path.dirname(givenPath);
 }
 
-function createWindowsShortcut() {
+function createWindowsShortcut(CustomIcon) {
   try {
     const isDev = !app.isPackaged;
     const shortcutPath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.lnk');
     const targetPath = resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3\\EDHM-UI-V3.exe'); //path.join(process.env.LOCALAPPDATA, 'EDHM-UI-V3', 'EDHM-UI-V3.exe'); // For production environment 
-    const iconPath = getAssetPath('images/ED_TripleElite.ico');
+    const iconPath = CustomIcon; //getAssetPath('images/ED_TripleElite.ico');
     const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
 
     //if (!fs.existsSync(shortcutPath)) {

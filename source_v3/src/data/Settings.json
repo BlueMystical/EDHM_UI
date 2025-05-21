@@ -96,10 +96,11 @@
     "HUD_Cover": "HUD_Type8",
     "SavesToRemember":10, 
     "LastFolderUsed":"",
+    "CustomIcon": "",
     "WatchMe":true,
     "GreetMe":false,
     "FirstRun": false,
     "FavToogle":false,    
     "HideToTray":false,    
-    "CheckForUpdates": true    
+    "CheckForUpdates": true   
  }

@@ -119,7 +119,9 @@ export default {
   methods: {
     async OnInitialize() {
       this.dataSource = await window.api.LoadUserSettings();
-      this.presets = this.dataSource.Presets;
+      const TemplatePath = await window.api.getAssetPath('data/ODYSS/ThemeTemplate.json');
+      const TemplateData = await window.api.getJsonFile(TemplatePath);
+      this.presets = TemplateData.Presets;
       //console.log('Loading User Settings: ', this.dataSource);
     },
 
@@ -152,7 +154,15 @@ export default {
     /** Gets all Presets for the selected Type
      * @param type Type of Preset  */
     getPresetsForType(type) {
-      return this.presets.filter(preset => preset.Type === type);
+      //console.log('Getting Presets for Type: ', type);
+      if (!this.presets) {
+        console.error('Presets not loaded');
+        return [];
+      }
+      //console.log('Presets: ', this.presets[0], 'Type: ', type);
+      const P = this.presets.filter(p => p.Type === type);
+      //console.log('F.Presets: ', P);
+      return P;
     },
 
     // #endregion

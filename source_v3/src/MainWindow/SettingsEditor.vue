@@ -81,7 +81,7 @@
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                     id="flexSwitchCheckTray" checked v-model="config.HideToTray">
                                                 <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray on close</label>
-                                            </div>
+                                            </div>                                            
                                         </div>
                                         <div class="col">
                                             <label for="userDataLocation">Themes & User's Data:</label>
@@ -93,10 +93,17 @@
                                                     id="button-addon2" @click="browseUserDataFolder" disabled>Browse</button>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col">
+                                            <label for="customIconPath">Custom Icon:</label>
+                                            <div id="customIconPath" class="input-group mb-3" disabled>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    placeholder="Pick a Location" aria-label="Pick a Location"
+                                                    aria-describedby="button-addon4" v-model="config.CustomIcon">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    id="button-addon4" @click="browseCustomIcon">Browse</button>
+                                            </div>
                                         </div>
                                         <div class="col">
                                             <label for="quantity">Saves To Remember:</label>
@@ -146,9 +153,12 @@ export default {
     },
     methods: {
 
-        Initialize() {
+        async Initialize() {
             try {
                 if (this.config) {
+                    if (this.config.CustomIcon) {
+                        this.config.CustomIcon = await window.api.getAssetPath('images/Icon_v3_a0.ico');
+                    }
                     const instanceName = this.config.ActiveInstance; //<- "Steam (Odyssey (Live))"
                     const pubName = instanceName.split('(')[0];     //<- "Steam "
                     this.ActiveInstance = this.config.GameInstances
@@ -307,6 +317,22 @@ export default {
                 this.config.PlayerJournal = filePath[0];
             }
         },
+        
+        /* Browse for the location of a Custom Icon for the App */
+        async browseCustomIcon() {
+            const DefaultLocation = await window.api.getAssetPath('images/Icon_v3_a0.ico');
+            const options = {
+                title: 'Select a Custom Icon',
+                defaultPath: DefaultLocation,
+                properties: ['openFile', 'showHiddenFiles', 'createDirectory', 'dontAddToRecent'],
+                message: 'Select a Custom Icon',
+            };
+            const filePath = await window.api.ShowOpenDialog(options);
+            if (filePath) {
+                this.config.CustomIcon = filePath[0];
+            }
+        },
+
         /* Cleans html tags */
         sanitizeId(id) {
             return id.replace(/\s/g, '');

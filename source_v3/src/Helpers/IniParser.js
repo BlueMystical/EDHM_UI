@@ -59,7 +59,7 @@ function parseIni(iniString) {
         sections.push({
           name: currentSection,
           comments: sectionComments,
-          keys: currentSectionData.keys || {},
+          keys: currentSectionData.keys || [],
           logic: logic.blocks.length > 0 ? logic : { blocks: [] },
         });
       }
@@ -85,27 +85,30 @@ function parseIni(iniString) {
       if (trimmedLine.trim().startsWith('endif')) inLogicBlock = false;
 
     } else if (currentSection) {
-      const match = trimmedLine.trim().match(/^(.+?)\s*=\s*(.+)$/);
+      const match = trimmedLine.trim().match(/^([\w$]+(?:\s+\$\w+)?)\s*=\s*(.*)$/);  // Now allowing keys starting with `$`
       if (match) {
         const keyName = match[1].trim();
-        const value = match[2].trim();
+        const value = match[2] !== undefined && match[2] !== '' ? match[2].trim() : "";
 
-        if (!currentSectionData.keys) currentSectionData.keys = {};
-        currentSectionData.keys[keyName] = {
+        if (!currentSectionData.keys) currentSectionData.keys = [];
+
+        currentSectionData.keys.push({
           name: keyName,
           value: String(value),
           comments: comments,
-        };
+        });
+
         comments = [];
       }
     }
+
   }
 
   if (currentSection) {
     sections.push({
       name: currentSection,
       comments: sectionComments,
-      keys: currentSectionData.keys || {},
+      keys: currentSectionData.keys || [],
       logic: logic.blocks.length > 0 ? logic : { blocks: [] },
     });
   }
@@ -120,23 +123,20 @@ function stringifyIni(parsedIni) {
   let iniString = '';
 
   for (const section of parsedIni) {
-    if (section.comments && section.comments.length > 0) {
+    if (section.comments.length > 0) {
       iniString += section.comments.join('\n') + '\n';
     }
 
     iniString += `[${section.name}]\n`;
 
-    for (const keyName in section.keys) {
-      const key = section.keys[keyName];
-
-      if (key.comments && key.comments.length > 0) {
+    for (const key of section.keys) {
+      if (key.comments.length > 0) {
         iniString += key.comments.join('\n') + '\n';
       }
-
-      iniString += `${key.name} = ${key.value}\n`;
+      iniString += `${key.name} = ${key.value !== undefined ? key.value : ""}\n`;
     }
 
-    if (section.logic && section.logic.blocks.length > 0) {
+    if (section.logic.blocks.length > 0) {
       for (const block of section.logic.blocks) {
         if (block.comments.length > 0) {
           iniString += block.comments.join('\n') + '\n';
@@ -144,11 +144,9 @@ function stringifyIni(parsedIni) {
         iniString += block.lines.join('\n') + '\n';
       }
     }
-
-    iniString += '\n';
   }
 
-  return iniString;
+  return iniString.trim(); // ✨ Removes unnecessary trailing empty lines
 }
 
 // #endregion
@@ -160,10 +158,10 @@ function stringifyIni(parsedIni) {
  * @param {string} key Name of the Key */
 function getKey(iniData, section, key) {
   if (iniData !== undefined) {
-    //console.log('getKey:', { section, key });
     const sectionData = iniData.find(s => s.name && s.name.toLowerCase() === section.toLowerCase()); 
-    if (sectionData && sectionData.keys && sectionData.keys[key]) {
-      return String(sectionData.keys[key].value);
+    if (sectionData && sectionData.keys.length > 0) {
+      const keyData = sectionData.keys.find(k => k.name.toLowerCase() === key.toLowerCase());
+      if (keyData) return String(keyData.value);
     }
   }
   return undefined;
@@ -181,40 +179,36 @@ function getKey(iniData, section, key) {
 function setKey(iniData, section, key, value, comment = undefined, addNewKey = false) {
   try {
     if (typeof key === 'string' && typeof value !== 'undefined') {
-      //console.log('setKey:', { section, key, value });
-
-      // Buscar la sección en el INI data
       let sectionData = iniData.find(s => s.name && s.name.toLowerCase() === section.toLowerCase()); 
 
-      // Si la sección no existe y se permite agregar una nueva clave, crearla
       if (!sectionData && addNewKey) {
-        sectionData = { name: section, comments: [], keys: {}, logic: { comments: [], lines: [] } };
+        sectionData = { name: section, comments: [], keys: [], logic: { blocks: [] } };
         iniData.push(sectionData);
       }
 
-      // Validar que `keys` exista antes de acceder a ella
       if (!sectionData || !sectionData.keys) {
         console.warn('Error: La sección no tiene estructura válida:', sectionData);
         return null;
       }
 
-      // Si la clave ya existe, actualizar su valor
-      if (sectionData.keys[key]) {
-        sectionData.keys[key].value = String(value);
+      // Buscar la clave dentro de la lista de keys
+      let keyData = sectionData.keys.find(k => k.name.toLowerCase() === key.toLowerCase());
+
+      if (keyData) {
+        keyData.value = String(value);
         if (typeof comment === 'string') {
-          sectionData.keys[key].comments = comment.split('\n'); // Convertir comentario a array de líneas
+          keyData.comments = comment.split('\n'); // Convertir comentario a array de líneas
         }
         return iniData;
       }
 
       // Si la clave no existe, agregarla si se permite `addNewKey`
       if (addNewKey) {
-        sectionData.keys[key] = {
+        sectionData.keys.push({
           name: key,
           value: String(value),
           comments: typeof comment === 'string' ? comment.split('\n') : [],
-          logic: [],
-        };
+        });
         return iniData;
       }
 
@@ -240,21 +234,13 @@ function getIniValue(iniData, sectionName, keyName) {
   return getKey(iniData, sectionName, keyName);
 }
 
+//-----------------------------------------------------------------;
+
 /** Finds a Key/Value in an INI file
  * @param {object[]} data Parsed data of all INI files
  * @param {object} searchItem One of the Elements from a Theme Template
  * @returns {any|any[]} Return results as an array of key-value pairs, or the single value if only one key */
 function findValueByKey(data, searchItem) {
-  /* searchItem: {
-      ...
-      "File":"Startup-Profile",
-      "Section":"Constants",
-      "Key":"x137", //<- or 'x138|y138|z138|w138'
-      "Value":100,
-      "ValueType":"Preset",
-      ...
-  } 
-  */
   console.log('findValueByKey:', data);
   const results = [];
 
@@ -264,31 +250,28 @@ function findValueByKey(data, searchItem) {
     const keys = searchItem.Key.split('|'); // Split multiple keys
 
     console.log('findValueByKey:', data[fileName]);
-    const fileData = data[fileName].find(item => item.name.toLowerCase() === section); //<- Find section in array.
+    const fileData = data[fileName].find(item => item.name.toLowerCase() === section); // Find section in array.
 
     if (fileData) {
       try {
         keys.forEach(keyName => {
-          if (fileData.keys[keyName.toLowerCase()]) {
-            results.push({ key: keyName, value: fileData.keys[keyName.toLowerCase()].value });
+          const keyData = fileData.keys.find(k => k.name.toLowerCase() === keyName.toLowerCase()); // Fix for array-based keys
+          if (keyData) {
+            results.push({ key: keyName, value: keyData.value });
           }
         });
       } catch (error) {
-        //console.log('Key: ' + keys + ' Not Found on ' + fileName + '/' + section);
+        console.warn(`Key(s) ${keys} Not Found in ${fileName}/${section}`);
       }
     } else {
       throw new Error(`Section Not Found: ${searchItem.Section}`);
     }
   } catch (error) {
     console.error(error);
-    //throw new Error(error.message + error.stack);
   }
 
   // Return results as an array of key-value pairs, or the single value if only one key
-  let _ret = results.length === 1 ? results[0].value : results;
-  if (Array.isArray(_ret) && _ret.length < 1) _ret = null; //<- Empty Arrays not allowed
-
-  return _ret;
+  return results.length === 1 ? results[0].value : results.length > 0 ? results : null;
 }
 
 /** Deletes a key from a section in the INI data.
@@ -296,9 +279,9 @@ function findValueByKey(data, searchItem) {
  * @param {string} sectionName - The name of the section.
  * @param {string} keyName - The name of the key to delete. */
 export function deleteKey(iniData, sectionName, keyName) {
-  const sectionData = iniData.find(s => s.name === sectionName);
+  const sectionData = iniData.find(s => s.name.toLowerCase() === sectionName.toLowerCase());
   if (sectionData && sectionData.keys) {
-    delete sectionData.keys[keyName];
+    sectionData.keys = sectionData.keys.filter(k => k.name.toLowerCase() !== keyName.toLowerCase()); // Filter out the key
   }
 }
 
@@ -309,21 +292,24 @@ export function deleteKey(iniData, sectionName, keyName) {
  * @param {any} value - The value to associate with the key.
  * @param {string} comment - Optional comment for the key. */
 export function addKey(iniData, sectionName, keyName, value, comment = "") {
-  let sectionData = iniData.find(s => s.name === sectionName);
+  let sectionData = iniData.find(s => s.name.toLowerCase() === sectionName.toLowerCase());
+  
   if (!sectionData) {
-    sectionData = { name: sectionName, comments: [], keys: {}, logic: { comments: [], lines: [] } };
+    sectionData = { name: sectionName, comments: [], keys: [], logic: { blocks: [] } }; // Fix for array-based keys
     iniData.push(sectionData);
   }
-  if (!sectionData.keys) {
-    sectionData.keys = {};
-  }
-  sectionData.keys[keyName] = {
-    name: keyName,
-    value: value,
-    comments: comment ? comment.split('\n') : []
-  };
-}
 
+  if (!sectionData.keys) {
+    sectionData.keys = [];
+  }
+
+  sectionData.keys.push({
+    name: keyName,
+    value: String(value),
+    comments: comment ? comment.split('\n') : []
+  });
+}
+//-----------------------------------------------------------------;
 
 // ... (IPC Handlers)
 ipcMain.handle('INI-LoadFile', async (event, filePath) => {

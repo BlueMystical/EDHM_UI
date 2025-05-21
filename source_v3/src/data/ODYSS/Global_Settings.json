@@ -129,7 +129,7 @@
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "z142",
-            "Value": 1,
+            "Value": 0,
             "ValueType": "Preset",
             "Type": "SpaceDustMode",
             "Description": "Mode for Space Dust"
@@ -140,7 +140,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "x175|y175|z175",
-            "Value": -463071,
+            "Value": -1,
             "ValueType": "Color",
             "Type": "CustomColor",
             "Description": "Custom Color for Space Dust"
@@ -151,7 +151,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "w175",
-            "Value": 0.8,
+            "Value": 1,
             "ValueType": "Brightness",
             "Type": "2X",
             "Description": "Brightness for Space Dust."
@@ -184,7 +184,7 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "x195|y195|z195",
-            "Value": -463071,
+            "Value": -1,
             "ValueType": "Color",
             "Type": "CustomColor",
             "Description": "Custom Color for Supercruise Snow"
@@ -195,14 +195,14 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "w195",
-            "Value": 0.8,
+            "Value": 1,
             "ValueType": "Brightness",
             "Type": "2X",
             "Description": "Brightness for Supercruise Snow, set this to 0 to disable SC Snow."
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Hide Canopy Scratches",
+            "Title": "Canopy Scratches",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "x229",
@@ -213,7 +213,7 @@
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Hide Canopy Ice",
+            "Title": "Canopy Ice",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "y229",
@@ -224,7 +224,7 @@
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Hide Canopy Condensation",
+            "Title": "Canopy Condensation",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "z229",
@@ -235,6 +235,51 @@
         }
     ],
     "Presets": [
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Radar - Hostile Targets Color",
+            "Index": 100
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Radar - Neutral Targets Color",
+            "Index": 101
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Radar - Grid Color (Old Style",
+            "Index": 103
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Elite default (Red)",
+            "Index": 200
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "Invert XML",
+            "Index": 198
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "Elite default",
+            "Index": 200
+        },
         {
             "Type": "OutOfRangeReticles",
             "Name": "Same as Custom Colors without Glow",

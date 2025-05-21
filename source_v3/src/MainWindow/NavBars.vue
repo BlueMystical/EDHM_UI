@@ -23,8 +23,10 @@
               <option disabled value="mnuDisableMod">Enable/Disable EDHM</option>
               <option value="" disabled>──────────</option>
               <option value="mnuGoToDiscord">Help? Join our Discord</option>
-              <option value="mnuCheckUpdates">Check for Updates</option>
-              <option disabled value="mnuAbout">About</option>
+              <option value="mnuReadManual">Read the Manual</option>
+              <option value="" disabled>──────────</option>
+              <option value="mnuCheckUpdates">Check for Updates</option>              
+              <option value="mnuExit">Exit App</option>
             </select>
           </div>
         </div>
@@ -421,7 +423,7 @@ export default {
         console.log('8. Saving the INI files..');
         const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
         if (_ret) {
-          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${template.credits.theme}' Applied!'` });
+          EventBus.emit('RoastMe', { type: 'Success', message: `<b>Theme: '${template.credits.theme}' Applied!'</b><small>Press <b>F11</b> in game to refresh the colors.</small>` });
         }
         setTimeout(() => {
           this.showSpinner = false;
@@ -493,8 +495,14 @@ export default {
         if (value === 'mnuGoToDiscord') {
           await window.api.openUrlInBrowser('https://discord.gg/ZaRt6bCXvj');
         }
+        if (value === 'mnuReadManual') {
+          await window.api.openUrlInBrowser('https://bluemystical.github.io/edhm-api/');          
+        }
         if (value === 'mnuCheckUpdates') {
           EventBus.emit('LookForUpdates', null); //<- this event will be heard in 'App.vue'
+        }
+        if (value === 'mnuExit') {
+          window.api.quitProgram();        
         }
       }
     },

@@ -18,13 +18,16 @@ let BalloonShown = false;
 let HideToTray = false;
 let WatchMe = false;
 
+//- Set the default Icon for the app
+const CustomIcon = settingsHelper.readSetting('CustomIcon', fileHelper.getAssetPath('images/Icon_v3_a0.ico')); 
+
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({ // Assign to the outer scope variable
     width: 1600, minWidth: 1160,
     height: 800, minHeight: 553,
 
-    icon: path.join(__dirname, 'images/ED_TripleElite.ico'),
+    icon: CustomIcon, //path.join(__dirname, 'images/ED_TripleElite.ico'),
     backgroundColor: '#1F1F1F',
 
     webPreferences: {
@@ -36,11 +39,6 @@ const createWindow = () => {
   });
 
   console.log('App is Loading..');
-  console.log('--- Configuracion de Proxy desde Variables de Entorno ---');
-  console.log('HTTP_PROXY:', process.env.HTTP_PROXY);
-  console.log('HTTPS_PROXY:', process.env.HTTPS_PROXY);
-  console.log('NO_PROXY:', process.env.NO_PROXY);
-  console.log('-------------------------------------------------------');
   
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -117,7 +115,8 @@ const createTray = () => {
   //- https://www.electronjs.org/docs/latest/api/tray
 
   //- Create the Tray Icon:
-  tray = new Tray(path.join(__dirname, 'images/ED_TripleElite.ico'));
+  //tray = new Tray(path.join(__dirname, 'images/ED_TripleElite.ico')); CustomIcon
+  tray = new Tray(CustomIcon);
 
   //- Create Context Menu for the Tray Icon:
   const contextMenu = Menu.buildFromTemplate([
@@ -167,7 +166,7 @@ app.whenReady().then(() => {
 
   //-- Create Desktop Shortcut Icons:
   if (process.platform === 'win32') {
-    fileHelper.createWindowsShortcut.call(this);
+    fileHelper.createWindowsShortcut.call(this, CustomIcon);
     createTray(); // Create the tray icon
   } else if (process.platform === 'linux') {
     //- Linux users prefer their desktop clean, so no shortcut is created by default

@@ -115,12 +115,13 @@ function readSetting(key, defaultValue = null) {
   try {
     const data = fs.readFileSync(programSettingsPath, 'utf8');
     const settings = JSON.parse(data);
-    return settings.hasOwnProperty(key) ? settings[key] : defaultValue;
+
+    return settings.hasOwnProperty(key) && settings[key] !== "" ? settings[key] : defaultValue;
   } catch (error) {
     console.error('Error reading setting:', error);
     return defaultValue;
   }
-};
+}
 
 /** Writes a Key/Value into the Program Settings.
  * @param {*} key Name of a Key in the Settings
@@ -204,7 +205,8 @@ async function LoadUserSettings () {
 async function saveUserSettings(settings) {
   try {
     const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
-    return fileHelper.writeJsonFile(_path_A, settings, true);
+    fs.writeFileSync(_path_A, JSON.stringify(settings, null, 4));
+    return true;
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
@@ -219,6 +221,8 @@ async function AddToUserSettings(newElement) {
     delete newElement.iconVisible;
 
     const userSettings = await LoadUserSettings(); // Assuming LoadUserSettings is async
+    const TemplatePath = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
+    const TemplateData = await fileHelper.loadJsonFile(TemplatePath);
 
     if (!userSettings) {
       // Handle the case where user settings couldn't be loaded
@@ -238,6 +242,24 @@ async function AddToUserSettings(newElement) {
       userSettings.Elements[existingElementIndex] = newElement; // Replace existing
     } else {
       userSettings.Elements.push(newElement); // Add new
+    }
+    
+    if (newElement.ValueType === "Preset") {
+      console.log('Adding Preset to User Settings:', TemplateData.Presets.length);
+      const matchingPresets = TemplateData.Presets.filter(
+        element => element.Type === newElement.Type
+      );   
+      console.log('Matching Presets for: ',newElement.Type, matchingPresets.length);
+      if (matchingPresets) {
+        if (userSettings.Presets === undefined) {
+          userSettings.Presets = []; // Initialize Presets if it's missing          
+        }
+        // Check if the preset already exists
+        const existingPresetIndex = userSettings.Presets.findIndex(e => e.Type === newElement.Type);
+        if (existingPresetIndex < 0) { //<-- add only if it doesn't exist
+          userSettings.Presets.push(matchingPresets);
+        }
+      }      
     }
 
     return saveUserSettings(userSettings); // Assume saveUserSettings is async

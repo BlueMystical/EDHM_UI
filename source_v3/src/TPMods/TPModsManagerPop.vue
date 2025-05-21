@@ -47,7 +47,7 @@
                                                                 :id="'mod-' + child.mod_name" class="image-container"
                                                                 :class="{ 'selected': child.mod_name === selectedModBasename }"
                                                                 @click="onSelectMod(child)"
-                                                                @contextmenu="onRightClick($event, child)">
+                                                                @contextmenu="onRightClick($event, child)">                                                                >
                                                                 <img :src="child.isActive ? child.thumbnail_url : getGrayscaleImage(child)"
                                                                     :alt="child.mod_name" class="img-thumbnail"
                                                                     :style="{ filter: child.isActive ? 'none' : 'grayscale(100%)' }"
@@ -546,7 +546,7 @@ export default {
                 else {
                     this.$refs.ModProps.OnInitialize(mod);
                 }  
-                //console.log('Ini:', mod.data_ini);             
+                console.log('Ini:', mod.data_ini);             
 
             } else {
                 this.$refs.ModProps.clearProps();
