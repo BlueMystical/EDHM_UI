@@ -169,6 +169,7 @@ contextBridge.exposeInMainWorld('api', {
   quitProgram: () => ipcRenderer.invoke('quit-program'),
   runProgram: (filePath, args = []) => ipcRenderer.invoke('run-program', filePath, args),
 
+
   open3PModsManager: () => ipcRenderer.invoke('open3PModsManager'),
   navigate: (callback) => ipcRenderer.on('navigate', callback),
 

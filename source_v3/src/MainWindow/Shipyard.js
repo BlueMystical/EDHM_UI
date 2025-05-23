@@ -6,7 +6,11 @@ import chokidar from 'chokidar';
 import { execFile } from 'child_process';
 import settingsHelper from '../Helpers/SettingsHelper.js';
 import fileHelper from '../Helpers/FileHelper.js';
-import EventBus from '../EventBus.js';
+
+/*import ks from 'node-key-sender';
+var keySender = require('node-key-sender'); // For sending key events
+    keySender.setOption('globalDelayPressMillisec', 500);
+    keySender.setOption('startDelayMillisec', 200);*/
 
 // #region Declarations
 
@@ -98,8 +102,16 @@ TODO:   - Registrar el ID de la nave para el CPM
                 console.log('Applying Theme:', event.data.theme); 
                 const tApply = await settingsHelper.ApplyTheme(event.data.theme);
                 if (tApply) {
-                    const _ret = RunSendKeyScript(); //<- Send F11 key to the game
-                    console.log('F11 key sent to game:', _ret);
+                    /*keySender.sendKey('f11').then( //<- Send F11 key to the game
+                        function(stdout, stderr) {
+                            // For success
+                            console.log('F11 key sent successfully:', stdout);
+                        },        
+                        function(error, stdout, stderr) {
+                            // For error
+                            console.error('Error sending F11 key:', error);
+                        }
+                    ); */
                 }
                 console.log('--------------------------------------');
             }
@@ -510,6 +522,49 @@ function RunSendKeyScript() {
         return fileHelper.runProgram(scriptPath); 
     }
 }
+
+// #region Keyboard Events
+
+/** Sends a key event to the browser window. It simulates a key press, character input, and key release.
+ * @param {object} entry { keyCode: "Tab", modifiers: ["Shift"] }
+ * @param {int} delay miliseconds to wait between key events */
+function sendKey(entry, delay = 200)
+{
+    ["keyDown", "char", "keyUp"].forEach(async(type) =>
+    {
+        entry.type = type;
+        mainWindowInstance.webContents.sendInputEvent(entry);
+
+        // Delay
+        await new Promise(resolve => setTimeout(resolve, delay));
+    });
+    console.log(entry.keyCode + ' key sent to game!');
+}
+/** Sends a sequence of key events to the browser window. It simulates a series of key presses with a delay between each.
+ * @param {object[]} sequence Array of objects with keyCode and modifiers.
+ * @param {int} delay miliseconds to wait between key events */
+async function sendSequence(sequence, delay)
+{
+    for (const entry of sequence)
+    {
+        await sendKey(entry, delay);
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+}
+/* EXAMPLE:
+const sequence = [
+    {keyCode: "F5"},
+    {keyCode: "Tab", modifiers: ["Shift"]},
+    {keyCode: "space"},
+    {keyCode: "]", modifiers: ["Ctrl"]},
+];
+await sendSequence(sequence, 200);
+or
+sendKey({keyCode: "F11"}, 200);
+*/
+
+// #endregion
+
 
 //- Utility method:
 async function checkAndSwitchLogFile() {

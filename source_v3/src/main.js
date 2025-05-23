@@ -7,19 +7,99 @@ import settingsHelper from './Helpers/SettingsHelper.js';
 import Shipyard from './MainWindow/Shipyard.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (started) {
-  app.quit();
-}
+if (started) { app.quit(); } //<- This is a Squirrel event, so we quit the app
 
 // Declare variables for windows and tray
 let mainWindow;
 let tray;
 let BalloonShown = false;
 let HideToTray = false;
-let WatchMe = false;
 
 //- Set the default Icon for the app
-const CustomIcon = settingsHelper.readSetting('CustomIcon', fileHelper.getAssetPath('images/Icon_v3_a0.ico')); 
+const CustomIcon = settingsHelper.readSetting('CustomIcon', 
+      fileHelper.getAssetPath('images/Icon_v3_a0.ico'));
+
+//- Check for Single Instance:
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  app.quit(); // Si otra instancia ya está corriendo, cerramos esta.
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore(); // Restaura si estaba minimizada.
+      }
+      mainWindow.show(); // Muestra la ventana si estaba oculta.
+      mainWindow.focus(); // Asegura que la ventana tenga el foco.
+    }
+  });
+
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.whenReady().then(() => {
+    createWindow();
+
+    //-- Disable the menu bar
+    Menu.setApplicationMenu(null);
+
+    //-- Create Desktop Shortcut Icons:
+    if (process.platform === 'win32') {
+      fileHelper.createWindowsShortcut.call(this, CustomIcon);
+      createTray(); // Create the tray icon
+    } else if (process.platform === 'linux') {
+      //- Linux users prefer their desktop clean, so no shortcut is created by default
+      //- Uncomment the next line to create a shortcut on Linux as well
+      //fileHelper.createLinuxShortcut.call(this);
+    }
+
+    // Handle command-line arguments
+    const args = process.argv.slice(2);
+    if (args.length > 0) {
+      console.log('Command-line arguments:', args);
+
+      // Handle your arguments here
+      if (args.includes('--hide')) {
+        console.log('Program started with --hide argument.');
+        // Hide the main window immediately
+        mainWindow.hide();
+      }
+
+      // Send arguments to the renderer process
+      mainWindow.webContents.on('did-finish-load', () => {
+        mainWindow.webContents.send('app-args', args);
+      });
+    }
+
+    // Ensure tray works on both Windows and Linux
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  });
+
+  // Quit when all windows are closed, except on macOS. There, it's common
+  // for applications and their menu bar to stay active until the user quits
+  // explicitly with Cmd + Q.
+  app.on('window-all-closed', () => {
+    try {
+      if (process.platform !== 'darwin') {
+        if (mainWindow) {
+          if (tray) tray.destroy(); // Destroy the tray icon
+          globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+          mainWindow.removeAllListeners('close');
+          app.quit();
+        }
+      }
+    } catch (error) {
+      console.error('Error during window-all-closed:', error);
+    }
+  });
+}
 
 const createWindow = () => {
   // Create the browser window.
@@ -155,71 +235,6 @@ const createTray = () => {
   
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  createWindow();
-
-  //-- Disable the menu bar
-  Menu.setApplicationMenu(null);
-
-  //-- Create Desktop Shortcut Icons:
-  if (process.platform === 'win32') {
-    fileHelper.createWindowsShortcut.call(this, CustomIcon);
-    createTray(); // Create the tray icon
-  } else if (process.platform === 'linux') {
-    //- Linux users prefer their desktop clean, so no shortcut is created by default
-    //- Uncomment the next line to create a shortcut on Linux as well
-    //fileHelper.createLinuxShortcut.call(this);
-  }
-
-  // Handle command-line arguments
-  const args = process.argv.slice(2);
-  if (args.length > 0) {
-    console.log('Command-line arguments:', args);
-
-    // Handle your arguments here
-    if (args.includes('--hide')) {
-      console.log('Program started with --hide argument.');
-      // Hide the main window immediately
-      mainWindow.hide();
-    }
-
-    // Send arguments to the renderer process
-    mainWindow.webContents.on('did-finish-load', () => {
-      mainWindow.webContents.send('app-args', args);
-    });
-  }
-
-  // Ensure tray works on both Windows and Linux
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
-  });
-});
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  try {
-    if (process.platform !== 'darwin') {
-      if (mainWindow) {
-        if (tray) tray.destroy(); // Destroy the tray icon
-        globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
-        mainWindow.removeAllListeners('close');
-        app.quit();
-      }
-    }
-  } catch (error) {
-    console.error('Error during window-all-closed:', error);
-  }
-});
-
 //---------------------------------------------------------------
 // #region ipc Handlers (Inter-Process Communication)
 
@@ -239,5 +254,6 @@ ipcMain.handle('quit-program', async (event) => {
     throw error;
   }
 });
+
 
 // #endregion

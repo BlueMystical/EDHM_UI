@@ -56,14 +56,14 @@
                             <div id="collapseOtherSettings" class="accordion-collapse collapse show"
                                 aria-labelledby="headingOtherSettings" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <div class="row">
-                                        <!--<div class="col">
+                                    <div class="row">                                        
+                                        <div class="col">
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckDefault" v-model="config.GreetMe">
-                                                <label class="form-check-label" for="flexSwitchCheckDefault">Greet me on Startup</label>
-                                            </div>
-                                        </div>-->
+                                                    id="flexSwitchCheckTray" checked v-model="config.HideToTray">
+                                                <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray on close</label>
+                                            </div>                                            
+                                        </div>
                                         <div class="col">
                                             <label for="playerJournal">Player's Journal Location:</label>
                                             <div id="playerJournal" class="input-group mb-3">
@@ -76,12 +76,11 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        
                                         <div class="col">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="flexSwitchCheckTray" checked v-model="config.HideToTray">
-                                                <label class="form-check-label" for="flexSwitchCheckTray">Hide to Tray on close</label>
-                                            </div>                                            
+                                            <label for="quantity">Saves To Remember:</label>
+                                            <input type="number" class="form-control" id="quantity" min="1" max="50"
+                                                v-model="config.SavesToRemember">
                                         </div>
                                         <div class="col">
                                             <label for="userDataLocation">Themes & User's Data:</label>
@@ -106,9 +105,7 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <label for="quantity">Saves To Remember:</label>
-                                            <input type="number" class="form-control" id="quantity" min="1" max="50"
-                                                v-model="config.SavesToRemember">
+                                            <img :src="config.CustomIcon" class="img-thumbnail" alt="..." width="64" height="64">
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +153,7 @@ export default {
         async Initialize() {
             try {
                 if (this.config) {
-                    if (this.config.CustomIcon) {
+                    if (!this.config.CustomIcon) {
                         this.config.CustomIcon = await window.api.getAssetPath('images/Icon_v3_a0.ico');
                     }
                     const instanceName = this.config.ActiveInstance; //<- "Steam (Odyssey (Live))"

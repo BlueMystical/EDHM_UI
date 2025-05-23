@@ -234,16 +234,17 @@ async function AddToUserSettings(newElement) {
       userSettings.Elements = []; // Initialize Elements if it's missing or not an array
     }
 
+    // Check if an element with the same Key already exists:
     const existingElementIndex = userSettings.Elements.findIndex(
       element => element.Key === newElement.Key
     );
-
     if (existingElementIndex !== -1) {
       userSettings.Elements[existingElementIndex] = newElement; // Replace existing
     } else {
       userSettings.Elements.push(newElement); // Add new
     }
     
+   /* //- Add Presets to User Settings:
     if (newElement.ValueType === "Preset") {
       console.log('Adding Preset to User Settings:', TemplateData.Presets.length);
       const matchingPresets = TemplateData.Presets.filter(
@@ -259,29 +260,29 @@ async function AddToUserSettings(newElement) {
         if (existingPresetIndex < 0) { //<-- add only if it doesn't exist
           userSettings.Presets.push(matchingPresets);
         }
-      }      
-    }
+      }
+    }*/
 
     return saveUserSettings(userSettings); // Assume saveUserSettings is async
+
   } catch (error) {
     console.error("Error adding to user settings:", error);
     throw error; // Re-throw the error to be handled by the caller
   }
 }
-async function RemoveFromUserSettings(settings) {
+async function RemoveFromUserSettings(elementToRemove) {
   try {
-    var userSettings = LoadUserSettings();
+    var userSettings = await LoadUserSettings();
     if (userSettings) {
       // Check if an element with the same Key already exists
       const indexToRemove = userSettings.Elements.findIndex(
-        element => element.Key === settings.Key
+        element => element.Key === elementToRemove.Key
       );
 
       if (indexToRemove !== -1) {
-        // Remove the element using splice()
         userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
       } else {
-        console.log(`Element with key ${keyToRemove} not found.`);
+        console.log(`Element with key ${elementToRemove.Key} not found.`);
       }
 
       return saveUserSettings(userSettings);

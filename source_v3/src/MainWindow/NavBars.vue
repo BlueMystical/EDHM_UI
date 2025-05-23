@@ -613,10 +613,14 @@ export default {
         }
       }
     },
-    reloadThemes_Click(e) {
+    async reloadThemes_Click(e) {
       EventBus.emit('loadThemes', e);           //<- Listen in ThemeTab.vue
       EventBus.emit('DoLoadGlobalSettings', e); //<- Listen in GlobalSettings.vue
       EventBus.emit('DoLoadUserSettings', e);   //<- Listen in UserSettings.vue
+      
+      this.showFavorites = false;
+      this.programSettings.FavToogle = false;
+      await window.api.writeSetting('FavToogle', false); 
     },
 
     /** Toggles the Favorites list */
@@ -624,7 +628,8 @@ export default {
       this.showFavorites = !this.showFavorites;
       this.programSettings.FavToogle = this.showFavorites;
 
-      await window.api.saveSettings(JSON.stringify(this.programSettings, null, 4));
+      await window.api.writeSetting('FavToogle', this.showFavorites); //<- Save the setting to the JSON file
+
       EventBus.emit('OnUpdateSettings', JSON.parse(JSON.stringify(this.programSettings))); //<- Event listened at 'App.vue'
       EventBus.emit('FilterThemes', this.showFavorites); //<- Event listened at 'ThemeTab.vue'
 

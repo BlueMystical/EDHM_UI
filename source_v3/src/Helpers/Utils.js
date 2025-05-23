@@ -358,11 +358,7 @@ function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
         ? thesRGBValue / 12.92
         : Math.pow((thesRGBValue + 0.055) / 1.055, gammaValue);
 }
-/*function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
-    return theLinearValue <= 0.0031308
-        ? theLinearValue * 12.92
-        : Math.pow(theLinearValue, 1.0 / _GammaValue) * 1.055 - 0.055;
-};*/
+
 function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
     const clamp = (num) => Math.max(Math.min(num, 1.0), 0.0);
     theLinearValue = clamp(theLinearValue);
@@ -430,6 +426,48 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
 
 // #endregion
 
+// #region Keyboard Events
+
+/** Sends a key event to the browser window. It simulates a key press, character input, and key release.
+ * @param {object} entry { keyCode: "Tab", modifiers: ["Shift"] }
+ * @param {int} delay miliseconds to wait between key events */
+function sendKey(entry, delay = 200)
+{
+    ["keyDown", "char", "keyUp"].forEach(async(type) =>
+    {
+        entry.type = type;
+        browserWindow.webContents.sendInputEvent(entry);
+
+        // Delay
+        await new Promise(resolve => setTimeout(resolve, delay));
+    });
+}
+/** Sends a sequence of key events to the browser window. It simulates a series of key presses with a delay between each.
+ * @param {object[]} sequence Array of objects with keyCode and modifiers.
+ * @param {int} delay miliseconds to wait between key events */
+async function sendSequence(sequence, delay)
+{
+    for (const entry of sequence)
+    {
+        await sendKey(entry, delay);
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+}
+/* EXAMPLE:
+const sequence = [
+    {keyCode: "F5"},
+    {keyCode: "Tab", modifiers: ["Shift"]},
+    {keyCode: "space"},
+    {keyCode: "]", modifiers: ["Ctrl"]},
+];
+await sendSequence(sequence, 200);
+or
+sendKey({keyCode: "F11"}, 200);
+*/
+
+// #endregion
+
+
 /** Timer class to measure the time taken by a task.
  * USAGE:
  * const timer = new Timer();
@@ -484,6 +522,8 @@ export default {
     reverseGammaCorrectedList,
     convert_sRGB_FromLinear, Convert_sRGB_ToLinear,
     convert_sRGB_FromLinear,
+
+    sendKey, sendSequence,
 
     compareVersions,
     Timer

@@ -335,9 +335,9 @@ npm start
 //-------------------------------
 
 //------- Establecer el Proxy para NPM y Electron PERMANENTE: 
-setx HTTP_PROXY "http://jchacon:jchacon@192.168.10.1:8080"
-setx HTTPS_PROXY "http://jchacon:jchacon@192.168.10.1:8081"
-setx ELECTRON_GET_USE_PROXY "true"
+--setx HTTP_PROXY "http://jchacon:jchacon@192.168.10.1:8080"
+--setx HTTPS_PROXY "http://jchacon:jchacon@192.168.10.1:8081"
+--setx ELECTRON_GET_USE_PROXY "true"
 
 //------- Establecer el Proxy para NPM y Electron TEMPORAL, solo para la sesion actual: 
 set HTTP_PROXY=http://jchacon:jchacon@192.168.10.1:8080
@@ -369,8 +369,10 @@ npm install @vitejs/plugin-vue --save-dev
 npm install vue-router@4   <- For multi-windows https://github.com/vuejs/router
 npm install chokidar   <- For file watching (Shipyard)
 
-npm uninstall @lk77/vue3-color    https://www.npmjs.com/package/@lk77/vue3-color
-
+npm uninstall node-key-sender <- for keyboard events  https://www.npmjs.com/package/node-key-sender
+Key Considerations for Linux:
+   sudo apt install default-jre
+npm uninstall node-key-sender
 -----------------------------------------------------------------------------------
 ********** CLEAR CACHE *************************
 ie4uinit.exe -show          <- Refresca la Cache de Iconos
