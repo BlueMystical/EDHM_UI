@@ -30,7 +30,7 @@ if (!gotTheLock) {
       if (mainWindow.isMinimized()) {
         mainWindow.restore(); // Restaura si estaba minimizada.
       }
-      mainWindow.show(); // Muestra la ventana si estaba oculta.
+      mainWindow.show();  // Muestra la ventana si estaba oculta.
       mainWindow.focus(); // Asegura que la ventana tenga el foco.
     }
   });
@@ -114,7 +114,9 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: true,
-      webSecurity: false
+      webSecurity: false,
+      sandbox: false, // 🔥 Asegura que el contenido no esté limitado dentro de Electron
+      allowRunningInsecureContent: false
     }
   });
 
@@ -157,6 +159,7 @@ const createWindow = () => {
     shell.openExternal(url);
     return { action: 'deny' }; // Prevent Electron from creating a new window
   });
+
   // Handle window close event
   mainWindow.on('close', (event) => {
     if (HideToTray && process.platform === 'win32') {

@@ -49,12 +49,12 @@ function parseIni(iniString) {
   const lines = iniString.split('\n');
 
   for (const line of lines) {
-    const trimmedLine = line;
+    const trimmedLine = line.trimEnd(); // 🔥 No elimina espacios iniciales
 
-    if (trimmedLine.trim().startsWith(';')) {
-      comments.push(trimmedLine);
+    if (trimmedLine.startsWith(';')) {
+      comments.push(line); // 🔥 Usa `line` en lugar de `trimmedLine` para preservar espacios
 
-    } else if (trimmedLine.trim().startsWith('[') && trimmedLine.trim().endsWith(']')) {
+    } else if (trimmedLine.startsWith('[') && trimmedLine.endsWith(']')) {
       if (currentSection) {
         sections.push({
           name: currentSection,
@@ -63,45 +63,44 @@ function parseIni(iniString) {
           logic: logic.blocks.length > 0 ? logic : { blocks: [] },
         });
       }
-      currentSection = trimmedLine.trim().slice(1, -1);
+      currentSection = trimmedLine.slice(1, -1);
       currentSectionData = {};
       sectionComments = comments;
       comments = [];
       logic = { blocks: [] };
       inLogicBlock = false;
 
-    } else if (trimmedLine.trim() === '') {
-      comments.push(trimmedLine);
+    } else if (trimmedLine === '') {
+      comments.push(line);
 
-    } else if (trimmedLine.trim().startsWith('if') || trimmedLine.trim().startsWith('endif') || inLogicBlock) {
+    } else if (trimmedLine.startsWith('if') || trimmedLine.startsWith('endif') || inLogicBlock) {
       if (!inLogicBlock) {
         logic.blocks.push({ comments: [...comments], lines: [] });
         comments = [];
       }
+      logic.blocks[logic.blocks.length - 1].lines.push(line); // 🔥 Guarda la línea EXACTAMENTE como fue leída
 
-      logic.blocks[logic.blocks.length - 1].lines.push(trimmedLine);
-
-      if (trimmedLine.trim().startsWith('if')) inLogicBlock = true;
-      if (trimmedLine.trim().startsWith('endif')) inLogicBlock = false;
+      if (trimmedLine.startsWith('if')) inLogicBlock = true;
+      if (trimmedLine.startsWith('endif')) inLogicBlock = false;
 
     } else if (currentSection) {
-      const match = trimmedLine.trim().match(/^([\w$]+(?:\s+\$\w+)?)\s*=\s*(.*)$/);  // Now allowing keys starting with `$`
+      // 🛠 Nueva expresión regular: Acepta espacios en nombres de clave
+      const match = line.match(/^(.+?)\s*=\s*(.*)$/);
       if (match) {
-        const keyName = match[1].trim();
-        const value = match[2] !== undefined && match[2] !== '' ? match[2].trim() : "";
+        const keyName = match[1]; // 🔥 Guarda la clave exactamente como está
+        const value = match[2] !== undefined ? match[2].trimEnd() : ""; // 🔥 No elimina espacios iniciales
 
         if (!currentSectionData.keys) currentSectionData.keys = [];
 
         currentSectionData.keys.push({
           name: keyName,
-          value: String(value),
+          value: value,
           comments: comments,
         });
 
         comments = [];
       }
     }
-
   }
 
   if (currentSection) {
@@ -133,20 +132,21 @@ function stringifyIni(parsedIni) {
       if (key.comments.length > 0) {
         iniString += key.comments.join('\n') + '\n';
       }
-      iniString += `${key.name} = ${key.value !== undefined ? key.value : ""}\n`;
+      iniString += `${key.name} = ${key.value}\n`; // 🔥 No se cambia nada de la clave
     }
 
+    // 🔥 Conservar bloques lógicos sin alterar formato ni indentación
     if (section.logic.blocks.length > 0) {
       for (const block of section.logic.blocks) {
         if (block.comments.length > 0) {
           iniString += block.comments.join('\n') + '\n';
         }
-        iniString += block.lines.join('\n') + '\n';
+        iniString += block.lines.join('\n') + '\n'; // 🔥 No se toca la indentación original
       }
     }
   }
 
-  return iniString.trim(); // ✨ Removes unnecessary trailing empty lines
+  return iniString.trim(); // ⚡ Solo elimina líneas en blanco al final, NO en el contenido
 }
 
 // #endregion

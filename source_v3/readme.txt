@@ -60,6 +60,7 @@ Screen Resolutions:
 
 %LOCALAPPDATA%\edhm_ui 	              <- where the old v2.x version lives
 %LOCALAPPDATA%\EDHM-UI-V3             <- where the new v3.0 lives (temporarily)
+%LOCALAPPDATA%\EDHM-UI-V3\\app-{3.0.19}\resources\data\
 %LOCALAPPDATA%\Temp\EDHM_UI           <- folder for Updates & Patches Downloads
 %USERPROFILE%\EDHM_UI                 <- Themes & User files (User's data persisted thru re-installs)
 ├── HORIZ                             <- Horizons Legacy data (same structure as 'ODYSS')
@@ -269,9 +270,7 @@ var IniParser = {
                ]
             },
             {
-               "comments":[
-                  
-               ],
+               "comments":[],
                "lines":[
                   "endif\r"
                ]
@@ -369,10 +368,11 @@ npm install @vitejs/plugin-vue --save-dev
 npm install vue-router@4   <- For multi-windows https://github.com/vuejs/router
 npm install chokidar   <- For file watching (Shipyard)
 
-npm uninstall node-key-sender <- for keyboard events  https://www.npmjs.com/package/node-key-sender
-Key Considerations for Linux:
-   sudo apt install default-jre
-npm uninstall node-key-sender
+npm install robot-js    <- for keyboard events  https://github.com/Robot/robot-js
+- On Windows, global keyboard events should work without issues.
+- On Linux, users may need to allow accessibility permissions for the app to interact with input events (this varies by distro).
+
+
 -----------------------------------------------------------------------------------
 ********** CLEAR CACHE *************************
 ie4uinit.exe -show          <- Refresca la Cache de Iconos

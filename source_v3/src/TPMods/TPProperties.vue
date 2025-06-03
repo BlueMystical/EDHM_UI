@@ -37,7 +37,7 @@
                                 <div class="range-container" :id="'element-' + key.Key">
                                     <input type="range" class="form-range range-input" 
                                         :value="parseValue(key.value)" 
-                                        :min="getMinValue(key)" :max="getMaxValue(key)" step="0.01"
+                                        :min="getMinValue(key.type)" :max="getMaxValue(key.type)" step="0.01"
                                         @input="OnBrightnessValueChange(sectionIndex, key, $event)"
                                         style="height: 10px;" />
                                     <label class="slider-value-label">{{ key.value }}</label>
@@ -288,6 +288,7 @@ export default {
         /** Gets the Maximum Value for a Range-slider control
          * @param type Type of Range     */
         getMaxValue(type) {
+            //type = 'decimal_10x' or 'decimal:2X' or 'decimal:4X'
             var values = [];
             if (Util.containsCharacter(type, ':')) {
                 values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X, 

@@ -538,6 +538,7 @@ export default {
             this.selectedModBasename = mod.mod_name;
             
             if (mod.isActive) {
+                this.showInfo = false;
                 this.closeAlert();
 
                 if (mod.isUpdateAvaliable) {
@@ -661,6 +662,18 @@ export default {
                             console.log('Deleting all mod files:', deleteCommand);
                             await window.api.deleteFilesByWildcard(deleteCommand); 
                         }
+
+                        //- Delete all dependencies: 
+                        console.log('Deleting dependencies for mod:', this.selectedMod.mod_name);
+                        if (this.selectedMod.data.dependencies && this.selectedMod.data.dependencies.length > 0) {                               
+                            for (const dep of this.selectedMod.data.dependencies) {
+                                const depPath = window.api.joinPath(this.ActiveInstance.path, dep);
+                                console.log('Deleting dependency:', depPath);
+                                await window.api.deleteFileByAbsolutePath(depPath);
+                            }
+                        }
+
+                        //- Remove the mod from the list:
                         try { this.$refs.ModProps.clearProps(); } catch {}
                         this.selectedMod = null;
                         this.selectedModBasename = null;

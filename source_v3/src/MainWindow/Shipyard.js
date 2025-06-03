@@ -7,10 +7,8 @@ import { execFile } from 'child_process';
 import settingsHelper from '../Helpers/SettingsHelper.js';
 import fileHelper from '../Helpers/FileHelper.js';
 
-/*import ks from 'node-key-sender';
-var keySender = require('node-key-sender'); // For sending key events
-    keySender.setOption('globalDelayPressMillisec', 500);
-    keySender.setOption('startDelayMillisec', 200);*/
+//const robot = require("robotjs");
+
 
 // #region Declarations
 
@@ -102,16 +100,12 @@ TODO:   - Registrar el ID de la nave para el CPM
                 console.log('Applying Theme:', event.data.theme); 
                 const tApply = await settingsHelper.ApplyTheme(event.data.theme);
                 if (tApply) {
-                    /*keySender.sendKey('f11').then( //<- Send F11 key to the game
-                        function(stdout, stderr) {
-                            // For success
-                            console.log('F11 key sent successfully:', stdout);
-                        },        
-                        function(error, stdout, stderr) {
-                            // For error
-                            console.error('Error sending F11 key:', error);
-                        }
-                    ); */
+                    /*
+                    setTimeout(() => {
+                        // Simulate pressing the "F11" key
+                        robot.keyTap("f11");
+                    }, 1000); // Sends after 1 second
+                    */
                 }
                 console.log('--------------------------------------');
             }
