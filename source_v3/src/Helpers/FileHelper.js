@@ -379,7 +379,9 @@ async function deleteDirectoriesExcept(directoryPath, exceptions) {
 function deleteFileByAbsolutePath(filePath) {
   let _ret = false;
   try {
-    fs.unlinkSync(filePath);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }    
     _ret = true; console.log('File deleted.');
   } catch (err) {
     throw err;

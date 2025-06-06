@@ -385,6 +385,12 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
     const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
 
     try {
+        // Validar y asegurar que los valores estén en el rango correcto (0 - 255)
+        gammaR = Math.max(0, Math.min(255, gammaR));
+        gammaG = Math.max(0, Math.min(255, gammaG));
+        gammaB = Math.max(0, Math.min(255, gammaB));
+        gammaA = Math.max(0, Math.min(255, gammaA));
+
         // Undo gamma correction (assuming power function)
         const invR = convert_sRGB_FromLinear(gammaR, gammaValue);
         const invG = convert_sRGB_FromLinear(gammaG, gammaValue);
@@ -408,6 +414,7 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
 
     return result;
 }
+
 function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
     try {
         if (!Array.isArray(gammaComponents) || gammaComponents.length < 3) {

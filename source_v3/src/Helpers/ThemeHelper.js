@@ -203,6 +203,8 @@ async function UnFavoriteTheme(themePath) {
 async function GetCurrentSettingsTheme(themePath) {
   try {
     const ThemeINIs = await LoadThemeINIs(themePath);
+    //console.log('Default INIs: ', ThemeINIs);
+    // Load the default template from the assets folder
     const defaultSettingsPath = FileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
     let themeTemplate = await FileHelper.loadJsonFile(defaultSettingsPath);

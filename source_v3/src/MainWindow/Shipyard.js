@@ -92,9 +92,9 @@ TODO:   - Registrar el ID de la nave para el CPM
     */
     try {
         if (event) {    
-            console.log('Event:', event);        
-            event.data = AddShip(event.data); 
-            console.log('--------------------------------------');
+            //console.log('Event:', event);        
+            //event.data = AddShip(event.data); 
+            //console.log('--------------------------------------');
 
             if (_ApplyTheme) {  //&& event.data.theme !== 'Current Settings'
                 console.log('Applying Theme:', event.data.theme); 
@@ -107,7 +107,7 @@ TODO:   - Registrar el ID de la nave para el CPM
                     }, 1000); // Sends after 1 second
                     */
                 }
-                console.log('--------------------------------------');
+                //console.log('--------------------------------------');
             }
         }
     } catch (error) {

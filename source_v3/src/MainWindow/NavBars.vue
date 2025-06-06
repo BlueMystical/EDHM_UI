@@ -303,6 +303,7 @@ export default {
 
         this.themeTemplate = await this.LoadCurrentSettings();
         EventBus.emit('OnSelectTheme', { id: 0 });   //<- Event Listened at 'ThemeTab.vue'    
+
         await this.History_LoadElements();
 
       } catch (error) {
@@ -331,15 +332,14 @@ export default {
           const template = JSON.parse(JSON.stringify(theme.file));
           console.log('Loading Theme..', template.credits.theme);
 
-          this.themeTemplate = await window.api.LoadTheme(template.path);
-          this.themeTemplate.credits = theme.file.credits;
-
-          //console.log('LoadedTheme..', this.themeTemplate.credits);
-
           if (template.credits.theme === 'Current Settings') {
+            this.themeTemplate = await window.api.GetCurrentSettingsTheme(template.path);
             this.currentSettingsPath = template.path;
+          } else {
+            this.themeTemplate = await window.api.LoadTheme(template.path);
+            this.themeTemplate.credits = theme.file.credits;
           }
-          //console.log('Loaded Theme:', this.themeTemplate);
+
           EventBus.emit('ThemeLoaded', JSON.parse(JSON.stringify(this.themeTemplate))); //<- this event will be heard on 'App.vue'
           this.statusText = 'Theme: ' + theme.name;
         }
@@ -409,7 +409,7 @@ export default {
         if (userSettings) {
           console.log('5. Get User Settings:', userSettings);
           await applySettings(userSettings, template, 'User Settings');
-        }       
+        }
 
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
         console.log('6. Get Default Inis:', defaultINIs);

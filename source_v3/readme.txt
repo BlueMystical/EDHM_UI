@@ -191,116 +191,101 @@ xml_profile:  [
 
 -------------------------------------------------------
 var IniParser = {
-  path: '..\\Elite Dangerous\\Products\\elite-dangerous-odyssey-64\\EDHM-ini',
-  StartupProfile: [
-   {
-      "name":"constants",
-      "comments":[
-         ";------------------------------------------------------------------------------------------------------\r",
-         "; Elite Dangerous 4.1.2.1 FSS Overlay Mod By psychicEgg and Parduz -- v1.100.2\r",
-         ";  Maintained by CMDR Fred89210\r",
-         ";------------------------------------------------------------------------------------------------------\r",
-         ";\r",
-         "; This is an optional Overlay for your FSS that every explorer should have.\r",
-         "; The FSS Overlay Mod adds an informational overlay on top of the Filtered Spectral Analysis,\r",
-         "; and indicates what type of Celestial Bodies fall within a particular frequency band.\r",
-         "; \r",
-         "; The Mod offers several excellent Overlays created by the community.\r",
-         ";\r",
-         "; Don't hesitate to tell us on our Discord if you want to design your own overlay\r",
-         "; and we will help you integrate it into the Mod.\r",
-         ";\r",
-         ";------------------------------------------------------------------------------------------------------\r",
-         ";\r",
-         ";------------------------------------------------------------------------------------------------------\r",
-         ";-------- THIS SECTION CONTAINS THE INITIAL VALUES  ---------------------------------------------------\r",
-         ";------------------------------------------------------------------------------------------------------\r"
-      ],
-      "keys":[
-         {
-            "name":"global $FSSoverlayOn",
-            "value":"0",
-            "comments":[
-               
-            ]
-         },
-         {
-            "name":"global $FSSoverlayEnabled",
-            "value":"1",
-            "comments":[
-               
-            ]
-         },
-         {
-            "name":"global $FSSoverlayMode",
-            "value":"1",
-            "comments":[
-               
-            ]
-         },
-         {
-            "name":"w6",
-            "value":"1",
-            "comments":[
-               
-            ]
-         }
-      ],
-      "logic":{
-         "blocks":[
+
+  StartupProfile: {
+   "sections":[
+      {
+         "name":"Constants",
+         "comments":[
+            "; This is a comment!",
+            "; All comments will be written by the serializer over the object they belong to",
+            "; -------------------------------------"
+         ],
+         "keys":[
             {
+               "name":"x150",
+               "value":"1",
                "comments":[
-                  "; Overlay 1\r"
-               ],
-               "lines":[
-                  "if $FSSoverlayEnabled == 1\r",
-                  "\tif $FSSoverlayOn == 1 && $FSSoverlayMode == 1\r",
-                  "\t\tps-t2 = ResourceReplace-FSS-Overlay-1\r",
-                  "\tendif\r"
+                  "; Key x150 has an integer value"
                ]
             },
             {
+               "name":"x151",
+               "value":"1.5",
                "comments":[
-                  "; Overlay 2\r"
-               ],
-               "lines":[
-                  "\tif $FSSoverlayOn == 1 && $FSSoverlayMode == 2\r",
-                  "\t\tps-t2 = ResourceReplace-FSS-Overlay-2\r",
-                  "\tendif\r"
+                  "; Key x151 has a decimal value"
                ]
             },
             {
-               "comments":[],
+               "name":"Key Name",
+               "value":"Hello World",
+               "comments":[
+                  "; Key 'Key Name' has a string value",
+                  "; both keys and values can have spaces"
+               ]
+            }
+         ],
+         "logic":[
+            {
+               "comments":[
+                  "; this is a logic area inside an INI section",
+                  "; logic areas contain 'if-endif' blocks",
+                  "; logic areas will be written at the end of the section the belong to",
+                  "; logic areas will be preserved exactly as they are!",
+                  "; logic ares will be parsed as a bunch of string lines",
+                  "; there may be nested if-endif blocks"
+               ],
                "lines":[
-                  "endif\r"
+                  "if x151 > 2",
+                  "; this is a comment inside a logic area!",
+                  "   x151 = 1.9",
+                  "   x150 = x151",
+                  "   if z150 < x150",
+                  "      z150 = 0",
+                  "   end if",
+                  "endif"
                ]
             }
          ]
+      },
+      {
+         "name":"Other Section",
+         "comments":[],
+         "keys":[],
+         "logic":[]
       }
-   }
-],
-  Advanced: [
-    {
-      name: 'Constants',
-      comments: [],
-      keys: [],
-      logic: []
-    }
-  ],
-  SuitHud: [
-    {
-      name: 'Constants',
-      comments: [],
-      keys: [],
-      logic: []
-    }
-  ],
-  XmlProfile: [
-    {
+   ]
+},
+  Advanced: {
+      sections: [
+         {
+            name: 'Constants',
+            comments: [],
+            keys: [],
+            logic: []
+         }
+      ]
+   },
+  SuitHud: {
+      sections: [
+         {
+            name: 'Constants',
+            comments: [],
+            keys: [],
+            logic: []
+         }
+      ]
+   },
+  XmlProfile: {
+    sections: [{
       name: 'Constants',
       comments: [],
       keys: {
-        x150: [Object],
+        {
+            "name":"x150",
+            "value":"1",
+            "comments":[ ]
+         },
         y150: [Object],
         z150: [Object],
         x151: [Object],
@@ -312,7 +297,8 @@ var IniParser = {
       },
       logic: { comments: [], lines: [] }
     }
-  ]
+    ]
+  }
 };
 ------------------------------------------------------------------------------------------------------------
 

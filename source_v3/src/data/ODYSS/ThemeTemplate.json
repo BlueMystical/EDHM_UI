@@ -479,7 +479,7 @@
                     "File": "Startup-Profile",
                     "Section": "Constants",
                     "Key": "z115",
-                    "Value": 101,
+                    "Value": 200,
                     "ValueType": "Preset",
                     "Type": "EnvDestTargetsMode",
                     "Description": "Circle and Text for Destination Hidden Behind an Object"
@@ -650,7 +650,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x193|y193|z193|w193",
-                    "Value": -23296,
+                    "Value": -1313281,
                     "ValueType": "Color",
                     "Type": "CustomColour",
                     "Description": "Custom Color for the Mouse Cursor. *Alpha*"
@@ -1207,7 +1207,7 @@
                     "File": "Startup-Profile",
                     "Section": "Constants",
                     "Key": "z234",
-                    "Value": 101,
+                    "Value": 200,
                     "ValueType": "Preset",
                     "Type": "ProbeTrailMode",
                     "Description": "Classic & XML modes only replaces the color of the trail.\r\nBoosted mode replaces the color and gives a very luminous effect to the trail."
@@ -1416,7 +1416,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x110|y110|z110|w110",
-                    "Value": -32768,
+                    "Value": -1,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom Color for GalMap Repair / Damaged Stations Icon Colour. *Alpha*"
@@ -1614,7 +1614,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x119",
-                    "Value": 0,
+                    "Value": 1,
                     "ValueType": "Brightness",
                     "Type": "2X",
                     "Description": "Brightness of CQC Rank Text (0 = OFF)"
@@ -1658,7 +1658,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x125|y125|z125|w125",
-                    "Value": -13317123,
+                    "Value": -16728833,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom Color for Combat Zone (CZ) Panel, and Targeting Panel Target Ship Subcomponents. *Alpha*"
@@ -1669,7 +1669,7 @@
                     "File": "Startup-Profile",
                     "Section": "Constants",
                     "Key": "z113",
-                    "Value": 100,
+                    "Value": 199,
                     "ValueType": "Preset",
                     "Type": "AdvancedMode",
                     "Description": "Mode for Cargo Scoop Reticle"
@@ -1680,7 +1680,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x160|y160|z160",
-                    "Value": -9775105,
+                    "Value": -16720641,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom Color for Cargo Scoop Reticle"
@@ -1691,7 +1691,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "w113",
-                    "Value": 1.5,
+                    "Value": 1,
                     "ValueType": "Brightness",
                     "Type": "2X",
                     "Description": "Brightness of Cargo Scoop Reticle"
@@ -1702,7 +1702,7 @@
                     "File": "Startup-Profile",
                     "Section": "Constants",
                     "Key": "y113",
-                    "Value": 100,
+                    "Value": 199,
                     "ValueType": "Preset",
                     "Type": "AdvancedMode",
                     "Description": "Mode for Sub-Surface Mining and Seismic Charges Mini Games"
@@ -1713,7 +1713,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x158|y158|z158",
-                    "Value": -16728833,
+                    "Value": -23296,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom color to replace the orange squares in the mining mini-games.\r\nThe other squares will apply the XML matrix."
@@ -1735,7 +1735,7 @@
                     "File": "Startup-Profile",
                     "Section": "Constants",
                     "Key": "y100",
-                    "Value": 1,
+                    "Value": 0,
                     "ValueType": "Preset",
                     "Type": "FSSGasGiantIcons",
                     "Description": "Replace Orange Gas Giant Icons with the Blue color corresponding to the FSS before U18.02"
@@ -1779,7 +1779,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x200|y200|z200|w200",
-                    "Value": 1284112277,
+                    "Value": -7733355,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom Color for FSS / DSS Cyan Elements / Main reticle. *ALPHA"
@@ -1856,7 +1856,7 @@
                     "File": "Startup-Profile",
                     "Section": "Constants",
                     "Key": "z111",
-                    "Value": 100,
+                    "Value": 199,
                     "ValueType": "Preset",
                     "Type": "FSSMissionIcons",
                     "Description": "Replace Orange Mission Icons and Arrows with the Mission Panel Custom Color"
@@ -2198,7 +2198,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x87",
-                    "Value": 0,
+                    "Value": 200,
                     "ValueType": "Preset",
                     "Type": "ShieldDissolving",
                     "Description": "Shield fades to invisible when damaged.\r\nNote: Dissolving mode is not available for XML shield mode."
@@ -2209,7 +2209,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x159|y159|z159",
-                    "Value": -16733441,
+                    "Value": -65536,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Not available for XML shield mode"
@@ -2737,7 +2737,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "w157",
-                    "Value": 1,
+                    "Value": 0,
                     "ValueType": "ONOFF",
                     "Type": "ONOFF",
                     "Description": "Switch for Landing Terrain Hologram Shimmer."
@@ -2792,7 +2792,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x71|y71|z71|w71",
-                    "Value": -4534811,
+                    "Value": -16720641,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom Color for Cyan Planetary Landing Reticle and Aligned Landing Bar. *Alpha"
@@ -2847,7 +2847,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x185|y185|z185|w185",
-                    "Value": 2138881279,
+                    "Value": -8602369,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom color for Latitude / Longitude Coordinates, & Gravity Text Colour *Alpha"
@@ -2880,7 +2880,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x250|y250|z250|w250",
-                    "Value": 2147418112,
+                    "Value": -65536,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom Color for SRV Hologram (*Alpha)"
@@ -3161,7 +3161,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x238|y238|z238|w238",
-                    "Value": -865354625,
+                    "Value": -785403905,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "CYAN Squares, Lines and Coasters in both flight modes (SRV/Fighter/Wing).\r\n*Alpha"
@@ -3557,7 +3557,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x182|y182|z182|w182",
-                    "Value": -27683329,
+                    "Value": -10906113,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Custom Color for FSD Charging Bar (*Alpha)."
@@ -3833,7 +3833,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "x207|y207|z207",
-                    "Value": -256,
+                    "Value": -1,
                     "ValueType": "Color",
                     "Type": "CustomColor",
                     "Description": "Secondary Colour, middle of signal (relative to Primary Colour)"
@@ -4015,7 +4015,7 @@
                     "File": "SuitHud",
                     "Section": "Constants",
                     "Key": "x157",
-                    "Value": 0,
+                    "Value": 1,
                     "ValueType": "ONOFF",
                     "Type": "ONOFF",
                     "Description": "Apply opacity setting to other elements such as dialog panels or nameplates."
@@ -4037,7 +4037,7 @@
                     "File": "SuitHud",
                     "Section": "Constants",
                     "Key": "w109",
-                    "Value": 0,
+                    "Value": 1,
                     "ValueType": "ONOFF",
                     "Type": "ONOFF",
                     "Description": "Option to Turn off the dot in the middle of the screen on station concourse.\r\nNote: Need to also disable Foot HUD elements while on a station concourse."
@@ -4940,6 +4940,6 @@
             "value": 1
         }
     ],
-    "path": "C:\\Users\\Jhollman\\EDHM_UI\\ODYSS\\Themes\\Carinae",
-    "isFavorite": false
+    "path": "C:\\Users\\Fred89210\\EDHM_UI\\ODYSS\\Themes\\Carinae",
+    "isFavorite": true
 }

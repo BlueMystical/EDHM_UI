@@ -14,6 +14,7 @@ let mainWindow;
 let tray;
 let BalloonShown = false;
 let HideToTray = false;
+let WatchMe = false;
 
 //- Set the default Icon for the app
 const CustomIcon = settingsHelper.readSetting('CustomIcon', 
