@@ -358,7 +358,6 @@ function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
         ? thesRGBValue / 12.92
         : Math.pow((thesRGBValue + 0.055) / 1.055, gammaValue);
 }
-
 function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
     const clamp = (num) => Math.max(Math.min(num, 1.0), 0.0);
     theLinearValue = clamp(theLinearValue);
@@ -368,8 +367,10 @@ function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
 };
 
 // Function to get gamma corrected RGBA
-function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
+function GetGammaCorrected_RGBA_OLD(color, gammaValue = 2.4) {
     const normalize = value => value / 255;
+
+    // Validar y asegurar que los valores estén en el rango correcto (0.0 a 1.0)
 
     const gammaCorrected = {
         r: Math.round(this.Convert_sRGB_ToLinear(normalize(color.r), gammaValue) * 10000) / 10000,
@@ -380,26 +381,43 @@ function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
 
     return gammaCorrected;
 }
-// Function to reverse the gamma correction
+
+/** Function to get gamma corrected RGBA color. 
+ * @param {*} color Color object with { r, g, b, a } properties in the range of 0-255.
+ * @param {decimal} gammaValue Gamma Value, default is 2.4
+ * @returns Color object with { r, g, b, a } in the range of 0-1. */
+function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
+    const normalize = value => Math.max(0, Math.min(255, value)) / 255; //<- Ensure values are in the range of 0-255
+    const roundToPrecision = (value, precision = 4) => Number(value.toFixed(precision)); //<- Round to 4 decimal places
+    return {
+        r: roundToPrecision(Convert_sRGB_ToLinear(normalize(color.r), gammaValue)),
+        g: roundToPrecision(Convert_sRGB_ToLinear(normalize(color.g), gammaValue)),
+        b: roundToPrecision(Convert_sRGB_ToLinear(normalize(color.b), gammaValue)),
+        a: roundToPrecision(color.a) // Alpha remains linear
+    };
+}
+
+/** Function to reverse the gamma correction 
+ * @param {decimal} gammaR Red component in the range of 0.0 to 1.0+
+ * @param {decimal} gammaG Green component in the range of 0.0 to 1.0+
+ * @param {decimal} gammaB Blue component in the range of 0.0 to 1.0+
+ * @param {decimal} gammaA Alpha component in the range of 0.0 to 1.0+
+ * @param {decimal} gammaValue Gamma Value, default is 2.4
+ * @returns Color object with { r, g, b, a } properties in the range of 0-255. */
 function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
     const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
-
     try {
-        // Validar y asegurar que los valores estén en el rango correcto (0 - 255)
-        gammaR = Math.max(0, Math.min(255, gammaR));
-        gammaG = Math.max(0, Math.min(255, gammaG));
-        gammaB = Math.max(0, Math.min(255, gammaB));
-        gammaA = Math.max(0, Math.min(255, gammaA));
+        const normalize = value => Math.max(0, Math.min(1, value)); // Ensure values are in the range of 0.0 to 1.0
 
-        // Undo gamma correction (assuming power function)
-        const invR = convert_sRGB_FromLinear(gammaR, gammaValue);
-        const invG = convert_sRGB_FromLinear(gammaG, gammaValue);
-        const invB = convert_sRGB_FromLinear(gammaB, gammaValue);
+        // Undo gamma correction: 
+        const invR = convert_sRGB_FromLinear(normalize(gammaR), gammaValue);
+        const invG = convert_sRGB_FromLinear(normalize(gammaG), gammaValue);
+        const invB = convert_sRGB_FromLinear(normalize(gammaB), gammaValue);
 
         // Approximate linear sRGB (conversion to sRGB space)
         const linearSrgb = { r: invR, g: invG, b: invB };
 
-        // Convert to RGB (assuming 0-255 range)
+        // Convert to RGB (0-255 range)
         result.r = this.safeRound(linearSrgb.r * 255);
         result.g = this.safeRound(linearSrgb.g * 255);
         result.b = this.safeRound(linearSrgb.b * 255);
@@ -411,7 +429,6 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
     } catch (error) {
         throw new Error(error.message + error.stack);
     }
-
     return result;
 }
 
