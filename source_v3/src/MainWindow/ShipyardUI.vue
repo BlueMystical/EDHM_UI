@@ -227,7 +227,8 @@ export default {
         },
         async getShipImage(ship_image) {
             /* Returns the ship image path */
-            const img_path = await window.api.getAssetFileUrl(`images/Ships/${ship_image}`); //            console.log("Ship image path:", img_path); // For debugging
+            //const img_path = await window.api.getAssetFileUrl(`images/Ships/${ship_image}`); //            console.log("Ship image path:", img_path); // For debugging
+            const img_path = await window.api.joinPath(this.DATA_DIRECTORY, `images/Ships/${ship_image}`);
             return img_path;
         },
         async changeShipImage(ship) {
@@ -245,7 +246,9 @@ export default {
                 const selectedImagePath = filePath[0];
                 const originalFilename = selectedImagePath.split('/').pop(); // Get the filename
                 const newFilename = `${ship.kind_short}_${Date.now()}.${originalFilename.split('.').pop()}`; // Create a unique filename
-                const destinationPath = await window.api.getAssetPath(`images/Ships/${newFilename}`);
+                
+                //const destinationPath = await window.api.getAssetPath(`images/Ships/${newFilename}`);
+                const destinationPath = await window.api.joinPath(this.DATA_DIRECTORY, `images/Ships/${newFilename}`);
 
                 try {
                     await window.api.copyFile(selectedImagePath, destinationPath);

@@ -60,20 +60,23 @@ Screen Resolutions:
 
 %LOCALAPPDATA%\edhm_ui 	              <- where the old v2.x version lives
 %LOCALAPPDATA%\EDHM-UI-V3             <- where the new v3.0 lives (temporarily)
-%LOCALAPPDATA%\EDHM-UI-V3\\app-{3.0.19}\resources\data\
+%LOCALAPPDATA%\EDHM-UI-V3\app-{3.0.19}\resources\data\
 %LOCALAPPDATA%\Temp\EDHM_UI           <- folder for Updates & Patches Downloads
 %USERPROFILE%\EDHM_UI                 <- Themes & User files (User's data persisted thru re-installs)
 ├── HORIZ                             <- Horizons Legacy data (same structure as 'ODYSS')
 ├── ODYSS                             <- Odyssey & Horizons Live data
-│     ├── 3PMods                      <- Plugins for the App
-│     ├── EDHM                        <- Real Location for Mod Files 'ShaderFixes' and 'EDHM-ini'
+│     ├── 3PMods                      <- Themes for 3PMods
+│     ├── EDHM                        <- Real Location for Mod Files: 'ShaderFixes' and 'EDHM-ini'
 │     ├── History                     <- history of user actions
 │     └── Themes                      <- Where Themes are stored
-├── ED_Odissey_User_Settings.json     <- Mod's User Settings
-├── Settings.json                     <- the actual User modified Program Settings
+├── images                            <- Images and Icons
+├── ED_Odissey_User_Settings.json     <- Settings the user dont want to be affected by themes
+├── ED_Odissey_Global_Settings.json   <- Settings We dont want to be affected by themes
+├── Shipyard_v3.json                  <- Data for the Shipyard, ships and asociated themes.
+├── Settings.json                     <- the Program Settings
 └── Errorlog.txt                      <- Error Logging
 ------------------------------------------------------------------------------------------
--- object for the Log:
+-- object for the Error Log:
 { "date":"28/12/2024 15:00:00", "message":"ERR 404 - not found..", "stack-trace":"" }
 ------------------------------------------------------------------------------------------
 ** GAME FILE STRUCTURE (Steam Odyssey):
@@ -84,7 +87,8 @@ G:\SteamLibrary\steamapps\common\Elite Dangerous\Products\elite-dangerous-odysse
 ├── EDHM-ini                          <- [Symlink] EDHM home dir
 │     ├── 3rdPartyMods                <- Plugins for EDHM
 │     │     ├── Keybindings.json
-│     │     └── [other files] 
+│     │     ├── Keybindings.ini
+│     │     └── [other files]
 │     ├── DevMode                     <- Don't stick your nose in here or else..
 │     ├── Advanced.ini                <- INI config for Color Elements
 │     ├── Startup-Profile.ini         <- INI config for non color Elements

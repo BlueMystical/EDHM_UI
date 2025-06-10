@@ -278,9 +278,9 @@ export default {
             }            
             const modifier = values[1]; // Get the part after the colon, if it exists
             switch (modifier) {
-                case '1X': return -1.0;
-                case '2X': return -2.0;
-                case '3X': return -3.0;
+                case '1X': return 0.0;
+                case '2X': return 0.0;
+                case '3X': return 0.0;
                 case '4X': return 0.0;
                 default:   return 0.0;
             }

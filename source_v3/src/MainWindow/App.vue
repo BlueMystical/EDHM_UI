@@ -124,7 +124,7 @@ export default {
           console.log('First Run after Update: Running HotFix..');
           try {            
             await window.api.DoHotFix();
-            await this.OnGameInstance_Changed(this.settings.ActiveInstance, true);
+            await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod:true });
             await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
           } catch (error) {
             EventBus.emit('ShowError', error);
@@ -171,7 +171,8 @@ export default {
 
         const jsonString = JSON.stringify(newConfig, null, 4);
         this.settings = await window.api.saveSettings(jsonString);
-        this.OnGameInstance_Changed(newConfig.ActiveInstance, true); //<- Update the Game Instance
+        //this.OnGameInstance_Changed(newConfig.ActiveInstance, true); //<- Update the Game Instance
+        this.OnGameInstance_Changed({ GameInstanceName: newConfig.ActiveInstance, InstallMod:true }); //<- Update the Game Instance
 
       } catch (error) {
         EventBus.emit('ShowError', error);
@@ -186,16 +187,17 @@ export default {
 
     /** When the User pick a different Game on the Combo. * 
      * @param GameInstanceName Name of the New Active Instance     */
-    async OnGameInstance_Changed(GameInstanceName, InstallMod = false) {
+    async OnGameInstance_Changed(e) {
       try {
         EventBus.emit('ShowSpinner', { visible: true });
         console.log('activeInstance:', this.settings.ActiveInstance); //<- 'ActiveInstance' Changed by Ref.
+        console.log('InstallMod:', e);
 
-        const NewInstance = await window.api.getInstanceByName(GameInstanceName);
+        const NewInstance = await window.api.getInstanceByName(e.GameInstanceName);
         console.log('NewInstance:', NewInstance);
 
-        if (InstallMod) {
-          EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${GameInstanceName}'..` });
+        if (e.InstallMod) {
+          EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${e.GameInstanceName}'..` });
           const edhmInstalled = await window.api.installEDHMmod(NewInstance);
 
           if (edhmInstalled.game === 'ODYSS') {
@@ -629,6 +631,7 @@ export default {
     /* LISTENING EVENTS:   */
     EventBus.on('SettingsChanged', this.OnProgramSettings_Changed);
     EventBus.on('OnUpdateSettings', this.OnProgramSettings_Updated);
+
     EventBus.on('GameInsanceChanged', this.OnGameInstance_Changed);
 
     EventBus.on('OnThemesLoaded', this.OnThemesLoaded);
@@ -648,7 +651,7 @@ export default {
     // Clean up the event listener
     EventBus.off('SettingsChanged', this.OnProgramSettings_Changed);
     EventBus.off('OnUpdateSettings', this.OnProgramSettings_Updated);
-    EventBus.off('GameInsanceChanged', this.OnGameInstance_Changed);
+    EventBus.off('GameInstanceChanged', this.OnGameInstance_Changed);
 
     EventBus.off('SearchBox', this.OnSearchBox_Shown);
 

@@ -26,6 +26,7 @@ contextBridge.exposeInMainWorld('api', {
 
   /** Returns the path to the EDHM data directory. */
   GetProgramDataDirectory: async () => ipcRenderer.invoke('GetAppDataDirectory'),
+  
   /** Returns the path to the given Instance directory.
  * @param {*} instanceKey Key of the Instance to get the path for. 'ED_Odissey' or 'ED_Horizons' */
   GetInstanceDataDirectory: async (instance) => ipcRenderer.invoke('GetInstanceDataDirectory', instance),

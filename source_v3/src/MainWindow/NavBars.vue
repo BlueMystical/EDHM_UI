@@ -478,7 +478,7 @@ export default {
           EventBus.emit('open-3PMods', JSON.parse(JSON.stringify(ActiveInstance)));
         }
         if (value === 'mnuInstallMod') {
-          EventBus.emit('GameInsanceChanged', ActiveInstance.instance); //<- this event will be heard in 'App.vue'
+          EventBus.emit('GameInsanceChanged', { GameInstanceName:ActiveInstance.instance, InstallMod:true }); //<- this event will be heard in 'App.vue'
         }
         if (value === 'mnuUninstallMod') {
           const _ret = await window.api.UninstallEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
@@ -810,7 +810,8 @@ export default {
       this.selectedGame = gameInstanceName;
       if (this.programSettings) {
         this.programSettings.ActiveInstance = gameInstanceName.toString();
-        EventBus.emit('GameInsanceChanged', gameInstanceName); //<- this event will be heard in 'App.vue'
+        //EventBus.emit('GameInsanceChanged', gameInstanceName); //<- this event will be heard in 'App.vue'
+        EventBus.emit('GameInsanceChanged', { GameInstanceName:gameInstanceName, InstallMod:false }); //<- this event will be heard in 'App.vue'
       }
       //console.log(`Game selected: ${selectedGame.value}`);
     },

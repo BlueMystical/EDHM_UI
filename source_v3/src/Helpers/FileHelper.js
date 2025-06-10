@@ -312,21 +312,42 @@ async function moveDirectory(sourceDir, destinationDir) {
   }
 }
 
-/** Recursively copies a directory and its contents.
- * @param {string} source The source directory path.
- * @param {string} destination The destination directory path. */
-async function copyDirectoryRecursive(source, destination) {
-  fs.mkdirSync(destination, { recursive: true });
-  fs.readdirSync(source, { withFileTypes: true }).forEach((entry) => {
-    const sourcePath = path.join(source, entry.name);
-    const destinationPath = path.join(destination, entry.name);
 
-    if (entry.isDirectory()) {
-      copyDirectoryRecursive(sourcePath, destinationPath);
-    } else {
-      fs.copyFileSync(sourcePath, destinationPath);
+/** Recursively copies a directory and its contents, tracking the number of files and directories copied.
+ * @param {string} source The source directory path.
+ * @param {string} destination The destination directory path.
+ * @returns {Promise<{ files: number, directories: number }>} An object with the count of copied files and directories. */
+async function copyDirectoryRecursive(source, destination) {
+  const stats = { files: 0, directories: 0 };
+
+  try {
+    if (!fs.existsSync(source)) {
+      throw new Error(`Source directory does not exist: ${source}`);
     }
-  });
+
+    fs.mkdirSync(destination, { recursive: true });
+
+    const entries = fs.readdirSync(source, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const sourcePath = path.join(source, entry.name);
+      const destinationPath = path.join(destination, entry.name);
+
+      if (entry.isDirectory()) {
+        stats.directories++; // Count every directory found
+        const subStats = await copyDirectoryRecursive(sourcePath, destinationPath);
+        stats.files += subStats.files;
+        stats.directories += subStats.directories;
+      } else {
+        fs.copyFileSync(sourcePath, destinationPath);
+        stats.files++;
+      }
+    }
+  } catch (error) {
+    console.error(`Error copying ${source}:`, error);
+  }
+
+  return stats;
 }
 
 async function deleteFolderRecursive(folderPath) {
@@ -528,7 +549,7 @@ async function ensureSymlink(targetFolder, symlinkPath) {
     const stats = fs.lstatSync(symlinkPath);
 
     if (stats.isSymbolicLink()) {
-      console.log(`Symlink already exists: ${symlinkPath}`);
+      //console.log(`Symlink exists: ${symlinkPath}`);
       return 'exists';
     }
 
@@ -541,7 +562,7 @@ async function ensureSymlink(targetFolder, symlinkPath) {
   }
 
   fs.symlinkSync(targetFolder, symlinkPath, 'junction');
-  console.log(`Symlink created: ${symlinkPath} -> ${targetFolder}`);
+  //console.log(`Symlink created: ${symlinkPath} -> ${targetFolder}`);
   return 'created';
 
   /* Ejemplo de uso:
@@ -787,13 +808,13 @@ async function compressFolder(folderPath, outputPath) {
  * @param {*} zipPath Absolute path to the ZIP file.
  * @param {*} outputDir Absolute path to the Destination Folder */
 async function decompressFile(zipPath, outputDir) {
-  console.log('Decompressing: ', zipPath);
+  //console.log('Decompressing: ', zipPath);
   if (!fs.existsSync(zipPath)) {
     throw new Error(`404 - ZIP file Not Found: '${zipPath}'`);
   }
   let _ret = false;
   await zl.extract(zipPath, outputDir).then(function () {
-    console.log(`Uncompressed Files -> '${outputDir}'`);
+    console.log(`Uncompressed Files into '${outputDir}'`);
     _ret = true;
   }, function (err) {
     console.log(err);

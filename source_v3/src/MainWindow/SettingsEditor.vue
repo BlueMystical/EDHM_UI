@@ -142,6 +142,7 @@ export default {
             selectedGamePath: '',
             publishers: [],
             versions: [],
+            DATA_DIRECTORY: '',
         };
     },
     created() {
@@ -156,6 +157,8 @@ export default {
                     if (!this.config.CustomIcon) {
                         this.config.CustomIcon = await window.api.getAssetPath('images/Icon_v3_a0.ico');
                     }
+                    this.DATA_DIRECTORY = await window.api.resolveEnvVariables(this.config.UserDataFolder); //console.log('DATA_DIRECTORY:', DATA_DIRECTORY);
+
                     const instanceName = this.config.ActiveInstance; //<- "Steam (Odyssey (Live))"
                     const pubName = instanceName.split('(')[0];     //<- "Steam "
                     this.ActiveInstance = this.config.GameInstances
@@ -288,10 +291,11 @@ export default {
         },
         /* Browse for the location to store User's data and Themes */
         async browseUserDataFolder() {
-            const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
+            const DATA_DIRECTORY = await window.api.resolveEnvVariables(this.config.UserDataFolder); 
+            //const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
             const options = {
                 title: 'Select Where to Store User Data',
-                defaultPath: DefaultLocation,
+                defaultPath: DATA_DIRECTORY,
                 properties: ['openDirectory', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
                 message: 'Select Where to Store User Data',
             };
@@ -317,7 +321,9 @@ export default {
         
         /* Browse for the location of a Custom Icon for the App */
         async browseCustomIcon() {
-            const DefaultLocation = await window.api.getAssetPath('images/Icon_v3_a0.ico');
+            //const DefaultLocation = await window.api.getAssetPath('images/Icon_v3_a0.ico');
+            const DATA_DIRECTORY = await window.api.resolveEnvVariables(this.config.UserDataFolder); //console.log('DATA_DIRECTORY:', DATA_DIRECTORY);
+            const DefaultLocation = window.api.joinPath(DATA_DIRECTORY, 'images');//console.log('DefaultLocation:', DefaultLocation);
             const options = {
                 title: 'Select a Custom Icon',
                 defaultPath: DefaultLocation,

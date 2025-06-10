@@ -39,11 +39,163 @@ async function SaveIniFile(filePath, iniData) {
 
 //-----------------------------------------------------------------;
 
+/** De-Serializes (Parses) an INI-formatted string into a structured object representation.
+ * @param {string} iniString - The raw INI file content as a string.
+ * @returns {Object} Parsed INI data with sections, keys, logic blocks, and comments. */
+function parseIni(iniString) {
+    const result = { sections: [] }; // Initialize the result object with an empty sections array.
+    try {
+        // Split the input string into individual lines, handling both Windows and Unix line breaks.
+        const lines = iniString.split(/\r?\n/);
+        let currentSection = null; // Keeps track of the active section.
+        let currentComments = [];  // Stores comments preceding keys or sections.
+        let logicStack = [];       // Stack to handle nested logic blocks.
+        let indentLevel = 0;       // Tracks indentation level for logic blocks.
+
+        lines.forEach(line => {
+            line = line.trim(); // Remove leading/trailing spaces.
+            if (!line) return;  // Skip empty lines.
+
+            // Handle comments (lines starting with ';').
+            if (line.startsWith(';')) {
+                currentComments.push(line); // Store comment for the next key/section.
+                return;
+            }
+
+            // Handle section headers: [SectionName].
+            if (line.startsWith('[') && line.endsWith(']')) {
+                currentSection = {
+                    name: line.slice(1, -1), // Extract section name.
+                    comments: [...currentComments], // Attach preceding comments.
+                    keys: [], // Initialize keys array.
+                    logic: [] // Initialize logic blocks array.
+                };
+                result.sections.push(currentSection); // Add section to result.
+                currentComments = []; // Reset comment buffer.
+                logicStack = []; // Reset logic stack for new section.
+                indentLevel = 0; // Reset indentation level.
+
+                // Handle conditional logic blocks (e.g., "if condition").
+            } else if (/^if .*$/i.test(line)) {
+                const logicBlock = {
+                    condition: line, // Store condition statement.
+                    content: [], // Initialize nested content.
+                    comments: [...currentComments], // Attach preceding comments.
+                    indent: indentLevel // Store indentation level.
+                };
+                currentComments = []; // Reset comment buffer.
+
+                // If inside a nested logic block, add to the parent's content.
+                if (logicStack.length > 0) {
+                    logicStack[logicStack.length - 1].content.push(logicBlock);
+                } else {
+                    currentSection.logic.push(logicBlock);
+                }
+
+                logicStack.push(logicBlock); // Push block onto stack.
+                indentLevel++; // Increase indentation level.
+
+                // Handle closing logic blocks ("endif").
+            } else if (/^endif$/i.test(line)) {
+                indentLevel--; // Decrease indentation level.
+                if (logicStack.length > 0) {
+                    logicStack.pop(); // Remove last logic block from stack.
+                }
+
+                // Handle lines inside logic blocks.
+            } else if (logicStack.length > 0) {
+                logicStack[logicStack.length - 1].content.push({ line, indent: indentLevel });
+
+                // Handle key-value pairs (e.g., "key = value").
+            } else if (line.includes('=')) {
+                const [key, value] = line.split('=').map(str => str.trim());
+                currentSection.keys.push({
+                    name: key,
+                    value: value,
+                    comments: [...currentComments] // Attach preceding comments.
+                });
+                currentComments = []; // Reset comment buffer.
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error(error.message);
+    }
+    return result; // Return the fully parsed structure.
+}
+
+/** Serializes an INI JSON object into a string.
+ * @param {Object} obj - The structured INI representation.
+ * @returns {string} Formatted INI file content as a string. */
+function stringifyIni(obj) {
+    // If the object is null or lacks sections, return an empty string.
+    if (!obj || !obj.sections) return '';  
+
+    let iniString = '';
+
+    obj.sections.forEach(section => {
+        // Append section-level comments if present.
+        if (section?.comments?.length) {
+            iniString += section.comments.join('\n') + '\n';
+        }
+        // Write section header in INI format: [section_name]
+        iniString += `[${section.name}]\n`;
+
+        section.keys?.forEach(key => {
+            // Append key-level comments if present.
+            if (key?.comments?.length) {
+                iniString += key.comments.join('\n') + '\n';
+            }
+            // Write key-value pair in INI format: key = value
+            iniString += `${key.name} = ${key.value}\n`;
+        });
+
+        /** Recursively processes nested logic blocks within the section.
+         * @param {Object} logicBlock - A block representing conditional logic.  */
+        function processLogic(logicBlock) {
+            // Define indentation based on logic block depth (4 spaces per level).
+            let indent = ' '.repeat(logicBlock.indent * 4);
+
+            // Append logic block comments, ensuring proper indentation.
+            if (logicBlock?.comments?.length) {
+                iniString += logicBlock.comments.map(comment => indent + comment).join('\n') + '\n';
+            }
+            // Write condition statement with correct indentation.
+            iniString += indent + logicBlock.condition + '\n';
+
+            // Process nested content within the logic block.
+            logicBlock?.content?.forEach(item => {
+                if (item?.line) {
+                    // Append standalone logic lines with indentation.
+                    iniString += ' '.repeat(item.indent * 4) + item.line + '\n';
+                } else if (item?.condition) {
+                    // Recursively process nested conditions.
+                    processLogic(item); 
+                }
+            });
+
+            // Append the closing 'endif' statement for the logic block.
+            iniString += indent + 'endif\n';
+        }
+
+        // Process logic blocks inside the section if any exist.
+        section.logic?.forEach(logicBlock => {
+            processLogic(logicBlock);
+        });
+
+        // Append a blank line after each section for readability.
+        iniString += '\n';
+    });
+
+    // Remove any trailing whitespace before returning the formatted string.
+    return iniString.trim();
+}
+
 /** De-Serializes an INI formatted string into a JSON object.
  * The JSON object will have sections, keys, and logic blocks.
  * @param {*} iniString Raw data string in INI format.
  * @returns {*} the parsed object  */
-function parseIni(iniString) {
+/*function parseIni(iniString) {
     const lines = iniString.split(/\r?\n/);
     const result = { sections: [] };
     let currentSection = null;
@@ -103,12 +255,12 @@ function parseIni(iniString) {
     });
 
     return result;
-}
+}*/
 
 /** Serializes an INI JSON object into a string.
  * @param {*} obj Data object with sections, keys, and logic blocks.
  * @returns {string} an INI formatted string. */
-function stringifyIni(obj) {
+/* function stringifyIni(obj) {
     if (!obj || !obj.sections) return ''; 
 
     let iniString = '';
@@ -152,7 +304,7 @@ function stringifyIni(obj) {
     });
 
     return iniString.trim();
-}
+}*/
 
 /*function parseIni(iniString) {
     const lines = iniString.split(/\r?\n/);

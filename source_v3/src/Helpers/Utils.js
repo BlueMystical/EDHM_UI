@@ -148,7 +148,7 @@ function RGBAtoColor(colorComponents) {
     } else {
         throw new Error("Invalid number of color components. Expected 3 or 4.");
     }
-};
+}
 /** Converts an RGBA object to a rgba(..) string.
  * @param {object} rgba - The RGBA object.
  * @returns {string} - The rgba(..) string.
@@ -352,6 +352,14 @@ function hexToUnsignedInt(hexColor) {
 
 //---------------------------------------------
 
+/** RGB Color Type
+ * @typedef {Object} Color
+ * @property {number} r - Red channel (0–255)
+ * @property {number} g - Green channel (0–255)
+ * @property {number} b - Blue channel (0–255)
+ * @property {number} a - Alpha channel (0–255)
+ */
+
 // Function to convert sRGB to Linear RGB using gamma correction
 function Convert_sRGB_ToLinear(thesRGBValue, gammaValue = 2.4) {
     return thesRGBValue <= 0.04045
@@ -364,14 +372,11 @@ function convert_sRGB_FromLinear(theLinearValue, _GammaValue = 2.4) {
     return theLinearValue <= 0.0031308
         ? theLinearValue * 12.92
         : Math.pow(theLinearValue, 1.0 / _GammaValue) * 1.055 - 0.055;
-};
+}
 
 // Function to get gamma corrected RGBA
 function GetGammaCorrected_RGBA_OLD(color, gammaValue = 2.4) {
     const normalize = value => value / 255;
-
-    // Validar y asegurar que los valores estén en el rango correcto (0.0 a 1.0)
-
     const gammaCorrected = {
         r: Math.round(this.Convert_sRGB_ToLinear(normalize(color.r), gammaValue) * 10000) / 10000,
         g: Math.round(this.Convert_sRGB_ToLinear(normalize(color.g), gammaValue) * 10000) / 10000,
@@ -383,17 +388,17 @@ function GetGammaCorrected_RGBA_OLD(color, gammaValue = 2.4) {
 }
 
 /** Function to get gamma corrected RGBA color. 
- * @param {*} color Color object with { r, g, b, a } properties in the range of 0-255.
+ * @param {Color} color in the range of 0-255.
  * @param {decimal} gammaValue Gamma Value, default is 2.4
- * @returns Color object with { r, g, b, a } in the range of 0-1. */
+ * @returns {{r: decimal, g: decimal, b: decimal, a: decimal}} in the range of 0-1 round to 4 decimal places. */
 function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
     const normalize = value => Math.max(0, Math.min(255, value)) / 255; //<- Ensure values are in the range of 0-255
-    const roundToPrecision = (value, precision = 4) => Number(value.toFixed(precision)); //<- Round to 4 decimal places
+    const fixDecimal = (value, precision = 4) => Number(value.toFixed(precision)); //<- Round to 4 decimal places
     return {
-        r: roundToPrecision(Convert_sRGB_ToLinear(normalize(color.r), gammaValue)),
-        g: roundToPrecision(Convert_sRGB_ToLinear(normalize(color.g), gammaValue)),
-        b: roundToPrecision(Convert_sRGB_ToLinear(normalize(color.b), gammaValue)),
-        a: roundToPrecision(color.a) // Alpha remains linear
+        r: fixDecimal(Convert_sRGB_ToLinear(normalize(color.r), gammaValue)),
+        g: fixDecimal(Convert_sRGB_ToLinear(normalize(color.g), gammaValue)),
+        b: fixDecimal(Convert_sRGB_ToLinear(normalize(color.b), gammaValue)),
+        a: fixDecimal(color.a) // Alpha remains linear
     };
 }
 
@@ -446,7 +451,7 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
     } catch (error) {
         throw new Error(error.message + error.stack);
     }
-};
+}
 
 // #endregion
 

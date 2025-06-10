@@ -51,7 +51,7 @@ const getThemes = async (dirPath) => {
 
           // Writes the JSON in the theme folder:
           if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
-            const JsonString = JSON.stringify(template, null, 4);
+            const JsonString = JSON.stringify(template, null, 4);            
             await writeFile(
               path.join(subfolderPath, 'ThemeSettings.json'),
               JsonString,

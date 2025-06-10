@@ -497,7 +497,8 @@ async function installEDHMmod(gameInstance) {
   console.log('------ Installing Mod --------');
   let Response = { game: '', version: '' };
   try {
-
+    // #region Preparations
+    
     if (!Util.isNotNullOrEmpty(gameInstance.path)) {
       console.log('Instance.path Not Defined! ->', gameInstance);
       throw new Error('Instance.path Not Defined!');
@@ -505,23 +506,25 @@ async function installEDHMmod(gameInstance) {
 
     // Check if gameInstance.path is an array
     let gamePath = gameInstance.path;
-    if (Array.isArray(gamePath) && gamePath.length > 0) {
+    if (Array.isArray(gamePath) && gamePath.length > 0 && Util.isNotNullOrEmpty(gamePath[0])) { 
       gamePath = gamePath[0]; // Take the first item
       console.log('Instance.path is an array, using first item:', gamePath);
     } else if (Array.isArray(gamePath) && gamePath.length === 0) {
       console.log('Instance.path is an empty array:', gamePath);
       throw new Error('Instance.path is an empty Array!');
     }
+    
+    // #endregion
 
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-    const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);                       //console.log('AssetsPath', AssetsPath);
+    const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);     //console.log('AssetsPath', AssetsPath);
     const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
 
     // #region Un-Zipping Themes
 
     const unzipPath = path.join(userDataPath, GameType);
     const themesZipPath = path.join(AssetsPath, `${GameType}_EDHM-Themes.zip`); //<- ODYSS_EDHM-Themes.zip
-    console.log('themesZipPath', themesZipPath);
+    console.log('Unziping Themes From: ', themesZipPath);
     if (themesZipPath) {
       const _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
       if (_ret) {
@@ -533,19 +536,26 @@ async function installEDHMmod(gameInstance) {
 
     // #region SymLinks
 
-    //Check for Game Symlinks for 'EDHM-ini' & ShaderFixes
-    const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM'); console.log('Symlink_TargetFolder ->', Symlink_TargetFolder);
-    const edhmSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'EDHM-Ini'));
-    const shaderSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'ShaderFixes'));
+      try {
+      console.log('Checking for Symlinks in Game Path: ', gamePath);
+      
+      const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM');      
+      const edhmSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'EDHM-Ini'));
+      const shaderSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'ShaderFixes'));
 
-    if (!fs.existsSync(edhmSymLinkTarget)) {
-      throw new Error('Could not create the target folder for Simlink "EDHM-Ini".');
+      if (!fs.existsSync(edhmSymLinkTarget) || !fs.existsSync(shaderSymLinkTarget)) {
+        throw new Error('One or more required directories for Symlinks do not exist.');
+      }
+
+      const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gamePath, 'EDHM-ini'));
+      const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gamePath, 'ShaderFixes'));
+
+      console.log('Symlink for EDHM-Ini:', SymlinkEdhmIni);
+      console.log('Symlink for ShaderFixes:', SymlinkShaders);
+      
+    } catch (error) {
+      console.error('Error creating symlinks:', error.message);
     }
-
-    const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gamePath, 'EDHM-ini'));
-    const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gamePath, 'ShaderFixes'));
-    console.log('SymlinkEdhmIni: ', SymlinkEdhmIni);
-    console.log('SymlinkShaders: ', SymlinkShaders);
 
     // #endregion
 
@@ -553,14 +563,11 @@ async function installEDHMmod(gameInstance) {
 
     const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM-v*.zip`); //<- ODYSS_EDHM-v19.06.zip
     if (edhmZipFile) {
-      console.log('edhmZipFile: ', edhmZipFile);
+      console.log('Unzipping Mod Files from: ', edhmZipFile);
       const unzipGamePath = gamePath;
-      const versionMatch = edhmZipFile.match(/v\d+\.\d+/); console.log('version', versionMatch);
+      const versionMatch = edhmZipFile.match(/v\d+\.\d+/); 
 
-      console.log('Unziping into -> ', unzipGamePath);
       const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
-      console.log('Zip Result: ', _ret);
-      console.log('EDHM Installed!');
 
       Response.game = GameType;
       Response.version = versionMatch[0];
@@ -571,6 +578,20 @@ async function installEDHMmod(gameInstance) {
 
     // #endregion
 
+    // #region Copy the images folder to a more accessible location: '%USERPROFILE%\EDHM_UI\images'
+    
+    const _imgSource = fileHelper.getAssetPath(`images`);
+    const _imgDestiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'images'));
+    console.log(`Copying Images from '${_imgSource}' to '${_imgDestiny}'`);
+    const _ret = await fileHelper.copyDirectoryRecursive(
+      _imgSource, 
+      _imgDestiny
+    );
+    console.log(`Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
+
+    // #endregion
+
+    console.log(`------ EDHM ${Response.version} Installed! ------`);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }

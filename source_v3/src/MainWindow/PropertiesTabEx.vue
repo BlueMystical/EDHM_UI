@@ -306,24 +306,46 @@ export default {
         /** Gets the Minimum Value for a Range-slider control
         * @param type Type of Range  */
         getMinValue(type) {
-            switch (type) {
-                case '2X': return -1.0;
-                case '4X':
-                    return 0.0;
-                default:
-                    return 0.0;
+            var values = [];
+            if (Util.containsCharacter(type, ':')) {
+                values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X, 
+            } 
+            if (Util.containsCharacter(type, '_')) {
+                values = type.toUpperCase().split('_'); //<- decimal_10x
+            }            
+            const modifier = values[1]; // Get the part after the colon, if it exists
+            switch (modifier) {
+                case '1X': return 0.0;
+                case '2X': return 0.0;
+                case '3X': return 0.0;
+                case '4X': return 0.0;
+                default:   return 0.0;
             }
         },
-        /** Gets the Maximum Value for a Range-slider control
+       /** Gets the Maximum Value for a Range-slider control
          * @param type Type of Range     */
         getMaxValue(type) {
-            switch (type) {
-                case '2X':
-                    return 2.0;
-                case '4X':
-                    return 4.0;
-                default:
-                    return 1.0;
+            //type = 'decimal_10x' or 'decimal:2X' or 'decimal:4X'
+            var values = [];
+            if (Util.containsCharacter(type, ':')) {
+                values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X, 
+            } 
+            if (Util.containsCharacter(type, '_')) {
+                values = type.toUpperCase().split('_'); //<- decimal_10x
+            }
+            const modifier = values[1]; // Get the part after the colon, if it exists
+            switch (modifier) {
+                case '1X': return 1.0;
+                case '2X': return 2.0;
+                case '3X': return 3.0;
+                case '4X': return 4.0;
+                case '5X': return 5.0;
+                case '6X': return 6.0;
+                case '7X': return 7.0;
+                case '8X': return 8.0;
+                case '9X': return 9.0;
+                case '10X': return 10.0;
+                default:   return 2.0;
             }
         },
         intToRGBAstring(value) {
