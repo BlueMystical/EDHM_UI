@@ -74,8 +74,8 @@ function copyToClipboard(text) {
 
 function compareVersions(serverVersion, localVersion) {
     // Remove non-numeric characters from the beginning
-    serverVersion = serverVersion.replace(/^[^\d]+/, '');  console.log('serverVersion:', serverVersion);
-    localVersion = localVersion.replace(/^[^\d]+/, '');     console.log('localVersion:', localVersion);
+    serverVersion = serverVersion.replace(/^[^\d]+/, ''); console.log('serverVersion:', serverVersion);
+    localVersion = localVersion.replace(/^[^\d]+/, ''); console.log('localVersion:', localVersion);
 
     // Split the versions into parts
     const serverParts = serverVersion.split('.').map(Number);
@@ -83,15 +83,39 @@ function compareVersions(serverVersion, localVersion) {
 
     // Compare each part of the versions
     for (let i = 0; i < serverParts.length; i++) {
-      if (serverParts[i] > (localParts[i] || 0)) {
-        return true;
-      } else if (serverParts[i] < (localParts[i] || 0)) {
-        return false;
-      }
+        if (serverParts[i] > (localParts[i] || 0)) {
+            return true;
+        } else if (serverParts[i] < (localParts[i] || 0)) {
+            return false;
+        }
     }
 
     return false; // versions are equal or local version is higher
-  }
+}
+
+const deepMerge = (target, source) => {
+  if (!source || typeof source !== 'object') return target; // Evita sobrescribir con null/undefined
+  if (!target || typeof target !== 'object') return source; // Usa source si target no existe
+
+  Object.keys(source).forEach((key) => {
+    if (target.hasOwnProperty(key)) {
+      if (
+        typeof target[key] === 'object' &&
+        typeof source[key] === 'object' &&
+        !Array.isArray(target[key]) &&
+        !Array.isArray(source[key])
+      ) {
+        // Fusionar objetos recursivamente sin sobrescribir
+        target[key] = deepMerge(target[key], source[key]);
+      } else {
+        // Solo actualizar valores simples sin reemplazar estructuras enteras
+        target[key] = source[key];
+      }
+    }
+  });
+
+  return target;
+};
 
 // #region Color Conversion Methods
 
@@ -393,12 +417,16 @@ function GetGammaCorrected_RGBA_OLD(color, gammaValue = 2.4) {
  * @returns {{r: decimal, g: decimal, b: decimal, a: decimal}} in the range of 0-1 round to 4 decimal places. */
 function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
     const normalize = value => Math.max(0, Math.min(255, value)) / 255; //<- Ensure values are in the range of 0-255
-    const fixDecimal = (value, precision = 4) => Number(value.toFixed(precision)); //<- Round to 4 decimal places
+    // Round to 4 decimal places:
+    const fixDecimal = (value, precision = 4) => {
+        const num = parseFloat(value); // Convert string numbers properly
+        return isNaN(num) ? 0 : num.toFixed(precision);
+    };
     return {
         r: fixDecimal(Convert_sRGB_ToLinear(normalize(color.r), gammaValue)),
         g: fixDecimal(Convert_sRGB_ToLinear(normalize(color.g), gammaValue)),
         b: fixDecimal(Convert_sRGB_ToLinear(normalize(color.b), gammaValue)),
-        a: fixDecimal(color.a) // Alpha remains linear
+        a: fixDecimal(normalize(color.a)) // Alpha remains linear
     };
 }
 
@@ -412,7 +440,8 @@ function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
 function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
     const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
     try {
-        const normalize = value => Math.max(0, Math.min(1, value)); // Ensure values are in the range of 0.0 to 1.0
+        //const normalize = value => Math.max(0, Math.min(1, value)); // Ensure values are in the range of 0.0 to 1.0
+        const normalize = value => (value >= 0 && value <= 1) ? value : 1.0;
 
         // Undo gamma correction: 
         const invR = convert_sRGB_FromLinear(normalize(gammaR), gammaValue);
@@ -429,7 +458,7 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
 
         // Handle alpha (if provided)
         if (gammaA !== undefined) {
-            result.a = this.safeRound(gammaA * 255);
+            result.a = this.safeRound(normalize(gammaA) * 255);
         }
     } catch (error) {
         throw new Error(error.message + error.stack);
@@ -460,10 +489,8 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
 /** Sends a key event to the browser window. It simulates a key press, character input, and key release.
  * @param {object} entry { keyCode: "Tab", modifiers: ["Shift"] }
  * @param {int} delay miliseconds to wait between key events */
-function sendKey(entry, delay = 200)
-{
-    ["keyDown", "char", "keyUp"].forEach(async(type) =>
-    {
+function sendKey(entry, delay = 200) {
+    ["keyDown", "char", "keyUp"].forEach(async (type) => {
         entry.type = type;
         browserWindow.webContents.sendInputEvent(entry);
 
@@ -474,10 +501,8 @@ function sendKey(entry, delay = 200)
 /** Sends a sequence of key events to the browser window. It simulates a series of key presses with a delay between each.
  * @param {object[]} sequence Array of objects with keyCode and modifiers.
  * @param {int} delay miliseconds to wait between key events */
-async function sendSequence(sequence, delay)
-{
-    for (const entry of sequence)
-    {
+async function sendSequence(sequence, delay) {
+    for (const entry of sequence) {
         await sendKey(entry, delay);
         await new Promise(resolve => setTimeout(resolve, delay));
     }
@@ -552,7 +577,7 @@ export default {
     convert_sRGB_FromLinear, Convert_sRGB_ToLinear,
     convert_sRGB_FromLinear,
 
-    sendKey, sendSequence,
+    sendKey, sendSequence, deepMerge,
 
     compareVersions,
     Timer

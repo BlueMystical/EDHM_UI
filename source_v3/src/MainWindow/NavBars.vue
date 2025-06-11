@@ -337,6 +337,7 @@ export default {
             this.currentSettingsPath = template.path;
           } else {
             this.themeTemplate = await window.api.LoadTheme(template.path);
+            console.log('Loaded Theme:', this.themeTemplate);
             this.themeTemplate.credits = theme.file.credits;
           }
 

@@ -419,6 +419,19 @@ const getInstanceByName = (InstanceFullName) => {
   }
 };
 
+/** Returns the path to the given Instance directory.
+ * @param {*} instanceKey Key of the Instance to get the path for. 'ED_Odissey' or 'ED_Horizons' */
+function GetInstanceDataDirectory(instanceKey) {
+  try {
+    const ProgramDataPath = fileHelper.resolveEnvVariables(
+      readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );
+    const pDataPart = instanceKey === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+    return path.join(ProgramDataPath, pDataPart);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+}
+
 /** Returns the list of all installed TPMods on the Game Instance. 
  * @param {*} gamePath full path to the Game Instance */
 async function GetInstalledTPMods(gamePath) {
@@ -497,28 +510,19 @@ async function installEDHMmod(gameInstance) {
   console.log('------ Installing Mod --------');
   let Response = { game: '', version: '' };
   try {
-    // #region Preparations
+    // #region Declarations
     
-    if (!Util.isNotNullOrEmpty(gameInstance.path)) {
-      console.log('Instance.path Not Defined! ->', gameInstance);
-      throw new Error('Instance.path Not Defined!');
-    }
-
-    // Check if gameInstance.path is an array
-    let gamePath = gameInstance.path;
-    if (Array.isArray(gamePath) && gamePath.length > 0 && Util.isNotNullOrEmpty(gamePath[0])) { 
-      gamePath = gamePath[0]; // Take the first item
-      console.log('Instance.path is an array, using first item:', gamePath);
-    } else if (Array.isArray(gamePath) && gamePath.length === 0) {
-      console.log('Instance.path is an empty array:', gamePath);
-      throw new Error('Instance.path is an empty Array!');
-    }
-    
-    // #endregion
+    if (!Util.isNotNullOrEmpty(gameInstance.path)) { throw new Error('Instance.path Not Defined!');  }
 
     const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
     const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);     //console.log('AssetsPath', AssetsPath);
     const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
+    let gamePath = gameInstance.path;
+    if (Array.isArray(gamePath) && gamePath.length > 0 && Util.isNotNullOrEmpty(gamePath[0])) {
+      gamePath = gamePath[0]; // Use the first item
+    }
+    
+    // #endregion
 
     // #region Un-Zipping Themes
 
@@ -539,13 +543,10 @@ async function installEDHMmod(gameInstance) {
       try {
       console.log('Checking for Symlinks in Game Path: ', gamePath);
       
-      const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM');      
+      const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM');   
+
       const edhmSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'EDHM-Ini'));
       const shaderSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'ShaderFixes'));
-
-      if (!fs.existsSync(edhmSymLinkTarget) || !fs.existsSync(shaderSymLinkTarget)) {
-        throw new Error('One or more required directories for Symlinks do not exist.');
-      }
 
       const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gamePath, 'EDHM-ini'));
       const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gamePath, 'ShaderFixes'));
@@ -892,10 +893,7 @@ ipcMain.handle('GetAppDataDirectory', (event) => {
  * @param {*} instanceKey Key of the Instance to get the path for. 'ED_Odissey' or 'ED_Horizons' */
 ipcMain.handle('GetInstanceDataDirectory', (event, instanceKey) => {
   try {
-    const ProgramDataPath = fileHelper.resolveEnvVariables(
-      readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );
-    const pDataPart = instanceKey === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-    return path.join(ProgramDataPath, pDataPart);
+    return GetInstanceDataDirectory(instanceKey);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
@@ -1081,6 +1079,7 @@ export default {
   initializeSettings, loadSettings, saveSettings, 
   installEDHMmod, CheckEDHMinstalled, 
   getInstanceByName, getActiveInstance, 
+  GetInstanceDataDirectory,
   LoadGlobalSettings, saveGlobalSettings,
   readSetting, writeSetting, DoHotFix,
   ApplyTheme

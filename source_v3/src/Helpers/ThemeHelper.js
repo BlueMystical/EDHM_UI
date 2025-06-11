@@ -8,6 +8,7 @@ import Util from './Utils.js';
 import settingsHelper from './SettingsHelper.js'
 import { writeFile } from 'node:fs/promises';
 import FileHelper from './FileHelper';
+import SettingsHelper from './SettingsHelper.js';
 
 let LoadedThemes = null; //<- Cache for the loaded themes
 // #region --------- Theme Helper Functions: ---------------------  
@@ -90,32 +91,69 @@ function GetLoadedThemes() {
   return LoadedThemes;
 }
 
+const getValue = (element, themeData) => {
+  if (!themeData.ui_groups || !Array.isArray(themeData.ui_groups)) {
+    return element.Value; // Return original value if themeData.ui_groups is missing
+  }
+
+  for (const group of themeData.ui_groups) {
+    if (group.Elements && Array.isArray(group.Elements)) {
+      const match = group.Elements.find(e => e.Key === element.Key);
+      if (match) {
+        return match.Value;
+      }
+    }
+  }
+
+  return element.Value;
+};
+const getValueXML = (element, themeData) => {
+  if (!themeData.xml_profile || !Array.isArray(themeData.xml_profile)) {
+    return element.value; // Return original value if xml_profile is missing
+  }
+  const match = themeData.xml_profile.find(e => e.key === element.key);
+  return match ? match.value : element.value; // Return match value if found, otherwise original
+};
+
 /** Loads a Theme from a specified folder path.
  * @param {*} themeFolder Path to the folder containing the Theme files */
 const LoadTheme = async (themeFolder) => {
   let template = {};
   try {
-    const templatePath = FileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json'); //<- Default Template
+    //console.log('Loading Theme from:', themeFolder);  
+    const themeJSON = path.join(themeFolder, 'ThemeSettings.json');   //<- Theme Data
+    const ActiveInstance = await settingsHelper.getActiveInstance();
+    const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ'; //<- Game Type: ODYSS or HORIZ
+    const templatePath = FileHelper.getAssetPath(`data/${GameType}/ThemeTemplate.json`); //<- Default Template    
+
     template = await FileHelper.loadJsonFile(templatePath);
-    const themeJSON = path.join(themeFolder, 'ThemeSettings.json');
+    //console.log('Loaded Theme Data A:', template.ui_groups[0].Elements[4]);
 
     if (fs.existsSync(themeJSON)) {
       // New v3 Format for Themes, single File JSON:
       const themeData = await FileHelper.loadJsonFile(themeJSON);
 
-      // Create a new object by merging themeData into the template
-      const mergedData = { ...template };
-      for (const key in themeData) {
-        if (mergedData.hasOwnProperty(key) && key !== 'Presets') { // Only update existing properties, exclude 'Presets'
-          mergedData[key] = themeData[key];
-        }
+      //- Apply the Theme Data to the Template:
+      if (Array.isArray(template.ui_groups) && Array.isArray(themeData.ui_groups)) {
+        template.ui_groups.forEach(category => {
+          if (Array.isArray(category.Elements)) {
+            category.Elements.forEach(element => {
+              element.Value = getValue(element, themeData);
+            });
+          }
+        });
       }
 
-      template = {
-        ...mergedData,
-        path: themeFolder,
-        isFavorite: FileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav')),
-      };
+      //- Apply XML Profile values:
+      if (Array.isArray(template.xml_profile) && Array.isArray(themeData.xml_profile)) {
+        template.xml_profile.forEach(element => {
+          element.value = getValueXML(element, themeData); // Apply updated values
+        });
+      }
+
+      template.path = themeFolder;
+      template.credits = themeData.credits || await GetCreditsFile(themeFolder);
+      template.isFavorite = FileHelper.checkFileExists(path.join(themeFolder, 'IsFavorite.fav'));
 
     } else {
       // Old fashion format for Themes, Multiple INI files:
@@ -132,7 +170,6 @@ const LoadTheme = async (themeFolder) => {
   }
   return template;
 };
-
 
 async function GetCreditsFile(themePath) {
   let creditsJson = {};

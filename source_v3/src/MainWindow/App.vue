@@ -250,7 +250,7 @@ export default {
     OnTemplateLoaded(event) {
       try {
         this.themeTemplate = JSON.parse(JSON.stringify(event));
-        console.log('Theme Loaded: ', this.themeTemplate.credits.theme); console.log('Current Settings:', this.themeTemplate);
+        console.log('Theme Loaded: ', this.themeTemplate.credits.theme); console.log('Theme:', this.themeTemplate);
        
         EventBus.emit('InitializeProperties', JSON.parse(JSON.stringify(this.themeTemplate))); //<- Event Listened at PropertiesTabEx.vue
       } catch (error) {

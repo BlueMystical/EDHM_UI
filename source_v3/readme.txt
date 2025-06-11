@@ -58,11 +58,12 @@ Screen Resolutions:
 ------------------------------------------------------------------------------------------
 ** PROGRAM LOCATIONS:
 
-%LOCALAPPDATA%\edhm_ui 	              <- where the old v2.x version lives
-%LOCALAPPDATA%\EDHM-UI-V3             <- where the new v3.0 lives (temporarily)
 %LOCALAPPDATA%\EDHM-UI-V3\app-{3.0.19}\resources\data\
+%LOCALAPPDATA%\edhm_ui                <- where the old v2.x version lives
+%LOCALAPPDATA%\EDHM-UI-V3             <- where the new v3.0 lives
 %LOCALAPPDATA%\Temp\EDHM_UI           <- folder for Updates & Patches Downloads
-%USERPROFILE%\EDHM_UI                 <- Themes & User files (User's data persisted thru re-installs)
+
+%USERPROFILE%\EDHM_UI                 <- User's data persisted thru re-installs
 ├── HORIZ                             <- Horizons Legacy data (same structure as 'ODYSS')
 ├── ODYSS                             <- Odyssey & Horizons Live data
 │     ├── 3PMods                      <- Themes for 3PMods
@@ -83,7 +84,7 @@ Screen Resolutions:
 
 C:\Program Files (x86)\Steam\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64\
 G:\SteamLibrary\steamapps\common\Elite Dangerous\Products\elite-dangerous-odyssey-64
-├── ShaderFixes                       <- [Symlink] full of Shaders
+├── ShaderFixes                       <- [Symlink] Shader Files
 ├── EDHM-ini                          <- [Symlink] EDHM home dir
 │     ├── 3rdPartyMods                <- Plugins for EDHM
 │     │     ├── Keybindings.json
