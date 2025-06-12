@@ -441,7 +441,7 @@ function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue 
     const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
     try {
         //const normalize = value => Math.max(0, Math.min(1, value)); // Ensure values are in the range of 0.0 to 1.0
-        const normalize = value => (value >= 0 && value <= 1) ? value : 1.0;
+        const normalize = value => (value >= 0 && value <= 1) ? value : 1.0; //<- any out of range value will be set to 1.0
 
         // Undo gamma correction: 
         const invR = convert_sRGB_FromLinear(normalize(gammaR), gammaValue);

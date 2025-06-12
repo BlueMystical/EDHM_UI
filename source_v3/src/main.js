@@ -22,7 +22,6 @@ const CustomIcon = settingsHelper.readSetting('CustomIcon',
 
 //- Check for Single Instance:
 const gotTheLock = app.requestSingleInstanceLock();
-
 if (!gotTheLock) {
   app.quit(); // Si otra instancia ya está corriendo, cerramos esta.
 } else {

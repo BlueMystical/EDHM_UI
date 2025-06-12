@@ -51,10 +51,11 @@ App Data (Roaming)  %APPDATA%         $HOME/.config         app.getPath('userDat
 Local App Data      %LOCALAPPDATA%    $HOME/.local/share,   app.getPath('appData')
 ------------------------------------------------------------------------------------------
 Screen Resolutions:
-720p  (HD):       1280 x 720 pixels
-1080p (Full HD):  1920 x 1080 pixels  <-- Program is designed for 1080p
-1440p (Quad HD):  2560 x 1440 pixels
-4K   (Ultra HD):  3840 x 2160 pixels
+720p  (HD):       1280 × 720 pixels  
+1080p (Full HD):  1920 × 1080 pixels  <-- Program is designed for 1080p  
+2K    (Cinema):   2048 × 1080 pixels (Mostly used in digital cinema) 
+1440p (Quad HD):  2560 × 1440 pixels   
+4K    (Ultra HD): 3840 × 2160 pixels  
 ------------------------------------------------------------------------------------------
 ** PROGRAM LOCATIONS:
 
@@ -69,10 +70,16 @@ Screen Resolutions:
 │     ├── 3PMods                      <- Themes for 3PMods
 │     ├── EDHM                        <- Real Location for Mod Files: 'ShaderFixes' and 'EDHM-ini'
 │     ├── History                     <- history of user actions
-│     └── Themes                      <- Where Themes are stored
+│     ├── Themes                      <- Where Themes are stored
+│     ├── Global_Settings.json        <- Settings We dont want to be affected by themes
+│     └── User_Settings.json          <- Settings the user dont want to be affected by themes
 ├── images                            <- Images and Icons
-├── ED_Odissey_User_Settings.json     <- Settings the user dont want to be affected by themes
-├── ED_Odissey_Global_Settings.json   <- Settings We dont want to be affected by themes
+│     ├── Elements_ODY                <- Descriptive Images for Settings
+│     ├── Ships                       <- Images for Shipyard
+│     └── Icon_v3_a0.ico              <- Default Icon
+├── HUD                               <- Customization of the HUD shown on the App
+│     ├──HUD_Default.json
+│     └──HUD_Default.png
 ├── Shipyard_v3.json                  <- Data for the Shipyard, ships and asociated themes.
 ├── Settings.json                     <- the Program Settings
 └── Errorlog.txt                      <- Error Logging
@@ -342,6 +349,7 @@ export https_proxy="http://jchacon:jchacon@192.168.10.1:8081"
 // ----- VITE+VUE:  https://www.electronforge.io/guides/framework-integration/vue-3
 // ----- Bootstrap: https://getbootstrap.com/docs/5.3/components/dropdowns/#via-javascript
 
+npm init electron-app@latest hud-editor
 npm init electron-app@latest edhm-ui -- --template=vite
 cd edhm-ui
 npm install --save-dev vue

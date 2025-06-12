@@ -540,14 +540,14 @@ async function ApplyTemplateValuesToIni(template, iniValues) {
       for (const group of template.ui_groups) {
         if (group.Elements != null) {
           for (const element of group.Elements) {
-            /*element: {
+            /* element: {
               ..
               File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
               Section: 'Constants',     
               Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
               Value: 100,
               ..
-            }*/
+            } */
             const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
             const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
             const defaultValue = element.Value;                 //<- 100.0             

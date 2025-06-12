@@ -21,57 +21,45 @@ export default {
       imageSrc: '',
       originalWidth: 0,
       originalHeight: 0,
+      hudData: null, // Hold the HUD data
       areas: [], // Hold the areas of interest],
       scaledAreas: [], // Hold the scaled areas
       currentArea: null, //Selected Area
-      clickedArea: null // Track the clicked area
+      clickedArea: null, // Track the clicked area
     }; 
   },  
   methods: {    
     async loadHUDSettings() {
       try {
-        const defaultJsonPath = await window.api.getAssetPath('data/HUD_Default.json');
-        const programSettings = await window.api.getSettings();
+        const [defaultJsonPath, programSettings, DATA_DIRECTORY] = await Promise.all([
+          window.api.getAssetPath('data/HUD/HUD_Default.json'),
+          window.api.getSettings(),
+          window.api.GetProgramDataDirectory()
+        ]);
 
-        if (!programSettings) { // More concise null check
+        if (!programSettings) {
           console.warn("Program settings are null. Using default HUD.");
-          return; // Exit early if settings are null
+          return;
         }
 
+        //- Here we load the Data for the Selected HUD Cover
         const hudCover = programSettings.HUD_Cover;
-        let jsonPath;
-
-        if (hudCover.includes('%')) {
-          jsonPath = await window.api.resolveEnvVariables(hudCover);
-        } else {
-          try {
-            jsonPath = await window.api.getAssetPath(`data/${hudCover}.json`);
-          } catch (assetPathError) {
-            console.error(`Error getting asset path for ${hudCover}:`, assetPathError);
-            return; 
-          }
+        const jsonPath = window.api.joinPath(DATA_DIRECTORY, 'HUD', `${hudCover}.json`);
+        this.hudData = await window.api.getJsonFile(jsonPath).catch(async () => {
+          console.warn('Failed to load specified HUD settings, falling back to default.');
+          return window.api.getJsonFile(defaultJsonPath);
+        });
+        if (!this.hudData) {
+          console.error('Failed to load default HUD settings.');
+          return;
         }
 
-        let hudData;
-        try {
-          hudData = await window.api.getJsonFile(jsonPath);
-        } catch (jsonFileError) {
-          console.error('Failed to load specified HUD settings:', jsonFileError);
-          console.log('Falling back to default HUD settings.');
+        //- Set the image source and areas
+        this.imageSrc = window.api.joinPath(DATA_DIRECTORY, 'HUD', this.hudData.Image);
+        this.areas = this.hudData.Areas;
 
-          try {            
-            hudData = await window.api.getJsonFile(defaultJsonPath);
-          } catch (defaultJsonFileError) {
-            console.error('Failed to load default HUD settings:', defaultJsonFileError);
-            //window.api.logEvent('Failed to load default HUD settings:', defaultJsonFileError, 'loadHUDSettings:82');
-            return;
-          }
-        }
-
-        this.imageSrc = await window.api.getAssetFileUrl(hudData.Image);
-        this.areas = hudData.Areas;
-      } catch (overallError) {
-        console.error('Overall error loading HUD settings:', overallError);
+      } catch (error) {
+        console.error('Error loading HUD settings:', error);
       }
     },
     setupCanvas() {
@@ -183,19 +171,21 @@ export default {
 
       // Draw border with reduced height
       const reducedHeight = area.scaledHeight - 5; // Adjust height reduction as needed
-      ctx.strokeStyle = 'orange';
-      ctx.lineWidth = 2;
+
+      // Colors can be in any of this formats: hex, rgba, or color names
+      ctx.strokeStyle = this.hudData.Colors.BorderColor;  //<- Border Color:  'orange'
+      ctx.lineWidth = this.hudData.Colors.BorderWidth;  //<- Border Width: 2
       ctx.strokeRect(area.scaledX, area.scaledY, area.scaledWidth, reducedHeight);
 
       // Draw area name centered below the rectangle
-      ctx.fillStyle = 'white';
-      ctx.font = '14px Segoe UI';
+      ctx.fillStyle = this.hudData.Colors.FontColor; //'white';
+      ctx.font = this.hudData.Colors.Font; //'14px Segoe UI';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
-      ctx.shadowBlur = 2;
+      ctx.shadowColor = this.hudData.Colors.ShadowColor; //'rgba(0, 0, 0, 0.5)';
+      ctx.shadowOffsetX = this.hudData.Colors.ShadowOffset;//2;
+      ctx.shadowOffsetY = this.hudData.Colors.ShadowOffset;//2; 
+      ctx.shadowBlur = this.hudData.Colors.ShadowBlur;//2;
       ctx.fillText(area.title, area.scaledX + area.scaledWidth / 2, area.scaledY + reducedHeight + 5);
 
       // Highlight clicked area if applicable
@@ -209,23 +199,23 @@ export default {
 
       // Draw semi-transparent orange background with reduced height
       const reducedHeight = area.scaledHeight - 5; // Adjust height reduction as needed
-      ctx.fillStyle = 'rgba(255, 165, 0, 0.3)';
+      ctx.fillStyle = this.hudData.Colors.HighlightColor; // 'rgba(255, 165, 0, 0.3)';
       ctx.fillRect(area.scaledX, area.scaledY, area.scaledWidth, reducedHeight);
 
       // Draw bright blue border
-      ctx.strokeStyle = 'orange';
+      ctx.strokeStyle = this.hudData.Colors.HighlightBorder; // 'orange';
       ctx.lineWidth = 1;
       ctx.strokeRect(area.scaledX, area.scaledY, area.scaledWidth, reducedHeight);
 
       // Draw area name centered below the rectangle
-      ctx.fillStyle = 'white';
-      ctx.font = '14px Segoe UI';
+      ctx.fillStyle = this.hudData.Colors.HighlightFontColor; //'white';
+      ctx.font = this.hudData.Colors.Font; //'14px Segoe UI';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
-      ctx.shadowBlur = 2;
+      ctx.shadowColor = this.hudData.Colors.HighlightShadowColor; //'rgba(0, 0, 0, 0.5)';
+      ctx.shadowOffsetX = this.hudData.Colors.ShadowOffset;//2;
+      ctx.shadowOffsetY = this.hudData.Colors.ShadowOffset;//2;
+      ctx.shadowBlur = this.hudData.Colors.ShadowBlur;//2;
       ctx.fillText(area.title, area.scaledX + area.scaledWidth / 2, area.scaledY + reducedHeight + 5);
     },
     clearCanvas() {

@@ -144,12 +144,13 @@ function writeSetting(key, value) {
 
 // #region Global & User Settings
 
-async function LoadGlobalSettings () {
+async function LoadGlobalSettings() {
   try {
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_Global_Settings.json');
+
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/Global_Settings.json');
     const _path_B = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
     const _path_C = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
-    
+
     let data = {};
 
     if (!fs.existsSync(_path_A)) {
@@ -174,16 +175,16 @@ async function LoadGlobalSettings () {
 };
 async function saveGlobalSettings(settings) {
   try {
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_Global_Settings.json');
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/Global_Settings.json');
     return fileHelper.writeJsonFile(_path_A, settings, true);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
 };
 
-async function LoadUserSettings () {
+async function LoadUserSettings() {
   try {
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/User_Settings.json');
     var data = {};
     if (fs.existsSync(_path_A)) {
       const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
@@ -204,7 +205,7 @@ async function LoadUserSettings () {
 };
 async function saveUserSettings(settings) {
   try {
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ED_Odissey_User_Settings.json');
+    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/User_Settings.json');
     fs.writeFileSync(_path_A, JSON.stringify(settings, null, 4));
     return true;
   } catch (error) {
@@ -243,26 +244,6 @@ async function AddToUserSettings(newElement) {
     } else {
       userSettings.Elements.push(newElement); // Add new
     }
-    
-   /* //- Add Presets to User Settings:
-    if (newElement.ValueType === "Preset") {
-      console.log('Adding Preset to User Settings:', TemplateData.Presets.length);
-      const matchingPresets = TemplateData.Presets.filter(
-        element => element.Type === newElement.Type
-      );   
-      console.log('Matching Presets for: ',newElement.Type, matchingPresets.length);
-      if (matchingPresets) {
-        if (userSettings.Presets === undefined) {
-          userSettings.Presets = []; // Initialize Presets if it's missing          
-        }
-        // Check if the preset already exists
-        const existingPresetIndex = userSettings.Presets.findIndex(e => e.Type === newElement.Type);
-        if (existingPresetIndex < 0) { //<-- add only if it doesn't exist
-          userSettings.Presets.push(matchingPresets);
-        }
-      }
-    }*/
-
     return saveUserSettings(userSettings); // Assume saveUserSettings is async
 
   } catch (error) {
@@ -425,8 +406,8 @@ function GetInstanceDataDirectory(instanceKey) {
   try {
     const ProgramDataPath = fileHelper.resolveEnvVariables(
       readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );
-    const pDataPart = instanceKey === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-    return path.join(ProgramDataPath, pDataPart);
+    const GameType = instanceKey === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+    return path.join(ProgramDataPath, GameType);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
@@ -581,14 +562,26 @@ async function installEDHMmod(gameInstance) {
 
     // #region Copy the images folder to a more accessible location: '%USERPROFILE%\EDHM_UI\images'
     
-    const _imgSource = fileHelper.getAssetPath(`images`);
-    const _imgDestiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'images'));
-    console.log(`Copying Images from '${_imgSource}' to '${_imgDestiny}'`);
-    const _ret = await fileHelper.copyDirectoryRecursive(
-      _imgSource, 
-      _imgDestiny
+    let _Source = fileHelper.getAssetPath(`images`);
+    let _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'images'));
+    console.log(`Copying Images from '${_Source}' to '${_Destiny}'`);
+    let _ret = await fileHelper.copyDirectoryRecursive(
+      _Source,
+      _Destiny
     );
     console.log(`Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
+
+    _Source = fileHelper.getAssetPath(`data/HUD`);
+    _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'HUD'));
+    _ret = await fileHelper.copyDirectoryRecursive(
+      _Source,
+      _Destiny
+    );
+    console.log(`Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
+
+    _Source = fileHelper.getAssetPath(`data/ODYSS/Global_Settings.json`);
+    _Destiny = path.join(userDataPath, 'ODYSS', 'Global_Settings.json');
+    await fileHelper.copyFile(_Source, _Destiny, false);
 
     // #endregion
 

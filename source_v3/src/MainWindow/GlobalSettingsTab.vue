@@ -125,7 +125,9 @@ export default {
   methods: {
     async OnInitialize() {
       this.dataSource = await window.api.LoadGlobalSettings();
-      this.presets = this.dataSource.Presets;
+      const TemplatePath = await window.api.getAssetPath('data/ODYSS/ThemeTemplate.json');
+      const TemplateData = await window.api.getJsonFile(TemplatePath);
+      this.presets = TemplateData.Presets;
     },
 
     // #region Load Data
@@ -140,7 +142,6 @@ export default {
           if (!grouped[element.Category]) {
             grouped[element.Category] = [];
           }
-
           grouped[element.Category].push({
             ...element,
             iconVisible: false, // Add iconVisible property
