@@ -1,0 +1,124 @@
+{
+   "Name": "HUD_Type8",
+   "Author": "Blue Mystic",
+   "Image": "HUD_Type8.png",
+   "Colors": {
+      "BorderColor": "orange",
+      "BorderWidth": 2,
+      "FontColor": "white",
+      "Font": "14px Segoe UI",
+      "ShadowColor": "rgba(0, 0, 0, 0.5)",
+      "ShadowBlur": 2,
+      "ShadowOffset": 2,
+      "HighlightColor": "rgba(255, 165, 0, 0.3)",
+      "HighlightBorder": "orange",
+      "HighlightFontColor": "white",
+      "HighlightShadowColor": "rgba(0, 0, 0, 0.5)"
+   },
+   "Areas": [
+      {
+         "id": "Panel_UP",
+         "title": "Upper Panel",
+         "x": 32,
+         "y": 32,
+         "width": 462,
+         "height": 147
+      },
+      {
+         "id": "Reticle",
+         "title": "Targeting Reticle",
+         "x": 552,
+         "y": 368,
+         "width": 298,
+         "height": 159
+      },
+      {
+         "id": "CHUD_AHUD",
+         "title": "Combat & Analysis HUD",
+         "x": 1102,
+         "y": 300,
+         "width": 209,
+         "height": 354
+      },
+      {
+         "id": "ShieldsHolo",
+         "title": "Shield & Holograms",
+         "x": 1029,
+         "y": 680,
+         "width": 230,
+         "height": 227
+      },
+      {
+         "id": "Power_Distributor",
+         "title": "Power Distributor",
+         "x": 1281,
+         "y": 741,
+         "width": 134,
+         "height": 151
+      },
+      {
+         "id": "FuelBars",
+         "title": "Signature & Fuel Bars",
+         "x": 1419,
+         "y": 759,
+         "width": 180,
+         "height": 135
+      },
+      {
+         "id": "RadarHUD",
+         "title": "Radar & Common Group",
+         "x": 550,
+         "y": 697,
+         "width": 469,
+         "height": 211
+      },
+      {
+         "id": "Panel_Lower",
+         "title": "Ship Panels",
+         "x": 2,
+         "y": 703,
+         "width": 312,
+         "height": 200
+      },
+      {
+         "id": "StationsPanels",
+         "title": "XML Editor",
+         "x": 6,
+         "y": 384,
+         "width": 275,
+         "height": 275
+      },
+      {
+         "id": "Lighting",
+         "title": "Cabin Lighting",
+         "x": 346,
+         "y": 670,
+         "width": 201,
+         "height": 227
+      },
+      {
+         "id": "SpecialFX",
+         "title": "Ship Systems",
+         "x": 33,
+         "y": 247,
+         "width": 441,
+         "height": 113
+      },
+      {
+         "id": "Settings",
+         "title": "General Settings",
+         "x": 1042,
+         "y": 24,
+         "width": 494,
+         "height": 134
+      },
+      {
+         "id": "Foot_HUD",
+         "title": "Suit & Onfoot",
+         "x": 1334,
+         "y": 368,
+         "width": 234,
+         "height": 300
+      }
+   ]
+}

@@ -349,7 +349,7 @@ export https_proxy="http://jchacon:jchacon@192.168.10.1:8081"
 // ----- VITE+VUE:  https://www.electronforge.io/guides/framework-integration/vue-3
 // ----- Bootstrap: https://getbootstrap.com/docs/5.3/components/dropdowns/#via-javascript
 
-npm init electron-app@latest hud-editor
+npm init electron-app@latest hud-editor -- --template=vite
 npm init electron-app@latest edhm-ui -- --template=vite
 cd edhm-ui
 npm install --save-dev vue

@@ -1,100 +1,3 @@
-/*  COLECTION OF UTILITY METHODS
- *  They can be used in both Process (Main & Renderer) */
-
-function containsWord(str, word) { return str.includes(word); };
-
-function containsCharacter(str, char) {
-    if (typeof str !== 'string' || typeof char !== 'string' || char.length !== 1) {
-        return false; // Handle invalid input
-    }
-    return str.indexOf(char) !== -1;
-}
-
-/** Checks if a string exists within an array of strings.
- * @param {string} compareString - The string to search for.
- * @param {string[]} stringList - The array of strings to search within.
- * @returns {boolean} - True if the string is found in the array, false otherwise. */
-function stringIn(compareString, stringList) {
-    if (!Array.isArray(stringList) || typeof compareString !== 'string') {
-        return false; // Handle invalid input
-    }
-    return stringList.includes(compareString);
-}
-
-function trimAllSpaces(str) {
-    return str.replace(/\s+/g, '');
-}
-
-/** To Check is something is Empty
- * @param obj Object to check */
-function isEmpty(obj) { Object.keys(obj).length === 0 };
-
-/** Checks if a string is defined and has a value, and returns the string or a default value.
- * @param {string} str - The string to check.
- * @param {any} defaultValue - The default value to return if the string is not valid.
- * @returns {string|any} - The original string if it's defined and has a value, or the default value otherwise. */
-function NVL(str, defaultValue) {
-    if (typeof str === 'string' && str.trim() !== '') {
-        return str;
-    } else {
-        return defaultValue;
-    }
-}
-
-function safeRound(value) { return isNaN(value) ? 0 : Math.round(value); }
-
-/** Null-Empty-Uninstanced verification * 
- * @param {*} value Object, String or Array
- * @returns 'true' if the object is NOT Null or Empty */
-function isNotNullOrEmpty(value) {
-    if (value === null || value === undefined) {
-        return false;
-    }
-
-    if (typeof value === 'string' || Array.isArray(value)) {
-        return value.length > 0;
-    }
-
-    if (typeof value === 'object') {
-        return Object.keys(value).length > 0;
-    }
-
-    return false;
-}
-
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .then(() => {
-            console.log('Copied to clipboard successfully!');
-        })
-        .catch((err) => {
-            console.error('Failed to copy to clipboard: ', err);
-        });
-}
-
-function compareVersions(serverVersion, localVersion) {
-    // Remove non-numeric characters from the beginning
-    serverVersion = serverVersion.replace(/^[^\d]+/, ''); console.log('serverVersion:', serverVersion);
-    localVersion = localVersion.replace(/^[^\d]+/, ''); console.log('localVersion:', localVersion);
-
-    // Split the versions into parts
-    const serverParts = serverVersion.split('.').map(Number);
-    const localParts = localVersion.split('.').map(Number);
-
-    // Compare each part of the versions
-    for (let i = 0; i < serverParts.length; i++) {
-        if (serverParts[i] > (localParts[i] || 0)) {
-            return true;
-        } else if (serverParts[i] < (localParts[i] || 0)) {
-            return false;
-        }
-    }
-
-    return false; // versions are equal or local version is higher
-}
-
-
-
 // #region Color Conversion Methods
 
 /** Helper function to determine if a color is dark  * 
@@ -244,14 +147,58 @@ function rgbaToInt(color) {
     return intVal >> 0;
 }
 
+function colorStringToInt(colorStr) {
+  // Diccionario de colores nombrados básicos
+  const namedColors = {
+    black: '#000000', white: '#FFFFFF', red: '#FF0000',
+    lime: '#00FF00', blue: '#0000FF', yellow: '#FFFF00',
+    cyan: '#00FFFF', magenta: '#FF00FF', silver: '#C0C0C0',
+    gray: '#808080', maroon: '#800000', olive: '#808000',
+    green: '#008000', purple: '#800080', teal: '#008080',
+    navy: '#000080', orange: '#FFA500'
+  };
+
+  // Reemplazar color nombrado por su equivalente hexadecimal
+  if (namedColors[colorStr.toLowerCase()]) {
+    colorStr = namedColors[colorStr.toLowerCase()];
+  }
+
+  let r, g, b, a = 255;
+
+  if (colorStr.startsWith('#')) {
+    let hex = colorStr.slice(1);
+    if (hex.length === 3) {
+      [r, g, b] = hex.split('').map(c => parseInt(c + c, 16));
+    } else if (hex.length === 4) {
+      [r, g, b, a] = hex.split('').map(c => parseInt(c + c, 16));
+    } else if (hex.length === 6) {
+      r = parseInt(hex.slice(0, 2), 16);
+      g = parseInt(hex.slice(2, 4), 16);
+      b = parseInt(hex.slice(4, 6), 16);
+    } else if (hex.length === 8) {
+      r = parseInt(hex.slice(0, 2), 16);
+      g = parseInt(hex.slice(2, 4), 16);
+      b = parseInt(hex.slice(4, 6), 16);
+      a = parseInt(hex.slice(6, 8), 16);
+    }
+  } else if (colorStr.startsWith('rgba') || colorStr.startsWith('rgb')) {
+    const values = colorStr.match(/[\d.]+/g).map(Number);
+    [r, g, b] = values;
+    if (values.length === 4) a = Math.round(values[3] * 255);
+  } else {
+    throw new Error(`Color inválido: ${colorStr}`);
+  }
+
+  const argb = ((a << 24) | (r << 16) | (g << 8) | b) >>> 0;
+  return (argb > 0x7FFFFFFF) ? argb - 0x100000000 : argb;
+}
+
 //---------------------------------------------
 
-/**
- * Converts a signed integer to a HEX color string in #RRGGBBAA format.
+/** Converts a signed integer to a HEX color string in #RRGGBBAA format.
  * Handles two's complement for negative numbers.
  * @param {number} number - The signed integer representing the color.
- * @returns {string} - The HEX color string in #RRGGBBAA format.
- */
+ * @returns {string} - The HEX color string in #RRGGBBAA format. */
 function intToHexColor(number) {
     let hexValue = number;
 
@@ -449,91 +396,10 @@ function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
 
 // #endregion
 
-// #region Keyboard Events
-
-/** Sends a key event to the browser window. It simulates a key press, character input, and key release.
- * @param {object} entry { keyCode: "Tab", modifiers: ["Shift"] }
- * @param {int} delay miliseconds to wait between key events */
-function sendKey(entry, delay = 200) {
-    ["keyDown", "char", "keyUp"].forEach(async (type) => {
-        entry.type = type;
-        browserWindow.webContents.sendInputEvent(entry);
-
-        // Delay
-        await new Promise(resolve => setTimeout(resolve, delay));
-    });
-}
-/** Sends a sequence of key events to the browser window. It simulates a series of key presses with a delay between each.
- * @param {object[]} sequence Array of objects with keyCode and modifiers.
- * @param {int} delay miliseconds to wait between key events */
-async function sendSequence(sequence, delay) {
-    for (const entry of sequence) {
-        await sendKey(entry, delay);
-        await new Promise(resolve => setTimeout(resolve, delay));
-    }
-}
-/* EXAMPLE:
-const sequence = [
-    {keyCode: "F5"},
-    {keyCode: "Tab", modifiers: ["Shift"]},
-    {keyCode: "space"},
-    {keyCode: "]", modifiers: ["Ctrl"]},
-];
-await sendSequence(sequence, 200);
-or
-sendKey({keyCode: "F11"}, 200);
-*/
-
-// #endregion
-
-
-/** Timer class to measure the time taken by a task.
- * USAGE:
- * const timer = new Timer();
- * timer.Start();
- * // Perform some task
- * const duration = timer.Stop();
- * console.log(`Task took ${timer.ElapsedTime} seconds to complete.`);
- */
-export class Timer {
-    constructor() {
-        this.startTime = null;
-    }
-    Start() { // Changed startTimer to start, to match your example.
-        this.startTime = performance.now();
-    }
-
-    Stop() { // Changed stopTimer to stop, to match your example.
-        if (this.startTime === null) {
-            console.error("Timer was not started.");
-            return;
-        }
-        const endTime = performance.now();
-        const duration = (endTime - this.startTime) / 1000;
-        console.log(`The task took ${duration.toFixed(4)} seconds to complete.`);
-        this.startTime = null; // Reset for next use
-        return duration; //return the duration so that it can be used.
-    }
-
-    ElapsedTime() {
-        if (this.startTime === null) {
-            console.error("Timer was not started.");
-            return 0; // or throw an error, depending on your needs.
-        }
-        const currentTime = performance.now();
-        const elapsedTime = (currentTime - this.startTime) / 1000;
-        return elapsedTime;
-    }
-}
-
 export default {
-    containsWord, containsCharacter, stringIn,
-    trimAllSpaces, NVL,
-    isEmpty, isNotNullOrEmpty,
-    copyToClipboard, safeRound,
 
     isColorDark, GetForeColorFor,
-    intToHexColor, intToRGBA, intToRGBAstring,
+    intToHexColor, intToRGBA, intToRGBAstring, colorStringToInt,
     rgbaToHex, RGBAtoColor, rgbaToInt, rgbaToString, rgbaArrayToHex,
     hexToRgba, hexToSignedInt, hexToUnsignedInt,
 
@@ -541,9 +407,4 @@ export default {
     reverseGammaCorrectedList,
     convert_sRGB_FromLinear, Convert_sRGB_ToLinear,
     convert_sRGB_FromLinear,
-
-    sendKey, sendSequence, deepMerge,
-
-    compareVersions,
-    Timer
 }
