@@ -1,11 +1,11 @@
 {
-   "app_version":    "2.2.64.0",
-   "last_installer": "2.2.64.0",
-    "ED_Odissey":    "2.2.64.0", 
+   "app_version":    "2.2.66.0",
+   "last_installer": "2.2.66.0",
+    "ED_Odissey":    "2.2.66.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Fix for Elite Dangerous 4.1.2.0 (Trailblazer Update 3)",
+   "changelog": "- Lots of changes, see Changelog on Discord for details.\r\n- This may be the last update for v2.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
