@@ -36,6 +36,7 @@
     "bootstrap": "^5.3.6",
     "bootstrap-icons": "^1.13.1",
     "bootstrap-vue": "^2.23.1",
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "zip-lib": "^1.1.2"
   }
 }

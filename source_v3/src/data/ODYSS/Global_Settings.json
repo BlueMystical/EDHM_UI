@@ -11,10 +11,10 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "Switch for White objects on the radar (wakes, materials, salvage etc) in standard flight (not supercruise)"
+            "Description": "Switch for White Objects on the Radar (Wakes, Materials, Salvage, etc) in Standard Flight (NOT Supercruise)"
         },
         {
-            "Category": "Messages",
+            "Category": "Middle Screen Popup Messages",
             "Title": "Background Opacity",
             "File": "Advanced",
             "Section": "Constants",
@@ -22,7 +22,7 @@
             "Value": 1,
             "ValueType": "Brightness",
             "Type": "2X",
-            "Description": "Middle screen Popup Messages (Ship Scan Detected, etc)\r\nBackground Opacity, behind Text and symbols (cloud-shaped background).\r\nSet this value to 0 so you can still see the ship you're shooting at through the popup messages."
+            "Description": "Middle screen Popup Messages (Ship Scan Detected, etc)<br>Background Opacity, behind Text and Symbols (cloud-shaped background)<br>Set this value to 0 so you can still see the ship you're shooting at through the popup messages"
         },
         {
             "Category": "Jump System Info",
@@ -33,10 +33,10 @@
             "Value": 1,
             "ValueType": "Brightness",
             "Type": "1X",
-            "Description": "Jump System Info Background Opacity."
+            "Description": "Jump System Info Background Opacity"
         },
         {
-            "Category": "Colour Protection",
+            "Category": "Color Protection",
             "Title": "Bright Yellow Protection",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -44,10 +44,10 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+            "Description": "The Mod protects certain Elite Default Colors to add variety to the Panel and Interactive Screens (otherwise they all become Colored with your XML)<br>You can Override Color Protection here<br><br>Please note: This version of EDHM was designed WITH Color Protection, so it's Recommended you leave this Setting ON (or possibly remove the Bright Yellows)<br><br>This is an Experimental Feature, some Icons aren't Color Protected, they just aren't Modded"
         },
         {
-            "Category": "Colour Protection",
+            "Category": "Color Protection",
             "Title": "General Yellow Protection",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -55,10 +55,10 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+            "Description": "The Mod protects certain Elite Default Colors to add variety to the Panel and Interactive Screens (otherwise they all become Colored with your XML)<br>You can Override Color Protection here<br><br>Please note: This version of EDHM was designed WITH Color Protection, so it's Recommended you leave this Setting ON (or possibly remove the Bright Yellows)<br><br>This is an Experimental Feature, some Icons aren't Color Protected, they just aren't Modded"
         },
         {
-            "Category": "Colour Protection",
+            "Category": "Color Protection",
             "Title": "White Protection",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -66,10 +66,10 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+            "Description": "The Mod protects certain Elite Default Colors to add variety to the Panel and Interactive Screens (otherwise they all become Colored with your XML)<br>You can Override Color Protection here<br><br>Please note: This version of EDHM was designed WITH Color Protection, so it's Recommended you leave this Setting ON (or possibly remove the Bright Yellows)<br><br>This is an Experimental Feature, some Icons aren't Color Protected, they just aren't Modded"
         },
         {
-            "Category": "Colour Protection",
+            "Category": "Color Protection",
             "Title": "Green Protection",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -77,10 +77,10 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+            "Description": "The Mod protects certain Elite Default Colors to add variety to the Panel and Interactive Screens (otherwise they all become Colored with your XML)<br>You can Override Color Protection here<br><br>Please note: This version of EDHM was designed WITH Color Protection, so it's Recommended you leave this Setting ON (or possibly remove the Bright Yellows)<br><br>This is an Experimental Feature, some Icons aren't Color Protected, they just aren't Modded"
         },
         {
-            "Category": "Colour Protection",
+            "Category": "Color Protection",
             "Title": "Red Protection",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -88,10 +88,10 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+            "Description": "The Mod protects certain Elite Default Colors to add variety to the Panel and Interactive Screens (otherwise they all become Colored with your XML)<br>You can Override Color Protection here<br><br>Please note: This version of EDHM was designed WITH Color Protection, so it's Recommended you leave this Setting ON (or possibly remove the Bright Yellows)<br><br>This is an Experimental Feature, some Icons aren't Color Protected, they just aren't Modded"
         },
         {
-            "Category": "Colour Protection",
+            "Category": "Color Protection",
             "Title": "Cyan / Blue Protection",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -99,10 +99,10 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+            "Description": "The Mod protects certain Elite Default Colors to add variety to the Panel and Interactive Screens (otherwise they all become Colored with your XML)<br>You can Override Color Protection here<br><br>Please note: This version of EDHM was designed WITH Color Protection, so it's Recommended you leave this Setting ON (or possibly remove the Bright Yellows)<br><br>This is an Experimental Feature, some Icons aren't Color Protected, they just aren't Modded"
         },
         {
-            "Category": "Colour Protection",
+            "Category": "Color Protection",
             "Title": "SuperPowers / Powers Icon Protection",
             "File": "Startup-Profile",
             "Section": "Constants",
@@ -110,7 +110,7 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "The mod protects certain default Elite colours to add variety to the panel and interactive screens (otherwise they all become coloured with your XML) You can override colour protection below.\r\nPlease note: This version of EDHM was designed with colour protection, so it's recommended you leave this setting ON (or possibly remove the bright yellows).\r\nThis is a new experimental feature, and if you spot any glitches please let me know Some icons aren't colour protected, they just aren't modded."
+            "Description": "The Mod protects certain Elite Default Colors to add variety to the Panel and Interactive Screens (otherwise they all become Colored with your XML)<br>You can Override Color Protection here<br><br>Please note: This version of EDHM was designed WITH Color Protection, so it's Recommended you leave this Setting ON (or possibly remove the Bright Yellows)<br><br>This is an Experimental Feature, some Icons aren't Color Protected, they just aren't Modded"
         },
         {
             "Category": "Space FX",
@@ -121,7 +121,7 @@
             "Value": 1,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "Switch for Space Dust (aka Snow in normal flight)"
+            "Description": "Switch for Space Dust (aka Snow in Normal Flight)"
         },
         {
             "Category": "Space FX",
@@ -154,7 +154,7 @@
             "Value": 1,
             "ValueType": "Brightness",
             "Type": "2X",
-            "Description": "Brightness for Space Dust."
+            "Description": "Brightness for Space Dust"
         },
         {
             "Category": "Space FX",
@@ -162,10 +162,10 @@
             "File": "Advanced",
             "Section": "Constants",
             "Key": "w142",
-            "Value": 2,
+            "Value": 1,
             "ValueType": "Brightness",
             "Type": "4X",
-            "Description": "Brightness for Space Dust."
+            "Description": "Space Dust Length"
         },
         {
             "Category": "Space FX",
@@ -198,40 +198,727 @@
             "Value": 1,
             "ValueType": "Brightness",
             "Type": "2X",
-            "Description": "Brightness for Supercruise Snow, set this to 0 to disable SC Snow."
+            "Description": "Brightness for Supercruise Snow, set this to 0 to disable SC Snow"
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Canopy Scratches",
-            "File": "Startup-Profile",
-            "Section": "Constants",
-            "Key": "x229",
-            "Value": 0,
-            "ValueType": "ONOFF",
-            "Type": "ONOFF",
-            "Description": "Hide the canopy scratches when the ship is very damaged."
-        },
-        {
-            "Category": "Canopy Effects",
-            "Title": "Canopy Ice",
+            "Title": "Hide Ice",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "y229",
             "Value": 0,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "Hide the canopy ice when the ship is very cold."
+            "Description": "Hide the Canopy Ice when the Ship is very Cold<br><br>Check to Hide"
         },
         {
             "Category": "Canopy Effects",
-            "Title": "Canopy Condensation",
+            "Title": "Hide Scratches",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "x229",
+            "Value": 0,
+            "ValueType": "ONOFF",
+            "Type": "ONOFF",
+            "Description": "Hide the Canopy Scratches when the Ship is very Damaged<br><br>Check to Hide"
+        },
+        {
+            "Category": "Canopy Effects",
+            "Title": "Hide Condensation",
             "File": "Startup-Profile",
             "Section": "Constants",
             "Key": "z229",
             "Value": 0,
             "ValueType": "ONOFF",
             "Type": "ONOFF",
-            "Description": "Hide the canopy condensation when the ship is very hot."
+            "Description": "Hide the Canopy Condensation when the Ship is very Hot<br><br>Check to Hide"
+        }
+    ],
+    "Presets": [
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Radar - Hostile Targets Color",
+            "Index": 100
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Radar - Neutral Targets Color",
+            "Index": 101
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Radar - Grid Color (Old Style)",
+            "Index": 103
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "RadarAttractionZone",
+            "Name": "Elite Default (Red)",
+            "Index": 200
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "Invert XML",
+            "Index": 198
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "MouseCursorMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "OutOfRangeReticles",
+            "Name": "Same as Custom Colors without Glow",
+            "Index": 100
+        },
+        {
+            "Type": "OutOfRangeReticles",
+            "Name": "Elite Default (Red)",
+            "Index": 200
+        },
+        {
+            "Type": "SuitHUDPanel",
+            "Name": "OFF",
+            "Index": 0
+        },
+        {
+            "Type": "SuitHUDPanel",
+            "Name": "ON - Default",
+            "Index": 1
+        },
+        {
+            "Type": "SuitHUDPanel",
+            "Name": "Minimalist",
+            "Index": 2
+        },
+        {
+            "Type": "FSSGasGiantIcons",
+            "Name": "Orange Gas Giant Icons (Elite Default)",
+            "Index": 0
+        },
+        {
+            "Type": "FSSGasGiantIcons",
+            "Name": "Blue Gas Giant Icons (Previous Color)",
+            "Index": 1
+        },
+        {
+            "Type": "ProbeTrailMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "ProbeTrailMode",
+            "Name": "Classic",
+            "Index": 100
+        },
+        {
+            "Type": "ProbeTrailMode",
+            "Name": "Boosted",
+            "Index": 101
+        },
+        {
+            "Type": "ProbeTrailMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "EnvDestTargetsMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "EnvDestTargetsMode",
+            "Name": "Mode 1 - Circle and Text with Destination Colors",
+            "Index": 100
+        },
+        {
+            "Type": "EnvDestTargetsMode",
+            "Name": "Mode 2 - Circle with Destination Colors and Text with Main Text Color",
+            "Index": 101
+        },
+        {
+            "Type": "ProbeVariationMode",
+            "Name": "Elite Default",
+            "Index": 0
+        },
+        {
+            "Type": "ProbeVariationMode",
+            "Name": "Reduced Color Variations",
+            "Index": 1
+        },
+        {
+            "Type": "ShieldDepletedMode",
+            "Name": "Invisible",
+            "Index": 100
+        },
+        {
+            "Type": "ShieldDepletedMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "ShieldDissolving",
+            "Name": "Dissolve",
+            "Index": 100
+        },
+        {
+            "Type": "ShieldDissolving",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "GlitchingHUDmode",
+            "Name": "Elite Default",
+            "Index": 0
+        },
+        {
+            "Type": "GlitchingHUDmode",
+            "Name": "Random Colors",
+            "Index": 1
+        },
+        {
+            "Type": "AmbientLightingMode",
+            "Name": "Extended Lighting (Elite Default)",
+            "Index": 0
+        },
+        {
+            "Type": "AmbientLightingMode",
+            "Name": "Old Style (Primary Color Less Dominant)",
+            "Index": 1
+        },
+        {
+            "Type": "RankBoxesMode",
+            "Name": "Custom CQC Rank Box Only",
+            "Index": 100
+        },
+        {
+            "Type": "RankBoxesMode",
+            "Name": "All Rank Boxes",
+            "Index": 101
+        },
+        {
+            "Type": "RankBoxesMode",
+            "Name": "Standard (Orange becomes XML)",
+            "Index": 200
+        },
+        {
+            "Type": "AdvancedMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "AdvancedMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "AdvancedMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "ShortMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "ShortMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "ShortModeB",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "ShortModeB",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "SCSnowMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "SCSnowMode",
+            "Name": "Rainbow (Changes Color with Direction)",
+            "Index": 101
+        },
+        {
+            "Type": "SCSnowMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "SCSnowMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "GalMapFogMode",
+            "Name": "Fog Reduction Level 1",
+            "Index": 1
+        },
+        {
+            "Type": "GalMapFogMode",
+            "Name": "Fog Reduction Level 2",
+            "Index": 2
+        },
+        {
+            "Type": "GalMapFogMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "RadarAsteroidsMode",
+            "Name": "Same Color as Neutral Ship on Radar",
+            "Index": 101
+        },
+        {
+            "Type": "RadarAsteroidsMode",
+            "Name": "Same Color as Radar Outer Ring",
+            "Index": 102
+        },
+        {
+            "Type": "RadarAsteroidsMode",
+            "Name": "Same Color as Hull Blocks",
+            "Index": 103
+        },
+        {
+            "Type": "RadarAsteroidsMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "RadarAsteroidsMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "CHUD-AHUD-Text",
+            "Name": "Same as Custom Red Bars Around CHUD/AHUD",
+            "Index": 100
+        },
+        {
+            "Type": "CHUD-AHUD-Text",
+            "Name": "Same as Main Text Color",
+            "Index": 101
+        },
+        {
+            "Type": "CHUD-AHUD-Text",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "CHUD-AHUD-Text",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "FSSColorMode",
+            "Name": "OFF",
+            "Index": 0
+        },
+        {
+            "Type": "FSSColorMode",
+            "Name": "Same Color as FSS Scanning Glow Blobs",
+            "Index": 1
+        },
+        {
+            "Type": "FSSColorMode",
+            "Name": "Same Color as FSS Cyan Elements / Main Reticle",
+            "Index": 2
+        },
+        {
+            "Type": "FSSColorMode",
+            "Name": "Same Color as FSS Centre Circle",
+            "Index": 3
+        },
+        {
+            "Type": "FSSColorMode2",
+            "Name": "Same Color as FSS Scanning Glow Blobs",
+            "Index": 1
+        },
+        {
+            "Type": "FSSColorMode2",
+            "Name": "Same Color as FSS Cyan Elements / Main Reticle",
+            "Index": 2
+        },
+        {
+            "Type": "FSSColorMode2",
+            "Name": "Same Color as FSS Centre Circle",
+            "Index": 3
+        },
+        {
+            "Type": "FSSColorMode2",
+            "Name": "Default (White)",
+            "Index": 200
+        },
+        {
+            "Type": "TargetingPanelTextMode",
+            "Name": "Color Matched with Alignment Bars",
+            "Index": 101
+        },
+        {
+            "Type": "TargetingPanelTextMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "TextModeShort",
+            "Name": "Use Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "TextModeShort",
+            "Name": "Use Main Text on Panel Color",
+            "Index": 101
+        },
+        {
+            "Type": "PlanetaryLandingMode",
+            "Name": "Same as Custom Main Text (Orange Text Swap)",
+            "Index": 101
+        },
+        {
+            "Type": "PlanetaryLandingMode",
+            "Name": "Same as Custom Blue Text Color Swap",
+            "Index": 102
+        },
+        {
+            "Type": "PlanetaryLandingMode",
+            "Name": "Same as Custom AHUD Text Color",
+            "Index": 103
+        },
+        {
+            "Type": "PlanetaryLandingMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "PlanetaryLandingMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "AltitudeBarText",
+            "Name": "Same as Custom Main Text Color",
+            "Index": 101
+        },
+        {
+            "Type": "AltitudeBarText",
+            "Name": "Same as Latitude / Longitude Coordinates Text Color",
+            "Index": 102
+        },
+        {
+            "Type": "TextBackgroundShadowsGlow",
+            "Name": "Black",
+            "Index": 0
+        },
+        {
+            "Type": "TextBackgroundShadowsGlow",
+            "Name": "Text Color Glow (Default)",
+            "Index": 1
+        },
+        {
+            "Type": "GalaxyMapMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "GalaxyMapMode",
+            "Name": "Grey",
+            "Index": 101
+        },
+        {
+            "Type": "GalaxyMapMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "GalaxyMapMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "PowersMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "PowersMode",
+            "Name": "Grey",
+            "Index": 101
+        },
+        {
+            "Type": "PowersMode",
+            "Name": "True Powers Colors",
+            "Index": 102
+        },
+        {
+            "Type": "PowersMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "PowersMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "AmbientLights",
+            "Name": "Custom Single Color",
+            "Index": 100
+        },
+        {
+            "Type": "AmbientLights",
+            "Name": "Custom Bi-Color",
+            "Index": 101
+        },
+        {
+            "Type": "AmbientLights",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "AmbientLights",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "CabinLightingStyle",
+            "Name": "Restricted",
+            "Index": 0
+        },
+        {
+            "Type": "CabinLightingStyle",
+            "Name": "Full",
+            "Index": 1
+        },
+        {
+            "Type": "CabinLightingStyle",
+            "Name": "Complete",
+            "Index": 2
+        },
+        {
+            "Type": "CabinLightingStyle",
+            "Name": "Space Disco",
+            "Index": 3
+        },
+        {
+            "Type": "ShipPanelOpacity",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "ShipPanelOpacity",
+            "Name": "Space Grey (Dark)",
+            "Index": 101
+        },
+        {
+            "Type": "ShipPanelOpacity",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "ShipPanelOpacity",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "AHUDText",
+            "Name": "Use Main Text Color",
+            "Index": 100
+        },
+        {
+            "Type": "AHUDText",
+            "Name": "Custom",
+            "Index": 101
+        },
+        {
+            "Type": "AHUDText",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "ShieldColor",
+            "Name": "Custom Multi-Color",
+            "Index": 100
+        },
+        {
+            "Type": "ShieldColor",
+            "Name": "Custom Single Color",
+            "Index": 101
+        },
+        {
+            "Type": "ShieldColor",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "ShieldColor",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "ShieldsDown",
+            "Name": "Red - Default Elite",
+            "Index": 0
+        },
+        {
+            "Type": "ShieldsDown",
+            "Name": "Black - Custom",
+            "Index": 1
+        },
+        {
+            "Type": "PowerDistributor",
+            "Name": "Custom Single Color",
+            "Index": 100
+        },
+        {
+            "Type": "PowerDistributor",
+            "Name": "Custom Bi-Color Gradient",
+            "Index": 101
+        },
+        {
+            "Type": "PowerDistributor",
+            "Name": "Custom Tri-Color (Non Gradient)",
+            "Index": 102
+        },
+        {
+            "Type": "PowerDistributor",
+            "Name": "Custom Tri-Color Gradient",
+            "Index": 103
+        },
+        {
+            "Type": "PowerDistributor",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "PowerDistributor",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "CausticEffect",
+            "Name": "Original Elite Yellow/Green Color",
+            "Index": 0
+        },
+        {
+            "Type": "CausticEffect",
+            "Name": "Custom Color",
+            "Index": 1
+        },
+        {
+            "Type": "RankIcon",
+            "Name": "Use Main Text Color",
+            "Index": 100
+        },
+        {
+            "Type": "RankIcon",
+            "Name": "Neutral Target Holo Color",
+            "Index": 101
+        },
+        {
+            "Type": "RankIcon",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "RankIcon",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "SC_SideLines",
+            "Name": "OFF",
+            "Index": 0
+        },
+        {
+            "Type": "SC_SideLines",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "SC_SideLines",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "SC_SideLines",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "SpaceDustMode",
+            "Name": "Elite Default Mode (with Original Length and Brightness)",
+            "Index": 0
+        },
+        {
+            "Type": "SpaceDustMode",
+            "Name": "Custom Color",
+            "Index": 1
+        },
+        {
+            "Type": "SpaceDustMode",
+            "Name": "Multi-Color Mode",
+            "Index": 2
+        },
+        {
+            "Type": "HullGaugeMode",
+            "Name": "Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "HullGaugeMode",
+            "Name": "Custom Shaded",
+            "Index": 101
+        },
+        {
+            "Type": "HullGaugeMode",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "HullGaugeMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+        {
+            "Type": "FSSMissionIcons",
+            "Name": "Use Mission Panel Custom Color",
+            "Index": 100
+        },
+        {
+            "Type": "FSSMissionIcons",
+            "Name": "XML (User Defined)",
+            "Index": 199
+        },
+        {
+            "Type": "OtherShipTarget",
+            "Name": "Use Radar Colors",
+            "Index": 100
+        },
+        {
+            "Type": "OtherShipTarget",
+            "Name": "Elite Default",
+            "Index": 200
         }
     ]
 }

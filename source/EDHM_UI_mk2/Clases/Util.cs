@@ -1393,10 +1393,13 @@ namespace EDHM_UI_mk2
 		public static Image byteArrayToImage(byte[] byteArrayIn)
 		{
 			Image returnImage = null;
-			using (MemoryStream ms = new MemoryStream(byteArrayIn))
+			if (byteArrayIn != null && byteArrayIn.Length > 0)
 			{
-				returnImage = Image.FromStream(ms);
-			}
+				using (MemoryStream ms = new MemoryStream(byteArrayIn))
+				{
+					returnImage = Image.FromStream(ms);
+				}
+			}			
 			return returnImage;
 		}
 

@@ -8,7 +8,7 @@ module.exports = {
     extraResource: [
       'src/images'
     ],
-    icon: path.join(__dirname, 'src/images/Icon_v3_a0.ico'), 
+    icon: 'src/images/Icon_v3_a0.ico', //path.join(__dirname, 'src/images/Icon_v3_a0.ico'), 
     appCategoryType:    'public.app-category.developer-tools',
   },
   rebuildConfig: {},

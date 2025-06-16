@@ -34,4 +34,9 @@ contextBridge.exposeInMainWorld('api', {
     ShowOpenDialog: (options) => ipcRenderer.invoke('ShowOpenDialog', options),
     ShowSaveDialog: (options) => ipcRenderer.invoke('ShowSaveDialog', options),
 
+    compressFiles: (files, outputPath) => ipcRenderer.invoke('compress-files', files, outputPath),
+    compressFolder: (folderPath, outputPath) => ipcRenderer.invoke('compress-folder', folderPath, outputPath),
+    decompressFile: (zipPath, outputDir) => ipcRenderer.invoke('decompress-file', zipPath, outputDir),
+
+
 });

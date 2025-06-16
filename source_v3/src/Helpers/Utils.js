@@ -542,7 +542,7 @@ export default {
     convert_sRGB_FromLinear, Convert_sRGB_ToLinear,
     convert_sRGB_FromLinear,
 
-    sendKey, sendSequence, deepMerge,
+    sendKey, sendSequence, 
 
     compareVersions,
     Timer

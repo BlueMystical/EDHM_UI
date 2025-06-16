@@ -20,10 +20,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{48DBAC02-1D3A-4061-A530-DD010C112E06} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{AF3B0E3F-0BFB-4BD1-A3D5-7EA3FEEDC972} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM_UI"/>
-    <ROW Property="ProductVersion" Value="2.2.64.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.2.66.0" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{2949570F-AF20-4990-B258-006A1649A388}"/>
@@ -46,7 +46,7 @@
     <ROW Directory="DesktopFolder" Directory_Parent="TARGETDIR" DefaultDir="DESKTO~1|DesktopFolder" IsPseudoRoot="1"/>
     <ROW Directory="ED_Horizons_Dir" Directory_Parent="Images_Dir" DefaultDir="ED_HOR~1|ED_Horizons"/>
     <ROW Directory="ED_Odissey_Dir" Directory_Parent="Images_Dir" DefaultDir="ED_ODI~1|ED_Odissey"/>
-    <ROW Directory="Elements_ODY_Dir" Directory_Parent="Images_Dir" DefaultDir="ELEMEN~1|Elements_ODY" DirectoryOptions="3"/>
+    <ROW Directory="Elements_ODY_Dir" Directory_Parent="Images_Dir" DefaultDir="ELEMEN~1|Elements_ODY"/>
     <ROW Directory="Images_Dir" Directory_Parent="APPDIR" DefaultDir="Images"/>
     <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="Properties_Dir" Directory_Parent="APPDIR" DefaultDir="PROPER~1|Properties"/>
@@ -56,7 +56,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="AIShRegAnswer" ComponentId="{2D8D79A9-F005-4936-95B1-DD31BB7F3851}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
-    <ROW Component="AI_CustomARPName" ComponentId="{9B300DF9-1495-46C8-BB8B-6E308EA198F9}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{FFF785CF-FE2A-4CDA-B9B4-ED7164597DC8}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="APPDIR" ComponentId="{1428F5F3-0E71-45A1-AC93-1D376C7F0DC2}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="AmbientLights_0.png" ComponentId="{52A436C9-3EAA-4B92-958A-344A6537B298}" Directory_="ED_Horizons_Dir" Attributes="0" KeyPath="AmbientLights_0.png" Type="0"/>
     <ROW Component="ColorManagment.dll" ComponentId="{35162133-6069-4C8C-A522-8283866B1CAE}" Directory_="APPDIR" Attributes="0" KeyPath="ColorManagment.dll"/>
@@ -101,8 +101,8 @@
     <ROW Component="PREVIEW.png" ComponentId="{66052CFD-4B30-4AAB-9D01-A39D85806726}" Directory_="Images_Dir" Attributes="0" KeyPath="PREVIEW.png" Type="0"/>
     <ROW Component="ProductInformation" ComponentId="{E86B98E5-CFC4-493A-8B3C-A69D8278A401}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
     <ROW Component="Properties" ComponentId="{F40A4739-32D8-4D25-A341-7289F8990683}" Directory_="Properties_Dir" Attributes="0"/>
-    <ROW Component="adder.jpg" ComponentId="{D88A3C07-670F-4BAF-B196-7D93921F2FD0}" Directory_="Ships_Dir" Attributes="0" KeyPath="adder.jpg" Type="0"/>
-    <ROW Component="w97.png" ComponentId="{95EF65DD-47F4-43E9-B5D7-9CC37A618AD3}" Directory_="Elements_ODY_Dir" Attributes="0" KeyPath="w97.png" Type="0"/>
+    <ROW Component="adder.jpg" ComponentId="{32493D97-B5A1-4C27-A6B9-AAB1266503B0}" Directory_="Ships_Dir" Attributes="0" KeyPath="adder.jpg" Type="0"/>
+    <ROW Component="empty.png" ComponentId="{BB642B77-8C6B-4223-ACE2-F3ACC109113B}" Directory_="Elements_ODY_Dir" Attributes="0" KeyPath="empty.png" Type="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
@@ -428,194 +428,10 @@
     <ROW File="ED_Horizons_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_HOR~3.JSO|ED_Horizons_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Horizons_Translations.json" SelfReg="false"/>
     <ROW File="ED_Odissey_Translations.json" Component_="EDHM_UI_Guide.pdf" FileName="ED_ODI~1.JSO|ED_Odissey_Translations.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\ED_Odissey_Translations.json" SelfReg="false"/>
     <ROW File="EDHM_UI_mk2.VisualElementsManifest.xml" Component_="EDHM_UI_mk2.VisualElementsManifest.xml" FileName="EDHM_U~1.XML|EDHM_UI_mk2.VisualElementsManifest.xml" Version="65535.65535.65535.65535" Attributes="0" SourcePath="&lt;AI_RES&gt;app.VisualElementsManifest.xml" SelfReg="false"/>
-    <ROW File="w97.png" Component_="w97.png" FileName="w97.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w97.png" SelfReg="false"/>
-    <ROW File="x122_y122_z122_w122.png" Component_="w97.png" FileName="X122_Y~1.PNG|x122_y122_z122_w122.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x122_y122_z122_w122.png" SelfReg="false"/>
-    <ROW File="x128_y128_z128_w128.png" Component_="w97.png" FileName="X128_Y~1.PNG|x128_y128_z128_w128.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x128_y128_z128_w128.png" SelfReg="false"/>
-    <ROW File="x143_y143_z143_w143.png" Component_="w97.png" FileName="X143_Y~1.PNG|x143_y143_z143_w143.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x143_y143_z143_w143.png" SelfReg="false"/>
-    <ROW File="x144_y144_z144_w144.png" Component_="w97.png" FileName="X144_Y~1.PNG|x144_y144_z144_w144.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x144_y144_z144_w144.png" SelfReg="false"/>
-    <ROW File="x145_y145_z145_w145.png" Component_="w97.png" FileName="X145_Y~1.PNG|x145_y145_z145_w145.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x145_y145_z145_w145.png" SelfReg="false"/>
-    <ROW File="x146_y146_z146_w146.png" Component_="w97.png" FileName="X146_Y~1.PNG|x146_y146_z146_w146.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x146_y146_z146_w146.png" SelfReg="false"/>
-    <ROW File="x147_y147_z147_w147.png" Component_="w97.png" FileName="X147_Y~1.PNG|x147_y147_z147_w147.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x147_y147_z147_w147.png" SelfReg="false"/>
-    <ROW File="x170_y170_z170.png" Component_="w97.png" FileName="X170_Y~1.PNG|x170_y170_z170.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x170_y170_z170.png" SelfReg="false"/>
-    <ROW File="x171_y171_z171.png" Component_="w97.png" FileName="X171_Y~1.PNG|x171_y171_z171.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x171_y171_z171.png" SelfReg="false"/>
-    <ROW File="x172_y172_z172.png" Component_="w97.png" FileName="X172_Y~1.PNG|x172_y172_z172.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x172_y172_z172.png" SelfReg="false"/>
-    <ROW File="x173_y173_z173.png" Component_="w97.png" FileName="X173_Y~1.PNG|x173_y173_z173.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x173_y173_z173.png" SelfReg="false"/>
-    <ROW File="x174_y174_z174.png" Component_="w97.png" FileName="X174_Y~1.PNG|x174_y174_z174.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x174_y174_z174.png" SelfReg="false"/>
-    <ROW File="x176_y176_z176.png" Component_="w97.png" FileName="X176_Y~1.PNG|x176_y176_z176.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x176_y176_z176.png" SelfReg="false"/>
-    <ROW File="x177_y177_z177.png" Component_="w97.png" FileName="X177_Y~1.PNG|x177_y177_z177.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x177_y177_z177.png" SelfReg="false"/>
-    <ROW File="x178_y178_z178.png" Component_="w97.png" FileName="X178_Y~1.PNG|x178_y178_z178.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x178_y178_z178.png" SelfReg="false"/>
-    <ROW File="x179_y179_z179_w179.png" Component_="w97.png" FileName="X179_Y~1.PNG|x179_y179_z179_w179.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x179_y179_z179_w179.png" SelfReg="false"/>
-    <ROW File="x180_y180_z180_w180.png" Component_="w97.png" FileName="X180_Y~1.PNG|x180_y180_z180_w180.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x180_y180_z180_w180.png" SelfReg="false"/>
-    <ROW File="x181_y181_z181_w181.png" Component_="w97.png" FileName="X181_Y~1.PNG|x181_y181_z181_w181.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x181_y181_z181_w181.png" SelfReg="false"/>
-    <ROW File="x182_y182_z182_w182.png" Component_="w97.png" FileName="X182_Y~1.PNG|x182_y182_z182_w182.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x182_y182_z182_w182.png" SelfReg="false"/>
-    <ROW File="x183_y183_z183.png" Component_="w97.png" FileName="X183_Y~1.PNG|x183_y183_z183.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x183_y183_z183.png" SelfReg="false"/>
-    <ROW File="x184_y184_z184_w184.png" Component_="w97.png" FileName="X184_Y~1.PNG|x184_y184_z184_w184.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x184_y184_z184_w184.png" SelfReg="false"/>
-    <ROW File="x185_y185_z185_w185.png" Component_="w97.png" FileName="X185_Y~1.PNG|x185_y185_z185_w185.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x185_y185_z185_w185.png" SelfReg="false"/>
-    <ROW File="x189_y189_z189.png" Component_="w97.png" FileName="X189_Y~1.PNG|x189_y189_z189.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x189_y189_z189.png" SelfReg="false"/>
-    <ROW File="x197_y197_z197_w197.png" Component_="w97.png" FileName="X197_Y~1.PNG|x197_y197_z197_w197.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x197_y197_z197_w197.png" SelfReg="false"/>
-    <ROW File="x198_y198_z198_w198.png" Component_="w97.png" FileName="X198_Y~1.PNG|x198_y198_z198_w198.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x198_y198_z198_w198.png" SelfReg="false"/>
-    <ROW File="x199_y199_z199_w199.png" Component_="w97.png" FileName="X199_Y~1.PNG|x199_y199_z199_w199.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x199_y199_z199_w199.png" SelfReg="false"/>
-    <ROW File="x200_y200_z200_w200.png" Component_="w97.png" FileName="X200_Y~1.PNG|x200_y200_z200_w200.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x200_y200_z200_w200.png" SelfReg="false"/>
-    <ROW File="x201_y201_z201_w201.png" Component_="w97.png" FileName="X201_Y~1.PNG|x201_y201_z201_w201.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x201_y201_z201_w201.png" SelfReg="false"/>
-    <ROW File="x202_y202_z202_w202.png" Component_="w97.png" FileName="X202_Y~1.PNG|x202_y202_z202_w202.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x202_y202_z202_w202.png" SelfReg="false"/>
-    <ROW File="x203_y203_z203_w203.png" Component_="w97.png" FileName="X203_Y~1.PNG|x203_y203_z203_w203.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x203_y203_z203_w203.png" SelfReg="false"/>
-    <ROW File="x204_y204_z204_w204.png" Component_="w97.png" FileName="X204_Y~1.PNG|x204_y204_z204_w204.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x204_y204_z204_w204.png" SelfReg="false"/>
-    <ROW File="x205_y205_z205_w205.png" Component_="w97.png" FileName="X205_Y~1.PNG|x205_y205_z205_w205.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x205_y205_z205_w205.png" SelfReg="false"/>
-    <ROW File="x206_y206_z206.png" Component_="w97.png" FileName="X206_Y~1.PNG|x206_y206_z206.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x206_y206_z206.png" SelfReg="false"/>
-    <ROW File="x207_y207_z207.png" Component_="w97.png" FileName="X207_Y~1.PNG|x207_y207_z207.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x207_y207_z207.png" SelfReg="false"/>
-    <ROW File="x208_y208_z208_w208.png" Component_="w97.png" FileName="X208_Y~1.PNG|x208_y208_z208_w208.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x208_y208_z208_w208.png" SelfReg="false"/>
-    <ROW File="x209_y209_z209_w209.png" Component_="w97.png" FileName="X209_Y~1.PNG|x209_y209_z209_w209.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x209_y209_z209_w209.png" SelfReg="false"/>
-    <ROW File="x210_y210_z210.png" Component_="w97.png" FileName="X210_Y~1.PNG|x210_y210_z210.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x210_y210_z210.png" SelfReg="false"/>
-    <ROW File="x211_y211_z211.png" Component_="w97.png" FileName="X211_Y~1.PNG|x211_y211_z211.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x211_y211_z211.png" SelfReg="false"/>
-    <ROW File="x212_y212_z212.png" Component_="w97.png" FileName="X212_Y~1.PNG|x212_y212_z212.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x212_y212_z212.png" SelfReg="false"/>
-    <ROW File="x214_y214_z214.png" Component_="w97.png" FileName="X214_Y~1.PNG|x214_y214_z214.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x214_y214_z214.png" SelfReg="false"/>
-    <ROW File="x215_y215_z215.png" Component_="w97.png" FileName="X215_Y~1.PNG|x215_y215_z215.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x215_y215_z215.png" SelfReg="false"/>
-    <ROW File="x216_y216_z216.png" Component_="w97.png" FileName="X216_Y~1.PNG|x216_y216_z216.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x216_y216_z216.png" SelfReg="false"/>
-    <ROW File="x217_y217_z217_w217.png" Component_="w97.png" FileName="X217_Y~1.PNG|x217_y217_z217_w217.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x217_y217_z217_w217.png" SelfReg="false"/>
-    <ROW File="x218_y218_z218_w218.png" Component_="w97.png" FileName="X218_Y~1.PNG|x218_y218_z218_w218.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x218_y218_z218_w218.png" SelfReg="false"/>
-    <ROW File="x219_y219_z219.png" Component_="w97.png" FileName="X219_Y~1.PNG|x219_y219_z219.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x219_y219_z219.png" SelfReg="false"/>
-    <ROW File="x220_y220_z220.png" Component_="w97.png" FileName="X220_Y~1.PNG|x220_y220_z220.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x220_y220_z220.png" SelfReg="false"/>
-    <ROW File="x221_y221_z221.png" Component_="w97.png" FileName="X221_Y~1.PNG|x221_y221_z221.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x221_y221_z221.png" SelfReg="false"/>
-    <ROW File="x222_y222_z222.png" Component_="w97.png" FileName="X222_Y~1.PNG|x222_y222_z222.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x222_y222_z222.png" SelfReg="false"/>
-    <ROW File="x223_y223_z223.png" Component_="w97.png" FileName="X223_Y~1.PNG|x223_y223_z223.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x223_y223_z223.png" SelfReg="false"/>
-    <ROW File="x224_y224_z224.png" Component_="w97.png" FileName="X224_Y~1.PNG|x224_y224_z224.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x224_y224_z224.png" SelfReg="false"/>
-    <ROW File="x225_y225_z225.png" Component_="w97.png" FileName="X225_Y~1.PNG|x225_y225_z225.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x225_y225_z225.png" SelfReg="false"/>
-    <ROW File="x226_y226_z226.png" Component_="w97.png" FileName="X226_Y~1.PNG|x226_y226_z226.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x226_y226_z226.png" SelfReg="false"/>
-    <ROW File="x227_y227_z227.png" Component_="w97.png" FileName="X227_Y~1.PNG|x227_y227_z227.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x227_y227_z227.png" SelfReg="false"/>
-    <ROW File="x228_y228_z228.png" Component_="w97.png" FileName="X228_Y~1.PNG|x228_y228_z228.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x228_y228_z228.png" SelfReg="false"/>
-    <ROW File="x230_y230_z230.png" Component_="w97.png" FileName="X230_Y~1.PNG|x230_y230_z230.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x230_y230_z230.png" SelfReg="false"/>
-    <ROW File="x231_y231_z231.png" Component_="w97.png" FileName="X231_Y~1.PNG|x231_y231_z231.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x231_y231_z231.png" SelfReg="false"/>
-    <ROW File="x232_y232_z232_w232.png" Component_="w97.png" FileName="X232_Y~1.PNG|x232_y232_z232_w232.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x232_y232_z232_w232.png" SelfReg="false"/>
-    <ROW File="x233_y233_z233_w233.png" Component_="w97.png" FileName="X233_Y~1.PNG|x233_y233_z233_w233.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x233_y233_z233_w233.png" SelfReg="false"/>
-    <ROW File="x235_y235_z235.png" Component_="w97.png" FileName="X235_Y~1.PNG|x235_y235_z235.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x235_y235_z235.png" SelfReg="false"/>
-    <ROW File="x236_y236_z236.png" Component_="w97.png" FileName="X236_Y~1.PNG|x236_y236_z236.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x236_y236_z236.png" SelfReg="false"/>
-    <ROW File="x237_y237_z237.png" Component_="w97.png" FileName="X237_Y~1.PNG|x237_y237_z237.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x237_y237_z237.png" SelfReg="false"/>
-    <ROW File="x239_y239_z239_w239.png" Component_="w97.png" FileName="X239_Y~1.PNG|x239_y239_z239_w239.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x239_y239_z239_w239.png" SelfReg="false"/>
-    <ROW File="x240_y240_z240_w240.png" Component_="w97.png" FileName="X240_Y~1.PNG|x240_y240_z240_w240.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x240_y240_z240_w240.png" SelfReg="false"/>
-    <ROW File="x241_y241_z241_w241.png" Component_="w97.png" FileName="X241_Y~1.PNG|x241_y241_z241_w241.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x241_y241_z241_w241.png" SelfReg="false"/>
-    <ROW File="x242_y242_z242_w242.png" Component_="w97.png" FileName="X242_Y~1.PNG|x242_y242_z242_w242.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x242_y242_z242_w242.png" SelfReg="false"/>
-    <ROW File="x243_y243_z243_w243.png" Component_="w97.png" FileName="X243_Y~1.PNG|x243_y243_z243_w243.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x243_y243_z243_w243.png" SelfReg="false"/>
-    <ROW File="x244_y244_z244_w244.png" Component_="w97.png" FileName="X244_Y~1.PNG|x244_y244_z244_w244.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x244_y244_z244_w244.png" SelfReg="false"/>
-    <ROW File="x245_y245_z245_w245.png" Component_="w97.png" FileName="X245_Y~1.PNG|x245_y245_z245_w245.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x245_y245_z245_w245.png" SelfReg="false"/>
-    <ROW File="x246_y246_z246_w246.png" Component_="w97.png" FileName="X246_Y~1.PNG|x246_y246_z246_w246.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x246_y246_z246_w246.png" SelfReg="false"/>
-    <ROW File="x247_y247_z247_w247.png" Component_="w97.png" FileName="X247_Y~1.PNG|x247_y247_z247_w247.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x247_y247_z247_w247.png" SelfReg="false"/>
-    <ROW File="x248_y248_z248.png" Component_="w97.png" FileName="X248_Y~1.PNG|x248_y248_z248.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x248_y248_z248.png" SelfReg="false"/>
-    <ROW File="x249_y249_z249.png" Component_="w97.png" FileName="X249_Y~1.PNG|x249_y249_z249.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x249_y249_z249.png" SelfReg="false"/>
-    <ROW File="x251_y251_z251_w251.png" Component_="w97.png" FileName="X251_Y~1.PNG|x251_y251_z251_w251.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x251_y251_z251_w251.png" SelfReg="false"/>
-    <ROW File="x252_y252_z252_w252.png" Component_="w97.png" FileName="X252_Y~1.PNG|x252_y252_z252_w252.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x252_y252_z252_w252.png" SelfReg="false"/>
-    <ROW File="x253_y253_z253_w253.png" Component_="w97.png" FileName="X253_Y~1.PNG|x253_y253_z253_w253.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x253_y253_z253_w253.png" SelfReg="false"/>
-    <ROW File="x254_y254_z254.png" Component_="w97.png" FileName="X254_Y~1.PNG|x254_y254_z254.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x254_y254_z254.png" SelfReg="false"/>
-    <ROW File="x255_y255_z255_w255.png" Component_="w97.png" FileName="X255_Y~1.PNG|x255_y255_z255_w255.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x255_y255_z255_w255.png" SelfReg="false"/>
-    <ROW File="x29_y29_z29.png" Component_="w97.png" FileName="X29_Y2~1.PNG|x29_y29_z29.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x29_y29_z29.png" SelfReg="false"/>
-    <ROW File="x31_y31_z31.png" Component_="w97.png" FileName="X31_Y3~1.PNG|x31_y31_z31.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x31_y31_z31.png" SelfReg="false"/>
-    <ROW File="x32_y32_z32_w32.png" Component_="w97.png" FileName="X32_Y3~1.PNG|x32_y32_z32_w32.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x32_y32_z32_w32.png" SelfReg="false"/>
-    <ROW File="x33_y33_z33_w33.png" Component_="w97.png" FileName="X33_Y3~1.PNG|x33_y33_z33_w33.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x33_y33_z33_w33.png" SelfReg="false"/>
-    <ROW File="x34_y34_z34_w34.png" Component_="w97.png" FileName="X34_Y3~1.PNG|x34_y34_z34_w34.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x34_y34_z34_w34.png" SelfReg="false"/>
-    <ROW File="x35_y35_z35_w35.png" Component_="w97.png" FileName="X35_Y3~1.PNG|x35_y35_z35_w35.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x35_y35_z35_w35.png" SelfReg="false"/>
-    <ROW File="x36_y36_z36_w36.png" Component_="w97.png" FileName="X36_Y3~1.PNG|x36_y36_z36_w36.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x36_y36_z36_w36.png" SelfReg="false"/>
-    <ROW File="x37_y37_z37_w37.png" Component_="w97.png" FileName="X37_Y3~1.PNG|x37_y37_z37_w37.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x37_y37_z37_w37.png" SelfReg="false"/>
-    <ROW File="x38_y38_z38_w38.png" Component_="w97.png" FileName="X38_Y3~1.PNG|x38_y38_z38_w38.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x38_y38_z38_w38.png" SelfReg="false"/>
-    <ROW File="x39_y39_z39.png" Component_="w97.png" FileName="X39_Y3~1.PNG|x39_y39_z39.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x39_y39_z39.png" SelfReg="false"/>
-    <ROW File="x40_y40_z40.png" Component_="w97.png" FileName="X40_Y4~1.PNG|x40_y40_z40.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x40_y40_z40.png" SelfReg="false"/>
-    <ROW File="x41_y41_z41.png" Component_="w97.png" FileName="X41_Y4~1.PNG|x41_y41_z41.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x41_y41_z41.png" SelfReg="false"/>
-    <ROW File="x42_y42_z42.png" Component_="w97.png" FileName="X42_Y4~1.PNG|x42_y42_z42.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x42_y42_z42.png" SelfReg="false"/>
-    <ROW File="x43_y43_z43.png" Component_="w97.png" FileName="X43_Y4~1.PNG|x43_y43_z43.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x43_y43_z43.png" SelfReg="false"/>
-    <ROW File="x44_y44_z44.png" Component_="w97.png" FileName="X44_Y4~1.PNG|x44_y44_z44.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x44_y44_z44.png" SelfReg="false"/>
-    <ROW File="x45_y45_z45.png" Component_="w97.png" FileName="X45_Y4~1.PNG|x45_y45_z45.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x45_y45_z45.png" SelfReg="false"/>
-    <ROW File="x46_y46_z46.png" Component_="w97.png" FileName="X46_Y4~1.PNG|x46_y46_z46.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x46_y46_z46.png" SelfReg="false"/>
-    <ROW File="x47_y47_z47.png" Component_="w97.png" FileName="X47_Y4~1.PNG|x47_y47_z47.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x47_y47_z47.png" SelfReg="false"/>
-    <ROW File="x48_y48_z48.png" Component_="w97.png" FileName="X48_Y4~1.PNG|x48_y48_z48.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x48_y48_z48.png" SelfReg="false"/>
-    <ROW File="x50_y50_z50_w50.png" Component_="w97.png" FileName="X50_Y5~1.PNG|x50_y50_z50_w50.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x50_y50_z50_w50.png" SelfReg="false"/>
-    <ROW File="x51_y51_z51.png" Component_="w97.png" FileName="X51_Y5~1.PNG|x51_y51_z51.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x51_y51_z51.png" SelfReg="false"/>
-    <ROW File="x52_y52_z52.png" Component_="w97.png" FileName="X52_Y5~1.PNG|x52_y52_z52.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x52_y52_z52.png" SelfReg="false"/>
-    <ROW File="x53_y53_z53.png" Component_="w97.png" FileName="X53_Y5~1.PNG|x53_y53_z53.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x53_y53_z53.png" SelfReg="false"/>
-    <ROW File="x54_y54_z54_w54.png" Component_="w97.png" FileName="X54_Y5~1.PNG|x54_y54_z54_w54.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x54_y54_z54_w54.png" SelfReg="false"/>
-    <ROW File="x55_y55_z55.png" Component_="w97.png" FileName="X55_Y5~1.PNG|x55_y55_z55.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x55_y55_z55.png" SelfReg="false"/>
-    <ROW File="x56_y56_z56_w56.png" Component_="w97.png" FileName="X56_Y5~1.PNG|x56_y56_z56_w56.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x56_y56_z56_w56.png" SelfReg="false"/>
-    <ROW File="x57_y57_z57_w57.png" Component_="w97.png" FileName="X57_Y5~1.PNG|x57_y57_z57_w57.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x57_y57_z57_w57.png" SelfReg="false"/>
-    <ROW File="x58_y58_z58_w58.png" Component_="w97.png" FileName="X58_Y5~1.PNG|x58_y58_z58_w58.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x58_y58_z58_w58.png" SelfReg="false"/>
-    <ROW File="x61_y61_z61_w61.png" Component_="w97.png" FileName="X61_Y6~1.PNG|x61_y61_z61_w61.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x61_y61_z61_w61.png" SelfReg="false"/>
-    <ROW File="x62_y62_z62_w62.png" Component_="w97.png" FileName="X62_Y6~1.PNG|x62_y62_z62_w62.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x62_y62_z62_w62.png" SelfReg="false"/>
-    <ROW File="x63_y63_z63_w63.png" Component_="w97.png" FileName="X63_Y6~1.PNG|x63_y63_z63_w63.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x63_y63_z63_w63.png" SelfReg="false"/>
-    <ROW File="x64_y64_z64_w64.png" Component_="w97.png" FileName="X64_Y6~1.PNG|x64_y64_z64_w64.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x64_y64_z64_w64.png" SelfReg="false"/>
-    <ROW File="x65_y65_z65_w65.png" Component_="w97.png" FileName="X65_Y6~1.PNG|x65_y65_z65_w65.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x65_y65_z65_w65.png" SelfReg="false"/>
-    <ROW File="x66_y66_z66_w66.png" Component_="w97.png" FileName="X66_Y6~1.PNG|x66_y66_z66_w66.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x66_y66_z66_w66.png" SelfReg="false"/>
-    <ROW File="x67_y67_z67_w67.png" Component_="w97.png" FileName="X67_Y6~1.PNG|x67_y67_z67_w67.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x67_y67_z67_w67.png" SelfReg="false"/>
-    <ROW File="x69_y69_z69.png" Component_="w97.png" FileName="X69_Y6~1.PNG|x69_y69_z69.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x69_y69_z69.png" SelfReg="false"/>
-    <ROW File="x70_y70_z70.png" Component_="w97.png" FileName="X70_Y7~1.PNG|x70_y70_z70.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x70_y70_z70.png" SelfReg="false"/>
-    <ROW File="x71_y71_z71.png" Component_="w97.png" FileName="X71_Y7~1.PNG|x71_y71_z71.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x71_y71_z71.png" SelfReg="false"/>
-    <ROW File="x72_y72_z72.png" Component_="w97.png" FileName="X72_Y7~1.PNG|x72_y72_z72.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x72_y72_z72.png" SelfReg="false"/>
-    <ROW File="x76_y76_z76.png" Component_="w97.png" FileName="X76_Y7~1.PNG|x76_y76_z76.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x76_y76_z76.png" SelfReg="false"/>
-    <ROW File="x77_y77_z77_w77.png" Component_="w97.png" FileName="X77_Y7~1.PNG|x77_y77_z77_w77.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x77_y77_z77_w77.png" SelfReg="false"/>
-    <ROW File="x79_y79_z79.png" Component_="w97.png" FileName="X79_Y7~1.PNG|x79_y79_z79.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x79_y79_z79.png" SelfReg="false"/>
-    <ROW File="x82_y82_z82_w82.png" Component_="w97.png" FileName="X82_Y8~1.PNG|x82_y82_z82_w82.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x82_y82_z82_w82.png" SelfReg="false"/>
-    <ROW File="x85_y85_z85_w85.png" Component_="w97.png" FileName="X85_Y8~1.PNG|x85_y85_z85_w85.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x85_y85_z85_w85.png" SelfReg="false"/>
-    <ROW File="x86_y86_z86_w86.png" Component_="w97.png" FileName="X86_Y8~1.PNG|x86_y86_z86_w86.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x86_y86_z86_w86.png" SelfReg="false"/>
-    <ROW File="x88_y88_z88.png" Component_="w97.png" FileName="X88_Y8~1.PNG|x88_y88_z88.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x88_y88_z88.png" SelfReg="false"/>
-    <ROW File="x90_y90_z90.png" Component_="w97.png" FileName="X90_Y9~1.PNG|x90_y90_z90.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x90_y90_z90.png" SelfReg="false"/>
-    <ROW File="x91_y91_z91.png" Component_="w97.png" FileName="X91_Y9~1.PNG|x91_y91_z91.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x91_y91_z91.png" SelfReg="false"/>
-    <ROW File="x92_y92_z92_w92.png" Component_="w97.png" FileName="X92_Y9~1.PNG|x92_y92_z92_w92.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x92_y92_z92_w92.png" SelfReg="false"/>
-    <ROW File="x94_y94_z94.png" Component_="w97.png" FileName="X94_Y9~1.PNG|x94_y94_z94.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x94_y94_z94.png" SelfReg="false"/>
-    <ROW File="x95_y95_z95_w95.png" Component_="w97.png" FileName="X95_Y9~1.PNG|x95_y95_z95_w95.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x95_y95_z95_w95.png" SelfReg="false"/>
-    <ROW File="x96_y96_z96_w96.png" Component_="w97.png" FileName="X96_Y9~1.PNG|x96_y96_z96_w96.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x96_y96_z96_w96.png" SelfReg="false"/>
-    <ROW File="x98_y98_z98_w98.png" Component_="w97.png" FileName="X98_Y9~1.PNG|x98_y98_z98_w98.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x98_y98_z98_w98.png" SelfReg="false"/>
     <ROW File="Ship_List.json" Component_="EDHM_UI_Guide.pdf" FileName="SHIP_L~1.JSO|Ship_List.json" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Data\Ship_List.json" SelfReg="false"/>
     <ROW File="PM_Default.png" Component_="PREVIEW.png" FileName="3PM_DE~1.PNG|3PM_Default.png" Attributes="0" SourcePath="..\bin\Debug\Images\3PM_Default.png" SelfReg="false"/>
-    <ROW File="x59_y59_z59.png" Component_="w97.png" FileName="X59_Y5~2.PNG|x59_y59_z59.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x59_y59_z59.png" SelfReg="false"/>
-    <ROW File="x60_y60_z60.png" Component_="w97.png" FileName="X60_Y6~2.PNG|x60_y60_z60.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x60_y60_z60.png" SelfReg="false"/>
-    <ROW File="w190.png" Component_="w97.png" FileName="w190.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w190.png" SelfReg="false"/>
-    <ROW File="x191_y191_z191.png" Component_="w97.png" FileName="X191_Y~1.PNG|x191_y191_z191.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x191_y191_z191.png" SelfReg="false"/>
-    <ROW File="x192_y192_z192.png" Component_="w97.png" FileName="X192_Y~1.PNG|x192_y192_z192.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x192_y192_z192.png" SelfReg="false"/>
-    <ROW File="x195y_195z_195.png" Component_="w97.png" FileName="X195Y_~1.PNG|x195y_195z_195.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x195y_195z_195.png" SelfReg="false"/>
-    <ROW File="w234.png" Component_="w97.png" FileName="w234.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w234.png" SelfReg="false"/>
     <ROW File="EDHM_UI_mk2.pdb" Component_="EDHM_UI_mk2.exe" FileName="EDHM_U~1.PDB|EDHM_UI_mk2.pdb" Attributes="0" SourcePath="..\bin\Debug\EDHM_UI_mk2.pdb" SelfReg="false"/>
     <ROW File="app.manifest" Component_="EDHM_UI_mk2.exe.Config" FileName="APP~1.MAN|app.manifest" Attributes="0" SourcePath="..\bin\Debug\app.manifest" SelfReg="false"/>
-    <ROW File="x256_y256_z256.png" Component_="w97.png" FileName="X256_Y~1.PNG|x256_y256_z256.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x256_y256_z256.png" SelfReg="false"/>
-    <ROW File="x159_y159_z159.png" Component_="w97.png" FileName="X159_Y~1.PNG|x159_y159_z159.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x159_y159_z159.png" SelfReg="false"/>
-    <ROW File="z115.png" Component_="w97.png" FileName="z115.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z115.png" SelfReg="false"/>
-    <ROW File="adder.jpg" Component_="adder.jpg" FileName="adder.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\adder.jpg" SelfReg="false"/>
-    <ROW File="anaconda.jpg" Component_="adder.jpg" FileName="anaconda.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\anaconda.jpg" SelfReg="false"/>
-    <ROW File="asp.jpg" Component_="adder.jpg" FileName="asp.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\asp.jpg" SelfReg="false"/>
-    <ROW File="asp_scout.jpg" Component_="adder.jpg" FileName="ASP_SC~1.JPG|asp_scout.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\asp_scout.jpg" SelfReg="false"/>
-    <ROW File="belugaliner.jpg" Component_="adder.jpg" FileName="BELUGA~1.JPG|belugaliner.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\belugaliner.jpg" SelfReg="false"/>
-    <ROW File="cobramkiii.jpg" Component_="adder.jpg" FileName="COBRAM~1.JPG|cobramkiii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkiii.jpg" SelfReg="false"/>
-    <ROW File="cobramkiv.jpg" Component_="adder.jpg" FileName="COBRAM~2.JPG|cobramkiv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkiv.jpg" SelfReg="false"/>
-    <ROW File="combat_multicrew_srv_01.jpg" Component_="adder.jpg" FileName="COMBAT~1.JPG|combat_multicrew_srv_01.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\combat_multicrew_srv_01.jpg" SelfReg="false"/>
-    <ROW File="cutter.jpg" Component_="adder.jpg" FileName="cutter.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cutter.jpg" SelfReg="false"/>
-    <ROW File="diamondback.jpg" Component_="adder.jpg" FileName="DIAMON~1.JPG|diamondback.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\diamondback.jpg" SelfReg="false"/>
-    <ROW File="diamondbackxl.jpg" Component_="adder.jpg" FileName="DIAMON~2.JPG|diamondbackxl.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\diamondbackxl.jpg" SelfReg="false"/>
-    <ROW File="dolphin.jpg" Component_="adder.jpg" FileName="dolphin.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\dolphin.jpg" SelfReg="false"/>
-    <ROW File="eagle.jpg" Component_="adder.jpg" FileName="eagle.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\eagle.jpg" SelfReg="false"/>
-    <ROW File="empire_courier.jpg" Component_="adder.jpg" FileName="EMPIRE~1.JPG|empire_courier.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_courier.jpg" SelfReg="false"/>
-    <ROW File="empire_eagle.jpg" Component_="adder.jpg" FileName="EMPIRE~2.JPG|empire_eagle.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_eagle.jpg" SelfReg="false"/>
-    <ROW File="empire_trader.jpg" Component_="adder.jpg" FileName="EMPIRE~3.JPG|empire_trader.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_trader.jpg" SelfReg="false"/>
-    <ROW File="federation_corvette.jpg" Component_="adder.jpg" FileName="FEDERA~1.JPG|federation_corvette.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_corvette.jpg" SelfReg="false"/>
-    <ROW File="federation_dropship.jpg" Component_="adder.jpg" FileName="FEDERA~2.JPG|federation_dropship.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_dropship.jpg" SelfReg="false"/>
-    <ROW File="federation_dropship_mkii.jpg" Component_="adder.jpg" FileName="FEDERA~3.JPG|federation_dropship_mkii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_dropship_mkii.jpg" SelfReg="false"/>
-    <ROW File="federation_gunship.jpg" Component_="adder.jpg" FileName="FEDERA~4.JPG|federation_gunship.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_gunship.jpg" SelfReg="false"/>
-    <ROW File="ferdelance.jpg" Component_="adder.jpg" FileName="FERDEL~1.JPG|ferdelance.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\ferdelance.jpg" SelfReg="false"/>
-    <ROW File="hauler.jpg" Component_="adder.jpg" FileName="hauler.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\hauler.jpg" SelfReg="false"/>
-    <ROW File="independant_trader.jpg" Component_="adder.jpg" FileName="INDEPE~1.JPG|independant_trader.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\independant_trader.jpg" SelfReg="false"/>
-    <ROW File="krait_light.jpg" Component_="adder.jpg" FileName="KRAIT_~1.JPG|krait_light.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\krait_light.jpg" SelfReg="false"/>
-    <ROW File="krait_mkii.jpg" Component_="adder.jpg" FileName="KRAIT_~2.JPG|krait_mkii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\krait_mkii.jpg" SelfReg="false"/>
-    <ROW File="mamba.jpg" Component_="adder.jpg" FileName="mamba.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mamba.jpg" SelfReg="false"/>
-    <ROW File="orca.jpg" Component_="adder.jpg" FileName="orca.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\orca.jpg" SelfReg="false"/>
-    <ROW File="python.jpg" Component_="adder.jpg" FileName="python.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\python.jpg" SelfReg="false"/>
-    <ROW File="sidewinder.jpg" Component_="adder.jpg" FileName="SIDEWI~1.JPG|sidewinder.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\sidewinder.jpg" SelfReg="false"/>
-    <ROW File="testbuggy.jpg" Component_="adder.jpg" FileName="TESTBU~1.JPG|testbuggy.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\testbuggy.jpg" SelfReg="false"/>
-    <ROW File="type6.jpg" Component_="adder.jpg" FileName="type6.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type6.jpg" SelfReg="false"/>
-    <ROW File="type7.jpg" Component_="adder.jpg" FileName="type7.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type7.jpg" SelfReg="false"/>
-    <ROW File="type9.jpg" Component_="adder.jpg" FileName="type9.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type9.jpg" SelfReg="false"/>
-    <ROW File="type9_military.jpg" Component_="adder.jpg" FileName="TYPE9_~1.JPG|type9_military.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type9_military.jpg" SelfReg="false"/>
-    <ROW File="typex.jpg" Component_="adder.jpg" FileName="typex.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex.jpg" SelfReg="false"/>
-    <ROW File="typex_2.jpg" Component_="adder.jpg" FileName="typex_2.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex_2.jpg" SelfReg="false"/>
-    <ROW File="typex_3.jpg" Component_="adder.jpg" FileName="typex_3.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex_3.jpg" SelfReg="false"/>
-    <ROW File="viper.jpg" Component_="adder.jpg" FileName="viper.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper.jpg" SelfReg="false"/>
-    <ROW File="viper_mkiv.jpg" Component_="adder.jpg" FileName="VIPER_~1.JPG|viper_mkiv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper_mkiv.jpg" SelfReg="false"/>
-    <ROW File="vulture.jpg" Component_="adder.jpg" FileName="vulture.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\vulture.jpg" SelfReg="false"/>
-    <ROW File="x238_y238_z238_w238.png" Component_="w97.png" FileName="X238_Y~1.PNG|x238_y238_z238_w238.png" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x238_y238_z238_w238.png" SelfReg="false"/>
-    <ROW File="python_nx.jpg" Component_="adder.jpg" FileName="PYTHON~1.JPG|python_nx.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\python_nx.jpg" SelfReg="false"/>
-    <ROW File="type8.jpg" Component_="adder.jpg" FileName="type8.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type8.jpg" SelfReg="false"/>
     <ROW File="DevExpress.BonusSkins.v24.1.dll" Component_="DevExpress.BonusSkins.v24.1.dll" FileName="DEVEXP~1.DLL|DevExpress.BonusSkins.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.BonusSkins.v24.1.dll" SelfReg="false"/>
     <ROW File="DevExpress.CodeParser.v24.1.dll" Component_="DevExpress.CodeParser.v24.1.dll" FileName="DEVEXP~2.DLL|DevExpress.CodeParser.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.CodeParser.v24.1.dll" SelfReg="false"/>
     <ROW File="DevExpress.Data.Desktop.v24.1.dll" Component_="DevExpress.Data.Desktop.v24.1.dll" FileName="DEVEXP~3.DLL|DevExpress.Data.Desktop.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.Data.Desktop.v24.1.dll" SelfReg="false"/>
@@ -641,12 +457,333 @@
     <ROW File="DevExpress.XtraPrinting.v24.1.dll" Component_="DevExpress.XtraPrinting.v24.1.dll" FileName="DEVEX~23.DLL|DevExpress.XtraPrinting.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraPrinting.v24.1.dll" SelfReg="false"/>
     <ROW File="DevExpress.XtraTreeList.v24.1.dll" Component_="DevExpress.XtraTreeList.v24.1.dll" FileName="DEVEX~24.DLL|DevExpress.XtraTreeList.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraTreeList.v24.1.dll" SelfReg="false"/>
     <ROW File="DevExpress.XtraVerticalGrid.v24.1.dll" Component_="DevExpress.XtraVerticalGrid.v24.1.dll" FileName="DEVEX~25.DLL|DevExpress.XtraVerticalGrid.v24.1.dll" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraVerticalGrid.v24.1.dll" SelfReg="false"/>
-    <ROW File="mandalay.jpg" Component_="adder.jpg" FileName="mandalay.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mandalay.jpg" SelfReg="false"/>
     <ROW File="DevExpress.XtraEditors.v24.1.xml" Component_="EDHM_UI_mk2.exe.Config" FileName="DEVEXP~1.XML|DevExpress.XtraEditors.v24.1.xml" Attributes="0" SourcePath="..\bin\Debug\DevExpress.XtraEditors.v24.1.xml" SelfReg="false"/>
-    <ROW File="cobramkv.jpg" Component_="adder.jpg" FileName="cobramkv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkv.jpg" SelfReg="false"/>
-    <ROW File="corsair.jpg" Component_="adder.jpg" FileName="corsair.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\corsair.jpg" SelfReg="false"/>
     <ROW File="HORIZ_EDHMv1.52.b.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="HORIZ_~1.ZIP|HORIZ_EDHM-v1.52.b.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\HORIZ_EDHM-v1.52.b.zip" SelfReg="false"/>
-    <ROW File="ODYSS_EDHMv20.05.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v20.05.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v20.05.zip" SelfReg="false"/>
+    <ROW File="ODYSS_EDHMv20.06.zip" Component_="HORIZ_EDHMv1.51.1.zip" FileName="ODYSS_~1.ZIP|ODYSS_EDHM-v20.06.zip" Version="65535.65535.65535.65535" Attributes="0" SourcePath="..\bin\Debug\Updates\ODYSS_EDHM-v20.06.zip" SelfReg="false"/>
+    <ROW File="adder.jpg" Component_="adder.jpg" FileName="adder.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\adder.jpg" SelfReg="false"/>
+    <ROW File="anaconda.jpg" Component_="adder.jpg" FileName="anaconda.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\anaconda.jpg" SelfReg="false"/>
+    <ROW File="asp.jpg" Component_="adder.jpg" FileName="asp.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\asp.jpg" SelfReg="false"/>
+    <ROW File="asp_scout.jpg" Component_="adder.jpg" FileName="ASP_SC~1.JPG|asp_scout.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\asp_scout.jpg" SelfReg="false"/>
+    <ROW File="belugaliner.jpg" Component_="adder.jpg" FileName="BELUGA~1.JPG|belugaliner.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\belugaliner.jpg" SelfReg="false"/>
+    <ROW File="cobramkiii.jpg" Component_="adder.jpg" FileName="COBRAM~1.JPG|cobramkiii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkiii.jpg" SelfReg="false"/>
+    <ROW File="cobramkiv.jpg" Component_="adder.jpg" FileName="COBRAM~2.JPG|cobramkiv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkiv.jpg" SelfReg="false"/>
+    <ROW File="cobramkv.jpg" Component_="adder.jpg" FileName="cobramkv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cobramkv.jpg" SelfReg="false"/>
+    <ROW File="combat_multicrew_srv_01.jpg" Component_="adder.jpg" FileName="COMBAT~1.JPG|combat_multicrew_srv_01.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\combat_multicrew_srv_01.jpg" SelfReg="false"/>
+    <ROW File="corsair.jpg" Component_="adder.jpg" FileName="corsair.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\corsair.jpg" SelfReg="false"/>
+    <ROW File="cutter.jpg" Component_="adder.jpg" FileName="cutter.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\cutter.jpg" SelfReg="false"/>
+    <ROW File="diamondback.jpg" Component_="adder.jpg" FileName="DIAMON~1.JPG|diamondback.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\diamondback.jpg" SelfReg="false"/>
+    <ROW File="diamondbackxl.jpg" Component_="adder.jpg" FileName="DIAMON~2.JPG|diamondbackxl.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\diamondbackxl.jpg" SelfReg="false"/>
+    <ROW File="dolphin.jpg" Component_="adder.jpg" FileName="dolphin.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\dolphin.jpg" SelfReg="false"/>
+    <ROW File="eagle.jpg" Component_="adder.jpg" FileName="eagle.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\eagle.jpg" SelfReg="false"/>
+    <ROW File="empire_courier.jpg" Component_="adder.jpg" FileName="EMPIRE~1.JPG|empire_courier.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_courier.jpg" SelfReg="false"/>
+    <ROW File="empire_eagle.jpg" Component_="adder.jpg" FileName="EMPIRE~2.JPG|empire_eagle.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_eagle.jpg" SelfReg="false"/>
+    <ROW File="empire_trader.jpg" Component_="adder.jpg" FileName="EMPIRE~3.JPG|empire_trader.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\empire_trader.jpg" SelfReg="false"/>
+    <ROW File="federation_corvette.jpg" Component_="adder.jpg" FileName="FEDERA~1.JPG|federation_corvette.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_corvette.jpg" SelfReg="false"/>
+    <ROW File="federation_dropship.jpg" Component_="adder.jpg" FileName="FEDERA~2.JPG|federation_dropship.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_dropship.jpg" SelfReg="false"/>
+    <ROW File="federation_dropship_mkii.jpg" Component_="adder.jpg" FileName="FEDERA~3.JPG|federation_dropship_mkii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_dropship_mkii.jpg" SelfReg="false"/>
+    <ROW File="federation_gunship.jpg" Component_="adder.jpg" FileName="FEDERA~4.JPG|federation_gunship.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\federation_gunship.jpg" SelfReg="false"/>
+    <ROW File="ferdelance.jpg" Component_="adder.jpg" FileName="FERDEL~1.JPG|ferdelance.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\ferdelance.jpg" SelfReg="false"/>
+    <ROW File="hauler.jpg" Component_="adder.jpg" FileName="hauler.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\hauler.jpg" SelfReg="false"/>
+    <ROW File="independant_trader.jpg" Component_="adder.jpg" FileName="INDEPE~1.JPG|independant_trader.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\independant_trader.jpg" SelfReg="false"/>
+    <ROW File="krait_light.jpg" Component_="adder.jpg" FileName="KRAIT_~1.JPG|krait_light.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\krait_light.jpg" SelfReg="false"/>
+    <ROW File="krait_mkii.jpg" Component_="adder.jpg" FileName="KRAIT_~2.JPG|krait_mkii.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\krait_mkii.jpg" SelfReg="false"/>
+    <ROW File="mamba.jpg" Component_="adder.jpg" FileName="mamba.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mamba.jpg" SelfReg="false"/>
+    <ROW File="mandalay.jpg" Component_="adder.jpg" FileName="mandalay.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\mandalay.jpg" SelfReg="false"/>
+    <ROW File="orca.jpg" Component_="adder.jpg" FileName="orca.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\orca.jpg" SelfReg="false"/>
+    <ROW File="python.jpg" Component_="adder.jpg" FileName="python.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\python.jpg" SelfReg="false"/>
+    <ROW File="python_nx.jpg" Component_="adder.jpg" FileName="PYTHON~1.JPG|python_nx.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\python_nx.jpg" SelfReg="false"/>
+    <ROW File="sidewinder.jpg" Component_="adder.jpg" FileName="SIDEWI~1.JPG|sidewinder.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\sidewinder.jpg" SelfReg="false"/>
+    <ROW File="testbuggy.jpg" Component_="adder.jpg" FileName="TESTBU~1.JPG|testbuggy.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\testbuggy.jpg" SelfReg="false"/>
+    <ROW File="type6.jpg" Component_="adder.jpg" FileName="type6.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type6.jpg" SelfReg="false"/>
+    <ROW File="type7.jpg" Component_="adder.jpg" FileName="type7.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type7.jpg" SelfReg="false"/>
+    <ROW File="type8.jpg" Component_="adder.jpg" FileName="type8.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type8.jpg" SelfReg="false"/>
+    <ROW File="type9.jpg" Component_="adder.jpg" FileName="type9.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type9.jpg" SelfReg="false"/>
+    <ROW File="type9_military.jpg" Component_="adder.jpg" FileName="TYPE9_~1.JPG|type9_military.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\type9_military.jpg" SelfReg="false"/>
+    <ROW File="typex.jpg" Component_="adder.jpg" FileName="typex.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex.jpg" SelfReg="false"/>
+    <ROW File="typex_2.jpg" Component_="adder.jpg" FileName="typex_2.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex_2.jpg" SelfReg="false"/>
+    <ROW File="typex_3.jpg" Component_="adder.jpg" FileName="typex_3.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\typex_3.jpg" SelfReg="false"/>
+    <ROW File="viper.jpg" Component_="adder.jpg" FileName="viper.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper.jpg" SelfReg="false"/>
+    <ROW File="viper_mkiv.jpg" Component_="adder.jpg" FileName="VIPER_~1.JPG|viper_mkiv.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\viper_mkiv.jpg" SelfReg="false"/>
+    <ROW File="vulture.jpg" Component_="adder.jpg" FileName="vulture.jpg" Attributes="0" SourcePath="..\bin\Debug\Images\Ships\vulture.jpg" SelfReg="false"/>
+    <ROW File="empty.png" Component_="empty.png" FileName="empty.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\empty.png" SelfReg="false"/>
+    <ROW File="w101.png" Component_="empty.png" FileName="w101.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w101.png" SelfReg="false"/>
+    <ROW File="w104.png" Component_="empty.png" FileName="w104.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w104.png" SelfReg="false"/>
+    <ROW File="w106.png" Component_="empty.png" FileName="w106.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w106.png" SelfReg="false"/>
+    <ROW File="w108.png" Component_="empty.png" FileName="w108.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w108.png" SelfReg="false"/>
+    <ROW File="w109.png" Component_="empty.png" FileName="w109.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w109.png" SelfReg="false"/>
+    <ROW File="w118.png" Component_="empty.png" FileName="w118.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w118.png" SelfReg="false"/>
+    <ROW File="w120.png" Component_="empty.png" FileName="w120.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w120.png" SelfReg="false"/>
+    <ROW File="w121.png" Component_="empty.png" FileName="w121.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w121.png" SelfReg="false"/>
+    <ROW File="w123.png" Component_="empty.png" FileName="w123.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w123.png" SelfReg="false"/>
+    <ROW File="w133.png" Component_="empty.png" FileName="w133.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w133.png" SelfReg="false"/>
+    <ROW File="w134.png" Component_="empty.png" FileName="w134.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w134.png" SelfReg="false"/>
+    <ROW File="w135.png" Component_="empty.png" FileName="w135.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w135.png" SelfReg="false"/>
+    <ROW File="w136.png" Component_="empty.png" FileName="w136.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w136.png" SelfReg="false"/>
+    <ROW File="w138.png" Component_="empty.png" FileName="w138.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w138.png" SelfReg="false"/>
+    <ROW File="w140.png" Component_="empty.png" FileName="w140.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w140.png" SelfReg="false"/>
+    <ROW File="w141.png" Component_="empty.png" FileName="w141.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w141.png" SelfReg="false"/>
+    <ROW File="w150.png" Component_="empty.png" FileName="w150.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w150.png" SelfReg="false"/>
+    <ROW File="w151.png" Component_="empty.png" FileName="w151.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w151.png" SelfReg="false"/>
+    <ROW File="w152.png" Component_="empty.png" FileName="w152.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w152.png" SelfReg="false"/>
+    <ROW File="w160.png" Component_="empty.png" FileName="w160.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w160.png" SelfReg="false"/>
+    <ROW File="w170.png" Component_="empty.png" FileName="w170.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w170.png" SelfReg="false"/>
+    <ROW File="w174.png" Component_="empty.png" FileName="w174.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w174.png" SelfReg="false"/>
+    <ROW File="w190.png" Component_="empty.png" FileName="w190.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w190.png" SelfReg="false"/>
+    <ROW File="w191.png" Component_="empty.png" FileName="w191.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w191.png" SelfReg="false"/>
+    <ROW File="w192.png" Component_="empty.png" FileName="w192.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w192.png" SelfReg="false"/>
+    <ROW File="w206.png" Component_="empty.png" FileName="w206.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w206.png" SelfReg="false"/>
+    <ROW File="w210.png" Component_="empty.png" FileName="w210.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w210.png" SelfReg="false"/>
+    <ROW File="w229.png" Component_="empty.png" FileName="w229.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w229.png" SelfReg="false"/>
+    <ROW File="w234.png" Component_="empty.png" FileName="w234.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w234.png" SelfReg="false"/>
+    <ROW File="w249.png" Component_="empty.png" FileName="w249.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w249.png" SelfReg="false"/>
+    <ROW File="w30.png" Component_="empty.png" FileName="w30.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w30.png" SelfReg="false"/>
+    <ROW File="w73.png" Component_="empty.png" FileName="w73.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w73.png" SelfReg="false"/>
+    <ROW File="w75.png" Component_="empty.png" FileName="w75.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w75.png" SelfReg="false"/>
+    <ROW File="w78.png" Component_="empty.png" FileName="w78.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w78.png" SelfReg="false"/>
+    <ROW File="w81.png" Component_="empty.png" FileName="w81.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w81.png" SelfReg="false"/>
+    <ROW File="w87.png" Component_="empty.png" FileName="w87.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w87.png" SelfReg="false"/>
+    <ROW File="w89.png" Component_="empty.png" FileName="w89.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w89.png" SelfReg="false"/>
+    <ROW File="w93.png" Component_="empty.png" FileName="w93.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w93.png" SelfReg="false"/>
+    <ROW File="w97.png" Component_="empty.png" FileName="w97.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\w97.png" SelfReg="false"/>
+    <ROW File="x107.png" Component_="empty.png" FileName="x107.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x107.png" SelfReg="false"/>
+    <ROW File="x108.png" Component_="empty.png" FileName="x108.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x108.png" SelfReg="false"/>
+    <ROW File="x109.png" Component_="empty.png" FileName="x109.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x109.png" SelfReg="false"/>
+    <ROW File="x110_y110_z110_w110.png" Component_="empty.png" FileName="X110_Y~1.PNG|x110_y110_z110_w110.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x110_y110_z110_w110.png" SelfReg="false"/>
+    <ROW File="x111.png" Component_="empty.png" FileName="x111.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x111.png" SelfReg="false"/>
+    <ROW File="x115.png" Component_="empty.png" FileName="x115.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x115.png" SelfReg="false"/>
+    <ROW File="x122_y122_z122_w122.png" Component_="empty.png" FileName="X122_Y~1.PNG|x122_y122_z122_w122.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x122_y122_z122_w122.png" SelfReg="false"/>
+    <ROW File="x125_y125_z125_w125.png" Component_="empty.png" FileName="X125_Y~1.PNG|x125_y125_z125_w125.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x125_y125_z125_w125.png" SelfReg="false"/>
+    <ROW File="x126_y126_z126.png" Component_="empty.png" FileName="X126_Y~1.PNG|x126_y126_z126.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x126_y126_z126.png" SelfReg="false"/>
+    <ROW File="x127_y127_z127.png" Component_="empty.png" FileName="X127_Y~1.PNG|x127_y127_z127.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x127_y127_z127.png" SelfReg="false"/>
+    <ROW File="x128_y128_z128_w128.png" Component_="empty.png" FileName="X128_Y~1.PNG|x128_y128_z128_w128.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x128_y128_z128_w128.png" SelfReg="false"/>
+    <ROW File="x129_y129_z129.png" Component_="empty.png" FileName="X129_Y~1.PNG|x129_y129_z129.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x129_y129_z129.png" SelfReg="false"/>
+    <ROW File="x133.png" Component_="empty.png" FileName="x133.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x133.png" SelfReg="false"/>
+    <ROW File="x134.png" Component_="empty.png" FileName="x134.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x134.png" SelfReg="false"/>
+    <ROW File="x135.png" Component_="empty.png" FileName="x135.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x135.png" SelfReg="false"/>
+    <ROW File="x136.png" Component_="empty.png" FileName="x136.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x136.png" SelfReg="false"/>
+    <ROW File="x137.png" Component_="empty.png" FileName="x137.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x137.png" SelfReg="false"/>
+    <ROW File="x138.png" Component_="empty.png" FileName="x138.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x138.png" SelfReg="false"/>
+    <ROW File="x139.png" Component_="empty.png" FileName="x139.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x139.png" SelfReg="false"/>
+    <ROW File="x140.png" Component_="empty.png" FileName="x140.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x140.png" SelfReg="false"/>
+    <ROW File="x141.png" Component_="empty.png" FileName="x141.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x141.png" SelfReg="false"/>
+    <ROW File="x143_y143_z143_w143.png" Component_="empty.png" FileName="X143_Y~1.PNG|x143_y143_z143_w143.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x143_y143_z143_w143.png" SelfReg="false"/>
+    <ROW File="x144_y144_z144_w144.png" Component_="empty.png" FileName="X144_Y~1.PNG|x144_y144_z144_w144.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x144_y144_z144_w144.png" SelfReg="false"/>
+    <ROW File="x145_y145_z145.png" Component_="empty.png" FileName="X145_Y~1.PNG|x145_y145_z145.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x145_y145_z145.png" SelfReg="false"/>
+    <ROW File="x145_y145_z145_w145.png" Component_="empty.png" FileName="X145_Y~2.PNG|x145_y145_z145_w145.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x145_y145_z145_w145.png" SelfReg="false"/>
+    <ROW File="x146_y146_z146.png" Component_="empty.png" FileName="X146_Y~1.PNG|x146_y146_z146.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x146_y146_z146.png" SelfReg="false"/>
+    <ROW File="x146_y146_z146_w146.png" Component_="empty.png" FileName="X146_Y~2.PNG|x146_y146_z146_w146.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x146_y146_z146_w146.png" SelfReg="false"/>
+    <ROW File="x147_y147_z147_w147.png" Component_="empty.png" FileName="X147_Y~1.PNG|x147_y147_z147_w147.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x147_y147_z147_w147.png" SelfReg="false"/>
+    <ROW File="x149_y149_z149_w149.png" Component_="empty.png" FileName="X149_Y~1.PNG|x149_y149_z149_w149.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x149_y149_z149_w149.png" SelfReg="false"/>
+    <ROW File="x155_y155_z155_w155.png" Component_="empty.png" FileName="X155_Y~1.PNG|x155_y155_z155_w155.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x155_y155_z155_w155.png" SelfReg="false"/>
+    <ROW File="x156_y156_z156_w156.png" Component_="empty.png" FileName="X156_Y~1.PNG|x156_y156_z156_w156.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x156_y156_z156_w156.png" SelfReg="false"/>
+    <ROW File="x157.png" Component_="empty.png" FileName="x157.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x157.png" SelfReg="false"/>
+    <ROW File="x158_y158_z158.png" Component_="empty.png" FileName="X158_Y~1.PNG|x158_y158_z158.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x158_y158_z158.png" SelfReg="false"/>
+    <ROW File="x159_y159_z159.png" Component_="empty.png" FileName="X159_Y~1.PNG|x159_y159_z159.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x159_y159_z159.png" SelfReg="false"/>
+    <ROW File="x160_y160_z160.png" Component_="empty.png" FileName="X160_Y~1.PNG|x160_y160_z160.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x160_y160_z160.png" SelfReg="false"/>
+    <ROW File="x170_y170_z170.png" Component_="empty.png" FileName="X170_Y~1.PNG|x170_y170_z170.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x170_y170_z170.png" SelfReg="false"/>
+    <ROW File="x171_y171_z171.png" Component_="empty.png" FileName="X171_Y~1.PNG|x171_y171_z171.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x171_y171_z171.png" SelfReg="false"/>
+    <ROW File="x172_y172_z172.png" Component_="empty.png" FileName="X172_Y~1.PNG|x172_y172_z172.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x172_y172_z172.png" SelfReg="false"/>
+    <ROW File="x173_y173_z173.png" Component_="empty.png" FileName="X173_Y~1.PNG|x173_y173_z173.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x173_y173_z173.png" SelfReg="false"/>
+    <ROW File="x174_y174_z174.png" Component_="empty.png" FileName="X174_Y~1.PNG|x174_y174_z174.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x174_y174_z174.png" SelfReg="false"/>
+    <ROW File="x175_y175_z175.png" Component_="empty.png" FileName="X175_Y~1.PNG|x175_y175_z175.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x175_y175_z175.png" SelfReg="false"/>
+    <ROW File="x176_y176_z176.png" Component_="empty.png" FileName="X176_Y~1.PNG|x176_y176_z176.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x176_y176_z176.png" SelfReg="false"/>
+    <ROW File="x177_y177_z177.png" Component_="empty.png" FileName="X177_Y~1.PNG|x177_y177_z177.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x177_y177_z177.png" SelfReg="false"/>
+    <ROW File="x178_y178_z178.png" Component_="empty.png" FileName="X178_Y~1.PNG|x178_y178_z178.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x178_y178_z178.png" SelfReg="false"/>
+    <ROW File="x179_y179_z179_w179.png" Component_="empty.png" FileName="X179_Y~1.PNG|x179_y179_z179_w179.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x179_y179_z179_w179.png" SelfReg="false"/>
+    <ROW File="x180_y180_z180_w180.png" Component_="empty.png" FileName="X180_Y~1.PNG|x180_y180_z180_w180.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x180_y180_z180_w180.png" SelfReg="false"/>
+    <ROW File="x181_y181_z181_w181.png" Component_="empty.png" FileName="X181_Y~1.PNG|x181_y181_z181_w181.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x181_y181_z181_w181.png" SelfReg="false"/>
+    <ROW File="x182_y182_z182_w182.png" Component_="empty.png" FileName="X182_Y~1.PNG|x182_y182_z182_w182.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x182_y182_z182_w182.png" SelfReg="false"/>
+    <ROW File="x183_y183_z183.png" Component_="empty.png" FileName="X183_Y~1.PNG|x183_y183_z183.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x183_y183_z183.png" SelfReg="false"/>
+    <ROW File="x184_y184_z184_w184.png" Component_="empty.png" FileName="X184_Y~1.PNG|x184_y184_z184_w184.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x184_y184_z184_w184.png" SelfReg="false"/>
+    <ROW File="x185_y185_z185_w185.png" Component_="empty.png" FileName="X185_Y~1.PNG|x185_y185_z185_w185.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x185_y185_z185_w185.png" SelfReg="false"/>
+    <ROW File="x189_y189_z189.png" Component_="empty.png" FileName="X189_Y~1.PNG|x189_y189_z189.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x189_y189_z189.png" SelfReg="false"/>
+    <ROW File="x191_y191_z191.png" Component_="empty.png" FileName="X191_Y~1.PNG|x191_y191_z191.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x191_y191_z191.png" SelfReg="false"/>
+    <ROW File="x192_y192_z192.png" Component_="empty.png" FileName="X192_Y~1.PNG|x192_y192_z192.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x192_y192_z192.png" SelfReg="false"/>
+    <ROW File="x193_y193_z193_w193.png" Component_="empty.png" FileName="X193_Y~1.PNG|x193_y193_z193_w193.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x193_y193_z193_w193.png" SelfReg="false"/>
+    <ROW File="x195y_195z_195.png" Component_="empty.png" FileName="X195Y_~1.PNG|x195y_195z_195.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x195y_195z_195.png" SelfReg="false"/>
+    <ROW File="x195_y195_z195.png" Component_="empty.png" FileName="X195_Y~1.PNG|x195_y195_z195.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x195_y195_z195.png" SelfReg="false"/>
+    <ROW File="x196_y196_z196_w196.png" Component_="empty.png" FileName="X196_Y~1.PNG|x196_y196_z196_w196.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x196_y196_z196_w196.png" SelfReg="false"/>
+    <ROW File="x197_y197_z197_w197.png" Component_="empty.png" FileName="X197_Y~1.PNG|x197_y197_z197_w197.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x197_y197_z197_w197.png" SelfReg="false"/>
+    <ROW File="x198_y198_z198_w198.png" Component_="empty.png" FileName="X198_Y~1.PNG|x198_y198_z198_w198.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x198_y198_z198_w198.png" SelfReg="false"/>
+    <ROW File="x199_y199_z199_w199.png" Component_="empty.png" FileName="X199_Y~1.PNG|x199_y199_z199_w199.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x199_y199_z199_w199.png" SelfReg="false"/>
+    <ROW File="x200_y200_z200_w200.png" Component_="empty.png" FileName="X200_Y~1.PNG|x200_y200_z200_w200.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x200_y200_z200_w200.png" SelfReg="false"/>
+    <ROW File="x201_y201_z201_w201.png" Component_="empty.png" FileName="X201_Y~1.PNG|x201_y201_z201_w201.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x201_y201_z201_w201.png" SelfReg="false"/>
+    <ROW File="x202_y202_z202_w202.png" Component_="empty.png" FileName="X202_Y~1.PNG|x202_y202_z202_w202.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x202_y202_z202_w202.png" SelfReg="false"/>
+    <ROW File="x203_y203_z203_w203.png" Component_="empty.png" FileName="X203_Y~1.PNG|x203_y203_z203_w203.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x203_y203_z203_w203.png" SelfReg="false"/>
+    <ROW File="x204_y204_z204_w204.png" Component_="empty.png" FileName="X204_Y~1.PNG|x204_y204_z204_w204.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x204_y204_z204_w204.png" SelfReg="false"/>
+    <ROW File="x205_y205_z205_w205.png" Component_="empty.png" FileName="X205_Y~1.PNG|x205_y205_z205_w205.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x205_y205_z205_w205.png" SelfReg="false"/>
+    <ROW File="x206_y206_z206.png" Component_="empty.png" FileName="X206_Y~1.PNG|x206_y206_z206.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x206_y206_z206.png" SelfReg="false"/>
+    <ROW File="x207_y207_z207.png" Component_="empty.png" FileName="X207_Y~1.PNG|x207_y207_z207.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x207_y207_z207.png" SelfReg="false"/>
+    <ROW File="x208_y208_z208_w208.png" Component_="empty.png" FileName="X208_Y~1.PNG|x208_y208_z208_w208.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x208_y208_z208_w208.png" SelfReg="false"/>
+    <ROW File="x209_y209_z209_w209.png" Component_="empty.png" FileName="X209_Y~1.PNG|x209_y209_z209_w209.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x209_y209_z209_w209.png" SelfReg="false"/>
+    <ROW File="x210_y210_z210.png" Component_="empty.png" FileName="X210_Y~1.PNG|x210_y210_z210.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x210_y210_z210.png" SelfReg="false"/>
+    <ROW File="x211_y211_z211.png" Component_="empty.png" FileName="X211_Y~1.PNG|x211_y211_z211.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x211_y211_z211.png" SelfReg="false"/>
+    <ROW File="x212_y212_z212.png" Component_="empty.png" FileName="X212_Y~1.PNG|x212_y212_z212.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x212_y212_z212.png" SelfReg="false"/>
+    <ROW File="x214_y214_z214.png" Component_="empty.png" FileName="X214_Y~1.PNG|x214_y214_z214.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x214_y214_z214.png" SelfReg="false"/>
+    <ROW File="x215_y215_z215.png" Component_="empty.png" FileName="X215_Y~1.PNG|x215_y215_z215.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x215_y215_z215.png" SelfReg="false"/>
+    <ROW File="x216_y216_z216.png" Component_="empty.png" FileName="X216_Y~1.PNG|x216_y216_z216.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x216_y216_z216.png" SelfReg="false"/>
+    <ROW File="x217_y217_z217_w217.png" Component_="empty.png" FileName="X217_Y~1.PNG|x217_y217_z217_w217.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x217_y217_z217_w217.png" SelfReg="false"/>
+    <ROW File="x218_y218_z218_w218.png" Component_="empty.png" FileName="X218_Y~1.PNG|x218_y218_z218_w218.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x218_y218_z218_w218.png" SelfReg="false"/>
+    <ROW File="x219_y219_z219.png" Component_="empty.png" FileName="X219_Y~1.PNG|x219_y219_z219.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x219_y219_z219.png" SelfReg="false"/>
+    <ROW File="x220_y220_z220.png" Component_="empty.png" FileName="X220_Y~1.PNG|x220_y220_z220.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x220_y220_z220.png" SelfReg="false"/>
+    <ROW File="x221_y221_z221.png" Component_="empty.png" FileName="X221_Y~1.PNG|x221_y221_z221.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x221_y221_z221.png" SelfReg="false"/>
+    <ROW File="x222_y222_z222.png" Component_="empty.png" FileName="X222_Y~1.PNG|x222_y222_z222.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x222_y222_z222.png" SelfReg="false"/>
+    <ROW File="x223_y223_z223.png" Component_="empty.png" FileName="X223_Y~1.PNG|x223_y223_z223.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x223_y223_z223.png" SelfReg="false"/>
+    <ROW File="x224_y224_z224.png" Component_="empty.png" FileName="X224_Y~1.PNG|x224_y224_z224.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x224_y224_z224.png" SelfReg="false"/>
+    <ROW File="x225_y225_z225.png" Component_="empty.png" FileName="X225_Y~1.PNG|x225_y225_z225.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x225_y225_z225.png" SelfReg="false"/>
+    <ROW File="x226_y226_z226.png" Component_="empty.png" FileName="X226_Y~1.PNG|x226_y226_z226.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x226_y226_z226.png" SelfReg="false"/>
+    <ROW File="x227_y227_z227.png" Component_="empty.png" FileName="X227_Y~1.PNG|x227_y227_z227.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x227_y227_z227.png" SelfReg="false"/>
+    <ROW File="x228_y228_z228.png" Component_="empty.png" FileName="X228_Y~1.PNG|x228_y228_z228.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x228_y228_z228.png" SelfReg="false"/>
+    <ROW File="x229.png" Component_="empty.png" FileName="x229.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x229.png" SelfReg="false"/>
+    <ROW File="x230_y230_z230.png" Component_="empty.png" FileName="X230_Y~1.PNG|x230_y230_z230.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x230_y230_z230.png" SelfReg="false"/>
+    <ROW File="x231_y231_z231.png" Component_="empty.png" FileName="X231_Y~1.PNG|x231_y231_z231.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x231_y231_z231.png" SelfReg="false"/>
+    <ROW File="x232_y232_z232_w232.png" Component_="empty.png" FileName="X232_Y~1.PNG|x232_y232_z232_w232.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x232_y232_z232_w232.png" SelfReg="false"/>
+    <ROW File="x233_y233_z233_w233.png" Component_="empty.png" FileName="X233_Y~1.PNG|x233_y233_z233_w233.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x233_y233_z233_w233.png" SelfReg="false"/>
+    <ROW File="x235_y235_z235.png" Component_="empty.png" FileName="X235_Y~1.PNG|x235_y235_z235.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x235_y235_z235.png" SelfReg="false"/>
+    <ROW File="x236_y236_z236.png" Component_="empty.png" FileName="X236_Y~1.PNG|x236_y236_z236.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x236_y236_z236.png" SelfReg="false"/>
+    <ROW File="x237_y237_z237.png" Component_="empty.png" FileName="X237_Y~1.PNG|x237_y237_z237.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x237_y237_z237.png" SelfReg="false"/>
+    <ROW File="x238_y238_z238_w238.png" Component_="empty.png" FileName="X238_Y~1.PNG|x238_y238_z238_w238.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x238_y238_z238_w238.png" SelfReg="false"/>
+    <ROW File="x239_y239_z239_w239.png" Component_="empty.png" FileName="X239_Y~1.PNG|x239_y239_z239_w239.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x239_y239_z239_w239.png" SelfReg="false"/>
+    <ROW File="x240_y240_z240.png" Component_="empty.png" FileName="X240_Y~1.PNG|x240_y240_z240.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x240_y240_z240.png" SelfReg="false"/>
+    <ROW File="x240_y240_z240_w240.png" Component_="empty.png" FileName="X240_Y~2.PNG|x240_y240_z240_w240.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x240_y240_z240_w240.png" SelfReg="false"/>
+    <ROW File="x241_y241_z241_w241.png" Component_="empty.png" FileName="X241_Y~1.PNG|x241_y241_z241_w241.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x241_y241_z241_w241.png" SelfReg="false"/>
+    <ROW File="x242_y242_z242_w242.png" Component_="empty.png" FileName="X242_Y~1.PNG|x242_y242_z242_w242.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x242_y242_z242_w242.png" SelfReg="false"/>
+    <ROW File="x243_y243_z243_w243.png" Component_="empty.png" FileName="X243_Y~1.PNG|x243_y243_z243_w243.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x243_y243_z243_w243.png" SelfReg="false"/>
+    <ROW File="x244_y244_z244_w244.png" Component_="empty.png" FileName="X244_Y~1.PNG|x244_y244_z244_w244.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x244_y244_z244_w244.png" SelfReg="false"/>
+    <ROW File="x245_y245_z245_w245.png" Component_="empty.png" FileName="X245_Y~1.PNG|x245_y245_z245_w245.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x245_y245_z245_w245.png" SelfReg="false"/>
+    <ROW File="x246_y246_z246_w246.png" Component_="empty.png" FileName="X246_Y~1.PNG|x246_y246_z246_w246.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x246_y246_z246_w246.png" SelfReg="false"/>
+    <ROW File="x247_y247_z247_w247.png" Component_="empty.png" FileName="X247_Y~1.PNG|x247_y247_z247_w247.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x247_y247_z247_w247.png" SelfReg="false"/>
+    <ROW File="x248_y248_z248.png" Component_="empty.png" FileName="X248_Y~1.PNG|x248_y248_z248.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x248_y248_z248.png" SelfReg="false"/>
+    <ROW File="x249_y249_z249.png" Component_="empty.png" FileName="X249_Y~1.PNG|x249_y249_z249.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x249_y249_z249.png" SelfReg="false"/>
+    <ROW File="x250_y250_z250_w250.png" Component_="empty.png" FileName="X250_Y~1.PNG|x250_y250_z250_w250.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x250_y250_z250_w250.png" SelfReg="false"/>
+    <ROW File="x251_y251_z251_w251.png" Component_="empty.png" FileName="X251_Y~1.PNG|x251_y251_z251_w251.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x251_y251_z251_w251.png" SelfReg="false"/>
+    <ROW File="x252_y252_z252_w252.png" Component_="empty.png" FileName="X252_Y~1.PNG|x252_y252_z252_w252.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x252_y252_z252_w252.png" SelfReg="false"/>
+    <ROW File="x253_y253_z253_w253.png" Component_="empty.png" FileName="X253_Y~1.PNG|x253_y253_z253_w253.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x253_y253_z253_w253.png" SelfReg="false"/>
+    <ROW File="x254_y254_z254.png" Component_="empty.png" FileName="X254_Y~1.PNG|x254_y254_z254.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x254_y254_z254.png" SelfReg="false"/>
+    <ROW File="x255_y255_z255_w255.png" Component_="empty.png" FileName="X255_Y~1.PNG|x255_y255_z255_w255.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x255_y255_z255_w255.png" SelfReg="false"/>
+    <ROW File="x256_y256_z256.png" Component_="empty.png" FileName="X256_Y~1.PNG|x256_y256_z256.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x256_y256_z256.png" SelfReg="false"/>
+    <ROW File="x29_y29_z29.png" Component_="empty.png" FileName="X29_Y2~1.PNG|x29_y29_z29.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x29_y29_z29.png" SelfReg="false"/>
+    <ROW File="x30.png" Component_="empty.png" FileName="x30.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x30.png" SelfReg="false"/>
+    <ROW File="x31_y31_z31.png" Component_="empty.png" FileName="X31_Y3~1.PNG|x31_y31_z31.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x31_y31_z31.png" SelfReg="false"/>
+    <ROW File="x32_y32_z32_w32.png" Component_="empty.png" FileName="X32_Y3~1.PNG|x32_y32_z32_w32.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x32_y32_z32_w32.png" SelfReg="false"/>
+    <ROW File="x33_y33_z33_w33.png" Component_="empty.png" FileName="X33_Y3~1.PNG|x33_y33_z33_w33.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x33_y33_z33_w33.png" SelfReg="false"/>
+    <ROW File="x34_y34_z34_w34.png" Component_="empty.png" FileName="X34_Y3~1.PNG|x34_y34_z34_w34.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x34_y34_z34_w34.png" SelfReg="false"/>
+    <ROW File="x35_y35_z35_w35.png" Component_="empty.png" FileName="X35_Y3~1.PNG|x35_y35_z35_w35.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x35_y35_z35_w35.png" SelfReg="false"/>
+    <ROW File="x36_y36_z36_w36.png" Component_="empty.png" FileName="X36_Y3~1.PNG|x36_y36_z36_w36.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x36_y36_z36_w36.png" SelfReg="false"/>
+    <ROW File="x37_y37_z37_w37.png" Component_="empty.png" FileName="X37_Y3~1.PNG|x37_y37_z37_w37.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x37_y37_z37_w37.png" SelfReg="false"/>
+    <ROW File="x38_y38_z38_w38.png" Component_="empty.png" FileName="X38_Y3~1.PNG|x38_y38_z38_w38.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x38_y38_z38_w38.png" SelfReg="false"/>
+    <ROW File="x39_y39_z39.png" Component_="empty.png" FileName="X39_Y3~1.PNG|x39_y39_z39.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x39_y39_z39.png" SelfReg="false"/>
+    <ROW File="x40_y40_z40.png" Component_="empty.png" FileName="X40_Y4~1.PNG|x40_y40_z40.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x40_y40_z40.png" SelfReg="false"/>
+    <ROW File="x41_y41_z41.png" Component_="empty.png" FileName="X41_Y4~1.PNG|x41_y41_z41.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x41_y41_z41.png" SelfReg="false"/>
+    <ROW File="x42_y42_z42.png" Component_="empty.png" FileName="X42_Y4~1.PNG|x42_y42_z42.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x42_y42_z42.png" SelfReg="false"/>
+    <ROW File="x43_y43_z43.png" Component_="empty.png" FileName="X43_Y4~1.PNG|x43_y43_z43.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x43_y43_z43.png" SelfReg="false"/>
+    <ROW File="x44_y44_z44.png" Component_="empty.png" FileName="X44_Y4~1.PNG|x44_y44_z44.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x44_y44_z44.png" SelfReg="false"/>
+    <ROW File="x45_y45_z45.png" Component_="empty.png" FileName="X45_Y4~1.PNG|x45_y45_z45.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x45_y45_z45.png" SelfReg="false"/>
+    <ROW File="x46_y46_z46.png" Component_="empty.png" FileName="X46_Y4~1.PNG|x46_y46_z46.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x46_y46_z46.png" SelfReg="false"/>
+    <ROW File="x47_y47_z47.png" Component_="empty.png" FileName="X47_Y4~1.PNG|x47_y47_z47.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x47_y47_z47.png" SelfReg="false"/>
+    <ROW File="x48_y48_z48.png" Component_="empty.png" FileName="X48_Y4~1.PNG|x48_y48_z48.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x48_y48_z48.png" SelfReg="false"/>
+    <ROW File="x50_y50_z50_w50.png" Component_="empty.png" FileName="X50_Y5~1.PNG|x50_y50_z50_w50.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x50_y50_z50_w50.png" SelfReg="false"/>
+    <ROW File="x51_y51_z51.png" Component_="empty.png" FileName="X51_Y5~1.PNG|x51_y51_z51.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x51_y51_z51.png" SelfReg="false"/>
+    <ROW File="x52_y52_z52.png" Component_="empty.png" FileName="X52_Y5~1.PNG|x52_y52_z52.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x52_y52_z52.png" SelfReg="false"/>
+    <ROW File="x53_y53_z53.png" Component_="empty.png" FileName="X53_Y5~1.PNG|x53_y53_z53.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x53_y53_z53.png" SelfReg="false"/>
+    <ROW File="x54_y54_z54_w54.png" Component_="empty.png" FileName="X54_Y5~1.PNG|x54_y54_z54_w54.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x54_y54_z54_w54.png" SelfReg="false"/>
+    <ROW File="x55_y55_z55.png" Component_="empty.png" FileName="X55_Y5~1.PNG|x55_y55_z55.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x55_y55_z55.png" SelfReg="false"/>
+    <ROW File="x56_y56_z56_w56.png" Component_="empty.png" FileName="X56_Y5~1.PNG|x56_y56_z56_w56.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x56_y56_z56_w56.png" SelfReg="false"/>
+    <ROW File="x57_y57_z57_w57.png" Component_="empty.png" FileName="X57_Y5~1.PNG|x57_y57_z57_w57.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x57_y57_z57_w57.png" SelfReg="false"/>
+    <ROW File="x58_y58_z58_w58.png" Component_="empty.png" FileName="X58_Y5~1.PNG|x58_y58_z58_w58.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x58_y58_z58_w58.png" SelfReg="false"/>
+    <ROW File="x59_y59_z59.png" Component_="empty.png" FileName="X59_Y5~1.PNG|x59_y59_z59.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x59_y59_z59.png" SelfReg="false"/>
+    <ROW File="x60_y60_z60.png" Component_="empty.png" FileName="X60_Y6~1.PNG|x60_y60_z60.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x60_y60_z60.png" SelfReg="false"/>
+    <ROW File="x61_y61_z61_w61.png" Component_="empty.png" FileName="X61_Y6~1.PNG|x61_y61_z61_w61.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x61_y61_z61_w61.png" SelfReg="false"/>
+    <ROW File="x62_y62_z62_w62.png" Component_="empty.png" FileName="X62_Y6~1.PNG|x62_y62_z62_w62.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x62_y62_z62_w62.png" SelfReg="false"/>
+    <ROW File="x63_y63_z63_w63.png" Component_="empty.png" FileName="X63_Y6~1.PNG|x63_y63_z63_w63.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x63_y63_z63_w63.png" SelfReg="false"/>
+    <ROW File="x64_y64_z64_w64.png" Component_="empty.png" FileName="X64_Y6~1.PNG|x64_y64_z64_w64.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x64_y64_z64_w64.png" SelfReg="false"/>
+    <ROW File="x65_y65_z65_w65.png" Component_="empty.png" FileName="X65_Y6~1.PNG|x65_y65_z65_w65.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x65_y65_z65_w65.png" SelfReg="false"/>
+    <ROW File="x66_y66_z66_w66.png" Component_="empty.png" FileName="X66_Y6~1.PNG|x66_y66_z66_w66.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x66_y66_z66_w66.png" SelfReg="false"/>
+    <ROW File="x67_y67_z67_w67.png" Component_="empty.png" FileName="X67_Y6~1.PNG|x67_y67_z67_w67.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x67_y67_z67_w67.png" SelfReg="false"/>
+    <ROW File="x69_y69_z69.png" Component_="empty.png" FileName="X69_Y6~1.PNG|x69_y69_z69.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x69_y69_z69.png" SelfReg="false"/>
+    <ROW File="x70_y70_z70.png" Component_="empty.png" FileName="X70_Y7~1.PNG|x70_y70_z70.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x70_y70_z70.png" SelfReg="false"/>
+    <ROW File="x71_y71_z71.png" Component_="empty.png" FileName="X71_Y7~1.PNG|x71_y71_z71.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x71_y71_z71.png" SelfReg="false"/>
+    <ROW File="x71_y71_z71_w71.png" Component_="empty.png" FileName="X71_Y7~2.PNG|x71_y71_z71_w71.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x71_y71_z71_w71.png" SelfReg="false"/>
+    <ROW File="x72_y72_z72.png" Component_="empty.png" FileName="X72_Y7~1.PNG|x72_y72_z72.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x72_y72_z72.png" SelfReg="false"/>
+    <ROW File="x75.png" Component_="empty.png" FileName="x75.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x75.png" SelfReg="false"/>
+    <ROW File="x76_y76_z76.png" Component_="empty.png" FileName="X76_Y7~1.PNG|x76_y76_z76.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x76_y76_z76.png" SelfReg="false"/>
+    <ROW File="x77_y77_z77_w77.png" Component_="empty.png" FileName="X77_Y7~1.PNG|x77_y77_z77_w77.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x77_y77_z77_w77.png" SelfReg="false"/>
+    <ROW File="x78.png" Component_="empty.png" FileName="x78.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x78.png" SelfReg="false"/>
+    <ROW File="x79_y79_z79.png" Component_="empty.png" FileName="X79_Y7~1.PNG|x79_y79_z79.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x79_y79_z79.png" SelfReg="false"/>
+    <ROW File="x81.png" Component_="empty.png" FileName="x81.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x81.png" SelfReg="false"/>
+    <ROW File="x82_y82_z82_w82.png" Component_="empty.png" FileName="X82_Y8~1.PNG|x82_y82_z82_w82.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x82_y82_z82_w82.png" SelfReg="false"/>
+    <ROW File="x85_y85_z85_w85.png" Component_="empty.png" FileName="X85_Y8~1.PNG|x85_y85_z85_w85.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x85_y85_z85_w85.png" SelfReg="false"/>
+    <ROW File="x86_y86_z86_w86.png" Component_="empty.png" FileName="X86_Y8~1.PNG|x86_y86_z86_w86.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x86_y86_z86_w86.png" SelfReg="false"/>
+    <ROW File="x87.png" Component_="empty.png" FileName="x87.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x87.png" SelfReg="false"/>
+    <ROW File="x88_y88_z88.png" Component_="empty.png" FileName="X88_Y8~1.PNG|x88_y88_z88.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x88_y88_z88.png" SelfReg="false"/>
+    <ROW File="x89.png" Component_="empty.png" FileName="x89.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x89.png" SelfReg="false"/>
+    <ROW File="x90_y90_z90.png" Component_="empty.png" FileName="X90_Y9~1.PNG|x90_y90_z90.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x90_y90_z90.png" SelfReg="false"/>
+    <ROW File="x91_y91_z91.png" Component_="empty.png" FileName="X91_Y9~1.PNG|x91_y91_z91.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x91_y91_z91.png" SelfReg="false"/>
+    <ROW File="x92_y92_z92_w92.png" Component_="empty.png" FileName="X92_Y9~1.PNG|x92_y92_z92_w92.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x92_y92_z92_w92.png" SelfReg="false"/>
+    <ROW File="x93.png" Component_="empty.png" FileName="x93.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x93.png" SelfReg="false"/>
+    <ROW File="x94_y94_z94.png" Component_="empty.png" FileName="X94_Y9~1.PNG|x94_y94_z94.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x94_y94_z94.png" SelfReg="false"/>
+    <ROW File="x95_y95_z95_w95.png" Component_="empty.png" FileName="X95_Y9~1.PNG|x95_y95_z95_w95.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x95_y95_z95_w95.png" SelfReg="false"/>
+    <ROW File="x96_y96_z96_w96.png" Component_="empty.png" FileName="X96_Y9~1.PNG|x96_y96_z96_w96.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x96_y96_z96_w96.png" SelfReg="false"/>
+    <ROW File="x98_y98_z98_w98.png" Component_="empty.png" FileName="X98_Y9~1.PNG|x98_y98_z98_w98.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x98_y98_z98_w98.png" SelfReg="false"/>
+    <ROW File="x99.png" Component_="empty.png" FileName="x99.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\x99.png" SelfReg="false"/>
+    <ROW File="y100.png" Component_="empty.png" FileName="y100.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y100.png" SelfReg="false"/>
+    <ROW File="y101.png" Component_="empty.png" FileName="y101.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y101.png" SelfReg="false"/>
+    <ROW File="y104.png" Component_="empty.png" FileName="y104.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y104.png" SelfReg="false"/>
+    <ROW File="y106.png" Component_="empty.png" FileName="y106.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y106.png" SelfReg="false"/>
+    <ROW File="y113.png" Component_="empty.png" FileName="y113.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y113.png" SelfReg="false"/>
+    <ROW File="y114.png" Component_="empty.png" FileName="y114.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y114.png" SelfReg="false"/>
+    <ROW File="y119.png" Component_="empty.png" FileName="y119.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y119.png" SelfReg="false"/>
+    <ROW File="y120.png" Component_="empty.png" FileName="y120.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y120.png" SelfReg="false"/>
+    <ROW File="y124.png" Component_="empty.png" FileName="y124.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y124.png" SelfReg="false"/>
+    <ROW File="y133.png" Component_="empty.png" FileName="y133.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y133.png" SelfReg="false"/>
+    <ROW File="y134.png" Component_="empty.png" FileName="y134.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y134.png" SelfReg="false"/>
+    <ROW File="y135.png" Component_="empty.png" FileName="y135.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y135.png" SelfReg="false"/>
+    <ROW File="y136.png" Component_="empty.png" FileName="y136.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y136.png" SelfReg="false"/>
+    <ROW File="y137.png" Component_="empty.png" FileName="y137.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y137.png" SelfReg="false"/>
+    <ROW File="y138.png" Component_="empty.png" FileName="y138.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y138.png" SelfReg="false"/>
+    <ROW File="y139.png" Component_="empty.png" FileName="y139.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y139.png" SelfReg="false"/>
+    <ROW File="y141.png" Component_="empty.png" FileName="y141.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y141.png" SelfReg="false"/>
+    <ROW File="y157.png" Component_="empty.png" FileName="y157.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y157.png" SelfReg="false"/>
+    <ROW File="y19.png" Component_="empty.png" FileName="y19.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y19.png" SelfReg="false"/>
+    <ROW File="y229.png" Component_="empty.png" FileName="y229.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y229.png" SelfReg="false"/>
+    <ROW File="y234.png" Component_="empty.png" FileName="y234.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y234.png" SelfReg="false"/>
+    <ROW File="y30.png" Component_="empty.png" FileName="y30.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y30.png" SelfReg="false"/>
+    <ROW File="y75.png" Component_="empty.png" FileName="y75.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y75.png" SelfReg="false"/>
+    <ROW File="y78.png" Component_="empty.png" FileName="y78.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y78.png" SelfReg="false"/>
+    <ROW File="y84.png" Component_="empty.png" FileName="y84.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y84.png" SelfReg="false"/>
+    <ROW File="y89.png" Component_="empty.png" FileName="y89.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y89.png" SelfReg="false"/>
+    <ROW File="y93.png" Component_="empty.png" FileName="y93.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\y93.png" SelfReg="false"/>
+    <ROW File="z103.png" Component_="empty.png" FileName="z103.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z103.png" SelfReg="false"/>
+    <ROW File="z104.png" Component_="empty.png" FileName="z104.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z104.png" SelfReg="false"/>
+    <ROW File="z105.png" Component_="empty.png" FileName="z105.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z105.png" SelfReg="false"/>
+    <ROW File="z107.png" Component_="empty.png" FileName="z107.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z107.png" SelfReg="false"/>
+    <ROW File="z108.png" Component_="empty.png" FileName="z108.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z108.png" SelfReg="false"/>
+    <ROW File="z111.png" Component_="empty.png" FileName="z111.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z111.png" SelfReg="false"/>
+    <ROW File="z113.png" Component_="empty.png" FileName="z113.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z113.png" SelfReg="false"/>
+    <ROW File="z114.png" Component_="empty.png" FileName="z114.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z114.png" SelfReg="false"/>
+    <ROW File="z115.png" Component_="empty.png" FileName="z115.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z115.png" SelfReg="false"/>
+    <ROW File="z118.png" Component_="empty.png" FileName="z118.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z118.png" SelfReg="false"/>
+    <ROW File="z119.png" Component_="empty.png" FileName="z119.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z119.png" SelfReg="false"/>
+    <ROW File="z121.png" Component_="empty.png" FileName="z121.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z121.png" SelfReg="false"/>
+    <ROW File="z123.png" Component_="empty.png" FileName="z123.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z123.png" SelfReg="false"/>
+    <ROW File="z133.png" Component_="empty.png" FileName="z133.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z133.png" SelfReg="false"/>
+    <ROW File="z135.png" Component_="empty.png" FileName="z135.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z135.png" SelfReg="false"/>
+    <ROW File="z136.png" Component_="empty.png" FileName="z136.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z136.png" SelfReg="false"/>
+    <ROW File="z137.png" Component_="empty.png" FileName="z137.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z137.png" SelfReg="false"/>
+    <ROW File="z138.png" Component_="empty.png" FileName="z138.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z138.png" SelfReg="false"/>
+    <ROW File="z139.png" Component_="empty.png" FileName="z139.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z139.png" SelfReg="false"/>
+    <ROW File="z141.png" Component_="empty.png" FileName="z141.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z141.png" SelfReg="false"/>
+    <ROW File="z142.png" Component_="empty.png" FileName="z142.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z142.png" SelfReg="false"/>
+    <ROW File="z229.png" Component_="empty.png" FileName="z229.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z229.png" SelfReg="false"/>
+    <ROW File="z234.png" Component_="empty.png" FileName="z234.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z234.png" SelfReg="false"/>
+    <ROW File="z30.png" Component_="empty.png" FileName="z30.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z30.png" SelfReg="false"/>
+    <ROW File="z75.png" Component_="empty.png" FileName="z75.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z75.png" SelfReg="false"/>
+    <ROW File="z84.png" Component_="empty.png" FileName="z84.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z84.png" SelfReg="false"/>
+    <ROW File="z87.png" Component_="empty.png" FileName="z87.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z87.png" SelfReg="false"/>
+    <ROW File="z89.png" Component_="empty.png" FileName="z89.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z89.png" SelfReg="false"/>
+    <ROW File="z93.png" Component_="empty.png" FileName="z93.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z93.png" SelfReg="false"/>
+    <ROW File="z97.png" Component_="empty.png" FileName="z97.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z97.png" SelfReg="false"/>
+    <ROW File="z99.png" Component_="empty.png" FileName="z99.png" Attributes="0" SourcePath="..\bin\Debug\Images\Elements_ODY\z99.png" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -792,7 +929,6 @@
     <ROW Feature_="MainFeature" Component_="AI_CustomARPName"/>
     <ROW Feature_="MainFeature" Component_="EDHM_UI_Thumbnail_Maker.exe"/>
     <ROW Feature_="TileAssets_DefaultBuild" Component_="EDHM_UI_mk2.VisualElementsManifest.xml"/>
-    <ROW Feature_="MainFeature" Component_="w97.png"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.BonusSkins.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.CodeParser.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.Data.Desktop.v24.1.dll"/>
@@ -815,12 +951,13 @@
     <ROW Feature_="MainFeature" Component_="DevExpress.XtraEditors.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.XtraGrid.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.XtraLayout.v24.1.dll"/>
-    <ROW Feature_="MainFeature" Component_="adder.jpg"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.XtraNavBar.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.XtraPrinting.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.XtraTreeList.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="DevExpress.XtraVerticalGrid.v24.1.dll"/>
     <ROW Feature_="MainFeature" Component_="Properties"/>
+    <ROW Feature_="MainFeature" Component_="adder.jpg"/>
+    <ROW Feature_="MainFeature" Component_="empty.png"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="ED_TripleElite.exe" SourcePath="..\ED_TripleElite.ico" Index="0"/>

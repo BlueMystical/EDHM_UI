@@ -217,11 +217,73 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
 
 // #endregion
 
-// #region Common Dialogs
+// #region ZIP Files
 
+// DOCUMENTATION:  https://www.npmjs.com/package/zip-lib
 
+/** Compress all files in the given Folder
+ * @param {*} folderPath Absolute path to the Origin Folder to Compress
+ * @param {*} outputPath Absolute path to the Destination ZIP file */
+async function compressFiles(folderPath, outputPath) {
+  if (!fs.existsSync(folderPath)) {
+    throw new Error(`404 - Source Folder Not Found: '${folderPath}'`);
+  }
+  zl.archiveFolder(folderPath, outputPath, { addFolderToZip: true }).then(function () {
+    console.log(`ZIP File Created! -> '${outputPath}'`);
+    return true;
+  }, function (err) {
+    console.log(err);
+    throw new Error(err.message + err.stack);
+  });
+}
+
+/** Compress a Folder and all files inside. (the folder gets in the ZIP)
+ * @param {*} folderPath Absolute path to the Origin Folder to Compress
+ * @param {*} outputPath Absolute path to the Destination ZIP file */
+async function compressFolder(folderPath, outputPath) {
+  if (!fs.existsSync(folderPath)) {
+    throw new Error(`404 - Source Folder Not Found: '${folderPath}'`);
+  }
+
+  const zip = new zl.Zip();
+  const folderName = path.basename(folderPath);
+
+  // Add the folder and its contents
+  zip.addFolder(folderPath, folderName);
+
+  // Generate the ZIP file
+  let _ret = false;
+  await zip.archive(outputPath).then(function () {
+    console.log(`ZIP File Created! -> '${outputPath}'`);
+    _ret = true;
+  }, function (err) {
+    console.log(err);
+    throw new Error(err.message + err.stack);
+  });
+  return _ret;
+}
+
+/** Un-compress the content of a ZIP file. 
+ * @param {*} zipPath Absolute path to the ZIP file.
+ * @param {*} outputDir Absolute path to the Destination Folder */
+async function decompressFile(zipPath, outputDir) {
+  //console.log('Decompressing: ', zipPath);
+  if (!fs.existsSync(zipPath)) {
+    throw new Error(`404 - ZIP file Not Found: '${zipPath}'`);
+  }
+  let _ret = false;
+  await zl.extract(zipPath, outputDir).then(function () {
+    console.log(`Uncompressed Files into '${outputDir}'`);
+    _ret = true;
+  }, function (err) {
+    console.log(err);
+    throw err;
+  });
+  return _ret;
+}
 
 // #endregion
+
 
 
 /** Returns the path to the EDHM data directory. */
@@ -283,6 +345,31 @@ ipcMain.handle('readSetting', (event, key, defaultValue = null) => {
 ipcMain.handle('writeSetting', (event, key, value) => {
   try {
     return writeSetting(key, value);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
+ipcMain.handle('compress-files', async (event, files, outputPath) => {
+  try {
+    const result = await compressFiles(files, outputPath);
+    return { success: true, message: result };
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+ipcMain.handle('compress-folder', async (event, folderPath, outputPath) => {
+  try {
+    const result = await compressFolder(folderPath, outputPath);
+    return { success: true, message: result };
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+ipcMain.handle('decompress-file', async (event, zipPath, outputDir) => {
+  try {
+    const result = await decompressFile(zipPath, outputDir);
+    return { success: true, message: result };
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
@@ -399,5 +486,6 @@ export default {
     copyFile,
     checkFileExists, ensureDirectoryExists,
     getParentFolder, getLocalAppDataPath,
-    readSetting, writeSetting
+    readSetting, writeSetting,
+    compressFiles, compressFolder, decompressFile,
 }
