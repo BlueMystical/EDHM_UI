@@ -1,9 +1,11 @@
 import { app, ipcMain, dialog } from 'electron';
+import { exec } from 'child_process';
 import path from 'node:path';
 import fs from 'node:fs';
+import zl from 'zip-lib';
 import os from 'os';
 
-// #region Path Finders
+// #region Pathfinders
 
 function getLocalAppDataPath() {
     switch (process.platform) {
@@ -136,6 +138,137 @@ async function copyFile(sourcePath, destinationPath, move = false) {
         throw err; // Re-throw the error for the caller to handle
     }
 }
+
+/** Delete a Folder or a single File.
+ * @param {*} targetPath Absolute path to the Directory or File
+ * @returns 'true' is Success. */
+async function deletePath(targetPath) {
+  try {
+    await fs.rm(targetPath, { recursive: true, force: true });
+    console.log(`Deleting: ${targetPath}`);
+    return true;
+  } catch (err) {    
+    console.error(`Error al eliminar ${targetPath}:`, err);
+    throw err;
+  }
+}
+
+function clearFolderContents(folderPath, callback) {
+  fs.readdir(folderPath, (err, entries) => {
+    if (err) {
+      console.error(`Error leyendo ${folderPath}:`, err);
+      return callback?.(err);
+    }
+
+    let pending = entries.length;
+    if (!pending) return callback?.(null); // carpeta vacía
+
+    entries.forEach(entry => {
+      const fullPath = path.join(folderPath, entry);
+
+      fs.stat(fullPath, (err, stats) => {
+        if (err) {
+          console.error(`Error accediendo a ${fullPath}:`, err);
+          if (--pending === 0) callback?.(null);
+          return;
+        }
+
+        if (stats.isDirectory()) {
+          fs.rm(fullPath, { recursive: true, force: true }, err => {
+            if (err) console.error(`Error eliminando ${fullPath}:`, err);
+            if (--pending === 0) callback?.(null);
+          });
+        } else {
+          fs.unlink(fullPath, err => {
+            if (err) console.error(`Error eliminando ${fullPath}:`, err);
+            if (--pending === 0) callback?.(null);
+          });
+        }
+      });
+    });
+  });
+}
+
+function copyFolderContents(src, dest, move = false) {
+  if (!fs.existsSync(src)) {
+    console.error(`Origen no existe: ${src}`);
+    return;
+  }
+
+  if (!fs.existsSync(dest)) {
+    fs.mkdirSync(dest, { recursive: true });
+  }
+
+  const entries = fs.readdirSync(src);
+
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
+    const srcPath = path.join(src, entry);
+    const destPath = path.join(dest, entry);
+    const stats = fs.statSync(srcPath);
+
+    if (stats.isDirectory()) {
+      fs.mkdirSync(destPath, { recursive: true });
+      copyOrMoveFolderContentsSync(srcPath, destPath, move);
+      if (move) {
+        fs.rmdirSync(srcPath, { recursive: true });
+      }
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+      if (move) {
+        fs.unlinkSync(srcPath);
+      }
+    }
+  }
+}
+
+
+/** Gets a list of sub-folders in the given path. * 
+ * @param {*} basePath Absolute Path to look for */
+function listFolders(folderPath) {
+  const entries = fs.readdirSync(folderPath);
+  const folders = [];
+
+  for (const entry of entries) {
+    const fullPath = path.join(folderPath, entry);
+    const stats = fs.statSync(fullPath);
+    if (stats.isDirectory()) {
+      folders.push(fullPath);
+    }
+  }
+
+  return folders;
+}
+
+
+/** Open the File Explorer showing a selected Folder
+ * @param {*} filePath Folder to select */
+function openPathInExplorer(filePath) {
+  const normalizedPath = resolveEnvVariables(
+    path.normalize(filePath)); // Normalize path to avoid issues
+
+  let command;
+
+  if (os.platform() === 'win32') {
+    command = `start "" "${normalizedPath}"`;
+  } else if (os.platform() === 'darwin') {
+    command = `open "${normalizedPath}"`;
+  } else {
+    command = `xdg-open "${normalizedPath}"`;
+  }
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error opening path: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`Path opened successfully: ${stdout}`);
+  });
+};
 
 // #endregion
 
@@ -285,7 +418,17 @@ async function decompressFile(zipPath, outputDir) {
 // #endregion
 
 
-
+// Returns the local path (Cross-platform compatible) of the given path who is using Env.Vars.
+ipcMain.handle('resolve-env-variables', async (event, inputPath) => {
+  try {
+    const resolvedPath = resolveEnvVariables(inputPath);
+    return resolvedPath;
+  } catch (error) {
+    console.error('Failed to resolve environment variables:', error);
+    //logEvent(error.message, error.stack);
+    throw new Error(error.message + error.stack);
+  }
+});
 /** Returns the path to the EDHM data directory. */
 ipcMain.handle('GetAppDataDirectory', (event) => {
     try {
@@ -296,6 +439,15 @@ ipcMain.handle('GetAppDataDirectory', (event) => {
         throw new Error(error.message + error.stack);
     }
 });
+ipcMain.handle('openPathInExplorer', async (event, filePath) => {
+  try {
+    const result = openPathInExplorer(filePath);
+    return result;
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
 ipcMain.handle('get-json-file', async (event, jsonPath) => {
   try {
     return loadJsonFile(jsonPath);
@@ -310,9 +462,17 @@ ipcMain.handle('writeJsonFile', async (event, filePath, data, prettyPrint) => {
     throw new Error(error.message + error.stack);
   }
 });
+
 ipcMain.handle('checkFileExists', async (event, fullPath) => {
   try {
     return fs.existsSync(fullPath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+ipcMain.handle('ensureDirectoryExists', async (event, fullPath) => {
+  try {
+    return ensureDirectoryExists(fullPath);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
@@ -324,17 +484,36 @@ ipcMain.handle('copyFile', async (event, sourcePath, destinationPath, move = fal
     throw new Error(error.message + error.stack);
   }
 });
-// Returns the local path (Cross-platform compatible) of the given path who is using Env.Vars.
-ipcMain.handle('resolve-env-variables', async (event, inputPath) => {
+ipcMain.handle('deletePath', async (event, pathToDirectoryOrFile) => {
   try {
-    const resolvedPath = resolveEnvVariables(inputPath);
-    return resolvedPath;
+    return deletePath(pathToDirectoryOrFile);
   } catch (error) {
-    console.error('Failed to resolve environment variables:', error);
-    //logEvent(error.message, error.stack);
+    throw new Error(error.message + error.stack);
+  }
+}); 
+ipcMain.handle('listFolders', async (event, pathToDirectory) => {
+  try {
+    return listFolders(pathToDirectory);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+}); 
+ipcMain.handle('clearFolderContents', async (event, pathToDirectory) => {
+  try {
+    return clearFolderContents(pathToDirectory);
+  } catch (error) {
     throw new Error(error.message + error.stack);
   }
 });
+ipcMain.handle('copyFolderContents', async (event, sourcePath, destinationPath) => {
+  try {
+    return copyFolderContents(sourcePath, destinationPath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+
+
 ipcMain.handle('readSetting', (event, key, defaultValue = null) => {
   try {
     return readSetting(key, defaultValue);
@@ -482,8 +661,10 @@ ipcMain.handle('ShowMessageBox', async (event, options) => {
 
 export default {
     resolveEnvVariables,
+    openPathInExplorer,
     loadJsonFile, writeJsonFile,
-    copyFile,
+    copyFile, deletePath, clearFolderContents, 
+    listFolders, copyFolderContents,
     checkFileExists, ensureDirectoryExists,
     getParentFolder, getLocalAppDataPath,
     readSetting, writeSetting,

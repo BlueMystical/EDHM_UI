@@ -1,6 +1,7 @@
 <!-- Ship's HUD & Main Navbar -->
 <template>
-  <div id="Container" class="image-container" ref="container" @mousemove="OnArea_MouseMove" @mouseleave="OnArea_MouseLeave" @click="OnArea_Click($event)">
+  <div id="Container" class="image-container" ref="container" 
+    @mousemove="OnArea_MouseMove" @mouseleave="OnArea_MouseLeave" @click="OnArea_Click($event)">
     <img :src="imageSrc" alt="HUD Image" ref="image" class="hud-image" @load="setupCanvas" />
     <canvas ref="canvas"></canvas>
   </div>
@@ -13,9 +14,7 @@ import EventBus from '../EventBus';
 
 export default {
   name: 'HUD_Areas',
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       imageSrc: '',
@@ -55,8 +54,11 @@ export default {
         }
 
         //- Set the image source and areas
-        this.imageSrc = window.api.joinPath(DATA_DIRECTORY, 'HUD', this.hudData.Image);
-        this.areas = this.hudData.Areas;
+        this.$nextTick(async () => {
+          this.imageSrc = await window.api.joinPath(DATA_DIRECTORY, 'HUD', this.hudData.Image);
+          console.log('HUD Image:', this.imageSrc);
+          this.areas = this.hudData.Areas;
+        });
 
       } catch (error) {
         console.error('Error loading HUD settings:', error);
@@ -74,6 +76,7 @@ export default {
         canvas.width = container.clientWidth;
         canvas.height = container.clientHeight;
         this.updateAreas();
+
       } else {
         image.onload = () => {
           this.originalWidth = image.naturalWidth;

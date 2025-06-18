@@ -564,12 +564,12 @@ async function installEDHMmod(gameInstance) {
     
     let _Source = fileHelper.getAssetPath(`images`);
     let _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'images'));
-    console.log(`Copying Images from '${_Source}' to '${_Destiny}'`);
+    //console.log(`Copying Images from '${_Source}' to '${_Destiny}'`);
     let _ret = await fileHelper.copyDirectoryRecursive(
       _Source,
       _Destiny
     );
-    console.log(`Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
+    console.log(`Image Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
 
     _Source = fileHelper.getAssetPath(`data/HUD`);
     _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'HUD'));
@@ -577,7 +577,7 @@ async function installEDHMmod(gameInstance) {
       _Source,
       _Destiny
     );
-    console.log(`Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
+    console.log(`HUD Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
 
     _Source = fileHelper.getAssetPath(`data/ODYSS/Global_Settings.json`);
     _Destiny = path.join(userDataPath, 'ODYSS', 'Global_Settings.json');

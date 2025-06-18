@@ -13,6 +13,9 @@ contextBridge.exposeInMainWorld('api', {
     getBaseNameNoExt: (filePath) => path.parse(filePath).name,
     resolveEnvVariables: (inputPath) => ipcRenderer.invoke('resolve-env-variables', inputPath),
 
+    /** Returns the path to the EDHM data directory. */
+    GetProgramDataDirectory: async () => ipcRenderer.invoke('GetAppDataDirectory'),
+
     /** Writes a Key/Value into the Program Settings.
     * @param {*} key Name of a Key in the Settings
     * @param {*} value The Value os the indicated Key
@@ -24,11 +27,13 @@ contextBridge.exposeInMainWorld('api', {
     writeJsonFile: async (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
 
     copyFile: async (source, destination, move = false) => ipcRenderer.invoke('copyFile', source, destination, move),
+    copyFolderContents: async (sourcePath, destinationPath) => ipcRenderer.invoke('copyFolderContents',sourcePath, destinationPath),
     checkFileExists: async (filePath) => ipcRenderer.invoke('checkFileExists', filePath),
-    deleteFile: async (filePath) => ipcRenderer.invoke('deleteFile', filePath),
-
-    /** Returns the path to the EDHM data directory. */
-    GetProgramDataDirectory: async () => ipcRenderer.invoke('GetAppDataDirectory'),
+    ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath),
+    listFolders: async (filePath) => ipcRenderer.invoke('listFolders', filePath),
+    deletePath: async (filePath) => ipcRenderer.invoke('deletePath', filePath),  
+    clearFolderContents: async (filePath) => ipcRenderer.invoke('clearFolderContents', filePath),
+    openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
 
     ShowMessageBox: (options) => ipcRenderer.invoke('ShowMessageBox', options),
     ShowOpenDialog: (options) => ipcRenderer.invoke('ShowOpenDialog', options),
