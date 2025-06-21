@@ -664,7 +664,7 @@ async function DoHotFix() {
     if (hotfixJsonPath) {
       const hotFix = fileHelper.loadJsonFile(hotfixJsonPath);
       if (hotFix) {
-
+        console.log('------ Applying HotFixes --------');
         const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
         const UI_DOCUMENTS = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
         const GameInstances = readSetting('GameInstances');

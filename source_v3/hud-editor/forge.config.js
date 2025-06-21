@@ -8,7 +8,7 @@ module.exports = {
     extraResource: [
       'src/images'
     ],
-    icon: path.join(__dirname, 'src/images/Icon_v3_a0.ico'), 
+    icon: path.join(__dirname, 'src/images/Icon_v3_a1.ico'), 
     appCategoryType:    'public.app-category.developer-tools',
     win32metadata: {
       FileDescription:  'HUD Editor for EDHM-UI v3',
@@ -25,13 +25,16 @@ module.exports = {
         authors:      'Blue Mystic',
         appCopyright: 'Blue Mystic - 2025',
         description:  'Editor for the HUD of EDHM-UI.',
-        iconUrl: 'file:///' + path.join(__dirname, 'src/images/Icon_v3_a0.ico'),
-        setupIcon:            path.join(__dirname, 'src/images/Icon_v3_a0.ico'),         
-        icon:                 path.join(__dirname, 'src/images/Icon_v3_a0.ico'), 
+        iconUrl: 'file:///' + path.join(__dirname, 'src/images/Icon_v3_a1.ico'),
+        setupIcon:            path.join(__dirname, 'src/images/Icon_v3_a1.ico'),         
+        icon:                 path.join(__dirname, 'src/images/Icon_v3_a1.ico'), 
+        loadingGif:           path.join(__dirname, 'src/images/loading.gif'),
         shortcutFolderName: 'EDHM-UI Hud Editor',
         shortcutName: 'EDHM-UI Hud Editor',
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
+        certificateFile: './src/data/EDHM-UI-V3.pfx',
+        certificatePassword: '@Namllohj1975'
       },
     },
     {

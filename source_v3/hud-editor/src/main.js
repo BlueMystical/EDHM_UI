@@ -13,7 +13,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1600, minWidth: 1160,
     height: 860, minHeight: 553,
-    icon: path.join(__dirname, 'images', 'icon_v3_a0.ico'),
+    icon:  FileHelper.getAssetPath('images/icon_v3_a1.ico'), //  path.join(__dirname, 'images', 'icon_v3_a0.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -24,14 +24,16 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
   } else {
+    console.log('Production mode: ');
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-   mainWindow.maximize();
+  mainWindow.maximize();
 };
 
 // This method will be called when Electron has finished

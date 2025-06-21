@@ -436,6 +436,15 @@ export default {
         EventBus.emit('ShowError', error);
       }
     },
+    async ApplyGivenTheme(event) {
+      try {
+        console.log('Applying Given Theme:', event);
+        this.themeTemplate = event;
+        this.applyTheme();
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      } 
+    },
     async LoadCurrentSettings() {
       try {
         if (this.ActiveInstance.path != '') {
@@ -653,6 +662,7 @@ export default {
         this.themeTemplate.ui_groups = jsonData.ui_groups; //<- Load the JSON data into the themeTemplate
         EventBus.emit('OnSelectTheme', { id: 0 }); //<- Event Listened on 'ThemeTab.vue'
         EventBus.emit('ThemeLoaded', JSON.parse(JSON.stringify(this.themeTemplate))); //<- this event will be heard on 'App.vue'
+        
       } else {
         console.error('Failed to load JSON data from History folder');
       }
@@ -662,8 +672,8 @@ export default {
     async History_LoadElements() {
       try {
         const NumberOfSavesToRemember = await window.api.readSetting('SavesToRemember', 10);  //console.log('NumberOfSavesToRemember',NumberOfSavesToRemember);    
-        const HistoryFolder = window.api.joinPath(this.DATA_DIRECTORY, 'History'); //console.log('HistoryFolder:', HistoryFolder);
-        const files = await window.api.loadHistory(HistoryFolder, NumberOfSavesToRemember); //console.log(files);        
+        const HistoryFolder = window.api.joinPath(this.DATA_DIRECTORY, 'History');            //console.log('HistoryFolder:', HistoryFolder);
+        const files = await window.api.loadHistory(HistoryFolder, NumberOfSavesToRemember);   //console.log(files);        
 
         this.historyOptions = ref(
           files.map(file => ({
@@ -980,6 +990,7 @@ export default {
     EventBus.on('ShowSpinner', this.showHideSpinner);
     EventBus.on('modUpdated', this.OnModUpdated);
     EventBus.on('OnApplyTheme', this.applyTheme);
+    EventBus.on('ApplyGivenTheme', this.ApplyGivenTheme);
     EventBus.on('StartDownload', this.DownloadAndInstallUpdate);
     EventBus.on('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
     EventBus.on('OnXmlChanged', this.OnXmlChanged);
@@ -998,6 +1009,7 @@ export default {
     EventBus.off('OnApplyTheme', this.applyTheme);
     EventBus.off('StartDownload', this.DownloadAndInstallUpdate);
     EventBus.off('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
+    EventBus.off('ApplyGivenTheme', this.ApplyGivenTheme);
 
     if (typeof this.progressListener === 'function') {
       window.api.removeDownloadProgressListener(this.progressListener);

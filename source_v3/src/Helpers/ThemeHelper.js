@@ -707,27 +707,41 @@ async function ImportTheme(zip_path) {
 ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemember) => {
   try {
     historyFolder = FileHelper.resolveEnvVariables(historyFolder);
-    // Ensure History folder exists
+
+    // Asegurar que la carpeta exista
     if (!fs.existsSync(historyFolder)) {
       fs.mkdirSync(historyFolder, { recursive: true });
     }
 
-    // Read and sort .json files by modification date
+    // Leer y ordenar archivos .json por fecha de modificación
     const files = fs.readdirSync(historyFolder)
       .filter(file => file.endsWith('.json'))
-      .map(file => ({
-        name: file,
-        path: path.join(historyFolder, file),
-        time: fs.statSync(path.join(historyFolder, file)).mtime.getTime()
-      }))
+      .map(file => {
+        const fullPath = path.join(historyFolder, file);
+        const stats = fs.statSync(fullPath);
+        return {
+          name: file,
+          path: fullPath,
+          time: stats.mtime.getTime() // timestamp de modificación
+        };
+      })
       .sort((a, b) => b.time - a.time)
       .slice(0, numberOfSavesToRemember);
+
+    // Formatear fecha de modificación sin librerías externas
+    const formatDate = timestamp => {
+      const d = new Date(timestamp);
+      const pad = n => n.toString().padStart(2, '0');
+      return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    };
 
     return files.map(file => ({
       name: file.name,
       path: file.path,
-      date: new Date(file.name.substring(0, 4), file.name.substring(4, 6) - 1, file.name.substring(6, 8), file.name.substring(8, 10), file.name.substring(10, 12), file.name.substring(12, 14)).toLocaleString()
+      date: formatDate(file.time),
+      time: file.time
     }));
+
   } catch (error) {
     console.error('Failed to load history elements:', error);
     Log.Error(error.message, error.stack);

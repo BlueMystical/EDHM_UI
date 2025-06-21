@@ -15,6 +15,8 @@ contextBridge.exposeInMainWorld('api', {
 
     /** Returns the path to the EDHM data directory. */
     GetProgramDataDirectory: async () => ipcRenderer.invoke('GetAppDataDirectory'),
+    getAssetPath: (assetPath) => ipcRenderer.invoke('get-asset-path', assetPath),
+    getAssetFileUrl: (assetPath) => ipcRenderer.invoke('get-asset-file-url', assetPath),
 
     /** Writes a Key/Value into the Program Settings.
     * @param {*} key Name of a Key in the Settings
@@ -27,11 +29,11 @@ contextBridge.exposeInMainWorld('api', {
     writeJsonFile: async (filePath, data, prettyPrint) => ipcRenderer.invoke('writeJsonFile', filePath, data, prettyPrint),
 
     copyFile: async (source, destination, move = false) => ipcRenderer.invoke('copyFile', source, destination, move),
-    copyFolderContents: async (sourcePath, destinationPath) => ipcRenderer.invoke('copyFolderContents',sourcePath, destinationPath),
+    copyFolderContents: async (sourcePath, destinationPath) => ipcRenderer.invoke('copyFolderContents', sourcePath, destinationPath),
     checkFileExists: async (filePath) => ipcRenderer.invoke('checkFileExists', filePath),
     ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath),
     listFolders: async (filePath) => ipcRenderer.invoke('listFolders', filePath),
-    deletePath: async (filePath) => ipcRenderer.invoke('deletePath', filePath),  
+    deletePath: async (filePath) => ipcRenderer.invoke('deletePath', filePath),
     clearFolderContents: async (filePath) => ipcRenderer.invoke('clearFolderContents', filePath),
     openPathInExplorer: (filePath) => ipcRenderer.invoke('openPathInExplorer', filePath),
 

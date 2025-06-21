@@ -20,6 +20,9 @@
                     data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
                     <i class="bi bi-info-circle"></i> Info
                 </button> 
+                <button type="button" class="btn btn-outline-secondary" @mousedown="openImages_click">
+                    <i class="bi bi-arrow-card-image"></i> Images
+                </button>
                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                     <i class="bi bi-sliders2"></i> Theme Props
@@ -329,6 +332,11 @@ export default {
                 console.error("Error abriendo la carpeta:", err);
             }
         },
+        async openImages_click() {
+            const DATA_DIRECTORY = await window.api.GetProgramDataDirectory();
+            const HUD_DIRECTORY = await window.api.joinPath(DATA_DIRECTORY, 'images');
+            window.api.openPathInExplorer(HUD_DIRECTORY);
+        },
 
 
         async loadTheme_click() {
@@ -402,7 +410,7 @@ export default {
                 };
                 const result = await window.api.ShowMessageBox(msg_options);
                 if (result && result.response === 1) {
-                    await window.api.writeSetting('HUD_Cover', BaseName);
+                    await window.api.writeSetting('HUD_Cover', this.hudData.Name);
                 }
             }
         },

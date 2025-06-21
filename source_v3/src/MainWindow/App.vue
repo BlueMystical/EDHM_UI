@@ -119,13 +119,14 @@ export default {
         }
 
         //- Check if we are first running after an update:
-        const isUpdate = await window.api.readSetting('FirstRun', true);
+        const isUpdate = await window.api.readSetting('FirstRun', true);  //
         if (isUpdate) {
           console.log('First Run after Update: Running HotFix..');
           try {            
             await window.api.DoHotFix();
             await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod:true });
             await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
+            this.ApplyLastTheme();
           } catch (error) {
             EventBus.emit('ShowError', error);
           }
@@ -275,6 +276,29 @@ export default {
         }
       }
     },
+
+    async ApplyLastTheme() {
+      // This will apply the last used theme:
+      const ActiveInstance = await window.api.getActiveInstance(); //console.log('ApplyLastTheme - ActiveInstance:', ActiveInstance);      
+      const DATA_DIRECTORY = await window.api.GetInstanceDataDirectory(ActiveInstance.key); //<- Get the Data Directory: %USERPROFILE%\EDHM_UI\ODYSS
+      const HistoryFolder = window.api.joinPath(DATA_DIRECTORY, 'History');       //console.log('ApplyLastTheme - HistoryFolder:', HistoryFolder);
+      const files = await window.api.loadHistory(HistoryFolder, 4); //console.log('ApplyLastTheme - Files:', files);      
+
+      if (files && files.length > 0) {
+        const lastThemeFile = files[0]; // Get the most recent file
+        //console.log('ApplyLastTheme - Last Theme File:', lastThemeFile);
+        if (lastThemeFile) {
+          const themeData = await window.api.getJsonFile(lastThemeFile.path); // Load the Theme Data
+          themeData.credits = {
+              theme: themeData.name,
+              author: themeData.author
+          };
+
+          console.log('ApplyLastTheme - Theme Data:', themeData);
+          EventBus.emit('ApplyGivenTheme', themeData); //<- Event Listen in 'NavBars.vue'
+        }
+      }
+  },
 
     // #endregion
 

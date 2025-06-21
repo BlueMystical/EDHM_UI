@@ -82,6 +82,40 @@ function getParentFolder(givenPath) {
 
 // #endregion
 
+// #region Assets Handling
+
+/** Gets the absolute path to an asset, handling differences between development and production environments.
+ * In development, it resolves the path relative to the project's root directory.
+ * In production (when the application is packaged), it resolves the path relative to the 'resources' directory. *
+ * @param {string} assetPath The relative path to the asset (e.g., 'data/Settings.json', 'images/icon.png', 'public/windows_installer.bat').
+ * @returns {string} The absolute path to the asset. */
+function getAssetPath(assetPath) {
+  try {
+    if (process.env.NODE_ENV === 'development') {
+      if (assetPath.startsWith('public')) {
+        return path.join(__dirname, '../../', assetPath); // Dev path
+      } else {
+        return path.join(__dirname, '../../src', assetPath); // Dev path
+      }
+    } else {
+      return path.join(process.resourcesPath, assetPath); // Correct Prod path
+    }
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+}
+function getAssetUrl(assetPath) {
+  try {
+    const resolvedPath = getAssetPath(assetPath);
+    const fileUrl = url.pathToFileURL(resolvedPath).toString();
+    return fileUrl;
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+}
+
+// #endregion
+
 // #region Files & Directories
 
 /** Verifies is a File or Directory Exists
@@ -295,6 +329,7 @@ function readSetting(key, defaultValue = null) {
  * @returns 'true' if Success */
 function writeSetting(key, value) {
   try {
+    const programSettingsPath = resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
     const data = fs.readFileSync(programSettingsPath, 'utf8');
     const settings = JSON.parse(data);
     settings[key] = value;
@@ -448,6 +483,28 @@ ipcMain.handle('openPathInExplorer', async (event, filePath) => {
   }
 });
 
+// Returns the path of an Asset (a file included with the program) ex: 'images\PREVIEW.jpg', 'data\Settings.json'
+ipcMain.handle('get-asset-path', async (event, assetPath) => {
+  try {
+    const resolvedPath = getAssetPath(assetPath);
+    return resolvedPath;
+  } catch (error) {
+    console.error('Failed to resolve asset path:', error);
+    throw new Error(error.message + error.stack);
+  }
+});
+// Returns the URL of an Asset (a file included with the program) ex: 'images\PREVIEW.jpg', 'data\Settings.json'
+ipcMain.handle('get-asset-file-url', async (event, assetPath) => {
+  try {
+    const resolvedPath = getAssetPath(assetPath);
+    const fileUrl = url.pathToFileURL(resolvedPath).toString();
+    return fileUrl;
+  } catch (error) {
+    console.error('Failed to resolve asset path:', error);
+    throw new Error(error.message + error.stack);
+  }
+});
+
 ipcMain.handle('get-json-file', async (event, jsonPath) => {
   try {
     return loadJsonFile(jsonPath);
@@ -512,7 +569,6 @@ ipcMain.handle('copyFolderContents', async (event, sourcePath, destinationPath) 
     throw new Error(error.message + error.stack);
   }
 });
-
 
 ipcMain.handle('readSetting', (event, key, defaultValue = null) => {
   try {
@@ -662,6 +718,7 @@ ipcMain.handle('ShowMessageBox', async (event, options) => {
 export default {
     resolveEnvVariables,
     openPathInExplorer,
+    getAssetPath, getAssetUrl,
     loadJsonFile, writeJsonFile,
     copyFile, deletePath, clearFolderContents, 
     listFolders, copyFolderContents,

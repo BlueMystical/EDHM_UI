@@ -1,8 +1,8 @@
 {
   "name": "hud-editor",
   "productName": "hud-editor",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "1.0.1",
+  "description": "Editor for the HUD of EDHM-UI.",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -11,10 +11,10 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": [],
+  "keywords": [ "EDHM-UI", "HUD", "Editor", "Electron", "Elite Dangerous" ],
   "author": {
-    "name": "jchacon",
-    "email": "jhollman.chacon@cutcsa.com.uy"
+    "name": "Blue Mystic",
+    "email": "bluemystic.play@gmail.com"
   },
   "license": "MIT",
   "devDependencies": {

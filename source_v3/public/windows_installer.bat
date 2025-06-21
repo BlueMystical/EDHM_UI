@@ -1,6 +1,6 @@
 @echo off
 title EDHM Installer Script
-echo Starting Installer Script..
+echo Starting EDHM Installer Script..
 
 REM Set mode: DEBUG=1 for debugging, DEBUG=0 for production
 set DEBUG=0
