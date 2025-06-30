@@ -1,11 +1,11 @@
 {
-   "app_version":    "2.2.66.0",
-   "last_installer": "2.2.66.0",
-    "ED_Odissey":    "2.2.66.0", 
+   "app_version":    "2.2.67.0",
+   "last_installer": "2.2.67.0",
+    "ED_Odissey":    "2.2.67.0", 
    "ED_Horizons":    "1.52.1.0",    
    "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
-   "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/EDHM_UI_Setup.msi",
-   "changelog": "- Lots of changes, see Changelog on Discord for details.\r\n- This may be the last update for v2.",
+   "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/download/v3.0.30/edhm-ui-v3-windows-x64.exe",
+   "changelog": "- Patch to ensure compatibility with incoming v3.0.",
    "notification": "",
    "re_install": true,
    "run_hotfix": true
