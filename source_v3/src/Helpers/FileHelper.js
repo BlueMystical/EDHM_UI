@@ -1116,6 +1116,7 @@ async function getLatestReleaseVersion(owner, repo) {
     method: 'GET',
     headers: { 'User-Agent': 'Node.js' }
   };
+  //https://api.github.com/repos/BlueMystical/EDHM_UI/releases
 
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {

@@ -126,7 +126,11 @@ export default {
             await window.api.DoHotFix();
             await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod:true });
             await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
-            this.ApplyLastTheme();
+
+            const ActiveInstance = await window.api.getActiveInstance();
+            await this.ApplyLastTheme(ActiveInstance);
+            await this.ImportShipyardV2(ActiveInstance);
+            
           } catch (error) {
             EventBus.emit('ShowError', error);
           }
@@ -277,28 +281,88 @@ export default {
       }
     },
 
-    async ApplyLastTheme() {
+    async ApplyLastTheme(instance) {
       // This will apply the last used theme:
-      const ActiveInstance = await window.api.getActiveInstance(); //console.log('ApplyLastTheme - ActiveInstance:', ActiveInstance);      
-      const DATA_DIRECTORY = await window.api.GetInstanceDataDirectory(ActiveInstance.key); //<- Get the Data Directory: %USERPROFILE%\EDHM_UI\ODYSS
-      const HistoryFolder = window.api.joinPath(DATA_DIRECTORY, 'History');       //console.log('ApplyLastTheme - HistoryFolder:', HistoryFolder);
-      const files = await window.api.loadHistory(HistoryFolder, 4); //console.log('ApplyLastTheme - Files:', files);      
+      try {
+        //console.log('ApplyLastTheme - ActiveInstance:', instance);      
+        const DATA_DIRECTORY = await window.api.GetInstanceDataDirectory(instance.key); //<- Get the Data Directory: %USERPROFILE%\EDHM_UI\ODYSS
+        const HistoryFolder = window.api.joinPath(DATA_DIRECTORY, 'History');       //console.log('ApplyLastTheme - HistoryFolder:', HistoryFolder);
+        const files = await window.api.loadHistory(HistoryFolder, 4); //console.log('ApplyLastTheme - Files:', files);      
 
-      if (files && files.length > 0) {
-        const lastThemeFile = files[0]; // Get the most recent file
-        //console.log('ApplyLastTheme - Last Theme File:', lastThemeFile);
-        if (lastThemeFile) {
-          const themeData = await window.api.getJsonFile(lastThemeFile.path); // Load the Theme Data
-          themeData.credits = {
+        if (files && files.length > 0) {
+          const lastThemeFile = files[0]; // Get the most recent file
+          //console.log('ApplyLastTheme - Last Theme File:', lastThemeFile);
+          if (lastThemeFile) {
+            const themeData = await window.api.getJsonFile(lastThemeFile.path); // Load the Theme Data
+            themeData.credits = {
               theme: themeData.name,
               author: themeData.author
+            };
+
+            console.log('ApplyLastTheme - Theme Data:', themeData);
+            EventBus.emit('ApplyGivenTheme', themeData); //<- Event Listen in 'NavBars.vue'
+          }
+        }
+      } catch (error) {
+        console.error('Error @ApplyLastTheme:', error);
+        EventBus.emit('ShowError', error);
+      }
+    },
+
+    /** This will Import a Shipyard V2 File.
+     * Converted from the old Shipyard V2 format to the new V2 format.
+     * Moves the file to the EDHM_UI Data Directory and deletes the old file.     */
+    async ImportShipyardV2(instance) {
+      try {        
+        const DATA_DIRECTORY = await window.api.GetProgramDataDirectory(); //<- Get the Data Directory: %USERPROFILE%\EDHM_UI
+        const v2Location = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\edhm_ui');
+        const v2ShipyardFile = window.api.joinPath(v2Location, 'Data', 'shipyard.json');
+        const v3ShipyardFile = window.api.joinPath(DATA_DIRECTORY, 'Shipyard_v3.json');
+        const v2FileExists = await window.api.fileExists(v2ShipyardFile);
+
+        if (v2FileExists) {
+          // Read the old Shipyard V2 file
+          const shipyardV2Data = await window.api.getJsonFile(v2ShipyardFile);
+          console.log('Shipyard V2 Data:', shipyardV2Data);
+
+          // Convert the data to the new format
+          const convertedData = shipyardV2Data.ships.map(item => ({
+            ship_id: item.Ship.ship_id,
+            kind_short: item.Ship.ed_short,
+            kind_full: item.Ship.ship_full_name,
+            custom_name: item.ship_name,
+            plate: item.ship_plate || '',
+            theme: item.theme || 'Current Settings',
+            image: item.Ship.ed_short + '.jpg',
+          }));
+
+          var Shipyard = {
+              enabled: shipyardV2Data.enabled,
+              player_name: shipyardV2Data.player_name,
+              ships: convertedData
           };
 
-          console.log('ApplyLastTheme - Theme Data:', themeData);
-          EventBus.emit('ApplyGivenTheme', themeData); //<- Event Listen in 'NavBars.vue'
+          // Save the converted data to the new file
+          const _ret = await window.api.writeJsonFile(v3ShipyardFile, Shipyard);
+          if (_ret) {
+            console.log('Converted Shipyard V2 to V3:', Shipyard);
+            console.log('Converted Shipyard V2 to V3 and saved to:', v3ShipyardFile);
+
+            // Delete the old Shipyard V2 file
+            await window.api.deleteFileByAbsolutePath(v2ShipyardFile);
+            console.log('Deleted old Shipyard V2 file:', v2ShipyardFile);
+
+            EventBus.emit('RoastMe', { type: 'Success', message: 'Shipyard V2 Imported Successfully!' });
+          }          
+        } else {
+          console.log('No Shipyard V2 file found at:', v2ShipyardFile);          
         }
+
+      } catch (error) {
+        console.log('Error @ImportShipyardV2():', error);
+        EventBus.emit('ShowError', error);        
       }
-  },
+    },
 
     // #endregion
 
@@ -546,10 +610,10 @@ export default {
     },
 
     async LookForUpdates() {
-       //window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
-      window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
+      window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
+      //window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
         if (latestRelease) {
-         // console.log(latestRelease);
+          console.log(latestRelease);
           this.AnalyseUpdate(latestRelease);
         } else {
           console.log('No pre-release version found.');

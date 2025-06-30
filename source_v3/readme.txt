@@ -367,7 +367,7 @@ npm install @vitejs/plugin-vue --save-dev
 npm install vue-router@4   <- For multi-windows https://github.com/vuejs/router
 npm install chokidar   <- For file watching (Shipyard)
 
-npm install robot-js    <- for keyboard events  https://github.com/Robot/robot-js
+npm uninstall robot-js    <- for keyboard events  https://github.com/Robot/robot-js
 - On Windows, global keyboard events should work without issues.
 - On Linux, users may need to allow accessibility permissions for the app to interact with input events (this varies by distro).
 
@@ -402,6 +402,8 @@ npx electron-forge start --enable-logging
 npm install --save-dev @electron/packager
 npm install --save-dev @electron-forge/maker-squirrel
 npm install --save electron-squirrel-startup 
+
+npm install --save-dev @electron-forge/maker-squirrel@latest @electron-forge/maker-zip@latest
 
 -------------------------------------------------------------------------------------------
 /* 	Create a ZIP archive for your Electron app using Electron Forge.

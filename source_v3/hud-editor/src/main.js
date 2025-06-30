@@ -63,16 +63,25 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.setUserTasks([
-  {
-    program: process.execPath,
-    arguments: '--new-window',
-    iconPath: process.execPath,
-    iconIndex: 0,
-    title: 'New Window',
-    description: 'Create a new window'
-  }
-]);
+if (process.platform === 'win32') {
+  // Register a user task for Windows 10/11
+  // This allows users to create a new window from the taskbar
+  // See: https://www.electronjs.org/docs/latest/tutorial/user-tasks
+  // and https://learn.microsoft.com/en-us/windows/apps/design/shell/taskbar/user-tasks
+  // Note: This feature is only available on Windows 10 and later.
+  // Make sure to set the `app.setUserTasks` only once, ideally after the
+  // app is ready and the main window is created.
+  app.setUserTasks([
+    {
+      program: process.execPath,
+      arguments: '--new-window',
+      iconPath: process.execPath,
+      iconIndex: 0,
+      title: 'New Window',
+      description: 'Create a new window'
+    }
+  ]);
+}
 
 ipcMain.handle('dark-mode:toggle', () => {
   if (nativeTheme.shouldUseDarkColors) {

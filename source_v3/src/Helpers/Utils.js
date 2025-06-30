@@ -487,6 +487,23 @@ sendKey({keyCode: "F11"}, 200);
 // #endregion
 
 
+function reveal(obscured) {
+  const decoded = atob(obscured);
+  const unshifted = decoded
+    .split('')
+    .map(char => String.fromCharCode(char.charCodeAt(0) - 3))
+    .join('');
+  return unshifted.split('').reverse().join('');
+}
+function obscure(str) {
+  const reversed = str.split('').reverse().join('');
+  const shifted = reversed
+    .split('')
+    .map(char => String.fromCharCode(char.charCodeAt(0) + 3))
+    .join('');
+  return btoa(shifted);
+}
+
 /** Timer class to measure the time taken by a task.
  * USAGE:
  * const timer = new Timer();
@@ -545,5 +562,6 @@ export default {
     sendKey, sendSequence, 
 
     compareVersions,
+    obscure, reveal,
     Timer
 }

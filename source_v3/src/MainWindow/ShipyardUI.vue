@@ -108,8 +108,6 @@ export default {
         themesData: {
             type: Object, // Or Array, or whatever the type of your themes data is
             required: false, // Or true, depending on whether the prop is mandatory
-            // You can also provide a default value if needed:
-            // default: () => ({})
         },
     },
     emits: ['shipSelected'], // Emit an event when a ship is selected
@@ -141,7 +139,7 @@ export default {
             showInfo: false,        //<- Flag to Show/hide the mod's 'Read Me' information
             infoMessage: '',
 
-            shipData: {},
+            shipData: {}, // { enabled: false, player_name: '', ships: [] }, //<- Shipyard Data
             ships: [],
             themes: [],
             DATA_DIRECTORY: '',

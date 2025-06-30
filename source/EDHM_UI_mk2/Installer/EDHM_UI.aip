@@ -20,10 +20,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{AF3B0E3F-0BFB-4BD1-A3D5-7EA3FEEDC972} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{615F9D14-43D5-44C9-9706-213393A48266} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM_UI"/>
-    <ROW Property="ProductVersion" Value="2.2.66.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="2.2.67.0" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{2949570F-AF20-4990-B258-006A1649A388}"/>
@@ -56,7 +56,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="AIShRegAnswer" ComponentId="{2D8D79A9-F005-4936-95B1-DD31BB7F3851}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
-    <ROW Component="AI_CustomARPName" ComponentId="{FFF785CF-FE2A-4CDA-B9B4-ED7164597DC8}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{14F2F48C-905C-41B0-984D-2AE406B6EC97}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="APPDIR" ComponentId="{1428F5F3-0E71-45A1-AC93-1D376C7F0DC2}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="AmbientLights_0.png" ComponentId="{52A436C9-3EAA-4B92-958A-344A6537B298}" Directory_="ED_Horizons_Dir" Attributes="0" KeyPath="AmbientLights_0.png" Type="0"/>
     <ROW Component="ColorManagment.dll" ComponentId="{35162133-6069-4C8C-A522-8283866B1CAE}" Directory_="APPDIR" Attributes="0" KeyPath="ColorManagment.dll"/>
@@ -799,7 +799,7 @@
     <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DigCertStoreComponent">
-    <ROW DigitalCertificate="EDHM_UI.pfx" TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" DescriptionUrl="https://github.com/BlueMystical/EDHM_UI" SignOptions="7" SignTool="0" EnableLUAPatching="1" UseSha256="1" Password="789991A4C593EF030980A053B042AF11D1FB3A7AFC805B00C296"/>
+    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" DescriptionUrl="https://github.com/BlueMystical/EDHM_UI" SignOptions="7" SignTool="0" EnableLUAPatching="1" UseSha256="1" Thumbprint="39ac7a2748ad4f23323b3813daa8e93c0d13ac87 Subject: EDHM-UI-V3-Cert_2025-6-27_16-44-56&#10;Issuer: EDHM-UI-V3-Cert_2025-6-27_16-44-56&#10;Valid from 06/27/2025 to 06/27/2026&#10;User\MY" Subject="CN=EDHM-UI-V3-Cert_2025-6-27_16-44-56"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>

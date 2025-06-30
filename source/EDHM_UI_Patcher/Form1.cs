@@ -101,8 +101,9 @@ namespace EDHM_UI_Patcher
                     if (this._Instalar)
                     {
                         this.InstallerIsDownloading = true;
-                        string FileToDownload = vErsion.install_url + "?" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                        string TempFilePath = Path.Combine(Path.GetTempPath(), "EDHM_UI", "EDHM_UI_Setup.msi");
+						string FileName = Path.GetFileName(vErsion.install_url);
+						string FileToDownload = vErsion.install_url + "?" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        string TempFilePath = Path.Combine(Path.GetTempPath(), "EDHM_UI", FileName);
 						DateTime _startedAt = DateTime.MinValue; //<- Inicio de la Descarga
 
 						FileDownloader FD = new FileDownloader(FileToDownload, TempFilePath);
@@ -253,8 +254,9 @@ namespace EDHM_UI_Patcher
                     {
                         this.PatcherIsDownloading = true;
 
-                        string FileToDownload = vErsion.download_url + "?" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                        string TempFilePath = Path.Combine(Path.GetTempPath(), @"EDHM_UI\EDHM_UI_Patch.zip");
+						string FileName = Path.GetFileName(vErsion.download_url);
+						string FileToDownload = vErsion.download_url + "?" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                        string TempFilePath = Path.Combine(Path.GetTempPath(), "EDHM_UI", FileName);
 
                         FileDownloader FD2 = new FileDownloader(FileToDownload, TempFilePath);
                         FD2.OnDownload_Progress += (sender, eventArgs) =>

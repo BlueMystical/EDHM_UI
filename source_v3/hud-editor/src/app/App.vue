@@ -229,9 +229,9 @@ export default {
                 const hudCover = await window.api.readSetting('HUD_Cover');
                 const DATA_DIRECTORY = await window.api.GetProgramDataDirectory();
 
-                this.themePath = await window.api.joinPath(DATA_DIRECTORY, 'HUD', `${hudCover}.json`);
+                this.themePath = await window.api.joinPath(DATA_DIRECTORY, 'HUD', `${hudCover}.json`); console.log('Theme Path:', this.themePath);  
                 this.hudData = await window.api.getJsonFile(this.themePath);
-                this.imagePath = await window.api.joinPath(DATA_DIRECTORY, 'HUD', this.hudData.Image);
+                this.imagePath = await window.api.joinPath(DATA_DIRECTORY, 'HUD', this.hudData.Image); console.log('Image Path:', this.imagePath);
 
                 const canvas = this.$refs.canvasElement;
                 const panel = this.$refs.panelLeft;

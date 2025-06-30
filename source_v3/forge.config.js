@@ -1,17 +1,33 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const fs = require('node:fs');
 const path = require('path');
+
+function reveal(r)      {return atob(r).split("").map((r=>String.fromCharCode(r.charCodeAt(0)-3))).join("").split("").reverse().join("")};
+function safeInclude(n) {return fs.existsSync(n)?n:null}
+
+const extraFiles = [
+  'src/data',
+  'src/images',
+  'public',
+  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/snapshot_blob.bin')),
+  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/v8_context_snapshot.bin')),
+  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/libvulkan-1.dll')),
+  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/vulkan-1.dll')),
+].filter(Boolean); 
+
 
 /* ---  FOR WINDOWS --- */
 module.exports = {
   packagerConfig: {
     asar: true,
-    extraResource: [
+     extraResource: extraFiles,
+   /* extraResource: [
       'src/data',
       'src/images',
-      'public',
-    ],
-    icon:               path.join(__dirname, 'src/images/ED_TripleElite.ico'), //'public/images/ED_TripleElite.ico'
+      'public'
+    ],*/
+    icon:               path.join(__dirname, 'src','images','Icon_v3_a0.ico'), //'public/images/Icon_v3_a0.ico'
     appCategoryType:    'public.app-category.developer-tools',
     win32metadata: {
       FileDescription:  'Mod for Elite Dangerous to customize the HUD of any ship.',
@@ -30,18 +46,19 @@ module.exports = {
         description:  'Mod for Elite Dangerous to customize the HUD of any ship.',
         setupExe:     'edhm-ui-v3-windows-x64.exe',
 
-        iconUrl: 'file:///' + path.join(__dirname, 'src/images/ED_TripleElite.ico'),
-        setupIcon:            path.join(__dirname, 'src/images/ED_TripleElite.ico'),       //setupIcon: 'src/images/ED_TripleElite.ico',         
-        icon:                 path.join(__dirname, 'src/images/ED_TripleElite.ico'),       //icon: 'src/images/ED_TripleElite.ico',
-        loadingGif:           path.join(__dirname, 'src/images/EDHNUIv3B.gif'),
+        iconUrl: 'file:///' + path.join(__dirname, 'src','images','Icon_v3_a0.ico'),
+        setupIcon:            path.join(__dirname, 'src','images','Icon_v3_a0.ico'),       //setupIcon: 'src/images/Icon_v3_a0.ico',         
+        icon:                 path.join(__dirname, 'src','images','Icon_v3_a0.ico'),       //icon: 'src/images/Icon_v3_a0.ico',
+        loadingGif:           path.join(__dirname, 'src','images','EDHNUIv3B.gif'),
 
         shortcutFolderName: 'EDHM-UI-V3',
         shortcutName: 'EDHM-UI-V3',
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
 
-        certificateFile: './src/data/etc/EDHM-UI-V3.pfx',
-        certificatePassword: '@Namllohj1975'
+        //certificateFile: path.join(__dirname, 'src','data','etc','EDHM-UI-V3.pfx'), // './src/data/etc/EDHM-UI-V3.pfx',
+        //certificateFile:  './src/data/etc/EDHM-UI-V3.pfx',
+        //certificatePassword:  reveal('ODo8NG1rcm9vcGRRQw==') 
       }
     },
     {
@@ -82,15 +99,16 @@ module.exports = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true
     })
   ],
-  build: {
-    files: [
-      'dist/electron/**/*',
-      'dist/renderer/**/*', // Ensure this line is present and correct
-      'resources/**/*',
-      'node_modules/**/*',
-    ],
-  },
+  //build: {
+  //  files: [
+  //    'dist/electron/**/*',
+  //    'dist/renderer/**/*', // Ensure this line is present and correct
+  //    'resources/**/*',
+  //    'node_modules/**/*',
+  //  ],
+  //},
 };
+
 /*  // For Linux
 module.exports = {
   packagerConfig: {
