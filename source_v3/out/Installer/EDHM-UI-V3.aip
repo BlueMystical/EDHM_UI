@@ -17,10 +17,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{8A77FD20-C079-4613-A1FE-7DCE3F378164} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{9DA42B52-08B7-4923-B175-3D24AB0EA9A7} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM-UI-V3"/>
-    <ROW Property="ProductVersion" Value="3.0.31" Type="32"/>
+    <ROW Property="ProductVersion" Value="3.0.32" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{B446308B-0441-4301-84CF-79B7159894F5}"/>
@@ -51,7 +51,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="AIShRegAnswer" ComponentId="{8C3867D3-93AC-45CC-907D-179750F712F7}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
-    <ROW Component="AI_CustomARPName" ComponentId="{4F3DB539-0025-4FA3-A813-3748725E777D}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{7508DB6F-88CD-4CB7-9F97-7A2F7DE32822}" Directory_="APPDIR" Attributes="4" KeyPath="DisplayName" Options="1"/>
     <ROW Component="AI_ExePath" ComponentId="{EDCCFB39-9A2F-4B58-9C96-A1A031EE7AB8}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
     <ROW Component="APPDIR" ComponentId="{4FD4A083-9887-496A-BB74-C0A3D6A228B3}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="EDHMUIV3.exe" ComponentId="{7F0615C4-8D4A-4DB8-85BB-EF766334D86E}" Directory_="APPDIR" Attributes="256" KeyPath="EDHMUIV3.exe"/>

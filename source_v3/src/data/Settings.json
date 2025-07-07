@@ -102,5 +102,6 @@
     "FirstRun": false,
     "FavToogle":false,    
     "HideToTray":false,    
+    "CreateShortcutOnDesktop": true,
     "CheckForUpdates": true   
  }

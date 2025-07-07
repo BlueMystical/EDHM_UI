@@ -46,7 +46,7 @@ if (!gotTheLock) {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.whenReady().then(() => {
+  app.whenReady().then(async () => {
     createWindow();
 
     //-- Disable the menu bar
@@ -54,8 +54,11 @@ if (!gotTheLock) {
 
     //-- Create Desktop Shortcut Icons:
     if (process.platform === 'win32') {
-      fileHelper.createWindowsShortcut.call(this, CustomIcon);
       createTray(); // Create the tray icon
+      const makeShortcut = await settingsHelper.readSetting('CreateShortcutOnDesktop', true);
+      if (makeShortcut) {
+        fileHelper.createWindowsShortcut.call(this, CustomIcon);
+      }
     } else if (process.platform === 'linux') {
       //- Linux users prefer their desktop clean, so no shortcut is created by default
       //- Uncomment the next line to create a shortcut on Linux as well
@@ -149,8 +152,6 @@ const createWindow = () => {
   // Set the mainWindow instance in your Shipyard module
   Shipyard.Initialize(mainWindow);
 
-  debugMode();
-
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
     if (mainWindow) {
@@ -169,7 +170,6 @@ const createWindow = () => {
     shell.openExternal(url);
     return { action: 'deny' }; // Prevent Electron from creating a new window
   });
-
   // Handle window close event
   mainWindow.on('close', (event) => {
     if (HideToTray && process.platform === 'win32') {
@@ -248,49 +248,6 @@ const createTray = () => {
   
 };
 
-const debugMode = () => {
- // ----------------------------------------------------
-  // ADD THIS DEBUGGING CODE
-  // ----------------------------------------------------
-  console.log('App is in production:', app.isPackaged);
-  console.log('App resources path:', process.resourcesPath);
-  
-  // Let's check for the missing file.
-  // Assuming the missing file is `src/data/some_important_file.json`
-  const dataPath = path.join(process.resourcesPath, 'src/data'); // This is a common mistake. The files are not in `src/data` inside resources.
-  const correctDataPath = path.join(process.resourcesPath, 'data'); // Let's check for the correct path.
-  const certificatePath = path.join(process.resourcesPath, 'etc', 'EDHM-UI-V3.pfx');
-  const certificatePathExtraResource = path.join(process.resourcesPath, 'data', 'etc', 'EDHM-UI-V3.pfx'); // The correct path from your extraResource config
-  
-  console.log('Checking for files...');
-
-  // 1. Check the path you expect based on the extraResource config
-  console.log(`Checking for certificate file at: ${certificatePathExtraResource}`);
-  if (fs.existsSync(certificatePathExtraResource)) {
-    console.log('Certificate file found!');
-  } else {
-    console.log('Certificate file NOT found!');
-  }
-
-  // 2. Check the path based on the `packagerConfig.asar` setting
-  // This is for files *inside* the ASAR archive
-  const asarPath = path.join(__dirname, 'src', 'data', 'etc', 'EDHM-UI-V3.pfx');
-  console.log(`Checking for file inside ASAR at: ${asarPath}`);
-  if (fs.existsSync(asarPath)) {
-    console.log('File found inside ASAR!');
-  } else {
-    console.log('File NOT found inside ASAR!');
-  }
-  
-  // 3. Add a try-catch block around the code that uses the missing file.
-  try {
-    // Replace this with the actual code that's failing
-    const fileContent = fs.readFileSync(certificatePathExtraResource, 'utf-8');
-    console.log('File read successfully. Content length:', fileContent.length);
-  } catch (error) {
-    console.error('An error occurred when trying to read the file:', error);
-  }
-};
 
 //---------------------------------------------------------------
 // #region ipc Handlers (Inter-Process Communication)

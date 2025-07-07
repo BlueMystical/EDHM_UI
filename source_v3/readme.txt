@@ -356,6 +356,14 @@ npm install --save-dev vue
 npm install --save-dev @vitejs/plugin-vue
 explorer . && code .
 
+
+npm install --save-dev electron
+npm install --save-dev @electron-forge/cli
+npx electron-forge import
+npm i @electron-forge/maker-zip
+npm i @electron-forge/publisher-github
+npm i eslint
+
 //------- Instalar Bootstrap para usar con Electron
 npm install --save bootstrap 
 npm install bootstrap-vue@latest

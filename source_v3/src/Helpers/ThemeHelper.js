@@ -25,19 +25,27 @@ const getThemes = async (dirPath) => {
     const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
     const files = [];
 
+    const ActiveInstance = await settingsHelper.getActiveInstance();
+    const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ'; //<- Game Type: ODYSS or HORIZ
+    const templatePath = FileHelper.getAssetPath(`data/${GameType}/ThemeTemplate.json`); //<- Default Template  
+    const jsonTemplate = await FileHelper.loadJsonFile(templatePath);  
+
     for (const dirent of subfolders) {
       if (dirent.isDirectory()) {
         const subfolderPath = path.join(dirPath, dirent.name); //<- Full Theme path
 
         try {
           // Here we Load the Data of the Theme either from the JSON (if present) or from the INIs:
-          const template = await LoadTheme(subfolderPath);
+          var template = await LoadTheme(subfolderPath);
 
           // Check if the folder contains a Large Preview file:
           let preview_url = '';
           if (FileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
             preview_url = `file:///${path.join(subfolderPath, dirent.name + '.jpg')}`;
           }
+
+          //- For Migration only, also comment the if on the JSON write below
+          //template = await FixRecycledKeys(template, jsonTemplate);
 
           // Assemble the Data to return:
           files.push({
@@ -63,13 +71,13 @@ const getThemes = async (dirPath) => {
           LoadedThemes = files; //<- Cache the loaded themes
 
           // Theme Migration :
-          const ThemeCleansing = true; //<- Swap to 'true' to save the json and cleanse old files
+          const ThemeCleansing = false; //<- Swap to 'true' to save the json and cleanse old files
           try {
             if (ThemeCleansing) {
               // Sanitization: For Themes Exportings
-              //FileHelper.deleteFilesByType(subfolderPath, '.ini');
-              //FileHelper.deleteFilesByType(subfolderPath, '.credits');
-              //FileHelper.deleteFilesByType(subfolderPath, '.fav');
+              FileHelper.deleteFilesByType(subfolderPath, '.ini');
+              FileHelper.deleteFilesByType(subfolderPath, '.credits');
+              FileHelper.deleteFilesByType(subfolderPath, '.fav');
               //FileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
             }
           } catch { }
@@ -443,6 +451,33 @@ async function ExportTheme(themeData) { //
     throw new Error(error.message + error.stack);
   }
 }
+/** Uncompress a ZIP file containing a Theme into the Themes folder * 
+ * @param {*} zip_path Full path to the ZIP file
+ * @returns 'true' is success. */
+async function ImportTheme(zip_path) {
+  try {
+    if (zip_path != undefined && FileHelper.checkFileExists(zip_path)) {      
+      const ThemeName = path.basename(zip_path, '.zip');  
+      console.log('Importing Theme .....', ThemeName);
+      
+      const ActiveInstance = await settingsHelper.getActiveInstance();
+      const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+      const DataPath = FileHelper.resolveEnvVariables(
+            settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );      
+      const themes_path = path.join(DataPath, GameType, 'Themes');
+      FileHelper.ensureDirectoryExists(themes_path);
+
+      const _ret = await FileHelper.decompressFile(zip_path, themes_path);
+      if (_ret) {
+        console.log('Theme Installed ->', ThemeName);
+        return _ret;
+      }
+    }
+  } catch (error) {
+    console.error('Error at ThemeHelper/ImportTheme():', error);
+    throw new Error(error.message + error.stack);    
+  }
+}
 
 // #region Ini File Handling
 
@@ -669,33 +704,39 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
   }
 };
 
-/** Uncompress a ZIP file containing a Theme into the Themes folder * 
- * @param {*} zip_path Full path to the ZIP file
- * @returns 'true' is success. */
-async function ImportTheme(zip_path) {
+const FixRecycledKeys = async (theme, template) => {
   try {
-    if (zip_path != undefined && FileHelper.checkFileExists(zip_path)) {      
-      const ThemeName = path.basename(zip_path, '.zip');  
-      console.log('Importing Theme .....', ThemeName);
-      
-      const ActiveInstance = await settingsHelper.getActiveInstance();
-      const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-      const DataPath = FileHelper.resolveEnvVariables(
-            settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );      
-      const themes_path = path.join(DataPath, GameType, 'Themes');
-      FileHelper.ensureDirectoryExists(themes_path);
+    const recycledKeys = ['x87', 'w120', 'x238|y238|z238|w238'];
 
-      const _ret = await FileHelper.decompressFile(zip_path, themes_path);
-      if (_ret) {
-        console.log('Theme Installed ->', ThemeName);
-        return _ret;
+    recycledKeys.forEach((key) => {
+      for (const groupTemplate of template.ui_groups) {
+        if (!groupTemplate?.Elements) continue;
+
+        const elementTemplate = groupTemplate.Elements.find(e => e.Key === key);
+        if (!elementTemplate) continue;
+
+        for (const groupTheme of theme.ui_groups) {
+          if (!groupTheme?.Elements) continue;
+
+          const elementTheme = groupTheme.Elements.find(e => e.Key === key);
+          if (elementTheme && elementTheme.Value !== elementTemplate.Value) {
+            if (elementTheme.Value < 100) {
+              console.log(
+                `${theme.credits.theme} Fixed Key ${elementTheme.Key}: ${elementTheme.Value} -> ${elementTemplate.Value}`
+              );
+              elementTheme.Value = elementTemplate.Value;
+            }
+          }
+        }
       }
-    }
+    });
+
+    return theme;
   } catch (error) {
-    console.error('Error at ThemeHelper/ImportTheme():', error);
-    throw new Error(error.message + error.stack);    
+    console.error('Error in FixRecycledKeys:', error);
+    return theme; // En caso de error, igual devolvemos el objeto
   }
-}
+};
 
 // #endregion
 

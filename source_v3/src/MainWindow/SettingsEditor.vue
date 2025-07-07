@@ -82,7 +82,7 @@
                                             <input type="number" class="form-control" id="quantity" min="1" max="50"
                                                 v-model="config.SavesToRemember">
                                         </div>
-                                        <div class="col">
+                                        <div class="col"><!--
                                             <label for="userDataLocation">Themes & User's Data:</label>
                                             <div id="userDataLocation" class="input-group mb-3" disabled>
                                                 <input type="text" class="form-control form-control-sm"
@@ -90,7 +90,7 @@
                                                     aria-describedby="button-addon2" v-model="config.UserDataFolder" disabled>
                                                 <button class="btn btn-outline-secondary" type="button"
                                                     id="button-addon2" @click="browseUserDataFolder" disabled>Browse</button>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
                                     <div class="row">

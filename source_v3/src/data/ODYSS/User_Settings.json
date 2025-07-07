@@ -1,0 +1,50 @@
+{
+    "Name": "UserSettings",
+    "Title": "User Settings",
+    "Elements": [
+        {
+            "Category": "Radar Objects",
+            "Title": "White Objects",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "x115",
+            "Value": 1,
+            "ValueType": "ONOFF",
+            "Type": "ONOFF",
+            "Description": "Switch for White objects on the radar (wakes, materials, salvage etc) in standard flight (not supercruise)"
+        },
+        {
+            "Category": "Suit HUD - Shield",
+            "Title": "Shield Down Color",
+            "File": "SuitHud",
+            "Section": "Constants",
+            "Key": "x35|y35|z35|w35",
+            "Value": -570490640,
+            "ValueType": "Color",
+            "Type": "CustomColor",
+            "Description": "Custom Color for On-foot Shield Down (*alpha)."
+        },
+        {
+            "Category": "Main Text",
+            "Title": "Highlighted Text Mode",
+            "File": "Startup-Profile",
+            "Section": "Constants",
+            "Key": "z87",
+            "Value": 200,
+            "ValueType": "Preset",
+            "Type": "ShortMode",
+            "Description": "Mode for Highlighted Text in all Panels."
+        },
+        {
+            "Category": "Combat HUD",
+            "Title": "Ammunition Brightness",
+            "File": "Advanced",
+            "Section": "Constants",
+            "Key": "w45",
+            "Value": 0.9,
+            "ValueType": "Brightness",
+            "Type": "2X",
+            "Description": "Brightness for Ammunition."
+        }
+    ]
+}

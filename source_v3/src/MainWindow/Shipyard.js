@@ -46,6 +46,8 @@ export const Initialize = (mainWindow) => {
     try {
         mainWindowInstance = mainWindow;
 
+        console.log('Initializing Shipyard...');
+
         // Load the Ships List:
         ShipList = JSON.parse(
             fsSync.readFileSync(
@@ -54,23 +56,25 @@ export const Initialize = (mainWindow) => {
 
         // Load the Shipyard data from the JSON file, creates it if it doesn't exist:
         fileHelper.ensureDirectoryExists(DATA_DIRECTORY);
-        if (fileHelper.checkFileExists(DATA_DIRECTORY)) {
-            if (fileHelper.checkFileExists(ShipyardFilePath)) {
-                //- File exists, read it:
-                Shipyard = JSON.parse(
-                    fsSync.readFileSync(ShipyardFilePath, 'utf8')
-                );
-            } else { 
-                //- Shipyard file doesnt exists
-                Shipyard = {
-                    enabled: false,
-                    player_name: '',
-                    ships: []
-                };
-                // Save the initial Shipyard data to the JSON file
-                fileHelper.writeJsonFile(ShipyardFilePath, Shipyard, true);
-            }
+        if (fileHelper.checkFileExists(ShipyardFilePath)) {
+            //- File exists, read it:
+            Shipyard = JSON.parse(
+                fsSync.readFileSync(ShipyardFilePath, 'utf8')
+            );
+            console.log('Shipyard loaded from file:', ShipyardFilePath);
+        } else { 
+            //- Shipyard file doesnt exists
+            Shipyard = {
+                enabled: false,
+                player_name: '',
+                ships: []
+            };
+            // Save the initial Shipyard data to the JSON file
+            fileHelper.writeJsonFile(ShipyardFilePath, Shipyard, true);
+            console.log('Shipyard file created:', ShipyardFilePath);
         }
+        //console.log('Shipyard:', Shipyard);
+        
     } catch (error) {
         console.log(error);
     }
@@ -92,9 +96,9 @@ TODO:   - Registrar el ID de la nave para el CPM
     */
     try {
         if (event) {    
-            //console.log('Event:', event);        
-            //event.data = AddShip(event.data); 
-            //console.log('--------------------------------------');
+            console.log('Event:', event);        
+            event.data = AddShip(event.data); 
+            console.log('--------------------------------------');
 
             if (_ApplyTheme) {  //&& event.data.theme !== 'Current Settings'
                 console.log('Applying Theme:', event.data.theme); 

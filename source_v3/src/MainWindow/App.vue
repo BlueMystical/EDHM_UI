@@ -124,6 +124,7 @@ export default {
           console.log('First Run after Update: Running HotFix..');
           try {            
             await window.api.DoHotFix();
+            
             await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod:true });
             await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
 
