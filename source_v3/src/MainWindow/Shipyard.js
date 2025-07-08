@@ -6,6 +6,7 @@ import chokidar from 'chokidar';
 import { execFile } from 'child_process';
 import settingsHelper from '../Helpers/SettingsHelper.js';
 import fileHelper from '../Helpers/FileHelper.js';
+import KeySender from '../Helpers/KeySender.js';
 
 //const robot = require("robotjs");
 
@@ -104,12 +105,17 @@ TODO:   - Registrar el ID de la nave para el CPM
                 console.log('Applying Theme:', event.data.theme); 
                 const tApply = await settingsHelper.ApplyTheme(event.data.theme);
                 if (tApply) {
-                    /*
+                    
                     setTimeout(() => {
                         // Simulate pressing the "F11" key
-                        robot.keyTap("f11");
+                        KeySender.SendKey({
+                            targetProcess: 'EliteDangerous64', //<- Exe name
+                            targetWindow: 'Elite - Dangerous', //<- Window title
+                            keyBindings: ['F11']    //<- Keys to send
+                        });
+                        console.log('F11 key sent to game!');
                     }, 1000); // Sends after 1 second
-                    */
+                    
                 }
                 //console.log('--------------------------------------');
             }
