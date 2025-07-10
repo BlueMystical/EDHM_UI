@@ -910,6 +910,7 @@ export default {
         window.api.onDownloadProgress(this.progressListener);
 
         //- Start the Download and wait till it finishes..
+        console.log('Starting download from:', Options.url);
         await window.api.downloadFile(Options.url, filePath);
 
         //- When the Download Finishes: 

@@ -98,7 +98,7 @@ TODO:   - Registrar el ID de la nave para el CPM
     try {
         if (event) {    
             console.log('Event:', event);        
-            event.data = AddShip(event.data); 
+            event.data = AddShip(event.data); //<- Add the ship to the Shipyard, if not there already
             console.log('--------------------------------------');
 
             if (_ApplyTheme) {  //&& event.data.theme !== 'Current Settings'
@@ -107,13 +107,13 @@ TODO:   - Registrar el ID de la nave para el CPM
                 if (tApply) {
                     
                     setTimeout(() => {
-                        // Simulate pressing the "F11" key
+                        // Simulate pressing the "F11" key to refresh colors in the game
                         KeySender.SendKey({
                             targetProcess: 'EliteDangerous64', //<- Exe name
                             targetWindow: 'Elite - Dangerous', //<- Window title
                             keyBindings: ['F11']    //<- Keys to send
                         });
-                        console.log('F11 key sent to game!');
+                        //console.log('F11 key sent to game!');
                     }, 1000); // Sends after 1 second
                     
                 }

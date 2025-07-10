@@ -1,13 +1,19 @@
 @echo off
 title EDHM Installer Script
-echo Starting EDHM Installer Script..
+echo Starting Installer Script..
 
 REM Set mode: DEBUG=1 for debugging, DEBUG=0 for production
 set DEBUG=0
 
 REM Attempt to kill running instances of the application
 echo Searching for EDHM-UI-V3.exe process...
-tasklist /FI "IMAGENAME eq EDHM-UI-V3.exe" 2>NUL | find /I "EDHM-UI-V3.exe" >NUL
+
+REM Write tasklist output to temp file
+set TEMP_FILE=%TEMP%\edhm_check.txt
+tasklist /FI "IMAGENAME eq EDHM-UI-V3.exe" > "%TEMP_FILE%" 2>NUL
+
+REM Search for the process in file
+findstr /I "EDHM-UI-V3.exe" "%TEMP_FILE%" >NUL
 if errorlevel 1 (
     echo Info: EDHM-UI-V3.exe process not found.
 ) else (
@@ -16,12 +22,14 @@ if errorlevel 1 (
     echo Info: EDHM-UI-V3.exe process terminated.
 )
 
+del "%TEMP_FILE%" >NUL
+
 REM Set the installer EXE name
 set INSTALLER_EXE="%~dp0edhm-ui-v3-windows-x64.exe"
 
 REM Check if the installer EXE exists in the same directory
-if not exist "%INSTALLER_EXE%" (
-    echo Error: Installer EXE "%INSTALLER_EXE%" not found.
+if not exist %INSTALLER_EXE% (
+    echo Error: Installer EXE %INSTALLER_EXE% not found.
     exit /b 1
 )
 
@@ -29,7 +37,7 @@ echo Found installer: %INSTALLER_EXE%
 
 REM Launch the installer
 echo Starting installer: %INSTALLER_EXE%
-start "" "%INSTALLER_EXE%"
+start "" %INSTALLER_EXE%
 echo Installer started.
 
 REM Pause for debugging only if DEBUG=1

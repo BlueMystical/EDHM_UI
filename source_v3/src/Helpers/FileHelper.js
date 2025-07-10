@@ -991,7 +991,7 @@ function runInstaller(installerPath) {
   });
 }
 
-function runScripOrProgram(filePath, args = []) {
+/*function runScripOrProgram(filePath, args = []) {
   try {
     console.log('Launching program:', filePath, args);
 
@@ -1027,7 +1027,8 @@ function runScripOrProgram(filePath, args = []) {
       };
 
       // Use spawn to execute the batch file
-      const batProcess = spawn('cmd.exe', ['/c', 'start', filePath], options);
+      //const batProcess = spawn('cmd.exe', ['/c', 'start', filePath], options);
+      const batProcess = spawn('cmd.exe', ['/c', `"${batPath}"`], options);
 
       batProcess.unref(); // Allow the parent app to terminate without affecting the batch file
       console.log('Batch file launched in detached mode.');
@@ -1042,6 +1043,59 @@ function runScripOrProgram(filePath, args = []) {
   } catch (error) {
     console.error(`Error starting program: ${error}`);
     return "Program could not start";
+  }
+} */
+function runScripOrProgram(filePath, args = []) {
+  try {
+    console.log('Launching program:', filePath, args);
+
+    const resolvedPath = path.resolve(filePath);
+    const workingDir = path.dirname(resolvedPath);
+
+    if (process.platform === 'linux') {
+      console.log('Linux platform detected');
+      // Ensure the script has execute permissions
+      fs.chmod(resolvedPath, 0o755, (chmodError) => {
+        if (chmodError) {
+          console.warn(`Warning: Could not change file permissions for ${resolvedPath}.`, chmodError);
+        }
+      });
+
+      const options = {
+        detached: true,
+        stdio: 'ignore',
+        cwd: workingDir
+      };
+
+      const child = spawn('bash', [resolvedPath, ...args], options);
+      child.unref();
+      console.log('Shell script launched in detached mode.');
+    }
+
+    else if (process.platform === 'win32') {
+      console.log('Windows platform detected');
+
+      const options = {
+        detached: true,
+        stdio: 'ignore',
+        cwd: workingDir,
+        windowsHide: true
+      };
+
+      const child = spawn('cmd.exe', ['/c', resolvedPath, ...args], options);
+      child.unref();
+      console.log('Batch file launched in detached mode.');
+      return 'Batch file started successfully';
+    }
+
+    else {
+      console.error(`Unsupported platform: ${process.platform}`);
+    }
+
+    return 'Program started';
+  } catch (error) {
+    console.error(`Error starting program: ${error}`);
+    return 'Program could not start';
   }
 }
 

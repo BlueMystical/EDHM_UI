@@ -1,22 +1,24 @@
-const fs = require("fs");
-const os = require("os");
-const path = require("path");
-const { execSync } = require("child_process");
+import { execSync } from 'child_process';
+import { app } from 'electron';
+import path from 'node:path';
+import fs from 'node:fs';
+import os from 'os';
 
+/** Sends key inputs (simulates a key press) to a target process or window.
+ * @param {*} config  */
 function SendKey(config) {
     try {
-        // Validar la configuración
         if (!config || typeof config !== "object") {
             config = {
-                targetProcess: "EliteDangerous64",
-                targetWindow: "Elite - Dangerous",
-                keyBindings: ["F11"]
+                targetProcess: "EliteDangerous64", //<- Executable name
+                targetWindow: "Elite - Dangerous", //<- Window title
+                keyBindings: ["F11"]    //<- Array of keys to send
             }
         }
 
-        //console.log(" Config Loaded:", config);
+        console.log("--- KeySender: SendKey ------------------");
 
-        //  Flujo principal
+        //  Check if target process is running:
         if (isProcessRunning(config.targetProcess)) {
             console.log(`The Program "${config.targetProcess}" is Running.`);
 
@@ -29,14 +31,14 @@ function SendKey(config) {
                     sendKeysLinux(combo);
                 }
             }
-
-            process.exit(0);
         } else {
             console.log(`The Program "${config.targetProcess}" is NOT Running.`);
         }
 
     } catch (err) {
         console.error(err.message);
+    } finally {
+        console.log("-----------------------------------------");
     }
 }
 
@@ -51,11 +53,11 @@ function isProcessRunning(name) {
             const output = execSync("ps -A").toString().toLowerCase();
             return output.includes(name.toLowerCase());
         } else {
-            console.error("❌ Plataforma no soportada:", platform);
+            console.error(" Plataforma no soportada:", platform);
             return false;
         }
     } catch (err) {
-        console.error("⚠️ Error al verificar el proceso:", err.message);
+        console.error(" Error al verificar el proceso:", err.message);
         return false;
     }
 }
@@ -77,8 +79,12 @@ function buildPowerShellScript(config) {
     lines.push('} else { Write-Host " No se pudo activar la ventana." }');
     lines.push('Exit');
 
-    const scriptPath = path.join(process.cwd(), "send.ps1");
-    fs.writeFileSync(scriptPath, lines.join('\n'), "utf-8");
+    const isDev = !app.isPackaged
+    const targetDir = isDev ? app.getPath('userData') : path.dirname(app.getPath('exe'));
+    const scriptPath = path.join(targetDir, 'send.ps1');
+
+    fs.writeFileSync(scriptPath, lines.join('\n'), 'utf-8');
+    console.log('Writing script to:', scriptPath);
 
     return scriptPath;
 }
@@ -88,7 +94,7 @@ function sendKeysWindows(config) {
     const scriptPath = buildPowerShellScript(config);
     try {
         execSync(`powershell -ExecutionPolicy Bypass -File "${scriptPath}"`);
-        console.log(" Keybindings send using PowerShell.");
+        console.log(`Keybinding "${config.keyBindings}" send using PowerShell.`); 
     } catch (err) {
         console.error(" Error executing PowerShell:", err.message);
     }
@@ -102,7 +108,7 @@ function sendKeysLinux(combo) {
     const isWayland = sessionType.toLowerCase() === "wayland";
 
     if (isWayland) {
-        console.error(" This system uses Wayland, which prevents simulating keypresses with xdotool.");
+        console.error("This system uses Wayland, which prevents simulating keypresses with xdotool.");
         console.info(" To use this feature, please log into an X11 session (e.g., GNOME on X11).");
         return;
     }
