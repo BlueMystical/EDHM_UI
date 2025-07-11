@@ -991,60 +991,11 @@ function runInstaller(installerPath) {
   });
 }
 
-/*function runScripOrProgram(filePath, args = []) {
-  try {
-    console.log('Launching program:', filePath, args);
-
-    if (process.platform === 'linux') {
-      console.log('Linux platform detected');
-
-      // Ensure the script has execute permissions
-      fs.chmod(filePath, 0o755, (chmodError) => {
-        if (chmodError) {
-          console.warn(`Warning: Could not change file permissions for ${filePath}.`, chmodError);
-        }
-      });
-
-      // Use spawn to run the shell script as a detached process
-      const options = {
-        detached: true, // Detach the process from the parent
-        stdio: 'ignore', // Ignore input/output streams to let it run independently
-        cwd: path.dirname(filePath) // Set the working directory of the script
-      };
-
-      const args = []; // Pass additional arguments to the shell script if needed
-      const process = spawn('bash', [filePath, ...args], options);
-
-      process.unref(); // Allow the parent app to exit without affecting the script
-      console.log('Shell script launched in detached mode.');
-
-    } else if (process.platform === 'win32') {
-      const batPath = path.resolve(filePath); // Resolve absolute path of the .bat file
-      const options = {
-        detached: true, // Detach the process so it can run independently
-        stdio: 'ignore', // Ignore standard input/output streams
-        cwd: path.dirname(batPath) // Set the working directory to the .bat file's directory
-      };
-
-      // Use spawn to execute the batch file
-      //const batProcess = spawn('cmd.exe', ['/c', 'start', filePath], options);
-      const batProcess = spawn('cmd.exe', ['/c', `"${batPath}"`], options);
-
-      batProcess.unref(); // Allow the parent app to terminate without affecting the batch file
-      console.log('Batch file launched in detached mode.');
-
-      return 'Batch file started successfully';
-    }
-    else {
-      console.error(`Unsupported platform: ${process.platform}`);
-    }
-
-    return "Program started";
-  } catch (error) {
-    console.error(`Error starting program: ${error}`);
-    return "Program could not start";
-  }
-} */
+/** To execute a script or program in a detached mode, allowing it to run independently of the parent process.
+ * This is useful for scripts that need to run in the background or when you want to launch
+ * @param {*} filePath Full path to the script or program to run
+ * @param {*} args Array of arguments to pass to the script or program
+ * @returns {string} Returns a message indicating the status of the operation. */
 function runScripOrProgram(filePath, args = []) {
   try {
     console.log('Launching program:', filePath, args);
@@ -1132,16 +1083,16 @@ async function getLatestPreReleaseVersion(owner, repo) {
         if (latestPreRelease) {
           //console.log(latestPreRelease);
           const result = {
-            release_id: latestPreRelease.id,
-            version: latestPreRelease.tag_name,
-            notes: latestPreRelease.body,
-            zipball_url: latestPreRelease.zipball_url,
-            html_url: latestPreRelease.html_url,
-            assets: latestPreRelease.assets.map(asset => ({
+            release_id:     latestPreRelease.id,
+            version:        latestPreRelease.tag_name,
+            notes:          latestPreRelease.body,
+            zipball_url:    latestPreRelease.zipball_url,
+            html_url:       latestPreRelease.html_url,
+            assets:         latestPreRelease.assets.map(asset => ({
               content_type: asset.content_type,
-              url: asset.browser_download_url,
-              name: asset.name,
-              size: asset.size,
+              url:          asset.browser_download_url,
+              name:         asset.name,
+              size:         asset.size,
             }))
           };
           resolve(result);
@@ -1162,7 +1113,7 @@ async function getLatestPreReleaseVersion(owner, repo) {
 /** Check for the Latest Release published on Github
  * @param {*} owner 'BlueMystical'
  * @param {*} repo 'EDHM-UI'
- * @returns  */
+ * @returns Details of the Release */
 async function getLatestReleaseVersion(owner, repo) {
   const options = {
     hostname: 'api.github.com',
@@ -1186,16 +1137,16 @@ async function getLatestReleaseVersion(owner, repo) {
 
         if (latestRelease) {
           const result = {
-            release_id: latestRelease.id,
-            version: latestRelease.tag_name,
-            notes: latestRelease.body,
-            html_url: latestRelease.html_url,
-            zipball_url: latestRelease.zipball_url,
-            assets: latestRelease.assets.map(asset => ({
+            release_id:   latestRelease.id,
+            version:      latestRelease.tag_name,
+            notes:        latestRelease.body,
+            html_url:     latestRelease.html_url,
+            zipball_url:  latestRelease.zipball_url,
+            assets:       latestRelease.assets.map(asset => ({
               content_type: asset.content_type,
-              url: asset.browser_download_url,
-              name: asset.name,
-              size: asset.size,
+              url:        asset.browser_download_url,
+              name:       asset.name,
+              size:       asset.size,
             }))
           };
           resolve(result);
