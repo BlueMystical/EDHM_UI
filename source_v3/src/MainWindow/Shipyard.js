@@ -114,7 +114,7 @@ TODO:   - Registrar el ID de la nave para el CPM
                             keyBindings: ['F11']    //<- Keys to send
                         });
                         //console.log('F11 key sent to game!');
-                    }, 1000); // Sends after 1 second
+                    }, 2000); // Sends after 1 second
                     
                 }
                 //console.log('--------------------------------------');

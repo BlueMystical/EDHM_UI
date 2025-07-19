@@ -88,6 +88,7 @@ function sendKeysWindows(config) {
 
     // Join the script into a single line to pass as an argument
     const psScript = lines.join('; ');
+    console.log(`Executing PowerShell script:\n${psScript}`);
 
     try {
         execSync(`powershell -ExecutionPolicy Bypass -Command "${psScript.replace(/"/g, '\\"')}"`);

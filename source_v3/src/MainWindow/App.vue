@@ -137,8 +137,6 @@ export default {
           }
         }
 
-        this.StartShipyard();
-
         //- Initialize the Components:
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars',  JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
@@ -147,6 +145,7 @@ export default {
         EventBus.emit('DoLoadUserSettings', null);    //<- Event Listened at UserSettingsTab.vue
         EventBus.emit('ShipyardUI-Initialize', null);    //<- Event Listened at ShipyardUI.vue
 
+        this.StartShipyard();
         this.CheckForUpdates();
 
       } catch (error) {
@@ -177,7 +176,6 @@ export default {
 
         const jsonString = JSON.stringify(newConfig, null, 4);
         this.settings = await window.api.saveSettings(jsonString);
-        //this.OnGameInstance_Changed(newConfig.ActiveInstance, true); //<- Update the Game Instance
         this.OnGameInstance_Changed({ GameInstanceName: newConfig.ActiveInstance, InstallMod:true }); //<- Update the Game Instance
 
       } catch (error) {
@@ -226,6 +224,8 @@ export default {
 
         const jsonString = JSON.stringify(this.settings, null, 4);
         await window.api.saveSettings(jsonString);
+
+        this.StartShipyard();
 
       } catch (error) {
         EventBus.emit('ShowError', error);
@@ -569,25 +569,28 @@ export default {
     async onXmlEditorClosed(e) {
       try {
         //console.log('XML Editor Closed: ', e);
-        this.setValue(this.themeTemplate.xml_profile, 'x150', e[0][0]);
-        this.setValue(this.themeTemplate.xml_profile, 'y150', e[0][1]);
-        this.setValue(this.themeTemplate.xml_profile, 'z150', e[0][2]);
+        this.setValue(this.themeTemplate.xml_profile, 'x150', e[0][0] );
+        this.setValue(this.themeTemplate.xml_profile, 'y150', e[0][1] );
+        this.setValue(this.themeTemplate.xml_profile, 'z150', e[0][2] );
 
-        this.setValue(this.themeTemplate.xml_profile, 'x151', e[1][0]);
-        this.setValue(this.themeTemplate.xml_profile, 'y151', e[1][1]);
-        this.setValue(this.themeTemplate.xml_profile, 'y152', e[1][2]);
+        this.setValue(this.themeTemplate.xml_profile, 'x151', e[1][0] );
+        this.setValue(this.themeTemplate.xml_profile, 'y151', e[1][1] );
+        this.setValue(this.themeTemplate.xml_profile, 'y152', e[1][2] );
 
-        this.setValue(this.themeTemplate.xml_profile, 'x152', e[2][0]);
-        this.setValue(this.themeTemplate.xml_profile, 'y152', e[2][1]);
-        this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2]);
+        this.setValue(this.themeTemplate.xml_profile, 'x152', e[2][0] );
+        this.setValue(this.themeTemplate.xml_profile, 'y152', e[2][1] );
+        this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2] );
 
         const _ret = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
+        console.log('Theme Saved:', _ret);
+        // Emit the XML Changed Event
         EventBus.emit('OnXmlChanged', { xml: JSON.parse(JSON.stringify(this.themeTemplate.xml_profile)) }); //<- Event Listen in 'NavBars.vue'
 
         if (_ret) {
           EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Saved.<br>Remember to Apply the changes.` });
         }
       } catch (error) {
+        console.error('Error onXmlEditorClosed:', error);
         EventBus.emit('ShowError', error);
       }
     },
@@ -699,19 +702,23 @@ export default {
     },
 
     StartShipyard() {
-      const shipyardEnabled = window.api.shipyardStart();
+      try {        
         if (window.api) {
+          const shipyardEnabled = window.api.shipyardStart();
           window.api.onPlayerJournalReaded((event, data) => {
             //console.log('Received log analysis update:', data[data.length - 1]);
             this.logData = data; 
           });
           window.api.OnShipyardEvent((event, data) => {
-            console.log('Received log analysis update:', data[data.length - 1]);
+            console.log('Received Shipyard Event:', data[data.length - 1]);
             this.logData = data; 
           });
         }
+      } catch (error) {
+        console.error('Error starting Shipyard:', error);
+        EventBus.emit('ShowError', error);        
+      }
     }
-    
   },
   async mounted() {
 

@@ -272,7 +272,7 @@ export default {
     },
     save() {
       console.log(this.sliderValues);
-      this.$emit('onCloseModal', this.sliderValues);
+      this.$emit('onCloseModal', this.sliderValues); //<- Evento escuchado en App.vue
       this.sliderValues = [
         [1.0, 0.0, 0.0],
         [0.0, 1.0, 0.0],

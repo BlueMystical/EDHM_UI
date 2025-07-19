@@ -314,5 +314,12 @@
     "ed_short": "corsair",
     "size": "medium",
     "role": "Multipurpose "
+  },
+   {
+    "ship_full_name": "Panther Clipper MK 2",
+    "ship_id": 52,
+    "ed_short": "panther_clipper_mkii",
+    "size": "Large",
+    "role": "Freighter "
   }
 ]

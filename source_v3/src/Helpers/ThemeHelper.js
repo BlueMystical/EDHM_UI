@@ -45,7 +45,7 @@ const getThemes = async (dirPath) => {
           }
 
           //- For Migration only, also comment the if on the JSON write below
-          //template = await FixRecycledKeys(template, jsonTemplate);
+          template = await FixRecycledKeys(template, jsonTemplate);
 
           // Assemble the Data to return:
           files.push({
@@ -59,14 +59,14 @@ const getThemes = async (dirPath) => {
           });
 
           // Writes the JSON in the theme folder:
-          if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
+          //if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
             const JsonString = JSON.stringify(template, null, 4);            
             await writeFile(
               path.join(subfolderPath, 'ThemeSettings.json'),
               JsonString,
               { encoding: "utf8", flag: 'w' }
             );
-          }
+          //}
 
           LoadedThemes = files; //<- Cache the loaded themes
 
@@ -508,8 +508,8 @@ async function ApplyIniValuesToTemplate(template, iniValues) {
             if (iniData) {
               try {
                 const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
-                if (Array.isArray(colorKeys) && colorKeys.length > 2) {
-                  //- Multi Key: Colors
+                //- Multi Key: Colors
+                if (Array.isArray(colorKeys) && colorKeys.length > 2) {                  
                   let colorComponents = [];
                   for (const [index, rgbKey] of colorKeys.entries()) {
                     const iniValue = INIparser.getKey(iniData, iniSection, rgbKey);
@@ -523,14 +523,17 @@ async function ApplyIniValuesToTemplate(template, iniValues) {
                     const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
                     element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
                   }
-                } else {
-                  //- Single Key: Text, Numbers, etc.
+                } else { //- Single Key: Text, Numbers, etc.                  
                   const iniValue = INIparser.getKey(iniData, iniSection, iniKey);
                   if (iniValue != undefined) {
                     element.Value = parseFloat(iniValue ?? defaultValue);
                   } else {
                     console.log(`404 - Ini Value Not Found: '${template.credits.theme}/${iniFileName}/${iniSection}/${iniKey}'`);
-                  }                  
+                    //- Fixing Black altitude labels:
+                    if (iniKey === "y109") {
+                      element.Value = 1;
+                    }
+                  }
                 }
               } catch (error) {
                 console.log('Error:', error);
@@ -719,7 +722,8 @@ const FixRecycledKeys = async (theme, template) => {
           if (!groupTheme?.Elements) continue;
 
           const elementTheme = groupTheme.Elements.find(e => e.Key === key);
-          if (elementTheme && elementTheme.Value !== elementTemplate.Value) {
+          if (elementTheme && elementTheme.Value !== elementTemplate.Value) {            
+            //- Fixing REcycled keys:
             if (elementTheme.Value < 100) {
               console.log(
                 `${theme.credits.theme} Fixed Key ${elementTheme.Key}: ${elementTheme.Value} -> ${elementTemplate.Value}`

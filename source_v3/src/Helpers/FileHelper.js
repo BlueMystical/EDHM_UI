@@ -1,5 +1,5 @@
 import { app, ipcMain, dialog, shell, clipboard, net, } from 'electron';
-import { exec, execFile, spawn } from 'child_process';
+import { exec, execSync, spawn } from 'child_process';
 import path from 'node:path';
 import fs from 'node:fs';
 import https from 'https';
@@ -875,13 +875,13 @@ function detectProgram(exeName, callback) {
     } else {
       // Linux
       exeName = 'EliteDangerous6';
-      //exec(`pgrep -f ${exeName}`, (error, stdout) => {
       exec(`pgrep ${exeName}`, (error, stdout) => {
         if (error) {
           return callback(error, null);
         }
         const pid = stdout.trim();
-        exec(`readlink -f /proc/${pid}/cwd`, (error, stdout) => {
+        //exec(`readlink -f /proc/${pid}/cwd`, (error, stdout) => { //<- Working route
+        exec(`readlink -f /proc/${pid}/exe`, (error, stdout) => { //<- EXE route
           if (error) {
             return callback(error, null);
           }
@@ -893,6 +893,28 @@ function detectProgram(exeName, callback) {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
+}
+
+
+function isProcessRunning(name) {
+    const platform = os.platform();
+    try {
+        if (platform === "win32") {
+            const output = execSync("tasklist").toString().toLowerCase();
+            return output.includes(name.toLowerCase());
+
+        } else if (platform === "linux") {
+            const output = execSync("ps -A").toString().toLowerCase();
+            return output.includes(name.toLowerCase());
+
+        } else {
+            console.error(" Plataforma no soportada:", platform);
+            return false;
+        }
+    } catch (err) {
+        console.error(" Error al verificar el proceso:", err.message);
+        return false;
+    }
 }
 
 function terminateProgram(exeName, callback) {
