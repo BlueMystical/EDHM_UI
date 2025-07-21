@@ -2877,7 +2877,7 @@
                     "File": "Advanced",
                     "Section": "Constants",
                     "Key": "y109",
-                    "Value": 0,
+                    "Value": 1,
                     "ValueType": "Preset",
                     "Type": "TextBackgroundShadowsGlow",
                     "Description": "Mode for Text Background - Shadows / Glow<br>Is applied to: Text in Reticle Boxes, Text on the Altitude Bar, Lat / Long & Gravity text"

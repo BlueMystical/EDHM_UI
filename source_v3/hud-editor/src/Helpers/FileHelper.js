@@ -245,7 +245,7 @@ function copyFolderContents(src, dest, move = false) {
       fs.mkdirSync(destPath, { recursive: true });
       copyOrMoveFolderContentsSync(srcPath, destPath, move);
       if (move) {
-        fs.rmdirSync(srcPath, { recursive: true });
+        fs.rmSync(srcPath, { recursive: true });
       }
     } else {
       fs.copyFileSync(srcPath, destPath);

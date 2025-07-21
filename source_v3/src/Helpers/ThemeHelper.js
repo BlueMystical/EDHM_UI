@@ -45,7 +45,7 @@ const getThemes = async (dirPath) => {
           }
 
           //- For Migration only, also comment the if on the JSON write below
-          template = await FixRecycledKeys(template, jsonTemplate);
+          //template = await FixRecycledKeys(template, jsonTemplate);
 
           // Assemble the Data to return:
           files.push({
@@ -59,14 +59,14 @@ const getThemes = async (dirPath) => {
           });
 
           // Writes the JSON in the theme folder:
-          //if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
+          if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
             const JsonString = JSON.stringify(template, null, 4);            
             await writeFile(
               path.join(subfolderPath, 'ThemeSettings.json'),
               JsonString,
               { encoding: "utf8", flag: 'w' }
             );
-          //}
+          }
 
           LoadedThemes = files; //<- Cache the loaded themes
 
@@ -729,11 +729,25 @@ const FixRecycledKeys = async (theme, template) => {
                 `${theme.credits.theme} Fixed Key ${elementTheme.Key}: ${elementTheme.Value} -> ${elementTemplate.Value}`
               );
               elementTheme.Value = elementTemplate.Value;
-            }
+            }            
           }
         }
       }
     });
+
+    //- Fixing Black altitude labels:
+    for (const groupTemplate of template.ui_groups) {
+      if (groupTemplate.Elements != undefined) {
+        groupTemplate.Elements.forEach(element => {
+          if (element.Key === "y109") {
+            console.log(
+              `${theme.credits.theme} Fixed Key ${element.Key}: ${element.Value} -> 1`
+            );
+            element.Value = 1;
+          }
+        });
+      }
+    }
 
     return theme;
   } catch (error) {
