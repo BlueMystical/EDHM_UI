@@ -3,7 +3,7 @@
    "last_installer": "3.0.35.0",
    "ED_Odissey":     "3.0.35.0", 
    "ED_Horizons":    "1.52.1.0", 
-   "download_url": "",
+   "download_url": "https://github.com/BlueMystical/EDHM_UI/raw/main/MOD_VER/EDHM_UI_Patch.zip",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-windows-x64.exe",
    "changelog": "- v3.0+ Release.",
    "notification": "",
