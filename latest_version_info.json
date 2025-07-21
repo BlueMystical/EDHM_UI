@@ -1,7 +1,7 @@
 {
    "app_version":    "3.0.35.0",
    "last_installer": "3.0.35.0",
-   "ED_Odissey":    "2.20.06.0", 
+   "ED_Odissey":     "3.0.35.0", 
    "ED_Horizons":    "1.52.1.0", 
    "download_url": "",
    "install_url": "https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-windows-x64.exe",
