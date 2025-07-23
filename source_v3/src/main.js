@@ -18,8 +18,15 @@ let HideToTray = false;
 let WatchMe = false;
 
 //- Set the default Icon for the app
-const CustomIcon = settingsHelper.readSetting('CustomIcon', 
-      fileHelper.getAssetPath('images/Icon_v3_a0.ico'));
+const CustomIcon = settingsHelper.readSetting('CustomIcon',
+  fileHelper.getAssetPath('images/Icon_v3_a0.ico'));
+
+// Desactiva solo la composición por GPU (no toda la aceleración)
+app.commandLine.appendSwitch('disable-gpu-compositing');
+//app.commandLine.appendSwitch('disable-gpu');
+
+// Opcional: mantiene el factor de escala fijo
+app.commandLine.appendSwitch('force-device-scale-factor', '1');
 
 //- Check for Single Instance:
 const gotTheLock = app.requestSingleInstanceLock();
@@ -52,13 +59,15 @@ if (!gotTheLock) {
     //-- Disable the menu bar
     Menu.setApplicationMenu(null);
 
+
     //-- Create Desktop Shortcut Icons:
     if (process.platform === 'win32') {
       createTray(); // Create the tray icon
+      /* Shortcut creation is no longer needed
       const makeShortcut = await settingsHelper.readSetting('CreateShortcutOnDesktop', true);
       if (makeShortcut) {
         fileHelper.createWindowsShortcut.call(this, CustomIcon);
-      }
+      }*/
     } else if (process.platform === 'linux') {
       //- Linux users prefer their desktop clean, so no shortcut is created by default
       //- Uncomment the next line to create a shortcut on Linux as well
@@ -88,7 +97,7 @@ if (!gotTheLock) {
     // dock icon is clicked and there are no other windows open.
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();        
+        createWindow();
       }
     });
   });
@@ -132,7 +141,7 @@ const createWindow = () => {
   });
 
   console.log('App is Loading..');
-  
+
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -237,7 +246,7 @@ const createTray = () => {
   ]);
 
   tray.setContextMenu(contextMenu);
-  tray.setToolTip('EDHM-UI'); 
+  tray.setToolTip('EDHM-UI');
 
   // Add the double-click event listener
   tray.on('double-click', () => {
@@ -245,7 +254,7 @@ const createTray = () => {
       mainWindow.show(); // Show the main window
     }
   });
-  
+
 };
 
 

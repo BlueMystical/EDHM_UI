@@ -60,6 +60,11 @@
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-clockwise"></i>
                                 </button>
+                                <button id="cmdImportFromV2" class="btn btn-outline-secondary" type="button"
+                                    @mousedown="cmdImportFromV2_Click" @mouseover="updateStatus('Import V2 Ships')"
+                                    @mouseleave="clearStatus">
+                                    <i class="bi bi-arrow-bar-down"></i>
+                                </button>
                                 <button id="cmdDeleteShip" class="btn btn-outline-secondary" type="button"
                                     @mousedown="cmdDeleteShip_Click" @mouseover="updateStatus('Delete Ship')"
                                     @mouseleave="clearStatus">
@@ -287,8 +292,14 @@ export default {
         },
 
         cmdReloadShips_Click(e) {
+            this.saveShipData();
             EventBus.emit('shypyard-load-ships', null);
             this.loadShipData(this.themes);
+        },
+         cmdImportFromV2_Click(e) {
+            this.ImportShipyardV2(); // Call the method to import ships from V2
+            this.loadShipData(this.themes);
+            this.statusText = 'Ships imported from V2.';
         },
         async cmdDeleteShip_Click(e) {
             if (this.selectedShip) {
@@ -327,6 +338,62 @@ export default {
         cmdSaveChanges_Click(e) {
             this.saveShipData();
         },
+
+        /** This will Import a Shipyard V2 File.
+         * Converted from the old Shipyard V2 format to the new V2 format.
+         * Moves the file to the EDHM_UI Data Directory and deletes the old file.     */
+        async ImportShipyardV2() {
+            try {
+                const DATA_DIRECTORY = await window.api.GetProgramDataDirectory(); //<- Get the Data Directory: %USERPROFILE%\EDHM_UI
+                const v2Location = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\edhm_ui');
+                const v2ShipyardFile = window.api.joinPath(v2Location, 'Data', 'shipyard.json');
+                const v3ShipyardFile = window.api.joinPath(DATA_DIRECTORY, 'Shipyard_v3.json');
+                const v2FileExists = await window.api.fileExists(v2ShipyardFile);
+
+                if (v2FileExists) {
+                    // Read the old Shipyard V2 file
+                    const shipyardV2Data = await window.api.getJsonFile(v2ShipyardFile);
+                    console.log('Shipyard V2 Data:', shipyardV2Data);
+
+                    // Convert the data to the new format
+                    const convertedData = shipyardV2Data.ships.map(item => ({
+                        ship_id:        item.Ship.ship_id,
+                        kind_short:     item.Ship.ed_short,
+                        kind_full:      item.Ship.ship_full_name,
+                        custom_name:    item.ship_name,
+                        plate:          item.ship_plate || '',
+                        theme:          item.theme || 'Current Settings',
+                        image:          item.Ship.ed_short + '.jpg',
+                    }));
+
+                    var Shipyard = {
+                        enabled: shipyardV2Data.enabled,
+                        player_name: shipyardV2Data.player_name,
+                        ships: convertedData
+                    };
+
+                    // Save the converted data to the new file
+                    const _ret = await window.api.writeJsonFile(v3ShipyardFile, Shipyard);
+                    if (_ret) {
+                        //console.log('Converted Shipyard V2 to V3:', Shipyard);
+                        console.log('Converted Shipyard V2 to V3 and saved to:', v3ShipyardFile);
+
+                        // Delete the old Shipyard V2 file
+                        await window.api.deleteFileByAbsolutePath(v2ShipyardFile);
+                        console.log('Deleted old Shipyard V2 file:', v2ShipyardFile);
+
+                        EventBus.emit('RoastMe', { type: 'Success', message: 'Shipyard V2 Imported Successfully!' });
+                    }
+                } else {
+                    console.log('No Shipyard V2 file found at:', v2ShipyardFile);
+                    EventBus.emit('RoastMe', { type: 'Error', message: 'No Shipyard V2 file found!' });
+                }
+
+            } catch (error) {
+                console.log('Error @ImportShipyardV2():', error);
+                EventBus.emit('ShowError', error);
+            }
+        }
 
     },
     mounted() {

@@ -37,7 +37,7 @@
                         <input type="text" class="form-control form-control-sm"
                             placeholder='Manually select the game location or use the Localization Wizard below'
                             aria-label='Pick a location for ' id='txtFullGamePath' v-model="selectedGamePath"
-                            @change="OnGamePathChange">
+                            @change="OnGamePathChange" @input="OnGamePathChange">
                         <button class="btn btn-outline-secondary" type="button"
                             @click="browseGamePath()">Browse</button>
                     </div>
@@ -227,7 +227,7 @@ export default {
         OnGamePublisherChange(e) {
             const publisher = this.config.GameInstances[this.selectedPublisher];    //console.log(publisher);
             if (publisher) {
-                this.ActiveInstance = publisher.games[this.selectedVersion]; //console.log(this.ActiveInstance);
+                this.ActiveInstance = publisher.games[0]; //console.log(this.ActiveInstance);
                 this.config.ActiveInstance = this.ActiveInstance.instance;
                 this.selectedGamePath = this.ActiveInstance.path;
                 this.loadVersions();
@@ -248,7 +248,11 @@ export default {
             this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
 
             console.log('ActiveInstance:', this.config.ActiveInstance);
-            await window.api.terminateProgram('EliteDangerous64.exe');
+            try {
+                await window.api.terminateProgram('EliteDangerous64.exe');
+            } catch (error) {
+                console.error('Error:', error);                
+            }            
         },
         
         getGameInstanceIndex(name) {
@@ -273,10 +277,12 @@ export default {
             const platform = await window.api.getPlatform();
             const winDir = await window.api.resolveEnvVariables('%PROGRAMFILES%');
             const linuxDir = await window.api.resolveEnvVariables('%USERPROFILE%');
+            const DefaultLocation = this.selectedGamePath ? this.selectedGamePath :
+                platform === 'win32' ? winDir : linuxDir;
 
             const options = {
                 title: 'Select the Game Executable',
-                defaultPath: platform === 'win32' ? winDir : linuxDir,
+                defaultPath: DefaultLocation,
                 filters: [
                     { name: 'Game Exe', extensions: ['exe'] }
                 ],

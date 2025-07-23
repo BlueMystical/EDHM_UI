@@ -8,6 +8,14 @@ if (started) {
   app.quit();
 }
 
+// Desactiva solo la composición por GPU (no toda la aceleración)
+app.commandLine.appendSwitch('disable-gpu-compositing');
+//app.commandLine.appendSwitch('disable-gpu');
+
+// Opcional: mantiene el factor de escala fijo
+app.commandLine.appendSwitch('force-device-scale-factor', '1');
+
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -35,6 +43,7 @@ const createWindow = () => {
 
   mainWindow.maximize();
 };
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
