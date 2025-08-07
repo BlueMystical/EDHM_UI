@@ -5,7 +5,8 @@ import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
 import themeHelper from './Helpers/ThemeHelper.js';
 import settingsHelper from './Helpers/SettingsHelper.js';
-import Shipyard from './MainWindow/Shipyard.js';
+// import Shipyard from './MainWindow/Shipyard.js';
+import Shipyard from './MainWindow/ShipyardNew.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) { app.quit(); } //<- This is a Squirrel event, so we quit the app
@@ -16,6 +17,8 @@ let tray;
 let BalloonShown = false;
 let HideToTray = false;
 let WatchMe = false;
+let shipyard;
+
 
 //- Set the default Icon for the app
 const CustomIcon = settingsHelper.readSetting('CustomIcon',
@@ -158,8 +161,7 @@ const createWindow = () => {
   WatchMe = settingsHelper.readSetting('WatchMe', false); //<- Whatch for changes in the Player Journal
   console.log('HideToTray:', HideToTray);
 
-  // Set the mainWindow instance in your Shipyard module
-  Shipyard.Initialize(mainWindow);
+  shipyard = new Shipyard(mainWindow);
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {
@@ -260,6 +262,7 @@ const createTray = () => {
 
 //---------------------------------------------------------------
 // #region ipc Handlers (Inter-Process Communication)
+
 
 ipcMain.handle('get-platform', () => {
   return process.platform;

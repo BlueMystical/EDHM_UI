@@ -6,27 +6,17 @@ const path = require('path');
 function reveal(r)      {return atob(r).split("").map((r=>String.fromCharCode(r.charCodeAt(0)-3))).join("").split("").reverse().join("")};
 function safeInclude(n) {return fs.existsSync(n)?n:null}
 
-const extraFiles = [
-  'src/data',
-  'src/images',
-  'public',
-  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/snapshot_blob.bin')),
-  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/v8_context_snapshot.bin')),
-  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/libvulkan-1.dll')),
-  safeInclude(path.resolve(__dirname, 'node_modules/electron/dist/vulkan-1.dll')),
-].filter(Boolean); 
 
 
 /* ---  FOR WINDOWS --- */
 module.exports = {
   packagerConfig: {
     asar: true,
-     extraResource: extraFiles,
-   /* extraResource: [
+    extraResource: [
       'src/data',
       'src/images',
       'public'
-    ],*/
+    ],
     icon:               path.join(__dirname, 'src','images','Icon_v3_a0.ico'), //'public/images/Icon_v3_a0.ico'
     appCategoryType:    'public.app-category.developer-tools',
     win32metadata: {

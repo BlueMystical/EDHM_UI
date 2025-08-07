@@ -51,6 +51,8 @@ contextBridge.exposeInMainWorld('api', {
   deleteFilesByWildcard: async (filePath) => ipcRenderer.invoke('deleteFilesByWildcard', filePath),
   deleteFolderRecursive: async (folderPath) => ipcRenderer.invoke('deleteFolderRecursive', folderPath),
 
+  readDirectory: async (folderPath) => ipcRenderer.invoke('readDirectory', folderPath),  
+
   findLatestFile: (folderPath, fileType) => ipcRenderer.invoke('find-latest-file', folderPath, fileType),
   findFileWithPattern: (folderPath, pattern) => ipcRenderer.invoke('findFileWithPattern', folderPath, pattern),
 
@@ -175,20 +177,33 @@ contextBridge.exposeInMainWorld('api', {
   navigate: (callback) => ipcRenderer.on('navigate', callback),
 
   readXmlFile: (filePath) => ipcRenderer.invoke('read-xml-file', filePath),
-  writeXmlFile: (filePath, xmlContent) => ipcRenderer.invoke('write-xml-file', filePath, xmlContent),
-
-  // #region Shipyard Events
-  
-  /** Start monitoring the Player Journal directory for new log files.
-   * @returns 'true' if Shipyard is enabled and monitoring is sucsefull.   */
-  shipyardStart: () => ipcRenderer.invoke('start-log-monitoring'),
-  send: (channel, data) => ipcRenderer.send(channel, data),   
-  onPlayerJournalReaded: (callback) => ipcRenderer.on('log-analysis-update', callback), 
-  OnShipyardEvent: (callback) => ipcRenderer.on('OnShipyardEvent', callback), 
-
-  // #endregion
-
-  
+  writeXmlFile: (filePath, xmlContent) => ipcRenderer.invoke('write-xml-file', filePath, xmlContent),  
 
 
 });
+
+//Shipyard Events
+contextBridge.exposeInMainWorld('shipyardAPI', {
+  // Comandos
+  start: () => ipcRenderer.invoke('shipyard:start'),
+  stop: () => ipcRenderer.invoke('shipyard:stop'),
+  restart: () => ipcRenderer.invoke('shipyard:restart'),
+  getStatus: () => ipcRenderer.invoke('shipyard:getStatus'),
+  reloadConfig: () => ipcRenderer.invoke('shipyard:reloadConfig'), 
+  getConfig: () => ipcRenderer.invoke('shipyard:getConfig'),
+  updateConfig: (newConfig) => ipcRenderer.invoke('shipyard:updateConfig', newConfig),
+
+  // Eventos
+  onLogEntry: (callback) => ipcRenderer.on('shipyard:logEntry', (e, data) => callback(data)),
+  onShipAdded: (callback) => ipcRenderer.on('shipyard-ShipAdded', (e, data) => callback(data)),
+  
+  onInvalidLine: (callback) => ipcRenderer.on('shipyard:invalidLine', (e, line) => callback(line)),
+  onLogFileChanged: (callback) => ipcRenderer.on('shipyard:logFileChanged', (e, file) => callback(file)),
+  onLogLoaded: (callback) => ipcRenderer.on('shipyard:logLoaded', (e, info) => callback(info)),
+  onLastLineProcessed: (callback) => ipcRenderer.on('shipyard:lastLineProcessed', (e, info) => callback(info)),
+  onMonitoringStarted: (callback) => ipcRenderer.on('shipyard:monitoringStarted', (e, dir) => callback(dir)),
+  onMonitoringStopped: (callback) => ipcRenderer.on('shipyard:monitoringStopped', () => callback()),
+  onError: (callback) => ipcRenderer.on('shipyard:error', (e, err) => callback(err)),
+});
+
+

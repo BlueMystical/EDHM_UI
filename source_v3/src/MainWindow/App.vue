@@ -612,7 +612,6 @@ export default {
           }, 8000);
         }
     },
-
     async LookForUpdates() {
       window.api.getLatestReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For PROD Release
       //window.api.getLatestPreReleaseVersion('BlueMystical', 'EDHM_UI').then(latestRelease => {   //<- For Beta Testing
@@ -701,18 +700,27 @@ export default {
 
     },
 
-    StartShipyard() {
+    async StartShipyard() {
       try {        
         if (window.api) {
-          const shipyardEnabled = window.api.shipyardStart();
-          window.api.onPlayerJournalReaded((event, data) => {
-            //console.log('Received log analysis update:', data[data.length - 1]);
-            this.logData = data; 
+          
+          const shipyardEnabled = await window.shipyardAPI.start();
+          console.log('Starting Shipyard...', shipyardEnabled);
+
+          window.shipyardAPI.onLogEntry(entry => {
+            console.log('@App.vue: Entrada de log:', entry);
           });
-          window.api.OnShipyardEvent((event, data) => {
-            console.log('Received Shipyard Event:', data[data.length - 1]);
-            this.logData = data; 
+          window.shipyardAPI.onLastLineProcessed(info => {
+            console.log(`Última línea procesada (${info.totalLines} líneas):`, info.lastLine);
           });
+
+          EventBus.on('shipyard:logEntry', data => {
+            console.log('@App.vue: Entrada de log:', entry);
+          });
+          EventBus.on('shipyard:monitoringStopped', () => {
+            console.log('@App.vue: shipyard:monitoringStopped');
+          });
+
         }
       } catch (error) {
         console.error('Error starting Shipyard:', error);

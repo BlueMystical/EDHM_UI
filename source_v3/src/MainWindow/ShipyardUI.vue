@@ -43,16 +43,18 @@
 
                     <!-- Bottom NavBar -->
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-thin" data-bs-theme="dark">
+                        <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto text-warning"
+                            style="padding-top: -4px;">
+                            {{ statusText }}
+                        </span>&nbsp;
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" value="" id="checkNativeSwitch" checked
                                 v-model="shipData.enabled" switch>
-                            <label class="form-check-label" for="checkNativeSwitch">Shipyard Enabled</label>
+                            <label class="form-check-label" for="checkNativeSwitch">
+                                Shipyard {{ shipData.enabled ? 'Enabled' : 'Disabled' }}
+                            </label>&nbsp;&nbsp;
                         </div>
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                            <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto text-warning"
-                                style="padding-top: -4px;">
-                                {{ statusText }}
-                            </span>
 
                             <div class="btn-group me-3" role="group" aria-label="First group">
                                 <button id="cmdReloadShips" class="btn btn-outline-secondary" type="button"
@@ -94,7 +96,6 @@
 <script>
 import EventBus from '../EventBus.js';
 import Util from '../Helpers/Utils.js';
-
 
 // Enable Dropdown for the Context Menus:
 const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
@@ -161,6 +162,8 @@ export default {
 
                 this.DATA_DIRECTORY = await window.api.GetProgramDataDirectory();
 
+                
+
             } catch (error) {
                 this.showSpinner = false;
                 console.error(error);
@@ -173,8 +176,9 @@ export default {
         },
         async loadShipData(themes) {
             this.showSpinner = true;
-            const ShipyardFilePath = await window.api.joinPath(this.DATA_DIRECTORY, 'Shipyard_v3.json');
-            this.shipData = await window.api.getJsonFile(ShipyardFilePath);
+            //const ShipyardFilePath = await window.api.joinPath(this.DATA_DIRECTORY, 'Shipyard_v3.json');
+            const ShyardData = await window.shipyardAPI.getConfig(); //console.log('shipData', this.shipData);
+            this.shipData = ShyardData.shipyard;
             if (this.shipData) {
                 this.ships = await Promise.all(this.shipData.ships.map(async ship => ({
                     ...ship,
@@ -186,7 +190,6 @@ export default {
             this.showSpinner = false;
         },
         async saveShipData() {
-            const ShipyardFilePath = await window.api.joinPath(this.DATA_DIRECTORY, 'Shipyard_v3.json');
             const dataToSave = {
                 enabled: this.shipData.enabled,
                 player_name: this.shipData.player_name,
@@ -196,9 +199,17 @@ export default {
                 })
             };
             try {
-                await window.api.writeJsonFile(ShipyardFilePath, dataToSave, true); //<- path, data, beautify
+                //await window.api.writeJsonFile(ShipyardFilePath, dataToSave, true); //<- path, data, beautify
+                const result = await window.shipyardAPI.updateConfig(dataToSave);
+                if (result.success) {
+                    console.log('Config actualizada:', result.updated);
+                } else {
+                    console.error('Error al actualizar config:', result.error);
+                }
+                
                 this.updateStatus('Ship data saved.');
                 return true; // Indicate success
+
             } catch (error) {
                 console.error('Error saving ship data:', error);
                 return false; // Indicate failure
@@ -291,8 +302,12 @@ export default {
             this.$emit('shipSelected', ship); // Emitimos el evento usando this.$emit
         },
 
-        cmdReloadShips_Click(e) {
-            this.saveShipData();
+        async cmdReloadShips_Click(e) {
+            this.saveShipData();            
+
+            const shipyardEnabled = await window.shipyardAPI.start();
+            console.log('Shipyard Status:', await window.shipyardAPI.getStatus());
+
             EventBus.emit('shypyard-load-ships', null);
             this.loadShipData(this.themes);
         },
@@ -379,8 +394,8 @@ export default {
                         console.log('Converted Shipyard V2 to V3 and saved to:', v3ShipyardFile);
 
                         // Delete the old Shipyard V2 file
-                        await window.api.deleteFileByAbsolutePath(v2ShipyardFile);
-                        console.log('Deleted old Shipyard V2 file:', v2ShipyardFile);
+                        //await window.api.deleteFileByAbsolutePath(v2ShipyardFile);
+                        //console.log('Deleted old Shipyard V2 file:', v2ShipyardFile);
 
                         EventBus.emit('RoastMe', { type: 'Success', message: 'Shipyard V2 Imported Successfully!' });
                     }
@@ -393,18 +408,27 @@ export default {
                 console.log('Error @ImportShipyardV2():', error);
                 EventBus.emit('ShowError', error);
             }
+        },
+
+        OnShipAdded(data) {
+            console.log('@shipyard-ShipAdded', data);
+            this.shipData = data.shipyard; 
+            this.loadShipData(this.themes);
         }
+
 
     },
     mounted() {
         /* LISTENING EVENTS:   */
         EventBus.on('open-ShipyardUI', this.open);
         EventBus.on('ShipyardUI-Initialize', this.Initialize);
+        window.shipyardAPI.onShipAdded(this.OnShipAdded);
     },
     beforeUnmount() {
         // Clean up the event listener:
         EventBus.off('open-ShipyardUI', this.open);
         EventBus.off('ShipyardUI-Initialize', this.Initialize);
+        window.shipyardAPI?.onShipAdded(() => {});
     }
 };
 </script>

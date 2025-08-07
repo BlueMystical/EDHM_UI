@@ -202,11 +202,11 @@ export default {
             let selected = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion];
             //- Sets the path for the Active instance:
             if (selected.path != this.selectedGamePath) {
-                selected.path = this.selectedGamePath; 
+                selected.path = this.selectedGamePath;
             }
 
             //- Sets the Active Instance:
-            this.config.ActiveInstance = selected.instance;                       
+            this.config.ActiveInstance = selected.instance;                  
 
             EventBus.emit('SettingsChanged', JSON.parse(JSON.stringify(this.config))); //<- this event will be heard in 'App.vue'  
             this.close();
@@ -243,6 +243,21 @@ export default {
         },
         async OnGamePathChange(e) {
             console.log('Selected Game Path:', this.selectedGamePath);
+            // Check if EliteDangerous64.exe exists in the selected folder
+            const filesInFolder = await window.api.readDirectory(this.selectedGamePath);
+            const hasEliteExe = filesInFolder.includes('EliteDangerous64.exe');
+
+            if (hasEliteExe) {
+                console.log('[GamePath] Valid path selected:', this.selectedGamePath);
+            } else {
+                console.warn('[GamePath] EliteDangerous64.exe not found in selected folder:', this.selectedGamePath);
+                EventBus.emit('RoastMe', {
+                    type: 'Error',
+                    message: 'EliteDangerous64.exe not found in the selected folder.<br>You can do it manually in the Game Instances...<br>or just click the Green Button.',
+                    delay: 10000
+                });
+                return;
+            }
 
             this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;
             this.config.ActiveInstance = this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].instance;
@@ -251,8 +266,8 @@ export default {
             try {
                 await window.api.terminateProgram('EliteDangerous64.exe');
             } catch (error) {
-                console.error('Error:', error);                
-            }            
+                console.error('Error:', error);
+            }
         },
         
         getGameInstanceIndex(name) {
@@ -277,22 +292,30 @@ export default {
             const platform = await window.api.getPlatform();
             const winDir = await window.api.resolveEnvVariables('%PROGRAMFILES%');
             const linuxDir = await window.api.resolveEnvVariables('%USERPROFILE%');
-            const DefaultLocation = this.selectedGamePath ? this.selectedGamePath :
+            const defaultLocation = this.selectedGamePath ? this.selectedGamePath :
                 platform === 'win32' ? winDir : linuxDir;
 
             const options = {
                 title: 'Select the Game Executable',
-                defaultPath: DefaultLocation,
+                defaultPath: defaultLocation,
                 filters: [
-                    { name: 'Game Exe', extensions: ['exe'] }
+                    { name: 'Game Executable', extensions: ['exe'] }
                 ],
-                properties: ['openFile', 'multiSelections', 'showHiddenFiles', 'dontAddToRecent'],
+                properties: ['openFile', 'showHiddenFiles', 'dontAddToRecent'],
                 message: 'Select the Game Executable',
             };
-            const filePath = await window.api.ShowOpenDialog(options); //console.log(filePath);
-            if (filePath) {
-                this.selectedGamePath = window.api.getParentFolder(filePath[0]);
-                this.OnGamePathChange(null);
+
+            const filePath = await window.api.ShowOpenDialog(options);
+
+            if (filePath && filePath.length > 0) {
+                const selectedFile = filePath[0];
+                const parentFolder = await window.api.getParentFolder(selectedFile);
+                this.selectedGamePath = parentFolder;
+
+                this.OnGamePathChange(null); // Trigger the change event to update the config
+                
+            } else {
+                console.log('[GamePath] No file selected.');
             }
         },
         /* Browse for the location to store User's data and Themes */
@@ -312,12 +335,17 @@ export default {
         },
         /* Browse for the location where the ED Player Journal is located */
         async browseJournalFolder() {
-            const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous');
+            var defaultLocation = this.config.PlayerJournal ? this.config.PlayerJournal :
+                '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous';
+            defaultLocation = await window.api.resolveEnvVariables(defaultLocation); //<- '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous'
+            console.log('defaultLocation:', defaultLocation);
+
             const options = {
-                title: 'Select Where to Store User Data',
-                defaultPath: DefaultLocation,
+                title: 'Select Where Game Stores Journal Files',
+                defaultPath: defaultLocation,
                 properties: ['openDirectory', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
-                message: 'Select Where to Store User Data',
+                message: 'Select Where Game Stores Journal Files',
+                filters: null // No specific filters for directories
             };
             const filePath = await window.api.ShowOpenDialog(options);
             if (filePath) {

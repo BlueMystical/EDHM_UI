@@ -4,8 +4,8 @@ import fsSync from 'node:fs';      // For synchronous operations in Initialize
 import path from 'node:path';
 import chokidar from 'chokidar';
 import { execFile } from 'child_process';
-import settingsHelper from '../Helpers/SettingsHelper.js';
-import fileHelper from '../Helpers/FileHelper.js';
+//import settingsHelper from '../Helpers/SettingsHelper.js';
+//import fileHelper from '../Helpers/FileHelper.js';
 import KeySender from '../Helpers/KeySender.js';
 
 //const robot = require("robotjs");
@@ -422,6 +422,41 @@ async function analyzeLogFile(filePath, startLine = 0) {
     }
 }
 
+/** Start monitoring the directory for new log files.
+ * * If a new file is added, it will start monitoring that file for changes. 
+ * returns 'true' if Shipyard is enabled and monitoring is sucsefull */
+function startDirectoryMonitoring() {
+    try {
+        if (Shipyard && Shipyard.enabled) {
+            console.log('Starting Journal monitoring...');
+            
+            // Ensure the log directory exists
+            fileHelper.ensureDirectoryExists(LOG_DIRECTORY);
+
+            // Initial check for the latest file
+            checkAndSwitchLogFile();
+
+            // Watch the directory for new files
+            directoryWatcher = chokidar.watch(LOG_DIRECTORY, {
+                persistent: true,
+                ignoreInitial: true,
+            }).on('add', async (filePath) => {
+                console.log('New file created:', filePath);
+                checkAndSwitchLogFile();
+            }).on('unlink', async (filePath) => {
+                console.log('File removed:', filePath);
+                checkAndSwitchLogFile(); // Re-evaluate in case the monitored file was removed
+            }).on('error', error => console.error('Error watching directory:', error));
+            return true; // Indicate success
+        } 
+        else { 
+            console.log('** Shipyard is disabled, not monitoring directory. **');
+            return false; // Indicate failure: Shipyard is disabled
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
 /** Watch for changes in the log file and re-analyze it. 
  * @param {*} filePath full path to the Journal file */
 async function startMonitoringFile(filePath) {
@@ -468,41 +503,7 @@ async function startMonitoringFile(filePath) {
     }).on('error', error => console.error('Error watching file:', error));
 }
 
-/** Start monitoring the directory for new log files.
- * * If a new file is added, it will start monitoring that file for changes. 
- * returns 'true' if Shipyard is enabled and monitoring is sucsefull */
-function startDirectoryMonitoring() {
-    try {
-        if (Shipyard && Shipyard.enabled) {
-            console.log('Starting Journal monitoring...');
-            
-            // Ensure the log directory exists
-            fileHelper.ensureDirectoryExists(LOG_DIRECTORY);
 
-            // Initial check for the latest file
-            checkAndSwitchLogFile();
-
-            // Watch the directory for new files
-            directoryWatcher = chokidar.watch(LOG_DIRECTORY, {
-                persistent: true,
-                ignoreInitial: true,
-            }).on('add', async (filePath) => {
-                console.log('New file created:', filePath);
-                checkAndSwitchLogFile();
-            }).on('unlink', async (filePath) => {
-                console.log('File removed:', filePath);
-                checkAndSwitchLogFile(); // Re-evaluate in case the monitored file was removed
-            }).on('error', error => console.error('Error watching directory:', error));
-            return true; // Indicate success
-        } 
-        else { 
-            console.log('** Shipyard is disabled, not monitoring directory. **');
-            return false; // Indicate failure: Shipyard is disabled
-        }
-    } catch (error) {
-        console.error(error);
-    }
-}
 
 function RunSendKeyScript() {
     if (process.platform === 'win32') {

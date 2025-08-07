@@ -1495,6 +1495,17 @@ ipcMain.handle('checkFileExists', async (event, fullPath) => {
   }
 });
 
+ipcMain.handle('readDirectory', async (event, dirPath) => {
+    try {
+        const files = await fs.promises.readdir(dirPath);
+        return files;
+    } catch (error) {
+        console.error('[readDirectory] Failed to read directory:', dirPath, error);
+        return [];
+    }
+});
+
+
 ipcMain.handle('copyFile', async (event, sourcePath, destinationPath, move = false) => {
   try {
     return copyFile(sourcePath, destinationPath, move);
