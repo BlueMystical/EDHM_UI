@@ -14,10 +14,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{AFD5CE58-9DDE-4635-9B5F-EADF47E6D485} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{96282F97-61A5-4C88-AE41-732A2E171A53} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM-UI-V3"/>
-    <ROW Property="ProductVersion" Value="3.0.38" Type="32"/>
+    <ROW Property="ProductVersion" Value="3.0.39" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{B446308B-0441-4301-84CF-79B7159894F5}"/>

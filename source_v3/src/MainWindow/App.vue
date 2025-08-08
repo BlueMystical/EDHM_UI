@@ -581,6 +581,12 @@ export default {
         this.setValue(this.themeTemplate.xml_profile, 'y152', e[2][1] );
         this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2] );
 
+        console.log('Saving Theme:', this.themeTemplate);
+        if (this.themeTemplate.name === "Current Settings") {
+          const ActiveInstance = await window.api.getActiveInstance();
+          this.themeTemplate.path = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+        }
+
         const _ret = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
         console.log('Theme Saved:', _ret);
         // Emit the XML Changed Event
@@ -707,18 +713,11 @@ export default {
           const shipyardEnabled = await window.shipyardAPI.start();
           console.log('Starting Shipyard...', shipyardEnabled);
 
-          window.shipyardAPI.onLogEntry(entry => {
-            console.log('@App.vue: Entrada de log:', entry);
-          });
+          //window.shipyardAPI.onLogEntry(entry => {
+          //  console.log('@App.vue: Entrada de log:', entry);
+          //});
           window.shipyardAPI.onLastLineProcessed(info => {
             console.log(`Última línea procesada (${info.totalLines} líneas):`, info.lastLine);
-          });
-
-          EventBus.on('shipyard:logEntry', data => {
-            console.log('@App.vue: Entrada de log:', entry);
-          });
-          EventBus.on('shipyard:monitoringStopped', () => {
-            console.log('@App.vue: shipyard:monitoringStopped');
           });
 
         }

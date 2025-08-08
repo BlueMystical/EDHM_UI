@@ -262,6 +262,7 @@ async function GetCurrentSettingsTheme(themePath) {
     };
     themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs);
     themeTemplate.name = "Current Settings";
+    themeTemplate.path = themePath;
 
     return themeTemplate;
 

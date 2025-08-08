@@ -15,8 +15,8 @@ class Shipyard extends EventEmitter {
 
         this.LOG_DIRECTORY = fileHelper.resolveEnvVariables(
             settingsHelper.readSetting(
-                'PlayerJournal',
-                '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous'
+                'PlayerJournal', //<- Key on the Settings
+                '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous' //<- Default value
             )
         );
 
@@ -46,12 +46,7 @@ class Shipyard extends EventEmitter {
 
     async initialize() {
         try {
-
-            const DATA_DIRECTORY = fileHelper.resolveEnvVariables(
-                settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI')
-            );
-
-            fileHelper.ensureDirectoryExists(DATA_DIRECTORY);
+            fileHelper.ensureDirectoryExists(this.DATA_DIRECTORY);
             if (fileHelper.checkFileExists(this.ShipyardFilePath)) {
                 //- File exists, read it:
                 this.shipyardData = await fileHelper.loadJsonFile(this.ShipyardFilePath);
@@ -64,8 +59,8 @@ class Shipyard extends EventEmitter {
                     ships: []
                 };
                 // Save the initial Shipyard data to the JSON file
-                fileHelper.writeJsonFile(ShipyardFilePath, Shipyard, true);
-                console.log('Shipyard file created:', ShipyardFilePath);
+                fileHelper.writeJsonFile(this.ShipyardFilePath, this.shipyardData, true);
+                console.log('Shipyard file created:', this.ShipyardFilePath);
             }
 
             this.shipListData = await fileHelper.loadJsonFile(this.ShipListFilePath);
@@ -299,6 +294,7 @@ class Shipyard extends EventEmitter {
                 default:
                     break;
             }
+            this.mainWindow.webContents.send('shipyard:logEntry', _data);
         } catch (error) {
             console.error('Error in OnShipyardEvent:', error);
         }
