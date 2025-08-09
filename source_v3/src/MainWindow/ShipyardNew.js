@@ -9,16 +9,26 @@ import settingsHelper from '../Helpers/SettingsHelper.js';
 import fileHelper from '../Helpers/FileHelper.js';
 import KeySender from '../Helpers/KeySender.js';
 
+/*         
+* The Player Journal is a log file that contains information about the player's actions and events in the game.
+* Each line of the Player Journal is a full JSON object, so we can parse it and get the data we need.
+* https://elite-journal.readthedocs.io/en/latest/
+*/  
+
 class Shipyard extends EventEmitter {
     constructor(mainWindow) {
         super();
 
         this.LOG_DIRECTORY = fileHelper.resolveEnvVariables(
             settingsHelper.readSetting(
-                'PlayerJournal', //<- Key on the Settings
-                '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous' //<- Default value
+                'PlayerJournal',
+                process.platform === 'win32'
+                    ? '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous'
+                    : '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
             )
         );
+        //- Steam (Proton):  '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
+
 
         this.DATA_DIRECTORY = fileHelper.resolveEnvVariables(
             settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI')
@@ -51,7 +61,7 @@ class Shipyard extends EventEmitter {
                 //- File exists, read it:
                 this.shipyardData = await fileHelper.loadJsonFile(this.ShipyardFilePath);
                 console.log('Shipyard loaded from file:', this.ShipyardFilePath);
-            } else { 
+            } else {
                 //- Shipyard file doesnt exists
                 this.shipyardData = {
                     enabled: false,
@@ -88,27 +98,33 @@ class Shipyard extends EventEmitter {
     }
 
     async startMonitoring() {
-        if (!this.LOG_DIRECTORY) {
-            const error = { type: 'monitoring', error: 'LOG_DIRECTORY not defined' };
+        const DirExists = await fileHelper.checkFileExists(this.LOG_DIRECTORY);
+        if (!this.LOG_DIRECTORY && DirExists) {
+            const error = { type: 'monitoring', error: '404 - JOURNAL_DIRECTORY not found.' };
+            console.error(error);
             this.emit('error', error);
             EventBus.emit('shipyard:error', error);
             return;
         }
+        if (this.shipyardData.enabled) {
+            this.isMonitoring = true;
+            this.emit('monitoring:started', this.LOG_DIRECTORY);
+            EventBus.emit('shipyard:monitoringStarted', this.LOG_DIRECTORY);
 
-        this.isMonitoring = true;
-        this.emit('monitoring:started', this.LOG_DIRECTORY);
-        EventBus.emit('shipyard:monitoringStarted', this.LOG_DIRECTORY);
+            await this.checkAndSwitchLogFile();
 
-        await this.checkAndSwitchLogFile();
+            this.dirWatcher = chokidar.watch(this.LOG_DIRECTORY, {
+                ignoreInitial: true,
+                depth: 0,
+                awaitWriteFinish: true,
+            });
 
-        this.dirWatcher = chokidar.watch(this.LOG_DIRECTORY, {
-            ignoreInitial: true,
-            depth: 0,
-            awaitWriteFinish: true,
-        });
-
-        this.dirWatcher.on('add', () => this.checkAndSwitchLogFile());
-        this.dirWatcher.on('unlink', () => this.checkAndSwitchLogFile());
+            this.dirWatcher.on('add', () => this.checkAndSwitchLogFile());
+            this.dirWatcher.on('unlink', () => this.checkAndSwitchLogFile());
+        }
+        else {
+            console.log('Shipyard is Disabled.');
+        }
     }
 
     stopMonitoring() {
@@ -385,7 +401,7 @@ TODO:   - Registrar el ID de la nave para el CPM
         });
 
         if (shipExists) {
-            console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', and plate '${plate}' already exists.`);
+            //console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', and plate '${plate}' already exists.`);
             return exShip;
         } else {
             const newShip = { ...shipData };
@@ -398,7 +414,7 @@ TODO:   - Registrar el ID de la nave para el CPM
                 shipList: this.shipListData,
             });
 
-            console.log(`Ship added to Shipyard: ${newShip.kind_short}, file Saved.`);
+            console.log(`New Ship added to Shipyard: ${newShip.kind_short}, file Saved.`);
             return shipData;
         }
     }

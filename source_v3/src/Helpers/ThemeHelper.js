@@ -246,6 +246,8 @@ async function UnFavoriteTheme(themePath) {
 /** Returns the Currently Applied Theme Settings as a ThemeTemplate
  * @param {*} themePath Full path to the Game Instance */
 async function GetCurrentSettingsTheme(themePath) {
+  return LoadTheme(themePath);
+  /*
   try {
     const ThemeINIs = await LoadThemeINIs(themePath);
     //console.log('Default INIs: ', ThemeINIs);
@@ -257,8 +259,7 @@ async function GetCurrentSettingsTheme(themePath) {
       theme: "Current Settings",
       author: "User",
       description: "Currently Applied Colors in Game",
-      preview: "",
-      path: themePath
+      preview: ""
     };
     themeTemplate = await ApplyIniValuesToTemplate(themeTemplate, ThemeINIs);
     themeTemplate.name = "Current Settings";
@@ -269,8 +270,7 @@ async function GetCurrentSettingsTheme(themePath) {
   } catch (error) {
     console.log(error.message + error.stack);
     throw new Error(error.message + error.stack);
-  }
-  return null;
+  }*/
 };
 
 /** Makes a new Theme, saved on the Themes Folder

@@ -861,6 +861,52 @@ export function openUrlInBrowser(url) {
  * @param {*} callback  */
 function detectProgram(exeName, callback) {
   try {
+    if (os.platform() === 'win32') {
+      // More robust Windows detection with executable path and parent filtering
+      exec(`wmic process where name='${exeName}' get ProcessId,ParentProcessId,ExecutablePath`, (error, stdout) => {
+        if (error) return callback(error, null);
+
+        const lines = stdout.trim().split('\n').slice(1); // Skip header
+        for (let line of lines) {
+          const parts = line.trim().split(/\s{2,}/); // Adjust spacing
+          const exePath = parts[2]?.trim();
+          const parentPid = parts[1]?.trim();
+
+          if (exePath && !exePath.toLowerCase().includes('launcher')) {
+            // Optional: You could add more checks for known good paths or validate parentPid
+            return callback(null, exePath);
+          }
+        }
+
+        return callback(null, null); // No valid game exe found
+      });
+
+    } else {
+      // Linux/Proton: Use pgrep with args and filter based on actual binary
+      exec(`pgrep -af ${exeName}`, (error, stdout) => {
+        if (error || !stdout.trim()) return callback(error || new Error('Not found'), null);
+
+        const lines = stdout.trim().split('\n');
+        for (let line of lines) {
+          if (line.includes(exeName) && !line.toLowerCase().includes('launcher')) {
+            const [pid] = line.trim().split(' ');
+            exec(`readlink -f /proc/${pid}/exe`, (error, exePathOut) => {
+              if (error || !exePathOut.trim()) return callback(error || new Error('EXE path read failed'), null);
+              return callback(null, exePathOut.trim());
+            });
+            return; // Prevent looping after valid detection
+          }
+        }
+
+        callback(null, null); // No valid match
+      });
+    }
+  } catch (error) {
+    callback(error, null); // Fallback handler
+  }
+}
+/*function detectProgram(exeName, callback) {
+  try {
 
     if (os.platform() === 'win32') {
       // Windows
@@ -893,7 +939,7 @@ function detectProgram(exeName, callback) {
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
-}
+}*/
 
 
 function isProcessRunning(name) {
