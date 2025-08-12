@@ -480,6 +480,40 @@ async function ImportTheme(zip_path) {
   }
 }
 
+/** Copies the Current Settings Files into a backup */
+async function BackUpCurrentSettings() {
+  try {    
+    const TempPath = await FileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\CurrentSettings`);
+    const TempExist = await FileHelper.ensureDirectoryExists(TempPath);
+    if (TempExist) {
+      const ActiveInstance = await settingsHelper.getActiveInstanceEx(); //console.log('ActiveInstance:', ActiveInstance);
+      const SourcePath = path.join(ActiveInstance.path, 'EDHM-ini');
+      const _ret = await FileHelper.copyFiles(SourcePath, TempPath, ['.ini', '.json']);
+      console.log('BackUpCurrentSettings:', _ret + ' Files Copied.');
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+async function RestoreCurrentSettings() {
+  try {    
+    const TempPath = await FileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\CurrentSettings`);
+    const TempExist = await FileHelper.ensureDirectoryExists(TempPath);
+    if (TempExist) {
+      const ActiveInstance = await settingsHelper.getActiveInstanceEx();
+      const DestinationPath = path.join(ActiveInstance.path, 'EDHM-ini');
+      const _ret = await FileHelper.copyFiles(TempPath, DestinationPath, ['.ini', '.json']);
+      console.log('RestoreCurrentSettings:', _ret + ' Files Copied.');
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 // #region Ini File Handling
 
 /** Reads the data from the ini file and applies it to the JSON data.
@@ -968,6 +1002,20 @@ ipcMain.handle('ExportTheme', async (event, themeData) => {
     throw new Error(error.message + error.stack);
   }
 });
+ipcMain.handle('BackUpCurrentSettings', async (event) => {
+  try {
+    return BackUpCurrentSettings();
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+}); 
+ipcMain.handle('RestoreCurrentSettings', async (event) => {
+  try {
+    return RestoreCurrentSettings();
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
 
 ipcMain.handle('GetCurrentSettings', async (event, folderPath) => {
   try {
@@ -1031,5 +1079,5 @@ export default {
   FavoriteTheme, UnFavoriteTheme,
   CreateNewTheme, UpdateTheme,
   GetCurrentSettingsTheme,
-  DeleteTheme, ImportTheme,
+  DeleteTheme, ImportTheme, BackUpCurrentSettings, RestoreCurrentSettings
 };

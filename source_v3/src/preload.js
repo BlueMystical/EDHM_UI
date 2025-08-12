@@ -91,6 +91,8 @@ contextBridge.exposeInMainWorld('api', {
   UpdateTheme: async (themeData, source) => ipcRenderer.invoke('UpdateTheme', themeData, source),
   SaveTheme: async (themeData) => ipcRenderer.invoke('SaveTheme', themeData),
   DeleteTheme: async (themeData) => ipcRenderer.invoke('DeleteTheme', themeData),  
+  BackUpCurrentSettings: async () => ipcRenderer.invoke('BackUpCurrentSettings'), 
+  RestoreCurrentSettings: async () => ipcRenderer.invoke('RestoreCurrentSettings'),
 
   // #endregion
 

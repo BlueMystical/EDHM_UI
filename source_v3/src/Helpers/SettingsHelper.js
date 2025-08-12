@@ -400,7 +400,7 @@ const getInstanceByName = (InstanceFullName) => {
   }
 };
 
-/** Returns the path to the given Instance directory.
+/** Returns the path to Data directory for the given Instance .
  * @param {*} instanceKey Key of the Instance to get the path for. 'ED_Odissey' or 'ED_Horizons' */
 function GetInstanceDataDirectory(instanceKey) {
   try {
@@ -1071,7 +1071,7 @@ ipcMain.handle('DoHotFix', async (event) => {
 export default { 
   initializeSettings, loadSettings, saveSettings, 
   installEDHMmod, CheckEDHMinstalled, 
-  getInstanceByName, getActiveInstance, 
+  getInstanceByName, getActiveInstance, getActiveInstanceEx,
   GetInstanceDataDirectory,
   LoadGlobalSettings, saveGlobalSettings,
   readSetting, writeSetting, DoHotFix,

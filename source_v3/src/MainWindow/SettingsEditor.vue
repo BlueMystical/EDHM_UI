@@ -394,8 +394,8 @@ export default {
 
                 await window.api.terminateProgram('EliteDangerous64.exe');
                 const FolderPath = await window.api.getParentFolder(fullPath);
-                //this.addNewGameInstance(FolderPath);
-                this.selectedGamePath = FolderPath;    console.log(this.selectedGamePath);
+
+                this.selectedGamePath = FolderPath;    console.log('selectedGamePath', this.selectedGamePath);
                 console.log('Selected Game Path:', this.selectedGamePath);
 
                 this.config.GameInstances[this.selectedPublisher].games[this.selectedVersion].path = this.selectedGamePath;

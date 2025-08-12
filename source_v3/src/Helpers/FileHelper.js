@@ -1,5 +1,6 @@
 import { app, ipcMain, dialog, shell, clipboard, net, } from 'electron';
-import { exec, execSync, spawn } from 'child_process';
+import { exec, execSync, execFile, spawn } from 'child_process';
+import { promisify } from 'util';
 import path from 'node:path';
 import fs from 'node:fs';
 import https from 'https';
@@ -9,6 +10,8 @@ import zl from 'zip-lib';
 import os from 'os';
 import Util from './Utils.js';
 
+const execAsync     = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 // #region Path Functions
 
@@ -222,7 +225,8 @@ const checkFileExists = (filePath) => {
       return false; //File does not exist
     }
   } catch (error) {
-    throw new Error(error.message + error.stack);
+    //throw new Error(error.message + error.stack);
+    return false;
   }
 };
 
@@ -856,91 +860,70 @@ export function openUrlInBrowser(url) {
   shell.openExternal(url);
 }
 
-/** Detects a running Process and returns its full path. 
- * @param {*} exeName Program Exe Name: 'EliteDangerous64.exe'
- * @param {*} callback  */
+/** detectProgram: devuelve la ruta completa al ejecutable si está corriendo
+ * @param {string} exeName – nombre del ejecutable (incluye extensión en Windows, ej. "Game.exe")
+ * @param {function(Error|null, string|null)} callback */
 function detectProgram(exeName, callback) {
-  try {
-    if (os.platform() === 'win32') {
-      // More robust Windows detection with executable path and parent filtering
-      exec(`wmic process where name='${exeName}' get ProcessId,ParentProcessId,ExecutablePath`, (error, stdout) => {
-        if (error) return callback(error, null);
+  const platform = os.platform();
 
-        const lines = stdout.trim().split('\n').slice(1); // Skip header
-        for (let line of lines) {
-          const parts = line.trim().split(/\s{2,}/); // Adjust spacing
-          const exePath = parts[2]?.trim();
-          const parentPid = parts[1]?.trim();
+  if (platform === 'win32') {
+    // Windows: PowerShell CimInstance para obtener ExecutablePath de manera fiable
+    const psCommand = `powershell -NoProfile -Command "Get-CimInstance Win32_Process -Filter \\"Name='${exeName}'\\" | Select-Object -ExpandProperty ExecutablePath"`;
 
-          if (exePath && !exePath.toLowerCase().includes('launcher')) {
-            // Optional: You could add more checks for known good paths or validate parentPid
-            return callback(null, exePath);
-          }
+    exec(psCommand, (err, stdout, stderr) => {
+      if (err) return callback(err, null);
+
+      const lines = stdout
+        .trim()
+        .split(/\r?\n/)
+        .map(l => l.trim())
+        .filter(Boolean);
+
+      for (const exePath of lines) {
+        if (!exePath.toLowerCase().includes('launcher')) {
+          return callback(null, exePath);
         }
+      }
 
-        return callback(null, null); // No valid game exe found
-      });
+      // No se halló ruta válida
+      callback(null, null);
+    });
 
-    } else {
-      // Linux/Proton: Use pgrep with args and filter based on actual binary
-      exec(`pgrep -af ${exeName}`, (error, stdout) => {
-        if (error || !stdout.trim()) return callback(error || new Error('Not found'), null);
+  } else {
+    // Linux/macOS: pgrep + readlink
+    const safeName = exeName.replace(/["\\]/g, '\\\\$&');
+    const pgrepCmd = `pgrep -af "${safeName}"`;
 
-        const lines = stdout.trim().split('\n');
-        for (let line of lines) {
-          if (line.includes(exeName) && !line.toLowerCase().includes('launcher')) {
-            const [pid] = line.trim().split(' ');
-            exec(`readlink -f /proc/${pid}/exe`, (error, exePathOut) => {
-              if (error || !exePathOut.trim()) return callback(error || new Error('EXE path read failed'), null);
-              return callback(null, exePathOut.trim());
-            });
-            return; // Prevent looping after valid detection
+    exec(pgrepCmd, (err, stdout, stderr) => {
+      if (err || !stdout.trim()) {
+        return callback(err || new Error('No encontrado'), null);
+      }
+
+      const lines = stdout.trim().split(/\r?\n/);
+      let found = false;
+
+      for (const line of lines) {
+        if (found) break;
+        if (line.toLowerCase().includes('launcher')) continue;
+
+        const [pid] = line.trim().split(' ', 1);
+        if (!pid) continue;
+
+        found = true;
+        exec(`readlink -f /proc/${pid}/exe`, (err2, exePathOut) => {
+          if (err2 || !exePathOut.trim()) {
+            return callback(err2 || new Error('Fallo al leer ruta'), null);
           }
-        }
+          callback(null, exePathOut.trim());
+        });
+      }
 
-        callback(null, null); // No valid match
-      });
-    }
-  } catch (error) {
-    callback(error, null); // Fallback handler
+      if (!found) {
+        callback(null, null);
+      }
+    });
   }
 }
-/*function detectProgram(exeName, callback) {
-  try {
-
-    if (os.platform() === 'win32') {
-      // Windows
-      exec(`wmic process where name="${exeName}" get ExecutablePath`, (error, stdout) => {
-        if (error) {
-          return callback(error, null);
-        }
-        const lines = stdout.trim().split('\n');
-        const exePath = lines[1] ? lines[1].trim() : null;
-        callback(null, exePath);
-      });
-    } else {
-      // Linux
-      exeName = 'EliteDangerous6';
-      exec(`pgrep ${exeName}`, (error, stdout) => {
-        if (error) {
-          return callback(error, null);
-        }
-        const pid = stdout.trim();
-        //exec(`readlink -f /proc/${pid}/cwd`, (error, stdout) => { //<- Working route
-        exec(`readlink -f /proc/${pid}/exe`, (error, stdout) => { //<- EXE route
-          if (error) {
-            return callback(error, null);
-          }
-          const exePath = stdout.trim() + '/' + exeName + '4.exe';
-          callback(null, exePath);
-        });
-      });
-    }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
-}*/
-
 
 function isProcessRunning(name) {
     const platform = os.platform();
@@ -963,7 +946,76 @@ function isProcessRunning(name) {
     }
 }
 
-function terminateProgram(exeName, callback) {
+/** terminateProgram: cierra forzosamente todos los procesos que coincidan con exeName.
+ * @param {string} exeName – nombre (o patrón) del ejecutable (en Windows, "Game.exe"; en Linux/macOS, "game")
+ * @param {Object} [options]
+ * @param {boolean} [options.usePromise=false] – si true devuelve una Promesa en lugar de callback
+ * @param {function(Error|null, string|null)} [callback]
+ * @returns {Promise<string>|void}  */
+function terminateProgram(exeName, options = {}, callback) {
+  // Ajustar params: opciones vs callback
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+  const { usePromise = false } = options;
+
+  const platform = os.platform();
+  const safeName = exeName.replace(/["\\$`]/g, '\\$&'); // escapado básico
+
+  // Lógica de terminación en Promise
+  const runner = async () => {
+    if (platform === 'win32') {
+      // 1. Obtener PIDs con PowerShell
+      // 2. Invocar taskkill /PID por cada PID encontrado
+      const psGet = `powershell -NoProfile -Command `
+        + `"Get-CimInstance Win32_Process -Filter \\"Name='${safeName}'\\" `
+        + `| Select-Object -ExpandProperty ProcessId"`;
+      const { stdout: pidList } = await execAsync(psGet);
+      const pids = pidList
+        .trim()
+        .split(/\r?\n/)
+        .map(l => l.trim())
+        .filter(Boolean);
+
+      if (!pids.length) return `No se encontraron procesos "${exeName}"`;
+
+      // Matar cada PID
+      for (const pid of pids) {
+        await execFileAsync('taskkill', ['/F', '/PID', pid]);
+      }
+      return `Terminados procesos: ${pids.join(', ')}`;
+
+    } else {
+      // Linux/macOS: pgrep + kill
+      const { stdout: raw } = await execAsync(`pgrep -f "${safeName}"`);
+      const pids = raw
+        .trim()
+        .split(/\r?\n/)
+        .map(l => l.trim())
+        .filter(Boolean);
+
+      if (!pids.length) return `No se encontraron procesos "${exeName}"`;
+
+      // En macOS `killall -9 name` también es posible, pero aquí usamos kill
+      await Promise.all(
+        pids.map(pid => execFileAsync('kill', ['-9', pid]))
+      );
+      return `Terminados procesos: ${pids.join(', ')}`;
+    }
+  };
+
+  // Ejecutar según el API elegido
+  if (usePromise) {
+    return runner();
+  } else {
+    runner()
+      .then(result => callback(null, result))
+      .catch(err   => callback(err, null));
+  }
+}
+
+function terminateProgram_OLD(exeName, callback) {
   try {
     if (os.platform() === 'win32') {
       exec(`taskkill /F /IM ${exeName}`, (error, stdout) => {
@@ -1431,16 +1483,18 @@ ipcMain.handle('start-monitoring', (event, exeName) => {
   return { intervalId: interval[Symbol.toStringTag] };
 });
 ipcMain.handle('terminate-program', async (event, exeName) => {
-  return new Promise((resolve, reject) => {
-    terminateProgram(exeName, (error, result) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(result);
-      }
-    });
-  });
+  try {
+    // Ejecuta terminateProgram con usePromise=true
+    const mensaje = await terminateProgram(exeName, { usePromise: true });
+    // Devuelve el texto de éxito al renderer
+    return { success: true, data: mensaje };
+  } catch (err) {
+    // En caso de fallo, propaga un objeto de error
+    console.error(`Error terminando ${exeName}:`, err);
+    return { success: false, error: err.message };
+  }
 });
+
 /** Launches a program or script file in a "fire and forget" manner.
  * Returns "Program started" immediately if the program is successfully launched.
  * Does not wait for the program to finish or capture its output.

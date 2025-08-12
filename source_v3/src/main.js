@@ -138,7 +138,7 @@ const createWindow = () => {
       contextIsolation: true,
       nodeIntegration: true,
       webSecurity: false,
-      sandbox: false, // 🔥 Asegura que el contenido no esté limitado dentro de Electron
+      sandbox: false, // Asegura que el contenido no esté limitado dentro de Electron
       allowRunningInsecureContent: false
     }
   });

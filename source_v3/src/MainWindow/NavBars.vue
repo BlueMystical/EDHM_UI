@@ -906,6 +906,9 @@ export default {
           this.progressText = `${data.progress.toFixed(1)}%, ${this.averageSpeed} KB/s`;
         };
 
+        //- Backup Current applied theme files:
+        await window.api.BackUpCurrentSettings();
+
         //- Start the Progress Listener:
         window.api.onDownloadProgress(this.progressListener);
 
@@ -932,13 +935,13 @@ export default {
         if (!scriptPath) {
           throw new Error('Failed to Copy the Installer Script.');
         }
-
+        
         //- Remember we are running an Update, next time App runs it will do update stuff:
-        await window.api.writeSetting('FirstRun', true);
+        await window.api.writeSetting('FirstRun', true);  //<- listener in App.vue@Initialize()
 
         //- Now we Copy and Run the Installer thru the Script:
         await window.api.copyFile(scriptPath, filePath);
-        const _ret = await window.api.runProgram(filePath); console.log(_ret);
+        const _ret = await window.api.runProgram(filePath); //console.log(_ret);
 
         //- The Installer Script should terminate the running instance of the App, but..
         setTimeout(() => {

@@ -129,7 +129,6 @@ export default {
             await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
 
             const ActiveInstance = await window.api.getActiveInstance();
-            await this.ApplyLastTheme(ActiveInstance);
             await this.ImportShipyardV2(ActiveInstance);
             
           } catch (error) {
@@ -203,6 +202,7 @@ export default {
         if (e.InstallMod) {
           EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${e.GameInstanceName}'..` });
           const edhmInstalled = await window.api.installEDHMmod(NewInstance);
+          await window.api.RestoreCurrentSettings();
 
           if (edhmInstalled.game === 'ODYSS') {
             this.settings.Version_ODYSS = edhmInstalled.version;
@@ -310,6 +310,10 @@ export default {
       }
     },
 
+    // #endregion
+
+    // #region Shipyard
+
     /** This will Import a Shipyard V2 File.
      * Converted from the old Shipyard V2 format to the new V2 format.
      * Moves the file to the EDHM_UI Data Directory and deletes the old file.     */
@@ -364,7 +368,31 @@ export default {
         EventBus.emit('ShowError', error);        
       }
     },
+    async OnSaveShipyardUI(e) {
 
+    },
+
+    async StartShipyard() {
+      try {        
+        if (window.api) {
+          
+          const shipyardEnabled = await window.shipyardAPI.start();
+          console.log('Starting Shipyard...', shipyardEnabled);
+
+          //window.shipyardAPI.onLogEntry(entry => {
+          //  console.log('@App.vue: Entrada de log:', entry);
+          //});
+          window.shipyardAPI.onLastLineProcessed(info => {
+            console.log(`Última línea procesada (${info.totalLines} líneas):`, info.lastLine);
+          });
+
+        }
+      } catch (error) {
+        console.error('Error starting Shipyard:', error);
+        EventBus.emit('ShowError', error);        
+      }
+    },
+    
     // #endregion
 
     // #region SearchBox
@@ -702,30 +730,7 @@ export default {
     async OnSaveTPMods(e) {
 
     },
-    async OnSaveShipyardUI(e) {
 
-    },
-
-    async StartShipyard() {
-      try {        
-        if (window.api) {
-          
-          const shipyardEnabled = await window.shipyardAPI.start();
-          console.log('Starting Shipyard...', shipyardEnabled);
-
-          //window.shipyardAPI.onLogEntry(entry => {
-          //  console.log('@App.vue: Entrada de log:', entry);
-          //});
-          window.shipyardAPI.onLastLineProcessed(info => {
-            console.log(`Última línea procesada (${info.totalLines} líneas):`, info.lastLine);
-          });
-
-        }
-      } catch (error) {
-        console.error('Error starting Shipyard:', error);
-        EventBus.emit('ShowError', error);        
-      }
-    }
   },
   async mounted() {
 
