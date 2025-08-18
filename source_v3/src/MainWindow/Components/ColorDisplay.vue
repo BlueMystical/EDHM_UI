@@ -71,7 +71,7 @@ export default {
                     alpha: true,
                     editor: true,
                     color: this.rgbaString, //<- 'rgba(255,0,0, 1)' | #FF0000FF  
-                    recentColors: this.recentColors, //<- ['#ff0000', '#00ff00', '#0000ff']
+                    recentColors: this.recentColors, //<- ['#ff0000ff', '#00ff00ff', '#0000ff0A']
                     cancelButton: false,
 
                     onChange: (color) => {

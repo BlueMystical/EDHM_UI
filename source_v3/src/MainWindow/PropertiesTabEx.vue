@@ -138,9 +138,15 @@ export default {
                 this.themeTemplate = { ...JSON.parse(JSON.stringify(theme)) };
                 this.presets = theme.Presets;
 
+                const ColorPalettePath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\ColorPalette.json');
+                const PaletteExists = await window.api.fileExists(ColorPalettePath);
+                if (PaletteExists) {
+                    this.recentColors = await window.api.getJsonFile(ColorPalettePath);
+                }
+
                 this.componentKey++; // Increment key to force re-render
                 this.loadProperties({ id: "Panel_UP", title: "Upper Panel" });
-            }            
+            }
         },
 
         // #region Load Data
@@ -388,9 +394,14 @@ export default {
             }*/
             //console.log('color:' + value);
         },
-        OnRecentColorsChange (colors) {
+        async OnRecentColorsChange (colors) {
             this.recentColors = [...colors]; // Update the array reactively
             console.log('Recent colors updated in parent:', colors);
+            //- Stores the palette into a file for persistense:
+            await window.api.writeJsonFile(
+                await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\ColorPalette.json'),
+                JSON.parse(JSON.stringify(this.recentColors)), true
+            );
         },
         updateDataSourceValue(item, newValue) {
             const elementIndex = this.dataSource.Elements.findIndex(el => el.Key === item.Key);

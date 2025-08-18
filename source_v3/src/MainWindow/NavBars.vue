@@ -821,7 +821,6 @@ export default {
       this.selectedGame = gameInstanceName;
       if (this.programSettings) {
         this.programSettings.ActiveInstance = gameInstanceName.toString();
-        //EventBus.emit('GameInsanceChanged', gameInstanceName); //<- this event will be heard in 'App.vue'
         EventBus.emit('GameInsanceChanged', { GameInstanceName:gameInstanceName, InstallMod:false }); //<- this event will be heard in 'App.vue'
       }
       //console.log(`Game selected: ${selectedGame.value}`);
@@ -878,7 +877,8 @@ export default {
         const destDir = await window.api.getParentFolder(filePath);
         await window.api.ensureDirectoryExists(destDir);
         await window.api.deleteFilesByType(destDir, '.sh'); //<- Remove any previous installer script 
-        await window.api.deleteFilesByType(destDir, '.zip');
+        await window.api.deleteFilesByType(destDir, '.zip');        
+        await window.api.BackUpCurrentSettings(); //<- Backup Current applied theme files
 
         //- Setup Progress Control Variables:
         this.showProgressBar = true;  //<- Shows/Hides the Progressbar
@@ -906,9 +906,6 @@ export default {
           this.progressText = `${data.progress.toFixed(1)}%, ${this.averageSpeed} KB/s`;
         };
 
-        //- Backup Current applied theme files:
-        await window.api.BackUpCurrentSettings();
-
         //- Start the Progress Listener:
         window.api.onDownloadProgress(this.progressListener);
 
@@ -927,20 +924,21 @@ export default {
         if (Options.platform === 'linux') {
           scriptPath = await window.api.getAssetPath('public/linux_installer.sh');
           filePath = window.api.joinPath(destDir, 'linux_installer.sh');
+          //- Now we Copy and Run the Installer thru the Script:
+          await window.api.copyFile(scriptPath, filePath);
         }
         if (Options.platform === 'win32') {
           scriptPath = await window.api.getAssetPath('public/windows_installer.bat');
-          filePath = window.api.joinPath(destDir, 'windows_installer.bat');
+          //filePath = window.api.joinPath(destDir, 'windows_installer.bat'); 
+          filePath = window.api.joinPath(destDir, 'edhm-ui-v3-windows-x64.exe'); 
         }
         if (!scriptPath) {
           throw new Error('Failed to Copy the Installer Script.');
         }
         
         //- Remember we are running an Update, next time App runs it will do update stuff:
-        await window.api.writeSetting('FirstRun', true);  //<- listener in App.vue@Initialize()
+        await window.api.writeSetting('FirstRun', true);  //<- listener in Initialize()@App.vue
 
-        //- Now we Copy and Run the Installer thru the Script:
-        await window.api.copyFile(scriptPath, filePath);
         const _ret = await window.api.runProgram(filePath); //console.log(_ret);
 
         //- The Installer Script should terminate the running instance of the App, but..

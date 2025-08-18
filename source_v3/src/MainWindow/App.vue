@@ -94,6 +94,7 @@ export default {
         this.settings = await window.api.initializeSettings();    //console.log(this.settings);
         this.InstallStatus = await window.api.InstallStatus();    //console.log('this.InstallStatus',  this.InstallStatus);
         const ActiveInstance = await window.api.getActiveInstance();  //console.log('ActiveInstance', ActiveInstance);
+        let VirginPlayer = false; //<- Flag to know if is the first time running the app
 
         this.$nextTick(() => {
           //- ENABLE THE TOOLTIPS POPUP:
@@ -106,6 +107,7 @@ export default {
 
         if (this.InstallStatus === 'existingInstall') { // Normal Load, All seems Good
           if (!Util.isNotNullOrEmpty(ActiveInstance.path)) {
+            VirginPlayer = false; //<- We are not a New Player, we have an Active Instance
             // Either the Active Instance or its path is not set:
             EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.', delay: 10000 });
             EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
@@ -113,36 +115,36 @@ export default {
           }
         } else {
           // Welcome New User!  
+          VirginPlayer = true; //<- We are a New Player
           EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.', delay: 10000 });
           EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
           return;
         }
 
         //- Check if we are first running after an update:
-        const isUpdate = await window.api.readSetting('FirstRun', true);  //
+        const isUpdate = await window.api.readSetting('FirstRun', true);
         if (isUpdate) {
           console.log('First Run after Update: Running HotFix..');
           try {            
-            await window.api.DoHotFix();
+            await window.api.DoHotFix(); //<- Hotfix runs before Mod Installing
+            await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod: VirginPlayer }); //<- Update the Game Instance (Mod Installing)
+            await window.api.writeSetting('FirstRun', false); //console.log('First Run Flag Cleared.');
+            //await window.api.RestoreCurrentSettings();
             
-            await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod:true });
-            await window.api.writeSetting('FirstRun', false); console.log('First Run Flag Cleared.');
-
-            const ActiveInstance = await window.api.getActiveInstance();
-            await this.ImportShipyardV2(ActiveInstance);
-            
+            //const ActiveInstance = await window.api.getActiveInstance();
+            //await this.ImportShipyardV2(ActiveInstance);
           } catch (error) {
             EventBus.emit('ShowError', error);
           }
         }
 
         //- Initialize the Components:
-        EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
+        EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeNavBars',  JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue        
         EventBus.emit('InitializeHUDimage', null);    //<- Event Listened at HudImage.vue
         EventBus.emit('DoLoadGlobalSettings', null);  //<- Event Listened at GlobalSettingsTab.vue
         EventBus.emit('DoLoadUserSettings', null);    //<- Event Listened at UserSettingsTab.vue
-        EventBus.emit('ShipyardUI-Initialize', null);    //<- Event Listened at ShipyardUI.vue
+        EventBus.emit('ShipyardUI-Initialize', null); //<- Event Listened at ShipyardUI.vue
 
         this.StartShipyard();
         this.CheckForUpdates();
@@ -202,7 +204,6 @@ export default {
         if (e.InstallMod) {
           EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${e.GameInstanceName}'..` });
           const edhmInstalled = await window.api.installEDHMmod(NewInstance);
-          await window.api.RestoreCurrentSettings();
 
           if (edhmInstalled.game === 'ODYSS') {
             this.settings.Version_ODYSS = edhmInstalled.version;
@@ -210,7 +211,6 @@ export default {
             this.settings.Version_HORIZ = edhmInstalled.version;
           }
           EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
-          EventBus.emit('RoastMe', { type: 'Info', message: 'You can Close this now.' });
         }
 
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
@@ -691,11 +691,13 @@ export default {
 
               if (platform === 'win32') {
                 console.log('Running on Windows');
-                download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-windows-x64.exe';
+                //download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-windows-x64.exe';
+                download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-windows-x64.exe';
 
               } else if (platform === 'linux') {
                 console.log('Running on Linux');
-                download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-linux-x64.zip';
+                //download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-linux-x64.zip';
+                download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-linux-x64.zip';
                 fileSavePath = '/tmp/EDHM_UI/edhm-ui-v3-linux-x64.zip';
 
               } else {
@@ -704,7 +706,7 @@ export default {
               }
               
               //- Send the Command to start the Download
-              EventBus.emit('StartDownload', {  //<- Event Listen in 'NavBars.vue'
+              EventBus.emit('StartDownload', {  //<- Event Listen in 'NavBars.vue' -> DownloadAndInstallUpdate()
                 url: download_url, 
                 save_to: fileSavePath, 
                 platform: platform 
