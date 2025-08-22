@@ -8,6 +8,7 @@ import settingsHelper from './Helpers/SettingsHelper.js';
 // import Shipyard from './MainWindow/Shipyard.js';
 import Shipyard from './MainWindow/ShipyardNew.js';
 
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) { app.quit(); } //<- This is a Squirrel event, so we quit the app
 
