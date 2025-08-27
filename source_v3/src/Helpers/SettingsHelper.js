@@ -13,8 +13,9 @@ import Util from './Utils.js';
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 let programSettings = null; // Holds the Program Settings in memory
+
 const defaultSettingsPath = fileHelper.getAssetPath('data/Settings.json');
-const programSettingsPath = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
+var programSettingsPath = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\Settings.json');
 const InstallationStatus = {
   NEW_SETTINGS: 'newSettings',
   UPGRADING_USER: 'upgradingUser',
@@ -31,9 +32,86 @@ let installationStatus = InstallationStatus.EXISTING_INSTALL; // Default status
  */
 export const initializeSettings = async () => {
   try {
+    console.log('Initializing Settings...Main');
+
+    // Resolve the path to the primary settings file stored in LOCALAPPDATA
+    const primaryPath = fileHelper.resolveEnvVariables(
+      path.join('%LOCALAPPDATA%\\EDHM-UI-V3', 'Settings.json')
+    ); //console.log('primaryPath', primaryPath);
+
+    // If the primary settings file exists, load it and determine the actual program settings path
+    if (fileHelper.checkFileExists(primaryPath)) {
+      const PrimarySettings = await fileHelper.loadJsonFile(primaryPath); console.log('PrimarySettings', PrimarySettings);
+      programSettingsPath = path.join(
+        fileHelper.resolveEnvVariables(PrimarySettings.DataFolder),
+        'Settings.json'
+      );
+    };
     console.log('programSettingsPath', programSettingsPath);
-    const userSettingsDir = path.dirname(programSettingsPath); // Get the directory path
-    //console.log('Initializing Settings...Main');
+
+    // Determine the directory where the program settings file should be stored
+    const userSettingsDir = path.dirname(programSettingsPath);
+
+    // Create the directory if it does not exist
+    if (!fs.existsSync(userSettingsDir)) {
+      fs.mkdirSync(userSettingsDir, { recursive: true });
+      console.log(`Created directory: ${userSettingsDir}`);
+    }
+
+    // If the program settings file does not exist, treat this as a new installation
+    if (!fs.existsSync(programSettingsPath)) {
+      // Ensure the default settings file exists before proceeding
+      if (!fs.existsSync(defaultSettingsPath)) {
+        throw new Error(`Default settings file not found at: ${defaultSettingsPath}`);
+      }
+
+      // Mark installation status as new (no previous V3 settings found)
+      installationStatus = InstallationStatus.NEW_SETTINGS;
+
+      // Load default settings from file
+      const defaultSettings = fs.readFileSync(defaultSettingsPath, 'utf8');
+      programSettings = JSON.parse(defaultSettings);
+
+      // Set the user data folder path in the settings
+      programSettings.UserDataFolder = userSettingsDir;
+
+      // Update installation status to indicate a fresh V3 install
+      installationStatus = InstallationStatus.FRESH_INSTALL;
+      console.log('installationStatus:', installationStatus);
+
+      // Save the default settings to the program settings file
+      fs.writeFileSync(programSettingsPath, JSON.stringify(programSettings, null, 4));
+
+    } else {
+      // Existing settings found — load them
+      installationStatus = InstallationStatus.EXISTING_INSTALL;
+      programSettings = JSON.parse(fs.readFileSync(programSettingsPath, 'utf-8'));
+
+      // Ensure the user data folder path is set
+      programSettings.UserDataFolder = userSettingsDir;
+
+      console.log('Settings Loaded from Existing Instance.');
+    }
+
+  } catch (error) {
+    // Include both the error message and stack trace for easier debugging
+    throw new Error(error.message + error.stack);
+  }
+
+  // Return the loaded or newly created settings object
+  return programSettings;
+};
+/*export const initializeSettings = async () => {
+  try {
+    console.log('Initializing Settings...Main');
+    
+    const primaryPath = fileHelper.resolveEnvVariables(path.join('%LOCALAPPDATA%\\EDHM-UI-V3', 'Settings.json'));
+    if (fileHelper.checkFileExists(primaryPath)) {
+      const PrimarySettings = await fileHelper.loadJsonFile(primaryPath);
+      programSettingsPath = path.join(fileHelper.resolveEnvVariables(PrimarySettings.DataFolder), 'Settings.json');
+    }
+    console.log('programSettingsPath', programSettingsPath);
+    const userSettingsDir = path.dirname(programSettingsPath); // Get the directory path    
 
     // Check if the user settings directory exists, if not, create it
     if (!fs.existsSync(userSettingsDir)) {
@@ -43,6 +121,7 @@ export const initializeSettings = async () => {
 
     // Check if the user settings file exists, if not, read and write the default settings JSON
     if (!fs.existsSync(programSettingsPath)) {
+      // Settings doesnt exist, its a new install:
       if (!fs.existsSync(defaultSettingsPath)) {
         throw new Error(`Default settings file not found at: ${defaultSettingsPath}`);
       }
@@ -52,6 +131,7 @@ export const initializeSettings = async () => {
       // Read the default settings JSON file
       const defaultSettings = fs.readFileSync(defaultSettingsPath, 'utf8');
       programSettings = JSON.parse(defaultSettings);
+      programSettings.UserDataFolder = userSettingsDir;
       installationStatus = InstallationStatus.FRESH_INSTALL; // This means it's a fresh V3 install
       console.log('installationStatus:', installationStatus);
 
@@ -61,6 +141,7 @@ export const initializeSettings = async () => {
     } else {
       installationStatus = InstallationStatus.EXISTING_INSTALL; // Is a Normal Existing User
       programSettings = JSON.parse(fs.readFileSync(programSettingsPath, 'utf-8'));
+      programSettings.UserDataFolder = userSettingsDir;
       console.log('Settings Loaded from Existing Instance.');
 
       //Log.Info('This is a Test');
@@ -69,7 +150,7 @@ export const initializeSettings = async () => {
     throw new Error(error.message + error.stack);
   }
   return programSettings;
-};
+};*/
 
 /** * Loads the Settings
  * @returns the settings data
@@ -83,6 +164,7 @@ const loadSettings = () => {
     //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
 
     programSettings = JSON.parse(data);
+    programSettings.UserDataFolder = path.dirname(programSettingsPath); // Get the directory path   
     return programSettings;
   } catch (error) {
     throw new Error(error.message + error.stack);
@@ -113,10 +195,14 @@ async function saveSettings(settings) {
  * @returns The Value os the indicated Key */
 function readSetting(key, defaultValue = null) {
   try {
-    const data = fs.readFileSync(programSettingsPath, 'utf8');
-    const settings = JSON.parse(data);
-
-    return settings.hasOwnProperty(key) && settings[key] !== "" ? settings[key] : defaultValue;
+    if (programSettingsPath != '') {
+      /*console.log('SettingsHelper.readSetting from ', programSettingsPath);
+      const settings = JSON.parse(fs.readFileSync(programSettingsPath, 'utf8'));
+      return settings.hasOwnProperty(key) && settings[key] !== "" ? settings[key] : defaultValue; */
+      return programSettings.hasOwnProperty(key) && programSettings[key] !== "" ? programSettings[key] : defaultValue;
+    } else {
+      throw new Error('Settings not initialized!'); 
+    }    
   } catch (error) {
     console.error('Error reading setting:', error);
     return defaultValue;
@@ -147,7 +233,7 @@ function writeSetting(key, value) {
 async function LoadGlobalSettings() {
   try {
 
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/Global_Settings.json');
+    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/Global_Settings.json');
     const _path_B = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
     const _path_C = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
@@ -175,7 +261,7 @@ async function LoadGlobalSettings() {
 };
 async function saveGlobalSettings(settings) {
   try {
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/Global_Settings.json');
+    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/Global_Settings.json');
     return fileHelper.writeJsonFile(_path_A, settings, true);
   } catch (error) {
     throw new Error(error.message + error.stack);
@@ -184,7 +270,7 @@ async function saveGlobalSettings(settings) {
 
 async function LoadUserSettings() {
   try {
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/User_Settings.json');
+    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/User_Settings.json');
     var data = {};
     if (fs.existsSync(_path_A)) {
       const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
@@ -205,7 +291,7 @@ async function LoadUserSettings() {
 };
 async function saveUserSettings(settings) {
   try {
-    const _path_A = fileHelper.resolveEnvVariables('%USERPROFILE%/EDHM_UI/ODYSS/User_Settings.json');
+    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/User_Settings.json');
     fs.writeFileSync(_path_A, JSON.stringify(settings, null, 4));
     return true;
   } catch (error) {
@@ -666,7 +752,7 @@ async function DoHotFix() {
       if (hotFix) {
         console.log('------ Applying HotFixes --------');
         const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
-        const UI_DOCUMENTS = fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
+        const UI_DOCUMENTS = programSettings.UserDataFolder; // fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
         const GameInstances = readSetting('GameInstances');
 
         if (GameInstances?.length > 0) {
@@ -877,7 +963,7 @@ ipcMain.handle('GetAppDataDirectory', (event) => {
   try {
     return fileHelper.resolveEnvVariables(
       readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI')
-  );
+    );
   } catch (error) {
     throw new Error(error.message + error.stack);
   }

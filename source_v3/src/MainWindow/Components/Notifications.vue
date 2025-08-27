@@ -83,10 +83,19 @@ export default {
                message: '',
                stack: 'Stack Trace for Errors',
                autoHide: true,
-               delay: 3000  //<- Auto-hide delay in milliseconds
-          }         */
-         showToast(data) {
-            const { type, title, message, stack, autoHide = true, delay = 3000 } = data;
+               delay: 3000,  //<- Auto-hide delay in milliseconds
+               width:'460px'
+          }*/
+        showToast(data) {
+            const {
+                type,
+                title,
+                message,
+                stack,
+                autoHide = true,
+                delay = 3000,
+                width // <- new
+            } = data;
             const toastType = type.charAt(0).toUpperCase() + type.slice(1);
 
             try {
@@ -96,12 +105,16 @@ export default {
                     if (stack) this.toasts[toastType].stack = stack;
 
                     const toast = document.getElementById(`liveToast-${toastType}`);
-                    let toastBootstrap = bootstrap.Toast.getInstance(toast);
 
-                    const options = {
-                        autohide: autoHide,
-                        delay: delay // Auto-hide delay in milliseconds
-                    };
+                    // ✅ Apply width if provided
+                    if (width) {
+                        toast.style.width = width;
+                    } else {
+                        toast.style.width = ''; // fallback to CSS/default
+                    }
+
+                    let toastBootstrap = bootstrap.Toast.getInstance(toast);
+                    const options = { autohide: autoHide, delay };
 
                     if (toastBootstrap) {
                         toastBootstrap.dispose();
@@ -110,14 +123,17 @@ export default {
                     toastBootstrap.show();
 
                     if (toastType === 'ErrMsg') {
-                        window.api.logError(error.message, error.stack);
+                        // this probably meant to log 'data', not 'error'
+                        if (message && stack) {
+                            window.api.logError(message, stack);
+                        }
                     }
                 } else {
                     console.error(`Toast type "${type}" not recognized.`);
                 }
             } catch (error) {
                 console.log(error.message + error.stack);
-            } 
+            }
         },
 
         /** Displays an Error Toast Notification at Bottom Right corner of the Window

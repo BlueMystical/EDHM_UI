@@ -1612,6 +1612,13 @@ ipcMain.handle('copyFile', async (event, sourcePath, destinationPath, move = fal
   } catch (error) {
     throw new Error(error.message + error.stack);
   }
+}); 
+ipcMain.handle('copyDirectory', async (event, sourcePath, destinationPath) => {
+  try {
+    return copyDirectoryRecursive(sourcePath, destinationPath);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
 });
 
 ipcMain.handle('get-json-file', async (event, jsonPath) => {

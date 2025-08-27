@@ -82,15 +82,15 @@
                                             <input type="number" class="form-control" id="quantity" min="1" max="50"
                                                 v-model="config.SavesToRemember">
                                         </div>
-                                        <div class="col"><!--
+                                        <div class="col">
                                             <label for="userDataLocation">Themes & User's Data:</label>
                                             <div id="userDataLocation" class="input-group mb-3" disabled>
                                                 <input type="text" class="form-control form-control-sm"
                                                     placeholder="Pick a Location" aria-label="Pick a Location"
-                                                    aria-describedby="button-addon2" v-model="config.UserDataFolder" disabled>
+                                                    aria-describedby="button-addon2" v-model="config.UserDataFolder">
                                                 <button class="btn btn-outline-secondary" type="button"
-                                                    id="button-addon2" @click="browseUserDataFolder" disabled>Browse</button>
-                                            </div>-->
+                                                    id="button-addon2" @click="browseUserDataFolder">Browse</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -320,17 +320,32 @@ export default {
         },
         /* Browse for the location to store User's data and Themes */
         async browseUserDataFolder() {
-            const DATA_DIRECTORY = await window.api.resolveEnvVariables(this.config.UserDataFolder); 
-            //const DefaultLocation = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
-            const options = {
-                title: 'Select Where to Store User Data',
-                defaultPath: DATA_DIRECTORY,
-                properties: ['openDirectory', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
-                message: 'Select Where to Store User Data',
-            };
-            const filePath = await window.api.ShowOpenDialog(options);
-            if (filePath) {
-                this.config.UserDataFolder = filePath[0];
+            try {
+                const DATA_DIRECTORY = await window.api.resolveEnvVariables(this.config.UserDataFolder); //<- %USERPROFILE%\EDHM_UI
+                const options = {
+                    title: 'Select Where to Store User Data',
+                    defaultPath: DATA_DIRECTORY,
+                    properties: ['openDirectory', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
+                    message: 'Select Where to Store User Data',
+                };
+                const filePath = await window.api.ShowOpenDialog(options);
+                if (filePath) {
+                    this.config.UserDataFolder = filePath[0];
+                    if (DATA_DIRECTORY != this.config.UserDataFolder) {
+                        const PrimeSettings = { DataFolder: this.config.UserDataFolder };
+                        const primaryPath = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
+                        await window.api.ensureDirectoryExists(primaryPath);
+                        await window.api.writeJsonFile(window.api.joinPath(primaryPath, 'Settings.json'), PrimeSettings, true);                        
+                        await window.api.copyDirectory(DATA_DIRECTORY, this.config.UserDataFolder);
+                        if (await window.api.fileExists(window.api.joinPath(this.config.UserDataFolder, 'Settings.json'))) {
+                            console.log('Primary Settings updated at:', this.config.UserDataFolder);
+                        }
+                        EventBus.emit('RoastMe', { type: 'Info', message: 'You might want to restart the App for changes to take effect.', delay: 10000 });
+                    }
+                }
+            } catch (error) {
+                console.error('Error browsing user data folder:', error);
+                EventBus.emit('ShowError', error);
             }
         },
         /* Browse for the location where the ED Player Journal is located */
@@ -379,7 +394,6 @@ export default {
                 await window.api.terminateProgram('EliteDangerous64.exe');
             } catch {} 
         },
-
 
         /* Attempts to Detect the running Game Process and then sets the Paths */
         async runGameLocationAssistant() {
@@ -432,8 +446,7 @@ export default {
         },
 
         /** Button Click: Clean Install
-         * Deletes the Settings File for a Clean Install
-         */
+         * Deletes the Settings File for a Clean Install         */
         async CleanInstall() {    
             try {
                 const options = {

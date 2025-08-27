@@ -59,6 +59,7 @@ contextBridge.exposeInMainWorld('api', {
   fileExists: (filePath) => ipcRenderer.invoke('checkFileExists', filePath), 
   ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath),
   copyFile: (sourcePath, destinationPath, move)=> ipcRenderer.invoke('copyFile', sourcePath, destinationPath, move = false),
+  copyDirectory: (sourcePath, destinationPath) => ipcRenderer.invoke('copyDirectory', sourcePath, destinationPath),
 
   compressFiles: (files, outputPath) => ipcRenderer.invoke('compress-files', files, outputPath),
   compressFolder: (folderPath, outputPath) => ipcRenderer.invoke('compress-folder', folderPath, outputPath),

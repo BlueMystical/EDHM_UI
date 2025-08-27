@@ -138,7 +138,8 @@ export default {
                 this.themeTemplate = { ...JSON.parse(JSON.stringify(theme)) };
                 this.presets = theme.Presets;
 
-                const ColorPalettePath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\ColorPalette.json');
+                const DATA_DIRECTORY = await window.api.GetProgramDataDirectory(); //<- Get the Data Directory: %USERPROFILE%\EDHM_UI
+                const ColorPalettePath = await window.api.joinPath(DATA_DIRECTORY, 'ColorPalette.json');  //'%USERPROFILE%\\EDHM_UI\\ColorPalette.json'
                 const PaletteExists = await window.api.fileExists(ColorPalettePath);
                 if (PaletteExists) {
                     this.recentColors = await window.api.getJsonFile(ColorPalettePath);
@@ -398,8 +399,9 @@ export default {
             this.recentColors = [...colors]; // Update the array reactively
             console.log('Recent colors updated in parent:', colors);
             //- Stores the palette into a file for persistense:
+            const DATA_DIRECTORY = await window.api.GetProgramDataDirectory(); //<- Get the Data Directory: %USERPROFILE%\EDHM_UI
             await window.api.writeJsonFile(
-                await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\ColorPalette.json'),
+                window.api.joinPath(DATA_DIRECTORY, 'ColorPalette.json'),
                 JSON.parse(JSON.stringify(this.recentColors)), true
             );
         },

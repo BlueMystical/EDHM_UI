@@ -102,6 +102,15 @@
     "FirstRun": false,
     "FavToogle":false,    
     "HideToTray":false,    
+
+    "GpuUseWebGL": true,
+    "GpuCanvas2D": true,
+    "GpuComposite": true,
+    "GpuVideoDecode": true,
+    "GpuSmoothScrolling": true,
+    "GpuRenderer": "Vulkan",
+    "GpuAcceleration": true,
+    
     "CreateShortcutOnDesktop": true,
     "CheckForUpdates": true   
  }

@@ -1,11 +1,9 @@
 import { app, BrowserWindow, Menu, ipcMain, shell, globalShortcut, Tray } from 'electron';
 import path from 'node:path';
-import fs from 'fs';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
 import themeHelper from './Helpers/ThemeHelper.js';
 import settingsHelper from './Helpers/SettingsHelper.js';
-// import Shipyard from './MainWindow/Shipyard.js';
 import Shipyard from './MainWindow/ShipyardNew.js';
 
 
@@ -19,18 +17,9 @@ let BalloonShown = false;
 let HideToTray = false;
 let WatchMe = false;
 let shipyard;
+let CustomIcon;
+let programSettings;
 
-
-//- Set the default Icon for the app
-const CustomIcon = settingsHelper.readSetting('CustomIcon',
-  fileHelper.getAssetPath('images/Icon_v3_a0.ico'));
-
-// Desactiva solo la composición por GPU (no toda la aceleración)
-app.commandLine.appendSwitch('disable-gpu-compositing');
-//app.commandLine.appendSwitch('disable-gpu');
-
-// Opcional: mantiene el factor de escala fijo
-app.commandLine.appendSwitch('force-device-scale-factor', '1');
 
 //- Check for Single Instance:
 const gotTheLock = app.requestSingleInstanceLock();
@@ -46,89 +35,142 @@ if (!gotTheLock) {
       mainWindow.focus(); // Asegura que la ventana tenga el foco.
     }
   });
+  Start();
+}
 
-  const logFilePath = path.join(app.getPath('userData'), 'app-debug.log');
-  const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
+async function Start() {
+  try {
+    programSettings = await settingsHelper.initializeSettings();
 
-  function logToFile(message) {
-    logStream.write(`${new Date().toISOString()} - ${message}\n`);
-  }
+    //- Set the default Icon for the app
+    CustomIcon = settingsHelper.readSetting('CustomIcon', fileHelper.getAssetPath('images/Icon_v3_a0.ico'));
+    console.log('CustomIcon:', CustomIcon);
 
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some APIs can only be used after this event occurs.
-  app.whenReady().then(async () => {
-    createWindow();
+    //#region Graphic Options
 
-    //-- Disable the menu bar
-    Menu.setApplicationMenu(null);
-
-
-    //-- Create Desktop Shortcut Icons:
-    if (process.platform === 'win32') {
-      createTray(); // Create the tray icon
-      /* Shortcut creation is no longer needed
-      const makeShortcut = await settingsHelper.readSetting('CreateShortcutOnDesktop', true);
-      if (makeShortcut) {
-        fileHelper.createWindowsShortcut.call(this, CustomIcon);
-      }*/
-    } else if (process.platform === 'linux') {
-      //- Linux users prefer their desktop clean, so no shortcut is created by default
-      //- Uncomment the next line to create a shortcut on Linux as well
-      //fileHelper.createLinuxShortcut.call(this);
+    //- Rendering Backend: Vulkan / OpenGL / Direct3D:
+    const GpuRenderer = settingsHelper.readSetting('GpuRenderer', 'Vulkan');
+    switch (GpuRenderer) {
+      case 'Vulkan': app.commandLine.appendSwitch('use-vulkan'); break; // Force Vulkan
+      case 'OpenGL': app.commandLine.appendSwitch('use-angle', 'gl'); break; // Force ANGLE with OpenGL
+      case 'Direct3D': app.commandLine.appendSwitch('use-angle', 'd3d11'); break; // Force ANGLE with Direct3D 11
+      default:
+        app.commandLine.appendSwitch('use-vulkan'); break;
     }
 
-    // Handle command-line arguments
-    const args = process.argv.slice(2);
-    if (args.length > 0) {
-      console.log('Command-line arguments:', args);
+    // Desactiva solo la composición por GPU (no toda la aceleración)
+    const GpuComposite = settingsHelper.readSetting('GpuComposite', true);
+    if (!GpuComposite) {
+      app.commandLine.appendSwitch('disable-gpu-compositing');
+    }
+    const GpuAcceleration = settingsHelper.readSetting('GpuAcceleration', true);
+    if (!GpuAcceleration) {
+      app.commandLine.appendSwitch('disable-gpu');
+    }
+    //- Hardware-Accelerated Video Decoding
+    const GpuVideoDecode = settingsHelper.readSetting('GpuVideoDecode', true);
+    if (!GpuVideoDecode) {
+      app.commandLine.appendSwitch('disable-accelerated-video-decode');
+    }
+    //- Enable GPU-Accelerated 2D Canvas
+    const GpuCanvas2D = settingsHelper.readSetting('GpuCanvas2D', true);
+    if (!GpuCanvas2D) {
+      app.commandLine.appendSwitch('disable-accelerated-2d-canvas');
+    }
+    //- Enable WebGL” / “Enable WebGL2
+    const GpuUseWebGL = settingsHelper.readSetting('GpuUseWebGL', true);
+    if (!GpuUseWebGL) {
+      app.commandLine.appendSwitch('disable-webgl');
+      app.commandLine.appendSwitch('disable-webgl2');
+    }
+    //- Disable Smooth Scrolling / Animations
+    const GpuSmoothScrolling = settingsHelper.readSetting('GpuSmoothScrolling', true);
+    if (!GpuSmoothScrolling) {
+      app.commandLine.appendSwitch('disable-smooth-scrolling');
+    }
+    // Opcional: mantiene el factor de escala fijo
+    app.commandLine.appendSwitch('force-device-scale-factor', '1');
+    
+    //#endregion
 
-      // Handle your arguments here
-      if (args.includes('--hide')) {
-        console.log('Program started with --hide argument.');
-        // Hide the main window immediately
-        mainWindow.hide();
+    // This method will be called when Electron has finished
+    // initialization and is ready to create browser windows.
+    // Some APIs can only be used after this event occurs.
+    app.whenReady().then(async () => {
+      createWindow();
+
+      //-- Disable the menu bar
+      Menu.setApplicationMenu(null);
+
+
+      //-- Create Desktop Shortcut Icons:
+      if (process.platform === 'win32') {
+        createTray(); // Create the tray icon
+        /* Shortcut creation is no longer needed
+        const makeShortcut = await settingsHelper.readSetting('CreateShortcutOnDesktop', true);
+        if (makeShortcut) {
+          fileHelper.createWindowsShortcut.call(this, CustomIcon);
+        }*/
+      } else if (process.platform === 'linux') {
+        //- Linux users prefer their desktop clean, so no shortcut is created by default
+        //- Uncomment the next line to create a shortcut on Linux as well
+        //fileHelper.createLinuxShortcut.call(this);
       }
 
-      // Send arguments to the renderer process
-      mainWindow.webContents.on('did-finish-load', () => {
-        mainWindow.webContents.send('app-args', args);
-      });
-    }
+      // Handle command-line arguments
+      const args = process.argv.slice(2);
+      if (args.length > 0) {
+        console.log('Command-line arguments:', args);
 
-    // Ensure tray works on both Windows and Linux
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();
+        // Handle your arguments here
+        if (args.includes('--hide')) {
+          console.log('Program started with --hide argument.');
+          // Hide the main window immediately
+          mainWindow.hide();
+        }
+
+        // Send arguments to the renderer process
+        mainWindow.webContents.on('did-finish-load', () => {
+          mainWindow.webContents.send('app-args', args);
+        });
+      }
+
+      // Ensure tray works on both Windows and Linux
+      // On OS X it's common to re-create a window in the app when the
+      // dock icon is clicked and there are no other windows open.
+      app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+          createWindow();
+        }
+      });
+    });
+
+    // Quit when all windows are closed, except on macOS. There, it's common
+    // for applications and their menu bar to stay active until the user quits
+    // explicitly with Cmd + Q.
+    app.on('window-all-closed', () => {
+      try {
+        if (process.platform !== 'darwin') {
+          if (mainWindow) {
+            if (tray) tray.destroy(); // Destroy the tray icon
+            globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+            mainWindow.removeAllListeners('close');
+            app.quit();
+          }
+        }
+      } catch (error) {
+        console.error('Error during window-all-closed:', error);
       }
     });
-  });
-
-  // Quit when all windows are closed, except on macOS. There, it's common
-  // for applications and their menu bar to stay active until the user quits
-  // explicitly with Cmd + Q.
-  app.on('window-all-closed', () => {
-    try {
-      if (process.platform !== 'darwin') {
-        if (mainWindow) {
-          if (tray) tray.destroy(); // Destroy the tray icon
-          globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
-          mainWindow.removeAllListeners('close');
-          app.quit();
-        }
-      }
-    } catch (error) {
-      console.error('Error during window-all-closed:', error);
-    }
-  });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({ // Assign to the outer scope variable
-    width: 1600, minWidth: 1160,
+    width: 1600, minWidth: 800,
     height: 800, minHeight: 553,
 
     icon: CustomIcon, //path.join(__dirname, 'images/ED_TripleElite.ico'),

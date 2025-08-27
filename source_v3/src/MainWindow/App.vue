@@ -110,6 +110,7 @@ export default {
             VirginPlayer = false; //<- We are not a New Player, we have an Active Instance
             // Either the Active Instance or its path is not set:
             EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.', delay: 10000 });
+            EventBus.emit('RoastMe', { type: 'Info', message: '- Leave the Game running at the menus<br>- Click the `Green button`, read and do as it says<br>- the game will auto-close, the paths will set, save the settings.<br>- go check the game, should be pretty green.', autoHide: false, width:'460px' });
             EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
             return;
           }
@@ -117,6 +118,7 @@ export default {
           // Welcome New User!  
           VirginPlayer = true; //<- We are a New Player
           EventBus.emit('RoastMe', { type: 'Success', message: 'Welcome to the application!<br>You now need to tell EDHM where is your game located.', delay: 10000 });
+          EventBus.emit('RoastMe', { type: 'Info', message: '- Leave the Game running at the menus<br>- Click the `Green button`, read and do as it says<br>- the game will auto-close, the paths will set, save the settings.<br>- go check the game, should be pretty green.', autoHide: false, width:'460px' });
           EventBus.emit('open-settings-editor', this.InstallStatus); //<- Open the Settings Window
           return;
         }

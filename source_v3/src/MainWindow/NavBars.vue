@@ -474,7 +474,7 @@ export default {
           await window.api.openPathInExplorer(GamePath);
         }
         if (value === 'mnuOpenData') {
-          const dataPath = await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
+          const dataPath = this.programSettings.UserDataFolder; // await window.api.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
           await window.api.openPathInExplorer(dataPath);
         }
         if (value === 'mnuSettings') {

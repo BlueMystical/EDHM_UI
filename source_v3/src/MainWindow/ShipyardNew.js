@@ -13,29 +13,14 @@ import KeySender from '../Helpers/KeySender.js';
 * The Player Journal is a log file that contains information about the player's actions and events in the game.
 * Each line of the Player Journal is a full JSON object, so we can parse it and get the data we need.
 * https://elite-journal.readthedocs.io/en/latest/
-*/  
+*/
 
 class Shipyard extends EventEmitter {
     constructor(mainWindow) {
         super();
 
-        this.LOG_DIRECTORY = fileHelper.resolveEnvVariables(
-            settingsHelper.readSetting(
-                'PlayerJournal',
-                process.platform === 'win32'
-                    ? '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous'
-                    : '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
-            )
-        );
-        //- Steam (Proton):  '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
-
-
-        this.DATA_DIRECTORY = fileHelper.resolveEnvVariables(
-            settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI')
-        );
-
-        this.ShipyardFilePath = path.join(this.DATA_DIRECTORY, 'Shipyard_v3.json');
-        this.ShipListFilePath = fileHelper.getAssetPath('data/Ship_List.json');
+        this.LOG_DIRECTORY = ''; //- Linux Steam (Proton):  '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
+        this.DATA_DIRECTORY = '';
 
         this.mainWindow = mainWindow;
         this.currentLogFile = null;
@@ -56,6 +41,21 @@ class Shipyard extends EventEmitter {
 
     async initialize() {
         try {
+            this.LOG_DIRECTORY = fileHelper.resolveEnvVariables(
+                settingsHelper.readSetting(
+                    'PlayerJournal',
+                    process.platform === 'win32'
+                        ? '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous'
+                        : '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
+                )
+            ); console.log('Shipyard Journal Dir: ', this.LOG_DIRECTORY);
+            this.DATA_DIRECTORY = fileHelper.resolveEnvVariables(
+                settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI')
+            ); console.log('Shipyard Data Dir: ', this.DATA_DIRECTORY);
+
+            this.ShipyardFilePath = path.join(this.DATA_DIRECTORY, 'Shipyard_v3.json');
+            this.ShipListFilePath = fileHelper.getAssetPath('data/Ship_List.json');
+
             fileHelper.ensureDirectoryExists(this.DATA_DIRECTORY);
             if (fileHelper.checkFileExists(this.ShipyardFilePath)) {
                 //- File exists, read it:
