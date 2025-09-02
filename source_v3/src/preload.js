@@ -142,6 +142,10 @@ contextBridge.exposeInMainWorld('api', {
   getIniKey: async (iniData, section, key) => ipcRenderer.invoke('INI-GetKey', iniData, section, key),
   setIniKey: async (iniData, section, key, value, comment, addNewKey) => ipcRenderer.invoke('INI-SetKey', iniData, section, key, value, comment, addNewKey),
 
+  onFontSizeSetting: (callback) => ipcRenderer.on('font-size-setting', callback),
+  sendFontSizeChange: (size) => ipcRenderer.send('font-size-change', size),
+
+
   // #endregion
 
   // #region Utility Methods

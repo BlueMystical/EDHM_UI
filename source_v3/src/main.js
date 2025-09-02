@@ -128,12 +128,15 @@ async function Start() {
           // Hide the main window immediately
           mainWindow.hide();
         }
-
-        // Send arguments to the renderer process
-        mainWindow.webContents.on('did-finish-load', () => {
-          mainWindow.webContents.send('app-args', args);
-        });
       }
+      // Font Size Options:
+      const FontSize = settingsHelper.readSetting('FontSize', 'medium'); // Valores posibles: "small", "medium", "large", "x-large"
+      
+      // Send arguments to the renderer process:
+      mainWindow.webContents.on('did-finish-load', () => {
+        mainWindow.webContents.send('app-args', args);
+        mainWindow.webContents.send('font-size-setting', FontSize);
+      });
 
       // Ensure tray works on both Windows and Linux
       // On OS X it's common to re-create a window in the app when the
@@ -205,6 +208,8 @@ const createWindow = () => {
   console.log('HideToTray:', HideToTray);
 
   shipyard = new Shipyard(mainWindow);
+
+
 
   // Register the shortcut to open DevTools
   globalShortcut.register('Control+Shift+I', () => {

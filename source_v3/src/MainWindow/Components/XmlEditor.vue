@@ -292,9 +292,54 @@ export default {
       // Force Vue to reapply the filter
       this.$nextTick(() => {
         //:style="{ filter: 'url(#colorMatrixFilter)', top: '80px' }" 
-        this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
-      });      
+       this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
+       this.applyColorMatrix();
+      });
     },
+    applyColorMatrix() {
+      const img = this.$refs.image; // still showing originalImageSrc
+      const width = img.naturalWidth;
+      const height = img.naturalHeight;
+
+      // create an off-screen canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+
+      // draw the original image as the starting point
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // get pixel data
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const data = imageData.data;
+
+      // build 3x3 matrix from sliders
+      const matrix = [
+        [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2]],
+        [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2]],
+        [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2]],
+      ];
+
+      // loop over pixels
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+
+        data[i] = r * matrix[0][0] + g * matrix[0][1] + b * matrix[0][2];
+        data[i + 1] = r * matrix[1][0] + g * matrix[1][1] + b * matrix[1][2];
+        data[i + 2] = r * matrix[2][0] + g * matrix[2][1] + b * matrix[2][2];
+        // alpha stays the same
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+
+      // now set the result somewhere — e.g., show in another <img>
+      //this.filteredImageSrc = canvas.toDataURL();
+      this.$refs.image.src  = canvas.toDataURL();
+    },
+
     GoToNo2_Click() {
       window.api.openUrlInBrowser('https://forums.frontier.co.uk/threads/no2o-the-definitive-list-of-1-7-2-2-compatible-hud-colour-color-configs-please-add-yours.259311/');
     },
@@ -499,6 +544,8 @@ export default {
         EventBus.emit('ShowError', ex);
       }
     },
+
+
 
   },
   mounted() {

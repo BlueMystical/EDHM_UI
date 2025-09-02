@@ -1293,6 +1293,9 @@ async function downloadAsset(url, destination) {
 
     const parentFolder = getParentFolder(destination);
     ensureDirectoryExists(parentFolder);
+    if (fs.existsSync(destination)) {
+      fs.unlinkSync(destination);
+    }
 
     const file = fs.createWriteStream(destination);
     const protocol = url.startsWith('https') ? https : http;

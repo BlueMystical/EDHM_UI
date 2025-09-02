@@ -110,6 +110,8 @@
     "GpuSmoothScrolling": true,
     "GpuRenderer": "Vulkan",
     "GpuAcceleration": true,
+
+    "FontSize": "medium",
     
     "CreateShortcutOnDesktop": true,
     "CheckForUpdates": true   

@@ -96,6 +96,21 @@ export default {
         const ActiveInstance = await window.api.getActiveInstance();  //console.log('ActiveInstance', ActiveInstance);
         let VirginPlayer = false; //<- Flag to know if is the first time running the app
 
+        //- Apply the Font Size taken from the Settings:
+        const fontSizeMap = {
+          small: '12px',
+          medium: '14px',
+          large: '16px',
+          'x-large': '18px'
+        };
+        window.api.onFontSizeSetting((event, size) => {
+          const fontSize = fontSizeMap[size] || fontSizeMap['medium'];
+          //console.log('fontSize', fontSize);
+          setTimeout(() => {
+            document.documentElement.style.setProperty('--user-font-size', fontSize);
+          }, 0);
+        });
+
         this.$nextTick(() => {
           //- ENABLE THE TOOLTIPS POPUP:
           const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -105,7 +120,8 @@ export default {
           dropdownElementList.forEach(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
         });
 
-        if (this.InstallStatus === 'existingInstall') { // Normal Load, All seems Good
+        if (this.InstallStatus === 'existingInstall') { 
+          // Normal Load, All seems Good
           if (!Util.isNotNullOrEmpty(ActiveInstance.path)) {
             VirginPlayer = false; //<- We are not a New Player, we have an Active Instance
             // Either the Active Instance or its path is not set:
@@ -127,7 +143,7 @@ export default {
         const isUpdate = await window.api.readSetting('FirstRun', true);
         if (isUpdate) {
           console.log('First Run after Update: Running HotFix..');
-          try {            
+          try {
             await window.api.DoHotFix(); //<- Hotfix runs before Mod Installing
             await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod: VirginPlayer }); //<- Update the Game Instance (Mod Installing)
             await window.api.writeSetting('FirstRun', false); //console.log('First Run Flag Cleared.');
@@ -645,6 +661,7 @@ export default {
           // Waits 8 seconds and Look for Updates:
           setTimeout(() => {
             this.LookForUpdates();
+            this.CheckForMaintenanceNotice();
           }, 8000);
         }
     },
@@ -661,6 +678,27 @@ export default {
         console.error('Error fetching pre-release version:', error);
         EventBus.emit('ShowError', error);
       });
+    },
+    // Checks for any Maintenance Notice from the Server
+    async CheckForMaintenanceNotice() {
+      try {
+        const TempDir = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\status.json');
+        const data = await window.api.downloadAsset(
+          'https://raw.githubusercontent.com/BlueMystical/EDHM_UI/refs/heads/main/status.json',
+          TempDir
+        );
+        console.log('Maintenance Notice:', data);
+        if (data.info && data.info.trim() !== '') {
+          EventBus.emit('RoastMe', {
+            type: data.status,
+            message: data.info,
+            autoHide: false,
+            width:'480px'
+          });
+        }
+      } catch (err) {
+        console.error('Error cargando notificación de mantenimiento:', err);
+      }
     },
     async AnalyseUpdate(latesRelease) {
       try {
@@ -786,6 +824,9 @@ export default {
 #app {
   background-color: #1F1F1F;
   color: #ffffff;
+}
+body {
+  font-size: var(--user-font-size, 14px);
 }
 
 .visually-hidden {
