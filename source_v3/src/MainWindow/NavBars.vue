@@ -20,7 +20,7 @@
               <option value="" disabled>──────────</option>
               <option value="mnuInstallMod">Install EDHM</option>
               <option value="mnuUninstallMod">Un-install EDHM</option>
-              <option disabled value="mnuDisableMod">Enable/Disable EDHM</option>
+              <option value="mnuDisableMod">Enable/Disable EDHM</option>
               <option value="" disabled>──────────</option>
               <option value="mnuGoToDiscord">Help? Join our Discord</option>
               <option value="mnuReadManual">Read the Manual</option>
@@ -423,6 +423,10 @@ export default {
 
         console.log('8. Saving the INI files..');
         const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
+
+        console.log('9. Writing Theme in History..');
+        this.History_AddSettings(template);
+        
         if (_ret) {
           EventBus.emit('RoastMe', { type: 'Success', message: `<b>Theme: '${template.credits.theme}' Applied!'</b><small>Press <b>F11</b> in game to refresh the colors.</small>` });
         }
@@ -500,7 +504,16 @@ export default {
           const _ret = await window.api.DisableEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
           if (_ret) {
             EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Disabled!' });
-          }
+          }/*
+          EventBus.emit('RoastMe', { 
+            type: 'Accent', 
+            accent: 'info',
+            background: 'warning',
+            title: 'NOTICE:', 
+            message: "Last FDev update broke some elements,<br>few oranges can be seen.<br>We are working to fix it as fast as we can.<br><a href='https://discord.gg/ZaRt6bCXvj' class='link-primary' target='_blank' rel='noopener noreferrer'>&nbsp;Join our Discord</a> for more info or workarounds.", 
+            autoHide: false, 
+            width:'440px'            
+           });*/
         }
         if (value === 'mnuGoToDiscord') {
           await window.api.openUrlInBrowser('https://discord.gg/ZaRt6bCXvj');
@@ -649,20 +662,25 @@ export default {
 
     async OnHistoryBox_Click(event) {
       // Click an item on the History Box
-      const selectedValue = event.target.value;
+      //const selectedValue = event.target.value;
       const selectedOption = event.target.options[event.target.selectedIndex];
       const tag = selectedOption.getAttribute('data-tag');
 
       //console.log('History option changed to:', selectedValue);
-      //console.log('TODO: Selected file path (tag):', tag);
 
       const jsonData = await window.api.getJsonFile(tag); //<- Load the JSON file from the History folder
       if (jsonData) {
         console.log('Loaded JSON data:', jsonData);
+
+        this.themeTemplate.credits = jsonData.credits;
         this.themeTemplate.ui_groups = jsonData.ui_groups; //<- Load the JSON data into the themeTemplate
+        this.themeTemplate.xml_profile = jsonData.xml_profile;
+
         EventBus.emit('OnSelectTheme', { id: 0 }); //<- Event Listened on 'ThemeTab.vue'
-        EventBus.emit('ThemeLoaded', JSON.parse(JSON.stringify(this.themeTemplate))); //<- this event will be heard on 'App.vue'
+        EventBus.emit('ThemeLoaded', JSON.parse(JSON.stringify(this.themeTemplate))); //<- this event will be heard on 'App.vue'     
         
+        EventBus.emit('RoastMe', { type: 'Accent', accent: 'warning', background: 'success',
+          title:'Theme Loaded', message: 'Settings Restored from History!<br>You need to Apply it.' });
       } else {
         console.error('Failed to load JSON data from History folder');
       }
@@ -691,22 +709,9 @@ export default {
     },
     async History_AddSettings(theme) {
       try {
-        //TODO: Save the current settings to the History folder
-
-        const ActiveInstance = this.programSettings.ActiveInstance;
-        const gameInstances = this.programSettings.GameInstances;
-
-        const activeInstanceSettings = gameInstances.find(instance => instance.games.some(game => game.instance === ActiveInstance));
-        const themesFolder = activeInstanceSettings.games[0]?.themes_folder;
-
-        console.log('themesFolder:', themesFolder);
-
-        if (!themesFolder) {
-          throw new Error('Themes folder is undefined');
-        }
-
-        const UserDocsPath = window.api.resolvePath(themesFolder, '..');
-        const HistoryFolder = window.api.joinPath(UserDocsPath, 'History');
+        //Save the current settings to the History folder
+        const HistoryFolder = window.api.joinPath(this.DATA_DIRECTORY, 'History');  //<- %USERPROFILE%\EDHM_UI\ODYSS\History
+        console.log('HistoryFolder:', HistoryFolder);
 
         await window.api.saveHistory(HistoryFolder, theme);
         await this.History_LoadElements();
@@ -866,8 +871,7 @@ export default {
     async DownloadAndInstallUpdate(Options) {
       try {
         console.log('Downloading file:', Options);
-        this.showHideSpinner({ visible: true });
-        this.modVersion = 'Downloading...';
+        this.showHideSpinner({ visible: true });        
         this.showSpinner = true;
 
         let scriptPath = null;
@@ -878,7 +882,9 @@ export default {
         await window.api.ensureDirectoryExists(destDir);
         await window.api.deleteFilesByType(destDir, '.sh'); //<- Remove any previous installer script 
         await window.api.deleteFilesByType(destDir, '.zip');        
-        await window.api.BackUpCurrentSettings(); //<- Backup Current applied theme files
+        console.log( await window.api.BackUpCurrentSettings()); //<- Backup Current applied theme files
+
+        this.modVersion = 'Downloading...';
 
         //- Setup Progress Control Variables:
         this.showProgressBar = true;  //<- Shows/Hides the Progressbar

@@ -490,7 +490,7 @@ async function BackUpCurrentSettings() {
       const SourcePath = path.join(ActiveInstance.path, 'EDHM-ini');
       const _ret = await FileHelper.copyFiles(SourcePath, TempPath, ['.ini', '.json']);
       console.log('BackUpCurrentSettings:', _ret + ' Files Copied.');
-      return true;
+      return 'BackUpCurrentSettings:', _ret + ' Files Copied.';
     }
   } catch (error) {
     console.log(error);

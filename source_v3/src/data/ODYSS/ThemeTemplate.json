@@ -1,7 +1,7 @@
 {
     "language": "en",
     "game": "ED_Odissey",
-    "version": "20.06",
+    "version": "21.00",
     "credits": {
         "theme": "Carinae",
         "author": "CMDR GeorjCostanza",
@@ -1715,8 +1715,19 @@
                     "Type": "1X",
                     "Description": "Custom Probe Trail Brigthness"
                 },
+				{
+                    "Category": "Other Menus & Image Filters",
+                    "Title": "Squadron Menu Mode",
+                    "File": "Startup-Profile",
+                    "Section": "Constants",
+                    "Key": "y229",
+                    "Value": 198,
+                    "ValueType": "Preset",
+                    "Type": "SquadronMenuMode",
+                    "Description": "Mode for Squadron Menu Color"
+                },
                 {
-                    "Category": "Galnet & Image Filters",
+                    "Category": "Other Menus & Image Filters",
                     "Title": "Galnet Background Mode",
                     "File": "Startup-Profile",
                     "Section": "Constants",
@@ -1727,7 +1738,7 @@
                     "Description": "Mode for Galnet Background Color"
                 },
                 {
-                    "Category": "Galnet & Image Filters",
+                    "Category": "Other Menus & Image Filters",
                     "Title": "Galnet Background Color",
                     "File": "Advanced",
                     "Section": "Constants",
@@ -1738,7 +1749,7 @@
                     "Description": "Custom Color for Galnet Background (*Alpha)"
                 },
                 {
-                    "Category": "Galnet & Image Filters",
+                    "Category": "Other Menus & Image Filters",
                     "Title": "Galnet Image Filter Color",
                     "File": "Startup-Profile",
                     "Section": "Constants",
@@ -1749,7 +1760,7 @@
                     "Description": "Mode for Galnet Image Filter Color"
                 },
                 {
-                    "Category": "Galnet & Image Filters",
+                    "Category": "Other Menus & Image Filters",
                     "Title": "Menus and Codex Image Filter",
                     "File": "Startup-Profile",
                     "Section": "Constants",
@@ -1760,7 +1771,7 @@
                     "Description": "Color Mode for Main Menu and Codex Image Filter Color (also Passenger Missions and Pioneer Supplies)"
                 },
                 {
-                    "Category": "Galnet & Image Filters",
+                    "Category": "Other Menus & Image Filters",
                     "Title": "Image Filter Color",
                     "File": "Advanced",
                     "Section": "Constants",
@@ -4619,6 +4630,16 @@
         },
         {
             "Type": "GalaxyMapMode",
+            "Name": "Elite Default",
+            "Index": 200
+        },
+		{
+            "Type": "SquadronMenuMode",
+            "Name": "XML (User Defined)",
+            "Index": 198
+        },
+        {
+            "Type": "SquadronMenuMode",
             "Name": "Elite Default",
             "Index": 200
         },

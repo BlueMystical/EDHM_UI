@@ -10,13 +10,7 @@
 
       {
          "game": "ODYSSEY",
-         "file_path": "%GAME_PATH%\\ShaderFixes\\8a7faf06c519a38d-ps.txt",
-         "action": "DEL",
-         "destination": ""
-      },
-      {
-         "game": "ODYSSEY",
-         "file_path": "%GAME_PATH%\\ShaderFixes\\a3b4dcdc3bf9701e-ps.txt",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\*.*",
          "action": "DEL",
          "destination": ""
       }

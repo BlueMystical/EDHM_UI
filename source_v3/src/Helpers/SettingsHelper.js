@@ -743,6 +743,10 @@ async function UninstallEDHMmod(gameInstance) {
   return fileDeleted;
 };
 
+async function DisableEDHMmod(gameInstance) {
+  throw new Error("Not implemented yet!");  
+}
+
 /** This are actions to be run after an App Update is applied and Before EDHM mod is installed. */
 async function DoHotFix() {
   try {
@@ -1123,6 +1127,13 @@ ipcMain.handle('CheckEDHMinstalled', (event, gamePath) => {
 ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
   try {
     return UninstallEDHMmod(gameInstance);
+  } catch (error) {
+    throw new Error(error.message + error.stack);
+  }
+});
+ipcMain.handle('DisableEDHMmod', (event, gameInstance) => {
+  try {
+    return DisableEDHMmod(gameInstance);
   } catch (error) {
     throw new Error(error.message + error.stack);
   }

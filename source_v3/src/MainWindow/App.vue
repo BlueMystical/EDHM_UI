@@ -145,7 +145,7 @@ export default {
           console.log('First Run after Update: Running HotFix..');
           try {
             await window.api.DoHotFix(); //<- Hotfix runs before Mod Installing
-            await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod: VirginPlayer }); //<- Update the Game Instance (Mod Installing)
+            await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod: true }); //<- Update the Game Instance (Mod Installing)
             await window.api.writeSetting('FirstRun', false); //console.log('First Run Flag Cleared.');
             //await window.api.RestoreCurrentSettings();
             
@@ -228,8 +228,9 @@ export default {
           } else {
             this.settings.Version_HORIZ = edhmInstalled.version;
           }
+          await window.api.RestoreCurrentSettings();
           EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
-        }
+        }        
 
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
@@ -678,9 +679,46 @@ export default {
         console.error('Error fetching pre-release version:', error);
         EventBus.emit('ShowError', error);
       });
-    },
-    // Checks for any Maintenance Notice from the Server
+    },    
     async CheckForMaintenanceNotice() {
+      try {
+        const TempDir = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\status.json');
+        const data = await window.api.downloadAsset(
+          'https://raw.githubusercontent.com/BlueMystical/EDHM_UI/refs/heads/main/status.json',
+          TempDir
+        );
+        console.log('Maintenance Notice:', data);
+
+        // Si no hay mensaje, salimos
+        if (!data.info || data.info.trim() === '') return;
+
+        // Si el JSON trae versión, la comparamos
+        if (data.versión) {
+          const localVersion = await window.api.getAppVersion();
+          const isLocalNewer = Util.compareVersions(localVersion, data.versión);
+          if (isLocalNewer) {
+            console.log(`Notificación descartada: versión local (${localVersion}) > versión aviso (${data.versión})`);
+            return; // No mostramos nada
+          }
+        }
+
+        // Si llegamos aquí, mostramos la notificación
+        EventBus.emit('RoastMe', {
+          type:     data.status,
+          title:    data.title,
+          message:  data.info,          
+          accent:   data.accent,
+          background: data.background,
+          autoHide: false,
+          width:    '440px',
+        });
+
+      } catch (err) {
+        console.error('Error cargando notificación de mantenimiento:', err);
+      }
+    },
+    /*async CheckForMaintenanceNotice() {
+      // Checks for any Maintenance Notice from the Server
       try {
         const TempDir = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\status.json');
         const data = await window.api.downloadAsset(
@@ -699,7 +737,7 @@ export default {
       } catch (err) {
         console.error('Error cargando notificación de mantenimiento:', err);
       }
-    },
+    },*/
     async AnalyseUpdate(latesRelease) {
       try {
         const localVersion = await window.api.getAppVersion();

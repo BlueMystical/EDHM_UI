@@ -85,13 +85,14 @@ contextBridge.exposeInMainWorld('api', {
   getValueFromSection: (iniData, section, key, defaultValue) => ipcRenderer.invoke('getValueFromSection', iniData, section, key, defaultValue),
   setValueInSection: (iniData, section, key, value) => ipcRenderer.invoke('setValueInSection', iniData, section, key, value),
 
-  GetCurrentSettingsTheme: async (filePath) => ipcRenderer.invoke('GetCurrentSettings', filePath),
+
   CreateNewTheme: async (themeData) => ipcRenderer.invoke('CreateNewTheme', themeData),
   ExportTheme: async (themeData) => ipcRenderer.invoke('ExportTheme', themeData),
   ImportTheme: async (zip_path) => ipcRenderer.invoke('ImportTheme', zip_path),
   UpdateTheme: async (themeData, source) => ipcRenderer.invoke('UpdateTheme', themeData, source),
   SaveTheme: async (themeData) => ipcRenderer.invoke('SaveTheme', themeData),
   DeleteTheme: async (themeData) => ipcRenderer.invoke('DeleteTheme', themeData),  
+
   BackUpCurrentSettings: async () => ipcRenderer.invoke('BackUpCurrentSettings'), 
   RestoreCurrentSettings: async () => ipcRenderer.invoke('RestoreCurrentSettings'),
 
@@ -125,7 +126,9 @@ contextBridge.exposeInMainWorld('api', {
   getActiveInstanceEx: () => ipcRenderer.invoke('getActiveInstanceEx'),
   getInstanceByName: async (instanceName) => ipcRenderer.invoke('getInstanceByName', instanceName),
   addNewInstance: async (NewInstancePath, settings) => ipcRenderer.invoke('addNewInstance', NewInstancePath, settings),
+
   GetCurrentSettings: async (folderPath) => ipcRenderer.invoke('GetCurrentSettings', folderPath),
+  GetCurrentSettingsTheme: async (filePath) => ipcRenderer.invoke('GetCurrentSettings', filePath),
 
   loadHistory: (historyFolder, numberOfSavesToRemember) => ipcRenderer.invoke('load-history', historyFolder, numberOfSavesToRemember),
   saveHistory: (historyFolder, theme) => ipcRenderer.invoke('save-history', historyFolder, theme),
@@ -133,6 +136,7 @@ contextBridge.exposeInMainWorld('api', {
   installEDHMmod: (gameInstance) => ipcRenderer.invoke('installEDHMmod', gameInstance),
   CheckEDHMinstalled: (gamePath) => ipcRenderer.invoke('CheckEDHMinstalled', gamePath),
   UninstallEDHMmod: (gameInstance) => ipcRenderer.invoke('UninstallEDHMmod', gameInstance),
+  DisableEDHMmod: (gameInstance) => ipcRenderer.invoke('DisableEDHMmod', gameInstance),
   DoHotFix: async () => ipcRenderer.invoke('DoHotFix'),
 
   GetInstalledTPMods: async (folderPath) => ipcRenderer.invoke('GetInstalledTPMods', folderPath),

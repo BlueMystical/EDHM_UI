@@ -171,38 +171,67 @@ export default {
 
         // #region Info Icon / Popover
 
+        /**
+         * Sets the `iconVisible` property of a specific key in a specific section to `true`.
+         * This is used to show an icon for that key without mutating the original data directly.
+         *
+         * @param {number} sectionIndex - Index of the section containing the key.
+         * @param {number} keyIndex - Index of the key within the section's keys array.         */
         showIcon(sectionIndex, keyIndex) {
+            // Create a new processedData array by mapping over existing sections
             const newProcessedData = this.processedData.map((section, sIndex) => {
+                // Only modify the section that matches the given sectionIndex
                 if (sIndex === sectionIndex) {
                     return {
                         ...section,
+                        // Map over the keys in this section
                         keys: section.keys.map((key, kIndex) => {
+                            // If this is the target key, set iconVisible to true
                             if (kIndex === keyIndex) {
                                 return { ...key, iconVisible: true };
                             }
+                            // Otherwise, leave the key unchanged
                             return key;
                         }),
                     };
                 }
+                // Leave all other sections unchanged
                 return section;
             });
+
+            // Replace the old processedData with the updated array
             this.processedData = newProcessedData;
         },
+
+        /**
+         * Sets the `iconVisible` property of a specific key in a specific section to `false`.
+         * This is used to hide an icon for that key without mutating the original data directly.
+         *
+         * @param {number} sectionIndex - Index of the section containing the key.
+         * @param {number} keyIndex - Index of the key within the section's keys array.         */
         hideIcon(sectionIndex, keyIndex) {
+            // Create a new processedData array by mapping over existing sections
             const newProcessedData = this.processedData.map((section, sIndex) => {
+                // Only modify the section that matches the given sectionIndex
                 if (sIndex === sectionIndex) {
                     return {
                         ...section,
+                        // Map over the keys in this section
                         keys: section.keys.map((key, kIndex) => {
+                            // If this is the target key, set iconVisible to false
                             if (kIndex === keyIndex) {
                                 return { ...key, iconVisible: false };
                             }
+                            // Otherwise, leave the key unchanged
                             return key;
                         }),
                     };
                 }
+                // Leave all other sections unchanged
                 return section;
             });
+
+            // Replace the old processedData with the updated array
             this.processedData = newProcessedData;
         },
         showPopover(key, event) {
