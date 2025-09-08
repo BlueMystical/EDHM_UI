@@ -147,10 +147,6 @@ export default {
             await window.api.DoHotFix(); //<- Hotfix runs before Mod Installing
             await this.OnGameInstance_Changed({ GameInstanceName: this.settings.ActiveInstance, InstallMod: true }); //<- Update the Game Instance (Mod Installing)
             await window.api.writeSetting('FirstRun', false); //console.log('First Run Flag Cleared.');
-            //await window.api.RestoreCurrentSettings();
-            
-            //const ActiveInstance = await window.api.getActiveInstance();
-            //await this.ImportShipyardV2(ActiveInstance);
           } catch (error) {
             EventBus.emit('ShowError', error);
           }
@@ -228,7 +224,8 @@ export default {
           } else {
             this.settings.Version_HORIZ = edhmInstalled.version;
           }
-          await window.api.RestoreCurrentSettings();
+          const Backup = await window.api.RestoreCurrentSettings();
+          EventBus.emit('RoastMe', { type: 'Info', message: Backup });
           EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
         }        
 

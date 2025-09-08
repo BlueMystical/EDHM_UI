@@ -797,6 +797,9 @@ export default {
                 this.selectedMod = null;
                 this.selectedModBasename = null;
 
+                EventBus.emit('RoastMe', { type: 'Accent', accent: 'warning', background: 'success', title: 'Success:',
+                    message: `The plugin '${Options.mod_name}' is installed!<br>You may need to re-start the game.` });
+
             } catch (error) {
                 console.error('Download failed:', error);
                 this.showProgressBar = false;

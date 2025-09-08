@@ -881,8 +881,11 @@ export default {
         const destDir = await window.api.getParentFolder(filePath);
         await window.api.ensureDirectoryExists(destDir);
         await window.api.deleteFilesByType(destDir, '.sh'); //<- Remove any previous installer script 
-        await window.api.deleteFilesByType(destDir, '.zip');        
-        console.log( await window.api.BackUpCurrentSettings()); //<- Backup Current applied theme files
+        await window.api.deleteFilesByType(destDir, '.zip');    
+        
+        const Backup = await window.api.BackUpCurrentSettings(); //<- Backup Current applied theme files
+        console.log(Backup );
+        EventBus.emit('RoastMe', { type: 'Info', message: Backup });
 
         this.modVersion = 'Downloading...';
 

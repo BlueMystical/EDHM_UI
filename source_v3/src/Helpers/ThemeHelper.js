@@ -486,11 +486,11 @@ async function BackUpCurrentSettings() {
     const TempPath = await FileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\CurrentSettings`);
     const TempExist = await FileHelper.ensureDirectoryExists(TempPath);
     if (TempExist) {
+      await FileHelper.deleteFolderRecursive(TempPath);
       const ActiveInstance = await settingsHelper.getActiveInstanceEx(); //console.log('ActiveInstance:', ActiveInstance);
       const SourcePath = path.join(ActiveInstance.path, 'EDHM-ini');
       const _ret = await FileHelper.copyFiles(SourcePath, TempPath, ['.ini', '.json']);
-      console.log('BackUpCurrentSettings:', _ret + ' Files Copied.');
-      return 'BackUpCurrentSettings:', _ret + ' Files Copied.';
+      return 'BackUp Current Settings: ' + _ret + ' Files Copied.';
     }
   } catch (error) {
     console.log(error);
@@ -505,8 +505,7 @@ async function RestoreCurrentSettings() {
       const ActiveInstance = await settingsHelper.getActiveInstanceEx();
       const DestinationPath = path.join(ActiveInstance.path, 'EDHM-ini');
       const _ret = await FileHelper.copyFiles(TempPath, DestinationPath, ['.ini', '.json']);
-      console.log('RestoreCurrentSettings:', _ret + ' Files Copied.');
-      return true;
+      return 'Restore Current Settings: ' + _ret + ' Files Copied.';
     }
   } catch (error) {
     console.log(error);

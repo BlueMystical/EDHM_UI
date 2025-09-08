@@ -354,6 +354,8 @@ async function copyDirectoryRecursive(source, destination) {
   return stats;
 }
 
+/** Delete the content of a folder, including sub-folder and files, keeping the given folder in place. * 
+ * @param {*} folderPath Path to the directory  */
 async function deleteFolderRecursive(folderPath) {
   if (fs.existsSync(folderPath)) {
     fs.readdirSync(folderPath).forEach((file) => {
@@ -477,7 +479,6 @@ async function deleteFilesByWildcard(wildcardPath) {
     }
   });
 }
-
 
 
 /** Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente.

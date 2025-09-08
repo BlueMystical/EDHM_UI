@@ -15,9 +15,11 @@
                             <button type="button" class="btn-close" aria-label="Close" @click="closeInfo"></button>
                             <div v-html="infoMessage"></div>
                         </div>
+
                         <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div v-for="ship in ships" :key="ship.ship_id" class="col"
+                            <div v-for="ship in filteredShips" :key="ship.ship_id" class="col"
                                 :class="{ 'selected-card': selectedShip === ship }" @click="selectCard(ship)">
+
                                 <div class="card bg-secondary text-light">
                                     <img :src="ship.imageUrl" class="card-img-top" :alt="ship.name"
                                         @click.stop="changeShipImage(ship)" style="cursor: pointer;">
@@ -43,6 +45,11 @@
 
                     <!-- Bottom NavBar -->
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-thin" data-bs-theme="dark">
+                        <!-- Cuadro de búsqueda alineado a la izquierda -->
+                        <form class="d-flex me-auto" role="search" @submit.prevent>
+                            <input class="form-control form-control-sm" type="search" placeholder="Search Ship..."
+                                aria-label="Search" v-model="searchQuery">
+                        </form>
                         <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto text-warning"
                             style="padding-top: -4px;">
                             {{ statusText }}
@@ -150,7 +157,23 @@ export default {
             themes: [],
             DATA_DIRECTORY: '',
             selectedShip: null,
+            searchQuery: ''
         };
+    },
+    computed: {
+        filteredShips() {
+            if (!this.searchQuery) return this.ships;
+            const normalize = str => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const q = normalize(this.searchQuery.toLowerCase());
+            return this.ships.filter(ship =>
+                normalize(ship.name || '').toLowerCase().includes(q) ||
+                normalize(ship.kind_full || '').toLowerCase().includes(q) ||
+                normalize(ship.plate || '').toLowerCase().includes(q)
+            );
+        },
+        statusText() {
+            return `${this.filteredShips.length} of ${this.ships.length} ships`;
+        }
     },
     methods: {
 
