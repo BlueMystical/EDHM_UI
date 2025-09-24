@@ -412,27 +412,30 @@ export default {
           await applySettings(userSettings, template, 'User Settings');
         }
 
+        //- Writing the INI files:
         const defaultINIs = await window.api.LoadThemeINIs(defaultInisPath);
         console.log('6. Get Default Inis:', defaultINIs);
-
-        const _curSettsSAved = await window.api.SaveTheme(template);
-        console.log('Current Settings Saved?: ', _curSettsSAved);
-
         const updatedInis = await window.api.ApplyTemplateValuesToIni(template, defaultINIs);
         console.log('7. Applying Changes to the INIs...', updatedInis);
-
         console.log('8. Saving the INI files..');
         const _ret = await window.api.SaveThemeINIs(GamePath, updatedInis);
 
-        console.log('9. Writing Theme in History..');
-        this.History_AddSettings(template);
+        const _curSettsSAved = await window.api.SaveTheme(template);
+        console.log('9. Saving Current Settings: ', _curSettsSAved);
+
+        console.log('10. Writing Theme in History..');
+        await this.History_AddSettings(template);
         
         if (_ret) {
-          EventBus.emit('RoastMe', { type: 'Success', message: `<b>Theme: '${template.credits.theme}' Applied!'</b><small>Press <b>F11</b> in game to refresh the colors.</small>` });
+          console.log('DONE! - Theme Applied:', this.themeTemplate.credits.theme);
+          EventBus.emit('OnThemeApplied',         JSON.parse(JSON.stringify(template))); //<- Listen on App.vue
+          EventBus.emit('CurretSettingsUpdated',  JSON.parse(JSON.stringify(template))); //<- Listen on ThemeTab.vue
+          EventBus.emit('RoastMe', { type: 'Success', message: `<b>Theme: '${template.credits.theme}' Applied!` }); //</b><small>Press <b>F11</b> in game to refresh the colors.</small>
         }
         setTimeout(() => {
           this.showSpinner = false;
         }, 1500);
+
       } catch (error) {
         this.showSpinner = false;
         console.log(error.message); // Check if the error message is defined 

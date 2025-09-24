@@ -303,6 +303,16 @@ export default {
       }
     },
 
+    /** When a Theme is Applied and Current Settings got updated
+     * @param theme data of the applied theme     */
+    CurretSettingsUpdated(theme) {
+      if (this.themes && this.themes.length > 0) {
+        //console.log(theme);
+        this.themes[0].name = 'Current Settings: ' + theme.credits.theme;
+        this.themes[0].file.credits = theme.credits;
+      }
+    },
+
     // #region Context Menus
 
     /** When the User clicks on one of the Context menus * 
@@ -436,6 +446,7 @@ export default {
     EventBus.on('OnInitializeThemes', this.OnInitialize); //<- Event listened on App.vue to Initiate the Load of all Themes 
     EventBus.on('DoReloadTheme', this.DoReloadTheme);     //<- Command to Reload an specific theme
     EventBus.on('FindAndApplyTheme', this.FindAndApplyTheme); //<- Command to Apply an specific theme
+    EventBus.on('CurretSettingsUpdated', this.CurretSettingsUpdated);
   },
   beforeUnmount() {
     EventBus.off('loadThemes', this.loadThemes);
@@ -445,6 +456,7 @@ export default {
     EventBus.off('OnInitializeThemes', this.OnInitialize);
     EventBus.off('DoReloadTheme', this.DoReloadTheme); 
     EventBus.off('FindAndApplyTheme', this.FindAndApplyTheme); 
+    EventBus.off('CurretSettingsUpdated', this.CurretSettingsUpdated);
   }
 };
 </script>

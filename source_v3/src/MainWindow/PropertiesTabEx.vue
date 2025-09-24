@@ -1,84 +1,81 @@
-<!-- Global Settings Tab este es el respaldo -->
-
 <template>
     <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
-      <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
-        <p class="category-name">{{ group.category }}</p>
-        <table class="table table-bordered table-hover align-middle">
-          <tbody>
-  
-            <!-- Table Row -->
-            <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
-              @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
-              @click="selectRow(element.Key)" :class="rowClass(element)"            
-              @contextmenu="onRightClick($event, element)"> 
-  
-              <!-- Left Column -->
-              <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
-                {{ element.Title }}
-                <span class="info-icon" v-show="element.iconVisible" 
-                    @mouseover="showPopover(element, $event)"
-                    @mouseleave="hidePopover">
-                  <i class="bi bi-info-circle text-info"></i>
-                </span>
-              </td>
-  
-              <!-- Right Column -->
-              <td class="fixed-width cell-content">
-  
-                <!-- Dynamic Preset Select Combo -->
-                <template v-if="element.ValueType === 'Preset'">
-                  <select class="form-select select-combo" :id="'element-' + element.Key" v-model="element.Value"
-                    @change="OnPresetValueChange(element, $event)">
-                    <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name" :value="preset.Index">
-                      {{ preset.Name }}
-                    </option>
-                  </select>
-                </template>
-  
-                <!-- Range Slider Control -->
-                <template v-if="element.ValueType === 'Brightness'">
-                  <div class="range-container" :id="'element-' + element.Key">
-                    <input type="range" class="form-range range-input" v-model="element.Value"
-                      :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
-                      @input="OnBrightnessValueChange(element, $event)" style="height: 10px;" />
-                    <label class="slider-value-label">{{ element.Value }}</label>
-                  </div>
-                </template>
-  
-                <!-- On/Off Swap control -->
-                <template v-if="element.ValueType === 'ONOFF'">
-                  <div class="form-check form-switch" :id="'element-' + element.Key">
-                    <input class="form-check-input larger-switch" type="checkbox" :checked="element.Value === 1"
-                      @change="OnToggleValueChange(element, $event)" />
-                  </div>
-                </template>
-  
-                <!-- Custom Color Picker Control -->
-                <template v-if="element.ValueType === 'Color'">
-                  <ColorDisplay 
-                    :id="'element-' + element.Key" 
-                    :color="element.Value"
-                    :recentColors="recentColors"
-                    @OncolorChanged="OnColorValueChange(element, $event)"
-                    @OnRecentColorsChange="OnRecentColorsChange($event)" />
-                </template>
-  
-              </td>
-            </tr>
-          </tbody>
-        </table>
-  
-        <!-- Context Menu for Elements -->
-        <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu show" ref="contextMenu">
-          <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('AddUserSettings')">Add to User Settings..</a> </li>        
-        </ul>
-  
-      </div>
-  
-      <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
+        <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
+            <p class="category-name">{{ group.category }}</p>
+            <table class="table table-bordered table-hover align-middle">
+                <tbody>
+
+                    <!-- Table Row -->
+                    <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
+                        @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
+                        @click="selectRow(element.Key)" :class="rowClass(element)"
+                        @contextmenu="onRightClick($event, element)">
+
+                        <!-- Left Column -->
+                        <td class="fixed-width title-cell" @contextmenu.prevent="showContextMenu(element, $event)">
+                            {{ element.Title }}
+                            <span class="info-icon" v-show="element.iconVisible"
+                                @mouseover="showPopover(element, $event)" @mouseleave="hidePopover">
+                                <i class="bi bi-info-circle text-info"></i>
+                            </span>
+                        </td>
+
+                        <!-- Right Column -->
+                        <td class="fixed-width cell-content">
+
+                            <!-- Dynamic Preset Select Combo -->
+                            <template v-if="element.ValueType === 'Preset'">
+                                <select class="form-select select-combo" :id="'element-' + element.Key"
+                                    v-model="element.Value" @change="OnPresetValueChange(element, $event)">
+                                    <option v-for="preset in getPresetsForType(element.Type)" :key="preset.Name"
+                                        :value="preset.Index">
+                                        {{ preset.Name }}
+                                    </option>
+                                </select>
+                            </template>
+
+                            <!-- Range Slider Control -->
+                            <template v-if="element.ValueType === 'Brightness'">
+                                <div class="range-container" :id="'element-' + element.Key">
+                                    <input type="range" class="form-range range-input" v-model="element.Value"
+                                        :min="getMinValue(element.Type)" :max="getMaxValue(element.Type)" step="0.01"
+                                        @input="OnBrightnessValueChange(element, $event)" style="height: 10px;" />
+                                    <label class="slider-value-label">{{ element.Value }}</label>
+                                </div>
+                            </template>
+
+                            <!-- On/Off Swap control -->
+                            <template v-if="element.ValueType === 'ONOFF'">
+                                <div class="form-check form-switch" :id="'element-' + element.Key">
+                                    <input class="form-check-input larger-switch" type="checkbox"
+                                        :checked="element.Value === 1" @change="OnToggleValueChange(element, $event)" />
+                                </div>
+                            </template>
+
+                            <!-- Custom Color Picker Control -->
+                            <template v-if="element.ValueType === 'Color'">
+                                <ColorDisplay :id="'element-' + element.Key" :color="element.Value"
+                                    :recentColors="recentColors" @OncolorChanged="OnColorValueChange(element, $event)"
+                                    @OnRecentColorsChange="OnRecentColorsChange($event)" />
+                            </template>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Context Menu for Elements -->
+            <ul v-if="showContextMenuFlag" :style="contextMenuStyle" class="dropdown-menu show" ref="contextMenu">
+                <li><a class="dropdown-item" href="#" @click="onContextMenu_Click('AddUserSettings')">Add to User
+                        Settings..</a>
+                </li>
+            </ul>
+
+        </div>
+
+        <div id="contextMenu" ref="contextMenu" class="collapse context-menu"></div>
     </div>
-  </template>
+</template>
 
 <script>
 import ColorDisplay from './Components/ColorDisplay.vue';
@@ -329,18 +326,34 @@ export default {
                 default:   return 0.0;
             }
         },
-       /** Gets the Maximum Value for a Range-slider control
-         * @param type Type of Range     */
+        /** Gets the maximum value for a Range-slider control based on its type string.
+         * Supports formats:
+         *   - "decimal:2X" (colon separator)
+         *   - "decimal_10X" (underscore separator)
+         *   - "1X" (direct multiplier without prefix)
+         * @param {string} type - The type string for the range (e.g., "decimal:2X", "decimal_10X", "1X").
+         * @returns {number} The maximum value for the slider.         */
         getMaxValue(type) {
-            //type = 'decimal_10x' or 'decimal:2X' or 'decimal:4X'
-            var values = [];
-            if (Util.containsCharacter(type, ':')) {
-                values = type.toUpperCase().split(':'); //<- decimal, decimal:1X, decimal:2X, decimal:4X, 
-            } 
-            if (Util.containsCharacter(type, '_')) {
-                values = type.toUpperCase().split('_'); //<- decimal_10x
+            let values = [];
+
+            // Normalize to uppercase for consistent matching
+            const upperType = type.toUpperCase();
+
+            // Check for colon separator (e.g., "decimal:2X")
+            if (Util.containsCharacter(upperType, ':')) {
+                values = upperType.split(':');
             }
-            const modifier = values[1]; // Get the part after the colon, if it exists
+            // Check for underscore separator (e.g., "decimal_10X")
+            else if (Util.containsCharacter(upperType, '_')) {
+                values = upperType.split('_');
+            }
+            // Handle direct multiplier format (e.g., "1X")
+            else {
+                values = [null, upperType];
+            }
+
+            const modifier = values[1]; // The part after the separator or the direct value
+
             switch (modifier) {
                 case '1X': return 1.0;
                 case '2X': return 2.0;
@@ -352,7 +365,7 @@ export default {
                 case '8X': return 8.0;
                 case '9X': return 9.0;
                 case '10X': return 10.0;
-                default:   return 2.0;
+                default: return 2.0; // Safe fallback
             }
         },
         intToRGBAstring(value) {
@@ -557,25 +570,22 @@ export default {
 </script>
 
 <style scoped>
-.data-table {
+:deep(.data-table) {
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    font-size: var(--user-font-size, 14px); /* tamaño base */
 }
-
 .data-table::-webkit-scrollbar {
     width: 8px;
 }
-
 .data-table::-webkit-scrollbar-track {
     background: #333;
 }
-
 .data-table::-webkit-scrollbar-thumb {
     background-color: #555;
     border-radius: 10px;
 }
-
 .data-table::-webkit-scrollbar-thumb:hover {
     background-color: #777;
 }
@@ -592,13 +602,13 @@ export default {
 
 .category-name {
     color: darkorange;
-    font-size: 18px;
+    font-size: calc(1em * 1.3); /* 30% más grande que el base */
     font-weight: bold;
 }
 
 .title-cell {
     cursor: default;
-    font-size: 14px;
+    font-size: 1em; /* igual al base */
     color: lightgrey;
     align-items: center;
     padding: 0.5rem;
@@ -606,9 +616,7 @@ export default {
 
 .info-icon {
     margin-left: 0.5rem;
-    /* Space between text and icon */
     cursor: pointer;
-    /* Indicate icon is clickable */
 }
 
 .range-container {
@@ -620,7 +628,7 @@ export default {
 .slider-value-label {
     display: block;
     margin-top: 2px;
-    font-size: 12px;
+    font-size: calc(1em * 0.85); /* un poco más chico que el base */
     color: #f8f9fa;
     text-align: left;
 }

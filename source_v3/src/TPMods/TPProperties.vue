@@ -60,7 +60,7 @@
                             <!-- Standard Numeric Input -->
                             <template v-else-if="key.type.toLowerCase().startsWith('number')">
                                 <input type="number" :id="'element-' + key.Key" class="form-control" aria-describedby=""
-                                    v-model="key.value" @change="OnTextValueChange(sectionIndex, key, $event)">
+                                    v-model="key.value" @change="OnNumberValueChange(sectionIndex, key, $event)">
                             </template>
 
                             <!-- Dynamic Preset Select Combo -->
@@ -502,6 +502,10 @@ export default {
         // #region METHODS TO UPDATE CHANGES IN THE CONTROLS 
 
         OnTextValueChange(sectionIndex, item, event) {
+            const value = event.target.value; 
+            this.updateDataSourceValue(sectionIndex, item, value);
+        },
+        OnNumberValueChange(sectionIndex, item, event) {
             const value = parseFloat(event.target.value);
             this.updateDataSourceValue(sectionIndex, item, value);
         },

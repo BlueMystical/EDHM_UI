@@ -111,7 +111,7 @@
     "GpuRenderer": "Vulkan",
     "GpuAcceleration": true,
 
-    "FontSize": "medium",
+    "FontSize": "14px",
     
     "CreateShortcutOnDesktop": true,
     "CheckForUpdates": true   

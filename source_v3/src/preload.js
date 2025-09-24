@@ -58,6 +58,8 @@ contextBridge.exposeInMainWorld('api', {
 
   fileExists: (filePath) => ipcRenderer.invoke('checkFileExists', filePath), 
   ensureDirectoryExists: (fullPath) => ipcRenderer.invoke('ensureDirectoryExists', fullPath),
+  updateFileDates: (fullPath) => ipcRenderer.invoke('updateFileDates', fullPath),
+
   copyFile: (sourcePath, destinationPath, move)=> ipcRenderer.invoke('copyFile', sourcePath, destinationPath, move = false),
   copyDirectory: (sourcePath, destinationPath) => ipcRenderer.invoke('copyDirectory', sourcePath, destinationPath),
 

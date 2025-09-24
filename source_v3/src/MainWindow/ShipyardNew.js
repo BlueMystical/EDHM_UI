@@ -49,14 +49,15 @@ class Shipyard extends EventEmitter {
                         : '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
                 )
             ); console.log('Shipyard Journal Dir: ', this.LOG_DIRECTORY);
+
             this.DATA_DIRECTORY = fileHelper.resolveEnvVariables(
                 settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI')
             ); console.log('Shipyard Data Dir: ', this.DATA_DIRECTORY);
+            fileHelper.ensureDirectoryExists(this.DATA_DIRECTORY);
 
             this.ShipyardFilePath = path.join(this.DATA_DIRECTORY, 'Shipyard_v3.json');
             this.ShipListFilePath = fileHelper.getAssetPath('data/Ship_List.json');
-
-            fileHelper.ensureDirectoryExists(this.DATA_DIRECTORY);
+            
             if (fileHelper.checkFileExists(this.ShipyardFilePath)) {
                 //- File exists, read it:
                 this.shipyardData = await fileHelper.loadJsonFile(this.ShipyardFilePath);
@@ -107,6 +108,9 @@ class Shipyard extends EventEmitter {
             return;
         }
         if (this.shipyardData.enabled) {
+            console.log('Shipyard is Enabled.');
+            console.log('Starting Journal monitoring...');
+
             this.isMonitoring = true;
             this.emit('monitoring:started', this.LOG_DIRECTORY);
             EventBus.emit('shipyard:monitoringStarted', this.LOG_DIRECTORY);
@@ -324,25 +328,28 @@ class Shipyard extends EventEmitter {
     async PlayerJournal_ShipChanged(event, _ApplyTheme = true) {
         /* OCURRE CUANDO SE CAMBIA LA NAVE 
         - Guarda la Nave en el Historial de Naves
-        - Si el Juego está abierto, Aplica el Tema seleccionado para la nave 
-TODO:   - Registrar el ID de la nave para el CPM 
+        - Si el Juego está abierto, Aplica el Tema seleccionado para la nave
+        TODO:   - Registrar el ID de la nave para el CPM
     */
         try {
             if (event) {
                 event.data = this.AddShip(event.data);
                 this.PreviousShip = event;
 
-                if (_ApplyTheme) {
+                if (_ApplyTheme && event.data.theme !== 'Current Settings') {
+                    console.log('Applying Theme:', event.data.theme);
                     const tApply = await settingsHelper.ApplyTheme(event.data.theme);
-                    if (tApply) {
+                    /*if (tApply) {
                         setTimeout(() => {
+                            // Simulate pressing the "F11" key to refresh colors in the game
                             KeySender.SendKey({
-                                targetProcess: 'EliteDangerous64',
-                                targetWindow: 'Elite - Dangerous',
-                                keyBindings: ['F11']
+                                targetProcess: 'EliteDangerous64', //<- Exe name
+                                targetWindow: 'Elite - Dangerous', //<- Window title
+                                keyBindings: ['F11','F11']    //<- Keys to send
                             });
-                        }, 2000);
-                    }
+                            //console.log('F11 key sent to game!');
+                        }, 2000); // Sends after 2 seconds
+                    }*/
                 }
             }
         } catch (error) {

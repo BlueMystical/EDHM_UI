@@ -74,8 +74,8 @@ function copyToClipboard(text) {
 
 function compareVersions(serverVersion, localVersion) {
     // Remove non-numeric characters from the beginning
-    serverVersion = serverVersion.replace(/^[^\d]+/, ''); console.log('serverVersion:', serverVersion);
-    localVersion = localVersion.replace(/^[^\d]+/, ''); console.log('localVersion:', localVersion);
+    serverVersion = serverVersion.replace(/^[^\d]+/, ''); //console.log('serverVersion:', serverVersion);
+    localVersion = localVersion.replace(/^[^\d]+/, ''); //console.log('localVersion:', localVersion);
 
     // Split the versions into parts
     const serverParts = serverVersion.split('.').map(Number);

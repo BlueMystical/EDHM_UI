@@ -535,9 +535,9 @@ async function GetInstalledTPMods(gamePath) {
             results.mods.push(mod);
           } catch (error) {
             results.errors.push({ msg: baseName + ': ' + error.message, stack: error.stack });
+            continue;
           }
         }
-
       } else {
         //- Lose mods on the root
         if (path.extname(file) === '.json') {
@@ -557,6 +557,7 @@ async function GetInstalledTPMods(gamePath) {
             results.mods.push(mod);
           } catch (error) {
             results.errors.push({ msg: error.message, stack: error.stack });
+            continue;
           }
         }
       }
@@ -862,7 +863,7 @@ async function ApplyTheme(themeName) {
     const themes = themeHelper.GetLoadedThemes();
     console.log('Loaded Themes:', themes.length);
 
-    if (themes && themes.length > 0) {
+    if (themes && themes.length > 0 ) {
       const themeIndex = themes.findIndex(t => t.credits.theme === themeName);
       if (themeIndex >= 0) {
         const themeTemplate = themes[themeIndex]; 

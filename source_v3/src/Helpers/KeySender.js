@@ -1,72 +1,70 @@
-import { execSync } from 'child_process';
+import { execSync, spawnSync } from 'child_process';
 import os from 'os';
 
-/** Sends key inputs (simulates key presses) to a target process or window. 
- * @param {Object} config - Configuration object. * 
+//- Ctrl + F10  → "^{F10}"
+//- Shift + F11 → "+{F11}"
+//- Alt + F10   → "%{F10}"
+
+// ["F11", "ctrl+F10", "alt+F4"];
+
+
+
+/** Sends key inputs (simulates key presses) to a target process or window.
+ * @param {Object} config - Configuration object.
  * @example
  * SendKey({
- *   targetProcess: "EliteDangerous64", //<- Executable name
- *   targetWindow: "Elite - Dangerous", //<- Window title
- *   keyBindings: ["F11"]   //<- Array of keys to send
- * });
- */
+ *   targetProcess: "EliteDangerous64", // Executable name
+ *   targetWindow: "Elite - Dangerous", // Window title
+ *   keyBindings: ["F11", "ctrl+F10", "alt+F4"]   // Array of keys to send (neutral format)
+ * }); */
 function SendKey(config) {
     try {
+        // Provide default config if none is given
         if (!config || typeof config !== "object") {
             config = {
-                targetProcess: "EliteDangerous64", //<- Executable name
-                targetWindow: "Elite - Dangerous", //<- Window title
-                keyBindings: ["F11"]    //<- Array of keys to send
-            }
+                targetProcess: "EliteDangerous64",
+                targetWindow: "Elite - Dangerous",
+                keyBindings: ["F11"]
+            };
         }
 
         console.log("--- KeySender: SendKey ------------------");
 
-        //  Check if target process is running:
+        // Check if target process is running
         if (isProcessRunning(config.targetProcess)) {
-            console.log(`The Program "${config.targetProcess}" is Running.`);
+            console.log(`The program "${config.targetProcess}" is running.`);
 
+            // Normalize key bindings for the current platform
+            const normalizedConfig = {
+                ...config,
+                keyBindings: config.keyBindings.map(formatKeyForPlatform)
+            };
+
+            // Dispatch to the correct platform-specific sender
             const platform = os.platform();
             if (platform === "win32") {
-                sendKeysWindows(config);
-
+                sendKeysWindows(normalizedConfig);
             } else if (platform === "linux") {
-                sendKeysLinux(config);
+                sendKeysLinux(normalizedConfig);
+            } else {
+                console.error(`Unsupported platform: ${platform}`);
             }
         } else {
-            console.log(`The Program "${config.targetProcess}" is NOT Running.`);
+            console.log(`The program "${config.targetProcess}" is NOT running.`);
         }
 
     } catch (err) {
-        console.error(err.message);
+        console.error("Error in SendKey:", err.message);
     } finally {
         console.log("-----------------------------------------");
     }
 }
 
-// Verificar si el proceso está corriendo
-function isProcessRunning(name) {
-    const platform = os.platform();
-    try {
-        if (platform === "win32") {
-            const output = execSync("tasklist").toString().toLowerCase();
-            return output.includes(name.toLowerCase());
 
-        } else if (platform === "linux") {
-            const output = execSync("ps -A").toString().toLowerCase();
-            return output.includes(name.toLowerCase());
+/* ---------- WINDOWS VERSION ---------- */
 
-        } else {
-            console.error(" Plataforma no soportada:", platform);
-            return false;
-        }
-    } catch (err) {
-        console.error(" Error al verificar el proceso:", err.message);
-        return false;
-    }
-}
 
-function sendKeysWindows(config) {
+/*function sendKeysWindows(config) {
     // Escape double quotes in the window name for PowerShell
     const windowTitle = String(config.targetWindow).replace(/"/g, '""');
 
@@ -96,52 +94,129 @@ function sendKeysWindows(config) {
     } catch (err) {
         console.error("Error executing PowerShell:", err.message);
     }
+}*/
+
+function sendKeysWindows(config) {
+    const windowTitle = String(config.targetWindow).replace(/"/g, '""');
+
+    const lines = [
+        'Add-Type -AssemblyName System.Windows.Forms',
+        '$wshell = New-Object -ComObject wscript.shell',
+        `if ($wshell.AppActivate("${windowTitle}")) {`,
+        '  Start-Sleep -Milliseconds 300'
+    ];
+
+    for (const rawKey of config.keyBindings) {
+        const psKey = formatKeyForPlatform(rawKey);
+        lines.push(`  [System.Windows.Forms.SendKeys]::SendWait("${psKey}")`);
+        lines.push('  Start-Sleep -Milliseconds 100');
+    }
+
+    lines.push('} else { Write-Host "Could not activate the window." }');
+    lines.push('Exit');
+
+    const psScript = lines.join('; ');
+
+    try {
+        execSync(
+            `powershell -ExecutionPolicy Bypass -Command "${psScript.replace(/"/g, '\\"')}"`,
+            { stdio: 'inherit' }
+        );
+        console.log(`Keybinding "${config.keyBindings}" sent using PowerShell.`);
+    } catch (err) {
+        console.error("Error executing PowerShell:", err.message);
+    }
 }
 
-// Checks if the window is X11/XWayland (not native Wayland)
-function isX11Window(windowName) {
+// Verificar si el proceso está corriendo
+function isProcessRunning(name) {
+    const platform = os.platform();
     try {
-        // Find the window and get its ID
-        const winId = execSync(`xdotool search --onlyvisible --limit 1 --name "${windowName}"`).toString().trim();
-        if (!winId) return false;
-        // Try to get info with xwininfo (only works on X11/XWayland)
-        execSync(`xwininfo -id ${winId}`);
-        return true;
+        if (platform === "win32") {
+            const output = execSync("tasklist").toString().toLowerCase();
+            return output.includes(name.toLowerCase());
+
+        } else if (platform === "linux") {
+            const output = execSync("ps -A").toString().toLowerCase();
+            return output.includes(name.toLowerCase());
+
+        } else {
+            console.error(" Plataforma no soportada:", platform);
+            return false;
+        }
     } catch (err) {
+        console.error(" Error al verificar el proceso:", err.message);
         return false;
     }
 }
 
-function sendKeysLinux(config) {
-    const sessionType = process.env.XDG_SESSION_TYPE || "";
-    const isWayland = sessionType.toLowerCase() === "wayland";
+/* ---------- LINUX VERSION ---------- */
 
-    if (isWayland) {
-        // Only try if the window is X11/XWayland
-        if (!isX11Window(config.targetWindow)) {
-            console.error("Target window is not X11/XWayland. Cannot send keys on Wayland.");
-            return;
-        }
+/** Sends key presses to a target window on Linux using `xdotool`.
+ * - Detects if the session is Wayland and verifies the window is X11/XWayland.
+ * - Raises, focuses, and activates the window before typing.
+ * - Types all keys in one go with a configurable delay between characters. */
+function sendKeysLinux(config) {
+    const sessionType = (process.env.XDG_SESSION_TYPE || "").toLowerCase();
+    const winId = findWindowId(config.targetWindow);
+
+    if (!winId) {
+        console.error(`404 - No visible window found with title "${config.targetWindow}"`);
+        return;
     }
 
-    try {
-        const winId = execSync(`xdotool search --onlyvisible --limit 1 --name "${config.targetWindow}"`).toString().trim();
-        if (!winId) {
-            console.error(`404 - No visible window found with title "${config.targetWindow}"`);
-            return;
-        }
-        execSync(`xdotool windowraise ${winId}`);
-        execSync(`xdotool windowfocus ${winId}`);
-        execSync(`xdotool windowactivate --sync ${winId}`);
-        execSync(`sleep 0.2`);
+    if (sessionType === 'wayland' && !isX11Window(winId)) {
+        console.error("Target window is not X11/XWayland. Cannot send keys on Wayland.");
+        return;
+    }
 
-        for (const key of config.keyBindings) {
-            execSync(`xdotool type "${key}"`);
-            execSync(`sleep 0.05`);
+    spawnSync('xdotool', ['windowraise', winId]);
+    spawnSync('xdotool', ['windowfocus', winId]);
+    spawnSync('xdotool', ['windowactivate', '--sync', winId]);
+
+    for (const rawKey of config.keyBindings) {
+        const combo = formatKeyForPlatform(rawKey);
+        spawnSync('xdotool', ['key', '--delay', '50', combo]);
+    }
+
+    console.log(`Key combinations sent to window ID ${winId}`);
+}
+
+
+/** Check if a given window ID belongs to an X11/XWayland window.
+ * Runs `xwininfo` which only works on X11/XWayland.
+ * Returns true if the command succeeds, false otherwise. */
+function isX11Window(winId) {
+    if (!winId) return false;
+    const res = spawnSync('xwininfo', ['-id', winId]);
+    return res.status === 0;
+}
+
+function findWindowId(windowName) {
+    const res = spawnSync(
+        'xdotool',
+        ['search', '--onlyvisible', '--limit', '1', '--name', windowName],
+        { encoding: 'utf8' }
+    );
+    return res.status === 0 ? res.stdout.trim() : null;
+}
+
+
+/**
+ * Format a key combination for the current platform.
+ * - On Windows: wrap single words like F11 in {} for SendKeys, keep modifiers (^, +, %) as is.
+ * - On Linux: remove {} if present (from Windows format), keep xdotool syntax. */
+function formatKeyForPlatform(key) {
+    if (process.platform === 'win32') {
+        // If it's already in SendKeys format or starts with a modifier, leave it
+        if (/^\{.*\}$/.test(key) || /^[\^\+\%]/.test(key)) {
+            return key;
         }
-        console.log(`Keybindings sent to window ID ${winId}`);
-    } catch (err) {
-        console.error("Error simulating input:", err.message);
+        // Wrap plain words (e.g., F11) in {}
+        return `{${key}}`;
+    } else {
+        // Remove surrounding {} if present (e.g., {F11} -> F11)
+        return key.replace(/^\{(.+)\}$/, '$1');
     }
 }
 

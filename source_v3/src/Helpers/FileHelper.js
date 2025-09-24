@@ -481,12 +481,10 @@ async function deleteFilesByWildcard(wildcardPath) {
 }
 
 
-/** Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente.
- * 
+/** Busca archivos de un tipo específico en una carpeta y devuelve el archivo con la fecha de modificación o creación más reciente. * 
  * @param {string} folderPath - La ruta de la carpeta en la que buscar.
  * @param {string} fileType - El tipo de archivo a buscar (por ejemplo, '.txt' para archivos de texto).
- * @returns {Promise<string>} - El archivo más reciente encontrado.
- */
+ * @returns {Promise<string>} - El archivo más reciente encontrado. */
 async function findLatestFile(folderPath, fileType) {
   const files = fs.readdirSync(folderPath)
     .filter(file => path.extname(file) === fileType)
@@ -516,8 +514,7 @@ async function findLatestFile(folderPath, fileType) {
  * 
  * @param {string} folderPath - La ruta de la carpeta en la que buscar.
  * @param {string} pattern - El patrón de búsqueda con comodines (por ejemplo, 'EDHM_Odyssey_*.zip').
- * @returns {Promise<string>} - El nombre del archivo encontrado.
- */
+ * @returns {Promise<string>} - El nombre del archivo encontrado. */
 async function findFileWithPattern(folderPath, pattern) {
   const regexPattern = new RegExp('^' + pattern.replace('*', '.*') + '$');
   const files = fs.readdirSync(folderPath)
@@ -1871,6 +1868,23 @@ ipcMain.handle('getPublicFilePath', (event, relFilePath) => {
     return getPublicFilePath(relFilePath);
   } catch (error) {
     throw new Error(error.message + error.stack);
+  }
+});
+
+ipcMain.handle('updateFileDates', (event, FilePath) => {
+  try {
+    if (!fs.existsSync(FilePath)) {
+      throw new Error(`404 File not Found: ${FilePath}`);
+    }
+
+    const now = new Date();
+    const timestamp = now.getTime() / 1000; // Convertir a segundos
+
+    fs.utimesSync(FilePath, timestamp, timestamp);
+
+    return { success: true, message: 'File Dates are updated!' };
+  } catch (error) {
+    throw new Error('Error al actualizar fechas: ' + error.message + '\n' + error.stack);
   }
 });
 

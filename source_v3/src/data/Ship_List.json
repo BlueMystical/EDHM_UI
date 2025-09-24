@@ -321,5 +321,12 @@
     "ed_short": "panthermkii",
     "size": "Large",
     "role": "Freighter "
+  },
+  {
+    "ship_full_name": "Type 11 Prospector",
+    "ship_id": 53,
+    "ed_short": "lakonminer",
+    "size": "medium",
+    "role": "Miner "
   }
 ]

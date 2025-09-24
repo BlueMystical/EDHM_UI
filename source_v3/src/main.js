@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, ipcMain, shell, globalShortcut, Tray } from 'electron';
+import { app, Menu, BrowserWindow, globalShortcut, ipcMain, shell } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
@@ -129,10 +129,10 @@ async function Start() {
           mainWindow.hide();
         }
       }
-      // Font Size Options:
-      const FontSize = settingsHelper.readSetting('FontSize', 'medium'); // Valores posibles: "small", "medium", "large", "x-large"
       
-      // Send arguments to the renderer process:
+      // Font Size Options:
+      const FontSize = await settingsHelper.readSetting('FontSize', '14px');       
+      // Send arguments to the renderer process: App.vue
       mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.webContents.send('app-args', args);
         mainWindow.webContents.send('font-size-setting', FontSize);
