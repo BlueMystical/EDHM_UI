@@ -486,7 +486,8 @@ export default {
         }
         if (value === 'mnuSettings') {
           const InstallStatus = await window.api.InstallStatus();
-          EventBus.emit('open-settings-editor', InstallStatus);
+          //EventBus.emit('open-settings-editor', InstallStatus);
+          window.api.settings.open(InstallStatus);
         }
         if (value === 'mnuShipyard') {
           EventBus.emit('open-ShipyardUI', JSON.parse(JSON.stringify(ActiveInstance)));

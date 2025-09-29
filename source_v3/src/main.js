@@ -1,4 +1,4 @@
-import { app, Menu, BrowserWindow, globalShortcut, ipcMain, shell } from 'electron';
+import { app, Menu, BrowserWindow, globalShortcut, ipcMain, shell, Tray, screen  } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
@@ -15,7 +15,7 @@ let mainWindow;
 let tray;
 let BalloonShown = false;
 let HideToTray = false;
-let WatchMe = false;
+let StartMinimizedToTray = false;
 let shipyard;
 let CustomIcon;
 let programSettings;
@@ -89,7 +89,8 @@ async function Start() {
       app.commandLine.appendSwitch('disable-smooth-scrolling');
     }
     // Opcional: mantiene el factor de escala fijo
-    app.commandLine.appendSwitch('force-device-scale-factor', '1');
+    app.commandLine.appendSwitch('high-dpi-support', '1');
+    //app.commandLine.appendSwitch('force-device-scale-factor', '1');
     
     //#endregion
 
@@ -97,6 +98,20 @@ async function Start() {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     app.whenReady().then(async () => {
+      // Ajustar el Escalado de imagen a la pantalla:
+      const { size, scaleFactor: systemScale } = screen.getPrimaryDisplay();
+      let userScale = settingsHelper.readSetting('UiScaleFactor', 0); // 0 = automático
+      let finalScale;
+      if (userScale && userScale > 0) {        
+        finalScale = userScale; //<- Usuario forzó un valor
+      } else {        
+        finalScale = systemScale; //<- Automático: usa el del sistema
+        // Ejemplo de regla extra: si es 4K, mínimo 1.5
+        if (size.width >= 3840) {
+          finalScale = Math.max(finalScale, 1.5);
+        }
+      }
+
       createWindow();
 
       //-- Disable the menu bar
@@ -131,11 +146,13 @@ async function Start() {
       }
       
       // Font Size Options:
-      const FontSize = await settingsHelper.readSetting('FontSize', '14px');       
+      const FontSize = await settingsHelper.readSetting('FontSize', '14px'); 
+      const { scaleFactor } = screen.getPrimaryDisplay();      
       // Send arguments to the renderer process: App.vue
       mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.webContents.send('app-args', args);
         mainWindow.webContents.send('font-size-setting', FontSize);
+        mainWindow.webContents.setZoomFactor(finalScale);
       });
 
       // Ensure tray works on both Windows and Linux
@@ -179,6 +196,8 @@ const createWindow = () => {
     icon: CustomIcon, //path.join(__dirname, 'images/ED_TripleElite.ico'),
     backgroundColor: '#1F1F1F',
 
+    show: false, //<- will be decided by the 'StartMinimizedToTray' prop
+
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -196,7 +215,7 @@ const createWindow = () => {
     console.log('Running on Dev mode: ', MAIN_WINDOW_VITE_DEV_SERVER_URL);
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
     //-- Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools( { mode: 'detach'});
 
   } else {
     console.log('Production mode: ');
@@ -204,17 +223,30 @@ const createWindow = () => {
   }
 
   HideToTray = settingsHelper.readSetting('HideToTray', false); //<- Hide to System Tray on close
-  WatchMe = settingsHelper.readSetting('WatchMe', false); //<- Whatch for changes in the Player Journal
   console.log('HideToTray:', HideToTray);
+
+  StartMinimizedToTray = settingsHelper.readSetting('StartMinimizedToTray', false);
+  console.log('StartMinimizedToTray:', StartMinimizedToTray);
 
   shipyard = new Shipyard(mainWindow);
 
 
-
   // Register the shortcut to open DevTools
-  globalShortcut.register('Control+Shift+I', () => {
-    if (mainWindow) {
-      mainWindow.webContents.toggleDevTools();
+  globalShortcut.register('Shift+F1', () => {
+    if (!mainWindow) return
+    const wc = mainWindow.webContents
+
+    if (wc.isDevToolsOpened()) {
+      wc.closeDevTools()
+    } else {
+      wc.openDevTools({ mode: 'detach' })
+    }
+  });
+  mainWindow.once('ready-to-show', () => {
+    if (StartMinimizedToTray && process.platform === 'win32') {
+      mainWindow.hide(); // arranca minimizada en tray
+    } else {
+      mainWindow.show(); // arranca visible normalmente
     }
   });
   // Handle external links
@@ -265,47 +297,93 @@ const createWindow = () => {
 
 const createTray = () => {
   //- https://www.electronjs.org/docs/latest/api/tray
+  try {
+    //- Create the Tray Icon:
+    console.log('Creating the Tray icon..')
+    tray = new Tray(CustomIcon);
 
-  //- Create the Tray Icon:
-  //tray = new Tray(path.join(__dirname, 'images/ED_TripleElite.ico')); CustomIcon
-  tray = new Tray(CustomIcon);
-
-  //- Create Context Menu for the Tray Icon:
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Restore',
-      click: () => {
-        mainWindow.show(); // Restore the main window
-      }
-    },
-    {
-      label: 'Quit',
-      click: () => {
-        //- Here the Program Terminates Normally
-        console.log('Quiting..');
-        tray.destroy(); // Destroy the tray icon
-        app.isQuiting = true; // Signal that the app is quitting        
-        globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
-        if (mainWindow) {
-          mainWindow.removeAllListeners('close');
-          mainWindow.close();
+    //- Create Context Menu for the Tray Icon:
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Restore',
+        click: () => {
+          mainWindow.show(); // Restore the main window
         }
-        app.quit();
+      },
+      {
+        label: 'Quit',
+        click: () => {
+          //- Here the Program Terminates Normally
+          console.log('Quiting..');
+          tray.destroy(); // Destroy the tray icon
+          app.isQuiting = true; // Signal that the app is quitting        
+          globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+          if (mainWindow) {
+            mainWindow.removeAllListeners('close');
+            mainWindow.close();
+          }
+          app.quit();
+        }
       }
-    }
-  ]);
+    ]);
 
-  tray.setContextMenu(contextMenu);
-  tray.setToolTip('EDHM-UI');
+    tray.setContextMenu(contextMenu);
+    tray.setToolTip('EDHM-UI');
 
-  // Add the double-click event listener
-  tray.on('double-click', () => {
-    if (mainWindow) {
-      mainWindow.show(); // Show the main window
-    }
-  });
-
+    // Add the double-click event listener
+    tray.on('double-click', () => {
+      if (mainWindow) {
+        mainWindow.show(); // Show the main window
+      }
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
+
+const windows = new Map()
+
+function openSettingsWindow(initData, options = {}) {
+  let win = windows.get('settings')
+
+  if (!win || win.isDestroyed()) {
+    win = new BrowserWindow({
+      width: 800,
+      height: 650,
+      backgroundColor: '#1F1F1F',
+      show: false,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+        contextIsolation: true,
+        nodeIntegration: false
+      },
+      ...options
+    })
+
+    if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+      win.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/SettingsWindow/settings.html`)
+    } else {
+      win.loadFile(path.join(__dirname, '../renderer/SettingsWindow/settings.html'))
+    }
+
+    win.once('ready-to-show', () => {
+      win.show()
+      // Enviar datos iniciales al renderer
+      win.webContents.send('init-data', initData)
+    })
+
+    win.on('closed', () => {
+      windows.delete('settings')
+    })
+    windows.set('settings', win)
+  } else {
+    win.focus()
+    // refrescar datos si querés
+    win.webContents.send('init-data', initData)
+  }
+
+  return win
+}
 
 
 //---------------------------------------------------------------
@@ -328,6 +406,77 @@ ipcMain.handle('quit-program', async (event) => {
     throw error;
   }
 });
+
+ipcMain.on('settings:open', (event, initData) => {
+  console.log('Opening Settings Window..');
+  try {
+    let win = new BrowserWindow({
+      width: 800,
+      height: 750,
+      icon: CustomIcon, //path.join(__dirname, 'images/ED_TripleElite.ico'),
+      backgroundColor: '#1F1F1F',
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+        contextIsolation: true,
+        nodeIntegration: true,
+        webSecurity: false,
+        sandbox: false, // Asegura que el contenido no esté limitado dentro de Electron
+        allowRunningInsecureContent: false
+      }
+    })
+
+    if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+      win.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/SettingsWindow/settings.html`);
+      //win.webContents.openDevTools( { mode: 'detach'});
+    } else {
+      win.loadFile(path.join(__dirname, '../renderer/SettingsWindow/settings.html'));
+    }
+    win.webContents.once('did-finish-load', () => {
+      win.webContents.send('settings:init-data', initData)
+    })
+    win.on('closed', () => {
+      event.sender.send('settings:closed', { ok: true })
+    })
+  } catch (error) {
+    console.error(error)
+  }
+});
+ipcMain.on('settings:close', (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender)
+  if (win) {
+    win.close()
+  }
+})
+
+ipcMain.on('event:forward', (event, { channel, payload }) => {
+  // reenviar a todas las ventanas abiertas
+  for (const win of BrowserWindow.getAllWindows()) {
+    if (win.webContents.id !== event.sender.id) {
+      win.webContents.send(channel, payload)
+    }
+  }
+});
+
+ipcMain.on('ui-scale-changed', (event, value) => {
+  const { screen } = require('electron');
+  const { size, scaleFactor: systemScale } = screen.getPrimaryDisplay();
+
+  let finalScale;
+  if (value && value > 0) {
+    finalScale = value;
+  } else {
+    finalScale = systemScale;
+    if (size.width >= 3840) {
+      finalScale = Math.max(finalScale, 1.5);
+    }
+  }
+
+  // Aplica a todas las ventanas abiertas
+  BrowserWindow.getAllWindows().forEach(win => {
+    win.webContents.setZoomFactor(finalScale);
+  });
+});
+
 
 
 // #endregion

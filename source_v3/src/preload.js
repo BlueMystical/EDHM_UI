@@ -115,6 +115,19 @@ contextBridge.exposeInMainWorld('api', {
   writeSetting: async (key, value) => ipcRenderer.invoke('writeSetting', key, value),
   readSetting: async (key, defaultValue) => ipcRenderer.invoke('readSetting', key, defaultValue),
 
+  settings: {
+    open: (data) => ipcRenderer.send('settings:open', data),
+    close: () => ipcRenderer.send('settings:close'),
+    onClosed: (cb) => ipcRenderer.on('settings:closed', (_, payload) => cb(payload)),
+    onInit: (cb) => ipcRenderer.once('settings:init-data', (_, data) => cb(data)),
+    sendBack: (payload) => ipcRenderer.send('settings:result', payload),
+    sendUiScale: (value) => ipcRenderer.send('ui-scale-changed', value)
+  },
+  events: {
+    sendEvent: (channel, payload) => { ipcRenderer.send('event:forward', { channel, payload }) },
+    onEvent: (channel, callback) => {  ipcRenderer.on(channel, (_, payload) => callback(payload)) }
+  },
+
   loadSettings: async () => ipcRenderer.invoke('load-settings'),
   saveSettings: async (settings) => ipcRenderer.invoke('save-settings', settings),
   LoadGlobalSettings: async () => ipcRenderer.invoke('LoadGlobalSettings'),

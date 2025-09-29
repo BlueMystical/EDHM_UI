@@ -25,10 +25,11 @@ const getThemes = async (dirPath) => {
     const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
     const files = [];
 
-    const ActiveInstance = await settingsHelper.getActiveInstance();
-    const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ'; //<- Game Type: ODYSS or HORIZ
-    const templatePath = FileHelper.getAssetPath(`data/${GameType}/ThemeTemplate.json`); //<- Default Template  
-    const jsonTemplate = await FileHelper.loadJsonFile(templatePath);  
+    //const ActiveInstance = await settingsHelper.getActiveInstance();
+    //const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ'; //<- Game Type: ODYSS or HORIZ
+    //const templatePath = FileHelper.getAssetPath(`data/${GameType}/ThemeTemplate.json`); //<- Default Template  
+    //const jsonTemplate = await FileHelper.loadJsonFile(templatePath); 
+    //template = await FixRecycledKeys(template, jsonTemplate);
 
     for (const dirent of subfolders) {
       if (dirent.isDirectory()) {
@@ -45,7 +46,6 @@ const getThemes = async (dirPath) => {
           }
 
           //- For Migration only, also comment the if on the JSON write below
-          //template = await FixRecycledKeys(template, jsonTemplate);
 
           // Assemble the Data to return:
           files.push({

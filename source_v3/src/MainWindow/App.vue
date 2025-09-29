@@ -873,6 +873,16 @@ export default {
     EventBus.on('LookForUpdates', this.LookForUpdates);
 
     EventBus.on('StartShipyard', this.StartShipyard);
+
+    window.api.events.onEvent('RoastMe', (payload) => {
+      EventBus.emit('RoastMe', payload)
+    });
+    window.api.events.onEvent('ShowError', (payload) => {
+      EventBus.emit('ShowError', payload)
+    });
+    window.api.events.onEvent('SettingsChanged', (payload) => {
+      EventBus.emit('SettingsChanged', payload)
+    });
   },
   beforeUnmount() {
     // Clean up the event listener

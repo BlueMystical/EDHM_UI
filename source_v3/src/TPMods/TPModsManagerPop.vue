@@ -622,6 +622,7 @@ export default {
         
         // Display a Message informing about the Mod's characteristics
         cmdReadMe_Click(e){
+            console.log(this.selectedMod);
             if (this.selectedMod && this.selectedMod.data.read_me) {  
                 this.showAlert = false;
                 this.showInfo = true; console.log('showInfo',this.showInfo );

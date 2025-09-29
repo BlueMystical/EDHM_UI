@@ -92,16 +92,20 @@
       }
     ],
     "PlayerJournal":"%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous",  
-    "UserDataFolder": "%USERPROFILE%\\EDHM_UI",
-    "HUD_Cover": "HUD_Type8",
-    "SavesToRemember":10, 
+    "UserDataFolder": "%USERPROFILE%\\EDHM_UI",    
     "LastFolderUsed":"",
+
+    "HUD_Cover": "HUD_Type8",
+    "SavesToRemember":10,     
     "CustomIcon": "",
+    "HideToTray":false, 
+    "StartMinimizedToTray": false,
+    "CheckForUpdates": true, 
+
     "WatchMe":true,
-    "GreetMe":false,
     "FirstRun": false,
-    "FavToogle":false,    
-    "HideToTray":false,    
+    "FavToogle":false,   
+    "CreateShortcutOnDesktop": false,           
 
     "GpuUseWebGL": true,
     "GpuCanvas2D": true,
@@ -110,9 +114,7 @@
     "GpuSmoothScrolling": true,
     "GpuRenderer": "Vulkan",
     "GpuAcceleration": true,
+    "UiScaleFactor": 0.0,
 
-    "FontSize": "14px",
-    
-    "CreateShortcutOnDesktop": true,
-    "CheckForUpdates": true   
+    "FontSize": "14px"     
  }
