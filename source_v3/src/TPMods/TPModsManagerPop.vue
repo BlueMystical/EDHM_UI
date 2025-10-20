@@ -265,7 +265,14 @@ export default {
                 await window.api.ensureDirectoryExists(this.TEMP_FOLDER);
                 const destFile = window.api.joinPath(this.TEMP_FOLDER, 'tpmods_list.json');
 
-                const availableMods = await window.api.downloadAsset(TPMODS_URL, destFile);             //console.log('Available Mods:', modsList);
+                let availableMods = [];
+                try {
+                    availableMods = await window.api.downloadAsset(TPMODS_URL, destFile);             //console.log('Available Mods:', modsList);
+                } catch (err) {                    
+                    console.error(err);
+                    EventBus.emit('RoastMe', { type: 'Error', title: err.name, message: err.message });
+                }   
+
                 const installedMods = await window.api.GetInstalledTPMods(this.ActiveInstance.path);    //console.log('Installed Mods:', installedMods);
 
                 this.TPmods = [];
@@ -285,13 +292,12 @@ export default {
 
         async LoadTPMods(availableMods, installedMods) {
             let _ret = [];
+            let Errors = [];
             try {
 
                 this.ModsCounter = 0;
                 if (availableMods && availableMods.length > 0) {
                     this.TPmods = [];
-
-                    let Errors = [];
 
                     for (const mod of availableMods) {
                         try {
@@ -308,6 +314,7 @@ export default {
                                 file_ini: null,
                                 data: null,
                                 data_ini: null,
+                                read_me: mod.read_me,
 
                                 path: null,
                                 basename: null,
@@ -347,57 +354,57 @@ export default {
                             continue;
                         }
                     };
+                }
 
-                    //-- Add any non-list mod that is installed:
-                    if (installedMods && installedMods.mods) {
-                        let prevMod = null;
-                        for (const iMod of installedMods.mods) {
-                            try {
-                                prevMod = {
-                                    mod_name: iMod.data.mod_name,
-                                    description: iMod.data.description,
-                                    author: iMod.data.author,
-                                    mod_version: "1.0",
-                                    download_url: "",
-                                    thumbnail_url: iMod.file_thumb,
-                                    isActive: true,
-                                    file_json: iMod.file_json,
-                                    file_ini: iMod.file_ini,
-                                    data: await this.applyIniData(iMod.data, iMod.data_ini),
-                                    data_ini: iMod.data_ini,
-                                    path: iMod.path,
-                                    basename: window.api.getBaseName(iMod.file_json, '.json'),
-                                    childs: []
-                                };
+                //-- Add any non-list mod that is installed:
+                if (installedMods && installedMods.mods) {
+                    let prevMod = null;
+                    for (const iMod of installedMods.mods) {
+                        try {
+                            prevMod = {
+                                mod_name: iMod.data.mod_name,
+                                description: iMod.data.description,
+                                author: iMod.data.author,
+                                mod_version: "1.0",
+                                download_url: "",
+                                thumbnail_url: iMod.file_thumb,
+                                isActive: true,
+                                file_json: iMod.file_json,
+                                file_ini: iMod.file_ini,
+                                data: await this.applyIniData(iMod.data, iMod.data_ini),
+                                data_ini: iMod.data_ini,
+                                path: iMod.path,
+                                basename: window.api.getBaseName(iMod.file_json, '.json'),
+                                childs: []
+                            };
 
-                                //- Check if the mod is a child of the previous one:
-                                const found = _ret.findIndex((item) => item && item.path === prevMod.path);
-                                if (found >= 0) {
-                                    //- Mod is installed 
-                                    if (prevMod.mod_name != _ret[found].mod_name) {
-                                        _ret[found].childs.push(prevMod);
-                                    }
-                                } else {
-                                    _ret.push(prevMod);
-                                    this.ModsCounter++;
+                            //- Check if the mod is a child of the previous one:
+                            const found = _ret.findIndex((item) => item && item.path === prevMod.path);
+                            if (found >= 0) {
+                                //- Mod is installed 
+                                if (prevMod.mod_name != _ret[found].mod_name) {
+                                    _ret[found].childs.push(prevMod);
                                 }
-                            } catch (error) {
-                                 console.log(error);
-                                Errors.push({ mod: iMod, msg: 'Error processing mod entry: ' + error.message });
-                                continue;
+                            } else {
+                                _ret.push(prevMod);
+                                this.ModsCounter++;
                             }
+                        } catch (error) {
+                            console.log(error);
+                            Errors.push({ mod: iMod, msg: 'Error processing mod entry: ' + error.message });
+                            continue;
                         }
                     }
+                }
 
-                    console.log('Errors:', Errors);
-                    if (installedMods && installedMods.errors && installedMods.errors.length > 0) {
-                        console.log('There was some errors: ', installedMods.errors);
-                        var msg = '';
-                        installedMods.errors.forEach(err => {
-                            msg += err.msg + '<br>';
-                        });
-                        EventBus.emit('ShowError', new Error(msg));
-                    }
+                console.log('Errors:', Errors);
+                if (installedMods && installedMods.errors && installedMods.errors.length > 0) {
+                    console.log('There was some errors: ', installedMods.errors);
+                    var msg = '';
+                    installedMods.errors.forEach(err => {
+                        msg += err.msg + '<br>';
+                    });
+                    EventBus.emit('ShowError', new Error(msg));
                 }
 
             } catch (error) {
@@ -517,34 +524,42 @@ export default {
          * @param htmlString Original HTML string
          * @param imageBasePath Path where the image should be located         */
         convertImageTags(htmlString, imageBasePath) {
-            const customImageRegex = /<image=([^;>]+)(;size=([^;>]+))?(;align=([^>]+))?>/g;
-            const standardImageRegex = /<img[^>]*>/g; // Matches standard <img> tags
+            try {
+                const customImageRegex = /<image=([^;>]+)(;size=([^;>]+))?(;align=([^>]+))?>/g;
+                const standardImageRegex = /<img[^>]*>/g; // Matches standard <img> tags
+                if (imageBasePath) {
+                    // Process custom <image> tags
+                    let modifiedHtml = htmlString.replace(customImageRegex, (match, filename, sizeMatch, size, alignMatch, align) => {
+                        const imagePath = window.api.joinPath(imageBasePath, 'assets', filename);
+                        let imgTag = `<img src="file://${imagePath}"`;
 
-            // Process custom <image> tags
-            let modifiedHtml = htmlString.replace(customImageRegex, (match, filename, sizeMatch, size, alignMatch, align) => {
-                const imagePath = window.api.joinPath(imageBasePath, 'assets', filename);
-                let imgTag = `<img src="file://${imagePath}"`;
+                        if (size) {
+                            const [width, height] = size.split(',');
+                            imgTag += ` width="${width}" height="${height}"`;
+                        }
 
-                if (size) {
-                    const [width, height] = size.split(',');
-                    imgTag += ` width="${width}" height="${height}"`;
+                        if (align) {
+                            imgTag += ` style="vertical-align: ${align};"`;
+                        }
+
+                        imgTag += '>';
+                        return imgTag;
+                    });
+
+                    // Process standard <img> tags (optional: you can modify them if needed)
+                    // If you don't want to modify them, you can remove this part.
+                    modifiedHtml = modifiedHtml.replace(standardImageRegex, (match) => {
+                        return match; // Return the original <img> tag
+                    });
+                    return modifiedHtml;
                 }
-
-                if (align) {
-                    imgTag += ` style="vertical-align: ${align};"`;
+                else {
+                    return htmlString;
                 }
-
-                imgTag += '>';
-                return imgTag;
-            });
-
-            // Process standard <img> tags (optional: you can modify them if needed)
-            // If you don't want to modify them, you can remove this part.
-            modifiedHtml = modifiedHtml.replace(standardImageRegex, (match) => {
-                return match; // Return the original <img> tag
-            });
-
-            return modifiedHtml;
+            } catch (error) {
+                console.error(error);
+                return htmlString;
+            }
         },
 
         // #endregion
@@ -623,6 +638,12 @@ export default {
         // Display a Message informing about the Mod's characteristics
         cmdReadMe_Click(e){
             console.log(this.selectedMod);
+            if (this.selectedMod && this.selectedMod.read_me) {
+                this.showAlert = false;
+                this.showInfo = true; console.log('showInfo',this.showInfo );
+                this.infoMessage = this.convertImageTags(this.selectedMod.read_me, this.selectedMod.path);    
+                return;
+            }
             if (this.selectedMod && this.selectedMod.data.read_me) {  
                 this.showAlert = false;
                 this.showInfo = true; console.log('showInfo',this.showInfo );

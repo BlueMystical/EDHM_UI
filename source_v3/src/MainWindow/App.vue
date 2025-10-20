@@ -302,9 +302,8 @@ export default {
     OnThemeApplied(event) {
       try {
         this.themeTemplate = JSON.parse(JSON.stringify(event));
-        console.log('Theme Applied: ', this.themeTemplate.credits.theme); 
-       
-        EventBus.emit('InitializeProperties', JSON.parse(JSON.stringify(this.themeTemplate))); //<- Event Listened at PropertiesTabEx.vue
+        console.log('Theme Applied: ', this.themeTemplate.credits.theme);        
+        //EventBus.emit('InitializeProperties', JSON.parse(JSON.stringify(this.themeTemplate))); //<- Event Listened at PropertiesTabEx.vue
       } catch (error) {
         EventBus.emit('ShowError', error);
       }
@@ -315,15 +314,14 @@ export default {
     async DoUpdateTheme(e) {
       //console.log(e);
       if (e && e.theme != null) { //<-- The Selected Theme
-        const NewThemeData = JSON.parse(JSON.stringify(e.theme));
-        const CurrentSettings = JSON.parse(JSON.stringify(e.source));
-
-        const _ret = await window.api.UpdateTheme(NewThemeData, CurrentSettings);
+        const _ret = await window.api.UpdateTheme(
+          JSON.parse(JSON.stringify(e.theme)), 
+          JSON.parse(JSON.stringify(e.source))
+        );
         console.log('UpdatedTheme:', _ret);
-
         if (_ret) {
           EventBus.emit('loadThemes', null); //<- Event Listened on ThemeTab.vue
-          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${NewThemeData.credits.theme}' Saved.` });
+          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${e.theme.credits.theme}' Saved.` });
         }
       }
     },
@@ -744,27 +742,6 @@ export default {
         console.error('Error cargando notificación de mantenimiento:', err);
       }
     },
-    /*async CheckForMaintenanceNotice() {
-      // Checks for any Maintenance Notice from the Server
-      try {
-        const TempDir = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\status.json');
-        const data = await window.api.downloadAsset(
-          'https://raw.githubusercontent.com/BlueMystical/EDHM_UI/refs/heads/main/status.json',
-          TempDir
-        );
-        console.log('Maintenance Notice:', data);
-        if (data.info && data.info.trim() !== '') {
-          EventBus.emit('RoastMe', {
-            type: data.status,
-            message: data.info,
-            autoHide: false,
-            width:'480px'
-          });
-        }
-      } catch (err) {
-        console.error('Error cargando notificación de mantenimiento:', err);
-      }
-    },*/
     async AnalyseUpdate(latesRelease) {
       try {
         const localVersion = await window.api.getAppVersion();

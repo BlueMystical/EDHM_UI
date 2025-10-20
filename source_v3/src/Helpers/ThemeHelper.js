@@ -1,6 +1,7 @@
 import { app, ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'fs';
+import { promises as fsp } from 'fs';
 //import { copyFileSync, constants } from 'node:fs';
 import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
@@ -482,34 +483,81 @@ async function ImportTheme(zip_path) {
 
 /** Copies the Current Settings Files into a backup */
 async function BackUpCurrentSettings() {
-  try {    
-    const TempPath = await FileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\CurrentSettings`);
-    const TempExist = await FileHelper.ensureDirectoryExists(TempPath);
-    if (TempExist) {
-      await FileHelper.deleteFolderRecursive(TempPath);
-      const ActiveInstance = await settingsHelper.getActiveInstanceEx(); //console.log('ActiveInstance:', ActiveInstance);
-      const SourcePath = path.join(ActiveInstance.path, 'EDHM-ini');
-      const _ret = await FileHelper.copyFiles(SourcePath, TempPath, ['.ini', '.json']);
-      return 'BackUp Current Settings: ' + _ret + ' Files Copied.';
+  try {
+    const TempPath = FileHelper.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\CurrentSettings');
+    console.log('Backup To: ', TempPath);
+
+    // Borrar carpeta temporal si existe
+    await fsp.rm(TempPath, { recursive: true, force: true });
+    await fsp.mkdir(TempPath, { recursive: true });
+
+    const ActiveInstance = await settingsHelper.getActiveInstanceEx();
+    const SourcePath = path.join(ActiveInstance.path, 'EDHM-ini');
+    const filesToCopy = [
+      'Advanced.ini',
+      'Startup-Profile.ini',
+      'SuitHud.ini',
+      'XML-Profile.ini',
+      'ThemeSettings.json'
+    ];
+
+    let copiedCount = 0;
+
+    for (const file of filesToCopy) {
+      const src = path.join(SourcePath, file);
+      const dest = path.join(TempPath, file);
+
+      try {
+        await fsp.copyFile(src, dest);
+        copiedCount++;
+      } catch (err) {
+        console.log(`Warning: Could not copy ${file}. It may not exist.`);
+        if (err.code !== 'ENOENT') throw err; // ignorar si no existe
+      }
     }
+
+    return `BackUp Current Settings: ${copiedCount} Files Copied.`;
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.error(error);
+    return 'Error during backup, 0 Files Copied.';
+    //throw error;
   }
 }
+
 async function RestoreCurrentSettings() {
-  try {    
-    const TempPath = await FileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\CurrentSettings`);
-    const TempExist = await FileHelper.ensureDirectoryExists(TempPath);
-    if (TempExist) {
-      const ActiveInstance = await settingsHelper.getActiveInstanceEx();
-      const DestinationPath = path.join(ActiveInstance.path, 'EDHM-ini');
-      const _ret = await FileHelper.copyFiles(TempPath, DestinationPath, ['.ini', '.json']);
-      return 'Restore Current Settings: ' + _ret + ' Files Copied.';
+  try {
+    const TempPath = FileHelper.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\CurrentSettings');
+    const ActiveInstance = await settingsHelper.getActiveInstanceEx();
+    const DestinationPath = path.join(ActiveInstance.path, 'EDHM-ini');
+
+    const filesToRestore = [
+      'Advanced.ini',
+      'Startup-Profile.ini',
+      'SuitHud.ini',
+      'XML-Profile.ini',
+      'ThemeSettings.json'
+    ];
+
+    let restoredCount = 0;
+
+    for (const file of filesToRestore) {
+      const src = path.join(TempPath, file);
+      const dest = path.join(DestinationPath, file);
+
+      try {
+        await fsp.copyFile(src, dest);
+        restoredCount++;
+      } catch (err) {
+        console.log(`Warning: Could not restore ${file}. It may not exist.`);
+        if (err.code !== 'ENOENT') throw err;
+      }
     }
+
+    return `Restore Current Settings: ${restoredCount} Files Copied.`;
   } catch (error) {
-    console.log(error);
-    throw error;
+    console.error(error);
+    return 'Error during restore, 0 Files Copied.';
+    //throw error;
   }
 }
 

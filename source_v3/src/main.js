@@ -358,12 +358,15 @@ function openSettingsWindow(initData, options = {}) {
         nodeIntegration: false
       },
       ...options
-    })
+    });
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-      win.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/SettingsWindow/settings.html`)
+      win.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/SettingsWindow/settings.html`);
+      win.webContents.openDevTools( { mode: 'detach'});
     } else {
-      win.loadFile(path.join(__dirname, '../renderer/SettingsWindow/settings.html'))
+      const settingsPath = path.join(process.resourcesPath, 'settings_window', 'settings.html');
+      win.loadFile(settingsPath);
+      win.webContents.openDevTools( { mode: 'detach'});
     }
 
     win.once('ready-to-show', () => {
@@ -427,10 +430,14 @@ ipcMain.on('settings:open', (event, initData) => {
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
       win.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}/src/SettingsWindow/settings.html`);
-      //win.webContents.openDevTools( { mode: 'detach'});
+      win.webContents.openDevTools( { mode: 'detach'});
     } else {
-      win.loadFile(path.join(__dirname, '../renderer/SettingsWindow/settings.html'));
+      const settingsPath = path.join(process.resourcesPath, 'settings_window', 'settings.html');
+      win.loadFile(settingsPath);
+      //win.webContents.openDevTools( { mode: 'detach'});
     }
+
+
     win.webContents.once('did-finish-load', () => {
       win.webContents.send('settings:init-data', initData)
     })

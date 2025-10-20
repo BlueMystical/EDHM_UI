@@ -3,6 +3,12 @@
    "active_jobs": [
       {
          "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\nvapi64.dll",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
          "file_path": "%GAME_PATH%\\d3dcompiler_46.dll",
          "action": "DEL",
          "destination": ""
@@ -13,7 +19,6 @@
          "action": "DEL",
          "destination": ""
       }
-
    ],
    "inactive_jobs": [
       {

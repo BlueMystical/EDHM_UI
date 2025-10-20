@@ -409,7 +409,7 @@ export default {
         setXmlValueDOM(xmlString, path, newValue) {
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-            // console.log('setXmlValueDOM - Root Element Tag:', xmlDoc.documentElement.tagName);
+            console.log('setXmlValueDOM - Root Element Tag:', xmlDoc.documentElement.tagName);
 
             const rootElementTag = xmlDoc.documentElement.tagName;
             const elements = path.split('/').filter(p => p !== '');

@@ -57,6 +57,7 @@ const resolveEnvVariables = (inputPath) => {
       '$TMPDIR': process.platform === 'win32' ? (process.env.TEMP || process.env.TMP) : (process.env.TMPDIR || '/tmp'),
       '$XDG_CONFIG_HOME': process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config'),
       '$XDG_DATA_HOME': process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share'),
+      '%GAME_PATH%': getActiveInstanceDirectory(),
     };
 
     // Replace environment variables and tilde (~) in the path
@@ -72,7 +73,6 @@ const resolveEnvVariables = (inputPath) => {
     resolvedPath = isWindows
       ? resolvedPath.replace(/\//g, '\\') // Convert forward slashes to backslashes for Windows
       : resolvedPath.replace(/\\/g, '/'); // Convert backslashes to forward slashes for Linux/Mac
-
     resolvedPath = path.normalize(resolvedPath); // Normalize path to remove redundancies
     //console.log(`Resolving environment variable: ${OriginalPath} -> ${resolvedPath}`);
     return resolvedPath;
@@ -196,6 +196,44 @@ function getAssetUrl(assetPath) {
     throw new Error(error.message + error.stack);
   }
 }
+
+function getActiveInstanceDirectory() {
+  const programSettingsPath = path.join(os.homedir(), 'EDHM_UI', 'Settings.json');
+
+  try {
+    // 1. Verificar existencia del archivo
+    if (!fs.existsSync(programSettingsPath)) {
+      throw new Error(`Program settings file not found at: ${programSettingsPath}`);
+    }
+
+    // 2. Leer y parsear JSON
+    const data = fs.readFileSync(programSettingsPath, { encoding: 'utf8' });
+    const programSettings = JSON.parse(data);
+
+    // 3. Añadir metadato útil
+    programSettings.UserDataFolder = path.dirname(programSettingsPath);
+
+    // 4. Validar estructura mínima
+    if (!Array.isArray(programSettings.GameInstances)) {
+      throw new Error('Invalid settings: GameInstances is missing or not an array');
+    }
+
+    // 5. Buscar instancia activa
+    const gameInstance = programSettings.GameInstances
+      .flatMap(instance => Array.isArray(instance.games) ? instance.games : [])
+      .find(game => game.instance === programSettings.ActiveInstance);
+
+    if (!gameInstance) {
+      throw new Error(`Active instance '${programSettings.ActiveInstance}' not found`);
+    }
+
+    return gameInstance.path;
+
+  } catch (error) {
+    // Error más claro y con stack separado
+    throw new Error(`getActiveInstanceDirectory failed: ${error.message}\n${error.stack}`);
+  }
+};
 
 // #endregion
 
@@ -1457,19 +1495,16 @@ ipcMain.handle('ShowSaveDialog', async (event, options) => {
 
 
 ipcMain.handle('detect-program', async (event, exeName) => {
-  try {
-    return new Promise((resolve, reject) => {
-      detectProgram(exeName, (error, exePath) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(exePath);
-        }
-      });
+  return new Promise((resolve) => {
+    detectProgram(exeName, (error, exePath) => {
+      if (error) {
+        console.error('Error detecting program:', error);
+        resolve(""); // devolvemos cadena vacía en caso de error
+      } else {
+        resolve(exePath);
+      }
     });
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  });
 });
 ipcMain.handle('start-monitoring', (event, exeName) => {
   const interval = setInterval(() => {
@@ -1911,6 +1946,8 @@ export default {
   findFileWithPattern,
   ensureDirectoryExists,
   ensureSymlink,
+
+  getActiveInstanceDirectory,
 
   getParentFolder,
   ShowOpenDialog,

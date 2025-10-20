@@ -719,6 +719,8 @@ async function UninstallEDHMmod(gameInstance) {
       'd3dx.ini',
       'd3d11.dll',
       'd3dcompiler_46.dll',
+      'd3dcompiler_47.dll',
+      'nvapi64.dll',
       'EDHM-Uninstall.bat',
     ];
 
@@ -735,6 +737,9 @@ async function UninstallEDHMmod(gameInstance) {
         console.warn(`Failed to delete ${file}:`, err);
       }
     }
+
+    // Also delete the files from the extra path:
+    fileHelper.deleteFolderRecursive(fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI\\ODYSS\\EDHM'));
 
   } catch (error) {
     console.error('Error during uninstallation:', error);

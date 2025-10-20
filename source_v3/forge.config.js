@@ -1,10 +1,11 @@
+// forge.config.js
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 const fs = require('node:fs');
 const path = require('path');
 
-function reveal(r)      {return atob(r).split("").map((r=>String.fromCharCode(r.charCodeAt(0)-3))).join("").split("").reverse().join("")};
-function safeInclude(n) {return fs.existsSync(n)?n:null}
+function reveal(r) { return atob(r).split("").map((r => String.fromCharCode(r.charCodeAt(0) - 3))).join("").split("").reverse().join("") };
+function safeInclude(n) { return fs.existsSync(n) ? n : null }
 
 
 
@@ -15,14 +16,15 @@ module.exports = {
     extraResource: [
       'src/data',
       'src/images',
-      'public'
+      'public',
+      'out/renderer/settings_window'
     ],
-    icon:               path.join(__dirname, 'src','images','Icon_v3_a0.ico'), //'public/images/Icon_v3_a0.ico'
-    appCategoryType:    'public.app-category.developer-tools',
+    icon: path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'), //'public/images/Icon_v3_a0.ico'
+    appCategoryType: 'public.app-category.developer-tools',
     win32metadata: {
-      FileDescription:  'Mod for Elite Dangerous to customize the HUD of any ship.',
-      ProductName:      'EDHM-UI-V3',
-      CompanyName:      'Blue Mystic',
+      FileDescription: 'Mod for Elite Dangerous to customize the HUD of any ship.',
+      ProductName: 'EDHM-UI-V3',
+      CompanyName: 'Blue Mystic',
       "requested-execution-level": "highestAvailable"
     }
   },
@@ -30,16 +32,16 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        name:         'EDHM-UI-V3',
-        authors:      'Blue Mystic',
+        name: 'EDHM-UI-V3',
+        authors: 'Blue Mystic',
         appCopyright: 'Blue Mystic - 2025',
-        description:  'Mod for Elite Dangerous to customize the HUD of any ship.',
-        setupExe:     'edhm-ui-v3-windows-x64.exe',
+        description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
+        setupExe: 'edhm-ui-v3-windows-x64.exe',
 
-        iconUrl: 'file:///' + path.join(__dirname, 'src','images','Icon_v3_a0.ico'),
-        setupIcon:            path.join(__dirname, 'src','images','Icon_v3_a0.ico'),       //setupIcon: 'src/images/Icon_v3_a0.ico',         
-        icon:                 path.join(__dirname, 'src','images','Icon_v3_a0.ico'),       //icon: 'src/images/Icon_v3_a0.ico',
-        loadingGif:           path.join(__dirname, 'src','images','EDHNUIv3B.gif'),
+        iconUrl: 'file:///' + path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'),
+        setupIcon: path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'),       //setupIcon: 'src/images/Icon_v3_a0.ico',         
+        icon: path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'),       //icon: 'src/images/Icon_v3_a0.ico',
+        loadingGif: path.join(__dirname, 'src', 'images', 'EDHNUIv3B.gif'),
 
         shortcutFolderName: 'EDHM-UI-V3',
         shortcutName: 'EDHM-UI-V3',
@@ -76,7 +78,12 @@ module.exports = {
             name: 'main_window',
             config: 'vite.renderer.config.mjs',
           },
-        ],
+          {
+            name: 'settings',
+            config: 'vite.settings.config.mjs',
+          },
+        ]
+
       },
     },
     new FusesPlugin({

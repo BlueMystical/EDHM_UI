@@ -508,16 +508,7 @@ export default {
           const _ret = await window.api.DisableEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
           if (_ret) {
             EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Disabled!' });
-          }/*
-          EventBus.emit('RoastMe', { 
-            type: 'Accent', 
-            accent: 'info',
-            background: 'warning',
-            title: 'NOTICE:', 
-            message: "Last FDev update broke some elements,<br>few oranges can be seen.<br>We are working to fix it as fast as we can.<br><a href='https://discord.gg/ZaRt6bCXvj' class='link-primary' target='_blank' rel='noopener noreferrer'>&nbsp;Join our Discord</a> for more info or workarounds.", 
-            autoHide: false, 
-            width:'440px'            
-           });*/
+          }
         }
         if (value === 'mnuGoToDiscord') {
           await window.api.openUrlInBrowser('https://discord.gg/ZaRt6bCXvj');
@@ -649,8 +640,6 @@ export default {
       this.programSettings.FavToogle = false;
       await window.api.writeSetting('FavToogle', false); 
     },
-
-    /** Toggles the Favorites list */
     async toggleFavorites_click(event) {
       this.showFavorites = !this.showFavorites;
       this.programSettings.FavToogle = this.showFavorites;
@@ -663,7 +652,6 @@ export default {
       //console.log('Favorites toggled:', this.showFavorites);
       return this.showFavorites;
     },
-
     async OnHistoryBox_Click(event) {
       // Click an item on the History Box
       //const selectedValue = event.target.value;
@@ -736,7 +724,7 @@ export default {
 
       // We gather data from this 2 datasets: this.themesLoaded and themeTemplate
       //console.log('themesLoaded:', this.themesLoaded);
-      //console.log('themeTemplate:', this.themeTemplate );
+      console.log('themeTemplate:', this.themeTemplate );
 
       try {
         //1. Looking on the HUD settings:
@@ -788,18 +776,18 @@ export default {
 
         //4. Here we Apply the Filter:
         if (query) {
-
           this.searchResults = allElements.filter(element =>
             element &&
             element.Title && typeof element.Title.toLowerCase === 'function' &&
             element.Category && typeof element.Category.toLowerCase === 'function' &&
             element.Description && typeof element.Description.toLowerCase === 'function' &&
-            (element.Title.toLowerCase().includes(searchQuery) ||
+            (
+              element.Title.toLowerCase().includes(searchQuery) ||
               element.Category.toLowerCase().includes(searchQuery) ||
-              element.Description.toLowerCase().includes(searchQuery))
+              element.Description.toLowerCase().includes(searchQuery) ||
+              (element.Key && typeof element.Key.toLowerCase === 'function' && element.Key.toLowerCase().includes(searchQuery)) // <-- agregado
+            )
           ).concat(filteredThemes).concat(FilteredGlobals);
-
-
         } else {
           // If no filter, return them ALL !
           this.searchResults = allElements.filter(element =>
@@ -809,6 +797,7 @@ export default {
             element.Description
           ).concat(filteredThemes);
         }
+
         //console.log('searchResults:', this.searchResults);
       } catch (error) {
         EventBus.emit('ShowError', error);
