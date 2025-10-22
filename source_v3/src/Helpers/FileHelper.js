@@ -231,7 +231,9 @@ function getActiveInstanceDirectory() {
 
   } catch (error) {
     // Error más claro y con stack separado
-    throw new Error(`getActiveInstanceDirectory failed: ${error.message}\n${error.stack}`);
+    console.log(`getActiveInstanceDirectory failed: ${error.message}\n${error.stack}`);
+    return "";
+    //throw new Error(`getActiveInstanceDirectory failed: ${error.message}\n${error.stack}`);
   }
 };
 

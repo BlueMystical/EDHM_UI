@@ -32,6 +32,15 @@
                                 </div>
                             </template>
 
+                            <!-- On/Off Boolean -->
+                            <template v-if="key.type.toLowerCase() === 'boolean'">
+                                <div class="form-check form-switch" :id="'element-' + key.key">
+                                    <input class="form-check-input larger-switch" type="checkbox"
+                                        :checked="key.value === 'false'"
+                                        @change="OnBooleanValueChange(sectionIndex, key, $event)" />
+                                </div>
+                            </template>
+
                             <!-- Range Slider Control -->
                             <template v-else-if="key.type.toLowerCase().startsWith('decimal')">
                                 <div class="range-container" :id="'element-' + key.Key">
@@ -520,6 +529,10 @@ export default {
         },
         OnToggleValueChange(sectionIndex, item, event) {
             const value = event.target.checked ? 1 : 0;
+            this.updateDataSourceValue(sectionIndex, item, value);
+        },
+        OnBooleanValueChange(sectionIndex, item, event) {
+            const value = event.target.checked ? true : false;
             this.updateDataSourceValue(sectionIndex, item, value);
         },
         OnColorValueChange(sectionIndex, item, event) {
