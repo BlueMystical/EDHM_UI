@@ -18,6 +18,12 @@
          "file_path": "%GAME_PATH%\\EDHM-ini\\3rdPartyMods\\CockpitPaintMod\\*.*",
          "action": "DEL",
          "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%UI_DOCS%\\ODYSS\\Themes\\Refined White Theme",
+         "action": "RMDIR",
+         "destination": ""
       }
    ],
    "inactive_jobs": [
@@ -53,7 +59,7 @@
       },
       {
          "game": "ODYSSEY",
-         "file_path": "%UI_DOCS%\\ODYSS\\Themes\\Pink Pinky Poo",
+         "file_path": "%UI_DOCS%\\ODYSS\\Themes\\Refined White Theme",
          "action": "RMDIR",
          "destination": ""
       },

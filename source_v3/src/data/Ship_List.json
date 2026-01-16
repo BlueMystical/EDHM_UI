@@ -328,5 +328,12 @@
     "ed_short": "lakonminer",
     "size": "medium",
     "role": "Miner "
+  },
+  {
+    "ship_full_name": "Caspian Explorer",
+    "ship_id": 54,
+    "ed_short": "explorer_nx",
+    "size": "Large",
+    "role": "Explorer "
   }
 ]

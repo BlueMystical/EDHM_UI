@@ -1,7 +1,7 @@
 {
     "language": "en",
     "game": "ED_Odissey",
-    "version": "21.00",
+    "version": "21.04",
     "credits": {
         "theme": "Carinae",
         "author": "CMDR GeorjCostanza",
@@ -4026,7 +4026,7 @@
                     "Value": 0,
                     "ValueType": "Preset",
                     "Type": "SuitHUDPanel",
-                    "Description": "Option to Turn OFF HUD Elements or Hide Only Inactive Parts on Station Concourse"
+                    "Description": "Option to Turn OFF HUD Elements or Hide Only Inactive Parts on Station Concourse<br><br>Note: Need Panels Mode x30 = 100 or 199"
                 },
                 {
                     "Category": "Suit HUD - Panels",
@@ -4037,7 +4037,7 @@
                     "Value": 1,
                     "ValueType": "ONOFF",
                     "Type": "ONOFF",
-                    "Description": "Option to Turn OFF the Dot in the Middle of the Screen on Station Concourse<br><br>Note: Need to also disable Foot HUD Elements while on a Station Concourse"
+                    "Description": "Option to Turn OFF the Dot in the Middle of the Screen on Station Concourse<br><br>Note: Need Panels Mode x30 = 100 or 199"
                 },
                 {
                     "Category": "Suit HUD - Texts",

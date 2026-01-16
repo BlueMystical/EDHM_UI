@@ -13,7 +13,7 @@
             <!--Left Column-->
             <div class="col-4">
 
-              <!-- 3x3 Grid of Sliders -->
+              <!-- 3x3 Grid of Sliders  -->
               <div class="row">
                 <div class="col-4">
                   <label for="redSlider1">Red: {{ sliderValues[0][0] }}</label>
@@ -74,49 +74,52 @@
               <div class="row h-50">
                 <div class="mb-3">
                   <label for="colorMatrixInput">XML input</label>
-                  <textarea id="colorMatrixInput" class="form-control" 
-                      rows="4" @input="onColorMatrixPaste" 
-                      spellcheck="false" :value="formattedColorMatrix" 
-                      style="resize: none; text-align: center; "></textarea>
+                  <textarea id="colorMatrixInput" class="form-control" rows="4" @input="onColorMatrixPaste"
+                    spellcheck="false" :value="formattedColorMatrix"
+                    style="resize: none; text-align: center; "></textarea>
                 </div>
                 <hr>
                 <div class="btn-group mb-3" role="group" aria-label="Basic example">
-                  <button class="btn btn-outline-secondary" type="button" @click="GoToNo2_Click">Get XML Presets</button>
-                  <button class="btn btn-outline-secondary" type="button" @click="ShowInfo_Click">What is a Color Matrix?</button>
-                </div>                
+                  <button class="btn btn-outline-secondary" type="button" @click="GoToNo2_Click">Get XML
+                    Presets</button>
+                  <button class="btn btn-outline-secondary" type="button" @click="ShowInfo_Click">What is a Color
+                    Matrix?</button>
+                </div>
               </div><!--/XmlInput-->
 
             </div><!--/LeftColumn-->
 
-            <!-- Right Column -->
+          <!-- Right Column -->
             <div class="col-8 position-relative" style="height: 450px;">
 
               <!-- Tab Headers -->
-              <ul id="myTab" class="nav nav-tabs w-100 p-3 position-absolute top-0"  role="tablist">
+              <ul id="myTab" class="nav nav-tabs w-100 p-3 position-absolute top-0" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#image-tab-pane" type="button" role="tab" aria-controls="image-tab-pane" aria-selected="true">Panels</button>
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#image-tab-pane"
+                    type="button" role="tab" aria-controls="image-tab-pane" aria-selected="true">Panels</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Color Transformation</button>
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                    type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Color Transformation</button>
                 </li>
-              </ul>              
-              <div id="myTabContent" class="tab-content h-100 w-100" >
+              </ul>
+
+              <!-- Tab Content -->
+              <div id="myTabContent" class="tab-content h-100 w-100">
+
                 <!-- TabPane for Image -->
-                <div class="tab-pane fade show active " id="image-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                  <!-- Define the SVG filter -->
-                  <svg width="0" height="0">
-                    <filter id="colorMatrixFilter">
-                      <feColorMatrix type="matrix" :values="getMatrixValues"/>
-                    </filter>
-                  </svg>
-                  <!-- Apply the filter to this image -->
-                  <img id="targetImage" ref="image" :src="originalImageSrc" 
-                      class="position-absolute w-100 p-3 " 
-                      :style="{ filter: 'url(#colorMatrixFilter)', top: '80px' }" />
+                <div class="tab-pane fade show active h-100" id="image-tab-pane" role="tabpanel" aria-labelledby="home-tab">
+                  <div ref="canvasWrapper" class="d-flex justify-content-center align-items-center h-100 border rounded" >
+                    <!-- Hidden original canvas -->
+                    <canvas ref="canvasOriginal" class="d-none"></canvas>
+                    <!-- Visible filtered canvas -->
+                    <canvas ref="canvasFiltered" class="d-block mx-auto" style="top: 100px;"></canvas>
+                  </div>
                 </div>
 
                 <!-- Tab Pane for Profile -->
-                <div class="tab-pane fade h-100 w-100" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="tab-pane fade h-100 w-100" id="profile-tab-pane" role="tabpanel"
+                  aria-labelledby="profile-tab" tabindex="1">
                   <!-- 6x6 Grid for Individual Color Transformations-->
                   <div class="container text-center position-absolute w-100 p-3 " style="top:80px">
                     <div class="row">
@@ -167,19 +170,21 @@
                     <div class="row" style="height: 50px;">
                       <div class="col d-flex justify-content-center align-items-center">Custom Color</div>
                       <div class="col border" :style="{ 'background-color': colorTranform[4].default }">
-                        <input type="color" v-model="colorTranform[4].default" @input="onColorChange"></div>
+                        <input type="color" v-model="colorTranform[4].default" @input="onColorChange">
+                      </div>
                       <div class="col">→</div>
                       <div class="col border" :style="{ 'background-color': colorTranform[4].hex }"></div>
                       <div class="col d-flex justify-content-center align-items-center">{{ colorTranform[4].rgb }}</div>
                       <div class="col d-flex justify-content-center align-items-center">{{ colorTranform[4].hex }}</div>
                     </div>
 
-                    <div class="alert alert-info  m-2" role="alert">Individual colors are transformed using the XML filter.</div>
+                    <div class="alert alert-info  m-2" role="alert">Individual colors are transformed using the XML
+                      filter.</div>
                   </div>
-                  
-                </div>
+
+                </div><!-- /TabPane Profile -->
               </div><!--/TabContent-->
-            
+
             </div><!--/RightColumn-->
           </div><!--/Row-->
         </div><!--/ModalBody-->
@@ -199,7 +204,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import { ref } from 'vue';
 import EventBus from '../../EventBus.js';
@@ -209,19 +214,24 @@ export default {
   data() {
     return {
       sliderValues: [
-        [1.0, 0.0, 0.0], // Red[0]:   Red[0][0], Green[0][1], Blue[0][2]
-        [0.0, 1.0, 0.0], // Green[1]: Red[1][0], Green[1][1], Blue[1][2]
-        [0.0, 0.0, 1.0], // Blue[2]:  Red[2][0], Green[2][1], Blue[2][2]
+        [1.0, 0.0, 0.0], // Red[0][0], Green[0][1], Blue[0][2]
+        [0.0, 1.0, 0.0], // Red[1][0], Green[1][1], Blue[1][2]
+        [0.0, 0.0, 1.0], // Red[2][0], Green[2][1], Blue[2][2]
       ],
       colorMatrix: '', // Placeholder for copied color matrix
-      originalImageSrc: '../../images/xml-base.jpg',
+      originalImageSrc: '../../images/xml-base_02.png',
+      canvasFiltered: ref(null),
+      canvasOriginal: ref(null),
+      imgObj: null,
+      gamma: ref(1.0),
+      saturation: ref(1.0),
       themeName: '', //For Dialog's Title
-      colorTranform: [ 
-        { id: 'Orange', default: '#FFA500', rgb: '255;165;0',   hex: '#FFA500'},
-        { id: 'White',  default: '#FFFFFF', rgb: '255;255;255', hex: '#FFFFFF'},
-        { id: 'Red',    default: '#FF0000', rgb: '255;0;0',     hex: '#FF0000'},
-        { id: 'Cyan',   default: '#00FFFF', rgb: '0;255;255',   hex: '#00FFFF'},
-        { id: 'Custom', default: '#008000', rgb: '0;128;0',     hex: '#008000'},
+      colorTranform: [
+        { id: 'Orange', default: '#FFA500', rgb: '255;165;0', hex: '#FFA500' },
+        { id: 'White', default: '#FFFFFF', rgb: '255;255;255', hex: '#FFFFFF' },
+        { id: 'Red', default: '#FF0000', rgb: '255;0;0', hex: '#FF0000' },
+        { id: 'Cyan', default: '#00FFFF', rgb: '0;255;255', hex: '#00FFFF' },
+        { id: 'Custom', default: '#008000', rgb: '0;128;0', hex: '#008000' },
       ],
     };
   },
@@ -248,16 +258,6 @@ export default {
   methods: {
     async OnInitialize() {
       this.loadImage();
-
-      //this.filters = this.getColorMatrixFilters();
-      //this.filtersList = this.filters.getFilterNames();
-      //console.log(this.filtersList);
-      //const deuteranopiaFilter = this.filters('brightness'); 
-      //console.log(deuteranopiaFilter(1));
-
-      /*watch(this.colorMatrix, () => {
-        parseColorMatrix(); 
-      });*/
     },
     getLabel(colIndex) {
       const labels = ['Red', 'Green', 'Blue'];
@@ -280,65 +280,239 @@ export default {
       ];
       this.$refs.image.src = this.originalImageSrc;
     },
+
+
+    // ------------------------------------------------------------------------------------------
+    //-- APLICA EL FILTRO XML USANDO WEBGL ------------------------------------------------------
+
+    // Cargar imagen
     async loadImage() {
-      const img = await window.api.getAssetFileUrl('images/xml-base.jpg');
-      this.originalImageSrc = img;
+      const url = await window.api.getAssetFileUrl('images/xml-base_02.png');
+      await new Promise((resolve, reject) => {
+        this.imgObj = new Image();
+        this.imgObj.onload = resolve;
+        this.imgObj.onerror = () => reject(new Error(`No se pudo cargar la imagen: ${url}`));
+        this.imgObj.src = url;
+
+        // Acceder a los canvas desde $refs
+        const canvasOriginal = this.$refs.canvasOriginal;
+        const canvasFiltered = this.$refs.canvasFiltered;
+
+        canvasOriginal.width = this.imgObj.width || 1;
+        canvasOriginal.height = this.imgObj.height || 1;
+
+        canvasFiltered.width = this.imgObj.width || 1;
+        canvasFiltered.height = this.imgObj.height || 1;
+
+        console.log('XML Image loaded.');
+
+        const ctxOriginal = canvasOriginal.getContext('2d', { willReadFrequently: true });
+        ctxOriginal.drawImage(this.imgObj, 0, 0);
+      });
     },
-    applyFilter() {
-      // Reset the image source to the original
-      this.$refs.image.src = this.originalImageSrc;
+
+    async applyFilter() {
+      // Obtiene la imagen base
+      const imagenSrc = await window.api.getAssetFileUrl('images/xml-base_02.png');
+      console.log('Applying filter with matrix:', this.matrix);
+
+      //this.$refs.image.src = this.originalImageSrc;
       this.TransformXMLColors();
 
       // Force Vue to reapply the filter
       this.$nextTick(() => {
         //:style="{ filter: 'url(#colorMatrixFilter)', top: '80px' }" 
-       this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
-       this.applyColorMatrix();
+        //this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
+        //this.applyColorMatrix();
+      });
+
+      // Construye la matriz 4x4 + offset desde tu 3x3
+      const mat = this.buildWebGLColorMatrixFrom3x3(
+        this.matrix,
+        1.0,
+        { r: 0, g: 0, b: 0, a: 0 }
+      );
+
+      // Aplica el filtro con gamma y saturación
+      await this.applyColorMatrixWebGL({
+        imageSrc: imagenSrc,
+        canvas: this.$refs.canvasFiltered,   // tu ref al canvas destino
+        colorMatrix: mat,
+        gammaValue: this.gamma,        // valor dinámico del slider
+        saturationValue: this.saturation // valor dinámico del slider
       });
     },
-    applyColorMatrix() {
-      const img = this.$refs.image; // still showing originalImageSrc
-      const width = img.naturalWidth;
-      const height = img.naturalHeight;
+    // Construye la matriz 4x4 + offset para WebGL a partir de una matriz 3x3
+    buildWebGLColorMatrixFrom3x3(m3, alphaScale = 1.0, offsets = { r: 0, g: 0, b: 0, a: 0 }) {
+      //console.log('Building WebGL color matrix from 3x3:', m3, 'Alpha Scale:', alphaScale, 'Offsets:', offsets);
 
-      // create an off-screen canvas
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
+      const m00 = m3[0][0], m01 = m3[0][1], m02 = m3[0][2];
+      const m10 = m3[1][0], m11 = m3[1][1], m12 = m3[1][2];
+      const m20 = m3[2][0], m21 = m3[2][1], m22 = m3[2][2];
 
-      // draw the original image as the starting point
-      ctx.drawImage(img, 0, 0, width, height);
-
-      // get pixel data
-      const imageData = ctx.getImageData(0, 0, width, height);
-      const data = imageData.data;
-
-      // build 3x3 matrix from sliders
-      const matrix = [
-        [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2]],
-        [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2]],
-        [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2]],
+      const matrix4x4 = [
+        m00, m01, m02, 0,
+        m10, m11, m12, 0,
+        m20, m21, m22, 0,
+        0, 0, 0, alphaScale
       ];
-
-      // loop over pixels
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
-
-        data[i] = r * matrix[0][0] + g * matrix[0][1] + b * matrix[0][2];
-        data[i + 1] = r * matrix[1][0] + g * matrix[1][1] + b * matrix[1][2];
-        data[i + 2] = r * matrix[2][0] + g * matrix[2][1] + b * matrix[2][2];
-        // alpha stays the same
-      }
-
-      ctx.putImageData(imageData, 0, 0);
-
-      // now set the result somewhere — e.g., show in another <img>
-      //this.filteredImageSrc = canvas.toDataURL();
-      this.$refs.image.src  = canvas.toDataURL();
+      const offset = [offsets.r, offsets.g, offsets.b, offsets.a];
+      return { matrix4x4, offset };
     },
+    // Aplica la matriz de color usando WebGL con gamma y saturación
+    async applyColorMatrixWebGL({ imageSrc, canvas, colorMatrix, gammaValue = 1.0, saturationValue = 1.0 }) {
+
+      const gl = canvas.getContext('webgl', { premultipliedAlpha: false, alpha: true });
+      if (!gl) throw new Error('WebGL no disponible');
+
+      const vertSrc = this.vertexSourceWebGL1();
+      const fragSrc = this.fragmentSourceWebGL1();
+
+      const vs = compileShader(gl, gl.VERTEX_SHADER, vertSrc);
+      const fs = compileShader(gl, gl.FRAGMENT_SHADER, fragSrc);
+      const program = linkProgram(gl, vs, fs);
+      gl.useProgram(program);
+
+      // Fullscreen quad - posición
+      const posBuf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        -1, -1, 1, -1, -1, 1,
+        -1, 1, 1, -1, 1, 1
+      ]), gl.STATIC_DRAW);
+      const aPos = gl.getAttribLocation(program, 'a_position');
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      // Fullscreen quad - texcoords
+      const texBuf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, texBuf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        0, 0, 1, 0, 0, 1,
+        0, 1, 1, 0, 1, 1
+      ]), gl.STATIC_DRAW);
+      const aTex = gl.getAttribLocation(program, 'a_texCoord');
+      gl.enableVertexAttribArray(aTex);
+      gl.vertexAttribPointer(aTex, 2, gl.FLOAT, false, 0, 0);
+
+      // Imagen como textura
+      const img = await loadImage(imageSrc);
+      canvas.width = img.width;
+      canvas.height = img.height;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+
+      const tex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+
+      // Uniforms
+      gl.uniform1i(gl.getUniformLocation(program, 'u_image'), 0);
+      gl.uniformMatrix4fv(gl.getUniformLocation(program, 'u_colorMatrix'), false, new Float32Array(colorMatrix.matrix4x4));
+      gl.uniform4fv(gl.getUniformLocation(program, 'u_colorOffset'), new Float32Array(colorMatrix.offset));
+      gl.uniform1f(gl.getUniformLocation(program, 'u_gamma'), gammaValue);
+      gl.uniform1f(gl.getUniformLocation(program, 'u_saturation'), saturationValue);
+
+      // Draw
+      gl.drawArrays(gl.TRIANGLES, 0, 10);
+
+      return canvas.toDataURL('image/png');
+
+      // Helpers
+      function compileShader(gl, type, src) {
+        const sh = gl.createShader(type);
+        gl.shaderSource(sh, src);
+        gl.compileShader(sh);
+        if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+          const log = gl.getShaderInfoLog(sh);
+          gl.deleteShader(sh);
+          throw new Error('Shader compile error: ' + log);
+        }
+        return sh;
+      }
+      function linkProgram(gl, vs, fs) {
+        const p = gl.createProgram();
+        gl.attachShader(p, vs);
+        gl.attachShader(p, fs);
+        gl.linkProgram(p);
+        if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+          const log = gl.getProgramInfoLog(p);
+          gl.deleteProgram(p);
+          throw new Error('Program link error: ' + log);
+        }
+        return p;
+      }
+      function loadImage(src) {
+        return new Promise((resolve, reject) => {
+          const im = new Image();
+          im.crossOrigin = 'anonymous';
+          im.onload = () => resolve(im);
+          im.onerror = reject;
+          im.src = src;
+        });
+      }
+    },
+    // ===== Shaders WebGL1 =====
+    vertexSourceWebGL1() {
+      return `
+attribute vec2 a_position;
+attribute vec2 a_texCoord;
+varying vec2 v_texCoord;
+void main() {
+  gl_Position = vec4(a_position, 0.0, 1.0);
+  v_texCoord = a_texCoord;
+}
+`;
+    },
+    fragmentSourceWebGL1() {
+      return `
+precision mediump float;
+uniform sampler2D u_image;
+uniform mat4 u_colorMatrix;
+uniform vec4 u_colorOffset;
+uniform float u_gamma;
+uniform float u_saturation;
+varying vec2 v_texCoord;
+
+float srgbToLinear(float c) {
+  return (c <= 0.04045) ? (c / 12.92) : pow((c + 0.055) / 1.055, 2.4);
+}
+vec3 srgbToLinearVec3(vec3 c) {
+  return vec3(srgbToLinear(c.r), srgbToLinear(c.g), srgbToLinear(c.b));
+}
+float linearToSrgb(float c) {
+  return (c <= 0.0031308) ? (c * 12.92) : (1.055 * pow(c, 1.0 / 2.4) - 0.055);
+}
+vec3 linearToSrgbVec3(vec3 c) {
+  return vec3(linearToSrgb(c.r), linearToSrgb(c.g), linearToSrgb(c.b));
+}
+
+void main() {
+  vec4 texColor = texture2D(u_image, v_texCoord);
+
+  vec3 linearRGB = srgbToLinearVec3(texColor.rgb);
+  vec4 srcColor = vec4(linearRGB, texColor.a);
+  vec4 outLinear = u_colorMatrix * srcColor + u_colorOffset;
+
+  // Saturación
+  float luma = dot(outLinear.rgb, vec3(0.2126, 0.7152, 0.0722));
+  outLinear.rgb = mix(vec3(luma), outLinear.rgb, u_saturation);
+
+  // Gamma
+  outLinear.rgb = pow(outLinear.rgb, vec3(u_gamma));
+
+  outLinear = clamp(outLinear, 0.0, 1.0);
+
+  vec3 outSRGB = linearToSrgbVec3(outLinear.rgb);
+  gl_FragColor = vec4(outSRGB, outLinear.a);
+}`;
+    },
+    // ------------------------------------------------------------------------------------
 
     GoToNo2_Click() {
       window.api.openUrlInBrowser('https://forums.frontier.co.uk/threads/no2o-the-definitive-list-of-1-7-2-2-compatible-hud-colour-color-configs-please-add-yours.259311/');
@@ -369,102 +543,11 @@ export default {
         this.sliderValues[2] = blueMatrix[1].split(',').map(Number);
       }
       this.TransformXMLColors();
-      this.applyFilter();      
+      this.applyFilter();
     },
-    /*  THIS IS A MANUAL WAY TO APPLY THE XML MATRIX
-        applyColorMatrix() {
-          const canvas = this.$refs.canvas;
-          const ctx = canvas.getContext('2d');
-          const img = this.$refs.image;
-    
-          // Check if image is loaded
-          if (!img.complete) {
-            console.error('Image is not loaded yet!');
-            return;
-          }
-    
-          // Ensure canvas size matches image
-          canvas.width = img.width;
-          canvas.height = img.height;
-    
-          // Draw the image onto the canvas
-          ctx.drawImage(img, 0, 0);
-    
-          // Get the image data
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const data = imageData.data;
-    
-          // Define the color matrix (5x5 matrix for RGBA)
-          const matrix = [
-            [this.sliderValues[0][0], this.sliderValues[0][1], this.sliderValues[0][2], 0, 0],
-            [this.sliderValues[1][0], this.sliderValues[1][1], this.sliderValues[1][2], 0, 0],
-            [this.sliderValues[2][0], this.sliderValues[2][1], this.sliderValues[2][2], 0, 0],
-            [0, 0, 0, 1, 0],
-            [0, 0, 0, 0, 1]
-          ];
-    
-          for (let i = 0; i < data.length; i += 4) {
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-            const a = data[i + 3];
-    
-            // Apply the color matrix
-            const newR =
-              matrix[0][0] * r +
-              matrix[0][1] * g +
-              matrix[0][2] * b +
-              matrix[0][3] * a +
-              matrix[0][4];
-    
-            const newG =
-              matrix[1][0] * r +
-              matrix[1][1] * g +
-              matrix[1][2] * b +
-              matrix[1][3] * a +
-              matrix[1][4];
-    
-            const newB =
-              matrix[2][0] * r +
-              matrix[2][1] * g +
-              matrix[2][2] * b +
-              matrix[2][3] * a +
-              matrix[2][4];
-    
-            // Keep alpha unchanged (assuming premultiplied alpha)
-            const newA = a;
-    
-            // Clamp values to 0-255
-            data[i] =     Math.max(0, Math.min(255, newR));
-            data[i + 1] = Math.max(0, Math.min(255, newG));
-            data[i + 2] = Math.max(0, Math.min(255, newB));
-            // data[i + 3] = Math.max(0, Math.min(255, newA)); // Uncomment if you need to modify alpha
-    
-          }
-    
-          ctx.putImageData(imageData, 0, 0);
-        },*/
 
-    rgbToHex(r, g, b) {
-      function componentToHex(c) {
-        let hex = c.toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      }
-      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    },
-    hexToRgb(hex) {
-      // Remove the '#' if it's there
-      hex = hex.replace(/^#/, '');
+    /* -------- Color Transformation Section ----------- */
 
-      // Convert the string to an integer
-      let bigint = parseInt(hex, 16);
-
-      let r = (bigint >> 16) & 255;
-      let g = (bigint >> 8) & 255;
-      let b = bigint & 255;
-
-      return { red: r, green: g, blue: b };
-    },
     transformColorFromXML(xml, percentages) {
       let ret = { r: 255, g: 255, b: 255 }; // White color in RGB format
 
@@ -485,9 +568,10 @@ export default {
         const rgbR = Math.round(normR * 255);
         const rgbG = Math.round(normG * 255);
         const rgbB = Math.round(normB * 255);
-        const hex = this.rgbToHex(rgbR, rgbG, rgbB)
 
+        const hex = this.rgbToHex(rgbR, rgbG, rgbB);
         ret = { r: rgbR, g: rgbG, b: rgbB, h: hex };
+
       } catch (ex) {
         console.error(`ERROR: ${ex.message}\n${ex.stack}`);
         EventBus.emit('ShowError', ex);
@@ -496,47 +580,52 @@ export default {
     },
     TransformXMLColors() {
       try {
-        const xmlValues = 
-				{
-					red:    { red: this.sliderValues[0][0], green: this.sliderValues[0][1], blue: this.sliderValues[0][2] },
-					green:  { red: this.sliderValues[1][0], green: this.sliderValues[1][1], blue: this.sliderValues[1][2] },
-					blue:   { red: this.sliderValues[2][0], green: this.sliderValues[2][1], blue: this.sliderValues[2][2] },
-				};
+        const xmlValues =
+        {
+          red: { red: this.sliderValues[0][0], green: this.sliderValues[0][1], blue: this.sliderValues[0][2] },
+          green: { red: this.sliderValues[1][0], green: this.sliderValues[1][1], blue: this.sliderValues[1][2] },
+          blue: { red: this.sliderValues[2][0], green: this.sliderValues[2][1], blue: this.sliderValues[2][2] },
+        };
+        this.matrix = [
+          [xmlValues.red.red, xmlValues.red.green, xmlValues.red.blue],
+          [xmlValues.green.red, xmlValues.green.green, xmlValues.green.blue],
+          [xmlValues.blue.red, xmlValues.blue.green, xmlValues.blue.blue],
+        ];
 
         // Orange Transformation:
-				let Percentages = { red: 1.0, green: 0.5, blue: 0.0 };
-				const TransformColor_Orange = this.transformColorFromXML(xmlValues, Percentages);
+        let Percentages = { red: 1.0, green: 0.5, blue: 0.0 };
+        const TransformColor_Orange = this.transformColorFromXML(xmlValues, Percentages);
         this.colorTranform[0].hex = TransformColor_Orange.h;
-        this.colorTranform[0].rgb = TransformColor_Orange.r + ';' + TransformColor_Orange.g + ';' + TransformColor_Orange.b ;
+        this.colorTranform[0].rgb = TransformColor_Orange.r + ';' + TransformColor_Orange.g + ';' + TransformColor_Orange.b;
         //console.log('TransformColor_Orange:', TransformColor_Orange);
 
         // White Transformation:
-				Percentages = { red: 1.0, green: 1.0, blue: 1.0 };
-				const TransformColor_White = this.transformColorFromXML(xmlValues, Percentages);
+        Percentages = { red: 1.0, green: 1.0, blue: 1.0 };
+        const TransformColor_White = this.transformColorFromXML(xmlValues, Percentages);
         this.colorTranform[1].hex = TransformColor_White.h;
-        this.colorTranform[1].rgb = TransformColor_White.r + ';' + TransformColor_White.g + ';' + TransformColor_White.b ;
+        this.colorTranform[1].rgb = TransformColor_White.r + ';' + TransformColor_White.g + ';' + TransformColor_White.b;
         //console.log('TransformColor_White:', TransformColor_White);
 
         // Red Transformation:
-				Percentages = { red: 1.0, green: 0.0, blue: 0.0 };
-				const TransformColor_Red = this.transformColorFromXML(xmlValues, Percentages);
+        Percentages = { red: 1.0, green: 0.0, blue: 0.0 };
+        const TransformColor_Red = this.transformColorFromXML(xmlValues, Percentages);
         this.colorTranform[2].hex = TransformColor_Red.h;
-        this.colorTranform[2].rgb = TransformColor_Red.r + ';' + TransformColor_Red.g + ';' + TransformColor_Red.b ;
+        this.colorTranform[2].rgb = TransformColor_Red.r + ';' + TransformColor_Red.g + ';' + TransformColor_Red.b;
         //console.log('TransformColor_Red:', TransformColor_Red);
 
         //Cyan Transformation:
-				Percentages = { red: 0.0, green: 1.0, blue: 1.0 };
-				const TransformColor_Cyan = this.transformColorFromXML(xmlValues, Percentages);
+        Percentages = { red: 0.0, green: 1.0, blue: 1.0 };
+        const TransformColor_Cyan = this.transformColorFromXML(xmlValues, Percentages);
         this.colorTranform[3].hex = TransformColor_Cyan.h;
-        this.colorTranform[3].rgb = TransformColor_Cyan.r + ';' + TransformColor_Cyan.g + ';' + TransformColor_Cyan.b ;
+        this.colorTranform[3].rgb = TransformColor_Cyan.r + ';' + TransformColor_Cyan.g + ';' + TransformColor_Cyan.b;
         //console.log('TransformColor_Cyan:', TransformColor_Cyan);
 
         // Custom Color Transformation:
-				const CustomColor = this.hexToRgb(this.colorTranform[4].default);
+        const CustomColor = this.hexToRgb(this.colorTranform[4].default);
         Percentages = { red: CustomColor.red / 255, green: CustomColor.green / 255, blue: CustomColor.blue / 255 };
-				const TransformColor_Custom = this.transformColorFromXML(xmlValues, Percentages);
+        const TransformColor_Custom = this.transformColorFromXML(xmlValues, Percentages);
         this.colorTranform[4].hex = TransformColor_Custom.h;
-        this.colorTranform[4].rgb = TransformColor_Custom.r + ';' + TransformColor_Custom.g + ';' + TransformColor_Custom.b ;
+        this.colorTranform[4].rgb = TransformColor_Custom.r + ';' + TransformColor_Custom.g + ';' + TransformColor_Custom.b;
         //console.log('TransformColor_Custom:', TransformColor_Custom);
 
       } catch (ex) {
@@ -544,7 +633,26 @@ export default {
         EventBus.emit('ShowError', ex);
       }
     },
+    rgbToHex(r, g, b) {
+      function componentToHex(c) {
+        let hex = c.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      }
+      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    },
+    hexToRgb(hex) {
+      // Remove the '#' if it's there
+      hex = hex.replace(/^#/, '');
 
+      // Convert the string to an integer
+      let bigint = parseInt(hex, 16);
+
+      let r = (bigint >> 16) & 255;
+      let g = (bigint >> 8) & 255;
+      let b = bigint & 255;
+
+      return { red: r, green: g, blue: b };
+    },
 
 
   },
@@ -554,4 +662,8 @@ export default {
   beforeUnmount() { }
 }
 </script>
-<style scoped></style>
+<style scoped>
+#image-tab-pane {
+  overflow: hidden; /* keep canvas contained */
+}
+</style>

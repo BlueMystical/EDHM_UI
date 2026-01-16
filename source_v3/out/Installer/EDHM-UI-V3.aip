@@ -2,7 +2,7 @@
 <DOCUMENT Type="Advanced Installer" CreateVersion="18.8.1" version="18.8.1" Modules="professional" RootPath="." Language="en" Id="{759DE931-165F-46D2-822B-813469E4D4DE}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
-    <ROW Property="AI_CURRENT_YEAR" Value="2025" ValueLocId="-"/>
+    <ROW Property="AI_CURRENT_YEAR" Value="2026" ValueLocId="-"/>
     <ROW Property="AI_FINDEXE_TITLE" Value="Select the installation package for [|ProductName]" ValueLocId="AI.Property.FindExeTitle"/>
     <ROW Property="AI_SHORTCUTSREG" Value="0|0|0|0|"/>
     <ROW Property="ALLUSERS" Value="1"/>
@@ -14,10 +14,10 @@
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest"/>
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="Manufacturer" Value="Blue Mystic"/>
-    <ROW Property="ProductCode" Value="1033:{677F141E-1495-4180-B6EB-F22AC6203728} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{31B5649B-8A25-4E7A-AAE8-729ACB3ABD97} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="EDHM-UI-V3"/>
-    <ROW Property="ProductVersion" Value="3.0.56" Type="32"/>
+    <ROW Property="ProductVersion" Value="3.0.60" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{B446308B-0441-4301-84CF-79B7159894F5}"/>
@@ -554,10 +554,12 @@
     <ROW File="XMLProfile.ini_1" Component_="HORIZ_EDHMThemes.zip" FileName="XML-PR~1.INI|XML-Profile.ini" Attributes="0" SourcePath="..\EDHM-UI-V3-win32-x64\resources\data\HORIZ\XML-Profile.ini" SelfReg="false"/>
     <ROW File="panthermkii.jpg" Component_="default.jpg" FileName="PANTHE~1.JPG|panthermkii.jpg" Attributes="0" SourcePath="..\EDHM-UI-V3-win32-x64\resources\images\Ships\panthermkii.jpg" SelfReg="false"/>
     <ROW File="lakonminer.jpg" Component_="default.jpg" FileName="LAKONM~1.JPG|lakonminer.jpg" Attributes="0" SourcePath="..\EDHM-UI-V3-win32-x64\resources\images\Ships\lakonminer.jpg" SelfReg="false"/>
-    <ROW File="ODYSS_EDHMv21.02.zip" Component_="Global_Settings.json" FileName="ODYSS_~2.ZIP|ODYSS_EDHM-v21.02.zip" Attributes="0" SourcePath="..\EDHM-UI-V3-win32-x64\resources\data\ODYSS\ODYSS_EDHM-v21.02.zip" SelfReg="false"/>
     <ROW File="settingsBFuNDEBG.js" Component_="settingsBFuNDEBG.js" FileName="SETTIN~1.JS|settings-BFuNDEBG.js" Attributes="0" SourcePath="..\EDHM-UI-V3-win32-x64\resources\settings_window\assets\settings-BFuNDEBG.js" SelfReg="false"/>
     <ROW File="settingsDeEAiRR.css" Component_="settingsBFuNDEBG.js" FileName="SETTIN~1.CSS|settings-DeEAiRR-.css" Attributes="0" SourcePath="..\EDHM-UI-V3-win32-x64\resources\settings_window\assets\settings-DeEAiRR-.css" SelfReg="false"/>
     <ROW File="settings.html" Component_="settings.html" FileName="SETTIN~1.HTM|settings.html" Attributes="0" SourcePath="..\EDHM-UI-V3-win32-x64\resources\settings_window\settings.html" SelfReg="false"/>
+    <ROW File="explorer_nx.jpg" Component_="default.jpg" FileName="EXPLOR~1.JPG|explorer_nx.jpg" Attributes="0" SourcePath="..\..\src\images\Ships\explorer_nx.jpg" SelfReg="false"/>
+    <ROW File="ODYSS_EDHMv21.05.zip" Component_="Global_Settings.json" FileName="ODYSS_~2.ZIP|ODYSS_EDHM-v21.05.zip" Attributes="0" SourcePath="..\..\src\data\ODYSS\ODYSS_EDHM-v21.05.zip" SelfReg="false"/>
+    <ROW File="xmlbase_01.png" Component_="PM_Default.png" FileName="XML-BA~2.PNG|xml-base_01.png" Attributes="0" SourcePath="..\..\src\images\xml-base_01.png" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
