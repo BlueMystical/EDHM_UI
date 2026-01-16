@@ -1,8 +1,8 @@
 {  
-  "versión": "3.0.49",
+  "versión": "3.0.56",
   "status": "Accent",
   "accent": "info",
   "background": "warning",
   "title": "NOTICE:",
-  "info": "Last FDev update broke some elements,<br>few oranges can be seen.<br>We are working to fix it as fast as we can.<br><a href='https://discord.gg/ZaRt6bCXvj' class='link-primary' target='_blank' rel='noopener noreferrer'>&nbsp;Join our Discord</a> for more info or workarounds."
+  "info": "Today's Dodec update (4.2.2.0) replaced some elements, meaning that custom colors will not apply to those elements.<br>Please wait while a fix for EDHM is released.<br><a href='https://discord.gg/ZaRt6bCXvj' class='link-primary' target='_blank' rel='noopener noreferrer'>&nbsp;Join our Discord</a> for more info or workarounds."
 }
