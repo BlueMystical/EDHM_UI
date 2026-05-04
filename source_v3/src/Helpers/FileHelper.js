@@ -930,7 +930,7 @@ function detectProgram(exeName, callback) {
   } else {
     // Linux/macOS: pgrep + readlink
     const safeName = exeName.replace(/["\\]/g, '\\\\$&');
-    const pgrepCmd = `pgrep -af "${safeName}"`;
+    const pgrepCmd = `pgrep -af "${safeName}"`; 
 
     exec(pgrepCmd, (err, stdout, stderr) => {
       if (err || !stdout.trim()) {
@@ -948,7 +948,8 @@ function detectProgram(exeName, callback) {
         if (!pid) continue;
 
         found = true;
-        exec(`readlink -f /proc/${pid}/exe`, (err2, exePathOut) => {
+        //exec(`readlink -f /proc/${pid}/exe`, (err2, exePathOut) => {
+        exec(`readlink -f /proc/${pid}/cwd`, (err2, exePathOut) => {
           if (err2 || !exePathOut.trim()) {
             return callback(err2 || new Error('Fallo al leer ruta'), null);
           }

@@ -312,10 +312,10 @@
     "ship_full_name": "Corsair",
     "ship_id": 51,
     "ed_short": "corsair",
-    "size": "medium",
+    "size": "Medium",
     "role": "Multipurpose "
   },
-   {
+  {
     "ship_full_name": "Panther Clipper MK 2",
     "ship_id": 52,
     "ed_short": "panthermkii",
@@ -326,7 +326,7 @@
     "ship_full_name": "Type 11 Prospector",
     "ship_id": 53,
     "ed_short": "lakonminer",
-    "size": "medium",
+    "size": "Medium",
     "role": "Miner "
   },
   {
@@ -335,5 +335,19 @@
     "ed_short": "explorer_nx",
     "size": "Large",
     "role": "Explorer "
+  },
+  {
+    "ship_full_name": "Kestrel Mk 2",
+    "ship_id": 55,
+    "ed_short": "smallcombat01_nx",
+    "size": "Small",
+    "role": "Combat "
+  },
+  {
+    "ship_full_name": "Lynx Highliner",
+    "ship_id": 56,
+    "ed_short": "mediumtransport01",
+    "size": "Medium",
+    "role": "Passenger "
   }
 ]

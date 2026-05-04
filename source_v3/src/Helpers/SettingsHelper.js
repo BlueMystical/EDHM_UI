@@ -101,56 +101,6 @@ export const initializeSettings = async () => {
   // Return the loaded or newly created settings object
   return programSettings;
 };
-/*export const initializeSettings = async () => {
-  try {
-    console.log('Initializing Settings...Main');
-    
-    const primaryPath = fileHelper.resolveEnvVariables(path.join('%LOCALAPPDATA%\\EDHM-UI-V3', 'Settings.json'));
-    if (fileHelper.checkFileExists(primaryPath)) {
-      const PrimarySettings = await fileHelper.loadJsonFile(primaryPath);
-      programSettingsPath = path.join(fileHelper.resolveEnvVariables(PrimarySettings.DataFolder), 'Settings.json');
-    }
-    console.log('programSettingsPath', programSettingsPath);
-    const userSettingsDir = path.dirname(programSettingsPath); // Get the directory path    
-
-    // Check if the user settings directory exists, if not, create it
-    if (!fs.existsSync(userSettingsDir)) {
-      fs.mkdirSync(userSettingsDir, { recursive: true });
-      console.log(`Created directory: ${userSettingsDir}`);
-    }
-
-    // Check if the user settings file exists, if not, read and write the default settings JSON
-    if (!fs.existsSync(programSettingsPath)) {
-      // Settings doesnt exist, its a new install:
-      if (!fs.existsSync(defaultSettingsPath)) {
-        throw new Error(`Default settings file not found at: ${defaultSettingsPath}`);
-      }
-
-      installationStatus = InstallationStatus.NEW_SETTINGS; // V3 is not installed
-
-      // Read the default settings JSON file
-      const defaultSettings = fs.readFileSync(defaultSettingsPath, 'utf8');
-      programSettings = JSON.parse(defaultSettings);
-      programSettings.UserDataFolder = userSettingsDir;
-      installationStatus = InstallationStatus.FRESH_INSTALL; // This means it's a fresh V3 install
-      console.log('installationStatus:', installationStatus);
-
-      // Write the JSON to the user settings file
-      fs.writeFileSync(programSettingsPath, JSON.stringify(programSettings, null, 4));
-
-    } else {
-      installationStatus = InstallationStatus.EXISTING_INSTALL; // Is a Normal Existing User
-      programSettings = JSON.parse(fs.readFileSync(programSettingsPath, 'utf-8'));
-      programSettings.UserDataFolder = userSettingsDir;
-      console.log('Settings Loaded from Existing Instance.');
-
-      //Log.Info('This is a Test');
-    }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
-  return programSettings;
-};*/
 
 /** * Loads the Settings
  * @returns the settings data

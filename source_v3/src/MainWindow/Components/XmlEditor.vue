@@ -1,3 +1,4 @@
+// src/MainWindow/Components/XmlEditor.vue
 <template>
   <div id="XmlEditorModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -17,54 +18,54 @@
               <div class="row">
                 <div class="col-4">
                   <label for="redSlider1">Red: {{ sliderValues[0][0] }}</label>
-                  <input type="range" id="redSlider1" class="form-range" v-model="sliderValues[0][0]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="redSlider1" class="form-range" v-model.number="sliderValues[0][0]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider1">Green: {{ sliderValues[0][1] }}</label>
-                  <input type="range" id="greenSlider1" class="form-range" v-model="sliderValues[0][1]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="greenSlider1" class="form-range" v-model.number="sliderValues[0][1]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider1">Blue: {{ sliderValues[0][2] }}</label>
-                  <input type="range" id="blueSlider1" class="form-range" v-model="sliderValues[0][2]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="blueSlider1" class="form-range" v-model.number="sliderValues[0][2]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-4">
                   <label for="redSlider2">Red: {{ sliderValues[1][0] }}</label>
-                  <input type="range" id="redSlider2" class="form-range" v-model="sliderValues[1][0]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="redSlider2" class="form-range" v-model.number="sliderValues[1][0]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider2">Green: {{ sliderValues[1][1] }}</label>
-                  <input type="range" id="greenSlider2" class="form-range" v-model="sliderValues[1][1]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="greenSlider2" class="form-range" v-model.number="sliderValues[1][1]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider2">Blue: {{ sliderValues[1][2] }}</label>
-                  <input type="range" id="blueSlider2" class="form-range" v-model="sliderValues[1][2]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="blueSlider2" class="form-range" v-model.number="sliderValues[1][2]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-4">
                   <label for="redSlider3">Red: {{ sliderValues[2][0] }}</label>
-                  <input type="range" id="redSlider3" class="form-range" v-model="sliderValues[2][0]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="redSlider3" class="form-range" v-model.number="sliderValues[2][0]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="greenSlider3">Green: {{ sliderValues[2][1] }}</label>
-                  <input type="range" id="greenSlider3" class="form-range" v-model="sliderValues[2][1]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="greenSlider3" class="form-range" v-model.number="sliderValues[2][1]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
                 <div class="col-4">
                   <label for="blueSlider3">Blue: {{ sliderValues[2][2] }}</label>
-                  <input type="range" id="blueSlider3" class="form-range" v-model="sliderValues[2][2]" min="-2" max="2"
-                    step="0.01" @input="applyFilter">
+                  <input type="range" id="blueSlider3" class="form-range" v-model.number="sliderValues[2][2]" min="-2"
+                    max="2" step="0.01" @input="applyFilter">
                 </div>
               </div>
 
@@ -89,7 +90,7 @@
 
             </div><!--/LeftColumn-->
 
-          <!-- Right Column -->
+            <!-- Right Column -->
             <div class="col-8 position-relative" style="height: 450px;">
 
               <!-- Tab Headers -->
@@ -100,7 +101,8 @@
                 </li>
                 <li class="nav-item" role="presentation">
                   <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
-                    type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Color Transformation</button>
+                    type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Color
+                    Transformation</button>
                 </li>
               </ul>
 
@@ -108,8 +110,10 @@
               <div id="myTabContent" class="tab-content h-100 w-100">
 
                 <!-- TabPane for Image -->
-                <div class="tab-pane fade show active h-100" id="image-tab-pane" role="tabpanel" aria-labelledby="home-tab">
-                  <div ref="canvasWrapper" class="d-flex justify-content-center align-items-center h-100 border rounded" >
+                <div class="tab-pane fade show active h-100" id="image-tab-pane" role="tabpanel"
+                  aria-labelledby="home-tab">
+                  <div ref="canvasWrapper"
+                    class="d-flex justify-content-center align-items-center h-100 border rounded">
                     <!-- Hidden original canvas -->
                     <canvas ref="canvasOriginal" class="d-none"></canvas>
                     <!-- Visible filtered canvas -->
@@ -264,23 +268,24 @@ export default {
       return labels[colIndex];
     },
     ShowModal(data) {
-      this.sliderValues = data.matrix;
+      this.sliderValues = data.matrix.map(row => [...row]); // ✅ copia profunda
       this.themeName = data.name;
       const myModal = new bootstrap.Modal('#XmlEditorModal', { keyboard: false });
       this.parseColorMatrix();
       myModal.show();
     },
     save() {
-      console.log(this.sliderValues);
-      this.$emit('onCloseModal', this.sliderValues); //<- Evento escuchado en App.vue
+      // Clonar profundo ANTES de resetear
+      const matrixToSave = this.sliderValues.map(row => [...row]);
+      console.log('Saving matrix:', matrixToSave);
+      this.$emit('onCloseModal', matrixToSave);
+
       this.sliderValues = [
         [1.0, 0.0, 0.0],
         [0.0, 1.0, 0.0],
         [0.0, 0.0, 1.0],
       ];
-      this.$refs.image.src = this.originalImageSrc;
     },
-
 
     // ------------------------------------------------------------------------------------------
     //-- APLICA EL FILTRO XML USANDO WEBGL ------------------------------------------------------
@@ -314,21 +319,13 @@ export default {
     async applyFilter() {
       // Obtiene la imagen base
       const imagenSrc = await window.api.getAssetFileUrl('images/xml-base_02.png');
-      console.log('Applying filter with matrix:', this.matrix);
 
-      //this.$refs.image.src = this.originalImageSrc;
       this.TransformXMLColors();
+      console.log('Applying filter with slider values:', this.sliderValues);
 
-      // Force Vue to reapply the filter
-      this.$nextTick(() => {
-        //:style="{ filter: 'url(#colorMatrixFilter)', top: '80px' }" 
-        //this.$refs.image.style.filter = 'url(#colorMatrixFilter)';
-        //this.applyColorMatrix();
-      });
-
-      // Construye la matriz 4x4 + offset desde tu 3x3
+      // ✅ Usar sliderValues directamente, no this.matrix
       const mat = this.buildWebGLColorMatrixFrom3x3(
-        this.matrix,
+        this.sliderValues,   // <-- cambio aquí
         1.0,
         { r: 0, g: 0, b: 0, a: 0 }
       );
@@ -336,10 +333,10 @@ export default {
       // Aplica el filtro con gamma y saturación
       await this.applyColorMatrixWebGL({
         imageSrc: imagenSrc,
-        canvas: this.$refs.canvasFiltered,   // tu ref al canvas destino
+        canvas: this.$refs.canvasFiltered,
         colorMatrix: mat,
-        gammaValue: this.gamma,        // valor dinámico del slider
-        saturationValue: this.saturation // valor dinámico del slider
+        gammaValue: this.gamma,
+        saturationValue: this.saturation
       });
     },
     // Construye la matriz 4x4 + offset para WebGL a partir de una matriz 3x3
@@ -580,53 +577,36 @@ void main() {
     },
     TransformXMLColors() {
       try {
-        const xmlValues =
-        {
+        // ✅ Usar sliderValues directamente, sin crear xmlValues ni this.matrix
+        const xml = {
           red: { red: this.sliderValues[0][0], green: this.sliderValues[0][1], blue: this.sliderValues[0][2] },
           green: { red: this.sliderValues[1][0], green: this.sliderValues[1][1], blue: this.sliderValues[1][2] },
           blue: { red: this.sliderValues[2][0], green: this.sliderValues[2][1], blue: this.sliderValues[2][2] },
         };
-        this.matrix = [
-          [xmlValues.red.red, xmlValues.red.green, xmlValues.red.blue],
-          [xmlValues.green.red, xmlValues.green.green, xmlValues.green.blue],
-          [xmlValues.blue.red, xmlValues.blue.green, xmlValues.blue.blue],
+
+        const transforms = [
+          { index: 0, percentages: { red: 1.0, green: 0.5, blue: 0.0 } }, // Orange
+          { index: 1, percentages: { red: 1.0, green: 1.0, blue: 1.0 } }, // White
+          { index: 2, percentages: { red: 1.0, green: 0.0, blue: 0.0 } }, // Red
+          { index: 3, percentages: { red: 0.0, green: 1.0, blue: 1.0 } }, // Cyan
         ];
 
-        // Orange Transformation:
-        let Percentages = { red: 1.0, green: 0.5, blue: 0.0 };
-        const TransformColor_Orange = this.transformColorFromXML(xmlValues, Percentages);
-        this.colorTranform[0].hex = TransformColor_Orange.h;
-        this.colorTranform[0].rgb = TransformColor_Orange.r + ';' + TransformColor_Orange.g + ';' + TransformColor_Orange.b;
-        //console.log('TransformColor_Orange:', TransformColor_Orange);
+        for (const { index, percentages } of transforms) {
+          const result = this.transformColorFromXML(xml, percentages);
+          this.colorTranform[index].hex = result.h;
+          this.colorTranform[index].rgb = `${result.r};${result.g};${result.b}`;
+        }
 
-        // White Transformation:
-        Percentages = { red: 1.0, green: 1.0, blue: 1.0 };
-        const TransformColor_White = this.transformColorFromXML(xmlValues, Percentages);
-        this.colorTranform[1].hex = TransformColor_White.h;
-        this.colorTranform[1].rgb = TransformColor_White.r + ';' + TransformColor_White.g + ';' + TransformColor_White.b;
-        //console.log('TransformColor_White:', TransformColor_White);
-
-        // Red Transformation:
-        Percentages = { red: 1.0, green: 0.0, blue: 0.0 };
-        const TransformColor_Red = this.transformColorFromXML(xmlValues, Percentages);
-        this.colorTranform[2].hex = TransformColor_Red.h;
-        this.colorTranform[2].rgb = TransformColor_Red.r + ';' + TransformColor_Red.g + ';' + TransformColor_Red.b;
-        //console.log('TransformColor_Red:', TransformColor_Red);
-
-        //Cyan Transformation:
-        Percentages = { red: 0.0, green: 1.0, blue: 1.0 };
-        const TransformColor_Cyan = this.transformColorFromXML(xmlValues, Percentages);
-        this.colorTranform[3].hex = TransformColor_Cyan.h;
-        this.colorTranform[3].rgb = TransformColor_Cyan.r + ';' + TransformColor_Cyan.g + ';' + TransformColor_Cyan.b;
-        //console.log('TransformColor_Cyan:', TransformColor_Cyan);
-
-        // Custom Color Transformation:
-        const CustomColor = this.hexToRgb(this.colorTranform[4].default);
-        Percentages = { red: CustomColor.red / 255, green: CustomColor.green / 255, blue: CustomColor.blue / 255 };
-        const TransformColor_Custom = this.transformColorFromXML(xmlValues, Percentages);
-        this.colorTranform[4].hex = TransformColor_Custom.h;
-        this.colorTranform[4].rgb = TransformColor_Custom.r + ';' + TransformColor_Custom.g + ';' + TransformColor_Custom.b;
-        //console.log('TransformColor_Custom:', TransformColor_Custom);
+        // Custom Color
+        const customRgb = this.hexToRgb(this.colorTranform[4].default);
+        const customPercentages = {
+          red: customRgb.red / 255,
+          green: customRgb.green / 255,
+          blue: customRgb.blue / 255,
+        };
+        const customResult = this.transformColorFromXML(xml, customPercentages);
+        this.colorTranform[4].hex = customResult.h;
+        this.colorTranform[4].rgb = `${customResult.r};${customResult.g};${customResult.b}`;
 
       } catch (ex) {
         console.error(`ERROR: ${ex.message}\n${ex.stack}`);
@@ -664,6 +644,7 @@ void main() {
 </script>
 <style scoped>
 #image-tab-pane {
-  overflow: hidden; /* keep canvas contained */
+  overflow: hidden;
+  /* keep canvas contained */
 }
 </style>

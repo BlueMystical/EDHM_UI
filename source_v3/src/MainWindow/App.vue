@@ -640,18 +640,21 @@ export default {
     },
     async onXmlEditorClosed(e) {
       try {
-        //console.log('XML Editor Closed: ', e);
-        this.setValue(this.themeTemplate.xml_profile, 'x150', e[0][0] );
-        this.setValue(this.themeTemplate.xml_profile, 'y150', e[0][1] );
-        this.setValue(this.themeTemplate.xml_profile, 'z150', e[0][2] );
+        console.log('XML Editor Closed: ', e);
+        // Fila 0
+        this.setValue(this.themeTemplate.xml_profile, 'x150', e[0][0]);
+        this.setValue(this.themeTemplate.xml_profile, 'y150', e[0][1]);
+        this.setValue(this.themeTemplate.xml_profile, 'z150', e[0][2]);
 
-        this.setValue(this.themeTemplate.xml_profile, 'x151', e[1][0] );
-        this.setValue(this.themeTemplate.xml_profile, 'y151', e[1][1] );
-        this.setValue(this.themeTemplate.xml_profile, 'y152', e[1][2] );
+        // Fila 1
+        this.setValue(this.themeTemplate.xml_profile, 'x151', e[1][0]);
+        this.setValue(this.themeTemplate.xml_profile, 'y151', e[1][1]);
+        this.setValue(this.themeTemplate.xml_profile, 'z151', e[1][2]);
 
-        this.setValue(this.themeTemplate.xml_profile, 'x152', e[2][0] );
-        this.setValue(this.themeTemplate.xml_profile, 'y152', e[2][1] );
-        this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2] );
+        // Fila 2
+        this.setValue(this.themeTemplate.xml_profile, 'x152', e[2][0]);
+        this.setValue(this.themeTemplate.xml_profile, 'y152', e[2][1]);
+        this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2]);
 
         console.log('Saving Theme:', this.themeTemplate);
         if (this.themeTemplate.name === "Current Settings") {
