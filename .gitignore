@@ -1050,3 +1050,6 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+source_v3/src/data/ODYSS/ODYSS_EDHM-Themes.zip
+source_v3/src/data/ODYSS/ODYSS_EDHM-v21.05.zip
+source_v3/src/data/ODYSS/ODYSS_EDHM-v21.09.zip
