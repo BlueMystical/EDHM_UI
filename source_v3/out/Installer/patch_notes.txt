@@ -1,0 +1,21 @@
+@everyone ---------------------------------------------------------
+✦✦ EDHM_UI v3.0.66 ✦✦ is now available.
+Change Log:
+
+- Fixed a few bugs on the XML Editor
+- Fixed a command on Mod installing under Linux
+
+
+Full Changelog:  ⁠https://discord.com/channels/773552741632180224/864174753946271794/1499029278652629052
+-------------------------------------------------------
+Themes Added / Updated:
+✦ Russian Kitty by @Рико Брженска CMDR R^L 🇷🇺
+✦ Federal Business by @Taccitus Kilgore (US, EST)
+✦ Purple and Blue by @⊹₊⟡⋆💜 𝘽𝙡𝙖𝙘𝙠𝙁𝙞𝙧𝙚 💜⋆⟡₊⊹ [CMDR]
+✦ N8 Imperial color by @Nathan
+✦ Nopileos03 Profitsss Beige by @janewuwa [RIKA]
+✦ WCZ_Elite Aero by @Wither_czach
+✦ WCZ_Colorful Void by @Wither_czach
+✦ WCZ_Ruby Elite by @Wither_czach
+-------------------------------------------------------
+Enjoy. o7
