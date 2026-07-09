@@ -261,7 +261,7 @@ export default {
   },
   methods: {
     async OnInitialize() {
-      this.loadImage();
+      await this.loadImage();
     },
     getLabel(colIndex) {
       const labels = ['Red', 'Green', 'Blue'];
@@ -293,27 +293,27 @@ export default {
     // Cargar imagen
     async loadImage() {
       const url = await window.api.getAssetFileUrl('images/xml-base_02.png');
-      await new Promise((resolve, reject) => {
-        this.imgObj = new Image();
-        this.imgObj.onload = resolve;
-        this.imgObj.onerror = () => reject(new Error(`No se pudo cargar la imagen: ${url}`));
-        this.imgObj.src = url;
-
-        // Acceder a los canvas desde $refs
-        const canvasOriginal = this.$refs.canvasOriginal;
-        const canvasFiltered = this.$refs.canvasFiltered;
-
-        canvasOriginal.width = this.imgObj.width || 1;
-        canvasOriginal.height = this.imgObj.height || 1;
-
-        canvasFiltered.width = this.imgObj.width || 1;
-        canvasFiltered.height = this.imgObj.height || 1;
-
-        console.log('XML Image loaded.');
-
-        const ctxOriginal = canvasOriginal.getContext('2d', { willReadFrequently: true });
-        ctxOriginal.drawImage(this.imgObj, 0, 0);
+      this.imgObj = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error(`No se pudo cargar la imagen: ${url}`));
+        image.src = url;
       });
+
+      // Initialize the canvases only after the image dimensions are available.
+      const canvasOriginal = this.$refs.canvasOriginal;
+      const canvasFiltered = this.$refs.canvasFiltered;
+
+      canvasOriginal.width = this.imgObj.naturalWidth;
+      canvasOriginal.height = this.imgObj.naturalHeight;
+      canvasFiltered.width = this.imgObj.naturalWidth;
+      canvasFiltered.height = this.imgObj.naturalHeight;
+
+      const ctxOriginal = canvasOriginal.getContext('2d', { willReadFrequently: true });
+      ctxOriginal.drawImage(this.imgObj, 0, 0);
+
+      console.log('XML Image loaded.');
+      await this.applyFilter();
     },
 
     async applyFilter() {
@@ -416,7 +416,9 @@ export default {
       gl.uniform1f(gl.getUniformLocation(program, 'u_saturation'), saturationValue);
 
       // Draw
-      gl.drawArrays(gl.TRIANGLES, 0, 10);
+      // The position and texture-coordinate buffers contain six vertices
+      // (two triangles forming the full-screen quad).
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
 
       return canvas.toDataURL('image/png');
 
