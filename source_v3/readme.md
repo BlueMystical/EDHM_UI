@@ -98,5 +98,5 @@ To use this project, you can do the following:
 
 ![image](https://github.com/user-attachments/assets/c6e5950f-9039-45f3-b9f5-09ffa508fde2)
 
-[Buy me a Coffe](https://buymeacoffee.com/blue.mystic)
+
 
