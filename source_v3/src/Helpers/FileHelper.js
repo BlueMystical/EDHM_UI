@@ -948,12 +948,12 @@ function detectProgram(exeName, callback) {
         if (!pid) continue;
 
         found = true;
-        //exec(`readlink -f /proc/${pid}/exe`, (err2, exePathOut) => {
         exec(`readlink -f /proc/${pid}/cwd`, (err2, exePathOut) => {
           if (err2 || !exePathOut.trim()) {
             return callback(err2 || new Error('Fallo al leer ruta'), null);
           }
-          callback(null, exePathOut.trim());
+          const fullPath = path.join(exePathOut.trim(), exeName);
+          callback(null, fullPath);
         });
       }
 
