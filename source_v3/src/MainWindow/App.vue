@@ -656,19 +656,19 @@ export default {
         this.setValue(this.themeTemplate.xml_profile, 'y152', e[2][1]);
         this.setValue(this.themeTemplate.xml_profile, 'z152', e[2][2]);
 
-        console.log('Saving Theme:', this.themeTemplate);
-        if (this.themeTemplate.name === "Current Settings") {
-          const ActiveInstance = await window.api.getActiveInstance();
-          this.themeTemplate.path = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
-        }
+        const ActiveInstance = await window.api.getActiveInstance();
+        const currentSettingsPath = await window.api.joinPath(ActiveInstance.path, 'EDHM-ini');
+        const currentSettings = JSON.parse(JSON.stringify(this.themeTemplate));
+        currentSettings.path = currentSettingsPath;
 
-        const _ret = await window.api.SaveTheme(JSON.parse(JSON.stringify(this.themeTemplate)));
-        console.log('Theme Saved:', _ret);
+        console.log('Saving XML changes to Current Settings:', currentSettings);
+        const _ret = await window.api.SaveTheme(currentSettings);
+        console.log('Current Settings Saved:', _ret);
         // Emit the XML Changed Event
         EventBus.emit('OnXmlChanged', { xml: JSON.parse(JSON.stringify(this.themeTemplate.xml_profile)) }); //<- Event Listen in 'NavBars.vue'
 
         if (_ret) {
-          EventBus.emit('RoastMe', { type: 'Success', message: `Theme: '${this.themeTemplate.credits.theme}' Saved.<br>Remember to Apply the changes.` });
+          EventBus.emit('RoastMe', { type: 'Success', message: `XML changes saved to Current Settings.<br>Use Save Theme from the main window to update '${this.themeTemplate.credits.theme}'.` });
         }
       } catch (error) {
         console.error('Error onXmlEditorClosed:', error);

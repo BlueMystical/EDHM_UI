@@ -113,11 +113,11 @@
                 <div class="tab-pane fade show active h-100" id="image-tab-pane" role="tabpanel"
                   aria-labelledby="home-tab">
                   <div ref="canvasWrapper"
-                    class="d-flex justify-content-center align-items-center h-100 border rounded">
+                    class="xml-preview-wrapper d-flex justify-content-center align-items-center border rounded">
                     <!-- Hidden original canvas -->
                     <canvas ref="canvasOriginal" class="d-none"></canvas>
                     <!-- Visible filtered canvas -->
-                    <canvas ref="canvasFiltered" class="d-block mx-auto" style="top: 100px;"></canvas>
+                    <canvas ref="canvasFiltered" class="d-block mx-auto"></canvas>
                   </div>
                 </div>
 
@@ -200,7 +200,7 @@
           </div>
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Save changes</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Apply Changes</button>
           </div>
         </div><!--/Footer-->
 
@@ -223,7 +223,7 @@ export default {
         [0.0, 0.0, 1.0], // Red[2][0], Green[2][1], Blue[2][2]
       ],
       colorMatrix: '', // Placeholder for copied color matrix
-      originalImageSrc: '../../images/xml-base_02.png',
+      originalImageSrc: '../../images/xml-hud-default.png',
       canvasFiltered: ref(null),
       canvasOriginal: ref(null),
       imgObj: null,
@@ -261,7 +261,7 @@ export default {
   },
   methods: {
     async OnInitialize() {
-      this.loadImage();
+      await this.loadImage();
     },
     getLabel(colIndex) {
       const labels = ['Red', 'Green', 'Blue'];
@@ -286,39 +286,39 @@ export default {
         [0.0, 0.0, 1.0],
       ];
     },
-
     // ------------------------------------------------------------------------------------------
     //-- APLICA EL FILTRO XML USANDO WEBGL ------------------------------------------------------
 
     // Cargar imagen
     async loadImage() {
-      const url = await window.api.getAssetFileUrl('images/xml-base_02.png');
-      await new Promise((resolve, reject) => {
-        this.imgObj = new Image();
-        this.imgObj.onload = resolve;
-        this.imgObj.onerror = () => reject(new Error(`No se pudo cargar la imagen: ${url}`));
-        this.imgObj.src = url;
-
-        // Acceder a los canvas desde $refs
-        const canvasOriginal = this.$refs.canvasOriginal;
-        const canvasFiltered = this.$refs.canvasFiltered;
-
-        canvasOriginal.width = this.imgObj.width || 1;
-        canvasOriginal.height = this.imgObj.height || 1;
-
-        canvasFiltered.width = this.imgObj.width || 1;
-        canvasFiltered.height = this.imgObj.height || 1;
-
-        console.log('XML Image loaded.');
-
-        const ctxOriginal = canvasOriginal.getContext('2d', { willReadFrequently: true });
-        ctxOriginal.drawImage(this.imgObj, 0, 0);
+      const url = await window.api.getAssetFileUrl('images/xml-hud-default.png');
+      this.imgObj = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error(`No se pudo cargar la imagen: ${url}`));
+        image.src = url;
       });
+
+      // Initialize the canvases only after the image dimensions are available.
+      const canvasOriginal = this.$refs.canvasOriginal;
+      const canvasFiltered = this.$refs.canvasFiltered;
+
+      canvasOriginal.width = this.imgObj.naturalWidth;
+      canvasOriginal.height = this.imgObj.naturalHeight;
+      canvasFiltered.width = this.imgObj.naturalWidth;
+      canvasFiltered.height = this.imgObj.naturalHeight;
+
+      const ctxOriginal = canvasOriginal.getContext('2d', { willReadFrequently: true });
+      ctxOriginal.drawImage(this.imgObj, 0, 0);
+
+      console.log('XML Image loaded.');
+      await this.applyFilter();
     },
 
     async applyFilter() {
       // Obtiene la imagen base
-      const imagenSrc = await window.api.getAssetFileUrl('images/xml-base_02.png');
+      const imagenSrc = await window.api.getAssetFileUrl('images/xml-hud-default.png');
+      const maskSrc = await window.api.getAssetFileUrl('images/xml-hud-mask.png');
 
       this.TransformXMLColors();
       console.log('Applying filter with slider values:', this.sliderValues);
@@ -333,6 +333,7 @@ export default {
       // Aplica el filtro con gamma y saturación
       await this.applyColorMatrixWebGL({
         imageSrc: imagenSrc,
+        maskSrc,
         canvas: this.$refs.canvasFiltered,
         colorMatrix: mat,
         gammaValue: this.gamma,
@@ -357,7 +358,7 @@ export default {
       return { matrix4x4, offset };
     },
     // Aplica la matriz de color usando WebGL con gamma y saturación
-    async applyColorMatrixWebGL({ imageSrc, canvas, colorMatrix, gammaValue = 1.0, saturationValue = 1.0 }) {
+    async applyColorMatrixWebGL({ imageSrc, maskSrc, canvas, colorMatrix, gammaValue = 1.0, saturationValue = 1.0 }) {
 
       const gl = canvas.getContext('webgl', { premultipliedAlpha: false, alpha: true });
       if (!gl) throw new Error('WebGL no disponible');
@@ -393,11 +394,12 @@ export default {
       gl.vertexAttribPointer(aTex, 2, gl.FLOAT, false, 0, 0);
 
       // Imagen como textura
-      const img = await loadImage(imageSrc);
+      const [img, mask] = await Promise.all([loadImage(imageSrc), loadImage(maskSrc)]);
       canvas.width = img.width;
       canvas.height = img.height;
       gl.viewport(0, 0, canvas.width, canvas.height);
 
+      gl.activeTexture(gl.TEXTURE0);
       const tex = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -408,15 +410,27 @@ export default {
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
 
+      gl.activeTexture(gl.TEXTURE1);
+      const maskTex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, maskTex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mask);
+
       // Uniforms
       gl.uniform1i(gl.getUniformLocation(program, 'u_image'), 0);
+      gl.uniform1i(gl.getUniformLocation(program, 'u_mask'), 1);
       gl.uniformMatrix4fv(gl.getUniformLocation(program, 'u_colorMatrix'), false, new Float32Array(colorMatrix.matrix4x4));
       gl.uniform4fv(gl.getUniformLocation(program, 'u_colorOffset'), new Float32Array(colorMatrix.offset));
       gl.uniform1f(gl.getUniformLocation(program, 'u_gamma'), gammaValue);
       gl.uniform1f(gl.getUniformLocation(program, 'u_saturation'), saturationValue);
 
       // Draw
-      gl.drawArrays(gl.TRIANGLES, 0, 10);
+      // The position and texture-coordinate buffers contain six vertices
+      // (two triangles forming the full-screen quad).
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
 
       return canvas.toDataURL('image/png');
 
@@ -470,6 +484,7 @@ void main() {
       return `
 precision mediump float;
 uniform sampler2D u_image;
+uniform sampler2D u_mask;
 uniform mat4 u_colorMatrix;
 uniform vec4 u_colorOffset;
 uniform float u_gamma;
@@ -491,8 +506,15 @@ vec3 linearToSrgbVec3(vec3 c) {
 
 void main() {
   vec4 texColor = texture2D(u_image, v_texCoord);
+  float hudCoverage = texture2D(u_mask, v_texCoord).r;
 
-  vec3 linearRGB = srgbToLinearVec3(texColor.rgb);
+  // Recover the HUD's straight color while retaining its captured intensity
+  // in the mask. Elite applies its XML matrix before HUD transparency and
+  // compositing, so transforming the dimmed screenshot pixels directly
+  // produces a preview that is consistently too dark.
+  float peak = max(max(texColor.r, texColor.g), texColor.b);
+  vec3 straightHudRGB = peak > 0.001 ? texColor.rgb / peak : texColor.rgb;
+  vec3 linearRGB = srgbToLinearVec3(straightHudRGB);
   vec4 srcColor = vec4(linearRGB, texColor.a);
   vec4 outLinear = u_colorMatrix * srcColor + u_colorOffset;
 
@@ -506,7 +528,7 @@ void main() {
   outLinear = clamp(outLinear, 0.0, 1.0);
 
   vec3 outSRGB = linearToSrgbVec3(outLinear.rgb);
-  gl_FragColor = vec4(outSRGB, outLinear.a);
+  gl_FragColor = vec4(mix(texColor.rgb, outSRGB, hudCoverage), texColor.a);
 }`;
     },
     // ------------------------------------------------------------------------------------
@@ -645,6 +667,20 @@ void main() {
 <style scoped>
 #image-tab-pane {
   overflow: hidden;
-  /* keep canvas contained */
+  padding-top: 80px;
+  box-sizing: border-box;
+  /* keep canvas contained below the tab header */
+}
+
+.xml-preview-wrapper {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#image-tab-pane canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 </style>

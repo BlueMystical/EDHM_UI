@@ -298,6 +298,7 @@ async function CreateNewTheme(credits) {
       CurrentSettings.credits.theme = Credits.theme;
       CurrentSettings.credits.author = Credits.author;
       CurrentSettings.credits.description = Credits.description;
+      CurrentSettings.name = Credits.theme;
       CurrentSettings.version = settings.Version_ODYSS;
       CurrentSettings.game = gameInstance.key;
       CurrentSettings.path = '';
