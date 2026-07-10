@@ -21,8 +21,44 @@
       },
       {
          "game": "ODYSSEY",
-         "file_path": "%UI_DOCS%\\ODYSS\\Themes\\Refined White Theme",
-         "action": "RMDIR",
+         "file_path": "%GAME_PATH%\\EDHM-ini\\3rdPartyMods\\BiomeOverlayMod\\*.*",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\06a6f557d514e410-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\188a07a17082f4d5-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\41fed2d4f01f9e8e-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\867cd9cc555b6607-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\c2295cdc080b6876-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\f03f683132116c7c-ps.txt",
+         "action": "DEL",
          "destination": ""
       }
    ],

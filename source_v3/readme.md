@@ -57,6 +57,45 @@ To use this project, you can do the following:
    ```
    npm start
    ```
+## DEPLOY STEPS:
+
+- Copy ```EDHM_Odyssey_v22.00.zip``` to ```..\EDHM_UI\source_v3\src\data\ODYSS\```
+- Rename file to 'ODYSS_EDHM-v[number].zip'
+- Delete old ZIP from there
+- Extract .ini files on same directory.
+- Add New/Updated Themes into the 'ODYSS_EDHM-Themes.zip' file.
+- Add any (if need) works to the ```..\EDHM_UI\source_v3\src\data\EDHM_HOTFIX.json```
+
+## COMPILING ON WINDOWS
+- change version number on package.json
+- npm run start
+- npm run make
+- Open Installer Proyect from ```..\EDHM_UI\source_v3\out\Installer\EDHM-UI-V3.aip```
+- Under 'Product Details' increase the version number, clikc 'Generate New' when Prompt.
+- Add any new file into 'Files and Folders'
+- Remove old 'ODYSS_EDHM-v[number].zip' and add the new one
+- Build the Project
+
+## COMPILING ON LINUX
+- Setup a Virtual Machine with Linux Debian 11 or above, i use Oracle VirtualBox
+- Open a Terminal on ```~/Documents/edhm-ui-v3```
+- Copy any Source code modified files from the real PC into the VM
+- Copy the 'ODYSS_EDHM-v[number].zip' and Themes Files
+- Test the program:   npm start
+- Run:
+```
+./linux-build.sh
+```
+- Input the new Version
+- Copy ```..\EDHM_UI\source_v3\out\make\zip\linux\x64\edhm-ui-v3-linux-x64-3.0.68.zip``` into ..```..\EDHM_UI\source_v3\out\Installer\Build```
+- Rename the file as edhm-ui-v3-linux-x64.zip
+
+## PUBLISHING
+- Make a new Release on GitHub
+- Upload the ```..\EDHM_UI\source_v3\out\Installer\Build\edhm-ui-v3-windows-x64.exe``` into GitHub.
+- Upload the ```..\EDHM_UI\source_v3\out\Installer\Build\edhm-ui-v3-linux-x64.zip``` into GitHub.
+- Test the Installer
+
 ![image](https://github.com/user-attachments/assets/c6e5950f-9039-45f3-b9f5-09ffa508fde2)
 
 [Buy me a Coffe](https://buymeacoffee.com/blue.mystic)
