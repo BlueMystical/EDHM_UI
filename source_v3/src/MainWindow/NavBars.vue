@@ -55,8 +55,15 @@
               <i class="bi bi-arrow-bar-down"></i>
             </button>
             <button id="cmdSaveTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-              data-bs-placement="bottom" data-bs-title="Save Theme" @mousedown="saveTheme_Click">
+              data-bs-placement="bottom" data-bs-title="Overwrite Theme" @mousedown="saveTheme_Click">
               <i class="bi bi-floppy"></i>
+            </button>
+            <button id="cmdSaveThemeCopy" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" data-bs-title="Save Copy" @mousedown="saveThemeCopy_Click">
+              <span class="position-relative d-inline-block">
+                <i class="bi bi-floppy"></i>
+                <i class="bi bi-plus-lg save-copy-plus"></i>
+              </span>
             </button>
             <button id="cmdReloadThemes" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
               data-bs-placement="bottom" data-bs-title="Reload Themes" @mousedown="reloadThemes_Click">
@@ -187,6 +194,28 @@
       </div>
     </nav> <!-- Bottom Navbar -->
 
+    <div id="SaveThemeCopyModal" class="modal fade" tabindex="-1" aria-labelledby="SaveThemeCopyModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+          <div class="modal-header">
+            <h5 id="SaveThemeCopyModalLabel" class="modal-title">Save Theme Copy</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="saveCopyThemeName" class="form-label">Theme copy name</label>
+            <input id="saveCopyThemeName" ref="saveCopyThemeNameInput" v-model="saveCopyThemeName"
+              class="form-control" type="text" spellcheck="false" @keyup.enter="confirmSaveThemeCopy">
+            <div v-if="saveCopyError" class="text-danger small mt-2">{{ saveCopyError }}</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" @click="confirmSaveThemeCopy">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <div v-if="showSpinner" class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -244,6 +273,9 @@ export default {
 
       historyOptions: [],
       selectedHistory: '',
+      saveCopyThemeName: '',
+      saveCopyError: '',
+      saveCopyModal: null,
 
       searchResults: [],
       globalSettings: [],
@@ -630,6 +662,85 @@ export default {
           console.log('Current Settings can not be Edited!');
         }
       }
+    },
+    async saveThemeCopy_Click(event) {
+      if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
+        const currentName = this.getThemeCopyBaseName(this.themeTemplate);
+        this.saveCopyThemeName = `${currentName} - copy`;
+        this.saveCopyError = '';
+
+        this.$nextTick(() => {
+          const modalElement = document.getElementById('SaveThemeCopyModal');
+          this.saveCopyModal = bootstrap.Modal.getOrCreateInstance(modalElement, { keyboard: true });
+          this.saveCopyModal.show();
+          setTimeout(() => {
+            this.$refs.saveCopyThemeNameInput?.focus();
+            this.$refs.saveCopyThemeNameInput?.select();
+          }, 150);
+        });
+      }
+    },
+    async confirmSaveThemeCopy() {
+      const newName = this.saveCopyThemeName.trim();
+      this.saveCopyError = this.validateThemeCopyName(newName);
+      if (this.saveCopyError) return;
+
+      try {
+        const curSettings = await this.LoadCurrentSettings();
+        const copyTheme = JSON.parse(JSON.stringify(this.themeTemplate));
+        copyTheme.name = newName;
+        copyTheme.credits = {
+          ...(copyTheme.credits || {}),
+          theme: newName
+        };
+
+        EventBus.emit('DoUpdateTheme', {
+          theme: copyTheme,
+          source: curSettings
+        });
+
+        this.saveCopyModal?.hide();
+      } catch (error) {
+        EventBus.emit('ShowError', error);
+      }
+    },
+    validateThemeCopyName(themeName) {
+      if (!themeName) {
+        return 'Enter a theme name.';
+      }
+      if (/[<>:"/\\|?*]/.test(themeName)) {
+        return 'Theme name cannot contain: < > : " / \\ | ? *';
+      }
+      if (themeName.trim().toLowerCase() === 'current settings') {
+        return 'Use a different name than Current Settings.';
+      }
+      if (this.themeNameExists(themeName)) {
+        return `Theme '${themeName}' already exists.`;
+      }
+      return '';
+    },
+    themeNameExists(themeName) {
+      const target = themeName.trim().toLowerCase();
+      return (this.themesLoaded || []).some(theme => {
+        const existingName = this.getThemeDisplayName(theme);
+        return existingName.trim().toLowerCase() === target;
+      });
+    },
+    getThemeDisplayName(theme) {
+      return theme?.credits?.theme
+        || theme?.file?.credits?.theme
+        || theme?.name
+        || 'Current Settings';
+    },
+    getThemeCopyBaseName(theme) {
+      return this.isCurrentSettingsTemplate(theme) ? 'Current Settings' : this.getThemeDisplayName(theme);
+    },
+    isCurrentSettingsTemplate(theme) {
+      const themePath = theme?.path || theme?.file?.path || '';
+      const currentPath = this.currentSettingsPath || window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
+      return theme?.name === 'Current Settings'
+        || theme?.file?.credits?.theme === 'Current Settings'
+        || (themePath && currentPath && themePath.toLowerCase() === currentPath.toLowerCase());
     },
     async reloadThemes_Click(e) {
       EventBus.emit('loadThemes', e);           //<- Listen in ThemeTab.vue
@@ -1153,6 +1264,13 @@ body {
 .btn-apply-theme:hover {
   background-color: orangered;
   color: white;
+}
+
+.save-copy-plus {
+  font-size: 0.55rem;
+  position: absolute;
+  right: -0.55rem;
+  top: -0.35rem;
 }
 
 /* Styles for MainTabBar nav */
