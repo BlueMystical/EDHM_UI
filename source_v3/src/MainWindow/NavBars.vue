@@ -354,19 +354,6 @@ export default {
       }
     },
 
-    async ShowEDHMStatusDialog(type, message, detail = '') {
-      return window.api.ShowMessageBox({
-        type,
-        buttons: ['OK'],
-        defaultId: 0,
-        cancelId: 0,
-        noLink: true,
-        title: 'EDHM Status',
-        message,
-        detail,
-      });
-    },
-
     async ToggleEDHM() {
       try {
         const ActiveInstance = await window.api.getActiveInstance();
@@ -375,29 +362,30 @@ export default {
         this.edhmStatusConflict = result?.conflict === true;
 
         if (!result?.changed && result?.state === 'not_installed') {
-          await this.ShowEDHMStatusDialog(
-            'warning',
-            'EDHM is not installed.',
-            'Please select Install EDHM from the main menu.'
-          );
+          EventBus.emit('RoastMe', {
+            type: 'Error',
+            title: 'EDHM Status',
+            message: 'EDHM is not installed.<br>Please select Install EDHM from the main menu.',
+          });
           return false;
         }
 
         const enabled = result?.state === 'ready';
-        await this.ShowEDHMStatusDialog(
-          'info',
-          enabled ? 'EDHM Enabled!' : 'EDHM Disabled!',
-          'The change will take effect the next time Elite Dangerous starts.'
-        );
+        EventBus.emit('RoastMe', {
+          type: 'Success',
+          title: 'EDHM Status',
+          message: `${enabled ? 'EDHM Enabled!' : 'EDHM Disabled!'}<br>` +
+            'The change will take effect the next time Elite Dangerous starts.',
+        });
         return true;
       } catch (error) {
         await this.RefreshEDHMStatus();
         const detail = error?.message || String(error);
-        await this.ShowEDHMStatusDialog(
-          'error',
-          'Unable to enable or disable EDHM.',
-          detail
-        );
+        EventBus.emit('RoastMe', {
+          type: 'Error',
+          title: 'EDHM Status',
+          message: `Unable to enable or disable EDHM.<br>${detail}`,
+        });
         return false;
       }
     },
