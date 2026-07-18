@@ -29,8 +29,8 @@
               <option value="mnuExit">Exit App</option>
             </select>
           </div>
-          <span id="lblEDHMStatus" :class="['navbar-text', 'mx-3', 'text-nowrap', edhmStatusClass]">
-            {{ edhmStatusMessage }}
+          <span id="lblEDHMStatus" class="navbar-text mx-3 text-nowrap">
+            Status: <span :class="edhmStatusClass">{{ edhmStatusMessage }}</span>
           </span>
         </div>
 
@@ -320,11 +320,11 @@ export default {
     edhmStatusMessage() {
       switch (this.edhmStatusState) {
         case 'ready':
-          return 'Status: Ready';
+          return 'Ready';
         case 'disabled':
-          return 'Status: Disabled';
+          return 'Disabled';
         default:
-          return 'Status: Not Installed, please select Install EDHM from the main menu.';
+          return 'Not Installed, please select Install EDHM from the main menu.';
       }
     },
     edhmStatusClass() {
