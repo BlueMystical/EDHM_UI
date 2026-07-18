@@ -293,6 +293,7 @@ export default {
       gameMenuItems: [],
       edhmStatusState: 'not_installed',
       edhmStatusConflict: false,
+      initialEDHMStatusChecked: false,
 
       showProgressBar: false,
       progressValue: 0,
@@ -362,6 +363,35 @@ export default {
       });
     },
 
+    ShowInitialEDHMStatusToast(status) {
+      if (this.initialEDHMStatusChecked) return;
+      this.initialEDHMStatusChecked = true;
+
+      if (!status) {
+        EventBus.emit('RoastMe', {
+          type: 'Error',
+          title: 'EDHM Status',
+          message: 'Unable to verify the EDHM installation status.',
+        });
+      } else if (status.conflict) {
+        EventBus.emit('RoastMe', {
+          type: 'Error',
+          title: 'EDHM Installation Needs Attention',
+          message: 'One or more required EDHM DLL files are missing or duplicated.<br>' +
+            'Reinstall EDHM or correct the DLL filenames before using Enable/Disable.',
+        });
+      } else if (status.state === 'not_installed') {
+        this.ShowEDHMNotInstalledToast();
+      } else if (status.state === 'disabled') {
+        EventBus.emit('RoastMe', {
+          type: 'Warning',
+          title: 'EDHM Disabled',
+          message: 'EDHM is currently disabled.<br>' +
+            'Enable EDHM before starting Elite Dangerous to load custom themes in game.',
+        });
+      }
+    },
+
     async ToggleEDHM() {
       try {
         const ActiveInstance = await window.api.getActiveInstance();
@@ -403,7 +433,8 @@ export default {
         this.modVersion = settings.Version_ODYSS;
         this.ActiveInstance = await window.api.getActiveInstance();
         this.selectedGame = this.ActiveInstance.instance;
-        await this.RefreshEDHMStatus(this.ActiveInstance);
+        const initialEDHMStatus = await this.RefreshEDHMStatus(this.ActiveInstance);
+        this.ShowInitialEDHMStatusToast(initialEDHMStatus);
         this.showFavorites = settings.FavToogle;
         this.activeTab = ref('themes');
 
