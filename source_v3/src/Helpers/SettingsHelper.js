@@ -867,6 +867,7 @@ async function ApplyTheme(themeName) {
             console.log(counter + ' ' + counterName + ' added!');
           } catch (error) {
             console.log('ERROR @SettingsHelper.applyTheme().applySettings():', error);
+            throw error;
           }
         }
 
@@ -888,15 +889,22 @@ async function ApplyTheme(themeName) {
         const updatedInis = await themeHelper.ApplyTemplateValuesToIni(template, defaultINIs);
         console.log('7. Applying Changes to the INIs...', updatedInis != undefined);
 
-        const _curSettsSAved = await themeHelper.SaveTheme(template);
-        console.log('Current Settings Saved?: ', _curSettsSAved);
-
         console.log('8. Saving the INI files..');
-        const _ret = await themeHelper.SaveThemeINIs(GamePath, updatedInis);
-        if (_ret) {
-          console.log('9. Theme Applied!', _ret);
-          return true;
+        const inisSaved = await themeHelper.SaveThemeINIs(GamePath, updatedInis);
+        if (!inisSaved) {
+          throw new Error('One or more theme INI files could not be saved.');
         }
+
+        // ThemeSettings.json is the in-game reload signal, so write it only
+        // after every INI has been saved successfully.
+        const currentSettingsSaved = await themeHelper.SaveTheme(template);
+        console.log('9. Current Settings Saved?: ', currentSettingsSaved);
+        if (!currentSettingsSaved) {
+          throw new Error('Theme INIs were saved, but ThemeSettings.json could not be updated.');
+        }
+
+        console.log('10. Theme Applied!');
+        return true;
       }
       else {
         console.log('Theme Not Found!', themeName);

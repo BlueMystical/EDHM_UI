@@ -749,21 +749,45 @@ const getIniFilePath = (basePath, fileName) => {
  * @returns Object */
 const LoadThemeINIs = async (folderPath) => {
   try {
+    const iniFiles = [
+      ['Startup-Profile.ini', 'StartupProfile'],
+      ['Advanced.ini', 'Advanced'],
+      ['SuitHud.ini', 'SuitHud'],
+      ['XML-Profile.ini', 'XmlProfile'],
+      ['Custom.ini', 'Custom'],
+    ];
+    const availableFiles = iniFiles.filter(([fileName]) =>
+      fs.existsSync(getIniFilePath(folderPath, fileName))
+    );
 
-    const [Startup_Profile, Advanced, SuitHud, XML_Profile] = await Promise.all([
-      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini')),
-      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'Advanced.ini')),
-      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'SuitHud.ini')),
-      await INIparser.LoadIniFile(getIniFilePath(folderPath, 'XML-Profile.ini')),
-    ]);
-
-    return {
-      path: folderPath,
-      StartupProfile: Startup_Profile,
-      Advanced: Advanced,
-      SuitHud: SuitHud,
-      XmlProfile: XML_Profile
+    if (availableFiles.length === 0) {
+      throw new Error(`No theme INI files were found in: ${folderPath}`);
     }
+
+    const results = await Promise.all(
+      availableFiles.map(([fileName]) => INIparser.LoadIniFile(getIniFilePath(folderPath, fileName)))
+    );
+    const failedFiles = availableFiles
+      .filter((_, index) => !results[index])
+      .map(([fileName]) => fileName);
+
+    if (failedFiles.length > 0) {
+      throw new Error(`Failed to load theme INI files: ${failedFiles.join(', ')}`);
+    }
+
+    const loadedINIs = {
+      path: folderPath,
+      StartupProfile: null,
+      Advanced: null,
+      SuitHud: null,
+      XmlProfile: null,
+      Custom: null,
+    };
+    availableFiles.forEach(([, propertyName], index) => {
+      loadedINIs[propertyName] = results[index];
+    });
+
+    return loadedINIs;
 
   } catch (error) {
     throw new Error(error.message + error.stack);
@@ -776,12 +800,31 @@ const LoadThemeINIs = async (folderPath) => {
  * @returns boolean 'true' is save is successful. */
 const SaveThemeINIs = async (folderPath, themeINIs) => {
   try {
-    await Promise.all([
-      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'Startup-Profile.ini'), themeINIs.StartupProfile),
-      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'Advanced.ini'), themeINIs.Advanced),
-      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'SuitHud.ini'), themeINIs.SuitHud),
-      await INIparser.SaveIniFile(getIniFilePath(folderPath, 'XML-Profile.ini'), themeINIs.XmlProfile),
-    ]);
+    const iniFiles = [
+      ['Startup-Profile.ini', themeINIs?.StartupProfile],
+      ['Advanced.ini', themeINIs?.Advanced],
+      ['SuitHud.ini', themeINIs?.SuitHud],
+      ['XML-Profile.ini', themeINIs?.XmlProfile],
+      ['Custom.ini', themeINIs?.Custom],
+    ].filter(([, iniData]) => iniData != null);
+
+    if (iniFiles.length === 0) {
+      throw new Error('No loaded theme INI files were provided to save.');
+    }
+
+    const results = await Promise.all(
+      iniFiles.map(([fileName, iniData]) =>
+        INIparser.SaveIniFile(getIniFilePath(folderPath, fileName), iniData)
+      )
+    );
+    const failedFiles = iniFiles
+      .filter((_, index) => results[index] !== true)
+      .map(([fileName]) => fileName);
+
+    if (failedFiles.length > 0) {
+      throw new Error(`Failed to save theme INI files: ${failedFiles.join(', ')}`);
+    }
+
     return true;
 
   } catch (error) {

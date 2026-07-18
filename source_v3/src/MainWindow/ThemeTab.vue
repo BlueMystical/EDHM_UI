@@ -198,7 +198,7 @@ export default {
     /** When Fired, Selects and Loads a given Theme   * 
      * @param theme We only need the id (index in the list) -> { id: 0 }
      */
-    OnSelectTheme(theme) {
+    OnSelectTheme(theme, loadTheme = true) {
       try {
         //console.log(this.selectedTheme);
         if (theme && !isEmpty(theme)) {
@@ -219,7 +219,10 @@ export default {
                     selectedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                   }
                 });
-                EventBus.emit('ThemeClicked', JSON.parse(JSON.stringify(selectedItem))); //<- this event will be heard in 'MainNavBars.vue'
+                if (loadTheme) {
+                  EventBus.emit('ThemeClicked', JSON.parse(JSON.stringify(selectedItem))); //<- this event will be heard in 'MainNavBars.vue'
+                }
+                return selectedItem;
               }
             }
             else {
@@ -237,14 +240,14 @@ export default {
      * @param theme_name Name of the Theme to be applied     */
     FindAndApplyTheme(theme_name) {
       console.log('FindAndApplyTheme: ', theme_name);
-      if (this.themes && this.themes.length > 0) {        
+      if (this.themes && this.themes.length > 0) {
         const index = this.themes.findIndex(obj => obj.file.name === theme_name);
         if (index !== -1) {
           console.log('Theme Found: ', this.themes[index].name);
-          this.OnSelectTheme({ id: index });
-          EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'NavBars.vue'  
+          const selectedItem = this.OnSelectTheme({ id: index }, false);
+          EventBus.emit('ApplyGivenTheme', JSON.parse(JSON.stringify(selectedItem))); //<- NavBars loads it before applying
         } else {
-            console.log(`Object with name ${tName} not found.`);
+            console.log(`Object with name ${theme_name} not found.`);
         }
       }
     },
@@ -329,7 +332,7 @@ export default {
         if (this.selectedTheme) {
           switch (action) {
             case 'ApplyTheme':
-              EventBus.emit('OnApplyTheme', null); //<- this event will be heard in 'MainNavBars.vue'
+              EventBus.emit('ApplyGivenTheme', JSON.parse(JSON.stringify(this.selectedTheme))); //<- NavBars loads it before applying
               break;
 
             case 'ThemePreview':
