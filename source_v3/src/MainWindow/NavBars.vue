@@ -6,7 +6,7 @@
       <div class="container-fluid d-flex justify-content-between align-items-center">
 
         <!-- Main Menu -->
-        <div class="nav-item">
+        <div class="nav-item d-flex align-items-center">
           <div class="input-group mb-3 ">
             <select ref="mainMenuSelect" id="mainMenuSelect" class="form-select main-menu-style"
               @change="MainMenu_Click($event.target.value)">
@@ -29,6 +29,9 @@
               <option value="mnuExit">Exit App</option>
             </select>
           </div>
+          <span id="lblEDHMStatus" :class="['navbar-text', 'mx-3', 'text-nowrap', edhmStatusClass]">
+            {{ edhmStatusMessage }}
+          </span>
         </div>
 
         <!-- Navbar for Buttons on the right side -->
@@ -288,6 +291,8 @@ export default {
       modVersion: '',
       selectedGame: '',
       gameMenuItems: [],
+      edhmStatusState: 'not_installed',
+      edhmStatusConflict: false,
 
       showProgressBar: false,
       progressValue: 0,
@@ -311,7 +316,91 @@ export default {
     UserSettingsTab,
     GlobalSettingsTab
   },
+  computed: {
+    edhmStatusMessage() {
+      switch (this.edhmStatusState) {
+        case 'ready':
+          return 'Status: Ready';
+        case 'disabled':
+          return 'Status: Disabled';
+        default:
+          return 'Status: Not Installed, please select Install EDHM from the main menu.';
+      }
+    },
+    edhmStatusClass() {
+      switch (this.edhmStatusState) {
+        case 'ready':
+          return 'edhm-status-ready';
+        case 'disabled':
+          return 'edhm-status-disabled';
+        default:
+          return 'edhm-status-not-installed';
+      }
+    },
+  },
   methods: {
+
+    async RefreshEDHMStatus(gameInstance = this.ActiveInstance) {
+      try {
+        const status = await window.api.GetEDHMStatus(JSON.parse(JSON.stringify(gameInstance || {})));
+        this.edhmStatusState = status?.state || 'not_installed';
+        this.edhmStatusConflict = status?.conflict === true;
+        return status;
+      } catch (error) {
+        console.error('Unable to determine EDHM status:', error);
+        this.edhmStatusState = 'not_installed';
+        this.edhmStatusConflict = false;
+        return null;
+      }
+    },
+
+    async ShowEDHMStatusDialog(type, message, detail = '') {
+      return window.api.ShowMessageBox({
+        type,
+        buttons: ['OK'],
+        defaultId: 0,
+        cancelId: 0,
+        noLink: true,
+        title: 'EDHM Status',
+        message,
+        detail,
+      });
+    },
+
+    async ToggleEDHM() {
+      try {
+        const ActiveInstance = await window.api.getActiveInstance();
+        const result = await window.api.ToggleEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
+        this.edhmStatusState = result?.state || 'not_installed';
+        this.edhmStatusConflict = result?.conflict === true;
+
+        if (!result?.changed && result?.state === 'not_installed') {
+          await this.ShowEDHMStatusDialog(
+            'warning',
+            'EDHM is not installed.',
+            'Please select Install EDHM from the main menu.'
+          );
+          return false;
+        }
+
+        const enabled = result?.state === 'ready';
+        await this.ShowEDHMStatusDialog(
+          'info',
+          enabled ? 'EDHM Enabled!' : 'EDHM Disabled!',
+          'The change will take effect the next time Elite Dangerous starts.'
+        );
+        return true;
+      } catch (error) {
+        await this.RefreshEDHMStatus();
+        const detail = error?.message || String(error);
+        await this.ShowEDHMStatusDialog(
+          'error',
+          'Unable to enable or disable EDHM.',
+          detail
+        );
+        return false;
+      }
+    },
 
     async OnInitialize(settings) {
       try {
@@ -322,6 +411,7 @@ export default {
         this.modVersion = settings.Version_ODYSS;
         this.ActiveInstance = await window.api.getActiveInstance();
         this.selectedGame = this.ActiveInstance.instance;
+        await this.RefreshEDHMStatus(this.ActiveInstance);
         this.showFavorites = settings.FavToogle;
         this.activeTab = ref('themes');
 
@@ -580,12 +670,10 @@ export default {
           if (_ret) {
             EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Un-Installed!' });
           }
+          await this.RefreshEDHMStatus(ActiveInstance);
         }
         if (value === 'mnuDisableMod') {
-          const _ret = await window.api.DisableEDHMmod(JSON.parse(JSON.stringify(ActiveInstance)));
-          if (_ret) {
-            EventBus.emit('RoastMe', { type: 'Success', message: 'EDHM Disabled!' });
-          }
+          await this.ToggleEDHM();
         }
         if (value === 'mnuGoToDiscord') {
           await window.api.openUrlInBrowser('https://discord.gg/ZaRt6bCXvj');
@@ -992,6 +1080,7 @@ export default {
       this.programSettings = data;
       //console.log('programSettings: ', programSettings);
       this.modVersion = data.Version_ODYSS;
+      this.RefreshEDHMStatus();
     },
     OnXmlChanged(data) {
       console.log('XML Changed:', data);
@@ -1244,6 +1333,18 @@ body {
 .main-menu-style {
   border: 2px solid orange;
   /* Add an orange border */
+}
+
+.edhm-status-ready {
+  color: #28a745 !important;
+}
+
+.edhm-status-disabled {
+  color: #dc3545 !important;
+}
+
+.edhm-status-not-installed {
+  color: #fd7e14 !important;
 }
 
 .middle-div {

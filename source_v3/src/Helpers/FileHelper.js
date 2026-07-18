@@ -1,4 +1,4 @@
-import { app, ipcMain, dialog, shell, clipboard, net, } from 'electron';
+import { app, ipcMain, BrowserWindow, dialog, shell, clipboard, net, } from 'electron';
 import { exec, execSync, execFile, spawn } from 'child_process';
 import { promisify } from 'util';
 import path from 'node:path';
@@ -971,8 +971,10 @@ function isProcessRunning(name) {
             const output = execSync("tasklist").toString().toLowerCase();
             return output.includes(name.toLowerCase());
 
-        } else if (platform === "linux") {
-            const output = execSync("ps -A").toString().toLowerCase();
+        } else if (platform === "linux" || platform === "darwin") {
+            // Include both the executable name and full arguments. Wine/Proton
+            // process names can otherwise be truncated in the default ps output.
+            const output = execSync("ps -A -o comm= -o args=").toString().toLowerCase();
             return output.includes(name.toLowerCase());
 
         } else {
@@ -1412,7 +1414,10 @@ ipcMain.handle('ShowMessageBox', async (event, options) => {
       if (result && result.response === 1) { }
   */
   try {
-    const result = await dialog.showMessageBox(options);
+    const parentWindow = BrowserWindow.fromWebContents(event.sender);
+    const result = parentWindow
+      ? await dialog.showMessageBox(parentWindow, options)
+      : await dialog.showMessageBox(options);
     return result;
   } catch (error) {
     throw new Error(error.message + error.stack);
@@ -1966,7 +1971,7 @@ export default {
 
   createWindowsShortcut,
   createLinuxShortcut,
-  terminateProgram,
+  isProcessRunning, terminateProgram,
   runInstaller, runScripOrProgram,
 
   copyToClipboard,
