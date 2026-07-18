@@ -59,7 +59,18 @@
             aria-atomic="true" v-on:click="toastClicked('Info')">
             <div class="d-flex align-items-center" style="height: 100%;">
                 <i class="bi bi-info-circle" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
-                <div class="toast-body text-black" v-html="toasts.Info.message"></div>
+                <div class="toast-body text-black">
+                    <h5 v-if="toasts.Info.title">{{ toasts.Info.title }}</h5>
+                    <div v-html="toasts.Info.message"></div>
+                    <div v-if="toasts.Info.detail" class="toast-detail mt-2" @click.stop>{{ toasts.Info.detail }}</div>
+                    <div v-if="toasts.Info.actions.length" class="toast-actions mt-3 d-flex gap-2" @click.stop>
+                        <button v-for="(action, index) in toasts.Info.actions" :key="index" type="button"
+                            :class="['btn', 'btn-sm', action.class || 'btn-outline-dark']"
+                            @click.stop="toastActionClicked('Info', action)">
+                            {{ action.label }}
+                        </button>
+                    </div>
+                </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
@@ -91,7 +102,7 @@ export default {
                 Error:      { title: '', message: '' },
                 Success:    { title: '', message: '' },
                 Warning:    { title: '', message: '' },
-                Info:       { title: '', message: '' }, 
+                Info:       { title: '', message: '', detail: '', actions: [] },
                 Accent:     { title: '', message: '' },
                 ErrMsg:     { title: '', message: '', stack: '' },
             },
@@ -104,6 +115,8 @@ export default {
                type: 'Info',            //<- Info, Success, Warning, Error, Accent
                title: '',               //<- [Optional] Title of the Toast
                message: '',             //<- Message of the Toast, accepts HTML tags
+               detail: '',              //<- [Optional] Plain-text detail displayed below the message
+               actions: [],             //<- [Optional] Buttons: { label, class, onClick }
                stack: '',               //<- [Optional] Only if 'type=Error', Stack Trace for Errors
                autoHide: true,          //<- [Optional] Toast hides automatically after a delay
                delay: 3000,             //<- [Optional] Auto-hide delay in milliseconds, 1s=1000ms, 1m=60000ms
@@ -116,6 +129,8 @@ export default {
                 type = 'Info',
                 title = '',
                 message = '',
+                detail = '',
+                actions = [],
                 stack,
                 autoHide = true,
                 delay = 5000, //<- 5 seconds default
@@ -129,6 +144,8 @@ export default {
             if (this.toasts[toastType]) {
                 this.toasts[toastType].title = title;
                 this.toasts[toastType].message = message;
+                this.toasts[toastType].detail = detail;
+                this.toasts[toastType].actions = Array.isArray(actions) ? actions : [];
                 if (stack) this.toasts[toastType].stack = stack;
 
                 const toast = document.getElementById(`liveToast-${toastType}`);
@@ -273,6 +290,17 @@ export default {
             // You can perform additional actions here when a toast is clicked
         },
 
+        async toastActionClicked(toastType, action) {
+            this.closeToast(toastType);
+            if (typeof action?.onClick === 'function') {
+                try {
+                    await action.onClick();
+                } catch (error) {
+                    EventBus.emit('ShowError', error);
+                }
+            }
+        },
+
         copyToClipboard(msg){
             window.api.copyToClipboard(msg);
         }
@@ -314,6 +342,17 @@ export default {
   padding: 10px;
   border-radius: 5px;
   overflow-x: auto;
+}
+
+.toast-detail {
+  width: 100%;
+  max-height: 45vh;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  padding: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .custom-toast {

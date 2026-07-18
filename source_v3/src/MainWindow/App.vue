@@ -747,6 +747,44 @@ export default {
         console.error('Error cargando notificación de mantenimiento:', err);
       }
     },
+
+    async StartAvailableUpdateDownload() {
+      // Keep the existing update safety check before starting the download.
+      const fullPath = await window.api.detectProgram('EliteDangerous64.exe');
+      if (fullPath) {
+        console.log('Process found at:', fullPath);
+        EventBus.emit('RoastMe', {
+          type: 'Accent', accent: 'error', background: 'warning',
+          title: 'Can NOT update!', message: 'The game is Running<br>You need to close it to allow the update to be installed<br>Try again after closing the game.',
+          width: '460px', autoHide: false
+        });
+        return false;
+      }
+
+      const platform = await window.api.getPlatform();
+      let downloadUrl = '';
+      let fileSavePath = '';
+
+      if (platform === 'win32') {
+        console.log('Running on Windows');
+        downloadUrl = 'https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-windows-x64.exe';
+        fileSavePath = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\edhm-ui-v3-windows-x64.exe');
+      } else if (platform === 'linux') {
+        console.log('Running on Linux');
+        downloadUrl = 'https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-linux-x64.zip';
+        fileSavePath = '/tmp/EDHM_UI/edhm-ui-v3-linux-x64.zip';
+      } else {
+        throw new Error(`Updates are not supported on platform: ${platform}`);
+      }
+
+      EventBus.emit('StartDownload', {
+        url: downloadUrl,
+        save_to: fileSavePath,
+        platform,
+      });
+      return true;
+    },
+
     async AnalyseUpdate(latesRelease) {
       try {
         const localVersion = await window.api.getAppVersion();
@@ -760,61 +798,24 @@ export default {
           var patchNotes = latesRelease.notes.split("----")[0];
           console.log(patchNotes);
 
-          const options = {
-            type: 'question', //<- none, info, error, question, warning
-            buttons: ['Cancel', "Yes, Download it", 'No, maybe later.'],
-            defaultId: 1,
+          EventBus.emit('RoastMe', {
+            type: 'Info',
             title: 'Update Available: ' + serverVersion,
-            message: 'Do you want to Download the Update?',
+            message: 'Do you want to download this update?',
             detail: patchNotes,
-            cancelId: 0
-          };
-          let fileSavePath = await window.api.resolveEnvVariables('%LOCALAPPDATA%\\Temp\\EDHM_UI\\edhm-ui-v3-windows-x64.exe');
-          const platform = await window.api.getPlatform();
-          var download_url = '';  
-
-          window.api.ShowMessageBox(options).then(async result => {
-            if (result && result.response === 1) {
-
-              // 1. Check if the Game is already Running:
-              const fullPath = await window.api.detectProgram('EliteDangerous64.exe');
-              if (fullPath) {
-                console.log('Process found at:', fullPath);
-                EventBus.emit('RoastMe', {
-                  type: 'Accent', accent: 'error', background: 'warning',
-                  title: 'Can NOT update!', message: 'The game is Running<br>You need to close it to allow the update to be installed<br>Try again after closing the game.',
-                  width:'460px', autoHide: false
-                });
-                return;
-              } else {
-                if (platform === 'win32') {
-                  console.log('Running on Windows');
-                  //download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-windows-x64.exe';
-                  download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-windows-x64.exe';
-
-                } else if (platform === 'linux') {
-                  console.log('Running on Linux');
-                  //download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/download/' + serverVersion + '/edhm-ui-v3-linux-x64.zip';
-                  download_url = 'https://github.com/BlueMystical/EDHM_UI/releases/latest/download/edhm-ui-v3-linux-x64.zip';
-                  fileSavePath = '/tmp/EDHM_UI/edhm-ui-v3-linux-x64.zip';
-
-                } else {
-                  console.log(`Running on an unknown platform: ${platform}`);
-                  return;
-                }
-
-                //- Send the Command to start the Download
-                EventBus.emit('StartDownload', {  //<- Event Listen in 'NavBars.vue' -> DownloadAndInstallUpdate()
-                  url: download_url,
-                  save_to: fileSavePath,
-                  platform: platform
-                });
-
-              }
-              if (result && result.response === 2) {
-                EventBus.emit('RoastMe', { type: 'Info', message: 'There is an Update Available: ' + serverVersion, autoHide: false });
-              }
-            }
+            autoHide: false,
+            width: '650px',
+            actions: [
+              {
+                label: 'Yes, Download it',
+                class: 'btn-dark',
+                onClick: () => this.StartAvailableUpdateDownload(),
+              },
+              {
+                label: 'No, maybe later.',
+                class: 'btn-outline-dark',
+              },
+            ],
           });
         }
         else {
