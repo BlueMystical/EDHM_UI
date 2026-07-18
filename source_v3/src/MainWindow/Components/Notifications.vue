@@ -353,6 +353,31 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 0.25rem;
   background-color: rgba(255, 255, 255, 0.2);
+  scrollbar-color: #fd7e14 rgba(12, 41, 49, 0.65);
+  scrollbar-width: thin;
+}
+
+.toast-detail::-webkit-scrollbar {
+  width: 12px;
+}
+
+.toast-detail::-webkit-scrollbar-track {
+  background: rgba(12, 41, 49, 0.65);
+  border-radius: 0.25rem;
+}
+
+.toast-detail::-webkit-scrollbar-thumb {
+  background-color: #fd7e14;
+  border: 2px solid rgba(12, 41, 49, 0.65);
+  border-radius: 0.5rem;
+}
+
+.toast-detail::-webkit-scrollbar-thumb:hover {
+  background-color: #ffad5c;
+}
+
+.toast-detail::-webkit-scrollbar-button {
+  display: none;
 }
 
 .custom-toast {

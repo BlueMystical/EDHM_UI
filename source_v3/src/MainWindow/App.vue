@@ -808,12 +808,12 @@ export default {
             actions: [
               {
                 label: 'Yes, Download it',
-                class: 'btn-dark',
+                class: 'btn-success',
                 onClick: () => this.StartAvailableUpdateDownload(),
               },
               {
                 label: 'No, maybe later.',
-                class: 'btn-outline-dark',
+                class: 'btn-danger',
               },
             ],
           });
