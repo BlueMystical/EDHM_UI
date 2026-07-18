@@ -596,7 +596,20 @@ export default {
         console.log('DONE! - Theme Applied:', this.themeTemplate.credits.theme);
         EventBus.emit('OnThemeApplied',         JSON.parse(JSON.stringify(template))); //<- Listen on App.vue
         EventBus.emit('CurretSettingsUpdated',  JSON.parse(JSON.stringify(template))); //<- Listen on ThemeTab.vue
-        EventBus.emit('RoastMe', { type: 'Success', message: `<b>Theme: '${template.credits.theme}' Applied!` });
+        if (edhmStatus.state === 'disabled') {
+          EventBus.emit('RoastMe', {
+            type: 'Warning',
+            title: 'EDHM Disabled',
+            message: `<b>Theme: '${template.credits.theme}' Applied!</b><br>` +
+              'EDHM is currently disabled, so the game cannot load this theme. ' +
+              'Enable EDHM before your next game launch to see the changes.',
+          });
+        } else {
+          EventBus.emit('RoastMe', {
+            type: 'Success',
+            message: `<b>Theme: '${template.credits.theme}' Applied!`,
+          });
+        }
         return true;
 
       } catch (error) {
