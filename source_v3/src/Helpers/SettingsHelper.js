@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import fs from 'fs';
 import { readdir, stat } from 'fs/promises';
-import { writeFile, unlink, access } from 'node:fs/promises';
+import { writeFile, unlink, access, rename } from 'node:fs/promises';
 
 import fileHelper from './FileHelper';
 import themeHelper from './ThemeHelper.js';
@@ -588,6 +588,14 @@ async function installEDHMmod(gameInstance) {
 
       const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
 
+      // Installing EDHM means returning to the enabled state. Remove a stale
+      // disabled copy only after the new DLL was extracted successfully.
+      const installedDllPath = path.join(gamePath, 'd3d11.dll');
+      const disabledDllPath = path.join(gamePath, 'd3d11.dll.disabled');
+      if (_ret && await fileExists(installedDllPath) && await fileExists(disabledDllPath)) {
+        await unlink(disabledDllPath);
+      }
+
       Response.game = GameType;
       Response.version = versionMatch[0];
 
@@ -668,6 +676,7 @@ async function UninstallEDHMmod(gameInstance) {
       'ShaderFixes',
       'd3dx.ini',
       'd3d11.dll',
+      'd3d11.dll.disabled',
       'd3dcompiler_46.dll',
       'd3dcompiler_47.dll',
       'nvapi64.dll',
@@ -699,8 +708,94 @@ async function UninstallEDHMmod(gameInstance) {
   return fileDeleted;
 };
 
-async function DisableEDHMmod(gameInstance) {
-  throw new Error("Not implemented yet!");  
+const EDHM_DLL_NAME = 'd3d11.dll';
+const EDHM_DISABLED_DLL_NAME = 'd3d11.dll.disabled';
+
+const fileExists = async (filePath) => {
+  try {
+    await access(filePath);
+    return true;
+  } catch (error) {
+    if (error.code === 'ENOENT') return false;
+    throw error;
+  }
+};
+
+/** Returns EDHM's enabled, disabled, or not-installed state for a game instance. */
+async function GetEDHMStatus(gameInstance) {
+  const configuredPath = Array.isArray(gameInstance?.path)
+    ? gameInstance.path[0]
+    : gameInstance?.path;
+  if (!configuredPath) {
+    return { state: 'not_installed', conflict: false };
+  }
+
+  const gamePath = path.resolve(fileHelper.resolveEnvVariables(configuredPath));
+  const enabledPath = path.join(gamePath, EDHM_DLL_NAME);
+  const disabledPath = path.join(gamePath, EDHM_DISABLED_DLL_NAME);
+  const [enabledExists, disabledExists] = await Promise.all([
+    fileExists(enabledPath),
+    fileExists(disabledPath),
+  ]);
+
+  if (enabledExists) {
+    return {
+      state: 'ready',
+      conflict: disabledExists,
+      gamePath,
+    };
+  }
+  if (disabledExists) {
+    return {
+      state: 'disabled',
+      conflict: false,
+      gamePath,
+    };
+  }
+  return {
+    state: 'not_installed',
+    conflict: false,
+    gamePath,
+  };
+}
+
+/** Toggles EDHM by renaming its local D3D11 proxy beside the game executable. */
+async function ToggleEDHMmod(gameInstance) {
+  const status = await GetEDHMStatus(gameInstance);
+
+  if (status.state === 'not_installed') {
+    return { ...status, changed: false };
+  }
+  if (status.conflict) {
+    throw new Error(
+      `Both ${EDHM_DLL_NAME} and ${EDHM_DISABLED_DLL_NAME} exist in the game folder. ` +
+      'Resolve the duplicate files before toggling EDHM.'
+    );
+  }
+  if (fileHelper.isProcessRunning('EliteDangerous64.exe')) {
+    throw new Error(
+      'Elite Dangerous is currently running. Close the game before enabling or disabling EDHM.'
+    );
+  }
+
+  const enabledPath = path.join(status.gamePath, EDHM_DLL_NAME);
+  const disabledPath = path.join(status.gamePath, EDHM_DISABLED_DLL_NAME);
+  const disabling = status.state === 'ready';
+  const sourcePath = disabling ? enabledPath : disabledPath;
+  const destinationPath = disabling ? disabledPath : enabledPath;
+
+  try {
+    await rename(sourcePath, destinationPath);
+  } catch (error) {
+    const action = disabling ? 'disable' : 'enable';
+    throw new Error(
+      `Unable to ${action} EDHM: ${error.message}. ` +
+      'Ensure Elite Dangerous is not running and that the game folder is writable.'
+    );
+  }
+
+  const updatedStatus = await GetEDHMStatus(gameInstance);
+  return { ...updatedStatus, changed: true };
 }
 
 /** This are actions to be run after an App Update is applied and Before EDHM mod is installed. */
@@ -1095,11 +1190,26 @@ ipcMain.handle('UninstallEDHMmod', (event, gameInstance) => {
     throw new Error(error.message + error.stack);
   }
 });
-ipcMain.handle('DisableEDHMmod', (event, gameInstance) => {
+ipcMain.handle('GetEDHMStatus', async (event, gameInstance) => {
   try {
-    return DisableEDHMmod(gameInstance);
+    return await GetEDHMStatus(gameInstance);
   } catch (error) {
-    throw new Error(error.message + error.stack);
+    throw new Error(error.message);
+  }
+});
+ipcMain.handle('ToggleEDHMmod', async (event, gameInstance) => {
+  try {
+    return await ToggleEDHMmod(gameInstance);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+});
+// Backwards-compatible alias for older renderer bundles.
+ipcMain.handle('DisableEDHMmod', async (event, gameInstance) => {
+  try {
+    return await ToggleEDHMmod(gameInstance);
+  } catch (error) {
+    throw new Error(error.message);
   }
 });
 
