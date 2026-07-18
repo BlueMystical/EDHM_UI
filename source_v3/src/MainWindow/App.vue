@@ -241,10 +241,12 @@ export default {
           } else {
             this.settings.Version_HORIZ = edhmInstalled.version;
           }
+          // Refresh the monitor from the exact instance whose install just completed.
+          EventBus.emit('RefreshEDHMStatus', JSON.parse(JSON.stringify(NewInstance)));
           const Backup = await window.api.RestoreCurrentSettings();
           EventBus.emit('RoastMe', { type: 'Info', message: Backup });
           EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
-        }        
+        }
 
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
