@@ -748,44 +748,36 @@ async function GetEDHMStatus(gameInstance) {
       disabledExists: await fileExists(path.join(gamePath, disabled)),
     }))
   );
-  const allEnabled = fileStates.every(
-    ({ enabledExists, disabledExists }) => enabledExists && !disabledExists
-  );
-  const allDisabled = fileStates.every(
-    ({ enabledExists, disabledExists }) => !enabledExists && disabledExists
-  );
   const anyDllExists = fileStates.some(
     ({ enabledExists, disabledExists }) => enabledExists || disabledExists
   );
+  const anyDisabled = fileStates.some(({ disabledExists }) => disabledExists);
+  const hasDuplicate = fileStates.some(
+    ({ enabledExists, disabledExists }) => enabledExists && disabledExists
+  );
+  const hasMissing = fileStates.some(
+    ({ enabledExists, disabledExists }) => !enabledExists && !disabledExists
+  );
 
-  if (allEnabled) {
+  if (!anyDllExists) {
     return {
-      state: 'ready',
+      state: 'not_installed',
       conflict: false,
       gamePath,
     };
   }
-  if (allDisabled) {
+  if (hasDuplicate || hasMissing) {
     return {
-      state: 'disabled',
-      conflict: false,
-      gamePath,
-    };
-  }
-  if (anyDllExists) {
-    const d3d11State = fileStates[0];
-    return {
-      state: d3d11State.enabledExists
-        ? 'ready'
-        : d3d11State.disabledExists
-          ? 'disabled'
-          : 'not_installed',
+      state: anyDisabled ? 'disabled' : 'ready',
       conflict: true,
       gamePath,
     };
   }
+
+  // A mixed pair is still disabled. This lets Enable repair the pair by
+  // restoring whichever member currently has the .disabled extension.
   return {
-    state: 'not_installed',
+    state: anyDisabled ? 'disabled' : 'ready',
     conflict: false,
     gamePath,
   };
@@ -797,9 +789,8 @@ async function ToggleEDHMmod(gameInstance) {
 
   if (status.conflict) {
     throw new Error(
-      'The EDHM DLL files are not in a matching state. Expected both d3d11.dll and ' +
-      'd3dcompiler_47.dll to be enabled, or both to have the .disabled extension. ' +
-      'Reinstall EDHM or correct the filenames before toggling it.'
+      'The EDHM DLL files are incomplete or duplicated. Each DLL must have exactly ' +
+      'one enabled or disabled filename. Reinstall EDHM or correct the files before toggling it.'
     );
   }
   if (status.state === 'not_installed') {
@@ -812,10 +803,19 @@ async function ToggleEDHMmod(gameInstance) {
   }
 
   const disabling = status.state === 'ready';
-  const renamePairs = EDHM_DLL_FILES.map(({ enabled, disabled }) => ({
-    sourcePath: path.join(status.gamePath, disabling ? enabled : disabled),
-    destinationPath: path.join(status.gamePath, disabling ? disabled : enabled),
-  }));
+  const renamePairs = [];
+  for (const { enabled, disabled } of EDHM_DLL_FILES) {
+    const enabledPath = path.join(status.gamePath, enabled);
+    const disabledPath = path.join(status.gamePath, disabled);
+    // When repairing a mixed disabled pair, rename only the member that is
+    // disabled and leave an already-enabled member untouched.
+    if (disabling || await fileExists(disabledPath)) {
+      renamePairs.push({
+        sourcePath: disabling ? enabledPath : disabledPath,
+        destinationPath: disabling ? disabledPath : enabledPath,
+      });
+    }
+  }
   const completedRenames = [];
 
   try {
