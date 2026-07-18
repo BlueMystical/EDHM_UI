@@ -627,7 +627,15 @@ export default {
         console.log('DONE! - Theme Applied:', this.themeTemplate.credits.theme);
         EventBus.emit('OnThemeApplied',         JSON.parse(JSON.stringify(template))); //<- Listen on App.vue
         EventBus.emit('CurretSettingsUpdated',  JSON.parse(JSON.stringify(template))); //<- Listen on ThemeTab.vue
-        if (edhmStatus.state === 'disabled') {
+        if (edhmStatus.conflict) {
+          EventBus.emit('RoastMe', {
+            type: 'Warning',
+            title: 'EDHM Installation Needs Attention',
+            message: `<b>Theme: '${template.credits.theme}' Applied!</b><br>` +
+              'One or more required EDHM DLL files are missing or duplicated, so the game may not load this theme. ' +
+              'Reinstall EDHM or correct the DLL filenames before your next game launch.',
+          });
+        } else if (edhmStatus.state === 'disabled') {
           EventBus.emit('RoastMe', {
             type: 'Warning',
             title: 'EDHM Disabled',

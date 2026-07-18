@@ -75,6 +75,28 @@
             </div>
         </div>
 
+        <!-- Dedicated Info-styled update prompt. It cannot be replaced by ordinary Info notifications. -->
+        <div id="liveToast-UpdateInfo" class="toast align-items-center bg-info border-0" role="alert"
+            aria-live="assertive" aria-atomic="true" v-on:click="toastClicked('UpdateInfo')">
+            <div class="d-flex align-items-center" style="height: 100%;">
+                <i class="bi bi-info-circle" style="font-size: 64px; margin-left:10px; margin-right: 4px;"></i>
+                <div class="toast-body text-black">
+                    <h5 v-if="toasts.UpdateInfo.title">{{ toasts.UpdateInfo.title }}</h5>
+                    <div v-html="toasts.UpdateInfo.message"></div>
+                    <div v-if="toasts.UpdateInfo.detail" class="toast-detail mt-2" @click.stop>{{ toasts.UpdateInfo.detail }}</div>
+                    <div v-if="toasts.UpdateInfo.actions.length" class="toast-actions mt-3 d-flex gap-2" @click.stop>
+                        <button v-for="(action, index) in toasts.UpdateInfo.actions" :key="index" type="button"
+                            :class="['btn', 'btn-sm', action.class || 'btn-outline-dark']"
+                            @click.stop="toastActionClicked('UpdateInfo', action)">
+                            {{ action.label }}
+                        </button>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+
         <!-- Accent Type Toast Notification -->
         <div id="liveToast-Accent" class="toast custom-toast align-items-start text-bg-primary border-0" role="alert" aria-live="assertive" 
             aria-atomic="true"  v-on:click="toastClicked('Accent')">
@@ -103,6 +125,7 @@ export default {
                 Success:    { title: '', message: '' },
                 Warning:    { title: '', message: '' },
                 Info:       { title: '', message: '', detail: '', actions: [] },
+                UpdateInfo: { title: '', message: '', detail: '', actions: [] },
                 Accent:     { title: '', message: '' },
                 ErrMsg:     { title: '', message: '', stack: '' },
             },
@@ -112,7 +135,7 @@ export default {
         /** Displays a Colored Toast Notification at Bottom Right corner of the Window
          * @param data Configuration Object: 
           { 
-               type: 'Info',            //<- Info, Success, Warning, Error, Accent
+               type: 'Info',            //<- Info, UpdateInfo, Success, Warning, Error, Accent
                title: '',               //<- [Optional] Title of the Toast
                message: '',             //<- Message of the Toast, accepts HTML tags
                detail: '',              //<- [Optional] Plain-text detail displayed below the message

@@ -232,6 +232,10 @@ export default {
         const NewInstance = await window.api.getInstanceByName(e.GameInstanceName);
         console.log('NewInstance:', NewInstance);
 
+        // NavBars receives its own settings copy, so persist the selected
+        // instance here before reinitializing components that read it back.
+        this.settings.ActiveInstance = e.GameInstanceName.toString();
+
         if (e.InstallMod) {
           EventBus.emit('RoastMe', { type: 'Info', message: `Installing EDHM on '${e.GameInstanceName}'..` });
           const edhmInstalled = await window.api.installEDHMmod(NewInstance);
@@ -248,6 +252,9 @@ export default {
           EventBus.emit('RoastMe', { type: 'Success', message: `EDHM ${edhmInstalled.version} Installed.` });
         }
 
+        const jsonString = JSON.stringify(this.settings, null, 4);
+        this.settings = await window.api.saveSettings(jsonString);
+
         EventBus.emit('InitializeNavBars', JSON.parse(JSON.stringify(this.settings))); //<- Event Listened at NavBars.vue
         EventBus.emit('OnInitializeThemes', JSON.parse(JSON.stringify(this.settings)));//<- Event Listened at ThemeTab.vue
         EventBus.emit('InitializeHUDimage', null);    //<- Event Listened at HudImage.vue
@@ -256,9 +263,6 @@ export default {
 
         EventBus.emit('modUpdated', this.settings);     //<- Event listen in MainNavBars.vue
         EventBus.emit('loadThemes', this.settings.FavToogle);  //<- this event will be heard in 'ThemeTab.vue'
-
-        const jsonString = JSON.stringify(this.settings, null, 4);
-        await window.api.saveSettings(jsonString);
 
         this.StartShipyard();
 
@@ -799,7 +803,7 @@ export default {
           console.log(patchNotes);
 
           EventBus.emit('RoastMe', {
-            type: 'Info',
+            type: 'UpdateInfo',
             title: 'Update Available: ' + serverVersion,
             message: 'Do you want to download this update?',
             detail: patchNotes,
