@@ -588,12 +588,18 @@ async function installEDHMmod(gameInstance) {
 
       const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
 
-      // Installing EDHM means returning to the enabled state. Remove a stale
-      // disabled copy only after the new DLL was extracted successfully.
-      const installedDllPath = path.join(gamePath, 'd3d11.dll');
-      const disabledDllPath = path.join(gamePath, 'd3d11.dll.disabled');
-      if (_ret && await fileExists(installedDllPath) && await fileExists(disabledDllPath)) {
-        await unlink(disabledDllPath);
+      // Installing EDHM means returning both proxy DLLs to the enabled state.
+      // Remove stale disabled copies only after the complete pair was extracted.
+      const enabledPairInstalled = await Promise.all(
+        EDHM_DLL_FILES.map(({ enabled }) => fileExists(path.join(gamePath, enabled)))
+      );
+      if (_ret && enabledPairInstalled.every(Boolean)) {
+        for (const { disabled } of EDHM_DLL_FILES) {
+          const disabledPath = path.join(gamePath, disabled);
+          if (await fileExists(disabledPath)) {
+            await unlink(disabledPath);
+          }
+        }
       }
 
       Response.game = GameType;
@@ -679,6 +685,7 @@ async function UninstallEDHMmod(gameInstance) {
       'd3d11.dll.disabled',
       'd3dcompiler_46.dll',
       'd3dcompiler_47.dll',
+      'd3dcompiler_47.dll.disabled',
       'nvapi64.dll',
       'EDHM-Uninstall.bat',
     ];
@@ -708,8 +715,10 @@ async function UninstallEDHMmod(gameInstance) {
   return fileDeleted;
 };
 
-const EDHM_DLL_NAME = 'd3d11.dll';
-const EDHM_DISABLED_DLL_NAME = 'd3d11.dll.disabled';
+const EDHM_DLL_FILES = [
+  { enabled: 'd3d11.dll', disabled: 'd3d11.dll.disabled' },
+  { enabled: 'd3dcompiler_47.dll', disabled: 'd3dcompiler_47.dll.disabled' },
+];
 
 const fileExists = async (filePath) => {
   try {
@@ -731,24 +740,47 @@ async function GetEDHMStatus(gameInstance) {
   }
 
   const gamePath = path.resolve(fileHelper.resolveEnvVariables(configuredPath));
-  const enabledPath = path.join(gamePath, EDHM_DLL_NAME);
-  const disabledPath = path.join(gamePath, EDHM_DISABLED_DLL_NAME);
-  const [enabledExists, disabledExists] = await Promise.all([
-    fileExists(enabledPath),
-    fileExists(disabledPath),
-  ]);
+  const fileStates = await Promise.all(
+    EDHM_DLL_FILES.map(async ({ enabled, disabled }) => ({
+      enabled,
+      disabled,
+      enabledExists: await fileExists(path.join(gamePath, enabled)),
+      disabledExists: await fileExists(path.join(gamePath, disabled)),
+    }))
+  );
+  const allEnabled = fileStates.every(
+    ({ enabledExists, disabledExists }) => enabledExists && !disabledExists
+  );
+  const allDisabled = fileStates.every(
+    ({ enabledExists, disabledExists }) => !enabledExists && disabledExists
+  );
+  const anyDllExists = fileStates.some(
+    ({ enabledExists, disabledExists }) => enabledExists || disabledExists
+  );
 
-  if (enabledExists) {
+  if (allEnabled) {
     return {
       state: 'ready',
-      conflict: disabledExists,
+      conflict: false,
       gamePath,
     };
   }
-  if (disabledExists) {
+  if (allDisabled) {
     return {
       state: 'disabled',
       conflict: false,
+      gamePath,
+    };
+  }
+  if (anyDllExists) {
+    const d3d11State = fileStates[0];
+    return {
+      state: d3d11State.enabledExists
+        ? 'ready'
+        : d3d11State.disabledExists
+          ? 'disabled'
+          : 'not_installed',
+      conflict: true,
       gamePath,
     };
   }
@@ -759,18 +791,19 @@ async function GetEDHMStatus(gameInstance) {
   };
 }
 
-/** Toggles EDHM by renaming its local D3D11 proxy beside the game executable. */
+/** Toggles EDHM by renaming both proxy DLLs beside the game executable. */
 async function ToggleEDHMmod(gameInstance) {
   const status = await GetEDHMStatus(gameInstance);
 
-  if (status.state === 'not_installed') {
-    return { ...status, changed: false };
-  }
   if (status.conflict) {
     throw new Error(
-      `Both ${EDHM_DLL_NAME} and ${EDHM_DISABLED_DLL_NAME} exist in the game folder. ` +
-      'Resolve the duplicate files before toggling EDHM.'
+      'The EDHM DLL files are not in a matching state. Expected both d3d11.dll and ' +
+      'd3dcompiler_47.dll to be enabled, or both to have the .disabled extension. ' +
+      'Reinstall EDHM or correct the filenames before toggling it.'
     );
+  }
+  if (status.state === 'not_installed') {
+    return { ...status, changed: false };
   }
   if (fileHelper.isProcessRunning('EliteDangerous64.exe')) {
     throw new Error(
@@ -778,19 +811,35 @@ async function ToggleEDHMmod(gameInstance) {
     );
   }
 
-  const enabledPath = path.join(status.gamePath, EDHM_DLL_NAME);
-  const disabledPath = path.join(status.gamePath, EDHM_DISABLED_DLL_NAME);
   const disabling = status.state === 'ready';
-  const sourcePath = disabling ? enabledPath : disabledPath;
-  const destinationPath = disabling ? disabledPath : enabledPath;
+  const renamePairs = EDHM_DLL_FILES.map(({ enabled, disabled }) => ({
+    sourcePath: path.join(status.gamePath, disabling ? enabled : disabled),
+    destinationPath: path.join(status.gamePath, disabling ? disabled : enabled),
+  }));
+  const completedRenames = [];
 
   try {
-    await rename(sourcePath, destinationPath);
+    for (const renamePair of renamePairs) {
+      await rename(renamePair.sourcePath, renamePair.destinationPath);
+      completedRenames.push(renamePair);
+    }
   } catch (error) {
+    const rollbackErrors = [];
+    for (const renamePair of completedRenames.reverse()) {
+      try {
+        await rename(renamePair.destinationPath, renamePair.sourcePath);
+      } catch (rollbackError) {
+        rollbackErrors.push(rollbackError);
+      }
+    }
     const action = disabling ? 'disable' : 'enable';
+    const rollbackMessage = rollbackErrors.length > 0
+      ? ' One or more DLLs could not be restored; reinstall EDHM to repair the matching state.'
+      : '';
     throw new Error(
       `Unable to ${action} EDHM: ${error.message}. ` +
-      'Ensure Elite Dangerous is not running and that the game folder is writable.'
+      'Ensure Elite Dangerous is not running and that the game folder is writable.' +
+      rollbackMessage
     );
   }
 
