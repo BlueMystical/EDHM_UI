@@ -1238,6 +1238,7 @@ export default {
     EventBus.on('ThemeClicked', this.LoadTheme);
     EventBus.on('ShowSpinner', this.showHideSpinner);
     EventBus.on('modUpdated', this.OnModUpdated);
+    EventBus.on('RefreshEDHMStatus', this.RefreshEDHMStatus);
     EventBus.on('OnApplyTheme', this.applyTheme);
     EventBus.on('ApplyGivenTheme', this.ApplyGivenTheme);
     EventBus.on('StartDownload', this.DownloadAndInstallUpdate);
@@ -1255,6 +1256,7 @@ export default {
     EventBus.off('ThemeClicked', this.LoadTheme);
     EventBus.off('ShowSpinner', this.showHideSpinner);
     EventBus.off('modUpdated', this.OnModUpdated);
+    EventBus.off('RefreshEDHMStatus', this.RefreshEDHMStatus);
     EventBus.off('OnApplyTheme', this.applyTheme);
     EventBus.off('StartDownload', this.DownloadAndInstallUpdate);
     EventBus.off('OnGlobalSettingsLoaded', this.OnGlobalSettingsLoaded);
