@@ -354,6 +354,14 @@ export default {
       }
     },
 
+    ShowEDHMNotInstalledToast() {
+      EventBus.emit('RoastMe', {
+        type: 'Error',
+        title: 'EDHM Status',
+        message: 'EDHM is not installed.<br>Please select Install EDHM from the main menu.',
+      });
+    },
+
     async ToggleEDHM() {
       try {
         const ActiveInstance = await window.api.getActiveInstance();
@@ -362,11 +370,7 @@ export default {
         this.edhmStatusConflict = result?.conflict === true;
 
         if (!result?.changed && result?.state === 'not_installed') {
-          EventBus.emit('RoastMe', {
-            type: 'Error',
-            title: 'EDHM Status',
-            message: 'EDHM is not installed.<br>Please select Install EDHM from the main menu.',
-          });
+          this.ShowEDHMNotInstalledToast();
           return false;
         }
 
@@ -484,17 +488,30 @@ export default {
         console.log('Apply Theme ignored while another theme operation is still running.');
         return false;
       }
-      if (!this.themeTemplate?.credits?.theme) {
-        EventBus.emit('ShowError', new Error('Select a theme and wait for it to finish loading before applying it.'));
-        return false;
-      }
 
       this.isApplying = true;
       this.showSpinner = true;
       try {
-        console.log('0. Applying Theme:', this.themeTemplate.credits.theme);
-
         this.ActiveInstance = await window.api.getActiveInstance();
+        const edhmStatus = await this.RefreshEDHMStatus(this.ActiveInstance);
+        if (!edhmStatus) {
+          EventBus.emit('RoastMe', {
+            type: 'Error',
+            title: 'EDHM Status',
+            message: 'Unable to verify whether EDHM is installed.',
+          });
+          return false;
+        }
+        if (edhmStatus.state === 'not_installed') {
+          this.ShowEDHMNotInstalledToast();
+          return false;
+        }
+        if (!this.themeTemplate?.credits?.theme) {
+          EventBus.emit('ShowError', new Error('Select a theme and wait for it to finish loading before applying it.'));
+          return false;
+        }
+
+        console.log('0. Applying Theme:', this.themeTemplate.credits.theme);
         console.log('1. ActiveInstance:', this.ActiveInstance.instance);
 
         const GamePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
