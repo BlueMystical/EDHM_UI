@@ -376,7 +376,7 @@ export default {
 
         const enabled = result?.state === 'ready';
         EventBus.emit('RoastMe', {
-          type: 'Success',
+          type: enabled ? 'Success' : 'Error',
           title: 'EDHM Status',
           message: `${enabled ? 'EDHM Enabled!' : 'EDHM Disabled!'}<br>` +
             'The change will take effect the next time Elite Dangerous starts.',
