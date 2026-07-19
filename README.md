@@ -1,10 +1,14 @@
 # EDHM_UI
 
-[![License: GPL-3.0+](https://img.shields.io/badge/license-GPL--3.0%2B-blue.svg)](https://raw.githubusercontent.com/BlueMystical/EDHM_UI/main/license.txt)
-[![Latest Release](https://img.shields.io/github/v/release/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/releases)
-[![Downloads](https://img.shields.io/github/downloads/BlueMystical/EDHM_UI/latest/total)](https://github.com/BlueMystical/EDHM_UI/releases)
-[![Issues](https://img.shields.io/github/issues/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/issues)
-[![Discord](https://img.shields.io/discord/773552741632180224?color=899AF9)](https://discord.gg/ZaRt6bCXvj)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](license.txt)
+[![GitHub release](https://img.shields.io/github/v/release/BlueMystical/EDHM_UI?include_prereleases&sort=semver)](https://github.com/BlueMystical/EDHM_UI/releases)
+[![GitHub downloads](https://img.shields.io/github/downloads/BlueMystical/EDHM_UI/total)](https://github.com/BlueMystical/EDHM_UI/releases)
+[![GitHub issues](https://img.shields.io/github/issues/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/issues)
+[![Built for EDHM](https://img.shields.io/badge/Built%20for-EDHM-1f6feb)](https://github.com/psychicEgg/EDHM)
+[![Runtime: Electron](static/badges/runtime-electron.svg)](source_v3/package.json)
+[![Windows x64](https://img.shields.io/badge/Windows-x64-0078D4?logo=windows11&logoColor=white)](#installation)
+[![Linux](https://img.shields.io/badge/Linux-Proton%20%2F%20Wine-FCC624?logo=linux&logoColor=black)](Linux%20Users.md)
+[![Discord](https://img.shields.io/discord/773552741632180224?color=5865F2&logo=discord&logoColor=white)](https://discord.gg/ZaRt6bCXvj)
 
 User Interface for Elite Dangerous HUD Mod (EDHM)
 
@@ -13,8 +17,7 @@ User Interface for Elite Dangerous HUD Mod (EDHM)
 ## What is EDHM_UI?
 
 EDHM_UI is the user interface for the Elite Dangerous mod [EDHM](https://github.com/psychicEgg/EDHM).
-The purpose of EDHM is to allow players of the game to customize their HUD Colors in many ways.
-This is estrictly a graphical mod, we dont change any in-game mechanics or things that FDev charges for.
+EDHM lets players customize their HUD colors and other graphical elements. It does not change game mechanics or paid game content.
 
 Current features include:
 
@@ -22,27 +25,30 @@ Current features include:
   graphical interface.
 * Bundled with the latest EDHM version - no need to install EDHM separately.
 * Bundled with lots of pre-made, community-contributed themes.
-* Fully compatible with both Horizons and Odyssey!
+* Compatible with both Horizons and Odyssey.
 * Translated to 6 languages: EN, RU, DE, FR, IT, PT.
 
 ## Requirements
 
-EDHM_UI requires Microsoft .NET Framework version 4.52 or newer. If you are on
-Windows 10, you may already have it. If you don't have it installed yet, you.
-can get it [here](https://dotnet.microsoft.com/download/dotnet-framework/net452).
+EDHM_UI v3 is an Electron application for Windows x64 and Linux x64. Elite Dangerous and the EDHM core mod are required to see themes in game.
+
+Linux users running Elite Dangerous through Proton or Wine should read [Linux Users](Linux%20Users.md) before installing or building the application.
 
 ## Installation
 
-* Download the latest `EDHM_UI_Setup.msi` file from the [releases page](https://github.com/BlueMystical/EDHM_UI/releases/latest).
+### Windows
+
+* Download `edhm-ui-v3-windows-x64.exe` from the [latest release](https://github.com/BlueMystical/EDHM_UI/releases/latest).
 * Run the installer and follow the on-screen prompts.
-* Double-click on the EDHM_UI desktop icon.
-* Profit!
+* Launch EDHM_UI from the desktop shortcut.
+
+### Linux
+
+See [Linux Users](Linux%20Users.md) for installation, building from source, Proton/Wine paths, system-keyring requirements, and Frontier account authorization.
 
 ## First-Run Setup
 
-The first time EDHM_UI runs, it will prompt you for the Elite Dangerous game
-folder. This determines where the EDHM core mod will be installed. The location
-varies depending on which version of ED you have installed. Simply click the Green Button and do as the Assistant says.
+The first time EDHM_UI runs, it will prompt you for the Elite Dangerous game folder. This determines where the EDHM core mod will be installed. The location varies depending on the selected game installation. Follow the setup assistant to select the correct folder.
 
 
 ## Further reading
@@ -50,6 +56,7 @@ varies depending on which version of ED you have installed. Simply click the Gre
 * [EDHM Website](https://bluemystical.github.io/edhm-api/)
 * [EDHM (GitHub)](https://github.com/psychicEgg/EDHM)
 * [EDHM (Reddit)](https://www.reddit.com/r/EliteDangerous/comments/iu4mbj/elite_dangerous_hud_mod_edhm_custom_huds_without/)
+* [Linux installation, build, and Frontier authorization](Linux%20Users.md)
 
 ## Support
 

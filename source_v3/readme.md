@@ -81,18 +81,8 @@ To use this project, you can do the following:
 - Build the Project
 
 ## COMPILING ON LINUX
-- Setup a Virtual Machine with Linux Debian 11 or above, i use Oracle VirtualBox
-- Open a Terminal on ```~/Documents/edhm-ui-v3```
-- Copy any Source code modified files from the real PC into the VM
-- Copy the 'ODYSS_EDHM-v[number].zip' and Themes Files
-- Test the program:   npm start
-- Run:
-```
-./linux-build.sh
-```
-- Input the new Version
-- Copy ```..\EDHM_UI\source_v3\out\make\zip\linux\x64\edhm-ui-v3-linux-x64-3.0.68.zip``` into ..```..\EDHM_UI\source_v3\out\Installer\Build```
-- Rename the file as edhm-ui-v3-linux-x64.zip
+
+See [Linux Users](../Linux%20Users.md#build-from-source) for the current Linux dependencies, test procedure, build command, output location, and Frontier authorization requirements.
 
 ## PUBLISHING
 - Make a new Release on GitHub
