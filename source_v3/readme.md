@@ -13,6 +13,10 @@ App is made with Electron Forge Vite-Vue and Bootstrap
 * [Electron Vue](https://github.com/SimulatedGREG/electron-vue)
 * [Bootstrap](https://getbootstrap.com)
 
+## Frontier Fleet Integration
+
+The Shipyard can import a Commander's owned ships from Frontier CAPI using OAuth 2.0 Authorization Code with PKCE. See [FRONTIER_OAUTH.md](FRONTIER_OAUTH.md) for the implementation, security, storage, and testing details.
+
 ## Requeriments (For Development):
 - NODE:   [Download](https://nodejs.org/en/download/prebuilt-installer)
 - NPM:    Comes with Node, check the [Documentation](https://docs.npmjs.com/cli/v11/commands/npm)
