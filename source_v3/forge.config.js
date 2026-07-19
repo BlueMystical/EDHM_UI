@@ -3,6 +3,12 @@ const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 const fs = require('node:fs');
 const path = require('path');
+const platformArgument = process.argv.find((argument) => argument.startsWith('--platform='));
+const platformArgumentIndex = process.argv.indexOf('--platform');
+const requestedPlatform = platformArgument
+  ? platformArgument.slice('--platform='.length)
+  : (platformArgumentIndex >= 0 ? process.argv[platformArgumentIndex + 1] : null);
+const isLinuxBuild = (requestedPlatform || process.platform) === 'linux';
 
 function reveal(r) { return atob(r).split("").map((r => String.fromCharCode(r.charCodeAt(0) - 3))).join("").split("").reverse().join("") };
 function safeInclude(n) { return fs.existsSync(n) ? n : null }
@@ -19,18 +25,25 @@ module.exports = {
       'public',
       'out/renderer/settings_window'
     ],
-    icon: path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'), //'public/images/Icon_v3_a0.ico'
     appCategoryType: 'public.app-category.developer-tools',
-    win32metadata: {
-      FileDescription: 'Mod for Elite Dangerous to customize the HUD of any ship.',
-      ProductName: 'EDHM-UI-V3',
-      CompanyName: 'Blue Mystic',
-      "requested-execution-level": "highestAvailable"
-    }
+    ...(isLinuxBuild ? {
+      name: 'edhm-ui-v3',
+      executableName: 'edhm-ui-v3',
+      icon: path.join(__dirname, 'public', 'images', 'icon.png')
+    } : {
+      icon: path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'),
+      win32metadata: {
+        FileDescription: 'EDHM-UI-V3',
+        ProductName: 'EDHM-UI-V3',
+        CompanyName: 'Blue Mystic',
+        "requested-execution-level": "highestAvailable"
+      }
+    })
   },
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
+      platforms: ['win32'],
       config: {
         name: 'EDHM-UI-V3',
         authors: 'Blue Mystic',
@@ -54,7 +67,8 @@ module.exports = {
       }
     },
     {
-      name: '@electron-forge/maker-zip'
+      name: '@electron-forge/maker-zip',
+      platforms: ['win32', 'linux']
     }
   ],
   plugins: [
