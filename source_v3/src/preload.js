@@ -220,10 +220,21 @@ contextBridge.exposeInMainWorld('shipyardAPI', {
   reloadConfig: () => ipcRenderer.invoke('shipyard:reloadConfig'), 
   getConfig: () => ipcRenderer.invoke('shipyard:getConfig'),
   updateConfig: (newConfig) => ipcRenderer.invoke('shipyard:updateConfig', newConfig),
+  frontierStatus: () => ipcRenderer.invoke('shipyard:frontierStatus'),
+  frontierTokenPath: () => ipcRenderer.invoke('shipyard:frontierTokenPath'),
+  frontierLogin: () => ipcRenderer.invoke('shipyard:frontierLogin'),
+  frontierCancelLogin: () => ipcRenderer.invoke('shipyard:frontierCancelLogin'),
+  frontierRefresh: () => ipcRenderer.invoke('shipyard:frontierRefresh'),
+  frontierLogout: () => ipcRenderer.invoke('shipyard:frontierLogout'),
 
   // Eventos
   onLogEntry: (callback) => ipcRenderer.on('shipyard:logEntry', (e, data) => callback(data)),
   onShipAdded: (callback) => ipcRenderer.on('shipyard-ShipAdded', (e, data) => callback(data)),
+  onFleetUpdated: (callback) => {
+    const listener = (e, data) => callback(data);
+    ipcRenderer.on('shipyard:fleetUpdated', listener);
+    return () => ipcRenderer.removeListener('shipyard:fleetUpdated', listener);
+  },
   
   onInvalidLine: (callback) => ipcRenderer.on('shipyard:invalidLine', (e, line) => callback(line)),
   onLogFileChanged: (callback) => ipcRenderer.on('shipyard:logFileChanged', (e, file) => callback(file)),

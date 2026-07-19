@@ -13,6 +13,10 @@ App is made with Electron Forge Vite-Vue and Bootstrap
 * [Electron Vue](https://github.com/SimulatedGREG/electron-vue)
 * [Bootstrap](https://getbootstrap.com)
 
+## Frontier Fleet Integration
+
+The Shipyard can import a Commander's owned ships from Frontier CAPI using OAuth 2.0 Authorization Code with PKCE. See [FRONTIER_OAUTH.md](FRONTIER_OAUTH.md) for the implementation, security, storage, and testing details.
+
 ## Requeriments (For Development):
 - NODE:   [Download](https://nodejs.org/en/download/prebuilt-installer)
 - NPM:    Comes with Node, check the [Documentation](https://docs.npmjs.com/cli/v11/commands/npm)
@@ -77,18 +81,8 @@ To use this project, you can do the following:
 - Build the Project
 
 ## COMPILING ON LINUX
-- Setup a Virtual Machine with Linux Debian 11 or above, i use Oracle VirtualBox
-- Open a Terminal on ```~/Documents/edhm-ui-v3```
-- Copy any Source code modified files from the real PC into the VM
-- Copy the 'ODYSS_EDHM-v[number].zip' and Themes Files
-- Test the program:   npm start
-- Run:
-```
-./linux-build.sh
-```
-- Input the new Version
-- Copy ```..\EDHM_UI\source_v3\out\make\zip\linux\x64\edhm-ui-v3-linux-x64-3.0.68.zip``` into ..```..\EDHM_UI\source_v3\out\Installer\Build```
-- Rename the file as edhm-ui-v3-linux-x64.zip
+
+See [Linux Users](../Linux%20Users.md#build-from-source) for the current Linux dependencies, test procedure, build command, output location, and Frontier authorization requirements.
 
 ## PUBLISHING
 - Make a new Release on GitHub

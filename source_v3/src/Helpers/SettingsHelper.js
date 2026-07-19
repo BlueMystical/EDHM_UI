@@ -10,6 +10,7 @@ import themeHelper from './ThemeHelper.js';
 import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
 import Util from './Utils.js';
+import { applyPlatformSettingsDefaults } from './PlatformDefaults.mjs';
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 let programSettings = null; // Holds the Program Settings in memory
@@ -71,6 +72,7 @@ export const initializeSettings = async () => {
       // Load default settings from file
       const defaultSettings = fs.readFileSync(defaultSettingsPath, 'utf8');
       programSettings = JSON.parse(defaultSettings);
+      applyPlatformSettingsDefaults(programSettings);
 
       // Set the user data folder path in the settings
       programSettings.UserDataFolder = userSettingsDir;
@@ -89,6 +91,13 @@ export const initializeSettings = async () => {
 
       // Ensure the user data folder path is set
       programSettings.UserDataFolder = userSettingsDir;
+
+      // Migrate only untouched cross-platform defaults. Explicit custom
+      // journal locations are preserved.
+      if (applyPlatformSettingsDefaults(programSettings)) {
+        fs.writeFileSync(programSettingsPath, JSON.stringify(programSettings, null, 4));
+        console.log('Player Journal path updated for this platform.');
+      }
 
       console.log('Settings Loaded from Existing Instance.');
     }

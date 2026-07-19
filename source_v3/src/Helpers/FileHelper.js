@@ -1080,33 +1080,16 @@ function terminateProgram_OLD(exeName, callback) {
   }
 }
 
-/** Open the File Explorer showing a selected Folder
- * @param {*} filePath Folder to select */
-function openPathInExplorer(filePath) {
-  const normalizedPath = resolveEnvVariables(
-    path.normalize(filePath)); // Normalize path to avoid issues
-
-  let command;
-
-  if (os.platform() === 'win32') {
-    command = `start "" "${normalizedPath}"`;
-  } else if (os.platform() === 'darwin') {
-    command = `open "${normalizedPath}"`;
-  } else {
-    command = `xdg-open "${normalizedPath}"`;
+/** Open a file or directory using the operating system's default handler.
+ * @param {string} filePath File or directory to open. */
+async function openPathInExplorer(filePath) {
+  const normalizedPath = path.resolve(resolveEnvVariables(path.normalize(filePath)));
+  const errorMessage = await shell.openPath(normalizedPath);
+  if (errorMessage) {
+    throw new Error(`Unable to open ${normalizedPath}: ${errorMessage}`);
   }
-
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error opening path: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`Path opened successfully: ${stdout}`);
-  });
+  console.log(`Path opened successfully: ${normalizedPath}`);
+  return normalizedPath;
 };
 
 /** Open the file using the default program.
@@ -1557,7 +1540,7 @@ ipcMain.handle('run-program', async (event, filePath, args = []) => {
 
 ipcMain.handle('openPathInExplorer', async (event, filePath) => {
   try {
-    const result = openPathInExplorer(filePath);
+    const result = await openPathInExplorer(filePath);
     return result;
   } catch (error) {
     throw new Error(error.message + error.stack);

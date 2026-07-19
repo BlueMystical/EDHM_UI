@@ -38,13 +38,10 @@ echo "Version updated to: $NEW_VERSION in '$JSON_FILE'"
 
 # Build the app using npm
 echo "Building the app..."
-npm run make -- --arch="x64" --targets="@electron-forge/maker-zip"
-
-# Check the exit code of the npm command
-if [ $? -eq 0 ]; then
+if npm run make -- --arch="x64" --targets="@electron-forge/maker-zip"; then
   echo "App build completed successfully."
+  exit 0
 else
   echo "Error during app build."
+  exit 1
 fi
-
-exit 0
