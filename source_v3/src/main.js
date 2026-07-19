@@ -1,10 +1,46 @@
 import { app, Menu, BrowserWindow, globalShortcut, ipcMain, shell, Tray, screen  } from 'electron';
+import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
 import themeHelper from './Helpers/ThemeHelper.js';
 import settingsHelper from './Helpers/SettingsHelper.js';
 import Shipyard from './MainWindow/ShipyardNew.js';
+import {
+  filterFrontierAuthArguments,
+  findFrontierAuthCallback,
+  FRONTIER_AUTH_SCHEME,
+} from './Helpers/FrontierOAuth.mjs';
+
+const APP_DISPLAY_NAME = 'EDHM-UI-V3';
+
+function registerWindowsProtocolDisplayName() {
+  if (process.platform !== 'win32') return;
+
+  const classesRoot = 'HKCU\\Software\\Classes';
+  const registryWrites = [
+    ['add', `${classesRoot}\\${FRONTIER_AUTH_SCHEME}`, '/ve', '/t', 'REG_SZ', '/d', APP_DISPLAY_NAME, '/f'],
+  ];
+
+  if (!process.defaultApp) {
+    registryWrites.push([
+      'add',
+      `${classesRoot}\\Applications\\${path.basename(process.execPath)}`,
+      '/v', 'FriendlyAppName',
+      '/t', 'REG_SZ',
+      '/d', APP_DISPLAY_NAME,
+      '/f',
+    ]);
+  }
+
+  try {
+    for (const args of registryWrites) {
+      execFileSync('reg.exe', args, { stdio: 'ignore', windowsHide: true });
+    }
+  } catch (error) {
+    console.warn(`EDHM-UI could not register its Windows protocol display name: ${error.message}`);
+  }
+}
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -19,6 +55,47 @@ let StartMinimizedToTray = false;
 let shipyard;
 let CustomIcon;
 let programSettings;
+const pendingFrontierAuthCallbacks = [];
+
+function registerFrontierAuthProtocol() {
+  try {
+    const registered = process.defaultApp && process.argv[1]
+      ? app.setAsDefaultProtocolClient(
+        FRONTIER_AUTH_SCHEME,
+        process.execPath,
+        [path.resolve(process.argv[1])]
+      )
+      : app.setAsDefaultProtocolClient(FRONTIER_AUTH_SCHEME);
+
+    if (!registered) {
+      console.error('EDHM-UI could not register the edhm:// protocol handler.');
+    } else {
+      registerWindowsProtocolDisplayName();
+    }
+  } catch (error) {
+    console.error('Unable to register the edhm:// protocol handler:', error);
+  }
+}
+
+function dispatchFrontierAuthCallback(callbackUrl) {
+  if (!callbackUrl) return false;
+  if (!shipyard) {
+    pendingFrontierAuthCallbacks.push(callbackUrl);
+    return true;
+  }
+  return shipyard.handleFrontierAuthCallback(callbackUrl);
+}
+
+function dispatchFrontierAuthArguments(args) {
+  return dispatchFrontierAuthCallback(findFrontierAuthCallback(args));
+}
+
+function flushFrontierAuthCallbacks() {
+  if (!shipyard) return;
+  for (const callbackUrl of pendingFrontierAuthCallbacks.splice(0)) {
+    shipyard.handleFrontierAuthCallback(callbackUrl);
+  }
+}
 
 
 //- Check for Single Instance:
@@ -27,6 +104,7 @@ if (!gotTheLock) {
   app.quit(); // Si otra instancia ya está corriendo, cerramos esta.
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
+    dispatchFrontierAuthArguments(commandLine);
     if (mainWindow) {
       if (mainWindow.isMinimized()) {
         mainWindow.restore(); // Restaura si estaba minimizada.
@@ -34,6 +112,10 @@ if (!gotTheLock) {
       mainWindow.show();  // Muestra la ventana si estaba oculta.
       mainWindow.focus(); // Asegura que la ventana tenga el foco.
     }
+  });
+  app.on('open-url', (event, url) => {
+    event.preventDefault();
+    dispatchFrontierAuthCallback(url);
   });
   Start();
 }
@@ -98,6 +180,8 @@ async function Start() {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     app.whenReady().then(async () => {
+      registerFrontierAuthProtocol();
+
       // Ajustar el Escalado de imagen a la pantalla:
       const { size, scaleFactor: systemScale } = screen.getPrimaryDisplay();
       let userScale = settingsHelper.readSetting('UiScaleFactor', 0); // 0 = automático
@@ -134,11 +218,14 @@ async function Start() {
 
       // Handle command-line arguments
       const args = process.argv.slice(2);
-      if (args.length > 0) {
-        console.log('Command-line arguments:', args);
+      const frontierAuthCallback = findFrontierAuthCallback(args);
+      const appArgs = filterFrontierAuthArguments(args);
+      dispatchFrontierAuthCallback(frontierAuthCallback);
+      if (appArgs.length > 0) {
+        console.log('Command-line arguments:', appArgs);
 
         // Handle your arguments here
-        if (args.includes('--hide')) {
+        if (appArgs.includes('--hide')) {
           console.log('Program started with --hide argument.');
           // Hide the main window immediately
           mainWindow.hide();
@@ -150,7 +237,7 @@ async function Start() {
       const { scaleFactor } = screen.getPrimaryDisplay();      
       // Send arguments to the renderer process: App.vue
       mainWindow.webContents.on('did-finish-load', () => {
-        mainWindow.webContents.send('app-args', args);
+        mainWindow.webContents.send('app-args', appArgs);
         mainWindow.webContents.send('font-size-setting', FontSize);
         mainWindow.webContents.setZoomFactor(finalScale);
       });
@@ -229,6 +316,7 @@ const createWindow = () => {
   console.log('StartMinimizedToTray:', StartMinimizedToTray);
 
   shipyard = new Shipyard(mainWindow);
+  flushFrontierAuthCallbacks();
 
 
   // Register the shortcut to open DevTools

@@ -8,6 +8,13 @@ import EventBus from '../EventBus.js';
 import settingsHelper from '../Helpers/SettingsHelper.js';
 import fileHelper from '../Helpers/FileHelper.js';
 import KeySender from '../Helpers/KeySender.js';
+import FrontierApi from '../Helpers/FrontierApi.js';
+import {
+    mergeFrontierShips,
+    normalizeFrontierShips,
+    upsertJournalShip,
+} from '../Helpers/FrontierFleet.mjs';
+import { getDefaultPlayerJournal } from '../Helpers/PlatformDefaults.mjs';
 
 /*         
 * The Player Journal is a log file that contains information about the player's actions and events in the game.
@@ -31,6 +38,7 @@ class Shipyard extends EventEmitter {
         this.shipyardData = null;
         this.shipListData = null;
         this.PreviousShip = null;
+        this.frontierApi = new FrontierApi();
 
         this.linesProcessed = 0;
         this.currentlyMonitoredFile = null;
@@ -44,9 +52,7 @@ class Shipyard extends EventEmitter {
             this.LOG_DIRECTORY = fileHelper.resolveEnvVariables(
                 settingsHelper.readSetting(
                     'PlayerJournal',
-                    process.platform === 'win32'
-                        ? '%USERPROFILE%\\Saved Games\\Frontier Developments\\Elite Dangerous'
-                        : '~/.local/share/Steam/steamapps/compatdata/359320/pfx/drive_c/users/steamuser/Saved Games/Frontier Developments/Elite Dangerous'
+                    getDefaultPlayerJournal()
                 )
             ); console.log('Shipyard Journal Dir: ', this.LOG_DIRECTORY);
 
@@ -93,14 +99,71 @@ class Shipyard extends EventEmitter {
             return true;
         } catch (error) {
             console.error('Error saving ship data:', error);
-            this.shipyardData.ships.pop();
             return false;
         }
     }
 
+    getFrontierShips(profile) {
+        return normalizeFrontierShips(profile, this.shipListData);
+    }
+
+    async mergeFrontierFleet(profile, galaxy = 'live') {
+        if (!profile || typeof profile !== 'object') {
+            throw new Error('Frontier returned an invalid Commander profile.');
+        }
+
+        const existingShips = Array.isArray(this.shipyardData?.ships) ? this.shipyardData.ships : [];
+        // Frontier is authoritative for records imported by Frontier. The
+        // helper preserves themes/images and retains unmatched Journal/V2 data.
+        const frontierShips = this.getFrontierShips(profile);
+        if (frontierShips.length === 0) {
+            throw new Error(
+                'Frontier returned a Commander profile without any ships. Existing Shipyard data was left unchanged.'
+            );
+        }
+        const mergedShips = mergeFrontierShips(frontierShips, existingShips);
+        const commanderName = String(profile.commander?.name || this.shipyardData?.player_name || '').trim();
+        this.shipyardData = {
+            ...this.shipyardData,
+            player_name: commanderName,
+            ships: mergedShips,
+            frontier: {
+                last_sync_at: new Date().toISOString(),
+                ship_count: frontierShips.length,
+                galaxy,
+            },
+        };
+
+        if (!this.SaveShipyard()) {
+            throw new Error('The Frontier fleet was received but could not be saved to Shipyard_v3.json.');
+        }
+        await this.frontierApi.recordFleetSync(commanderName, frontierShips.length);
+
+        const payload = {
+            shipyard: this.shipyardData,
+            shipList: this.shipListData,
+            frontierStatus: await this.frontierApi.getStatus(),
+        };
+        this.mainWindow.webContents.send('shipyard:fleetUpdated', payload);
+        return payload;
+    }
+
+    async syncFrontierFleet(authorize = false) {
+        if (!this.shipListData || !this.shipyardData) await this.initialize();
+        if (authorize) await this.frontierApi.authorize();
+        const activeInstance = settingsHelper.getActiveInstance();
+        const galaxy = activeInstance?.key === 'ED_Horizons' ? 'legacy' : 'live';
+        const profile = await this.frontierApi.fetchProfile(galaxy);
+        return this.mergeFrontierFleet(profile, galaxy);
+    }
+
+    handleFrontierAuthCallback(callbackUrl) {
+        return this.frontierApi.handleAuthorizationCallback(callbackUrl);
+    }
+
     async startMonitoring() {
-        const DirExists = await fileHelper.checkFileExists(this.LOG_DIRECTORY);
-        if (!this.LOG_DIRECTORY && DirExists) {
+        const DirExists = this.LOG_DIRECTORY && fileHelper.checkFileExists(this.LOG_DIRECTORY);
+        if (!this.LOG_DIRECTORY || !DirExists) {
             const error = { type: 'monitoring', error: '404 - JOURNAL_DIRECTORY not found.' };
             console.error(error);
             this.emit('error', error);
@@ -263,6 +326,7 @@ class Shipyard extends EventEmitter {
                     _data = {
                         event: 'ShipLoadout',
                         data: this.GetShip({
+                            frontier_id: _json.ShipID,
                             kind_short: _json.Ship,
                             name: _json.ShipName?.trim(),
                             plate: _json.ShipIdent
@@ -359,6 +423,7 @@ class Shipyard extends EventEmitter {
 
     /** Get the ship data from the ShipList based on the given parameters. 
      * @param {*} shipData - Parameters containing ship information.
+     * @param {string|number} shipData.frontier_id - Stable owned-ship ID shared by the journal and CAPI.
      * @param {string} shipData.kind_short - [Required] The ship kind (e.g., "python", "cutter").
      * @param {string} shipData.name -  The ship name (e.g., "NORMANDY").
      * @param {string} shipData.plate - The ship plate (e.g., "SR-03"). */
@@ -369,6 +434,7 @@ class Shipyard extends EventEmitter {
                 const ship = this.shipListData.find(ship => ship.ed_short.toLowerCase() === sKindShort);
                 if (ship) {
                     return {
+                        frontier_id: shipData.frontier_id,
                         ship_id: ship.ship_id,
                         kind_short: ship.ed_short.toLowerCase(),
                         kind_full: ship.ship_full_name,
@@ -394,36 +460,23 @@ class Shipyard extends EventEmitter {
             return shipData;
         }
 
-        const kind_short = shipData.kind_short?.toLowerCase().trim() ?? '';
-        const name = shipData.name;
-        const plate = shipData.plate;
-        let exShip = null;
+        const result = upsertJournalShip(shipData, this.shipyardData.ships);
+        this.shipyardData.ships = result.ships;
 
-        const shipExists = this.shipyardData.ships.some(existingShip => {
-            const existingKindShort = existingShip.kind_short?.toLowerCase().trim() ?? '';
-            const existingName = existingShip.name;
-            const existingPlate = existingShip.plate;
-            exShip = existingShip;
-            return existingKindShort === kind_short && existingName === name && existingPlate === plate;
-        });
-
-        if (shipExists) {
-            //console.log(`Ship not added: A ship with kind_short '${kind_short}', name '${name}', and plate '${plate}' already exists.`);
-            return exShip;
-        } else {
-            const newShip = { ...shipData };
-            this.shipyardData.ships.push(newShip);
+        if (result.changed) {
             this.SaveShipyard();
 
-            // Emitir evento al Renderer
             this.mainWindow.webContents.send('shipyard-ShipAdded', {
                 shipyard: this.shipyardData,
                 shipList: this.shipListData,
             });
 
-            console.log(`New Ship added to Shipyard: ${newShip.kind_short}, file Saved.`);
-            return shipData;
+            console.log(
+                `${result.added ? 'New ship added' : 'Ship identity updated'}: ` +
+                `${result.ship.kind_short}, file saved.`
+            );
         }
+        return result.ship;
     }
 
     setupIPC() {
@@ -479,6 +532,16 @@ class Shipyard extends EventEmitter {
                 console.error('Error updating config:', err);
                 return { success: false, error: err.message };
             }
+        });
+
+        ipcMain.handle('shipyard:frontierStatus', () => this.frontierApi.getStatus());
+        ipcMain.handle('shipyard:frontierTokenPath', () => this.frontierApi.tokenFilePath);
+        ipcMain.handle('shipyard:frontierLogin', () => this.syncFrontierFleet(true));
+        ipcMain.handle('shipyard:frontierCancelLogin', () => this.frontierApi.cancelAuthorization());
+        ipcMain.handle('shipyard:frontierRefresh', () => this.syncFrontierFleet(false));
+        ipcMain.handle('shipyard:frontierLogout', async () => {
+            await this.frontierApi.clearTokens();
+            return this.frontierApi.getStatus();
         });
     }
 

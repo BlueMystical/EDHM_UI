@@ -10,6 +10,41 @@
 
                     <!-- Main Content -->
                     <div class="container-fluid h-100">
+                        <div class="frontier-panel d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 p-3">
+                            <div>
+                                <div class="fw-semibold">Frontier Fleet</div>
+                                <div class="small" :class="frontierStatus.authorized ? 'text-success' : 'text-warning'">
+                                    {{ frontierStatusText }}
+                                </div>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Frontier fleet controls">
+                                <button ref="frontierDataButton" type="button" class="btn btn-sm btn-outline-info"
+                                    @click="openFrontierDataInfo">
+                                    <i class="bi bi-shield-lock me-1" aria-hidden="true"></i>
+                                    About my data
+                                </button>
+                                <template v-if="!frontierStatus.authorized">
+                                    <button v-if="frontierBusy" type="button" class="btn btn-sm btn-outline-warning"
+                                        :disabled="frontierCancelRequested" @click="cancelFrontierConnection">
+                                        <span v-if="frontierCancelRequested" class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+                                        {{ frontierCancelRequested ? 'Cancelling...' : 'Cancel Connection' }}
+                                    </button>
+                                    <button v-else type="button" class="btn btn-sm btn-primary" @click="connectFrontier">
+                                        Connect Frontier
+                                    </button>
+                                </template>
+                                <template v-else>
+                                    <button type="button" class="btn btn-sm btn-success" :disabled="frontierBusy"
+                                        @click="refreshFrontierFleet">
+                                        <span v-if="frontierBusy" class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+                                        Refresh Fleet
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" :disabled="frontierBusy"
+                                        @click="disconnectFrontier">Disconnect</button>
+                                </template>
+                            </div>
+                        </div>
+
                         <!-- Alert to show the 'Read Me' information of the selected mod -->
                         <div v-show="showInfo" class="alert alert-warning alert-dismissible" role="alert">
                             <button type="button" class="btn-close" aria-label="Close" @click="closeInfo"></button>
@@ -17,7 +52,7 @@
                         </div>
 
                         <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div v-for="ship in filteredShips" :key="ship.ship_id" class="col"
+                            <div v-for="ship in filteredShips" :key="ship.record_id || ship.frontier_id || `${ship.kind_short}:${ship.name}:${ship.plate}`" class="col"
                                 :class="{ 'selected-card': selectedShip === ship }" @click="selectCard(ship)">
 
                                 <div class="card bg-secondary text-light">
@@ -58,14 +93,14 @@
                             <input class="form-check-input" type="checkbox" value="" id="checkNativeSwitch" checked
                                 v-model="shipData.enabled" switch>
                             <label class="form-check-label" for="checkNativeSwitch">
-                                Shipyard {{ shipData.enabled ? 'Enabled' : 'Disabled' }}
+                                Journal Monitor {{ shipData.enabled ? 'Enabled' : 'Disabled' }}
                             </label>&nbsp;&nbsp;
                         </div>
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
                             <div class="btn-group me-3" role="group" aria-label="First group">
                                 <button id="cmdReloadShips" class="btn btn-outline-secondary" type="button"
-                                    @mousedown="cmdReloadShips_Click" @mouseover="updateStatus('Reload Ships')"
+                                    @mousedown="cmdReloadShips_Click" @mouseover="updateStatus('Reload Journal Ships')"
                                     @mouseleave="clearStatus">
                                     <i class="bi bi-arrow-clockwise"></i>
                                 </button>
@@ -97,6 +132,71 @@
 
                 </div>
             </div>
+        </div>
+
+        <div v-if="showFrontierDataInfo" class="frontier-data-overlay" role="presentation"
+            @click.self="closeFrontierDataInfo">
+            <section ref="frontierDataDialog" class="frontier-data-dialog bg-dark text-light" role="dialog"
+                aria-modal="true" aria-labelledby="frontierDataTitle" tabindex="-1"
+                @keydown.esc="closeFrontierDataInfo">
+                <div class="frontier-data-header">
+                    <h5 id="frontierDataTitle" class="mb-0">About your Frontier data</h5>
+                    <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                        @click="closeFrontierDataInfo"></button>
+                </div>
+
+                <div class="frontier-data-body">
+                    <div class="frontier-local-notice mb-3">
+                        <strong>Your Frontier fleet data stays on your computer.</strong>
+                        EDHM-UI does not upload your Commander or fleet information to an EDHM-UI server or collect it
+                        anywhere else. Your profile is requested directly from Frontier's Companion API and processed
+                        locally only to populate the Shipyard and keep your owned ships matched with their theme and
+                        image settings.
+                    </div>
+
+                    <h6>What EDHM-UI keeps</h6>
+                    <ul>
+                        <li>Your Commander name.</li>
+                        <li>Each owned ship's Frontier ID, model, custom name, and ship identifier.</li>
+                        <li>The time, ship count, and active galaxy from the latest fleet refresh.</li>
+                        <li>Your local per-ship theme and image choices.</li>
+                    </ul>
+
+                    <h6>What EDHM-UI does not keep</h6>
+                    <p>
+                        Frontier returns a broader Commander profile, but EDHM-UI does not save the raw response or
+                        retain credits, ranks, location, cargo, modules, loadouts, or market data. The saved fleet data
+                        remains in your local EDHM-UI user-data folder and is not sent to an EDHM-UI server.
+                    </p>
+
+                    <h6>Authorization and privacy</h6>
+                    <p>
+                        Frontier provides the <strong>auth</strong> and <strong>capi</strong> permissions used here.
+                        Frontier does not provide a fleet-only permission, so EDHM-UI limits its own use of the returned
+                        profile to the Shipyard information listed above. Access and refresh tokens are encrypted using
+                        your operating system's secure storage and are never written into the Shipyard data file.
+                        Disconnecting removes the locally stored Frontier authorization tokens but keeps your Shipyard
+                        records and customizations.
+                    </p>
+
+                    <h6>Where authorization is stored</h6>
+                    <p class="mb-2">Encrypted Frontier access and refresh tokens:</p>
+                    <div class="frontier-storage-path mb-2"><code>{{ frontierTokenFilePath }}</code></div>
+                    <button type="button" class="btn btn-sm btn-outline-light"
+                        @click="openFrontierStorageFolder(frontierTokenFilePath)">
+                        <i class="bi bi-folder2-open me-1" aria-hidden="true"></i>
+                        Open authorization data folder
+                    </button>
+                </div>
+
+                <div class="frontier-data-footer">
+                    <button type="button" class="btn btn-outline-info" @click="openFrontierDeveloperDocs">
+                        Frontier API authentication documentation
+                        <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary" @click="closeFrontierDataInfo">Close</button>
+                </div>
+            </section>
         </div>
     </div>
 </template>
@@ -136,7 +236,19 @@ export default {
         return {
             visible: false,
             showSpinner: false,        //<- Flag to Show/hide the Loading Spinner            
-            statusText: 'Ready.',
+            shipyardMessage: '',
+            frontierBusy: false,
+            frontierCancelRequested: false,
+            showFrontierDataInfo: false,
+            frontierTokenFilePath: '',
+            frontierStatus: {
+                authorized: false,
+                commanderName: '',
+                expiresAt: null,
+                lastSyncAt: null,
+                shipCount: 0,
+            },
+            removeFleetUpdatedListener: null,
 
             ActiveInstance: null,
             showAlert: false,       //<- Flag to Show/hide the Install/Update Alert
@@ -172,7 +284,17 @@ export default {
             );
         },
         statusText() {
+            if (this.shipyardMessage) return this.shipyardMessage;
             return `${this.filteredShips.length} of ${this.ships.length} ships`;
+        },
+        frontierStatusText() {
+            if (this.frontierBusy) return 'Waiting for Frontier...';
+            if (!this.frontierStatus.authorized) return 'Not connected';
+            const commander = this.frontierStatus.commanderName
+                ? `Connected as CMDR ${this.frontierStatus.commanderName}`
+                : 'Connected';
+            if (!this.frontierStatus.lastSyncAt) return commander;
+            return `${commander} · ${this.frontierStatus.shipCount} ships · Last refreshed ${new Date(this.frontierStatus.lastSyncAt).toLocaleString()}`;
         }
     },
     methods: {
@@ -184,8 +306,10 @@ export default {
                 this.showAlert = false;
 
                 this.DATA_DIRECTORY = await window.api.GetProgramDataDirectory();
-
-                
+                await Promise.all([
+                    this.loadFrontierStatus(),
+                    this.loadFrontierTokenPath(),
+                ]);
 
             } catch (error) {
                 this.showSpinner = false;
@@ -197,7 +321,7 @@ export default {
                 }, 1000);
             }
         },
-        async loadShipData(themes) {
+        async loadShipData(themes = this.themes) {
             this.showSpinner = true;
             //const ShipyardFilePath = await window.api.joinPath(this.DATA_DIRECTORY, 'Shipyard_v3.json');
             const ShyardData = await window.shipyardAPI.getConfig(); //console.log('shipData', this.shipData);
@@ -207,8 +331,8 @@ export default {
                     ...ship,
                     imageUrl: await this.getShipImage(ship.image) // Resolve the promise here
                 })));
-                this.themes = themes;
-                this.statusText = `${this.ships.length} Ships Loaded.`;
+                this.themes = themes || this.themes;
+                this.shipyardMessage = `${this.ships.length} Ships Loaded.`;
             }
             this.showSpinner = false;
         },
@@ -243,21 +367,48 @@ export default {
         async open(data) {
             this.visible = true;
             this.ActiveInstance = data;
-            this.Initialize();
+            await this.Initialize();
+            await this.loadShipData(this.themesData || this.themes);
             console.log('Poping Shipyard UI..');
         },
         close() {
+            this.showFrontierDataInfo = false;
             this.visible = false;
+        },
+        openFrontierDataInfo() {
+            this.showFrontierDataInfo = true;
+            this.$nextTick(() => this.$refs.frontierDataDialog?.focus());
+        },
+        closeFrontierDataInfo() {
+            this.showFrontierDataInfo = false;
+            this.$nextTick(() => this.$refs.frontierDataButton?.focus());
+        },
+        openFrontierDeveloperDocs() {
+            window.api.openUrlInBrowser('https://user.frontierstore.net/developer/docs');
+        },
+        async loadFrontierTokenPath() {
+            this.frontierTokenFilePath = await window.shipyardAPI.frontierTokenPath();
+        },
+        async openFrontierStorageFolder(filePath) {
+            if (!filePath) {
+                EventBus.emit('ShowError', new Error('The local Frontier storage path is not available.'));
+                return;
+            }
+            try {
+                await window.api.openPathInExplorer(window.api.getParentFolder(filePath));
+            } catch (error) {
+                EventBus.emit('ShowError', error);
+            }
         },
         sanitizeId(id) {
             /* Cleans html tags */
             return id.replace(/\s/g, '');
         },
         updateStatus(message) {
-            this.statusText = message;
+            this.shipyardMessage = message;
         },
         clearStatus() {
-            this.statusText = '';
+            this.shipyardMessage = '';
         },
         closeInfo() {
             this.showInfo = false;
@@ -289,7 +440,7 @@ export default {
 
                 try {
                     await window.api.copyFile(selectedImagePath, destinationPath);
-                    const index = this.ships.findIndex(s => s.ship_id === ship.ship_id);
+                    const index = this.ships.findIndex(s => this.isSameShip(s, ship));
                     if (index !== -1) {
                         // Update the ship object
                         this.ships[index] = {
@@ -310,11 +461,11 @@ export default {
             console.log(`Theme changed for ${ship.name} to: ${ship.theme}`);
             try {
                 await this.saveShipData();
-                this.statusText = `Theme for ${ship.name} updated and saved.`;
+                this.shipyardMessage = `Theme for ${ship.name} updated and saved.`;
                 // Optionally, you can emit an event or show a notification to the user
             } catch (error) {
                 console.error('Error saving ship data:', error);
-                this.statusText = 'Error saving ship data.';
+                this.shipyardMessage = 'Error saving ship data.';
                 EventBus.emit('ShowError', 'Failed to save ship data.');
             }
         },
@@ -323,6 +474,107 @@ export default {
             this.selectedShip = ship;
             console.log('Selected ship:', ship);
             this.$emit('shipSelected', ship); // Emitimos el evento usando this.$emit
+        },
+
+        isSameShip(left, right) {
+            if (left.record_id && right.record_id) return left.record_id === right.record_id;
+            if (left.frontier_id != null && right.frontier_id != null) {
+                return String(left.frontier_id) === String(right.frontier_id);
+            }
+            return left.kind_short === right.kind_short && left.name === right.name && left.plate === right.plate;
+        },
+
+        async loadFrontierStatus() {
+            this.frontierStatus = await window.shipyardAPI.frontierStatus();
+        },
+
+        async connectFrontier() {
+            this.frontierBusy = true;
+            this.frontierCancelRequested = false;
+            this.shipyardMessage = 'Waiting for Frontier authorization...';
+            EventBus.emit('RoastMe', {
+                type: 'Info',
+                title: 'Connect Frontier',
+                message: 'Your browser will open Frontier authorization.<br>' +
+                    'After approval, allow the browser to open EDHM-UI to complete the connection. ' +
+                    'No localhost certificate exception is required.',
+                autoHide: false,
+                width: '520px',
+            });
+            try {
+                const result = await window.shipyardAPI.frontierLogin();
+                this.frontierStatus = result.frontierStatus;
+                await this.loadShipData(this.themes);
+                this.shipyardMessage = `${result.frontierStatus.shipCount} Frontier ships refreshed.`;
+                EventBus.emit('RoastMe', {
+                    type: 'Success',
+                    message: `Frontier connected. ${result.frontierStatus.shipCount} ships loaded into the Shipyard.`,
+                });
+            } catch (error) {
+                if (this.frontierCancelRequested) {
+                    this.shipyardMessage = 'Frontier connection cancelled.';
+                } else {
+                    EventBus.emit('ShowError', error);
+                }
+            } finally {
+                EventBus.emit('closeToast', 'Info');
+                this.frontierBusy = false;
+                this.frontierCancelRequested = false;
+                await this.loadFrontierStatus().catch(() => {});
+            }
+        },
+
+        async cancelFrontierConnection() {
+            if (!this.frontierBusy || this.frontierCancelRequested) return;
+
+            this.frontierCancelRequested = true;
+            this.shipyardMessage = 'Cancelling Frontier connection...';
+            try {
+                const cancelled = await window.shipyardAPI.frontierCancelLogin();
+                if (!cancelled) {
+                    this.frontierCancelRequested = false;
+                    this.shipyardMessage = 'Completing Frontier connection...';
+                }
+            } catch (error) {
+                this.frontierCancelRequested = false;
+                EventBus.emit('ShowError', error);
+            }
+        },
+
+        async refreshFrontierFleet() {
+            this.frontierBusy = true;
+            this.shipyardMessage = 'Refreshing fleet from Frontier...';
+            try {
+                const result = await window.shipyardAPI.frontierRefresh();
+                this.frontierStatus = result.frontierStatus;
+                await this.loadShipData(this.themes);
+                this.shipyardMessage = `${result.frontierStatus.shipCount} Frontier ships refreshed.`;
+                EventBus.emit('RoastMe', {
+                    type: 'Success',
+                    message: `${result.frontierStatus.shipCount} ships refreshed from Frontier.`,
+                });
+            } catch (error) {
+                EventBus.emit('ShowError', error);
+            } finally {
+                this.frontierBusy = false;
+                await this.loadFrontierStatus().catch(() => {});
+            }
+        },
+
+        async disconnectFrontier() {
+            this.frontierBusy = true;
+            try {
+                this.frontierStatus = await window.shipyardAPI.frontierLogout();
+                this.shipyardMessage = 'Frontier account disconnected. Stored ships were retained.';
+                EventBus.emit('RoastMe', {
+                    type: 'Success',
+                    message: 'Frontier authorization removed. Existing Shipyard data was retained.',
+                });
+            } catch (error) {
+                EventBus.emit('ShowError', error);
+            } finally {
+                this.frontierBusy = false;
+            }
         },
 
         async cmdReloadShips_Click(e) {
@@ -337,7 +589,7 @@ export default {
          cmdImportFromV2_Click(e) {
             this.ImportShipyardV2(); // Call the method to import ships from V2
             this.loadShipData(this.themes);
-            this.statusText = 'Ships imported from V2.';
+            this.shipyardMessage = 'Ships imported from V2.';
         },
         async cmdDeleteShip_Click(e) {
             if (this.selectedShip) {
@@ -353,11 +605,11 @@ export default {
                 };
                 const result = await window.api.ShowMessageBox(options);
                 if (result && result.response === 1) {
-                    const index = this.ships.findIndex(s => s.ship_id === this.selectedShip.ship_id);
+                    const index = this.ships.findIndex(s => this.isSameShip(s, this.selectedShip));
                     if (index !== -1) {
                         this.ships.splice(index, 1); // Remove the ship from the array
                         this.selectedShip = null; // Clear the selected ship
-                        this.statusText = 'Ship deleted.';
+                        this.shipyardMessage = 'Ship deleted.';
                         this.saveShipData(); // Save changes to the file
                     }
                 }
@@ -368,7 +620,9 @@ export default {
         cmdShowSomeInfo_Click(e) {
             this.showInfo = !this.showInfo;
             if (this.showInfo) {
-                this.infoMessage = 'The <b>Shipyard</b> is a feature that allows you to set a theme to each of your ships.<br>When you Embark your ship, the app will detect the change and automatically apply the selected theme.'; // Replace with actual info
+                this.infoMessage = 'The <b>Shipyard</b> allows you to set a theme for each ship.<br>' +
+                    'Connect Frontier to import your complete owned fleet without reading the Player Journal.<br>' +
+                    'The optional Journal Monitor detects when you embark a ship and automatically applies its assigned theme.';
             } else {
                 this.infoMessage = '';
             }
@@ -437,6 +691,11 @@ export default {
             console.log('@shipyard-ShipAdded', data);
             this.shipData = data.shipyard; 
             this.loadShipData(this.themes);
+        },
+
+        async OnFleetUpdated(data) {
+            this.frontierStatus = data.frontierStatus || this.frontierStatus;
+            await this.loadShipData(this.themes);
         }
 
 
@@ -446,12 +705,14 @@ export default {
         EventBus.on('open-ShipyardUI', this.open);
         EventBus.on('ShipyardUI-Initialize', this.Initialize);
         window.shipyardAPI.onShipAdded(this.OnShipAdded);
+        this.removeFleetUpdatedListener = window.shipyardAPI.onFleetUpdated(this.OnFleetUpdated);
     },
     beforeUnmount() {
         // Clean up the event listener:
         EventBus.off('open-ShipyardUI', this.open);
         EventBus.off('ShipyardUI-Initialize', this.Initialize);
         window.shipyardAPI?.onShipAdded(() => {});
+        this.removeFleetUpdatedListener?.();
     }
 };
 </script>
@@ -473,5 +734,86 @@ export default {
     /* Puedes personalizar el estilo de resaltado */
     box-shadow: 0 0 10px orange(0, 0, 255, 0.5);
     /* Ejemplo de sombra */
+}
+
+.frontier-panel {
+    background: #252a30;
+    border: 1px solid #495057;
+    border-radius: 0.375rem;
+}
+
+.frontier-data-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.frontier-data-dialog {
+    display: flex;
+    flex-direction: column;
+    width: min(700px, 100%);
+    max-height: calc(100vh - 2rem);
+    border: 1px solid #495057;
+    border-radius: 0.5rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.55);
+}
+
+.frontier-data-header,
+.frontier-data-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+}
+
+.frontier-data-header {
+    border-bottom: 1px solid #495057;
+}
+
+.frontier-data-body {
+    overflow-y: auto;
+    padding: 1rem 1.25rem;
+}
+
+.frontier-data-body h6 {
+    color: #6edff6;
+}
+
+.frontier-local-notice {
+    padding: 0.9rem 1rem;
+    color: #d9f7ff;
+    background: rgba(13, 202, 240, 0.12);
+    border: 1px solid rgba(110, 223, 246, 0.55);
+    border-left-width: 4px;
+    border-radius: 0.375rem;
+}
+
+.frontier-storage-path {
+    overflow-wrap: anywhere;
+    padding: 0.55rem 0.7rem;
+    background: #191c1f;
+    border: 1px solid #495057;
+    border-radius: 0.375rem;
+}
+
+.frontier-storage-path code {
+    color: #9eeaf9;
+}
+
+.frontier-data-footer {
+    flex-wrap: wrap;
+    border-top: 1px solid #495057;
+}
+
+@media (max-width: 575.98px) {
+    .frontier-data-footer > .btn {
+        width: 100%;
+    }
 }
 </style>
