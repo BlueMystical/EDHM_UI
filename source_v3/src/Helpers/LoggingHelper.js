@@ -23,40 +23,36 @@ const logDirectory = path.dirname(logPath);
  *   - If a string and a stack trace string are provided, they are used as the message and stack trace.
  */
 const logEvent = (type, ...args) => {
-  try {
-    fileHelper.ensureDirectoryExists(logDirectory); // Create the directory before logging
+  fileHelper.ensureDirectoryExists(logDirectory); // Create the directory before logging
 
-    let message;
-    let stackTrace = '';
+  let message;
+  let stackTrace = '';
 
-    if (args.length === 1 && typeof args[0] === 'string') {
-      message = args[0];
-    } else if (args.length === 1 && args[0] instanceof Error) {
-      message = args[0].message;
-      stackTrace = args[0].stack;
-    } else if (args.length === 2 && args[0] instanceof Object) {
-      message = args[0];
-      stackTrace = JSON.stringify(args[1]) ;
-    } else if (args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'string') {
-      message = args[0];
-      stackTrace = args[1];
-    } else {
-      console.warn('Invalid arguments for logEvent. Expected string, Error object, or string and stackTrace.');
-      return;
-    }
-
-    const date = new Date().toLocaleString();
-    const logEntry = {
-      type,
-      date,
-      message,
-      stackTrace,
-    };
-
-    fs.appendFileSync(logPath, `${JSON.stringify(logEntry)}\n`, 'utf-8');
-  } catch (error) {
-    throw error;
+  if (args.length === 1 && typeof args[0] === 'string') {
+    message = args[0];
+  } else if (args.length === 1 && args[0] instanceof Error) {
+    message = args[0].message;
+    stackTrace = args[0].stack;
+  } else if (args.length === 2 && args[0] instanceof Object) {
+    message = args[0];
+    stackTrace = JSON.stringify(args[1]) ;
+  } else if (args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'string') {
+    message = args[0];
+    stackTrace = args[1];
+  } else {
+    console.warn('Invalid arguments for logEvent. Expected string, Error object, or string and stackTrace.');
+    return;
   }
+
+  const date = new Date().toLocaleString();
+  const logEntry = {
+    type,
+    date,
+    message,
+    stackTrace,
+  };
+
+  fs.appendFileSync(logPath, `${JSON.stringify(logEntry)}\n`, 'utf-8');
 
   // Log to console with type prefix
   //console.log(`${date} - [${type}] - ${message}`);
@@ -68,11 +64,7 @@ const Error = (...args) => logEvent(LOG_TYPES.ERROR, ...args);
 const Warning = (...args) => logEvent(LOG_TYPES.WARNING, ...args);
 
 ipcMain.handle('logError', async (event, ...args) => {
-  try {
-    return await Error(...args);
-  } catch (error) {
-    throw error;
-  }  
+  return await Error(...args);
 });
 
 // Default export for easy access
