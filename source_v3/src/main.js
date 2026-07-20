@@ -170,14 +170,13 @@ async function Start() {
     // explicitly with Cmd + Q.
     app.on('window-all-closed', () => {
       try {
-        if (process.platform !== 'darwin') {
-          if (mainWindow) {
-            if (tray) tray.destroy(); // Destroy the tray icon
-            globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
-            mainWindow.removeAllListeners('close');
-            app.quit();
-          }
-        }
+        if (process.platform === 'darwin') return
+          if (!mainWindow) return
+          
+          if (tray) tray.destroy(); // Destroy the tray icon
+          globalShortcut.unregisterAll(); // Clean up shortcuts on app quit
+          mainWindow.removeAllListeners('close');
+          app.quit();
       } catch (error) {
         console.error('Error during window-all-closed:', error);
       }

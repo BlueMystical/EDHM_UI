@@ -258,20 +258,20 @@ async function AddToUserSettings(newElement) {
 }
 async function RemoveFromUserSettings(elementToRemove) {
   var userSettings = await LoadUserSettings();
-  if (userSettings) {
-    // Check if an element with the same Key already exists
-    const indexToRemove = userSettings.Elements.findIndex(
-      element => element.Key === elementToRemove.Key
-    );
+  if (!userSettings) return
 
-    if (indexToRemove !== -1) {
-      userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
-    } else {
-      console.log(`Element with key ${elementToRemove.Key} not found.`);
-    }
+  // Check if an element with the same Key already exists
+  const indexToRemove = userSettings.Elements.findIndex(
+    element => element.Key === elementToRemove.Key
+  );
 
-    return saveUserSettings(userSettings);
+  if (indexToRemove !== -1) {
+    userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
+  } else {
+    console.log(`Element with key ${elementToRemove.Key} not found.`);
   }
+
+  return saveUserSettings(userSettings);
 };
 
 // #endregion
@@ -336,22 +336,20 @@ async function addNewInstance(NewInstancePath, settings) {
 
 /** * Retrives the Active Instance from the Settings */
 const getActiveInstance = () => {
-  if (programSettings != null) {
-    //console.log('SettingsHelper.getActiveInstance.programSettings: ', programSettings);
+  if (programSettings == null) throw new Error('programSettings is null');
 
-    const instanceName = programSettings.ActiveInstance;
-    const gameInstance = programSettings.GameInstances
-      .flatMap(instance => instance.games)
-      .find(game => game.instance === instanceName);
+  //console.log('SettingsHelper.getActiveInstance.programSettings: ', programSettings);
 
-    if (!gameInstance) {
-      throw new Error('Active instance not found');
-    }
+  const instanceName = programSettings.ActiveInstance;
+  const gameInstance = programSettings.GameInstances
+    .flatMap(instance => instance.games)
+    .find(game => game.instance === instanceName);
 
-    return gameInstance;
-  } else {
-    throw new Error('programSettings is null');
+  if (!gameInstance) {
+    throw new Error('Active instance not found');
   }
+
+  return gameInstance;
 };
 
 /** * Re-load the Settings from file then retrieve the Active instance */
@@ -501,7 +499,7 @@ async function installEDHMmod(gameInstance) {
 
   // #region SymLinks
 
-    try {
+  try {
     console.log('Checking for Symlinks in Game Path: ', gamePath);
     
     const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM');   
@@ -524,33 +522,32 @@ async function installEDHMmod(gameInstance) {
   // #region Un-Zipping Mod Files
 
   const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM-v*.zip`); //<- ODYSS_EDHM-v19.06.zip
-  if (edhmZipFile) {
-    console.log('Unzipping Mod Files from: ', edhmZipFile);
-    const unzipGamePath = gamePath;
-    const versionMatch = edhmZipFile.match(/v\d+\.\d+/); 
-
-    const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
-
-    // Installing EDHM means returning both proxy DLLs to the enabled state.
-    // Remove stale disabled copies only after the complete pair was extracted.
-    const enabledPairInstalled = await Promise.all(
-      EDHM_DLL_FILES.map(({ enabled }) => fileExists(path.join(gamePath, enabled)))
-    );
-    if (_ret && enabledPairInstalled.every(Boolean)) {
-      for (const { disabled } of EDHM_DLL_FILES) {
-        const disabledPath = path.join(gamePath, disabled);
-        if (await fileExists(disabledPath)) {
-          await unlink(disabledPath);
-        }
-      }
-    }
-
-    Response.game = GameType;
-    Response.version = versionMatch[0];
-
-  } else {
+  if (!edhmZipFile) {
     throw new Error('404 - Zip File Not Found');
   }
+
+  console.log('Unzipping Mod Files from: ', edhmZipFile);
+  const unzipGamePath = gamePath;
+  const versionMatch = edhmZipFile.match(/v\d+\.\d+/); 
+
+  const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
+
+  // Installing EDHM means returning both proxy DLLs to the enabled state.
+  // Remove stale disabled copies only after the complete pair was extracted.
+  const enabledPairInstalled = await Promise.all(
+    EDHM_DLL_FILES.map(({ enabled }) => fileExists(path.join(gamePath, enabled)))
+  );
+  if (_ret && enabledPairInstalled.every(Boolean)) {
+    for (const { disabled } of EDHM_DLL_FILES) {
+      const disabledPath = path.join(gamePath, disabled);
+      if (await fileExists(disabledPath)) {
+        await unlink(disabledPath);
+      }
+    }
+  }
+
+  Response.game = GameType;
+  Response.version = versionMatch[0];
 
   // #endregion
 
@@ -787,102 +784,101 @@ async function ToggleEDHMmod(gameInstance) {
 /** This are actions to be run after an App Update is applied and Before EDHM mod is installed. */
 async function DoHotFix() {
   const hotfixJsonPath = fileHelper.getAssetPath('data/EDHM_HOTFIX.json');
-  if (hotfixJsonPath) {
-    const hotFix = fileHelper.loadJsonFile(hotfixJsonPath);
-    if (hotFix) {
-      console.log('------ Applying HotFixes --------');
-      const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
-      const UI_DOCUMENTS = programSettings.UserDataFolder; // fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
-      const GameInstances = readSetting('GameInstances');
+  if (!hotfixJsonPath) return
 
-      if (GameInstances?.length > 0) {
-        for (const instance of GameInstances) {
-          for (const game of instance.games) {
-            if (game.path && game.path !== '') {
+  const hotFix = fileHelper.loadJsonFile(hotfixJsonPath);
+  if (!hotFix) return
 
-              console.log('------ Applying HotFixes on ', game.instance);
-              const GamePath = game.path;
+  console.log('------ Applying HotFixes --------');
+  const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
+  const UI_DOCUMENTS = programSettings.UserDataFolder; // fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
+  
+  const GameInstances = readSetting('GameInstances');
+  if (GameInstances?.length === 0) return
 
-              for (const _job of hotFix.active_jobs) {
+  for (const instance of GameInstances) {
+    for (const game of instance.games) {
+      if (!game.path || game.path === '') continue
 
-                //- 1. Start by Resolving path Variables:
-                _job.file_path = _job.file_path.replace("%GAME_PATH%", GamePath);
-                _job.file_path = _job.file_path.replace("%UI_PATH%", AppExePath);
-                _job.file_path = _job.file_path.replace("%UI_DOCS%", UI_DOCUMENTS);
-                if (!Util.isEmpty(_job.destination)) {
-                  _job.destination = _job.destination.replace("%GAME_PATH%", GamePath);
-                  _job.destination = _job.destination.replace("%UI_PATH%", AppExePath);
-                }
+      console.log('------ Applying HotFixes on ', game.instance);
+      const GamePath = game.path;
 
-                //- 2. Resolve the Job Actions:
-                try {
-                  const folder_path = path.dirname(_job.file_path); //Obtiene el Path: (Sin archivo ni extension:
-                  const file_name = path.basename(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
+      for (const _job of hotFix.active_jobs) {
 
-                  switch (_job.action) {
-                    
-                    case "COPY": //Copia un Archivo o Directorio de un lugar a otro, acepta comodines
-                      console.log('- COPY: ' + file_name + ' -> ' + path.dirname(_job.destination));
-                      await fileHelper.copyFile(_job.file_path, _job.destination, false);
-                      break;
-
-                    case "DEL": //Borra un Archivo
-                      console.log('- DEL: ' + _job.file_path);
-                      //Borra archivos usando comodines
-                      if (file_name.includes("*")) {
-                        await fileHelper.deleteFilesByWildcard(_job.file_path);
-                      }
-                      else {
-                        //Borra el archivo indicado, si existe
-                        fileHelper.deleteFileByAbsolutePath(_job.file_path);
-                      }
-                      break;
-
-                    case "REPLACE": //Copia el Archivo sólo si existe previamente
-                      console.log('- REPLACE: ' + file_name + ' -> ' + path.dirname(_job.destination));
-                      if (fs.existsSync(_job.file_path) && fs.existsSync(_job.destination)) {
-                        await fileHelper.copyFile(_job.file_path, _job.destination, false);
-                      }
-                      break;
-
-                    case "MOVE": //Mueve un Archivo de un lugar a otro, acepta comodines
-                      console.log('- MOVE: ' + file_name + ' -> ' + path.dirname(_job.destination));
-                      if (fs.existsSync(_job.file_path)) {
-                        if (!fs.existsSync(path.dirname(_job.destination))) {
-                          Directory.CreateDirectory(path.dirname(_job.destination));
-                        }
-                        await fileHelper.copyFile(_job.file_path, _job.destination, true);
-                      }
-                      break;
-
-                    case "RMDIR": //Borra un Directorio y todo su contenido
-                      console.log('- RMDIR: ', _job.file_path);
-                      await fileHelper.deleteFolderRecursive(_job.file_path);
-                      break;
-
-                    case "RMDIR-EX": //Borra las Carpetas de un Directorio salvo las Execpciones
-                      //El nombre del directorio Raiz va en 'file_path', ej: "file_path":"%UI_DOCS%\\ODYSS",
-                      //Las Excepciones van en 'destination', solo los nombres separados x comas. ej:  "destination":"Themes,History"
-                      console.log('- RMDIR-EX: ', folder_path, _job.destination);
-                      await fileHelper.deleteDirectoriesExcept(_job.file_path, _job.destination);
-                      break;
-
-                    case "MVDIR": //Mueve un Directorio de un lugar a otro
-                      console.log('- MVDIR: ', folder_path, _job.destination);
-                      await fileHelper.moveDirectory(_job.file_path, _job.destination);
-                      break;
-
-                    default:
-                      break;
-                  }
-                } catch (error) {
-                  console.log('Error Applying HotFix -> ', error.message);
-                }
-              };
-            }
-          }
+        //- 1. Start by Resolving path Variables:
+        _job.file_path = _job.file_path.replace("%GAME_PATH%", GamePath);
+        _job.file_path = _job.file_path.replace("%UI_PATH%", AppExePath);
+        _job.file_path = _job.file_path.replace("%UI_DOCS%", UI_DOCUMENTS);
+        if (!Util.isEmpty(_job.destination)) {
+          _job.destination = _job.destination.replace("%GAME_PATH%", GamePath);
+          _job.destination = _job.destination.replace("%UI_PATH%", AppExePath);
         }
-      }
+
+        //- 2. Resolve the Job Actions:
+        try {
+          const folder_path = path.dirname(_job.file_path); //Obtiene el Path: (Sin archivo ni extension:
+          const file_name = path.basename(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
+
+          switch (_job.action) {
+            
+            case "COPY": //Copia un Archivo o Directorio de un lugar a otro, acepta comodines
+              console.log('- COPY: ' + file_name + ' -> ' + path.dirname(_job.destination));
+              await fileHelper.copyFile(_job.file_path, _job.destination, false);
+              break;
+
+            case "DEL": //Borra un Archivo
+              console.log('- DEL: ' + _job.file_path);
+              //Borra archivos usando comodines
+              if (file_name.includes("*")) {
+                await fileHelper.deleteFilesByWildcard(_job.file_path);
+              }
+              else {
+                //Borra el archivo indicado, si existe
+                fileHelper.deleteFileByAbsolutePath(_job.file_path);
+              }
+              break;
+
+            case "REPLACE": //Copia el Archivo sólo si existe previamente
+              console.log('- REPLACE: ' + file_name + ' -> ' + path.dirname(_job.destination));
+              if (fs.existsSync(_job.file_path) && fs.existsSync(_job.destination)) {
+                await fileHelper.copyFile(_job.file_path, _job.destination, false);
+              }
+              break;
+
+            case "MOVE": //Mueve un Archivo de un lugar a otro, acepta comodines
+              console.log('- MOVE: ' + file_name + ' -> ' + path.dirname(_job.destination));
+              if (fs.existsSync(_job.file_path)) {
+                if (!fs.existsSync(path.dirname(_job.destination))) {
+                  Directory.CreateDirectory(path.dirname(_job.destination));
+                }
+                await fileHelper.copyFile(_job.file_path, _job.destination, true);
+              }
+              break;
+
+            case "RMDIR": //Borra un Directorio y todo su contenido
+              console.log('- RMDIR: ', _job.file_path);
+              await fileHelper.deleteFolderRecursive(_job.file_path);
+              break;
+
+            case "RMDIR-EX": //Borra las Carpetas de un Directorio salvo las Execpciones
+              //El nombre del directorio Raiz va en 'file_path', ej: "file_path":"%UI_DOCS%\\ODYSS",
+              //Las Excepciones van en 'destination', solo los nombres separados x comas. ej:  "destination":"Themes,History"
+              console.log('- RMDIR-EX: ', folder_path, _job.destination);
+              await fileHelper.deleteDirectoriesExcept(_job.file_path, _job.destination);
+              break;
+
+            case "MVDIR": //Mueve un Directorio de un lugar a otro
+              console.log('- MVDIR: ', folder_path, _job.destination);
+              await fileHelper.moveDirectory(_job.file_path, _job.destination);
+              break;
+
+            default:
+              break;
+          }
+        } catch (error) {
+          console.log('Error Applying HotFix -> ', error.message);
+        }
+      };
     }
   }
 };
@@ -895,101 +891,100 @@ async function ApplyTheme(themeName) {
     const themes = themeHelper.GetLoadedThemes();
     console.log('Loaded Themes:', themes.length);
 
-    if (themes && themes.length > 0 ) {
-      const themeIndex = themes.findIndex(t => t.credits.theme === themeName);
-      if (themeIndex >= 0) {
-        const themeTemplate = themes[themeIndex]; 
-        console.log('0. Applying Theme:', themeTemplate.credits.theme);
+    if (!themes || themes.length === 0) {
+      console.log('No Themes Loaded!');
+      return false;
+    }
 
-        const ActiveInstance = await getActiveInstance();
-        console.log('1. ActiveInstance:', ActiveInstance.instance);
+    const themeIndex = themes.findIndex(t => t.credits.theme === themeName);
+    if (themeIndex >= 0) {
+      const themeTemplate = themes[themeIndex]; 
+      console.log('0. Applying Theme:', themeTemplate.credits.theme);
 
-        const GamePath = path.join(ActiveInstance.path, 'EDHM-ini');
-        const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-        
-        console.log('2. Preparing all the Paths:', GamePath);
+      const ActiveInstance = await getActiveInstance();
+      console.log('1. ActiveInstance:', ActiveInstance.instance);
 
-        let template = JSON.parse(JSON.stringify(themeTemplate.theme));
-        template.path = GamePath;
-        console.log('3. Theme Template:', template.credits.theme);
+      const GamePath = path.join(ActiveInstance.path, 'EDHM-ini');
+      const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+      
+      console.log('2. Preparing all the Paths:', GamePath);
 
-        // Reusable function to apply Global/User settings:
-        async function applySettings(settings, template, counterName) {
-          try {
-            let counter = 0;
-            if (settings) {
-              settings.Elements.forEach(gblSets => {
-                let found = false;
-                if (template.ui_groups) {
-                  for (let i = 0; i < template.ui_groups.length - 1; i++) {
-                    const uiGrp = template.ui_groups[i];
-                    const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
-                    if (itemIndex >= 0) {
-                      const oldV = uiGrp.Elements[itemIndex].Value;
-                      uiGrp.Elements[itemIndex].Value = gblSets.Value;
-                      found = true;
-                      counter++;
-                      break; // Break out of the inner loop once updated
-                    }
-                  }
-                  if (!found) {
-                    // Item not found, add it to the second last ui_group:
-                    const lastGroup = template.ui_groups[template.ui_groups.length - 2];
-                    lastGroup.Elements.push(gblSets); // Add the whole item from settings
+      let template = JSON.parse(JSON.stringify(themeTemplate.theme));
+      template.path = GamePath;
+      console.log('3. Theme Template:', template.credits.theme);
+
+      // Reusable function to apply Global/User settings:
+      async function applySettings(settings, template, counterName) {
+        try {
+          let counter = 0;
+          if (settings) {
+            settings.Elements.forEach(gblSets => {
+              let found = false;
+              if (template.ui_groups) {
+                for (let i = 0; i < template.ui_groups.length - 1; i++) {
+                  const uiGrp = template.ui_groups[i];
+                  const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
+                  if (itemIndex >= 0) {
+                    const oldV = uiGrp.Elements[itemIndex].Value;
+                    uiGrp.Elements[itemIndex].Value = gblSets.Value;
+                    found = true;
                     counter++;
+                    break; // Break out of the inner loop once updated
                   }
                 }
-              });
-            }
-            console.log(counter + ' ' + counterName + ' added!');
-          } catch (error) {
-            console.log('ERROR @SettingsHelper.applyTheme().applySettings():', error);
-            throw error;
+                if (!found) {
+                  // Item not found, add it to the second last ui_group:
+                  const lastGroup = template.ui_groups[template.ui_groups.length - 2];
+                  lastGroup.Elements.push(gblSets); // Add the whole item from settings
+                  counter++;
+                }
+              }
+            });
           }
+          console.log(counter + ' ' + counterName + ' added!');
+        } catch (error) {
+          console.log('ERROR @SettingsHelper.applyTheme().applySettings():', error);
+          throw error;
         }
-
-        // 4. Apply Global Settings
-        const globalSettings = await LoadGlobalSettings();
-        console.log('4. Global Settings:', globalSettings.Elements.length);
-        await applySettings(globalSettings, template, 'Global Settings');
-
-        // 5. Apply User Settings
-        const userSettings = await LoadUserSettings();
-        if (userSettings) {
-          console.log('5. Get User Settings:', userSettings.Elements.length);
-          await applySettings(userSettings, template, 'User Settings');
-        }
-
-        console.log('6. Get Default Inis:');
-        const defaultInisPath = fileHelper.getAssetPath(`data/${GameType}`);
-        const defaultINIs = await themeHelper.LoadThemeINIs(defaultInisPath);        
-        const updatedInis = await themeHelper.ApplyTemplateValuesToIni(template, defaultINIs);
-        console.log('7. Applying Changes to the INIs...', updatedInis != undefined);
-
-        console.log('8. Saving the INI files..');
-        const inisSaved = await themeHelper.SaveThemeINIs(GamePath, updatedInis);
-        if (!inisSaved) {
-          throw new Error('One or more theme INI files could not be saved.');
-        }
-
-        // ThemeSettings.json is the in-game reload signal, so write it only
-        // after every INI has been saved successfully.
-        const currentSettingsSaved = await themeHelper.SaveTheme(template);
-        console.log('9. Current Settings Saved?: ', currentSettingsSaved);
-        if (!currentSettingsSaved) {
-          throw new Error('Theme INIs were saved, but ThemeSettings.json could not be updated.');
-        }
-
-        console.log('10. Theme Applied!');
-        return true;
       }
-      else {
-        console.log('Theme Not Found!', themeName);
-        return false;
+
+      // 4. Apply Global Settings
+      const globalSettings = await LoadGlobalSettings();
+      console.log('4. Global Settings:', globalSettings.Elements.length);
+      await applySettings(globalSettings, template, 'Global Settings');
+
+      // 5. Apply User Settings
+      const userSettings = await LoadUserSettings();
+      if (userSettings) {
+        console.log('5. Get User Settings:', userSettings.Elements.length);
+        await applySettings(userSettings, template, 'User Settings');
       }
+
+      console.log('6. Get Default Inis:');
+      const defaultInisPath = fileHelper.getAssetPath(`data/${GameType}`);
+      const defaultINIs = await themeHelper.LoadThemeINIs(defaultInisPath);        
+      const updatedInis = await themeHelper.ApplyTemplateValuesToIni(template, defaultINIs);
+      console.log('7. Applying Changes to the INIs...', updatedInis != undefined);
+
+      console.log('8. Saving the INI files..');
+      const inisSaved = await themeHelper.SaveThemeINIs(GamePath, updatedInis);
+      if (!inisSaved) {
+        throw new Error('One or more theme INI files could not be saved.');
+      }
+
+      // ThemeSettings.json is the in-game reload signal, so write it only
+      // after every INI has been saved successfully.
+      const currentSettingsSaved = await themeHelper.SaveTheme(template);
+      console.log('9. Current Settings Saved?: ', currentSettingsSaved);
+      if (!currentSettingsSaved) {
+        throw new Error('Theme INIs were saved, but ThemeSettings.json could not be updated.');
+      }
+
+      console.log('10. Theme Applied!');
+      return true;
     }
     else {
-      console.log('No Themes Loaded!');
+      console.log('Theme Not Found!', themeName);
       return false;
     }
 
