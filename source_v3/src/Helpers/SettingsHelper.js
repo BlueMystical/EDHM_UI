@@ -469,6 +469,7 @@ async function GetInstalledTPMods(gamePath) {
 async function installEDHMmod(gameInstance) {
   console.log('------ Installing Mod --------');
   let Response = { game: '', version: '' };
+  let _ret; // Declarado una sola vez para toda la función (evita el ReferenceError por TDZ con 'const')
   // #region Declarations
     
   if (!Util.isNotNullOrEmpty(gameInstance.path)) { throw new Error('Instance.path Not Defined!');  }
@@ -489,7 +490,7 @@ async function installEDHMmod(gameInstance) {
   const themesZipPath = path.join(AssetsPath, `${GameType}_EDHM-Themes.zip`); //<- ODYSS_EDHM-Themes.zip
   console.log('Unziping Themes From: ', themesZipPath);
   if (themesZipPath) {
-    const _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
+    _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
     if (_ret) {
       console.log('Themes Installed ->', unzipPath);
     }
@@ -530,7 +531,7 @@ async function installEDHMmod(gameInstance) {
   const unzipGamePath = gamePath;
   const versionMatch = edhmZipFile.match(/v\d+\.\d+/); 
 
-  const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
+  _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
 
   // Installing EDHM means returning both proxy DLLs to the enabled state.
   // Remove stale disabled copies only after the complete pair was extracted.
@@ -556,7 +557,7 @@ async function installEDHMmod(gameInstance) {
   let _Source = fileHelper.getAssetPath(`images`);
   let _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'images'));
   //console.log(`Copying Images from '${_Source}' to '${_Destiny}'`);
-  let _ret = await fileHelper.copyDirectoryRecursive(
+  _ret = await fileHelper.copyDirectoryRecursive(
     _Source,
     _Destiny
   );
