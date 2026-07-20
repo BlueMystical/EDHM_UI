@@ -119,7 +119,7 @@ function parseIni(iniString) {
         });
     } catch (error) {
         console.log(error);
-        throw new Error(error.message);
+        throw error;
     }
     return result; // Return the fully parsed structure.
 }

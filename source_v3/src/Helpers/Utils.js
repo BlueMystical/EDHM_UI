@@ -404,47 +404,40 @@ function GetGammaCorrected_RGBA(color, gammaValue = 2.4) {
  * @returns Color object with { r, g, b, a } properties in the range of 0-255. */
 function reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA = 1.0, gammaValue = 2.4) {
     const result = { r: 255, g: 255, b: 255, a: 255 }; // Initialize with white and full alpha
-    try {
-        //const normalize = value => Math.max(0, Math.min(1, value)); // Ensure values are in the range of 0.0 to 1.0
-        const normalize = value => (value >= 0 && value <= 1) ? value : 1.0; //<- any out of range value will be set to 1.0
+    //const normalize = value => Math.max(0, Math.min(1, value)); // Ensure values are in the range of 0.0 to 1.0
+    const normalize = value => (value >= 0 && value <= 1) ? value : 1.0; //<- any out of range value will be set to 1.0
 
-        // Undo gamma correction: 
-        const invR = convert_sRGB_FromLinear(normalize(gammaR), gammaValue);
-        const invG = convert_sRGB_FromLinear(normalize(gammaG), gammaValue);
-        const invB = convert_sRGB_FromLinear(normalize(gammaB), gammaValue);
+    // Undo gamma correction: 
+    const invR = convert_sRGB_FromLinear(normalize(gammaR), gammaValue);
+    const invG = convert_sRGB_FromLinear(normalize(gammaG), gammaValue);
+    const invB = convert_sRGB_FromLinear(normalize(gammaB), gammaValue);
 
-        // Approximate linear sRGB (conversion to sRGB space)
-        const linearSrgb = { r: invR, g: invG, b: invB };
+    // Approximate linear sRGB (conversion to sRGB space)
+    const linearSrgb = { r: invR, g: invG, b: invB };
 
-        // Convert to RGB (0-255 range)
-        result.r = this.safeRound(linearSrgb.r * 255);
-        result.g = this.safeRound(linearSrgb.g * 255);
-        result.b = this.safeRound(linearSrgb.b * 255);
+    // Convert to RGB (0-255 range)
+    result.r = this.safeRound(linearSrgb.r * 255);
+    result.g = this.safeRound(linearSrgb.g * 255);
+    result.b = this.safeRound(linearSrgb.b * 255);
 
-        // Handle alpha (if provided)
-        if (gammaA !== undefined) {
-            result.a = this.safeRound(normalize(gammaA) * 255);
-        }
-    } catch (error) {
-        throw new Error(error.message + error.stack);
+    // Handle alpha (if provided)
+    if (gammaA !== undefined) {
+        result.a = this.safeRound(normalize(gammaA) * 255);
     }
+
     return result;
 }
 
 function reverseGammaCorrectedList(gammaComponents, gammaValue = 2.4) {
-    try {
-        if (!Array.isArray(gammaComponents) || gammaComponents.length < 3) {
-            console.log(gammaComponents);
-            throw new Error("Invalid gamma components list (requires at least 3 elements)");
-        }
-
-        const [gammaR, gammaG, gammaB, ...remaining] = gammaComponents;
-        const gammaA = remaining.length > 0 ? remaining[0] : 1.0;
-
-        return this.reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
-    } catch (error) {
-        throw new Error(error.message + error.stack);
+    if (!Array.isArray(gammaComponents) || gammaComponents.length < 3) {
+        console.log(gammaComponents);
+        throw new Error("Invalid gamma components list (requires at least 3 elements)");
     }
+
+    const [gammaR, gammaG, gammaB, ...remaining] = gammaComponents;
+    const gammaA = remaining.length > 0 ? remaining[0] : 1.0;
+
+    return this.reverseGammaCorrected(gammaR, gammaG, gammaB, gammaA, gammaValue);
 }
 
 // #endregion
