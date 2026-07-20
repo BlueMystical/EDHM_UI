@@ -101,31 +101,31 @@ function compareVersions(serverVersion, localVersion) {
  * @param {string} color String for the Color, can be a HEX or a 'rgb(0,0,0,1)'
  * @returns true or false */
 function isColorDark(color) {
-    if (color) {
-        // Convert color to RGB if it's a hex code
-        let r, g, b;
-        //console.log('isColorDark: ', color);
-        if (color.startsWith('#')) {
-            // Hex to RGB conversion (simplified - adapt for #RRGGBBAA if needed)
-            r = parseInt(color.slice(1, 3), 16);
-            g = parseInt(color.slice(3, 5), 16);
-            b = parseInt(color.slice(5, 7), 16);
-        } else if (color.startsWith('rgb')) {
-            // Extract RGB values from rgba or rgb string
-            const rgbValues = color.match(/\d+/g);
-            r = parseInt(rgbValues[0]);
-            g = parseInt(rgbValues[1]);
-            b = parseInt(rgbValues[2]);
-        } else {
-            console.error("Invalid color format. Please provide a valid color string.");
-            return false; // Or handle the error as needed
-        }
+    if (!color) return
 
-        // Calculate luminance (a common way to determine darkness)
-        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-        return luminance < 0.5; // Adjust threshold as needed (0.5 is a common value)
+    // Convert color to RGB if it's a hex code
+    let r, g, b;
+    //console.log('isColorDark: ', color);
+    if (color.startsWith('#')) {
+        // Hex to RGB conversion (simplified - adapt for #RRGGBBAA if needed)
+        r = parseInt(color.slice(1, 3), 16);
+        g = parseInt(color.slice(3, 5), 16);
+        b = parseInt(color.slice(5, 7), 16);
+    } else if (color.startsWith('rgb')) {
+        // Extract RGB values from rgba or rgb string
+        const rgbValues = color.match(/\d+/g);
+        r = parseInt(rgbValues[0]);
+        g = parseInt(rgbValues[1]);
+        b = parseInt(rgbValues[2]);
+    } else {
+        console.error("Invalid color format. Please provide a valid color string.");
+        return false; // Or handle the error as needed
     }
+
+    // Calculate luminance (a common way to determine darkness)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    return luminance < 0.5; // Adjust threshold as needed (0.5 is a common value)
 }
 
 /** Returns a text color appropriate to the given background color. 

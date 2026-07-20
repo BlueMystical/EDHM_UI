@@ -400,27 +400,28 @@ async function deleteFolderRecursive(folderPath) {
  * @param {string} directoryPath The root directory path.
  * @param {string} exceptions A comma-separated string of directory names to exclude. */
 async function deleteDirectoriesExcept(directoryPath, exceptions) {
-  if (fs.existsSync(directoryPath)) {
-    const exceptionList = exceptions.split(',').map(item => item.trim()); // Trim whitespace
-    const directories = fs.readdirSync(directoryPath, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
-
-    if (directories) {
-      directories.forEach((dirName) => {
-        if (!exceptionList.includes(dirName)) {
-          const dirToDelete = path.join(directoryPath, dirName);
-          try {
-            fs.rmSync(dirToDelete, { recursive: true, force: true });
-            console.log(`Deleted directory: ${dirToDelete}`);
-          } catch (err) {
-            console.error(`Error deleting directory: ${dirToDelete}`, err);
-          }
-        }
-      });
-    }
-  } else {
+  if (!fs.existsSync(directoryPath)) {
     console.log(`directory ${directoryPath} does not exist`);
+    return
+  }
+
+  const exceptionList = exceptions.split(',').map(item => item.trim()); // Trim whitespace
+  const directories = fs.readdirSync(directoryPath, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+
+  if (directories) {
+    directories.forEach((dirName) => {
+      if (!exceptionList.includes(dirName)) {
+        const dirToDelete = path.join(directoryPath, dirName);
+        try {
+          fs.rmSync(dirToDelete, { recursive: true, force: true });
+          console.log(`Deleted directory: ${dirToDelete}`);
+        } catch (err) {
+          console.error(`Error deleting directory: ${dirToDelete}`, err);
+        }
+      }
+    });
   }
 }
 
@@ -718,23 +719,24 @@ async function base64ToJpg(base64Image, outputPath) {
 async function loadImageAsBase64(imagePath) {
   try {
     //console.log('Loading Image: ' + imagePath);
-    if (fs.existsSync(imagePath)) {
-      return new Promise((resolve, reject) => {
-        fs.readFile(imagePath, (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            // Convert the image data to Base64
-            const base64Image = data.toString('base64');
-            // Create a Base64 image URL
-            const base64ImageUrl = `data:image/${path.extname(imagePath).substring(1)};base64,${base64Image}`;
-            resolve(base64ImageUrl);
-          }
-        });
-      });
-    } else {
+    if (!fs.existsSync(imagePath)) {
       console.log('404 - Not Found: ' + imagePath);
+      return
     }
+
+    return new Promise((resolve, reject) => {
+      fs.readFile(imagePath, (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          // Convert the image data to Base64
+          const base64Image = data.toString('base64');
+          // Create a Base64 image URL
+          const base64ImageUrl = `data:image/${path.extname(imagePath).substring(1)};base64,${base64Image}`;
+          resolve(base64ImageUrl);
+        }
+      });
+    });
   } catch (error) {
     return null;
   }
@@ -1000,6 +1002,12 @@ function terminateProgram(exeName, options = {}, callback) {
   }
 }
 
+/**
+ * 
+ * @param {string} exeName 
+ * @param {function(Error|null, string|null)} callback 
+ * @returns 
+ */
 function terminateProgram_OLD(exeName, callback) {
   try {
     if (os.platform() === 'win32') {
@@ -1185,25 +1193,25 @@ async function getLatestPreReleaseVersion(owner, repo) {
         const preReleases = releases.filter(release => release.prerelease);
         const latestPreRelease = preReleases.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
 
-        if (latestPreRelease) {
-          //console.log(latestPreRelease);
-          const result = {
-            release_id:     latestPreRelease.id,
-            version:        latestPreRelease.tag_name,
-            notes:          latestPreRelease.body,
-            zipball_url:    latestPreRelease.zipball_url,
-            html_url:       latestPreRelease.html_url,
-            assets:         latestPreRelease.assets.map(asset => ({
-              content_type: asset.content_type,
-              url:          asset.browser_download_url,
-              name:         asset.name,
-              size:         asset.size,
-            }))
-          };
-          resolve(result);
-        } else {
+        if (!latestPreRelease) {
           resolve(null);
         }
+
+        //console.log(latestPreRelease);
+        const result = {
+          release_id:     latestPreRelease.id,
+          version:        latestPreRelease.tag_name,
+          notes:          latestPreRelease.body,
+          zipball_url:    latestPreRelease.zipball_url,
+          html_url:       latestPreRelease.html_url,
+          assets:         latestPreRelease.assets.map(asset => ({
+            content_type: asset.content_type,
+            url:          asset.browser_download_url,
+            name:         asset.name,
+            size:         asset.size,
+          }))
+        };
+        resolve(result);
       });
     });
 
@@ -1240,24 +1248,24 @@ async function getLatestReleaseVersion(owner, repo) {
         const releases = JSON.parse(data);
         const latestRelease = releases.find(release => !release.prerelease && !release.draft);
 
-        if (latestRelease) {
-          const result = {
-            release_id:   latestRelease.id,
-            version:      latestRelease.tag_name,
-            notes:        latestRelease.body,
-            html_url:     latestRelease.html_url,
-            zipball_url:  latestRelease.zipball_url,
-            assets:       latestRelease.assets.map(asset => ({
-              content_type: asset.content_type,
-              url:        asset.browser_download_url,
-              name:       asset.name,
-              size:       asset.size,
-            }))
-          };
-          resolve(result);
-        } else {
+        if (!latestRelease) {
           resolve(null);
         }
+
+        const result = {
+          release_id:   latestRelease.id,
+          version:      latestRelease.tag_name,
+          notes:        latestRelease.body,
+          html_url:     latestRelease.html_url,
+          zipball_url:  latestRelease.zipball_url,
+          assets:       latestRelease.assets.map(asset => ({
+            content_type: asset.content_type,
+            url:        asset.browser_download_url,
+            name:       asset.name,
+            size:       asset.size,
+          }))
+        };
+        resolve(result);
       });
     });
 

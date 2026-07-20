@@ -341,26 +341,21 @@ async function UpdateTheme(themeData, source) {
     const themesPath = path.join(dataPath, GameType, 'Themes', Credits.theme);  //console.log('themesPath: ', themesPath); //<- %USERPROFILE%\EDHM_UI\ODYSS\Themes\MyTheme   
 
     //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-    if (FileHelper.ensureDirectoryExists(themesPath)) {
+    if (!FileHelper.ensureDirectoryExists(themesPath)) return
 
-      //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
-      const CurrentSettings = source;
-      CurrentSettings.credits.theme = Credits.theme;
-      CurrentSettings.credits.author = Credits.author;
-      CurrentSettings.credits.description = Credits.description;
-      CurrentSettings.version = settings.Version_ODYSS;
-      CurrentSettings.game = gameInstance.key;
-      CurrentSettings.path = '';
+    //3. LOAD THE CURRENTLY APPLIED THEME SETTINGS:
+    const CurrentSettings = source;
+    CurrentSettings.credits.theme = Credits.theme;
+    CurrentSettings.credits.author = Credits.author;
+    CurrentSettings.credits.description = Credits.description;
+    CurrentSettings.version = settings.Version_ODYSS;
+    CurrentSettings.game = gameInstance.key;
+    CurrentSettings.path = '';
 
-      //4. WRITE THE NEW THEME FILES:
-      fs.writeFileSync(path.join(themesPath, 'ThemeSettings.json'), JSON.stringify(CurrentSettings, null, 4));
+    //4. WRITE THE NEW THEME FILES:
+    fs.writeFileSync(path.join(themesPath, 'ThemeSettings.json'), JSON.stringify(CurrentSettings, null, 4));
 
-      if (FileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    return FileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))
   } catch (error) {
     console.log(error);
     throw error;
@@ -376,16 +371,11 @@ async function SaveTheme(themeData) {
     themeData.path = '';
 
     //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-    if (FileHelper.ensureDirectoryExists(themesPath)) {
+    if (!FileHelper.ensureDirectoryExists(themesPath)) return
 
-      //4. WRITE THE NEW THEME FILES:
-      FileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), themeData);
-      if (FileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    //4. WRITE THE NEW THEME FILES:
+    FileHelper.writeJsonFile(path.join(themesPath, 'ThemeSettings.json'), themeData);
+    return FileHelper.checkFileExists(path.join(themesPath, 'ThemeSettings.json'))
   } catch (error) {
     console.log(error);
     throw error;
@@ -414,35 +404,33 @@ async function ExportTheme(themeData) { //
       const TempPath = FileHelper.resolveEnvVariables(`%LOCALAPPDATA%\\Temp\\EDHM_UI\\${ThemeName}`);
 
       //2. CREATE THE NEW THEME FOLDER IF IT DOESNT EXIST:
-      if (FileHelper.ensureDirectoryExists(TempPath)) {
+      if (!FileHelper.ensureDirectoryExists(TempPath)) return
 
-        //3. COPY THE THEME FILES TO A TEMP FOLDER:
-        const _ret = await FileHelper.copyFiles(ThemePath, TempPath, ['.jpg', '.json']); //<- 'PREVIEW.jpg', 'ThemeName.jpg', 'ThemeSettings.json'
-        console.log(_ret + ' Files Copied.');
+      //3. COPY THE THEME FILES TO A TEMP FOLDER:
+      const _ret = await FileHelper.copyFiles(ThemePath, TempPath, ['.jpg', '.json']); //<- 'PREVIEW.jpg', 'ThemeName.jpg', 'ThemeSettings.json'
+      console.log(_ret + ' Files Copied.');
 
-        //4. Ask the User for Destination Zip File:
-        const options = {
-          fileName: ThemeName,
-          title: `Exporting Theme '${ThemeName}':`,
-          defaultPath: path.join(app.getPath('desktop'), `${ThemeName}.zip`),
-          filters: [
-            { name: 'Zip Files', extensions: ['zip'] },
-            { name: 'All Files', extensions: ['*'] }
-          ],
-          properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
-        };
-        const Destination = await FileHelper.ShowSaveDialog(options);
-        if (Destination) {
-          console.log('Destination:', Destination);
-          //5. COMPRESS THEME FILES:
-          await FileHelper.compressFolder(TempPath, Destination);
+      //4. Ask the User for Destination Zip File:
+      const options = {
+        fileName: ThemeName,
+        title: `Exporting Theme '${ThemeName}':`,
+        defaultPath: path.join(app.getPath('desktop'), `${ThemeName}.zip`),
+        filters: [
+          { name: 'Zip Files', extensions: ['zip'] },
+          { name: 'All Files', extensions: ['*'] }
+        ],
+        properties: ['createDirectory', 'showOverwriteConfirmation ', 'dontAddToRecent']
+      };
+      const Destination = await FileHelper.ShowSaveDialog(options);
+      if (!Destination) return false
 
-          //6. Clean the Temp trash:
-          await FileHelper.deleteFolderRecursive(TempPath);
-          return true;
-        }
-        return false;
-      }
+      console.log('Destination:', Destination);
+      //5. COMPRESS THEME FILES:
+      await FileHelper.compressFolder(TempPath, Destination);
+
+      //6. Clean the Temp trash:
+      await FileHelper.deleteFolderRecursive(TempPath);
+      return true;
     }
   } catch (error) {
     console.log(error);
@@ -454,23 +442,23 @@ async function ExportTheme(themeData) { //
  * @returns 'true' is success. */
 async function ImportTheme(zip_path) {
   try {
-    if (zip_path != undefined && FileHelper.checkFileExists(zip_path)) {      
-      const ThemeName = path.basename(zip_path, '.zip');  
-      console.log('Importing Theme .....', ThemeName);
-      
-      const ActiveInstance = await settingsHelper.getActiveInstance();
-      const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-      const DataPath = FileHelper.resolveEnvVariables(
-            settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );      
-      const themes_path = path.join(DataPath, GameType, 'Themes');
-      FileHelper.ensureDirectoryExists(themes_path);
+    if (zip_path == undefined || !FileHelper.checkFileExists(zip_path)) return
+    
+    const ThemeName = path.basename(zip_path, '.zip');  
+    console.log('Importing Theme .....', ThemeName);
+    
+    const ActiveInstance = await settingsHelper.getActiveInstance();
+    const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+    const DataPath = FileHelper.resolveEnvVariables(
+          settingsHelper.readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );      
+    const themes_path = path.join(DataPath, GameType, 'Themes');
+    FileHelper.ensureDirectoryExists(themes_path);
 
-      const _ret = await FileHelper.decompressFile(zip_path, themes_path);
-      if (_ret) {
-        console.log('Theme Installed ->', ThemeName);
-        return _ret;
-      }
-    }
+    const _ret = await FileHelper.decompressFile(zip_path, themes_path);
+    if (_ret) {
+      console.log('Theme Installed ->', ThemeName);
+      return _ret;
+    }    
   } catch (error) {
     console.error('Error at ThemeHelper/ImportTheme():', error);
     throw error;
@@ -649,80 +637,79 @@ async function ApplyTemplateValuesToIni(template, iniValues) {
   let stackTrace = '';
   try {
     console.log('Applying ' + template.credits.theme);
-    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
-      for (const group of template.ui_groups) {
-        if (group.Elements != null) {
-          for (const element of group.Elements) {
-            /* element: {
-              ..
-              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
-              Section: 'Constants',     
-              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-              Value: 100,
-              ..
-            } */
-            const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
-            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-            const defaultValue = element.Value;                 //<- 100.0             
-            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
-            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
+    if (!Array.isArray(template.ui_groups) || template.ui_groups.length === 0) return
 
-            if (iniData) {
-              const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
+    for (const group of template.ui_groups) {
+      if (group.Elements == null) continue
+      for (const element of group.Elements) {
+        /* element: {
+          ..
+          File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
+          Section: 'Constants',     
+          Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+          Value: 100,
+          ..
+        } */
+        const iniSection = element.Section.toLowerCase();   //<- iniSection === 'constants'
+        const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+        const defaultValue = element.Value;                 //<- 100.0             
+        const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
+        const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
 
-              if (Array.isArray(colorKeys) && colorKeys.length > 2) {
-                //- Multi Key: Colors
-                const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
-                const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
+        if (!iniData) continue
 
-                colorKeys.forEach((key, index) => {
-                  const value = parseFloat(values[index]);
-                  try {
-                    const _ret = INIparser.setKey(iniData, iniSection, key, value);
-                    if (_ret) {
-                      iniValues[iniFileName] = _ret;
-                    }
-                    else {
-                      console.log(`404 - Ini Value Not Found*: ${template.credits.theme}/${iniFileName}/${iniSection}/${key}`);
-                    }
-                  } catch (error) {
-                    console.log(stackTrace + value, error.message);
-                  }
-                });
+        const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
 
-              } else {
-                //- Single Key: Text, Numbers, etc.
-                const iniValue = INIparser.setKey(iniData, iniSection, iniKey, defaultValue);
-                if (iniValue) {
-                  iniValues[iniFileName] = iniValue;
-                } else {
-                  console.log('404 - Ini Value Not Found-: ', iniFileName, iniSection, iniKey, defaultValue);
-                }                
+        if (Array.isArray(colorKeys) && colorKeys.length > 2) {
+          //- Multi Key: Colors
+          const RGBAcolor = Util.intToRGBA(element.Value); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+          const sRGBcolor = Util.GetGammaCorrected_RGBA(RGBAcolor);
+          const values = [sRGBcolor.r, sRGBcolor.g, sRGBcolor.b, sRGBcolor.a]; //<- [ 0.082, 0.716, 1.0, 1.0 ]
+
+          colorKeys.forEach((key, index) => {
+            const value = parseFloat(values[index]);
+            try {
+              const _ret = INIparser.setKey(iniData, iniSection, key, value);
+              if (_ret) {
+                iniValues[iniFileName] = _ret;
               }
+              else {
+                console.log(`404 - Ini Value Not Found*: ${template.credits.theme}/${iniFileName}/${iniSection}/${key}`);
+              }
+            } catch (error) {
+              console.log(stackTrace + value, error.message);
             }
-          }
+          });
+
+        } else {
+          //- Single Key: Text, Numbers, etc.
+          const iniValue = INIparser.setKey(iniData, iniSection, iniKey, defaultValue);
+          if (iniValue) {
+            iniValues[iniFileName] = iniValue;
+          } else {
+            console.log('404 - Ini Value Not Found-: ', iniFileName, iniSection, iniKey, defaultValue);
+          }                
         }
       }
+    }
 
-      // Update the XMLs:
-      if (template.xml_profile && iniValues.XmlProfile) {
-        const iniData = iniValues.XmlProfile;
-        //console.log('iniData: ', iniData);
-        //console.log('template.xml_profile: ', template.xml_profile);
+    // Update the XMLs:
+    if (!template.xml_profile || !iniValues.XmlProfile) return
 
-        for (const element of template.xml_profile) {
-          try {
-            const _ret = INIparser.setKey(iniData, 'Constants', element.key, element.value);
-            if (_ret) {
-              iniValues.XmlProfile = _ret;
-            } else {
-              console.log('404 - Not Found: ', 'xml_profile', 'Constants', element.key, element.value);
-            }
-          } catch (error) {
-            console.log(error);
-          }
+    const iniData = iniValues.XmlProfile;
+    //console.log('iniData: ', iniData);
+    //console.log('template.xml_profile: ', template.xml_profile);
+
+    for (const element of template.xml_profile) {
+      try {
+        const _ret = INIparser.setKey(iniData, 'Constants', element.key, element.value);
+        if (_ret) {
+          iniValues.XmlProfile = _ret;
+        } else {
+          console.log('404 - Not Found: ', 'xml_profile', 'Constants', element.key, element.value);
         }
+      } catch (error) {
+        console.log(error);
       }
     }
   } catch (error) {
@@ -835,14 +822,14 @@ const FixRecycledKeys = async (theme, template) => {
           if (!groupTheme?.Elements) continue;
 
           const elementTheme = groupTheme.Elements.find(e => e.Key === key);
-          if (elementTheme && elementTheme.Value !== elementTemplate.Value) {            
-            //- Fixing REcycled keys:
-            if (elementTheme.Value < 100) {
-              console.log(
-                `${theme.credits.theme} Fixed Key ${elementTheme.Key}: ${elementTheme.Value} -> ${elementTemplate.Value}`
-              );
-              elementTheme.Value = elementTemplate.Value;
-            }            
+          if (!elementTheme || elementTheme.Value === elementTemplate.Value) continue
+          
+          //- Fixing REcycled keys:
+          if (elementTheme.Value < 100) {
+            console.log(
+              `${theme.credits.theme} Fixed Key ${elementTheme.Key}: ${elementTheme.Value} -> ${elementTemplate.Value}`
+            );
+            elementTheme.Value = elementTemplate.Value;
           }
         }
       }
@@ -850,16 +837,16 @@ const FixRecycledKeys = async (theme, template) => {
 
     //- Fixing Black altitude labels:
     for (const groupTemplate of template.ui_groups) {
-      if (groupTemplate.Elements != undefined) {
-        groupTemplate.Elements.forEach(element => {
-          if (element.Key === "y109") {
-            console.log(
-              `${theme.credits.theme} Fixed Key ${element.Key}: ${element.Value} -> 1`
-            );
-            element.Value = 1;
-          }
-        });
-      }
+      if (groupTemplate.Elements == undefined) continue
+
+      groupTemplate.Elements.forEach(element => {
+        if (element.Key !== "y109") return
+
+        console.log(
+          `${theme.credits.theme} Fixed Key ${element.Key}: ${element.Value} -> 1`
+        );
+        element.Value = 1;
+      });
     }
 
     return theme;

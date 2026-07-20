@@ -258,20 +258,20 @@ async function AddToUserSettings(newElement) {
 }
 async function RemoveFromUserSettings(elementToRemove) {
   var userSettings = await LoadUserSettings();
-  if (userSettings) {
-    // Check if an element with the same Key already exists
-    const indexToRemove = userSettings.Elements.findIndex(
-      element => element.Key === elementToRemove.Key
-    );
+  if (!userSettings) return
 
-    if (indexToRemove !== -1) {
-      userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
-    } else {
-      console.log(`Element with key ${elementToRemove.Key} not found.`);
-    }
+  // Check if an element with the same Key already exists
+  const indexToRemove = userSettings.Elements.findIndex(
+    element => element.Key === elementToRemove.Key
+  );
 
-    return saveUserSettings(userSettings);
+  if (indexToRemove !== -1) {
+    userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
+  } else {
+    console.log(`Element with key ${elementToRemove.Key} not found.`);
   }
+
+  return saveUserSettings(userSettings);
 };
 
 // #endregion
@@ -336,22 +336,20 @@ async function addNewInstance(NewInstancePath, settings) {
 
 /** * Retrives the Active Instance from the Settings */
 const getActiveInstance = () => {
-  if (programSettings != null) {
-    //console.log('SettingsHelper.getActiveInstance.programSettings: ', programSettings);
+  if (programSettings == null) throw new Error('programSettings is null');
 
-    const instanceName = programSettings.ActiveInstance;
-    const gameInstance = programSettings.GameInstances
-      .flatMap(instance => instance.games)
-      .find(game => game.instance === instanceName);
+  //console.log('SettingsHelper.getActiveInstance.programSettings: ', programSettings);
 
-    if (!gameInstance) {
-      throw new Error('Active instance not found');
-    }
+  const instanceName = programSettings.ActiveInstance;
+  const gameInstance = programSettings.GameInstances
+    .flatMap(instance => instance.games)
+    .find(game => game.instance === instanceName);
 
-    return gameInstance;
-  } else {
-    throw new Error('programSettings is null');
+  if (!gameInstance) {
+    throw new Error('Active instance not found');
   }
+
+  return gameInstance;
 };
 
 /** * Re-load the Settings from file then retrieve the Active instance */
@@ -544,6 +542,7 @@ async function installEDHMmod(gameInstance) {
         }
       }
     }
+  }
 
     Response.game = GameType;
     Response.version = versionMatch[0];
@@ -881,8 +880,10 @@ async function DoHotFix() {
               };
             }
           }
+        } catch (error) {
+          console.log('Error Applying HotFix -> ', error.message);
         }
-      }
+      };
     }
   }
 };
@@ -895,48 +896,45 @@ async function ApplyTheme(themeName) {
     const themes = themeHelper.GetLoadedThemes();
     console.log('Loaded Themes:', themes.length);
 
-    if (themes && themes.length > 0 ) {
-      const themeIndex = themes.findIndex(t => t.credits.theme === themeName);
-      if (themeIndex >= 0) {
-        const themeTemplate = themes[themeIndex]; 
-        console.log('0. Applying Theme:', themeTemplate.credits.theme);
+    if (!themes || themes.length === 0) {
+      console.log('No Themes Loaded!');
+      return false;
+    }
 
-        const ActiveInstance = await getActiveInstance();
-        console.log('1. ActiveInstance:', ActiveInstance.instance);
+    const themeIndex = themes.findIndex(t => t.credits.theme === themeName);
+    if (themeIndex >= 0) {
+      const themeTemplate = themes[themeIndex]; 
+      console.log('0. Applying Theme:', themeTemplate.credits.theme);
 
-        const GamePath = path.join(ActiveInstance.path, 'EDHM-ini');
-        const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-        
-        console.log('2. Preparing all the Paths:', GamePath);
+      const ActiveInstance = await getActiveInstance();
+      console.log('1. ActiveInstance:', ActiveInstance.instance);
 
-        let template = JSON.parse(JSON.stringify(themeTemplate.theme));
-        template.path = GamePath;
-        console.log('3. Theme Template:', template.credits.theme);
+      const GamePath = path.join(ActiveInstance.path, 'EDHM-ini');
+      const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+      
+      console.log('2. Preparing all the Paths:', GamePath);
 
-        // Reusable function to apply Global/User settings:
-        async function applySettings(settings, template, counterName) {
-          try {
-            let counter = 0;
-            if (settings) {
-              settings.Elements.forEach(gblSets => {
-                let found = false;
-                if (template.ui_groups) {
-                  for (let i = 0; i < template.ui_groups.length - 1; i++) {
-                    const uiGrp = template.ui_groups[i];
-                    const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
-                    if (itemIndex >= 0) {
-                      const oldV = uiGrp.Elements[itemIndex].Value;
-                      uiGrp.Elements[itemIndex].Value = gblSets.Value;
-                      found = true;
-                      counter++;
-                      break; // Break out of the inner loop once updated
-                    }
-                  }
-                  if (!found) {
-                    // Item not found, add it to the second last ui_group:
-                    const lastGroup = template.ui_groups[template.ui_groups.length - 2];
-                    lastGroup.Elements.push(gblSets); // Add the whole item from settings
+      let template = JSON.parse(JSON.stringify(themeTemplate.theme));
+      template.path = GamePath;
+      console.log('3. Theme Template:', template.credits.theme);
+
+      // Reusable function to apply Global/User settings:
+      async function applySettings(settings, template, counterName) {
+        try {
+          let counter = 0;
+          if (settings) {
+            settings.Elements.forEach(gblSets => {
+              let found = false;
+              if (template.ui_groups) {
+                for (let i = 0; i < template.ui_groups.length - 1; i++) {
+                  const uiGrp = template.ui_groups[i];
+                  const itemIndex = uiGrp.Elements.findIndex(item => item.Key === gblSets.Key);
+                  if (itemIndex >= 0) {
+                    const oldV = uiGrp.Elements[itemIndex].Value;
+                    uiGrp.Elements[itemIndex].Value = gblSets.Value;
+                    found = true;
                     counter++;
+                    break; // Break out of the inner loop once updated
                   }
                 }
               });
@@ -959,6 +957,19 @@ async function ApplyTheme(themeName) {
           console.log('5. Get User Settings:', userSettings.Elements.length);
           await applySettings(userSettings, template, 'User Settings');
         }
+      }
+
+      // 4. Apply Global Settings
+      const globalSettings = await LoadGlobalSettings();
+      console.log('4. Global Settings:', globalSettings.Elements.length);
+      await applySettings(globalSettings, template, 'Global Settings');
+
+      // 5. Apply User Settings
+      const userSettings = await LoadUserSettings();
+      if (userSettings) {
+        console.log('5. Get User Settings:', userSettings.Elements.length);
+        await applySettings(userSettings, template, 'User Settings');
+      }
 
         console.log('6. Get Default Inis:');
         const defaultInisPath = fileHelper.getAssetPath(`data/${GameType}`);
@@ -983,13 +994,20 @@ async function ApplyTheme(themeName) {
         console.log('10. Theme Applied!');
         return true;
       }
-      else {
-        console.log('Theme Not Found!', themeName);
-        return false;
+
+      // ThemeSettings.json is the in-game reload signal, so write it only
+      // after every INI has been saved successfully.
+      const currentSettingsSaved = await themeHelper.SaveTheme(template);
+      console.log('9. Current Settings Saved?: ', currentSettingsSaved);
+      if (!currentSettingsSaved) {
+        throw new Error('Theme INIs were saved, but ThemeSettings.json could not be updated.');
       }
+
+      console.log('10. Theme Applied!');
+      return true;
     }
     else {
-      console.log('No Themes Loaded!');
+      console.log('Theme Not Found!', themeName);
       return false;
     }
 
