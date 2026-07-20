@@ -21,79 +21,74 @@ let LoadedThemes = null; //<- Cache for the loaded themes
  * @returns {Promise<Array>} A promise that resolves to an array of themes.
  */
 const getThemes = async (dirPath) => {
-  try {
-    // Get all Folders in the Themes Directory, each folder is a Theme:
-    const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
-    const files = [];
+  // Get all Folders in the Themes Directory, each folder is a Theme:
+  const subfolders = await fs.promises.readdir(dirPath, { withFileTypes: true });
+  const files = [];
 
-    //const ActiveInstance = await settingsHelper.getActiveInstance();
-    //const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ'; //<- Game Type: ODYSS or HORIZ
-    //const templatePath = FileHelper.getAssetPath(`data/${GameType}/ThemeTemplate.json`); //<- Default Template  
-    //const jsonTemplate = await FileHelper.loadJsonFile(templatePath); 
-    //template = await FixRecycledKeys(template, jsonTemplate);
+  //const ActiveInstance = await settingsHelper.getActiveInstance();
+  //const GameType = ActiveInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ'; //<- Game Type: ODYSS or HORIZ
+  //const templatePath = FileHelper.getAssetPath(`data/${GameType}/ThemeTemplate.json`); //<- Default Template  
+  //const jsonTemplate = await FileHelper.loadJsonFile(templatePath); 
+  //template = await FixRecycledKeys(template, jsonTemplate);
 
-    for (const dirent of subfolders) {
-      if (dirent.isDirectory()) {
-        const subfolderPath = path.join(dirPath, dirent.name); //<- Full Theme path
+  for (const dirent of subfolders) {
+    if (dirent.isDirectory()) {
+      const subfolderPath = path.join(dirPath, dirent.name); //<- Full Theme path
 
-        try {
-          // Here we Load the Data of the Theme either from the JSON (if present) or from the INIs:
-          var template = await LoadTheme(subfolderPath);
+      try {
+        // Here we Load the Data of the Theme either from the JSON (if present) or from the INIs:
+        var template = await LoadTheme(subfolderPath);
 
-          // Check if the folder contains a Large Preview file:
-          let preview_url = '';
-          if (FileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
-            preview_url = `file:///${path.join(subfolderPath, dirent.name + '.jpg')}`;
-          }
-
-          //- For Migration only, also comment the if on the JSON write below
-
-          // Assemble the Data to return:
-          files.push({
-            theme: template,
-            path: subfolderPath,
-            preview: preview_url,
-            thumbnail: 'PREVIEW.jpg',
-            credits: template.credits,
-            name: template.credits.theme,
-            isFavorite: template.isFavorite
-          });
-
-          // Writes the JSON in the theme folder:
-          if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
-            const JsonString = JSON.stringify(template, null, 4);            
-            await writeFile(
-              path.join(subfolderPath, 'ThemeSettings.json'),
-              JsonString,
-              { encoding: "utf8", flag: 'w' }
-            );
-          }
-
-          LoadedThemes = files; //<- Cache the loaded themes
-
-          // Theme Migration :
-          const ThemeCleansing = false; //<- Swap to 'true' to save the json and cleanse old files
-          try {
-            if (ThemeCleansing) {
-              // Sanitization: For Themes Exportings
-              FileHelper.deleteFilesByType(subfolderPath, '.ini');
-              FileHelper.deleteFilesByType(subfolderPath, '.credits');
-              FileHelper.deleteFilesByType(subfolderPath, '.fav');
-              //FileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
-            }
-          } catch { }
-
-        } catch (error) {
-          Log.Error(error.message, error.stack);
-          console.error(error);
+        // Check if the folder contains a Large Preview file:
+        let preview_url = '';
+        if (FileHelper.checkFileExists(path.join(subfolderPath, dirent.name + '.jpg'))) {
+          preview_url = `file:///${path.join(subfolderPath, dirent.name + '.jpg')}`;
         }
+
+        //- For Migration only, also comment the if on the JSON write below
+
+        // Assemble the Data to return:
+        files.push({
+          theme: template,
+          path: subfolderPath,
+          preview: preview_url,
+          thumbnail: 'PREVIEW.jpg',
+          credits: template.credits,
+          name: template.credits.theme,
+          isFavorite: template.isFavorite
+        });
+
+        // Writes the JSON in the theme folder:
+        if (!FileHelper.checkFileExists(path.join(subfolderPath, 'ThemeSettings.json'))) {
+          const JsonString = JSON.stringify(template, null, 4);            
+          await writeFile(
+            path.join(subfolderPath, 'ThemeSettings.json'),
+            JsonString,
+            { encoding: "utf8", flag: 'w' }
+          );
+        }
+
+        LoadedThemes = files; //<- Cache the loaded themes
+
+        // Theme Migration :
+        const ThemeCleansing = false; //<- Swap to 'true' to save the json and cleanse old files
+        try {
+          if (ThemeCleansing) {
+            // Sanitization: For Themes Exportings
+            FileHelper.deleteFilesByType(subfolderPath, '.ini');
+            FileHelper.deleteFilesByType(subfolderPath, '.credits');
+            FileHelper.deleteFilesByType(subfolderPath, '.fav');
+            //FileHelper.deleteFilesByType(subfolderPath, '.json'); //<- BEWARE !
+          }
+        } catch { }
+
+      } catch (error) {
+        Log.Error(error.message, error.stack);
+        console.error(error);
       }
     }
-    return files;
-
-  } catch (error) {
-    throw new Error(error.message + error.stack);
   }
+  return files;
 };
 
 function GetLoadedThemes() {
@@ -228,7 +223,7 @@ async function FavoriteTheme(themePath) {
     return _ret;
   } catch (error) {
     console.log(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 };
 /** Removes the given theme from Favorites * 
@@ -240,7 +235,7 @@ async function UnFavoriteTheme(themePath) {
     return _ret;
   } catch (error) {
     console.log(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 };
 
@@ -270,7 +265,7 @@ async function GetCurrentSettingsTheme(themePath) {
 
   } catch (error) {
     console.log(error.message + error.stack);
-    throw new Error(error.message + error.stack);
+    throw error;
   }*/
 };
 
@@ -316,7 +311,7 @@ async function CreateNewTheme(credits) {
     }
   } catch (error) {
     console.log(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 }
 
@@ -368,7 +363,7 @@ async function UpdateTheme(themeData, source) {
     }
   } catch (error) {
     console.log(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 }
 
@@ -393,7 +388,7 @@ async function SaveTheme(themeData) {
     }
   } catch (error) {
     console.log(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 }
 
@@ -402,7 +397,7 @@ async function DeleteTheme(themePath) {
     return FileHelper.deleteFolderRecursive(themePath);
   } catch (error) {
     console.log(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 }
 
@@ -451,7 +446,7 @@ async function ExportTheme(themeData) { //
     }
   } catch (error) {
     console.log(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 }
 /** Uncompress a ZIP file containing a Theme into the Themes folder * 
@@ -478,7 +473,7 @@ async function ImportTheme(zip_path) {
     }
   } catch (error) {
     console.error('Error at ThemeHelper/ImportTheme():', error);
-    throw new Error(error.message + error.stack);    
+    throw error;
   }
 }
 
@@ -569,83 +564,80 @@ async function RestoreCurrentSettings() {
  * @param {*} iniValues Values from the Ini file 
  * @returns template data with ini data applied */
 async function ApplyIniValuesToTemplate(template, iniValues) {
-  try {
-    if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
-      for (const group of template.ui_groups) {
-        if (group.Elements != null) {
-          for (const element of group.Elements) {
-            /*element: {
-              ..
-              File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
-              Section: 'Constants',     
-              Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-              Value: 100,
-              ..
-            }*/
-            const iniSection = element.Section;   //<- iniSection === 'constants'
-            const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
-            const defaultValue = element.Value;                 //<- 100.0             
-            const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
-            const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
+  if (Array.isArray(template.ui_groups) && template.ui_groups.length > 0) {
+    for (const group of template.ui_groups) {
+      if (group.Elements != null) {
+        for (const element of group.Elements) {
+          /*element: {
+            ..
+            File: 'Startup-Profile',  <- 'Startup-Profile', 'Advanced', 'SuitHud', 'XML-Profile'
+            Section: 'Constants',     
+            Key: 'x137',              <- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+            Value: 100,
+            ..
+          }*/
+          const iniSection = element.Section;   //<- iniSection === 'constants'
+          const iniKey = element.Key;                         //<- 'x157' or 'x159|y159|z159' or 'x159|y155|z153|w200'
+          const defaultValue = element.Value;                 //<- 100.0             
+          const iniFileName = element.File.replace(/-/g, ''); //<- Remove hyphens
+          const iniData = iniValues[iniFileName];             //<- 'StartupProfile', 'Advanced', 'SuitHud', 'XmlProfile'
 
-            if (iniData) {
-              try {
-                const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
-                //- Multi Key: Colors
-                if (Array.isArray(colorKeys) && colorKeys.length > 2) {                  
-                  let colorComponents = [];
-                  for (const [index, rgbKey] of colorKeys.entries()) {
-                    const iniValue = INIparser.getKey(iniData, iniSection, rgbKey);
-                    if (iniValue != undefined) {
-                      colorComponents.push(iniValue);           //<- colorComponents: [ '0.063', '0.7011', '1' ]
-                    } else {
-                      console.log(`404 - Ini Value Not Found: '${template.credits.theme}/${iniFileName}/${iniSection}/${rgbKey}'`);
-                    }
-                  }
-                  if (colorComponents != undefined && !colorComponents.includes(undefined) && colorComponents.length > 0) {
-                    const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
-                    element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
-                  }
-                } else { //- Single Key: Text, Numbers, etc.                  
-                  const iniValue = INIparser.getKey(iniData, iniSection, iniKey);
+          if (iniData) {
+            try {
+              const colorKeys = iniKey.split('|');            //<-  colorKeys [ 'x232', 'y232', 'z232' ]  OR [ 'x204', 'y204', 'z204', 'w204' ]
+              //- Multi Key: Colors
+              if (Array.isArray(colorKeys) && colorKeys.length > 2) {                  
+                let colorComponents = [];
+                for (const [index, rgbKey] of colorKeys.entries()) {
+                  const iniValue = INIparser.getKey(iniData, iniSection, rgbKey);
                   if (iniValue != undefined) {
-                    element.Value = parseFloat(iniValue ?? defaultValue);
+                    colorComponents.push(iniValue);           //<- colorComponents: [ '0.063', '0.7011', '1' ]
                   } else {
-                    console.log(`404 - Ini Value Not Found: '${template.credits.theme}/${iniFileName}/${iniSection}/${iniKey}'`);
-                    //- Fixing Black altitude labels:
-                    if (iniKey === "y109") {
-                      element.Value = 1;
-                    }
+                    console.log(`404 - Ini Value Not Found: '${template.credits.theme}/${iniFileName}/${iniSection}/${rgbKey}'`);
                   }
                 }
-              } catch (error) {
-                console.log('Error:', error);
+                if (colorComponents != undefined && !colorComponents.includes(undefined) && colorComponents.length > 0) {
+                  const color = Util.reverseGammaCorrectedList(colorComponents); //<- color: { r: 81, g: 220, b: 255, a: 255 }
+                  element.Value = parseFloat(Util.rgbaToInt(color).toFixed(1));
+                }
+              } else { //- Single Key: Text, Numbers, etc.                  
+                const iniValue = INIparser.getKey(iniData, iniSection, iniKey);
+                if (iniValue != undefined) {
+                  element.Value = parseFloat(iniValue ?? defaultValue);
+                } else {
+                  console.log(`404 - Ini Value Not Found: '${template.credits.theme}/${iniFileName}/${iniSection}/${iniKey}'`);
+                  //- Fixing Black altitude labels:
+                  if (iniKey === "y109") {
+                    element.Value = 1;
+                  }
+                }
               }
+            } catch (error) {
+              console.log('Error:', error);
             }
           }
         }
       }
     }
+  }
 
-    // Update the XMLs:
-    if (template.xml_profile && iniValues.XmlProfile) {
-      const iniData = iniValues.XmlProfile;  
-      //console.log('iniData: ', iniData);
-      //console.log('template.xml_profile: ', template.xml_profile);
-      for (const element of template.xml_profile) {
-        try {
-          const defaultValue = element.value;
-          const iniValue = INIparser.getKey(iniData, 'Constants', element.key); 
-          //console.log('iniValue: ', iniValue, 'defaultValue: ', defaultValue);
-          element.value = parseFloat(iniValue ?? defaultValue);
-        } catch (error) {
-          console.log(error);
-        }
+  // Update the XMLs:
+  if (template.xml_profile && iniValues.XmlProfile) {
+    const iniData = iniValues.XmlProfile;  
+    //console.log('iniData: ', iniData);
+    //console.log('template.xml_profile: ', template.xml_profile);
+    for (const element of template.xml_profile) {
+      try {
+        const defaultValue = element.value;
+        const iniValue = INIparser.getKey(iniData, 'Constants', element.key); 
+        //console.log('iniValue: ', iniValue, 'defaultValue: ', defaultValue);
+        element.value = parseFloat(iniValue ?? defaultValue);
+      } catch (error) {
+        console.log(error);
       }
     }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
   }
+
   return template;
 };
 
@@ -748,50 +740,45 @@ const getIniFilePath = (basePath, fileName) => {
  * @param {string} folderPath Full path to the Folder containing the INI files
  * @returns Object */
 const LoadThemeINIs = async (folderPath) => {
-  try {
-    const iniFiles = [
-      ['Startup-Profile.ini', 'StartupProfile'],
-      ['Advanced.ini', 'Advanced'],
-      ['SuitHud.ini', 'SuitHud'],
-      ['XML-Profile.ini', 'XmlProfile'],
-      ['Custom.ini', 'Custom'],
-    ];
-    const availableFiles = iniFiles.filter(([fileName]) =>
-      fs.existsSync(getIniFilePath(folderPath, fileName))
-    );
+  const iniFiles = [
+    ['Startup-Profile.ini', 'StartupProfile'],
+    ['Advanced.ini', 'Advanced'],
+    ['SuitHud.ini', 'SuitHud'],
+    ['XML-Profile.ini', 'XmlProfile'],
+    ['Custom.ini', 'Custom'],
+  ];
+  const availableFiles = iniFiles.filter(([fileName]) =>
+    fs.existsSync(getIniFilePath(folderPath, fileName))
+  );
 
-    if (availableFiles.length === 0) {
-      throw new Error(`No theme INI files were found in: ${folderPath}`);
-    }
-
-    const results = await Promise.all(
-      availableFiles.map(([fileName]) => INIparser.LoadIniFile(getIniFilePath(folderPath, fileName)))
-    );
-    const failedFiles = availableFiles
-      .filter((_, index) => !results[index])
-      .map(([fileName]) => fileName);
-
-    if (failedFiles.length > 0) {
-      throw new Error(`Failed to load theme INI files: ${failedFiles.join(', ')}`);
-    }
-
-    const loadedINIs = {
-      path: folderPath,
-      StartupProfile: null,
-      Advanced: null,
-      SuitHud: null,
-      XmlProfile: null,
-      Custom: null,
-    };
-    availableFiles.forEach(([, propertyName], index) => {
-      loadedINIs[propertyName] = results[index];
-    });
-
-    return loadedINIs;
-
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  if (availableFiles.length === 0) {
+    throw new Error(`No theme INI files were found in: ${folderPath}`);
   }
+
+  const results = await Promise.all(
+    availableFiles.map(([fileName]) => INIparser.LoadIniFile(getIniFilePath(folderPath, fileName)))
+  );
+  const failedFiles = availableFiles
+    .filter((_, index) => !results[index])
+    .map(([fileName]) => fileName);
+
+  if (failedFiles.length > 0) {
+    throw new Error(`Failed to load theme INI files: ${failedFiles.join(', ')}`);
+  }
+
+  const loadedINIs = {
+    path: folderPath,
+    StartupProfile: null,
+    Advanced: null,
+    SuitHud: null,
+    XmlProfile: null,
+    Custom: null,
+  };
+  availableFiles.forEach(([, propertyName], index) => {
+    loadedINIs[propertyName] = results[index];
+  });
+
+  return loadedINIs;
 };
 
 /** * Save the modified INI files back to their original location
@@ -829,7 +816,7 @@ const SaveThemeINIs = async (folderPath, themeINIs) => {
 
   } catch (error) {
     console.error('Error at ThemeHelper/SaveThemeINIs():', error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 };
 
@@ -930,7 +917,7 @@ ipcMain.handle('load-history', async (event, historyFolder, numberOfSavesToRemem
   } catch (error) {
     console.error('Failed to load history elements:', error);
     Log.Error(error.message, error.stack);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 });
 

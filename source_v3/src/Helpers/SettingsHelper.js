@@ -31,71 +31,65 @@ let installationStatus = InstallationStatus.EXISTING_INSTALL; // Default status
 /** * Check if the Settings JSON exists, if it does not, creates a default file and returns 'false'
  */
 export const initializeSettings = async () => {
-  try {
-    console.log('Initializing Settings...Main');
+  console.log('Initializing Settings...Main');
 
-    // Resolve the path to the primary settings file stored in LOCALAPPDATA
-    const primaryPath = fileHelper.resolveEnvVariables(
-      path.join('%LOCALAPPDATA%\\EDHM-UI-V3', 'Settings.json')
-    ); //console.log('primaryPath', primaryPath);
+  // Resolve the path to the primary settings file stored in LOCALAPPDATA
+  const primaryPath = fileHelper.resolveEnvVariables(
+    path.join('%LOCALAPPDATA%\\EDHM-UI-V3', 'Settings.json')
+  ); //console.log('primaryPath', primaryPath);
 
-    // If the primary settings file exists, load it and determine the actual program settings path
-    if (fileHelper.checkFileExists(primaryPath)) {
-      const PrimarySettings = await fileHelper.loadJsonFile(primaryPath); console.log('PrimarySettings', PrimarySettings);
-      programSettingsPath = path.join(
-        fileHelper.resolveEnvVariables(PrimarySettings.DataFolder),
-        'Settings.json'
-      );
-    };
-    console.log('programSettingsPath', programSettingsPath);
+  // If the primary settings file exists, load it and determine the actual program settings path
+  if (fileHelper.checkFileExists(primaryPath)) {
+    const PrimarySettings = await fileHelper.loadJsonFile(primaryPath); console.log('PrimarySettings', PrimarySettings);
+    programSettingsPath = path.join(
+      fileHelper.resolveEnvVariables(PrimarySettings.DataFolder),
+      'Settings.json'
+    );
+  };
+  console.log('programSettingsPath', programSettingsPath);
 
-    // Determine the directory where the program settings file should be stored
-    const userSettingsDir = path.dirname(programSettingsPath);
+  // Determine the directory where the program settings file should be stored
+  const userSettingsDir = path.dirname(programSettingsPath);
 
-    // Create the directory if it does not exist
-    if (!fs.existsSync(userSettingsDir)) {
-      fs.mkdirSync(userSettingsDir, { recursive: true });
-      console.log(`Created directory: ${userSettingsDir}`);
+  // Create the directory if it does not exist
+  if (!fs.existsSync(userSettingsDir)) {
+    fs.mkdirSync(userSettingsDir, { recursive: true });
+    console.log(`Created directory: ${userSettingsDir}`);
+  }
+
+  // If the program settings file does not exist, treat this as a new installation
+  if (!fs.existsSync(programSettingsPath)) {
+    // Ensure the default settings file exists before proceeding
+    if (!fs.existsSync(defaultSettingsPath)) {
+      throw new Error(`Default settings file not found at: ${defaultSettingsPath}`);
     }
 
-    // If the program settings file does not exist, treat this as a new installation
-    if (!fs.existsSync(programSettingsPath)) {
-      // Ensure the default settings file exists before proceeding
-      if (!fs.existsSync(defaultSettingsPath)) {
-        throw new Error(`Default settings file not found at: ${defaultSettingsPath}`);
-      }
+    // Mark installation status as new (no previous V3 settings found)
+    installationStatus = InstallationStatus.NEW_SETTINGS;
 
-      // Mark installation status as new (no previous V3 settings found)
-      installationStatus = InstallationStatus.NEW_SETTINGS;
+    // Load default settings from file
+    const defaultSettings = fs.readFileSync(defaultSettingsPath, 'utf8');
+    programSettings = JSON.parse(defaultSettings);
 
-      // Load default settings from file
-      const defaultSettings = fs.readFileSync(defaultSettingsPath, 'utf8');
-      programSettings = JSON.parse(defaultSettings);
+    // Set the user data folder path in the settings
+    programSettings.UserDataFolder = userSettingsDir;
 
-      // Set the user data folder path in the settings
-      programSettings.UserDataFolder = userSettingsDir;
+    // Update installation status to indicate a fresh V3 install
+    installationStatus = InstallationStatus.FRESH_INSTALL;
+    console.log('installationStatus:', installationStatus);
 
-      // Update installation status to indicate a fresh V3 install
-      installationStatus = InstallationStatus.FRESH_INSTALL;
-      console.log('installationStatus:', installationStatus);
+    // Save the default settings to the program settings file
+    fs.writeFileSync(programSettingsPath, JSON.stringify(programSettings, null, 4));
 
-      // Save the default settings to the program settings file
-      fs.writeFileSync(programSettingsPath, JSON.stringify(programSettings, null, 4));
+  } else {
+    // Existing settings found — load them
+    installationStatus = InstallationStatus.EXISTING_INSTALL;
+    programSettings = JSON.parse(fs.readFileSync(programSettingsPath, 'utf-8'));
 
-    } else {
-      // Existing settings found — load them
-      installationStatus = InstallationStatus.EXISTING_INSTALL;
-      programSettings = JSON.parse(fs.readFileSync(programSettingsPath, 'utf-8'));
+    // Ensure the user data folder path is set
+    programSettings.UserDataFolder = userSettingsDir;
 
-      // Ensure the user data folder path is set
-      programSettings.UserDataFolder = userSettingsDir;
-
-      console.log('Settings Loaded from Existing Instance.');
-    }
-
-  } catch (error) {
-    // Include both the error message and stack trace for easier debugging
-    throw new Error(error.message + error.stack);
+    console.log('Settings Loaded from Existing Instance.');
   }
 
   // Return the loaded or newly created settings object
@@ -106,38 +100,30 @@ export const initializeSettings = async () => {
  * @returns the settings data
  */
 const loadSettings = () => {
-  try {
-    if (!fs.existsSync(programSettingsPath)) {
-      throw new Error(`Program settings file not found at: ${programSettingsPath}`);
-    }
-    const data = fs.readFileSync(programSettingsPath, { encoding: "utf8", flag: 'r' });
-    //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
-
-    programSettings = JSON.parse(data);
-    programSettings.UserDataFolder = path.dirname(programSettingsPath); // Get the directory path   
-    return programSettings;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  if (!fs.existsSync(programSettingsPath)) {
+    throw new Error(`Program settings file not found at: ${programSettingsPath}`);
   }
+  const data = fs.readFileSync(programSettingsPath, { encoding: "utf8", flag: 'r' });
+  //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
+
+  programSettings = JSON.parse(data);
+  programSettings.UserDataFolder = path.dirname(programSettingsPath); // Get the directory path   
+  return programSettings;
 };
 
 /** * Save changes on the settings back to the JSON file
  * @param {*} settings must 'JSON.stringify' the object before sending it here  */
 async function saveSettings(settings) {
-  try {
-    //console.log(settings);
-    await writeFile(programSettingsPath, settings, { encoding: "utf8", flag: 'w' });
+  //console.log(settings);
+  await writeFile(programSettingsPath, settings, { encoding: "utf8", flag: 'w' });
 
-    //fs.writeFileSync(path, data, { encoding: "utf8", flag: 'a+' }); 
-    //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
+  //fs.writeFileSync(path, data, { encoding: "utf8", flag: 'a+' }); 
+  //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
 
-    programSettings = JSON.parse(settings); //<- Updates the Settings
-    console.log('Settings Saved Successfully');
+  programSettings = JSON.parse(settings); //<- Updates the Settings
+  console.log('Settings Saved Successfully');
 
-    return programSettings;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  return programSettings;
 };
 
 /** Returns the value of a setting from the settings JSON file. 
@@ -172,7 +158,7 @@ function writeSetting(key, value) {
     return true; // Indicate success
   } catch (error) {
     console.error('Error writing setting:', error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 };
 
@@ -181,72 +167,55 @@ function writeSetting(key, value) {
 // #region Global & User Settings
 
 async function LoadGlobalSettings() {
-  try {
+  const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/Global_Settings.json');
+  const _path_B = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
+  const _path_C = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
 
-    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/Global_Settings.json');
-    const _path_B = fileHelper.getAssetPath('data/ODYSS/Global_Settings.json');
-    const _path_C = fileHelper.getAssetPath('data/ODYSS/ThemeTemplate.json');
+  let data = {};
 
-    let data = {};
-
-    if (!fs.existsSync(_path_A)) {
-      const dataRaw = fs.readFileSync(_path_B, { encoding: "utf8", flag: 'r' });
-      data = JSON.parse(dataRaw);
-      fileHelper.writeJsonFile(_path_A, data, true);
-    } else {
-      const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
-      data = JSON.parse(dataRaw);
-    }
-
-    if (fs.existsSync(_path_C)) {
-      const dataRaw = fs.readFileSync(_path_C, { encoding: "utf8", flag: 'r' });
-      const dataProc = JSON.parse(dataRaw);
-      data.Presets = dataProc.Presets;
-    }
-
-    return data;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  if (!fs.existsSync(_path_A)) {
+    const dataRaw = fs.readFileSync(_path_B, { encoding: "utf8", flag: 'r' });
+    data = JSON.parse(dataRaw);
+    fileHelper.writeJsonFile(_path_A, data, true);
+  } else {
+    const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
+    data = JSON.parse(dataRaw);
   }
+
+  if (fs.existsSync(_path_C)) {
+    const dataRaw = fs.readFileSync(_path_C, { encoding: "utf8", flag: 'r' });
+    const dataProc = JSON.parse(dataRaw);
+    data.Presets = dataProc.Presets;
+  }
+
+  return data;
 };
 async function saveGlobalSettings(settings) {
-  try {
-    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/Global_Settings.json');
-    return fileHelper.writeJsonFile(_path_A, settings, true);
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/Global_Settings.json');
+  return fileHelper.writeJsonFile(_path_A, settings, true);
 };
 
 async function LoadUserSettings() {
-  try {
-    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/User_Settings.json');
-    var data = {};
-    if (fs.existsSync(_path_A)) {
-      const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
-      data = JSON.parse(dataRaw);
-    } else {
-      //404 - File doesnt exists
-      data = {
-        Name: "UserSettings",
-        Title: "User Settings",
-        Description: "These settings are preserved between upgrades and take precedence over any applied themes.",
-        Elements: []
-      };
-    }
-    return data;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/User_Settings.json');
+  var data = {};
+  if (fs.existsSync(_path_A)) {
+    const dataRaw = fs.readFileSync(_path_A, { encoding: "utf8", flag: 'r' });
+    data = JSON.parse(dataRaw);
+  } else {
+    //404 - File doesnt exists
+    data = {
+      Name: "UserSettings",
+      Title: "User Settings",
+      Description: "These settings are preserved between upgrades and take precedence over any applied themes.",
+      Elements: []
+    };
   }
+  return data;
 };
 async function saveUserSettings(settings) {
-  try {
-    const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/User_Settings.json');
-    fs.writeFileSync(_path_A, JSON.stringify(settings, null, 4));
-    return true;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  const _path_A = path.join(programSettings.UserDataFolder, 'ODYSS/User_Settings.json');
+  fs.writeFileSync(_path_A, JSON.stringify(settings, null, 4));
+  return true;
 };
 async function AddToUserSettings(newElement) {
   if (!newElement) {
@@ -288,24 +257,20 @@ async function AddToUserSettings(newElement) {
   }
 }
 async function RemoveFromUserSettings(elementToRemove) {
-  try {
-    var userSettings = await LoadUserSettings();
-    if (userSettings) {
-      // Check if an element with the same Key already exists
-      const indexToRemove = userSettings.Elements.findIndex(
-        element => element.Key === elementToRemove.Key
-      );
+  var userSettings = await LoadUserSettings();
+  if (userSettings) {
+    // Check if an element with the same Key already exists
+    const indexToRemove = userSettings.Elements.findIndex(
+      element => element.Key === elementToRemove.Key
+    );
 
-      if (indexToRemove !== -1) {
-        userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
-      } else {
-        console.log(`Element with key ${elementToRemove.Key} not found.`);
-      }
-
-      return saveUserSettings(userSettings);
+    if (indexToRemove !== -1) {
+      userSettings.Elements.splice(indexToRemove, 1); // Remove 1 element at the found index
+    } else {
+      console.log(`Element with key ${elementToRemove.Key} not found.`);
     }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+
+    return saveUserSettings(userSettings);
   }
 };
 
@@ -371,33 +336,8 @@ async function addNewInstance(NewInstancePath, settings) {
 
 /** * Retrives the Active Instance from the Settings */
 const getActiveInstance = () => {
-  try {
-    if (programSettings != null) {
-      //console.log('SettingsHelper.getActiveInstance.programSettings: ', programSettings);
-
-      const instanceName = programSettings.ActiveInstance;
-      const gameInstance = programSettings.GameInstances
-        .flatMap(instance => instance.games)
-        .find(game => game.instance === instanceName);
-
-      if (!gameInstance) {
-        throw new Error('Active instance not found');
-      }
-
-      return gameInstance;
-    } else {
-      throw new Error('programSettings is null');
-    }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
-};
-
-/** * Re-load the Settings from file then retrieve the Active instance */
-const getActiveInstanceEx = () => {
-  try {
-    loadSettings();
-    //console.log('programSettings', programSettings);
+  if (programSettings != null) {
+    //console.log('SettingsHelper.getActiveInstance.programSettings: ', programSettings);
 
     const instanceName = programSettings.ActiveInstance;
     const gameInstance = programSettings.GameInstances
@@ -409,113 +349,117 @@ const getActiveInstanceEx = () => {
     }
 
     return gameInstance;
-
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  } else {
+    throw new Error('programSettings is null');
   }
 };
 
+/** * Re-load the Settings from file then retrieve the Active instance */
+const getActiveInstanceEx = () => {
+  loadSettings();
+  //console.log('programSettings', programSettings);
+
+  const instanceName = programSettings.ActiveInstance;
+  const gameInstance = programSettings.GameInstances
+    .flatMap(instance => instance.games)
+    .find(game => game.instance === instanceName);
+
+  if (!gameInstance) {
+    throw new Error('Active instance not found');
+  }
+
+  return gameInstance;
+};
+
 const getInstanceByName = (InstanceFullName) => {
-  try {
-    const activeInstanceName = InstanceFullName.toString();
-    console.log('InstanceFullName', InstanceFullName);
+  const activeInstanceName = InstanceFullName.toString();
+  console.log('InstanceFullName', InstanceFullName);
 
-    if (programSettings != null) {
-      const gameInstance = programSettings.GameInstances
-        .flatMap(instance => instance.games)
-        .find(game => game.instance === activeInstanceName);
+  if (programSettings != null) {
+    const gameInstance = programSettings.GameInstances
+      .flatMap(instance => instance.games)
+      .find(game => game.instance === activeInstanceName);
 
-      if (!gameInstance) {
-        throw new Error('404 - Instance Name Not Found');
-      }
-
-      return gameInstance;
+    if (!gameInstance) {
+      throw new Error('404 - Instance Name Not Found');
     }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+
+    return gameInstance;
   }
 };
 
 /** Returns the path to Data directory for the given Instance .
  * @param {*} instanceKey Key of the Instance to get the path for. 'ED_Odissey' or 'ED_Horizons' */
 function GetInstanceDataDirectory(instanceKey) {
-  try {
-    const ProgramDataPath = fileHelper.resolveEnvVariables(
-      readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );
-    const GameType = instanceKey === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-    return path.join(ProgramDataPath, GameType);
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  const ProgramDataPath = fileHelper.resolveEnvVariables(
+    readSetting('UserDataFolder', '%USERPROFILE%\\EDHM_UI') );
+  const GameType = instanceKey === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+  return path.join(ProgramDataPath, GameType);
 }
 
 /** Returns the list of all installed TPMods on the Game Instance. 
  * @param {*} gamePath full path to the Game Instance */
 async function GetInstalledTPMods(gamePath) {
-  try {
-    const tpModsFolder = path.join(gamePath, 'EDHM-ini', '3rdPartyMods');
-    const results = { mods: [], errors: [] };
-    const files = await readdir(tpModsFolder); 
+  const tpModsFolder = path.join(gamePath, 'EDHM-ini', '3rdPartyMods');
+  const results = { mods: [], errors: [] };
+  const files = await readdir(tpModsFolder); 
 
-    for (const file of files) {
-      const fullPath = path.join(tpModsFolder, file);
-      const fileStats = await stat(fullPath); 
+  for (const file of files) {
+    const fullPath = path.join(tpModsFolder, file);
+    const fileStats = await stat(fullPath); 
 
-      if (fileStats.isDirectory()) {
-        //- Mods inside a Folder
-        const subfolderFiles = await readdir(fullPath);
-        const jsonFiles = subfolderFiles.filter(f => path.extname(f) === '.json');
+    if (fileStats.isDirectory()) {
+      //- Mods inside a Folder
+      const subfolderFiles = await readdir(fullPath);
+      const jsonFiles = subfolderFiles.filter(f => path.extname(f) === '.json');
 
-        for (const jsonFile of jsonFiles) {
-          const jsonFilePath = path.join(fullPath, jsonFile);
-          const baseName = path.basename(jsonFile, '.json');
-          try {            
-            const mod = {
-              path: fullPath,
-              basename: baseName,
+      for (const jsonFile of jsonFiles) {
+        const jsonFilePath = path.join(fullPath, jsonFile);
+        const baseName = path.basename(jsonFile, '.json');
+        try {            
+          const mod = {
+            path: fullPath,
+            basename: baseName,
 
-              file_json: jsonFilePath,
-              file_ini: path.join(fullPath, `${baseName}.ini`),
-              file_thumb: path.join(fullPath, `${baseName}.png`),
+            file_json: jsonFilePath,
+            file_ini: path.join(fullPath, `${baseName}.ini`),
+            file_thumb: path.join(fullPath, `${baseName}.png`),
 
-              data: await fileHelper.loadJsonFile(jsonFilePath),
-              data_ini: await INIparser.LoadIniFile(path.join(fullPath, `${baseName}.ini`)),
-            };
-            //console.log('INI:', mod.data_ini);
-            results.mods.push(mod);
-          } catch (error) {
-            results.errors.push({ msg: baseName + ': ' + error.message, stack: error.stack });
-            continue;
-          }
+            data: await fileHelper.loadJsonFile(jsonFilePath),
+            data_ini: await INIparser.LoadIniFile(path.join(fullPath, `${baseName}.ini`)),
+          };
+          //console.log('INI:', mod.data_ini);
+          results.mods.push(mod);
+        } catch (error) {
+          results.errors.push({ msg: baseName + ': ' + error.message, stack: error.stack });
+          continue;
         }
-      } else {
-        //- Lose mods on the root
-        if (path.extname(file) === '.json') {
-          try {
-            const baseName = path.basename(file, '.json');
-            const mod = {
-              path: tpModsFolder,
-              basename: baseName,
+      }
+    } else {
+      //- Lose mods on the root
+      if (path.extname(file) === '.json') {
+        try {
+          const baseName = path.basename(file, '.json');
+          const mod = {
+            path: tpModsFolder,
+            basename: baseName,
 
-              file_json: fullPath,
-              file_ini: path.join(tpModsFolder, `${baseName}.ini`),
-              file_thumb: path.join(tpModsFolder, `${baseName}.png`),
+            file_json: fullPath,
+            file_ini: path.join(tpModsFolder, `${baseName}.ini`),
+            file_thumb: path.join(tpModsFolder, `${baseName}.png`),
 
-              data: await fileHelper.loadJsonFile(fullPath),
-              data_ini: await INIparser.LoadIniFile(path.join(tpModsFolder, `${baseName}.ini`))
-            };
-            results.mods.push(mod);
-          } catch (error) {
-            results.errors.push({ msg: error.message, stack: error.stack });
-            continue;
-          }
+            data: await fileHelper.loadJsonFile(fullPath),
+            data_ini: await INIparser.LoadIniFile(path.join(tpModsFolder, `${baseName}.ini`))
+          };
+          results.mods.push(mod);
+        } catch (error) {
+          results.errors.push({ msg: error.message, stack: error.stack });
+          continue;
         }
       }
     }
-    return results;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
   }
+  return results;
 };
 
 // #endregion
@@ -527,129 +471,122 @@ async function GetInstalledTPMods(gamePath) {
 async function installEDHMmod(gameInstance) {
   console.log('------ Installing Mod --------');
   let Response = { game: '', version: '' };
-  try {
-    // #region Declarations
+  // #region Declarations
     
-    if (!Util.isNotNullOrEmpty(gameInstance.path)) { throw new Error('Instance.path Not Defined!');  }
+  if (!Util.isNotNullOrEmpty(gameInstance.path)) { throw new Error('Instance.path Not Defined!');  }
 
-    const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
-    const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);     //console.log('AssetsPath', AssetsPath);
-    const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
-    let gamePath = gameInstance.path;
-    if (Array.isArray(gamePath) && gamePath.length > 0 && Util.isNotNullOrEmpty(gamePath[0])) {
-      gamePath = gamePath[0]; // Use the first item
+  const GameType = gameInstance.key === 'ED_Odissey' ? 'ODYSS' : 'HORIZ';
+  const AssetsPath = fileHelper.getAssetPath(`data/${GameType}`);     //console.log('AssetsPath', AssetsPath);
+  const userDataPath = fileHelper.resolveEnvVariables(programSettings.UserDataFolder);
+  let gamePath = gameInstance.path;
+  if (Array.isArray(gamePath) && gamePath.length > 0 && Util.isNotNullOrEmpty(gamePath[0])) {
+    gamePath = gamePath[0]; // Use the first item
+  }
+  
+  // #endregion
+
+  // #region Un-Zipping Themes
+
+  const unzipPath = path.join(userDataPath, GameType);
+  const themesZipPath = path.join(AssetsPath, `${GameType}_EDHM-Themes.zip`); //<- ODYSS_EDHM-Themes.zip
+  console.log('Unziping Themes From: ', themesZipPath);
+  if (themesZipPath) {
+    const _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
+    if (_ret) {
+      console.log('Themes Installed ->', unzipPath);
     }
+  }
+
+  // #endregion
+
+  // #region SymLinks
+
+    try {
+    console.log('Checking for Symlinks in Game Path: ', gamePath);
     
-    // #endregion
+    const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM');   
 
-    // #region Un-Zipping Themes
+    const edhmSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'EDHM-Ini'));
+    const shaderSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'ShaderFixes'));
 
-    const unzipPath = path.join(userDataPath, GameType);
-    const themesZipPath = path.join(AssetsPath, `${GameType}_EDHM-Themes.zip`); //<- ODYSS_EDHM-Themes.zip
-    console.log('Unziping Themes From: ', themesZipPath);
-    if (themesZipPath) {
-      const _ret = await fileHelper.decompressFile(themesZipPath, unzipPath);
-      if (_ret) {
-        console.log('Themes Installed ->', unzipPath);
-      }
-    }
+    const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gamePath, 'EDHM-ini'));
+    const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gamePath, 'ShaderFixes'));
 
-    // #endregion
+    console.log('Symlink for EDHM-Ini:', SymlinkEdhmIni);
+    console.log('Symlink for ShaderFixes:', SymlinkShaders);
+    
+  } catch (error) {
+    console.error('Error creating symlinks:', error.message);
+  }
 
-    // #region SymLinks
+  // #endregion
 
-      try {
-      console.log('Checking for Symlinks in Game Path: ', gamePath);
-      
-      const Symlink_TargetFolder = path.join(userDataPath, GameType, 'EDHM');   
+  // #region Un-Zipping Mod Files
 
-      const edhmSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'EDHM-Ini'));
-      const shaderSymLinkTarget = fileHelper.ensureDirectoryExists(path.join(Symlink_TargetFolder, 'ShaderFixes'));
+  const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM-v*.zip`); //<- ODYSS_EDHM-v19.06.zip
+  if (edhmZipFile) {
+    console.log('Unzipping Mod Files from: ', edhmZipFile);
+    const unzipGamePath = gamePath;
+    const versionMatch = edhmZipFile.match(/v\d+\.\d+/); 
 
-      const SymlinkEdhmIni = await fileHelper.ensureSymlink(edhmSymLinkTarget, path.join(gamePath, 'EDHM-ini'));
-      const SymlinkShaders = await fileHelper.ensureSymlink(shaderSymLinkTarget, path.join(gamePath, 'ShaderFixes'));
+    const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
 
-      console.log('Symlink for EDHM-Ini:', SymlinkEdhmIni);
-      console.log('Symlink for ShaderFixes:', SymlinkShaders);
-      
-    } catch (error) {
-      console.error('Error creating symlinks:', error.message);
-    }
-
-    // #endregion
-
-    // #region Un-Zipping Mod Files
-
-    const edhmZipFile = await fileHelper.findFileWithPattern(AssetsPath, `${GameType}_EDHM-v*.zip`); //<- ODYSS_EDHM-v19.06.zip
-    if (edhmZipFile) {
-      console.log('Unzipping Mod Files from: ', edhmZipFile);
-      const unzipGamePath = gamePath;
-      const versionMatch = edhmZipFile.match(/v\d+\.\d+/); 
-
-      const _ret = await fileHelper.decompressFile(edhmZipFile, unzipGamePath);
-
-      // Installing EDHM means returning both proxy DLLs to the enabled state.
-      // Remove stale disabled copies only after the complete pair was extracted.
-      const enabledPairInstalled = await Promise.all(
-        EDHM_DLL_FILES.map(({ enabled }) => fileExists(path.join(gamePath, enabled)))
-      );
-      if (_ret && enabledPairInstalled.every(Boolean)) {
-        for (const { disabled } of EDHM_DLL_FILES) {
-          const disabledPath = path.join(gamePath, disabled);
-          if (await fileExists(disabledPath)) {
-            await unlink(disabledPath);
-          }
+    // Installing EDHM means returning both proxy DLLs to the enabled state.
+    // Remove stale disabled copies only after the complete pair was extracted.
+    const enabledPairInstalled = await Promise.all(
+      EDHM_DLL_FILES.map(({ enabled }) => fileExists(path.join(gamePath, enabled)))
+    );
+    if (_ret && enabledPairInstalled.every(Boolean)) {
+      for (const { disabled } of EDHM_DLL_FILES) {
+        const disabledPath = path.join(gamePath, disabled);
+        if (await fileExists(disabledPath)) {
+          await unlink(disabledPath);
         }
       }
-
-      Response.game = GameType;
-      Response.version = versionMatch[0];
-
-    } else {
-      throw new Error('404 - Zip File Not Found');
     }
 
-    // #endregion
+    Response.game = GameType;
+    Response.version = versionMatch[0];
 
-    // #region Copy the images folder to a more accessible location: '%USERPROFILE%\EDHM_UI\images'
-    
-    let _Source = fileHelper.getAssetPath(`images`);
-    let _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'images'));
-    //console.log(`Copying Images from '${_Source}' to '${_Destiny}'`);
-    let _ret = await fileHelper.copyDirectoryRecursive(
-      _Source,
-      _Destiny
-    );
-    console.log(`Image Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
-
-    _Source = fileHelper.getAssetPath(`data/HUD`);
-    _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'HUD'));
-    _ret = await fileHelper.copyDirectoryRecursive(
-      _Source,
-      _Destiny
-    );
-    console.log(`HUD Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
-
-    _Source = fileHelper.getAssetPath(`data/ODYSS/Global_Settings.json`);
-    _Destiny = path.join(userDataPath, 'ODYSS', 'Global_Settings.json');
-    await fileHelper.copyFile(_Source, _Destiny, false);
-
-    // #endregion
-
-    console.log(`------ EDHM ${Response.version} Installed! ------`);
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  } else {
+    throw new Error('404 - Zip File Not Found');
   }
+
+  // #endregion
+
+  // #region Copy the images folder to a more accessible location: '%USERPROFILE%\EDHM_UI\images'
+  
+  let _Source = fileHelper.getAssetPath(`images`);
+  let _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'images'));
+  //console.log(`Copying Images from '${_Source}' to '${_Destiny}'`);
+  let _ret = await fileHelper.copyDirectoryRecursive(
+    _Source,
+    _Destiny
+  );
+  console.log(`Image Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
+
+  _Source = fileHelper.getAssetPath(`data/HUD`);
+  _Destiny = fileHelper.ensureDirectoryExists(path.join(userDataPath, 'HUD'));
+  _ret = await fileHelper.copyDirectoryRecursive(
+    _Source,
+    _Destiny
+  );
+  console.log(`HUD Files copied: ${_ret.files}, Directories copied: ${_ret.directories}`);
+
+  _Source = fileHelper.getAssetPath(`data/ODYSS/Global_Settings.json`);
+  _Destiny = path.join(userDataPath, 'ODYSS', 'Global_Settings.json');
+  await fileHelper.copyFile(_Source, _Destiny, false);
+
+  // #endregion
+
+  console.log(`------ EDHM ${Response.version} Installed! ------`);
+
   return Response;
 };
 
 
 async function CheckEDHMinstalled(gamePath) {
-  try {
-    return fileHelper.checkFileExists(path.join(gamePath, 'd3dx.ini'));
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  return fileHelper.checkFileExists(path.join(gamePath, 'd3dx.ini'));
 };
 
 /** Removes all EDHM Files and Folders from the Game path. * 
@@ -709,7 +646,7 @@ async function UninstallEDHMmod(gameInstance) {
 
   } catch (error) {
     console.error('Error during uninstallation:', error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 
   return fileDeleted;
@@ -849,108 +786,104 @@ async function ToggleEDHMmod(gameInstance) {
 
 /** This are actions to be run after an App Update is applied and Before EDHM mod is installed. */
 async function DoHotFix() {
-  try {
-    const hotfixJsonPath = fileHelper.getAssetPath('data/EDHM_HOTFIX.json');
-    if (hotfixJsonPath) {
-      const hotFix = fileHelper.loadJsonFile(hotfixJsonPath);
-      if (hotFix) {
-        console.log('------ Applying HotFixes --------');
-        const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
-        const UI_DOCUMENTS = programSettings.UserDataFolder; // fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
-        const GameInstances = readSetting('GameInstances');
+  const hotfixJsonPath = fileHelper.getAssetPath('data/EDHM_HOTFIX.json');
+  if (hotfixJsonPath) {
+    const hotFix = fileHelper.loadJsonFile(hotfixJsonPath);
+    if (hotFix) {
+      console.log('------ Applying HotFixes --------');
+      const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
+      const UI_DOCUMENTS = programSettings.UserDataFolder; // fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
+      const GameInstances = readSetting('GameInstances');
 
-        if (GameInstances?.length > 0) {
-          for (const instance of GameInstances) {
-            for (const game of instance.games) {
-              if (game.path && game.path !== '') {
+      if (GameInstances?.length > 0) {
+        for (const instance of GameInstances) {
+          for (const game of instance.games) {
+            if (game.path && game.path !== '') {
 
-                console.log('------ Applying HotFixes on ', game.instance);
-                const GamePath = game.path;
+              console.log('------ Applying HotFixes on ', game.instance);
+              const GamePath = game.path;
 
-                for (const _job of hotFix.active_jobs) {
+              for (const _job of hotFix.active_jobs) {
 
-                  //- 1. Start by Resolving path Variables:
-                  _job.file_path = _job.file_path.replace("%GAME_PATH%", GamePath);
-                  _job.file_path = _job.file_path.replace("%UI_PATH%", AppExePath);
-                  _job.file_path = _job.file_path.replace("%UI_DOCS%", UI_DOCUMENTS);
-                  if (!Util.isEmpty(_job.destination)) {
-                    _job.destination = _job.destination.replace("%GAME_PATH%", GamePath);
-                    _job.destination = _job.destination.replace("%UI_PATH%", AppExePath);
-                  }
+                //- 1. Start by Resolving path Variables:
+                _job.file_path = _job.file_path.replace("%GAME_PATH%", GamePath);
+                _job.file_path = _job.file_path.replace("%UI_PATH%", AppExePath);
+                _job.file_path = _job.file_path.replace("%UI_DOCS%", UI_DOCUMENTS);
+                if (!Util.isEmpty(_job.destination)) {
+                  _job.destination = _job.destination.replace("%GAME_PATH%", GamePath);
+                  _job.destination = _job.destination.replace("%UI_PATH%", AppExePath);
+                }
 
-                  //- 2. Resolve the Job Actions:
-                  try {
-                    const folder_path = path.dirname(_job.file_path); //Obtiene el Path: (Sin archivo ni extension:
-                    const file_name = path.basename(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
+                //- 2. Resolve the Job Actions:
+                try {
+                  const folder_path = path.dirname(_job.file_path); //Obtiene el Path: (Sin archivo ni extension:
+                  const file_name = path.basename(_job.file_path); //<- Nombre del Archivo con Extension (Sin Ruta)
 
-                    switch (_job.action) {
-                      
-                      case "COPY": //Copia un Archivo o Directorio de un lugar a otro, acepta comodines
-                        console.log('- COPY: ' + file_name + ' -> ' + path.dirname(_job.destination));
+                  switch (_job.action) {
+                    
+                    case "COPY": //Copia un Archivo o Directorio de un lugar a otro, acepta comodines
+                      console.log('- COPY: ' + file_name + ' -> ' + path.dirname(_job.destination));
+                      await fileHelper.copyFile(_job.file_path, _job.destination, false);
+                      break;
+
+                    case "DEL": //Borra un Archivo
+                      console.log('- DEL: ' + _job.file_path);
+                      //Borra archivos usando comodines
+                      if (file_name.includes("*")) {
+                        await fileHelper.deleteFilesByWildcard(_job.file_path);
+                      }
+                      else {
+                        //Borra el archivo indicado, si existe
+                        fileHelper.deleteFileByAbsolutePath(_job.file_path);
+                      }
+                      break;
+
+                    case "REPLACE": //Copia el Archivo sólo si existe previamente
+                      console.log('- REPLACE: ' + file_name + ' -> ' + path.dirname(_job.destination));
+                      if (fs.existsSync(_job.file_path) && fs.existsSync(_job.destination)) {
                         await fileHelper.copyFile(_job.file_path, _job.destination, false);
-                        break;
+                      }
+                      break;
 
-                      case "DEL": //Borra un Archivo
-                        console.log('- DEL: ' + _job.file_path);
-                        //Borra archivos usando comodines
-                        if (file_name.includes("*")) {
-                          await fileHelper.deleteFilesByWildcard(_job.file_path);
+                    case "MOVE": //Mueve un Archivo de un lugar a otro, acepta comodines
+                      console.log('- MOVE: ' + file_name + ' -> ' + path.dirname(_job.destination));
+                      if (fs.existsSync(_job.file_path)) {
+                        if (!fs.existsSync(path.dirname(_job.destination))) {
+                          Directory.CreateDirectory(path.dirname(_job.destination));
                         }
-                        else {
-                          //Borra el archivo indicado, si existe
-                          fileHelper.deleteFileByAbsolutePath(_job.file_path);
-                        }
-                        break;
+                        await fileHelper.copyFile(_job.file_path, _job.destination, true);
+                      }
+                      break;
 
-                      case "REPLACE": //Copia el Archivo sólo si existe previamente
-                        console.log('- REPLACE: ' + file_name + ' -> ' + path.dirname(_job.destination));
-                        if (fs.existsSync(_job.file_path) && fs.existsSync(_job.destination)) {
-                          await fileHelper.copyFile(_job.file_path, _job.destination, false);
-                        }
-                        break;
+                    case "RMDIR": //Borra un Directorio y todo su contenido
+                      console.log('- RMDIR: ', _job.file_path);
+                      await fileHelper.deleteFolderRecursive(_job.file_path);
+                      break;
 
-                      case "MOVE": //Mueve un Archivo de un lugar a otro, acepta comodines
-                        console.log('- MOVE: ' + file_name + ' -> ' + path.dirname(_job.destination));
-                        if (fs.existsSync(_job.file_path)) {
-                          if (!fs.existsSync(path.dirname(_job.destination))) {
-                            Directory.CreateDirectory(path.dirname(_job.destination));
-                          }
-                          await fileHelper.copyFile(_job.file_path, _job.destination, true);
-                        }
-                        break;
+                    case "RMDIR-EX": //Borra las Carpetas de un Directorio salvo las Execpciones
+                      //El nombre del directorio Raiz va en 'file_path', ej: "file_path":"%UI_DOCS%\\ODYSS",
+                      //Las Excepciones van en 'destination', solo los nombres separados x comas. ej:  "destination":"Themes,History"
+                      console.log('- RMDIR-EX: ', folder_path, _job.destination);
+                      await fileHelper.deleteDirectoriesExcept(_job.file_path, _job.destination);
+                      break;
 
-                      case "RMDIR": //Borra un Directorio y todo su contenido
-                        console.log('- RMDIR: ', _job.file_path);
-                        await fileHelper.deleteFolderRecursive(_job.file_path);
-                        break;
+                    case "MVDIR": //Mueve un Directorio de un lugar a otro
+                      console.log('- MVDIR: ', folder_path, _job.destination);
+                      await fileHelper.moveDirectory(_job.file_path, _job.destination);
+                      break;
 
-                      case "RMDIR-EX": //Borra las Carpetas de un Directorio salvo las Execpciones
-                        //El nombre del directorio Raiz va en 'file_path', ej: "file_path":"%UI_DOCS%\\ODYSS",
-                        //Las Excepciones van en 'destination', solo los nombres separados x comas. ej:  "destination":"Themes,History"
-                        console.log('- RMDIR-EX: ', folder_path, _job.destination);
-                        await fileHelper.deleteDirectoriesExcept(_job.file_path, _job.destination);
-                        break;
-
-                      case "MVDIR": //Mueve un Directorio de un lugar a otro
-                        console.log('- MVDIR: ', folder_path, _job.destination);
-                        await fileHelper.moveDirectory(_job.file_path, _job.destination);
-                        break;
-
-                      default:
-                        break;
-                    }
-                  } catch (error) {
-                    console.log('Error Applying HotFix -> ', error.message);
+                    default:
+                      break;
                   }
-                };
-              }
+                } catch (error) {
+                  console.log('Error Applying HotFix -> ', error.message);
+                }
+              };
             }
           }
         }
       }
     }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
   }
 };
 
@@ -1062,7 +995,7 @@ async function ApplyTheme(themeName) {
 
   } catch (error) {
     console.log(error.message); // Check if the error message is defined 
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 };
 
@@ -1243,14 +1176,14 @@ ipcMain.handle('GetEDHMStatus', async (event, gameInstance) => {
   try {
     return await GetEDHMStatus(gameInstance);
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error.message + error.stack);
   }
 });
 ipcMain.handle('ToggleEDHMmod', async (event, gameInstance) => {
   try {
     return await ToggleEDHMmod(gameInstance);
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error.message + error.stack);
   }
 });
 // Backwards-compatible alias for older renderer bundles.
@@ -1258,7 +1191,7 @@ ipcMain.handle('DisableEDHMmod', async (event, gameInstance) => {
   try {
     return await ToggleEDHMmod(gameInstance);
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error.message + error.stack);
   }
 });
 

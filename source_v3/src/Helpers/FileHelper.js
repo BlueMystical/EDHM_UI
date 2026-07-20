@@ -117,37 +117,32 @@ function createWindowsShortcut(CustomIcon) {
 }
 
 function createLinuxShortcut() {
-  try {
-    const homeDir = os.homedir();
-    const desktopFilePath = path.join(homeDir, 'Desktop', 'edhm-ui-v3.desktop');
-    const appsFilePath = path.join(homeDir, '.local', 'share', 'applications', 'edhm-ui-v3.desktop');
-    const execPath = app.getPath('exe');
-    const iconPath = getAssetPath('images/icon.png');
+  const homeDir = os.homedir();
+  const desktopFilePath = path.join(homeDir, 'Desktop', 'edhm-ui-v3.desktop');
+  const appsFilePath = path.join(homeDir, '.local', 'share', 'applications', 'edhm-ui-v3.desktop');
+  const execPath = app.getPath('exe');
+  const iconPath = getAssetPath('images/icon.png');
 
-    console.log('Attempting to create a Shortcut at ' + desktopFilePath);
+  console.log('Attempting to create a Shortcut at ' + desktopFilePath);
 
-    const desktopFileContent = `
-        [Desktop Entry]
-        Encoding=UTF-8
-        Name=edhm-ui-v3
-        Exec=${execPath}
-        Icon=${iconPath}
-        Terminal=false
-        Type=Application
-        Comment=Mod for Elite Dangerous to customize the HUD of any ship.
-        StartupNotify=true
-        Categories=Utility;`;
+  const desktopFileContent = `
+      [Desktop Entry]
+      Encoding=UTF-8
+      Name=edhm-ui-v3
+      Exec=${execPath}
+      Icon=${iconPath}
+      Terminal=false
+      Type=Application
+      Comment=Mod for Elite Dangerous to customize the HUD of any ship.
+      StartupNotify=true
+      Categories=Utility;`;
 
-    //fs.writeFileSync(desktopFilePath, desktopFileContent); //<- Linux Desktop icos is made by the installer script
-    fs.writeFileSync(appsFilePath, desktopFileContent);
-    fs.chmodSync(desktopFilePath, '755');
-    fs.chmodSync(appsFilePath, '755');
+  //fs.writeFileSync(desktopFilePath, desktopFileContent); //<- Linux Desktop icos is made by the installer script
+  fs.writeFileSync(appsFilePath, desktopFileContent);
+  fs.chmodSync(desktopFilePath, '755');
+  fs.chmodSync(appsFilePath, '755');
 
-    console.log('Shortcut created successfully');
-
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  console.log('Shortcut created successfully');
 }
 
 /** Copies the given text to the clipboard.
@@ -173,28 +168,20 @@ function copyToClipboard(text) {
  * @param {string} assetPath The relative path to the asset (e.g., 'data/Settings.json', 'images/icon.png', 'public/windows_installer.bat').
  * @returns {string} The absolute path to the asset. */
 function getAssetPath(assetPath) {
-  try {
-    if (process.env.NODE_ENV === 'development') {
-      if (assetPath.startsWith('public')) {
-        return path.join(__dirname, '../../', assetPath); // Dev path
-      } else {
-        return path.join(__dirname, '../../src', assetPath); // Dev path
-      }
+  if (process.env.NODE_ENV === 'development') {
+    if (assetPath.startsWith('public')) {
+      return path.join(__dirname, '../../', assetPath); // Dev path
     } else {
-      return path.join(process.resourcesPath, assetPath); // Correct Prod path
+      return path.join(__dirname, '../../src', assetPath); // Dev path
     }
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  } else {
+    return path.join(process.resourcesPath, assetPath); // Correct Prod path
   }
 }
 function getAssetUrl(assetPath) {
-  try {
-    const resolvedPath = getAssetPath(assetPath);
-    const fileUrl = url.pathToFileURL(resolvedPath).toString();
-    return fileUrl;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  const resolvedPath = getAssetPath(assetPath);
+  const fileUrl = url.pathToFileURL(resolvedPath).toString();
+  return fileUrl;
 }
 
 function getActiveInstanceDirectory() {
@@ -244,15 +231,11 @@ function getActiveInstanceDirectory() {
 /** If the Directory doesn't exist, it is created.
  * @param {*} DirectoryPath Path to the Directory. */
 function ensureDirectoryExists(DirectoryPath) {
-  try {
-    const resolvedPath = resolveEnvVariables(DirectoryPath);
-    if (!fs.existsSync(resolvedPath)) {
-      fs.mkdirSync(resolvedPath, { recursive: true });
-    }
-    return resolvedPath;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
+  const resolvedPath = resolveEnvVariables(DirectoryPath);
+  if (!fs.existsSync(resolvedPath)) {
+    fs.mkdirSync(resolvedPath, { recursive: true });
   }
+  return resolvedPath;
 };
 
 /** Verifies is a File or Directory Exists
@@ -614,32 +597,7 @@ ensureSymlink('/ruta/al/target', '/ruta/al/symlink')
 }
 
 async function ShowOpenDialog(options) {
-  /*   USAGE: 
- const options = {
-     title: '',  //The dialog title. Cannot be displayed on some Linux desktop
-     defaultPath: '', //Absolute directory path, absolute file path, or file name to use by default.
-     buttonLabel : '',  //(optional) - Custom label for the confirmation button      
-     filters: [
-       { name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif'] }
-       { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
-       { name: 'ZIP Files', extensions: ['zip'] },
-       { name: 'All Files', extensions: ['*'] }
-     ],
-     //--- Choose only one: 'openFile', 'openDirectory':
-     properties: ['openFile', 'openDirectory', 'multiSelections', 'showHiddenFiles', 'createDirectory', 'promptToCreate', 'dontAddToRecent'],
-     message: 'This message will only be shown on macOS', // (optional)
-   }; 
-   const filePath = await window.api.ShowOpenDialog(options);
-   if (filePath) {
-     this.config.PlayerJournal = filePath[0];
-   }
- */
-  try {
-    const result = dialog.showOpenDialogSync(options);
-    return result;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  return dialog.showOpenDialogSync(options);
 }
 
 /** * Shows a save dialog and returns the file path if the user did not hit the Cancel button. 
@@ -669,12 +627,8 @@ Another way:
         }); 
         console.log('Destination: ', Destination);
   */
-  try {
-    const result = dialog.showSaveDialogSync(options);
-    return result ? result : null;
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  const result = dialog.showSaveDialogSync(options);
+  return result ? result : null;
 }
 
 // #endregion
@@ -706,16 +660,11 @@ const loadJsonFile = (filePath) => {
  * @param {boolean} [prettyPrint=true] Whether to pretty-print the JSON output. */
 const writeJsonFile = (filePath, data, prettyPrint = true) => {
   const resolvedPath = resolveEnvVariables(filePath);
-  try {
-    ensureDirectoryExists(path.dirname(resolvedPath)); // Ensure parent directory exists
+  ensureDirectoryExists(path.dirname(resolvedPath)); // Ensure parent directory exists
 
-    const options = prettyPrint ? 4 : null;
-    fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
-    return true;
-
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  const options = prettyPrint ? 4 : null;
+  fs.writeFileSync(resolvedPath, JSON.stringify(data, null, options));
+  return true;
 };
 
 
@@ -724,20 +673,15 @@ const writeJsonFile = (filePath, data, prettyPrint = true) => {
 // #region Images
 
 function SaveImageAsJpeg(base64Data, filePath) {
-  try {
-    // Remove the base64 header if present
-    const base64String = base64Data.replace(/^data:image\/jpeg;base64,/, '');
+  // Remove the base64 header if present
+  const base64String = base64Data.replace(/^data:image\/jpeg;base64,/, '');
 
-    // Decode base64 string to buffer
-    const buffer = Buffer.from(base64String, 'base64');
+  // Decode base64 string to buffer
+  const buffer = Buffer.from(base64String, 'base64');
 
-    // Write the buffer to disk as a JPEG file
-    fs.writeFileSync(filePath, buffer);
-    return true;
-
-  } catch (error) {
-    throw new Error(error.message + error.stack);
-  }
+  // Write the buffer to disk as a JPEG file
+  fs.writeFileSync(filePath, buffer);
+  return true;
 };
 
 /** Takes a base64 image and writes it as a JPG image file
@@ -763,7 +707,7 @@ async function base64ToJpg(base64Image, outputPath) {
     });
   } catch (error) {
     console.error(error);
-    throw new Error(error.message + error.stack);
+    throw error;
   }
 };
 
