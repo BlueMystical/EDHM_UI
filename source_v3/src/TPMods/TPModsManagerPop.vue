@@ -29,7 +29,7 @@
                                                         @click="onSelectMod(mod)"
                                                         :aria-expanded="index === 0 ? 'true' : 'false'"
                                                         :aria-controls="'collapse-' + index">
-                                                        <img :src="mod.isActive ? mod.thumbnail_url : getGrayscaleImage(mod)"
+                                                        <img :src="getModThumbnail(mod)" @error="onModImageError($event, mod)"
                                                             :alt="mod.mod_name" class="img-thumbnail"
                                                             :style="{ filter: mod.isActive ? 'none' : 'grayscale(100%)' }"
                                                             aria-label="Thumbnail of {{ mod.mod_name }}" />
@@ -48,7 +48,7 @@
                                                                 :class="{ 'selected': child.mod_name === selectedModBasename }"
                                                                 @click="onSelectMod(child)"
                                                                 @contextmenu="onRightClick($event, child)">                                                                >
-                                                                <img :src="child.isActive ? child.thumbnail_url : getGrayscaleImage(child)"
+                                                                <img :src="getModThumbnail(child)" @error="onModImageError($event, child)"
                                                                     :alt="child.mod_name" class="img-thumbnail"
                                                                     :style="{ filter: child.isActive ? 'none' : 'grayscale(100%)' }"
                                                                     aria-label="Thumbnail of {{ child.mod_name }}" />
@@ -93,14 +93,15 @@
                                             <hr>
                                             <h5>Version {{ alert.version }}</h5>
                                             <p v-html="alert.changes" class="mb-0"></p>
-                                            <br><img :src="alert.thumbnail" width="200" height="60" alt="...">
+                                            <br><img :src="alert.thumbnail" @error="onModImageError($event, selectedMod)"
+                                                width="200" height="60" alt="...">
                                         </div>
 
                                         <!-- Alert to show the 'Read Me' information of the selected mod -->
                                         <div v-show="showInfo" class="alert alert-light alert-dismissible" role="alert">
                                             <button type="button" class="btn-close" aria-label="Close"
                                                 @click="closeInfo"></button>
-                                            <div v-html="infoMessage"></div>
+                                            <div v-html="infoMessage" @error.capture="onReadMeImageError"></div>
                                         </div>
 
                                         <!-- The actual Properties of the selected Mod -->
@@ -189,6 +190,11 @@
 import EventBus from '../EventBus.js';
 import TPModProperties from './TPProperties.vue';
 import Util from '../Helpers/Utils.js';
+import {
+    TP_MOD_DEFAULT_IMAGE_FALLBACK,
+    TP_MOD_IMAGE_FALLBACKS,
+    TP_MOD_THUMBNAIL_FALLBACKS,
+} from './TPModImageFallbacks.mjs';
 
 
 
@@ -218,6 +224,8 @@ export default {
             ModsCounter: 0,
             TEMP_FOLDER: '',
             THEME_SETTINGS_PATH: '',
+            bundledFallbackUrlsByAsset: {},
+            defaultFallbackImageUrl: '',
 
             selectedMod: null,
             selectedModBasename: null, // Para rastrear el mod seleccionado
@@ -257,6 +265,8 @@ export default {
                 this.showAlert = false;
                 this.showSpinner = true;
                 this.statusText = 'Initializing..';
+
+                await this.loadBundledImageFallbacks();
 
                 this.THEME_SETTINGS_PATH = window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini', 'ThemeSettings.json');
                 console.log('THEME_SETTINGS_PATH', this.THEME_SETTINGS_PATH);
@@ -308,6 +318,8 @@ export default {
                                 mod_version: mod.mod_version,
                                 download_url: mod.download_url,
                                 thumbnail_url: mod.thumbnail_url,
+                                fallback_thumbnail_url: this.getBundledThumbnailFallback(mod.mod_name, mod.thumbnail_url),
+                                useFallbackThumbnail: false,
                                 changelog: mod.changelog,
 
                                 file_json: null,
@@ -368,6 +380,8 @@ export default {
                                 mod_version: "1.0",
                                 download_url: "",
                                 thumbnail_url: iMod.file_thumb,
+                                fallback_thumbnail_url: this.getBundledThumbnailFallback(iMod.data.mod_name, iMod.file_thumb),
+                                useFallbackThumbnail: false,
                                 isActive: true,
                                 file_json: iMod.file_json,
                                 file_ini: iMod.file_ini,
@@ -479,14 +493,89 @@ export default {
             this.statusText = '';
         },
 
+        async loadBundledImageFallbacks() {
+            if (this.defaultFallbackImageUrl) {
+                return;
+            }
+
+            try {
+                const assetPaths = new Set([
+                    TP_MOD_DEFAULT_IMAGE_FALLBACK,
+                    ...Object.values(TP_MOD_THUMBNAIL_FALLBACKS),
+                    ...Object.values(TP_MOD_IMAGE_FALLBACKS),
+                ]);
+                const resolvedAssets = await Promise.all(
+                    [...assetPaths].map(async (assetPath) => [assetPath, await window.api.getAssetFileUrl(assetPath)])
+                );
+
+                this.bundledFallbackUrlsByAsset = Object.fromEntries(resolvedAssets);
+                this.defaultFallbackImageUrl = this.bundledFallbackUrlsByAsset[TP_MOD_DEFAULT_IMAGE_FALLBACK];
+            } catch (error) {
+                // Preserve the existing remote-image behavior if packaged asset resolution fails.
+                console.error('Failed to initialize 3PMods image fallbacks:', error);
+            }
+        },
+
+        getBundledThumbnailFallback(modName, thumbnailUrl) {
+            const assetPath = TP_MOD_THUMBNAIL_FALLBACKS[modName]
+                || TP_MOD_IMAGE_FALLBACKS[thumbnailUrl]
+                || TP_MOD_DEFAULT_IMAGE_FALLBACK;
+            return this.bundledFallbackUrlsByAsset[assetPath] || this.defaultFallbackImageUrl;
+        },
+
+        getBundledImageFallback(sourceUrl, mod = this.selectedMod) {
+            const assetPath = TP_MOD_IMAGE_FALLBACKS[sourceUrl];
+            if (assetPath && this.bundledFallbackUrlsByAsset[assetPath]) {
+                return this.bundledFallbackUrlsByAsset[assetPath];
+            }
+            return mod?.fallback_thumbnail_url || this.defaultFallbackImageUrl;
+        },
+
+        getModThumbnail(mod) {
+            if (!mod) {
+                return this.defaultFallbackImageUrl;
+            }
+            const source = mod.useFallbackThumbnail ? mod.fallback_thumbnail_url : mod.thumbnail_url;
+            return mod.isActive ? source : this.getGrayscaleImage(mod);
+        },
+
+        onModImageError(event, mod) {
+            const image = event?.target;
+            const fallbackUrl = mod?.fallback_thumbnail_url || this.defaultFallbackImageUrl;
+            if (!image || !fallbackUrl || image.src === fallbackUrl) {
+                return;
+            }
+
+            if (mod) {
+                mod.useFallbackThumbnail = true;
+                mod.grayscaleBase64 = null;
+                mod.grayscaleSource = null;
+            }
+            image.src = fallbackUrl;
+        },
+
+        onReadMeImageError(event) {
+            const image = event?.target;
+            if (!image || image.tagName !== 'IMG') {
+                return;
+            }
+
+            const sourceUrl = image.getAttribute('src') || image.src;
+            const fallbackUrl = this.getBundledImageFallback(sourceUrl);
+            if (fallbackUrl && image.src !== fallbackUrl) {
+                image.src = fallbackUrl;
+            }
+        },
+
         getGrayscaleImage(mod) {
-            if (mod.grayscaleBase64) {
+            const imageUrl = mod.useFallbackThumbnail ? mod.fallback_thumbnail_url : mod.thumbnail_url;
+            if (mod.grayscaleBase64 && mod.grayscaleSource === imageUrl) {
                 return mod.grayscaleBase64;
-            } else if (mod.thumbnail_url) {
+            } else if (imageUrl) {
                 // If grayscaleBase64 isn't available, dynamically generate it
-                return this.convertToGrayscale(mod.thumbnail_url, mod);
+                return this.convertToGrayscale(imageUrl, mod);
             } else {
-                return null; // Or a placeholder image
+                return mod.fallback_thumbnail_url || this.defaultFallbackImageUrl;
             }
         },
         convertToGrayscale(imageUrl, mod) {
@@ -512,7 +601,12 @@ export default {
                 ctx.putImageData(imageData, 0, 0);
                 const grayscaleBase64 = canvas.toDataURL();
                 mod.grayscaleBase64 = grayscaleBase64; // store for later use.
+                mod.grayscaleSource = imageUrl;
                 this.$forceUpdate();
+            };
+
+            img.onerror = () => {
+                // The rendered <img> will switch to its packaged fallback.
             };
 
             img.src = imageUrl;
