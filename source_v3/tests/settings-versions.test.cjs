@@ -14,6 +14,7 @@ function fixture(t) {
   const oldSettings = { Version_ODYSS: 'v22.01', Version_HORIZ: 'v1.52b', FirstRun: false, FontSize: '16px' };
   fs.writeFileSync(settingsPath, JSON.stringify(oldSettings));
   const handlers = new Map();
+  let cancelledReloads = 0;
   const fileHelper = {
     getAssetPath: relative => path.join(assets, relative.replace(/^data[\\/]/, '')),
     resolveEnvVariables: () => settingsPath,
@@ -29,6 +30,7 @@ function fixture(t) {
         if (id.startsWith('node:') || ['fs', 'fs/promises'].includes(id)) return require(id);
         if (id.includes('FileHelper')) return fileHelper;
         if (id.includes('ModBundle')) return load(path.resolve(path.dirname(filename), id));
+        if (id.includes('ThemeReloadSignal')) return {themeReloadSignal:{cancel(){cancelledReloads++;}}};
         return {};
       },
     }, { filename });
@@ -38,6 +40,7 @@ function fixture(t) {
   return {
     helper, handlers, oldSettings, settingsPath, directory,
     getModBundle: load(path.resolve(__dirname, '../src/Helpers/ModBundle.js')).getModBundle,
+    get cancelledReloads() { return cancelledReloads; },
   };
 }
 
@@ -50,6 +53,21 @@ test('Existing settings use bundled versions even when FirstRun is false', async
   assert.equal(helper.readSetting('Version_ODYSS'), 'v22.02');
   assert.equal(handlers.get('get-settings')().Version_ODYSS, 'v22.02');
   assert.equal(helper.loadSettings().Version_ODYSS, 'v22.02');
+});
+
+test('Changing game instances cancels pending reloads through each settings write path', async t => {
+  const f = fixture(t);
+  await f.helper.initializeSettings();
+  f.helper.writeSetting('ActiveInstance', 'Odyssey');
+  assert.equal(f.cancelledReloads, 1);
+  f.helper.writeSetting('ActiveInstance', 'Odyssey');
+  assert.equal(f.cancelledReloads, 1, 'Unchanged selection must not cancel a valid retry');
+  await f.helper.saveSettings(JSON.stringify({...f.helper.loadSettings(),ActiveInstance:'Horizons'}));
+  assert.equal(f.cancelledReloads, 2);
+  const settings=JSON.parse(fs.readFileSync(f.settingsPath,'utf8'));
+  settings.ActiveInstance='Odyssey';fs.writeFileSync(f.settingsPath,JSON.stringify(settings));
+  f.helper.loadSettings();
+  assert.equal(f.cancelledReloads, 3);
 });
 
 test('Saving an older renderer copy cannot restore stale version metadata', async t => {

@@ -652,7 +652,7 @@ export default {
           EventBus.emit('RoastMe', {
             type: 'Warning',
             title: 'EDHM Installation Needs Attention',
-            message: `<b>Theme: '${template.credits.theme}' Applied!</b><br>` +
+            message: `<b>Theme '${template.credits.theme}' saved.</b><br>` +
               'One or more required EDHM DLL files are missing or duplicated, so the game may not load this theme. ' +
               'Reinstall EDHM or correct the DLL filenames before your next game launch.',
           });
@@ -660,14 +660,15 @@ export default {
           EventBus.emit('RoastMe', {
             type: 'Warning',
             title: 'EDHM Disabled',
-            message: `<b>Theme: '${template.credits.theme}' Applied!</b><br>` +
+            message: `<b>Theme '${template.credits.theme}' saved.</b><br>` +
               'EDHM is currently disabled, so the game cannot load this theme. ' +
               'Enable EDHM before your next game launch to see the changes.',
           });
         } else {
           EventBus.emit('RoastMe', {
             type: 'Success',
-            message: `<b>Theme: '${template.credits.theme}' Applied!`,
+            message: `<b>Theme '${template.credits.theme}' saved; reload requested.</b><br>` +
+              'Allow a few seconds for the game to update.',
           });
         }
         return true;
