@@ -1,12 +1,12 @@
 <template>
     <div class="data-table table-responsive" ref="dataTable" v-if="groupedElements.length > 0">
-        <div v-for="(group, groupIndex) in groupedElements" :key="groupIndex">
+        <div v-for="(group, groupIndex) in groupedElements" :key="group.category">
             <p class="category-name">{{ group.category }}</p>
             <table class="table table-bordered table-hover align-middle">
                 <tbody>
 
                     <!-- Table Row -->
-                    <tr v-for="(element, elementIndex) in group.elements" :key="elementIndex" :id="'row-' + element.Key"
+                    <tr v-for="(element, elementIndex) in group.elements" :key="element.Key" :id="'row-' + element.Key"
                         @mouseover="showIcon(groupIndex, elementIndex)" @mouseleave="hideIcon(groupIndex, elementIndex)"
                         @click="selectRow(element.Key)" :class="rowClass(element)"
                         @contextmenu="onRightClick($event, element)">

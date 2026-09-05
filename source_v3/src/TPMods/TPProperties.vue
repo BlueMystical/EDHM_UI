@@ -5,7 +5,7 @@
             <table class="table table-bordered table-hover align-middle">
                 <tbody>
                     <!-- Table Row -->                    
-                    <tr v-for="(key, keyIndex) in section.keys" :key="keyIndex" :id="'row-' + key.key"
+                    <tr v-for="(key, keyIndex) in section.keys" :key="key.key" :id="'row-' + key.key"
                         @mouseover="showIcon(sectionIndex, keyIndex)" @mouseleave="hideIcon(sectionIndex, keyIndex)"
                         @click="selectRow(key.key)" :class="rowClass(key)" @contextmenu="onRightClick($event, key)"
                         v-show="isKeyVisible(key)">
