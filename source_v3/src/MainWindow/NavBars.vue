@@ -1183,6 +1183,7 @@ export default {
           theme.path = GamePath;
           const saved = await window.api.SaveTheme(theme);
           console.log('Current Settings Saved?: ', saved);
+          if (saved) EventBus.emit('CurretSettingsUpdated');
         }
       }
     },

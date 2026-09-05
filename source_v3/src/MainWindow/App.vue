@@ -674,6 +674,7 @@ export default {
         EventBus.emit('OnXmlChanged', { xml: JSON.parse(JSON.stringify(this.themeTemplate.xml_profile)) }); //<- Event Listen in 'NavBars.vue'
 
         if (_ret) {
+          EventBus.emit('CurretSettingsUpdated');
           EventBus.emit('RoastMe', { type: 'Success', message: `XML changes saved to Current Settings.<br>Use Save Theme from the main window to update '${this.themeTemplate.credits.theme}'.` });
         }
       } catch (error) {
