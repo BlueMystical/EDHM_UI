@@ -35,6 +35,27 @@ function instance(component, extra = {}) {
   return result;
 }
 
+test('Successful property and XML saves refresh the current-settings identity', async () => {
+  const events = [];
+  const template = {credits:{theme:'Dark Wolf'},ui_groups:[{Name:'HUD',Elements:[]}],
+    xml_profile:['x150','y150','z150','x151','y151','z151','x152','y152','z152'].map(key=>({key,value:0}))};
+  const globals = {
+    EventBus:{emit:(...args)=>events.push(args)},
+    window:{api:{joinPath:(...parts)=>parts.join('/'),SaveTheme:async()=>true,
+      getActiveInstance:async()=>({path:'game'})}},
+  };
+  const nav=instance(loadComponent('NavBars.vue',globals),{themeTemplate:template,ActiveInstance:{path:'game'}});
+  await nav.OnThemeValuesChanged({Name:'HUD',Elements:[{Key:'color',Value:123}]});
+  assert.equal(events.filter(([name])=>name==='CurretSettingsUpdated').length,1);
+  const app=instance(loadComponent('App.vue',globals),{themeTemplate:template});
+  await app.onXmlEditorClosed([[1,0,0],[0,1,0],[0,0,1]]);
+  assert.equal(events.filter(([name])=>name==='CurretSettingsUpdated').length,2);
+  globals.window.api.SaveTheme=async()=>false;
+  await nav.OnThemeValuesChanged({Name:'HUD',Elements:[]});
+  await app.onXmlEditorClosed([[1,0,0],[0,1,0],[0,0,1]]);
+  assert.equal(events.filter(([name])=>name==='CurretSettingsUpdated').length,2,'Failed saves must not advertise new state');
+});
+
 test('Add New Theme confirms inside the app before starting the editor', async () => {
   const events = [];
   let nativeDialogs = 0;
