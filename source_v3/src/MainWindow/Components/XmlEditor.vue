@@ -6,7 +6,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">XML Editor [ {{ themeName }} ]</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="cancel"></button>
         </div>
         <div class="modal-body">
           <div class="row h-50">
@@ -173,8 +173,9 @@
 
                     <div class="row" style="height: 50px;">
                       <div class="col d-flex justify-content-center align-items-center">Custom Color</div>
-                      <div class="col border" :style="{ 'background-color': colorTranform[4].default }">
-                        <input type="color" v-model="colorTranform[4].default" @input="onColorChange">
+                      <div class="col custom-color-cell">
+                        <input type="color" class="custom-color-picker" aria-label="Choose custom color"
+                          v-model="colorTranform[4].default" @input="onColorChange">
                       </div>
                       <div class="col">→</div>
                       <div class="col border" :style="{ 'background-color': colorTranform[4].hex }"></div>
@@ -199,7 +200,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" @click="cancel">Cancel</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="save">Apply Changes</button>
           </div>
         </div><!--/Footer-->
@@ -230,6 +231,7 @@ export default {
       gamma: ref(1.0),
       saturation: ref(1.0),
       themeName: '', //For Dialog's Title
+      appliedCustomColor: '#008000',
       colorTranform: [
         { id: 'Orange', default: '#FFA500', rgb: '255;165;0', hex: '#FFA500' },
         { id: 'White', default: '#FFFFFF', rgb: '255;255;255', hex: '#FFFFFF' },
@@ -268,13 +270,19 @@ export default {
       return labels[colIndex];
     },
     ShowModal(data) {
+      this.colorTranform[4].default = this.appliedCustomColor;
       this.sliderValues = data.matrix.map(row => [...row]); // ✅ copia profunda
       this.themeName = data.name;
       const myModal = new bootstrap.Modal('#XmlEditorModal', { keyboard: false });
       this.parseColorMatrix();
       myModal.show();
     },
+    cancel() {
+      this.colorTranform[4].default = this.appliedCustomColor;
+      this.TransformXMLColors();
+    },
     save() {
+      this.appliedCustomColor = this.colorTranform[4].default;
       // Clonar profundo ANTES de resetear
       const matrixToSave = this.sliderValues.map(row => [...row]);
       console.log('Saving matrix:', matrixToSave);
@@ -665,6 +673,36 @@ void main() {
 }
 </script>
 <style scoped>
+.custom-color-cell {
+  position: relative;
+}
+
+.custom-color-picker {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 2px solid orange;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.custom-color-picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.custom-color-picker::-webkit-color-swatch {
+  border: 0;
+}
+
+.custom-color-picker:focus-visible {
+  outline: 2px solid orange;
+  outline-offset: 2px;
+}
+
 #image-tab-pane {
   overflow: hidden;
   padding-top: 80px;
