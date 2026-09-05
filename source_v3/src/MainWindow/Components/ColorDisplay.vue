@@ -54,9 +54,15 @@ export default {
         this.initializePicker();
     },
     watch: {
-        color(newColor, oldColor) {
-            //console.log(`Color changed from ${oldColor} to ${newColor}`);
+        color(newColor) {
+            // User edits already updated both states; avoid re-parsing their color.
+            if (newColor === this.intColor) return;
             this.updateColor(newColor);
+            // Vue can update a field while the picker keeps its own color state.
+            // Synchronize silently so loading a value does not become a user edit.
+            if (this.pickerInstance) {
+                this.pickerInstance.setColor(this.hex, true);
+            }
         },
     },
     emits: ['OncolorChanged', 'OnRecentColorsChange'],
@@ -74,20 +80,22 @@ export default {
                     recentColors: this.recentColors, //<- ['#ff0000ff', '#00ff00ff', '#0000ff0A']
                     cancelButton: false,
 
-                    onChange: (color) => {
-                        this.updateColor(Util.hexToSignedInt(color.hex));
-                    },
                     onRecentColorsChange: (colors) => {
                         this.$emit('OnRecentColorsChange', colors); //<- Event Listener at 'PropertiesTabEx.vue' --> App.vue
                     }
                 });
+                // The constructor sets its initial color through onChange, so
+                // subscribe afterwards to emit only subsequent user edits.
+                this.pickerInstance.onChange = (color) => {
+                    this.updateColor(Util.hexToSignedInt(color.hex), true);
+                };
                 //this.pickerInstance.setRecentColors(this.recentColors); //<- ['#ff0000', '#00ff00', '#0000ff']
 
             } catch (error) {
                 console.log(error);
             }
         },
-        updateColor(colorInt) {
+        updateColor(colorInt, emitChange = false) {
             this.intColor = colorInt;
             this.rgbaString = Util.intToRGBAstring(colorInt); //<- for color box
             this.hex = Util.intToHexColor(colorInt);
@@ -98,8 +106,9 @@ export default {
                 this.$forceUpdate();
             });
 
-            // Emit the event with the new color:
-            this.$emit('OncolorChanged', { int: colorInt, hex: this.hex, rgba: this.rgba });
+            if (emitChange) {
+                this.$emit('OncolorChanged', { int: colorInt, hex: this.hex, rgba: this.rgba });
+            }
         },
     },
     beforeUnmount() {
