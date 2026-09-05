@@ -127,7 +127,7 @@ test('Installing the bundled Odyssey update refreshes the footer to its version'
     .filter(name => /^ODYSS_EDHM-v\d+\.\d+\.zip$/.test(name));
   assert.equal(bundles.length, 1);
   const bundledVersion = bundles[0].match(/v\d+\.\d+/)[0];
-  assert.equal(packageData.version, '3.0.80');
+  assert.equal(packageData.version, '3.0.71');
   assert.equal(settings.Version_ODYSS, bundledVersion);
   const events = [];
   const globals = {
