@@ -198,7 +198,8 @@
       </div>
     </nav> <!-- Bottom Navbar -->
 
-    <div id="NewThemeModal" class="modal fade" tabindex="-1" aria-labelledby="NewThemeModalLabel"
+    <!-- Immediate dismissal keeps rapid confirmation clicks out of Bootstrap's opening transition. -->
+    <div id="NewThemeModal" class="modal" tabindex="-1" aria-labelledby="NewThemeModalLabel"
       aria-describedby="NewThemeModalDescription" aria-hidden="true" data-bs-theme="dark">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-light">
