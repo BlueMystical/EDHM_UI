@@ -29,7 +29,7 @@
                                                         @click="onSelectMod(mod)"
                                                         :aria-expanded="index === 0 ? 'true' : 'false'"
                                                         :aria-controls="'collapse-' + index">
-                                                        <img :src="mod.isActive ? mod.thumbnail_url : getGrayscaleImage(mod)"
+                                                        <img :src="mod.thumbnail_url || placeholderImage" @error="onThumbnailError"
                                                             :alt="mod.mod_name" class="img-thumbnail"
                                                             :style="{ filter: mod.isActive ? 'none' : 'grayscale(100%)' }"
                                                             aria-label="Thumbnail of {{ mod.mod_name }}" />
@@ -48,7 +48,7 @@
                                                                 :class="{ 'selected': child.mod_name === selectedModBasename }"
                                                                 @click="onSelectMod(child)"
                                                                 @contextmenu="onRightClick($event, child)">                                                                >
-                                                                <img :src="child.isActive ? child.thumbnail_url : getGrayscaleImage(child)"
+                                                                <img :src="child.thumbnail_url || placeholderImage" @error="onThumbnailError"
                                                                     :alt="child.mod_name" class="img-thumbnail"
                                                                     :style="{ filter: child.isActive ? 'none' : 'grayscale(100%)' }"
                                                                     aria-label="Thumbnail of {{ child.mod_name }}" />
@@ -93,7 +93,8 @@
                                             <hr>
                                             <h5>Version {{ alert.version }}</h5>
                                             <p v-html="alert.changes" class="mb-0"></p>
-                                            <br><img :src="alert.thumbnail" width="200" height="60" alt="...">
+                                            <br><img :src="alert.thumbnail || placeholderImage" @error="onThumbnailError"
+                                                width="200" height="60" alt="Mod thumbnail" style="object-fit: contain;">
                                         </div>
 
                                         <!-- Alert to show the 'Read Me' information of the selected mod -->
@@ -189,6 +190,7 @@
 import EventBus from '../EventBus.js';
 import TPModProperties from './TPProperties.vue';
 import Util from '../Helpers/Utils.js';
+import placeholderImage from '../images/3PM_Default.png';
 
 
 
@@ -209,6 +211,7 @@ export default {
     },
     data() {
         return {
+            placeholderImage,
             visible: false,
             showSpinner: false,        //<- Flag to Show/hide the Loading Spinner            
             statusText: 'Ready.',
@@ -479,45 +482,12 @@ export default {
             this.statusText = '';
         },
 
-        getGrayscaleImage(mod) {
-            if (mod.grayscaleBase64) {
-                return mod.grayscaleBase64;
-            } else if (mod.thumbnail_url) {
-                // If grayscaleBase64 isn't available, dynamically generate it
-                return this.convertToGrayscale(mod.thumbnail_url, mod);
-            } else {
-                return null; // Or a placeholder image
+        onThumbnailError(event) {
+            const image = event.target;
+            // Do not loop if the packaged fallback itself cannot be loaded.
+            if (image.getAttribute('src') !== this.placeholderImage) {
+                image.src = this.placeholderImage;
             }
-        },
-        convertToGrayscale(imageUrl, mod) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const img = new Image();
-
-            img.onload = () => {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-
-                for (let i = 0; i < data.length; i += 4) {
-                    const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-                    data[i] = avg; // red
-                    data[i + 1] = avg; // green
-                    data[i + 2] = avg; // blue
-                }
-
-                ctx.putImageData(imageData, 0, 0);
-                const grayscaleBase64 = canvas.toDataURL();
-                mod.grayscaleBase64 = grayscaleBase64; // store for later use.
-                this.$forceUpdate();
-            };
-
-            img.src = imageUrl;
-
-            return imageUrl; // return the original url until the conversion is finished.
         },
 
         /** Replaces the <image> tags with standard tags and fix the url of the image. 
@@ -968,6 +938,8 @@ ul {
 .img-thumbnail {
   width: 100%;
   height: auto;
+  aspect-ratio: 200 / 60;
+  object-fit: contain;
   background-color: transparent;
   margin: 0; /* Remove margin */
   padding: 0; /* Remove padding */
