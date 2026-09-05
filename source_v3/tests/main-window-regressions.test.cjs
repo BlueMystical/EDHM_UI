@@ -3,6 +3,7 @@ const { readFileSync } = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { test } = require('node:test');
+const { spawnSync } = require('node:child_process');
 const { parse } = require('@vue/compiler-sfc');
 const { transformSync } = require('esbuild');
 
@@ -34,6 +35,15 @@ function instance(component, extra = {}) {
   }
   return result;
 }
+
+test('New Theme confirmation handles rapid Yes and dismissal without a transition race', { timeout: 30000 }, () => {
+  const env = { ...process.env };
+  delete env.ELECTRON_RUN_AS_NODE;
+  const result = spawnSync(require('electron'), [path.join(__dirname, 'theme-confirmation.electron.cjs')], {
+    env, encoding: 'utf8', timeout: 25000, windowsHide: true,
+  });
+  assert.equal(result.status, 0, `${result.error || ''}\n${result.stdout}\n${result.stderr}`);
+});
 
 test('Choosing a searched theme clears Favorites and reveals the selected item', async () => {
   const writes = [], scrolled = [], events = [];
