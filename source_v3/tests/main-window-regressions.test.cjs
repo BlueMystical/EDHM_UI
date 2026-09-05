@@ -35,6 +35,55 @@ function instance(component, extra = {}) {
   return result;
 }
 
+test('Choosing a searched theme clears Favorites and reveals the selected item', async () => {
+  const writes = [], scrolled = [], events = [];
+  let list;
+  const globals = {
+    document: {
+      querySelectorAll: () => [],
+      getElementById: id => list.images.some(theme => id === `image-${theme.id}`)
+        ? { scrollIntoView: () => scrolled.push(id) } : null,
+    },
+    EventBus: { emit(name, data) {
+      events.push([name, data]);
+      if (name === 'FilterThemes') list.FilterThemes(data);
+      if (name === 'OnSelectTheme') list.OnSelectTheme(data);
+    } },
+    window: { api: { writeSetting: async (...args) => writes.push(args) } },
+  };
+  const themes = [
+    { id: 0, name: 'Current Settings', file: { isFavorite: true } },
+    { id: 1, name: 'Dark Wolf', file: { isFavorite: false } },
+  ];
+  list = instance(loadComponent('ThemeTab.vue', globals), {
+    themes, $nextTick: callback => Promise.resolve().then(callback),
+  });
+  list.FilterThemes(true);
+  const nav = instance(loadComponent('NavBars.vue', globals), {
+    showFavorites: true, programSettings: { FavToogle: true },
+  });
+  const app = instance(loadComponent('App.vue', globals), { $refs: { navBars: nav } });
+  await app.OnSearchBox_Click({ Parent: 'Themes', Tag: themes[1] });
+  assert.ok(list.images.includes(themes[1]), 'The searched theme must be visible, not hidden by Favorites');
+  assert.equal(list.selectedImageId, 1);
+  assert.deepEqual(scrolled, ['image-1']);
+  assert.equal(nav.showFavorites, false, 'The toolbar must reflect the cleared filter');
+  assert.equal(nav.programSettings.FavToogle, false);
+  assert.deepEqual(writes, [['FavToogle', false]]);
+  assert.equal(events.filter(([name]) => name === 'ThemeClicked').length, 1);
+
+  await app.OnSearchBox_Click({ Parent: 'Themes', Tag: themes[0] });
+  assert.equal(nav.showFavorites, false, 'Further search selections must not toggle Favorites back on');
+  assert.equal(writes.length, 1);
+
+  list.FilterThemes(true);
+  nav.showFavorites = nav.programSettings.FavToogle = true;
+  await app.OnSearchBox_Click({ Parent: 'Global Settings', Tag: { Key: 'test' } });
+  assert.equal(nav.showFavorites, true, 'Searching settings must leave the theme filter alone');
+  assert.equal(list.favToogle, true);
+  assert.equal(writes.length, 1);
+});
+
 test('Apply reports a saved theme and requested reload rather than confirmed game application', async () => {
   const events = [], writes = [];
   const globals = {
