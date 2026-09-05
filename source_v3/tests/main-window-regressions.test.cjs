@@ -35,6 +35,31 @@ function instance(component, extra = {}) {
   return result;
 }
 
+test('Apply reports a saved theme and requested reload rather than confirmed game application', async () => {
+  const events = [], writes = [];
+  const globals = {
+    EventBus: {emit:(...args)=>events.push(args)},
+    window: {api:{
+      getActiveInstance:async()=>({key:'ED_Odissey',path:'game'}),
+      joinPath:(...parts)=>parts.join('/'), getAssetPath:async value=>value,
+      LoadGlobalSettings:async()=>null,LoadUserSettings:async()=>null,
+      LoadThemeINIs:async()=>({}),ApplyTemplateValuesToIni:async()=>({}),
+      SaveThemeINIs:async()=>{writes.push('inis');return true;},
+      SaveTheme:async()=>{writes.push('signal');return true;},
+    }},
+  };
+  const nav=instance(loadComponent('NavBars.vue',globals),{
+    themeTemplate:{credits:{theme:'Dark Wolf'},ui_groups:[]},
+  });
+  nav.RefreshEDHMStatus=async()=>({state:'ready'});
+  nav.History_AddSettings=async()=>{};
+  assert.equal(await nav.applyTheme(),true);
+  assert.deepEqual(writes,['inis','signal']);
+  const toast=events.find(([name,data])=>name==='RoastMe'&&data.type==='Success')[1];
+  assert.match(toast.message,/saved; reload requested/);
+  assert.doesNotMatch(toast.message,/Applied!/);
+});
+
 test('Successful property and XML saves refresh the current-settings identity', async () => {
   const events = [];
   const template = {credits:{theme:'Dark Wolf'},ui_groups:[{Name:'HUD',Elements:[]}],

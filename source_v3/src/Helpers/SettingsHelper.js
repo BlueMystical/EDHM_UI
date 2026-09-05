@@ -11,6 +11,7 @@ import INIparser from './IniParser.js';
 import Log from './LoggingHelper.js';
 import Util from './Utils.js';
 import { getModBundle } from './ModBundle.js';
+import { themeReloadSignal } from './ThemeReloadSignal.js';
 
 /*----------------------------------------------------------------------------------------------------------------------------*/
 let programSettings = null; // Holds the Program Settings in memory
@@ -117,7 +118,9 @@ const loadSettings = () => {
   const data = fs.readFileSync(programSettingsPath, { encoding: "utf8", flag: 'r' });
   //flags: 'a' is append mode, 'w' is write mode, 'r' is read mode, 'r+' is read-write mode, 'a+' is append-read mode
 
-  programSettings = withBundledVersions(JSON.parse(data));
+  const loadedSettings = withBundledVersions(JSON.parse(data));
+  cancelReloadForInstanceChange(loadedSettings);
+  programSettings = loadedSettings;
   programSettings.UserDataFolder = path.dirname(programSettingsPath); // Get the directory path   
   return programSettings;
 };
@@ -127,6 +130,7 @@ const loadSettings = () => {
 async function saveSettings(settings) {
   //console.log(settings);
   const updatedSettings = withBundledVersions(JSON.parse(settings));
+  cancelReloadForInstanceChange(updatedSettings);
   await writeFile(programSettingsPath, JSON.stringify(updatedSettings, null, 4), { encoding: "utf8", flag: 'w' });
 
   //fs.writeFileSync(path, data, { encoding: "utf8", flag: 'a+' }); 
@@ -137,6 +141,13 @@ async function saveSettings(settings) {
 
   return programSettings;
 };
+
+function cancelReloadForInstanceChange(settings) {
+  if (programSettings?.ActiveInstance !== settings.ActiveInstance ||
+      JSON.stringify(programSettings?.GameInstances) !== JSON.stringify(settings.GameInstances)) {
+    themeReloadSignal.cancel();
+  }
+}
 
 /** Returns the value of a setting from the settings JSON file. 
  * @param {*} key Name of a Key in the Settings
@@ -167,6 +178,7 @@ function writeSetting(key, value) {
     const settings = JSON.parse(data);
     settings[key] = value;
     withBundledVersions(settings);
+    cancelReloadForInstanceChange(settings);
     fs.writeFileSync(programSettingsPath, JSON.stringify(settings, null, 4), 'utf8');
     programSettings = settings;
     programSettings.UserDataFolder = path.dirname(programSettingsPath);
