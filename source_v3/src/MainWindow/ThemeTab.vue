@@ -12,12 +12,10 @@
     <!-- List of Themes -->
     <ul v-else>
       <li v-for="image in images" :key="image.id" :id="'image-' + image.id" class="image-container"
-        :class="{ 'selected': image.id === selectedImageId, 'current-settings': image.id === 0 }" @click="OnSelectTheme(image)"
+        :class="{ 'selected': image.id === selectedImageId }" :title="image.status" @click="OnSelectTheme(image)"
         @contextmenu="onRightClick($event, image)">
         <img :src="image.src" :alt="image.alt" class="img-thumbnail" aria-label="Image of {{ image.name }}" />
-        <span class="image-label">{{ image.name }}
-          <small v-if="image.status" class="d-block">{{ image.status }}</small>
-        </span>
+        <span class="image-label">{{ image.name }}</span>
         <div v-if="isFavoriteEx(image)" class="badge-triangle"></div>
       </li>
     </ul>
@@ -553,22 +551,6 @@ ul {
   background-color: rgba(0, 0, 0, 0.3);
   padding: 1px;
   border-radius: 3px;
-}
-
-.current-settings {
-  flex-direction: column;
-}
-
-.current-settings .image-label {
-  position: static;
-  align-self: stretch;
-  padding: 4px 6px;
-  background-color: #212529;
-}
-
-.current-settings .image-label small {
-  margin-top: 2px;
-  color: #ced4da;
 }
 
 .badge-triangle {
