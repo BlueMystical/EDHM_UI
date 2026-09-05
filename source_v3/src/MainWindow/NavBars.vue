@@ -430,8 +430,8 @@ export default {
 
         this.programSettings = settings;
         this.appVersion = await window.api.getAppVersion();
-        this.modVersion = settings.Version_ODYSS;
         this.ActiveInstance = await window.api.getActiveInstance();
+        this.modVersion = this.getModVersion();
         this.selectedGame = this.ActiveInstance.instance;
         const initialEDHMStatus = await this.RefreshEDHMStatus(this.ActiveInstance);
         this.ShowInitialEDHMStatusToast(initialEDHMStatus);
@@ -681,7 +681,7 @@ export default {
         if (this.ActiveInstance.path != '') {
           const themePath = await window.api.joinPath(this.ActiveInstance.path, 'EDHM-ini');
           let _ret = await window.api.GetCurrentSettings(themePath);
-          _ret.version = this.programSettings.Version_ODYSS; //<- Load version from EDHM  
+          _ret.version = this.getModVersion();
           //console.log('Current Settings:', _ret);
           return _ret;
         }
@@ -1120,11 +1120,16 @@ export default {
       //  -> showHideSpinner({ visible: true });
     },
 
+    getModVersion() {
+      return this.ActiveInstance.key === 'ED_Horizons'
+        ? this.programSettings.Version_HORIZ
+        : this.programSettings.Version_ODYSS;
+    },
     OnModUpdated(data) {
       // happens when the mod gets updated
       this.programSettings = data;
       //console.log('programSettings: ', programSettings);
-      this.modVersion = data.Version_ODYSS;
+      this.modVersion = this.getModVersion();
       this.RefreshEDHMStatus();
     },
     OnXmlChanged(data) {

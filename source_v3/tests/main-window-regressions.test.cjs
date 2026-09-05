@@ -150,3 +150,30 @@ test('Installing the bundled Odyssey update refreshes the footer to its version'
   nav.OnModUpdated(events.find(([name]) => name === 'modUpdated')[1]);
   assert.equal(nav.modVersion, 'v22.02');
 });
+
+test('Footer startup selects the shared version for the active game', async () => {
+  for (const [key, expected] of [['ED_Odissey', 'v22.02'], ['ED_Horizons', 'v1.52.b']]) {
+    const events = [];
+    const active = { key, instance: 'Test instance', path: 'test-game' };
+    const globals = {
+      EventBus: { emit: (...args) => events.push(args) },
+      window: { api: {
+        getAppVersion: async () => '3.0.71',
+        getActiveInstance: async () => active,
+        GetInstanceDataDirectory: async () => 'test-data',
+      } },
+    };
+    const nav = instance(loadComponent('NavBars.vue', globals));
+    nav.RefreshEDHMStatus = async () => ({ state: 'ready' });
+    nav.ShowInitialEDHMStatusToast = () => {};
+    nav.LoadCurrentSettings = async () => ({});
+    nav.History_LoadElements = async () => {};
+    await nav.OnInitialize({
+      Version_ODYSS: 'v22.02', Version_HORIZ: 'v1.52.b', FirstRun: false,
+      GameInstances: [{ games: [active] }],
+    });
+    assert.equal(events.some(([name]) => name === 'ShowError'), false);
+    assert.equal(nav.appVersion, '3.0.71');
+    assert.equal(nav.modVersion, expected);
+  }
+});
