@@ -1,7 +1,7 @@
 # EDHM_UI
 
 [![License: GPL-3.0+](https://img.shields.io/badge/license-GPL--3.0%2B-blue.svg)](https://raw.githubusercontent.com/BlueMystical/EDHM_UI/main/license.txt)
-[![Latest Release](https://img.shields.io/github/v/release/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/releases)
+[![App Version: 3.0.71](https://img.shields.io/badge/app_version-3.0.71-blue)](source_v3/package.json)
 [![Downloads](https://img.shields.io/github/downloads/BlueMystical/EDHM_UI/latest/total)](https://github.com/BlueMystical/EDHM_UI/releases)
 [![Issues](https://img.shields.io/github/issues/BlueMystical/EDHM_UI)](https://github.com/BlueMystical/EDHM_UI/issues)
 [![Discord](https://img.shields.io/discord/773552741632180224?color=899AF9)](https://discord.gg/ZaRt6bCXvj)
