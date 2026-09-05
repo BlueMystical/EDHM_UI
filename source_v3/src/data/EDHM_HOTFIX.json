@@ -3,6 +3,18 @@
    "active_jobs": [
       {
          "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\044c584d09f94c08-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
+         "file_path": "%GAME_PATH%\\ShaderFixes\\4b6d9d99c00a0e52-ps.txt",
+         "action": "DEL",
+         "destination": ""
+      },
+      {
+         "game": "ODYSSEY",
          "file_path": "%GAME_PATH%\\nvapi64.dll",
          "action": "DEL",
          "destination": ""
