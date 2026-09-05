@@ -121,6 +121,9 @@ export default {
         scaledHeight: area.height * scaleY
       }));
 
+      // Scaling creates new objects; keep selection and hover on the current geometry.
+      this.clickedArea = this.scaledAreas.find(area => area.id === this.clickedArea?.id) || null;
+      this.currentArea = this.scaledAreas.find(area => area.id === this.currentArea?.id) || null;
       this.clearCanvas();
     },
 
@@ -241,11 +244,11 @@ export default {
     },
 
     DoLoadArea(area){
-      if (this.areas && this.areas.length > 0) {
+      if (this.scaledAreas && this.scaledAreas.length > 0) {
        // console.log('Areas:', this.areas);
-        const index = this.areas.findIndex(obj => obj.id === area);
+        const index = this.scaledAreas.findIndex(obj => obj.id === area);
         if (index !== -1) {
-          this.currentArea = this.areas[index];
+          this.currentArea = this.scaledAreas[index];
           this.OnArea_Click(null, false);
         }
       }

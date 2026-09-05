@@ -42,7 +42,7 @@
           <div class="input-group mb-3">
 
             <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
-              data-bs-placement="bottom" data-bs-title="Add New Theme" @mousedown="addNewTheme_Click">
+              data-bs-placement="bottom" data-bs-title="Add New Theme" @click="addNewTheme_Click">
               <i class="bi bi-plus-circle"></i>
             </button>
             <button id="cmdEditTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
@@ -747,19 +747,7 @@ export default {
       }
     },
     async addNewTheme_Click(event) {
-      const options = {
-        type: 'question', //<- none, info, error, question, warning
-        buttons: ['Cancel', 'Yes, I am sure', 'No, take me back'],
-        defaultId: 1,
-        title: 'Question',
-        message: 'Create New Theme?',
-        detail: 'This will take your currently applied settings to build a new theme',
-        cancelId: 0
-      };
-      const result = await window.api.ShowMessageBox(options); //console.log(result);
-      if (result && result.response === 1) {
-        EventBus.emit('OnCreateTheme', { theme: null }); //<- Event Listened on App.vue
-      }
+      EventBus.emit('OnCreateTheme', { theme: null }); //<- Event Listened on App.vue
     },
     async editTheme_Click(event) {
       if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
