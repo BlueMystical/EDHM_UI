@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="bg-dark text-light" data-bs-theme="dark">
    
-    <NavBarsBody :themesLoaded="themesLoaded" />
+    <NavBarsBody ref="navBars" :themesLoaded="themesLoaded" />
     <Notifications/>
 
     <SettingsEditor @save="saveConfig" />
@@ -459,11 +459,15 @@ export default {
     },
     /** When the User Clicks on a Search Result. 
      * @param result The Result clicked     */
-    OnSearchBox_Click(result) {
+    async OnSearchBox_Click(result) {
       //console.log('Result clicked:', result);
       try {
         if (result.Parent === 'Themes') {
           EventBus.emit('setActiveTab', 'themes'); //<- Event listen in 'MainNavBars.vue'
+          // Search covers every theme, so reveal the full list before selecting.
+          if (this.$refs.navBars.showFavorites) {
+            await this.$refs.navBars.toggleFavorites_click();
+          }
           EventBus.emit('OnSelectTheme', result.Tag); //<- Event listened on 'ThemeTab.vue'
         } else {
           if (result.Parent === 'Global Settings') {
