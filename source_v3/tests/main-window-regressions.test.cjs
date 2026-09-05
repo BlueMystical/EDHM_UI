@@ -35,12 +35,23 @@ function instance(component, extra = {}) {
   return result;
 }
 
-test('Add New Theme opens the internal editor without an OS dialog or saving', async () => {
+test('Add New Theme confirms inside the app before starting the editor', async () => {
   const events = [];
   let nativeDialogs = 0;
   let writes = 0;
+  let shown = 0;
+  let hidden;
+  const modalElement = {
+    addEventListener(name, callback) {
+      assert.equal(name, 'hidden.bs.modal');
+      hidden = callback;
+    },
+  };
+  const modal = { show() { shown++; }, hide() {} };
   const globals = {
     EventBus: { emit: (...args) => events.push(args) },
+    document: { querySelectorAll: () => [], getElementById: () => modalElement },
+    bootstrap: { Modal: { getOrCreateInstance: () => modal } },
     window: { api: {
       ShowMessageBox: async () => { nativeDialogs++; return { response: 0 }; },
       CreateNewTheme: async () => { writes++; },
@@ -49,6 +60,17 @@ test('Add New Theme opens the internal editor without an OS dialog or saving', a
   const nav = instance(loadComponent('NavBars.vue', globals));
   await nav.addNewTheme_Click();
   assert.equal(nativeDialogs, 0, 'Add New Theme must not open an OS message box');
+  assert.equal(events.length, 0, 'Opening the confirmation must not begin creation');
+  assert.equal(shown, 1);
+  // Dismissing without Yes must not start the editor.
+  modal.hide();
+  assert.equal(hidden, undefined);
+  assert.equal(events.length, 0);
+  await nav.addNewTheme_Click();
+  nav.confirmNewTheme();
+  nav.confirmNewTheme();
+  assert.equal(events.length, 0, 'Wait until the confirmation has closed');
+  hidden();
   assert.equal(events.length, 1);
   assert.equal(events[0][0], 'OnCreateTheme');
   const app = instance(loadComponent('App.vue', globals));

@@ -198,6 +198,26 @@
       </div>
     </nav> <!-- Bottom Navbar -->
 
+    <div id="NewThemeModal" class="modal fade" tabindex="-1" aria-labelledby="NewThemeModalLabel"
+      aria-describedby="NewThemeModalDescription" aria-hidden="true" data-bs-theme="dark">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+          <div class="modal-header">
+            <h5 id="NewThemeModalLabel" class="modal-title">Create New Theme?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div id="NewThemeModalDescription" class="modal-body">
+            This will take your currently applied settings to build a new theme.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No, take me back</button>
+            <button id="confirmNewTheme" type="button" class="btn btn-primary" @click="confirmNewTheme">Yes, I am sure</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="SaveThemeCopyModal" class="modal fade" tabindex="-1" aria-labelledby="SaveThemeCopyModalLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -283,6 +303,7 @@ export default {
       saveCopyThemeName: '',
       saveCopyError: '',
       saveCopyModal: null,
+      newThemeModal: null,
 
       searchResults: [],
       globalSettings: [],
@@ -747,7 +768,19 @@ export default {
       }
     },
     async addNewTheme_Click(event) {
-      EventBus.emit('OnCreateTheme', { theme: null }); //<- Event Listened on App.vue
+      const modalElement = document.getElementById('NewThemeModal');
+      this.newThemeModal = bootstrap.Modal.getOrCreateInstance(modalElement, { keyboard: true });
+      this.newThemeModal.show();
+    },
+    confirmNewTheme() {
+      if (!this.newThemeModal) return;
+      const modal = this.newThemeModal;
+      this.newThemeModal = null;
+      // Finish dismissing the confirmation before opening the image editor.
+      document.getElementById('NewThemeModal').addEventListener('hidden.bs.modal', () => {
+        EventBus.emit('OnCreateTheme', { theme: null }); //<- Event Listened on App.vue
+      }, { once: true });
+      modal.hide();
     },
     async editTheme_Click(event) {
       if (this.themeTemplate && !isEmpty(this.themeTemplate)) {
