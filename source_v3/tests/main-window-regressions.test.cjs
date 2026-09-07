@@ -288,7 +288,7 @@ test('Installing the bundled Odyssey update refreshes the footer to its version'
     .filter(name => /^ODYSS_EDHM-v\d+\.\d+\.zip$/.test(name));
   assert.equal(bundles.length, 1);
   const bundledVersion = bundles[0].match(/v\d+\.\d+/)[0];
-  assert.equal(packageData.version, '3.0.71');
+  assert.equal(packageData.version, '3.0.72');
   assert.equal(settings.Version_ODYSS, bundledVersion);
   const events = [];
   const globals = {
@@ -319,7 +319,7 @@ test('Footer startup selects the shared version for the active game', async () =
     const globals = {
       EventBus: { emit: (...args) => events.push(args) },
       window: { api: {
-        getAppVersion: async () => '3.0.71',
+        getAppVersion: async () => '3.0.72',
         getActiveInstance: async () => active,
         GetInstanceDataDirectory: async () => 'test-data',
       } },
@@ -334,7 +334,7 @@ test('Footer startup selects the shared version for the active game', async () =
       GameInstances: [{ games: [active] }],
     });
     assert.equal(events.some(([name]) => name === 'ShowError'), false);
-    assert.equal(nav.appVersion, '3.0.71');
+    assert.equal(nav.appVersion, '3.0.72');
     assert.equal(nav.modVersion, expected);
   }
 });
