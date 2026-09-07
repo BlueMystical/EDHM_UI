@@ -54,6 +54,3 @@ varies depending on which version of ED you have installed. Simply click the Gre
 ## Support
 
 If you have questions, suggestions, or comments, [join our Discord](https://discord.gg/ZaRt6bCXvj)!
-
-
-

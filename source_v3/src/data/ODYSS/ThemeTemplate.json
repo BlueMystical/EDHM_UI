@@ -1,7 +1,7 @@
 {
     "language": "en",
     "game": "ED_Odissey",
-    "version": "21.04",
+    "version": "22.02",
     "credits": {
         "theme": "Carinae",
         "author": "CMDR GeorjCostanza",
@@ -259,7 +259,7 @@
                     "Value": -16731137,
                     "ValueType": "Color",
                     "Type": "CustomColor",
-                    "Description": "Custom Color for Possible Supercruise Target Circle (*Alpha)"
+                    "Description": "Custom Color for Possible Supercruise Target Circle (*Alpha)<br><br>Also affects the similar Circles visible with the Rhino"
                 },
                 {
                     "Category": "Environmental & Destination Targets",
@@ -369,7 +369,7 @@
                     "Value": -4456448,
                     "ValueType": "Color",
                     "Type": "CustomColor",
-                    "Description": "Custom Color for Large Circle (*Alpha)"
+                    "Description": "Custom Color for Large Circle (*Alpha)<br><br>Also affects the Rhino's Mining Scanner Reticle"
                 },
                 {
                     "Category": "Targeting Reticles - Components",
@@ -1900,7 +1900,7 @@
                     "Value": 1,
                     "ValueType": "Brightness",
                     "Type": "2X",
-                    "Description": "Brightness for Night Vision"
+                    "Description": "Brightness for Night Vision<br><br>If Brightness <= 0, the Original Brightness will be used"
                 },
                 {
                     "Category": "Night Vision",
@@ -1911,7 +1911,7 @@
                     "Value": 100,
                     "ValueType": "Preset",
                     "Type": "ShortMode",
-                    "Description": "Mode for Pulse Wave Analyser Asteroid Glow"
+                    "Description": "Mode for Pulse Wave Analyser Asteroid Glow<br><br>May affect Bio Highlighting when using the Bio Scanner<br><br>If you experience issues with the Bio Scanner, disable this option (Elite Default)"
                 },
                 {
                     "Category": "Night Vision",
@@ -1933,7 +1933,7 @@
                     "Value": 1,
                     "ValueType": "Brightness",
                     "Type": "2X",
-                    "Description": "Brightness for PWA Asteroid Glow"
+                    "Description": "Brightness for PWA Asteroid Glow<br><br>Also affect Bio Highlighting when using the Bio Scanner<br><br>If Brightness <= 0, the Original Brightness will be used"
                 },
                 {
                     "Category": "Night Vision",
@@ -1944,7 +1944,7 @@
                     "Value": 100,
                     "ValueType": "Preset",
                     "Type": "ShortMode",
-                    "Description": "Mode for Pulse Wave Analyser Wavefront"
+                    "Description": "Mode for Pulse Wave Analyser Wavefront<br><br>Also affects the Surface Mining Scanner and Bio Scanner Wave"
                 },
                 {
                     "Category": "Night Vision",
@@ -1955,7 +1955,7 @@
                     "Value": -16711936,
                     "ValueType": "Color",
                     "Type": "CustomColor",
-                    "Description": "Custom Color for PWA Wavefront"
+                    "Description": "Custom Color for PWA Wavefront<br><br>Also affects the Surface Mining Scanner and Bio Scanner Wave"
                 },
                 {
                     "Category": "Night Vision",
@@ -1966,7 +1966,7 @@
                     "Value": 1,
                     "ValueType": "Brightness",
                     "Type": "2X",
-                    "Description": "Brightness for PWA Wavefront"
+                    "Description": "Brightness for PWA Wavefront<br><br>Also affects the Surface Mining Scanner and Bio Scanner Wave<br><br>If Brightness <= 0, the Original Brightness will be used"
                 }
             ]
         },
@@ -3392,7 +3392,7 @@
                     "Value": -8627713,
                     "ValueType": "Color",
                     "Type": "CustomColor",
-                    "Description": "Custom Color for Mid-HUD Station & Carrier Landing / Take-Off, plus Supercruise Drop, Text & Bars (*Alpha)"
+                    "Description": "Custom Color for Mid-HUD Station & Carrier Landing / Take-Off, plus Supercruise Drop, Text & Bars"
                 },
                 {
                     "Category": "Mid-HUD Station & Carrier Landing / Take-Off",
@@ -3993,7 +3993,7 @@
                     "Value": -65281,
                     "ValueType": "Color",
                     "Type": "CustomColor",
-                    "Description": "Custom Color for On-Foot Panels"
+                    "Description": "Custom Color for Cyan On-Foot Panels"
                 },
                 {
                     "Category": "Suit HUD - Panels",

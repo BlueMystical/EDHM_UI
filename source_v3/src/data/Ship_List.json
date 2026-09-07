@@ -349,5 +349,12 @@
     "ed_short": "mediumtransport01",
     "size": "Medium",
     "role": "Passenger "
+  },
+  {
+    "ship_full_name": "SRV Rhino",
+    "ship_id": 58,
+    "ed_short": "mev_rhino",
+    "size": "Small",
+    "role": "Miner "
   }
 ]
