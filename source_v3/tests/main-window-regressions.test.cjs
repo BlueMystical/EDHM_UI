@@ -94,6 +94,40 @@ test('Choosing a searched theme clears Favorites and reveals the selected item',
   assert.equal(writes.length, 1);
 });
 
+test('Bottom bar identifies the selected theme without exposing current-settings status text', async () => {
+  const events = [];
+  const globals = {
+    EventBus: { emit: (...args) => events.push(args) },
+    window: { api: {
+      GetCurrentSettingsTheme: async () => ({ credits: { theme: 'Applied Theme' } }),
+      LoadTheme: async () => ({ credits: { theme: 'Dark Wolf' } }),
+    } },
+  };
+  const nav = instance(loadComponent('NavBars.vue', globals));
+
+  await nav.LoadTheme({
+    name: 'Current Settings: Custom',
+    file: { path: 'game/EDHM-ini', credits: { theme: 'Current Settings' } },
+  });
+  assert.equal(nav.selectedThemeName, 'Current Settings');
+
+  await nav.LoadTheme({
+    name: 'Dark Wolf',
+    file: { path: 'themes/Dark Wolf', credits: { theme: 'Dark Wolf' } },
+  });
+  assert.equal(nav.selectedThemeName, 'Dark Wolf');
+
+  const source = readFileSync(path.join(__dirname, '../src/MainWindow/NavBars.vue'), 'utf8');
+  const { descriptor } = parse(source);
+  const template = descriptor.template.content;
+  const bottomBar = template.slice(template.indexOf('<!-- Bottom Navbar -->'));
+  assert.ok(bottomBar.indexOf('id="lblEDHMStatus"') < bottomBar.indexOf('id="lblVersion"'));
+  assert.ok(bottomBar.indexOf('id="lblStatus"') < bottomBar.indexOf('<!-- Search Form -->'));
+  assert.match(bottomBar, /Selected Theme: \{\{ selectedThemeName \}\}/);
+  assert.match(descriptor.styles[0].content, /\.selected-theme-label[\s\S]*text-align: right/);
+  assert.match(descriptor.styles[0].content, /\.selected-theme-label[\s\S]*overflow: hidden/);
+});
+
 test('Apply reports a saved theme and requested reload rather than confirmed game application', async () => {
   const events = [], writes = [];
   const globals = {

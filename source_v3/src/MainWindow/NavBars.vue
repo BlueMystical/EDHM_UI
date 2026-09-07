@@ -29,16 +29,10 @@
               <option value="mnuExit">Exit App</option>
             </select>
           </div>
-          <span id="lblEDHMStatus" class="navbar-text mx-3 text-nowrap">
-            Status: <span :class="edhmStatusClass">{{ edhmStatusMessage }}</span>
-          </span>
         </div>
 
         <!-- Navbar for Buttons on the right side -->
         <div class="nav-item d-flex align-items-center">
-          <span id="lblStatus" class="navbar-text mx-3 text-nowrap ml-auto" style="padding-top: -4px;">{{ statusText
-            }}</span>
-
           <div class="input-group mb-3">
 
             <button id="cmdAddNewTheme" class="btn btn-outline-secondary" type="button" data-bs-toggle="tooltip"
@@ -164,9 +158,9 @@
 
     <!-- Bottom Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom navbar-thin" data-bs-theme="dark">
-      <div class="container-fluid">
+      <div class="container-fluid bottom-navbar-content">
         <!-- Main Menu -->
-        <div class="navbar-nav">
+        <div class="navbar-nav footer-fixed-item">
           <!-- Game Selection Dropdown -->
           <div class="nav-item">
             <select id="gameSelect" class="form-select game-dropdown-border main-menu-style" v-model="selectedGame"
@@ -176,10 +170,14 @@
           </div>
         </div>
 
+        <!-- EDHM installation status -->
+        <span id="lblEDHMStatus" class="navbar-text mx-3 text-nowrap footer-fixed-item">
+          Status: <span :class="edhmStatusClass">{{ edhmStatusMessage }}</span>
+        </span>
         <!-- App Version Label -->
-        <span class="navbar-text mx-3" id="lblVersion">App Version: {{ appVersion }}</span>
+        <span class="navbar-text mx-3 text-nowrap footer-fixed-item" id="lblVersion">App Version: {{ appVersion }}</span>
         <!-- Mod Version Label -->
-        <span class="navbar-text mx-3" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
+        <span class="navbar-text mx-3 text-nowrap footer-fixed-item" id="lblModVersion">EDHM Version: {{ modVersion }}</span>
 
         <!-- Progress bar-->
         <span v-show="showProgressBar" class="progress" role="progressbar" aria-label="Warning example"
@@ -188,8 +186,13 @@
             :style="{ width: progressValue + '%' }">{{ progressText }}</div>
         </span>
 
+        <span id="lblStatus" class="navbar-text selected-theme-label"
+          :title="`Selected Theme: ${selectedThemeName}`">
+          Selected Theme: {{ selectedThemeName }}
+        </span>
+
         <!-- Search Form -->
-        <form class="d-flex ms-auto" @submit.prevent="OnSearchBox_Click">
+        <form class="d-flex footer-search" @submit.prevent="OnSearchBox_Click">
           <input class="form-control me-2 main-menu-style" type="search" v-model="searchQuery" placeholder="Search"
             aria-label="Search">
           <button class="btn btn-outline-warning" type="submit">Search</button>
@@ -287,7 +290,7 @@ export default {
   data() {
     return {
       activeTab: '',
-      statusText: '',
+      selectedThemeName: 'Current Settings',
       showFavorites: false,
       showSpinner: true,
       isApplying: false,
@@ -506,7 +509,8 @@ export default {
           console.log('Loading Theme..', template.credits.theme);
           let loadedTemplate;
 
-          if (template.credits.theme === 'Current Settings') {
+          const isCurrentSettings = template.credits.theme === 'Current Settings';
+          if (isCurrentSettings) {
             loadedTemplate = await window.api.GetCurrentSettingsTheme(template.path);
           } else {
             loadedTemplate = await window.api.LoadTheme(template.path);
@@ -522,7 +526,9 @@ export default {
           this.currentSettingsPath = template.credits.theme === 'Current Settings' ? template.path : '';
           console.log('Loaded Theme:', this.themeTemplate);
           EventBus.emit('ThemeLoaded', JSON.parse(JSON.stringify(this.themeTemplate))); //<- this event will be heard on 'App.vue'
-          this.statusText = 'Theme: ' + theme.name;
+          this.selectedThemeName = isCurrentSettings
+            ? 'Current Settings'
+            : (theme.name || loadedTemplate?.credits?.theme || 'Current Settings');
           return true;
         }
         return false;
@@ -793,7 +799,7 @@ export default {
           EventBus.emit('OnEditTheme', { theme: JSON.parse(JSON.stringify(this.themeTemplate)) }); //<- Event Listened on App.vue
         }
         else {
-          this.statusText = 'Current Settings can not be Edited!';
+          EventBus.emit('RoastMe', { type: 'Warning', message: 'Current Settings can not be edited.' });
           console.log('Current Settings can not be Edited!');
         }
       }
@@ -811,7 +817,7 @@ export default {
           }
         }
         else {
-          this.statusText = 'Current Settings can not be Edited!';
+          EventBus.emit('RoastMe', { type: 'Warning', message: 'Current Settings can not be edited.' });
           console.log('Current Settings can not be Edited!');
         }
       }
@@ -871,7 +877,7 @@ export default {
           }
         }
         else {
-          this.statusText = 'Current Settings can not be Edited!';
+          EventBus.emit('RoastMe', { type: 'Warning', message: 'Current Settings can not be edited.' });
           console.log('Current Settings can not be Edited!');
         }
       }
@@ -1384,6 +1390,28 @@ body {
 #TopNavBar {
   height: 62px;
   background-color: #1F1F1F;
+}
+
+.bottom-navbar-content {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.footer-fixed-item,
+.footer-search {
+  flex: 0 0 auto;
+}
+
+.selected-theme-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-left: 1rem;
+  margin-right: 0.75rem;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #myTabContent {
