@@ -92,25 +92,16 @@ function getParentFolder(givenPath) {
 
 function createWindowsShortcut(CustomIcon) {
   try {
-    const isDev = !app.isPackaged;
-    const shortcutPath = path.join(os.homedir(), 'Desktop', 'EDHM-UI-V3.lnk');
-    const targetPath = resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3\\EDHM-UI-V3.exe'); //path.join(process.env.LOCALAPPDATA, 'EDHM-UI-V3', 'EDHM-UI-V3.exe'); // For production environment 
-    const iconPath = CustomIcon; //getAssetPath('images/ED_TripleElite.ico');
-    const comment = "Mod for Elite Dangerous to customize the HUD of any ship.";
-
-    //if (!fs.existsSync(shortcutPath)) {
-    const cmd = `powershell $s=(New-Object -COM WScript.Shell).CreateShortcut('${shortcutPath}');$s.TargetPath='${targetPath}';$s.IconLocation='${iconPath}';$s.Description='${comment}';$s.Save()`;
-
-    exec(cmd, (err) => {
-      if (err) {
-        console.error('Failed to create shortcut:', err);
-      } else {
-        console.log('Shortcut created successfully');
-      }
+    const shortcutPath = path.join(app.getPath('desktop'), 'EDHM-UI-V3.lnk');
+    const targetPath = app.getPath('exe');
+    const written = shell.writeShortcutLink(shortcutPath, 'create', {
+      target: targetPath,
+      cwd: path.dirname(targetPath),
+      icon: CustomIcon || targetPath,
+      iconIndex: 0,
+      description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
     });
-    //} else {
-    //  console.log('Shortcut already exists.');
-    //}
+    if (!written) console.error('Failed to create shortcut:', shortcutPath);
   } catch (error) {
     console.log(error);
   }

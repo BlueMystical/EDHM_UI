@@ -1,0 +1,70 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <UI Id="InstallerUI">
+      <TextStyle Id="Normal" FaceName="Segoe UI" Size="9" />
+      <TextStyle Id="Title" FaceName="Segoe UI" Size="12" Bold="yes" />
+      <Property Id="DefaultUIFont" Value="Normal" />
+      <Property Id="RUNAPPLICATION" Value="1" />
+      <Dialog Id="Welcome" Width="370" Height="220" Title="EDHM-UI-V3 Setup">
+        <Control Id="Title" Type="Text" X="20" Y="15" Width="330" Height="40" Text="{\Title}Install EDHM-UI-V3 [ProductVersion]" />
+        <Control Id="Path" Type="Text" X="20" Y="65" Width="330" Height="35" Text="Install folder: [APPDIR]" />
+        <Control Id="Desktop" Type="CheckBox" X="20" Y="110" Width="300" Height="18" Property="DESKTOPSHORTCUT" CheckBoxValue="1" Text="Create a desktop shortcut" />
+        <Control Id="Menu" Type="CheckBox" X="20" Y="135" Width="300" Height="18" Property="MENUSHORTCUT" CheckBoxValue="1" Text="Create a Start Menu shortcut" />
+        <Control Id="Install" Type="PushButton" X="200" Y="185" Width="75" Height="23" Default="yes" Text="Install">
+          <Publish Event="EndDialog" Value="Return" />
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="285" Y="185" Width="65" Height="23" Cancel="yes" Text="Cancel">
+          <Publish Event="EndDialog" Value="Exit" />
+        </Control>
+      </Dialog>
+      <Dialog Id="Maintenance" Width="370" Height="220" Title="EDHM-UI-V3 Setup">
+        <Control Id="Title" Type="Text" X="20" Y="15" Width="330" Height="45" Text="{\Title}Maintain EDHM-UI-V3" />
+        <Control Id="Repair" Type="PushButton" X="20" Y="85" Width="130" Height="25" Text="Repair">
+          <Publish Event="ReinstallMode" Value="amus" Order="1" />
+          <Publish Event="Reinstall" Value="ALL" Order="2" />
+          <Publish Event="EndDialog" Value="Return" Order="3" />
+        </Control>
+        <Control Id="Remove" Type="PushButton" X="20" Y="125" Width="130" Height="25" Text="Uninstall">
+          <Publish Event="Remove" Value="ALL" Order="1" />
+          <Publish Event="EndDialog" Value="Return" Order="2" />
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="285" Y="185" Width="65" Height="23" Cancel="yes" Text="Cancel">
+          <Publish Event="EndDialog" Value="Exit" />
+        </Control>
+      </Dialog>
+      <Dialog Id="Progress" Width="370" Height="220" Title="EDHM-UI-V3 Setup" Modeless="yes">
+        <Control Id="Title" Type="Text" X="20" Y="15" Width="330" Height="45" TabSkip="no" Text="{\Title}Updating EDHM-UI-V3" />
+        <Control Id="Action" Type="Text" X="20" Y="90" Width="330" Height="40">
+          <Subscribe Event="ActionText" Attribute="Text" />
+        </Control>
+        <Control Id="Bar" Type="ProgressBar" X="20" Y="140" Width="330" Height="15" ProgressBlocks="yes">
+          <Subscribe Event="SetProgress" Attribute="Progress" />
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="285" Y="185" Width="65" Height="23" Cancel="yes" Text="Cancel">
+          <Publish Event="SpawnDialog" Value="CancelDlg" />
+        </Control>
+      </Dialog>
+      <Dialog Id="Complete" Width="370" Height="220" Title="EDHM-UI-V3 Setup">
+        <Control Id="Title" Type="Text" X="20" Y="15" Width="330" Height="50" Text="{\Title}Setup completed successfully" />
+        <Control Id="Launch" Type="CheckBox" X="20" Y="115" Width="300" Height="20" Property="RUNAPPLICATION" CheckBoxValue="1" Text="Launch EDHM-UI-V3" HideCondition="REMOVE = &quot;ALL&quot;" />
+        <Control Id="Finish" Type="PushButton" X="285" Y="185" Width="65" Height="23" Default="yes" Cancel="yes" Text="Finish">
+          <Publish Event="DoAction" Value="LaunchApp" Condition="RUNAPPLICATION AND NOT (REMOVE = &quot;ALL&quot;)" Order="1" />
+          <Publish Event="EndDialog" Value="Return" Order="2" />
+        </Control>
+      </Dialog>
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="CancelDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="UserExit" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <InstallUISequence>
+        <Show Dialog="Welcome" Before="Progress" Condition="NOT Installed" />
+        <Show Dialog="Maintenance" Before="Progress" Condition="Installed AND NOT RESUME AND NOT Preselected" />
+        <Show Dialog="Progress" Before="ExecuteAction" />
+        <Show Dialog="Complete" OnExit="success" />
+      </InstallUISequence>
+    </UI>
+    <UIRef Id="WixUI_Common" />
+  </Fragment>
+</Wix>

@@ -1,0 +1,25 @@
+#include <windows.h>
+1 ICON "@APP_ICON@"
+1 VERSIONINFO
+FILEVERSION @APP_VERSION_RESOURCE@
+PRODUCTVERSION @APP_VERSION_RESOURCE@
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904b0"
+    BEGIN
+      VALUE "CompanyName", "Blue Mystic\0"
+      VALUE "FileDescription", "EDHM-UI Velopack launcher\0"
+      VALUE "FileVersion", "@APP_VERSION@\0"
+      VALUE "ProductName", "EDHM-UI-V3\0"
+      VALUE "ProductVersion", "@APP_VERSION@\0"
+      VALUE "OriginalFilename", "EDHM-UI-V3.Launcher.exe\0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

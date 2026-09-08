@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron';
+import { app, ipcMain } from 'electron';
 import path from 'node:path';
 
 import fs from 'fs';
@@ -815,7 +815,7 @@ async function DoHotFix() {
   if (!hotFix) return
 
   console.log('------ Applying HotFixes --------');
-  const AppExePath = fileHelper.resolveEnvVariables('%LOCALAPPDATA%\\EDHM-UI-V3');
+  const AppExePath = path.dirname(app.getPath('exe'));
   const UI_DOCUMENTS = programSettings.UserDataFolder; // fileHelper.resolveEnvVariables('%USERPROFILE%\\EDHM_UI');
   
   const GameInstances = readSetting('GameInstances');

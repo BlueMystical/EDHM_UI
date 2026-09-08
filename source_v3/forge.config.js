@@ -30,30 +30,6 @@ module.exports = {
   },
   makers: [
     {
-      name: '@electron-forge/maker-squirrel',
-      config: {
-        name: 'EDHM-UI-V3',
-        authors: 'Blue Mystic',
-        appCopyright: 'Blue Mystic - 2025',
-        description: 'Mod for Elite Dangerous to customize the HUD of any ship.',
-        setupExe: 'edhm-ui-v3-windows-x64.exe',
-
-        iconUrl: 'file:///' + path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'),
-        setupIcon: path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'),       //setupIcon: 'src/images/Icon_v3_a0.ico',         
-        icon: path.join(__dirname, 'src', 'images', 'Icon_v3_a0.ico'),       //icon: 'src/images/Icon_v3_a0.ico',
-        loadingGif: path.join(__dirname, 'src', 'images', 'EDHNUIv3B.gif'),
-
-        shortcutFolderName: 'EDHM-UI-V3',
-        shortcutName: 'EDHM-UI-V3',
-        createDesktopShortcut: true,
-        createStartMenuShortcut: true,
-
-        //certificateFile: path.join(__dirname, 'src','data','etc','EDHM-UI-V3.pfx'), // './src/data/etc/EDHM-UI-V3.pfx',
-        //certificateFile:  './src/data/etc/EDHM-UI-V3.pfx',
-        //certificatePassword:  reveal('ODo8NG1rcm9vcGRRQw==') 
-      }
-    },
-    {
       name: '@electron-forge/maker-zip'
     }
   ],
@@ -105,6 +81,12 @@ module.exports = {
   //  ],
   //},
 };
+
+// Use the active renderer/plugins on Linux with the names expected by linux_installer.sh.
+if (process.platform === 'linux') {
+  module.exports.packagerConfig.name = 'edhm-ui-v3';
+  module.exports.packagerConfig.executableName = 'edhm-ui-v3';
+}
 
 /*  // For Linux
 module.exports = {
