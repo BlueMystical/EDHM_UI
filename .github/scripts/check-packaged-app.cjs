@@ -1,0 +1,13 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const appRoot = path.resolve(__dirname, '../../source_v3');
+const asar = require(path.join(appRoot, 'node_modules/@electron/asar'));
+const name = process.platform === 'win32' ? 'EDHM-UI-V3-win32-x64' : 'edhm-ui-v3-linux-x64';
+const archive = path.join(appRoot, 'out', name, 'resources/app.asar');
+const pkg = JSON.parse(asar.extractFile(archive, 'package.json'));
+const main = asar.extractFile(archive, path.normalize(pkg.main)).toString();
+assert.ok(main.includes('require("electron")'), 'Missing Electron entry point');
+assert.equal(pkg.version, JSON.parse(fs.readFileSync(path.join(appRoot, 'package.json'))).version);
+assert.ok(fs.existsSync(path.join(path.dirname(archive), 'settings_window/settings.html')), 'Missing settings renderer');
+console.log(`Packaged ${name} includes the main/settings entry points and matching app version.`);

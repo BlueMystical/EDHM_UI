@@ -1,0 +1,54 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="EDHM-UI-V3" Manufacturer="Blue Mystic" Version="$(var.AppVersion)"
+           ProductCode="$(var.ProductCode)" UpgradeCode="$(var.UpgradeCode)"
+           Language="1033" Scope="perMachine" InstallerVersion="500">
+    <SummaryInformation Description="Elite Dangerous HUD Mod" />
+    <MajorUpgrade AllowSameVersionUpgrades="yes" Schedule="afterInstallInitialize"
+                  DowngradeErrorMessage="A newer version of EDHM-UI-V3 is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+    <Icon Id="AppIcon" SourceFile="$(var.AppIcon)" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/BlueMystical/EDHM_UI/wiki" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/BlueMystical/EDHM_UI" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://github.com/BlueMystical/EDHM_UI/releases/latest" />
+    <Property Id="ARPNOREPAIR" Value="1" />
+    <Property Id="APPDIR" Secure="yes">
+      <!-- The original MSI stores these values in the 32-bit machine registry. -->
+      <RegistrySearch Id="ExistingFolder" Root="HKLM" Key="Software\Blue Mystic\EDHM-UI-V3"
+                      Name="Path" Type="raw" Bitness="always32" />
+    </Property>
+    <SetProperty Id="APPDIR" Value="[LocalAppDataFolder]EDHM-UI-V3" Before="CostFinalize" Sequence="both" Condition="NOT APPDIR" />
+    <SetProperty Id="ARPINSTALLLOCATION" Value="[APPDIR]" After="CostFinalize" Sequence="both" />
+    <Property Id="DESKTOPSHORTCUT" Value="1" Secure="yes" />
+    <Property Id="MENUSHORTCUT" Value="1" Secure="yes" />
+    <StandardDirectory Id="LocalAppDataFolder">
+      <Directory Id="APPDIR" Name="EDHM-UI-V3">
+        <Component Id="ProductInformation" Guid="D2123039-91B8-4DF7-A39F-066F2086EB90" Bitness="always32">
+          <RegistryValue Root="HKLM" Key="Software\Blue Mystic\EDHM-UI-V3" Name="Version" Value="[ProductVersion]" Type="string" KeyPath="yes" />
+          <RegistryValue Root="HKLM" Key="Software\Blue Mystic\EDHM-UI-V3" Name="Path" Value="[APPDIR]" Type="string" />
+        </Component>
+      </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="5107E621-928E-4569-A64C-265E91EC2CF3" Bitness="always32" Condition="DESKTOPSHORTCUT">
+        <Shortcut Id="DesktopLink" Name="EDHM-UI-V3" Target="[APPDIR]EDHM-UI-V3.exe" WorkingDirectory="APPDIR" Description="Elite Dangerous HUD Mod" Icon="AppIcon" />
+        <RegistryValue Root="HKLM" Key="Software\Blue Mystic\EDHM-UI-V3" Name="DesktopShortcut" Value="1" Type="integer" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Component Id="MenuShortcut" Guid="2C7C56F0-B91C-4B2F-88F5-818B8BF1DE65" Bitness="always32" Condition="MENUSHORTCUT">
+        <Shortcut Id="MenuLink" Name="EDHM-UI-V3" Target="[APPDIR]EDHM-UI-V3.exe" WorkingDirectory="APPDIR" Description="Elite Dangerous HUD Mod" Icon="AppIcon" />
+        <RegistryValue Root="HKLM" Key="Software\Blue Mystic\EDHM-UI-V3" Name="MenuShortcut" Value="1" Type="integer" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+    <Feature Id="MainFeature" Title="EDHM-UI-V3" Level="1">
+      <ComponentGroupRef Id="AppFiles" />
+      <ComponentRef Id="ProductInformation" />
+      <ComponentRef Id="DesktopShortcut" />
+      <ComponentRef Id="MenuShortcut" />
+    </Feature>
+    <Binary Id="LaunchApplication" SourceFile="$(var.LauncherExe)" />
+    <CustomAction Id="LaunchApp" BinaryRef="LaunchApplication" ExeCommand="/app=&quot;[#MainExecutable]&quot;" Execute="immediate" Impersonate="yes" Return="ignore" />
+    <UIRef Id="InstallerUI" />
+  </Package>
+</Wix>

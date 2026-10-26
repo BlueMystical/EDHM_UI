@@ -1,14 +1,11 @@
 import { app, Menu, BrowserWindow, globalShortcut, ipcMain, shell, Tray, screen  } from 'electron';
 import path from 'node:path';
-import started from 'electron-squirrel-startup';
 import fileHelper from './Helpers/FileHelper.js';
 import themeHelper from './Helpers/ThemeHelper.js';
 import settingsHelper from './Helpers/SettingsHelper.js';
 import Shipyard from './MainWindow/ShipyardNew.js';
 
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (started) { app.quit(); } //<- This is a Squirrel event, so we quit the app
 
 // Declare variables for windows and tray
 let mainWindow;

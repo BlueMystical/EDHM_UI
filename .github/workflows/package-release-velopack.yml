@@ -1,0 +1,207 @@
+name: Package release (Velopack)
+
+on:
+  push:
+    branches: [main]
+    paths: ['source_v3/**', '.github/installers/**', '.github/scripts/**', '.github/release-notes/**', '.github/workflows/package-release-*.yml']
+  pull_request:
+    branches: [main]
+    paths: ['source_v3/**', '.github/installers/**', '.github/scripts/**', '.github/release-notes/**', '.github/workflows/package-release-*.yml']
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: Publish a normal GitHub release after validation (off = build artifacts only)
+        type: boolean
+        default: false
+
+# Set once in Settings > Secrets and variables > Actions > Variables.
+# This must match the package ID in the maintainer's existing Velopack build.
+env:
+  VELOPACK_PACK_ID: ${{ github.event_name == 'pull_request' && 'EDHMUI.CI.PackagingTest' || vars.VELOPACK_PACK_ID }}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: package-release-velopack-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
+
+jobs:
+  metadata:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Test release note matching
+        run: node --test .github/scripts/tests/*.test.cjs
+      - id: version
+        run: node .github/scripts/release-version.cjs
+      - name: Match bundled EDHM release and generate notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node .github/scripts/release-notes.cjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: edhm-ui-v${{ steps.version.outputs.version }}-release-notes
+          path: source_v3/out/release/notes/*
+          if-no-files-found: error
+          retention-days: 14
+      - name: Validate Velopack package identity
+        shell: pwsh
+        run: |
+          if ($env:VELOPACK_PACK_ID -notmatch '^[A-Za-z][A-Za-z0-9.-]{2,79}$') {
+            throw 'Set the VELOPACK_PACK_ID repository Actions variable to the existing Velopack package ID. See .github/RELEASE-PACKAGING.md.'
+          }
+          if ('${{ inputs.publish_release }}' -eq 'true' -and $env:VELOPACK_PACK_ID -in @('Fenris.EDHMUI.PackagingTest', 'EDHMUI.CI.PackagingTest')) {
+            throw 'The CI test package ID is for build-only testing. Configure the real package ID before publishing.'
+          }
+
+  windows:
+    needs: metadata
+    runs-on: windows-2022
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: source_v3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: source_v3/package-lock.json
+      - run: npm ci
+      - name: Run regression tests
+        run: node --test tests/*.test.cjs
+      - name: Package Windows application
+        run: npm run package -- --arch=x64
+      - name: Verify packaged startup and dependencies
+        run: node ../.github/scripts/check-packaged-app.cjs
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install the CLI version matching the launcher SDK
+        run: |
+          $sdkVersion = (Get-Content ../.github/installers/velopack/sdk.json -Raw | ConvertFrom-Json).version
+          dotnet tool install --global vpk --version $sdkVersion
+          if ($LASTEXITCODE -ne 0) { throw 'Could not install vpk' }
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: edhm-ui-v${{ needs.metadata.outputs.version }}-release-notes
+          path: source_v3/out/release/notes
+      - name: Build Velopack installer
+        env:
+          APP_VERSION: ${{ needs.metadata.outputs.version }}
+        run: ../.github/scripts/build-velopack-installer.ps1 -Version $env:APP_VERSION -PackageId $env:VELOPACK_PACK_ID
+      - name: Test the packaged installer and startup hook
+        run: ../.github/scripts/test-velopack-installer.ps1
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: velopack-diagnostics
+          path: ${{ runner.temp }}/Velopack lifecycle Ω/*.txt
+          if-no-files-found: ignore
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: velopack-install-logs
+          path: ${{ runner.temp }}/Velopack lifecycle Ω/*.log
+          if-no-files-found: ignore
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: velopack-build-packages
+          path: source_v3/out/release/velopack/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: edhm-ui-v${{ needs.metadata.outputs.version }}-windows-velopack
+          path: source_v3/out/release/edhm-ui-v3-windows-x64.exe
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+  linux:
+    needs: metadata
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: source_v3
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: source_v3/package-lock.json
+      - run: npm ci
+      - name: Package Linux application
+        run: npm run package -- --arch=x64
+      - name: Verify packaged startup and dependencies
+        run: node ../.github/scripts/check-packaged-app.cjs
+      - name: Match upstream ZIP and installer layout
+        run: |
+          set -euo pipefail
+          mkdir -p out/release
+          test -x out/edhm-ui-v3-linux-x64/edhm-ui-v3
+          test -f out/edhm-ui-v3-linux-x64/resources/images/icon.png
+          test -f out/edhm-ui-v3-linux-x64/resources/settings_window/settings.html
+          (cd out && zip -q -r -y release/edhm-ui-v3-linux-x64.zip edhm-ui-v3-linux-x64)
+          sed 's/\r$//' public/linux_installer.sh > out/release/linux_installer.sh
+          chmod +x out/release/linux_installer.sh
+          bash -n out/release/linux_installer.sh
+          unzip -tq out/release/edhm-ui-v3-linux-x64.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: edhm-ui-v${{ needs.metadata.outputs.version }}-linux
+          path: |
+            source_v3/out/release/edhm-ui-v3-linux-x64.zip
+            source_v3/out/release/linux_installer.sh
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+  summary:
+    needs: [metadata, windows, linux]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Summarize Velopack build
+        env:
+          APP_VERSION: ${{ needs.metadata.outputs.version }}
+        run: |
+          echo "## EDHM-UI v${APP_VERSION}: Velopack build" >> "$GITHUB_STEP_SUMMARY"
+          echo 'Windows EXE and Linux ZIP/script built. The Windows installer is unsigned. Select Publish release on a manual run to publish after both builds succeed.' >> "$GITHUB_STEP_SUMMARY"
+
+  publish-release:
+    if: github.event_name == 'workflow_dispatch' && inputs.publish_release
+    needs: [metadata, windows, linux]
+    concurrency:
+      group: publish-package-release-${{ needs.metadata.outputs.version }}
+      cancel-in-progress: false
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: edhm-ui-v${{ needs.metadata.outputs.version }}-*
+          path: release-artifacts
+          merge-multiple: true
+      - name: Publish release with matching EDHM patch notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INSTALLER_VARIANT: velopack
+        run: node .github/scripts/publish-package-release.cjs release-artifacts
