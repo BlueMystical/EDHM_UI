@@ -26,8 +26,9 @@ function trimAllSpaces(str) {
 }
 
 /** To Check is something is Empty
- * @param obj Object to check */
-function isEmpty(obj) { Object.keys(obj).length === 0 };
+ * @param {Object} obj Object to check
+ * @returns {boolean} */
+function isEmpty(obj) { return Object.keys(obj).length === 0 };
 
 /** Checks if a string is defined and has a value, and returns the string or a default value.
  * @param {string} str - The string to check.
